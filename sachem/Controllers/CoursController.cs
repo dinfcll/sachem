@@ -38,7 +38,7 @@ namespace sachem.Controllers
         [NonAction]
         private IEnumerable<Cours> Rechercher()
         {
-            var Sess = 0;
+            var sess = 0;
             var actif = true;
 
             //Pour accéder à la valeur de cle envoyée en GET dans le formulaire
@@ -50,14 +50,14 @@ namespace sachem.Controllers
 
 
 
-            if (Request.RequestType == "GET" && Session["DernRechCours"] != null && (string)Session["DernRechCoursUrl"] == Request.Url.LocalPath)
+            if (Request.RequestType == "GET" && Session["DernRechCours"] != null && (string)Session["DernRechCoursUrl"] == Request.Url?.LocalPath)
             {
                 var anciennerech = (string)Session["DernRechCours"];
                 var tanciennerech = anciennerech.Split(';');
 
                 if (tanciennerech[0] != "")
                 {
-                    Sess = int.Parse(tanciennerech[0]);
+                    sess = int.Parse(tanciennerech[0]);
                 }
                 if (tanciennerech[1] != "")
                 {
@@ -69,10 +69,10 @@ namespace sachem.Controllers
             {
                 //La méthode String.IsNullOrEmpty permet à la fois de vérifier si la chaine est NULL (lors du premier affichage de la page ou vide, lorsque le paramètre n'est pas appliquée 
                 if (!string.IsNullOrEmpty(Request.Form["Session"]))
-                    Sess = Convert.ToInt32(Request.Form["Session"]);
+                    sess = Convert.ToInt32(Request.Form["Session"]);
                 //si la variable est null c'est que la page est chargée pour la première fois, donc il faut assigner la session à la session en cours, la plus grande dans la base de données
                 else if (Request.Form["Session"] == null)
-                    Sess = db.Session.Max(s => s.id_Sess);
+                    sess = db.Session.Max(s => s.id_Sess);
 
                 //la méthode Html.checkbox crée automatiquement un champ hidden du même nom que la case à cocher, lorsque la case n'est pas cochée une seule valeur sera soumise, par contre lorsqu'elle est cochée
                 //2 valeurs sont soumises, il faut alors vérifier que l'une des valeurs est à true pour vérifier si elle est cochée
@@ -82,17 +82,17 @@ namespace sachem.Controllers
 
             ViewBag.Actif = actif;
 
-            ListeSession(Sess);
+            ListeSession(sess);
 
             var cours = from c in db.Cours
-                        where (db.Groupe.Any(r => r.id_Cours == c.id_Cours && r.id_Session == Sess) || Sess == 0)
+                        where (db.Groupe.Any(r => r.id_Cours == c.id_Cours && r.id_Session == sess) || sess == 0)
                         && c.Actif == actif
                         orderby c.Code
                         select c;
 
             //on enregistre la recherche
-            Session["DernRechCours"] = Sess + ";" + actif;
-            Session["DernRechCoursUrl"] = Request.Url.LocalPath;
+            Session["DernRechCours"] = sess + ";" + actif;
+            Session["DernRechCoursUrl"] = Request.Url?.LocalPath;
 
             return cours.ToList();
         }
@@ -100,7 +100,7 @@ namespace sachem.Controllers
         // GET: Cours
         public ActionResult Index(int? page)
         {
-            int pageNumber = (page ?? 1);
+            var pageNumber = page ?? 1;
 
             return View(Rechercher().ToPagedList(pageNumber, 20));
         }
@@ -196,7 +196,7 @@ namespace sachem.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id, int? page)
         {
-            int pageNumber = (page ?? 1);
+            var pageNumber = page ?? 1;
             if (db.Groupe.Any(g => g.id_Cours == id))
             {
                 ModelState.AddModelError(string.Empty, Messages.I_001());

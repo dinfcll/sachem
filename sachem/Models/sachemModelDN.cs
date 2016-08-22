@@ -40,12 +40,12 @@ namespace sachem.Models
             get
             {
                 if (Matricule != null)
-                    return this.Matricule.Substring(2);
+                    return Matricule.Substring(2);
                 return "";
             }
             set
             {
-                this.Matricule = DateTime.Now.Year.ToString().Substring(0, 2) + value;//pour avoir un matricule de la forme 201334110
+                Matricule = DateTime.Now.Year.ToString().Substring(0, 2) + value;//pour avoir un matricule de la forme 201334110
             }
         }
     }
