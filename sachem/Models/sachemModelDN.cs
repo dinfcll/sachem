@@ -39,9 +39,7 @@ namespace sachem.Models
         {
             get
             {
-                if (Matricule != null)
-                    return Matricule.Substring(2);
-                return "";
+                return Matricule?.Substring(2) ?? "";
             }
             set
             {
