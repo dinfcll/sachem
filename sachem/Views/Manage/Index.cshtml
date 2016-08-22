@@ -13,14 +13,7 @@
         <dt>Mot de passe :</dt>
         <dd>
             [
-            @if (Model.HasPassword)
-            {
-                @Html.ActionLink("Changer votre mot de passe", "ChangePassword")
-            }
-            else
-            {
-                @Html.ActionLink("Créer", "SetPassword")
-            }
+            @(Model.HasPassword ? Html.ActionLink("Changer votre mot de passe", "ChangePassword") : Html.ActionLink("Créer", "SetPassword"))
             ]
         </dd>
         <dt>Connexions externes :</dt>

@@ -1,19 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
-using System.Web;
 using System.Web.Mvc;
 using sachem.Models;
 using PagedList;
 
 namespace sachem.Controllers
 {
+    using static System.String;
+
     public class CoursController : Controller
     {
-        private SACHEMEntities db = new SACHEMEntities();
+        private readonly SACHEMEntities db = new SACHEMEntities();
 
 
         //fonctions permettant d'initialiser les listes déroulantes
@@ -22,7 +22,7 @@ namespace sachem.Controllers
         private void ListeSession(int Session = 0)
         {
             var lSessions = db.Session.AsNoTracking().OrderBy(s => s.Annee).ThenBy(s => s.p_Saison.Saison);
-            List<SelectListItem> slSession = new List<SelectListItem>();
+            var slSession = new List<SelectListItem>();
             slSession.AddRange(new SelectList(lSessions, "id_Sess", "NomSession", Session));
 
             ViewBag.Session = slSession;
@@ -33,15 +33,15 @@ namespace sachem.Controllers
         private void Valider([Bind(Include = "id_Cours,Code,Nom,Actif")] Cours cours)
         {
             if (db.Cours.Any(r => r.Code == cours.Code && r.id_Cours != cours.id_Cours))
-                ModelState.AddModelError(string.Empty, Messages.I_002(cours.Code));
+                ModelState.AddModelError(Empty, Messages.I_002(cours.Code));
         }
 
         //Fonction pour gérer la recherche, elle est utilisée dans la suppression et dans l'index
         [NonAction]
-        private List<Cours> Rechercher()
+        private IEnumerable<Cours> Rechercher()
         {
-            int Sess = 0;
-            bool actif = true;
+            var Sess = 0;
+            var actif = true;
 
             //Pour accéder à la valeur de cle envoyée en GET dans le formulaire
             //Request.QueryString["cle"]
@@ -52,14 +52,14 @@ namespace sachem.Controllers
 
 
 
-            if (Request.RequestType == "GET" && Session["DernRechCours"] != null && (string)Session["DernRechCoursUrl"] == Request.Url.LocalPath.ToString())
+            if (Request.RequestType == "GET" && Session["DernRechCours"] != null && (string)Session["DernRechCoursUrl"] == Request.Url.LocalPath)
             {
-                string anciennerech = (string)Session["DernRechCours"];
-                string[] tanciennerech = anciennerech.Split(';');
+                var anciennerech = (string)Session["DernRechCours"];
+                var tanciennerech = anciennerech.Split(';');
 
                 if (tanciennerech[0] != "")
                 {
-                    Sess = Int32.Parse(tanciennerech[0]);
+                    Sess = int.Parse(tanciennerech[0]);
                 }
                 if (tanciennerech[1] != "")
                 {
@@ -70,7 +70,7 @@ namespace sachem.Controllers
             else
             {
                 //La méthode String.IsNullOrEmpty permet à la fois de vérifier si la chaine est NULL (lors du premier affichage de la page ou vide, lorsque le paramètre n'est pas appliquée 
-                if (!String.IsNullOrEmpty(Request.Form["Session"]))
+                if (!IsNullOrEmpty(Request.Form["Session"]))
                     Sess = Convert.ToInt32(Request.Form["Session"]);
                 //si la variable est null c'est que la page est chargée pour la première fois, donc il faut assigner la session à la session en cours, la plus grande dans la base de données
                 else if (Request.Form["Session"] == null)
@@ -78,7 +78,7 @@ namespace sachem.Controllers
 
                 //la méthode Html.checkbox crée automatiquement un champ hidden du même nom que la case à cocher, lorsque la case n'est pas cochée une seule valeur sera soumise, par contre lorsqu'elle est cochée
                 //2 valeurs sont soumises, il faut alors vérifier que l'une des valeurs est à true pour vérifier si elle est cochée
-                if (!String.IsNullOrEmpty(Request.Form["Actif"]))
+                if (!IsNullOrEmpty(Request.Form["Actif"]))
                     actif = Request.Form["Actif"].Contains("true");
             }
 
@@ -94,7 +94,7 @@ namespace sachem.Controllers
 
             //on enregistre la recherche
             Session["DernRechCours"] = Sess + ";" + actif;
-            Session["DernRechCoursUrl"] = Request.Url.LocalPath.ToString();
+            Session["DernRechCoursUrl"] = Request.Url.LocalPath;
 
             return cours.ToList();
         }
@@ -121,8 +121,6 @@ namespace sachem.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "id_Cours,Code,Nom,Actif")] Cours cours, int? page)
         {
-            int pageNumber = (page ?? 1);
-
             Valider(cours);
 
             if (ModelState.IsValid)
@@ -130,7 +128,7 @@ namespace sachem.Controllers
                 db.Cours.Add(cours);
                 db.SaveChanges();
 
-                TempData["Success"] = String.Format(Messages.I_003(cours.Nom));
+                TempData["Success"] = Format(Messages.I_003(cours.Nom));
                 return RedirectToAction("Index");
             }
 
@@ -146,14 +144,13 @@ namespace sachem.Controllers
             if (id == null)
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
-            Cours cours = db.Cours.Find(id);
-
-            if (cours.Groupe.Any())
-                ViewBag.DisEns = "True";
+            var cours = db.Cours.Find(id);
 
             if (cours == null)
                 return HttpNotFound();
 
+            if (cours.Groupe.Any())
+                ViewBag.DisEns = "True";
 
             return View(cours);
 
@@ -166,8 +163,6 @@ namespace sachem.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "id_Cours,Code,Nom,Actif")] Cours cours, int? page)
         {
-            int pageNumber = (page ?? 1);
-
             Valider(cours);
 
             if (ModelState.IsValid)
@@ -175,7 +170,7 @@ namespace sachem.Controllers
                 db.Entry(cours).State = EntityState.Modified;
                 db.SaveChanges();
 
-                TempData["Success"] = String.Format(Messages.I_003(cours.Nom));
+                TempData["Success"] = Format(Messages.I_003(cours.Nom));
                 return RedirectToAction("Index");
             }
 
@@ -188,7 +183,7 @@ namespace sachem.Controllers
             if (id == null)
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
-            Cours cours = db.Cours.Find(id);
+            var cours = db.Cours.Find(id);
 
             if (cours == null)
                 return HttpNotFound();
@@ -206,15 +201,15 @@ namespace sachem.Controllers
             int pageNumber = (page ?? 1);
             if (db.Groupe.Any(g => g.id_Cours == id))
             {
-                ModelState.AddModelError(string.Empty, Messages.I_001());
+                ModelState.AddModelError(Empty, Messages.I_001());
             }
 
             if (ModelState.IsValid)
             {
-                Cours cours = db.Cours.Find(id);
+                var cours = db.Cours.Find(id);
                 db.Cours.Remove(cours);
                 db.SaveChanges();
-                ViewBag.Success = String.Format(Messages.I_009(cours.Nom));
+                ViewBag.Success = Format(Messages.I_009(cours.Nom));
             }
 
             //plutôt que de faire un RedirectToAction qui aurait comme effet de remmettre à true ModelState.IsValid
