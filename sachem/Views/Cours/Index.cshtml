@@ -1,0 +1,88 @@
+﻿@using PagedList.Mvc;
+@model PagedList.IPagedList<sachem.Models.Cours>
+
+@{
+    ViewBag.Title = "Cours";
+}
+
+<h2>@ViewBag.Title</h2>
+
+@Html.ValidationSummary(true, "", new { @class = "text-danger" })
+<p class="text-success">
+    @Html.ViewBag.Success
+    @TempData["Success"]
+</p>
+
+@using (Html.BeginForm("Index", "Cours", FormMethod.Post, new { @class = "form-inline", role = "form" }))
+{
+    <p>
+        <h4>Recherche</h4>
+    </p>
+    <div class="form-group">
+        <p>
+            <div class="form-group">
+                Session :
+                @Html.DropDownList("Session", "Toutes")
+            </div>
+
+            <div class="form-group">
+                Actif :
+                @Html.CheckBox("Actif", (bool)ViewBag.Actif)
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="Rechercher" class="btn-toolbar" />
+            </div>
+        </p>
+    </div>
+}
+
+<p>
+    @Html.ActionLink("Ajouter un cours", "Create")
+</p>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.First().Code)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.First().Nom)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.First().Actif)
+        </th>
+
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Code)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Nom)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Actif)
+            </td>
+
+            <td>
+                @Html.ActionLink("Modifier", "Edit", new { id = item.id_Cours }) |
+                @Html.ActionLink("Supprimer", "Delete", new { id = item.id_Cours })
+            </td>
+        </tr>
+    }
+
+    @if (Model.Count() == 0)
+    {
+        <tr>
+            <td colspan="6">Aucun cours ne répond à ces critères</td>
+        </tr>
+    }
+
+</table>
+
+@Html.Partial("_PageRecherche", Model)

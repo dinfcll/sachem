@@ -1,0 +1,12 @@
+﻿@using PagedList.Mvc;
+@model PagedList.IPagedList
+
+@if (Model.PageCount > 0)
+{
+    <div>
+        Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) sur @Model.PageCount
+        <div>
+            @Html.PagedListPager(Model, page => Url.Action("Index", new { page }))
+        </div>
+    </div>
+}

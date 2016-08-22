@@ -1,0 +1,46 @@
+﻿@model sachem.Models.Cours
+
+@{
+    ViewBag.Title = "Supprimer cours";
+}
+
+<h2>@ViewBag.Title</h2>
+
+<h3>@sachem.Models.Messages.Q_001(Model.Code)</h3>
+<div>
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Code)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Code)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Nom)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Nom)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Actif)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Actif)
+        </dd>
+    </dl>
+
+    @using (Html.BeginForm("Delete", "Cours", FormMethod.Post, new { @class = "form-inline", role = "form" }))
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Supprimer" class="btn btn-default" /> |
+            @Html.ActionLink("Retour à la recherche des cours", "Index")
+        </div>
+    }
+</div>
