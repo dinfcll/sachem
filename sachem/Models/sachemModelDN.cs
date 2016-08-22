@@ -16,7 +16,7 @@ namespace sachem.Models
 
         public string PrenomNom => $"{Prenom} {Nom}";
 
-        public string NomPrenom => Prenom == null ? Nom : $"{this.Nom}, {this.Prenom}";
+        public string NomPrenom => Prenom == null ? Nom : $"{Nom}, {Prenom}";
 
         public int Age
         {
@@ -40,12 +40,12 @@ namespace sachem.Models
             get
             {
                 if (Matricule != null)
-                    return Matricule.Substring(2);
+                    return this.Matricule.Substring(2);
                 return "";
             }
             set
             {
-                Matricule = DateTime.Now.Year.ToString().Substring(0, 2) + value;//pour avoir un matricule de la forme 201334110
+                this.Matricule = DateTime.Now.Year.ToString().Substring(0, 2) + value;//pour avoir un matricule de la forme 201334110
             }
         }
     }

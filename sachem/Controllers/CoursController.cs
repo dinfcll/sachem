@@ -9,8 +9,6 @@ using PagedList;
 
 namespace sachem.Controllers
 {
-    using static System.String;
-
     public class CoursController : Controller
     {
         private readonly SACHEMEntities db = new SACHEMEntities();
@@ -33,7 +31,7 @@ namespace sachem.Controllers
         private void Valider([Bind(Include = "id_Cours,Code,Nom,Actif")] Cours cours)
         {
             if (db.Cours.Any(r => r.Code == cours.Code && r.id_Cours != cours.id_Cours))
-                ModelState.AddModelError(Empty, Messages.I_002(cours.Code));
+                ModelState.AddModelError(string.Empty, Messages.I_002(cours.Code));
         }
 
         //Fonction pour gérer la recherche, elle est utilisée dans la suppression et dans l'index
@@ -70,7 +68,7 @@ namespace sachem.Controllers
             else
             {
                 //La méthode String.IsNullOrEmpty permet à la fois de vérifier si la chaine est NULL (lors du premier affichage de la page ou vide, lorsque le paramètre n'est pas appliquée 
-                if (!IsNullOrEmpty(Request.Form["Session"]))
+                if (!string.IsNullOrEmpty(Request.Form["Session"]))
                     Sess = Convert.ToInt32(Request.Form["Session"]);
                 //si la variable est null c'est que la page est chargée pour la première fois, donc il faut assigner la session à la session en cours, la plus grande dans la base de données
                 else if (Request.Form["Session"] == null)
@@ -78,7 +76,7 @@ namespace sachem.Controllers
 
                 //la méthode Html.checkbox crée automatiquement un champ hidden du même nom que la case à cocher, lorsque la case n'est pas cochée une seule valeur sera soumise, par contre lorsqu'elle est cochée
                 //2 valeurs sont soumises, il faut alors vérifier que l'une des valeurs est à true pour vérifier si elle est cochée
-                if (!IsNullOrEmpty(Request.Form["Actif"]))
+                if (!string.IsNullOrEmpty(Request.Form["Actif"]))
                     actif = Request.Form["Actif"].Contains("true");
             }
 
@@ -128,7 +126,7 @@ namespace sachem.Controllers
                 db.Cours.Add(cours);
                 db.SaveChanges();
 
-                TempData["Success"] = Format(Messages.I_003(cours.Nom));
+                TempData["Success"] = string.Format(Messages.I_003(cours.Nom));
                 return RedirectToAction("Index");
             }
 
@@ -170,7 +168,7 @@ namespace sachem.Controllers
                 db.Entry(cours).State = EntityState.Modified;
                 db.SaveChanges();
 
-                TempData["Success"] = Format(Messages.I_003(cours.Nom));
+                TempData["Success"] = string.Format(Messages.I_003(cours.Nom));
                 return RedirectToAction("Index");
             }
 
@@ -201,7 +199,7 @@ namespace sachem.Controllers
             int pageNumber = (page ?? 1);
             if (db.Groupe.Any(g => g.id_Cours == id))
             {
-                ModelState.AddModelError(Empty, Messages.I_001());
+                ModelState.AddModelError(string.Empty, Messages.I_001());
             }
 
             if (ModelState.IsValid)
@@ -209,7 +207,7 @@ namespace sachem.Controllers
                 var cours = db.Cours.Find(id);
                 db.Cours.Remove(cours);
                 db.SaveChanges();
-                ViewBag.Success = Format(Messages.I_009(cours.Nom));
+                ViewBag.Success = string.Format(Messages.I_009(cours.Nom));
             }
 
             //plutôt que de faire un RedirectToAction qui aurait comme effet de remmettre à true ModelState.IsValid
