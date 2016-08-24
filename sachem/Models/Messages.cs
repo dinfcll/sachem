@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Web;
+﻿using System.Diagnostics;
 
 namespace sachem.Models
 {
     public class Messages
     {
         //message formatter
-        static private string Format(string text, params object[] args)
+        private static string Format(string text, params object[] args)
         { return string.Format(new StackFrame(1).GetMethod().Name + " - " + text, args); }
 
 
@@ -19,7 +15,7 @@ namespace sachem.Models
         /// Un groupe est associé à ce cours. Le cours ne peut être supprimé.
         /// </summary>
         /// <returns></returns>
-        static public string I_001()
+        public static string I_001()
         { return Format("Un groupe est associé à ce cours. Le cours ne peut être supprimé."); }
 
         /// <summary>
@@ -27,7 +23,7 @@ namespace sachem.Models
         /// </summary>
         /// <param name="Code"></param>
         /// <returns></returns>
-        static public string I_002(string Code)
+        public static string I_002(string Code)
         { return Format("Il existe déjà un cours ayant le code {0}.", Code); }
 
         /// <summary>
@@ -35,7 +31,7 @@ namespace sachem.Models
         /// </summary>
         /// <param name="Cours"></param>
         /// <returns></returns>private string I_003(string cours)
-        static public string I_003(string Cours)
+        public static string I_003(string Cours)
         { return Format("Le cours {0} a été enregistré.", Cours); }
 
         /// <summary>
@@ -43,7 +39,7 @@ namespace sachem.Models
         /// </summary>
         /// <param name="Cours"></param>
         /// <returns></returns>private string I_009(string cours)
-        static public string I_009(string Cours)
+        public static string I_009(string Cours)
         { return Format("Le cours {0} a été supprimé.", Cours); }
 
 
@@ -76,8 +72,8 @@ namespace sachem.Models
         /// </summary>
         /// <param name="CodeUsager"></param>
         /// <returns></returns>private string Q_001(string Cours)
-        static public string Q_001(string Cours)
-        { return String.Format("Voulez-vous vraiment supprimer le cours {0} ?", Cours); }
+        public static string Q_001(string Cours)
+        { return $"Voulez-vous vraiment supprimer le cours {Cours} ?"; }
 
 
         #endregion
