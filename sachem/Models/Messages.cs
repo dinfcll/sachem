@@ -4,11 +4,6 @@ namespace sachem.Models
 {
     public class Messages
     {
-        //message formatter
-        private static string Format(string text, params object[] args)
-        { return string.Format(new StackFrame(1).GetMethod().Name + " - " + text, args); }
-
-
         #region messagesInformatifs
 
         /// <summary>
@@ -16,7 +11,7 @@ namespace sachem.Models
         /// </summary>
         /// <returns></returns>
         public static string I_001()
-        { return Format("Un groupe est associé à ce cours. Le cours ne peut être supprimé."); }
+        { return "Un groupe est associé à ce cours. Le cours ne peut être supprimé."; }
 
         /// <summary>
         /// Il existe déjà un cours ayant le code {0}.
@@ -24,7 +19,7 @@ namespace sachem.Models
         /// <param name="Code"></param>
         /// <returns></returns>
         public static string I_002(string Code)
-        { return Format("Il existe déjà un cours ayant le code {0}.", Code); }
+        { return $"Il existe déjà un cours ayant le code {Code}."; }
 
         /// <summary>
         /// Le cours {0} a été enregistré.
@@ -32,7 +27,7 @@ namespace sachem.Models
         /// <param name="Cours"></param>
         /// <returns></returns>private string I_003(string cours)
         public static string I_003(string Cours)
-        { return Format("Le cours {0} a été enregistré.", Cours); }
+        { return $"Le cours {Cours} a été enregistré."; }
 
         /// <summary>
         /// Le cours {0} a été supprimé.
@@ -40,7 +35,7 @@ namespace sachem.Models
         /// <param name="Cours"></param>
         /// <returns></returns>private string I_009(string cours)
         public static string I_009(string Cours)
-        { return Format("Le cours {0} a été supprimé.", Cours); }
+        { return $"Le cours {Cours} a été supprimé."; }
 
 
         #endregion
