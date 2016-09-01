@@ -12,8 +12,20 @@ namespace sachem.Controllers
     {
         private readonly SACHEMEntities db = new SACHEMEntities();
         // GET: ProgrammesOfferts
-        public ActionResult Index(string recherche)
+        public ActionResult Index(string filtreOrdre, string recherche, int? page)
         {
+            
+
+            if (recherche != null)
+            {
+                page = 1;
+            }
+            else
+            {
+                recherche = filtreOrdre;
+            }
+
+            ViewBag.Filtre = recherche;
             var programmesEtude = from c in db.ProgrammeEtude
                     orderby c.Code, c.Annee
                     select c;
@@ -21,8 +33,9 @@ namespace sachem.Controllers
             {
                 programmesEtude = programmesEtude.Where(c => c.Code.Contains(recherche) || c.NomProg.Contains(recherche)) as IOrderedQueryable<ProgrammeEtude>;
             }
-            
-            return View(programmesEtude.ToList());
+
+            int numeroPage = (page ?? 1);
+            return View(programmesEtude.ToPagedList(numeroPage, 12));
         }
 
         // GET: ProgrammesOfferts/Details/5
