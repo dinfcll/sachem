@@ -14,7 +14,16 @@ namespace sachem.Models
     
     public partial class p_StatutCours
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public p_StatutCours()
+        {
+            this.CoursSuivi = new HashSet<CoursSuivi>();
+        }
+    
         public int id_Statut { get; set; }
         public string Statut { get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<CoursSuivi> CoursSuivi { get; set; }
     }
 }
