@@ -395,6 +395,7 @@
     <Content Include="Views\Cours\_Footer.cshtml" />
     <Content Include="Views\Shared\_PageRecherche.cshtml" />
     <Content Include="Views\ProgrammesOfferts\Index.cshtml" />
+    <Content Include="Views\ProgrammesOfferts\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

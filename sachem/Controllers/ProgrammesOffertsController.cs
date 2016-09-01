@@ -5,6 +5,8 @@ using System.Web;
 using System.Web.Mvc;
 using sachem.Models;
 using PagedList;
+using System.Net;
+using System.Data.Entity;
 
 namespace sachem.Controllers
 {
@@ -14,7 +16,7 @@ namespace sachem.Controllers
         // GET: ProgrammesOfferts
         public ActionResult Index(string filtreOrdre, string recherche, int? page)
         {
-            
+
 
             if (recherche != null)
             {
@@ -27,17 +29,23 @@ namespace sachem.Controllers
 
             ViewBag.Filtre = recherche;
             var programmesEtude = from c in db.ProgrammeEtude
-                    orderby c.Code, c.Annee
-                    select c;
+                orderby c.Code, c.Annee
+                select c;
             if (!String.IsNullOrEmpty(recherche))
             {
-                programmesEtude = programmesEtude.Where(c => c.Code.Contains(recherche) || c.NomProg.Contains(recherche)) as IOrderedQueryable<ProgrammeEtude>;
+                programmesEtude =
+                    programmesEtude.Where(c => c.Code.Contains(recherche) || c.NomProg.Contains(recherche)) as
+                        IOrderedQueryable<ProgrammeEtude>;
             }
 
             int numeroPage = (page ?? 1);
             return View(programmesEtude.ToPagedList(numeroPage, 12));
         }
-
+        private void Valider([Bind(Include = "id_ProgEtu,Code,NomProg,Annee,Actif")] ProgrammeEtude programme)
+        {
+            if (db.Cours.Any(r => r.Code == programme.Code && r.id_Cours != programme.id_ProgEtu))
+                ModelState.AddModelError(string.Empty, Messages.I_002(programme.Code));
+        }
         // GET: ProgrammesOfferts/Details/5
         public ActionResult Details(int id)
         {
@@ -74,18 +82,38 @@ namespace sachem.Controllers
 
         // POST: ProgrammesOfferts/Edit/5
         [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
+        public ActionResult Edit(int? id)
         {
-            try
-            {
-                // TODO: Add update logic here
 
+            if (id == null)
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+
+            var programme = db.ProgrammeEtude.Find(id);
+
+            if (programme == null)
+                return HttpNotFound();
+
+            if (programme.NomProg.Any())
+                ViewBag.DisEns = "True";
+            
+            return RedirectToAction("Edit");
+        }
+
+        public ActionResult Modifier([Bind(Include = "id_ProgEtu,Code,NomProg,Annee,Actif")] ProgrammeEtude programme, int? page)
+        {
+
+            Valider(programme);
+
+            if (ModelState.IsValid)
+            {
+                db.Entry(programme).State = EntityState.Modified;
+                db.SaveChanges();
+
+                TempData["Success"] = string.Format(Messages.I_003(programme.NomProg));
                 return RedirectToAction("Index");
             }
-            catch
-            {
-                return View();
-            }
+
+            return View("Edit");
         }
 
         // GET: ProgrammesOfferts/Delete/5
