@@ -112,14 +112,15 @@ namespace sachem.Controllers
         }
 
         // GET: ProgrammesOfferts/Delete/5
-        public ActionResult Delete(int id)
+        public ActionResult Supprimer(int id)
         {
-            return View();
+            var programme = db.ProgrammeEtude.Single(r => r.id_ProgEtu == id);
+            return View(programme);
         }
 
         // POST: ProgrammesOfferts/Delete/5
         [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
+        public ActionResult Supprimer(int id, FormCollection collection)
         {
             try
             {
