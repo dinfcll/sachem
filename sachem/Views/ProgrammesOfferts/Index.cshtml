@@ -16,7 +16,7 @@
     @using (Html.BeginForm())
     {
     <p>
-        Trouver par code ou nom de @Html.TextBox("recherche")
+        Trouver par code ou nom de programme @Html.TextBox("recherche")
         <input type="submit" value="Rechercher" />
     </p>
     }
@@ -61,7 +61,7 @@
 
 </table>
 <br />
-@Html.PagedListPager(pagedlist, page => Url.Action("Index", new { page = page }))
-Page @(pagedlist.PageCount < pagedlist.PageNumber ? 0 : pagedlist.PageNumber) de @pagedlist.PageCount
-
-@pagedlist.FirstItemOnPage de @pagedlist.LastItemOnPage sur @pagedlist.TotalItemCount éléments
+<small>@Html.PagedListPager(pagedlist, page => Url.Action("Index", new { page = page }))
+Page @(pagedlist.PageCount < pagedlist.PageNumber ? 0 : pagedlist.PageNumber) de @pagedlist.PageCount</small>
+<br />
+<small>@pagedlist.FirstItemOnPage de @pagedlist.LastItemOnPage sur @pagedlist.TotalItemCount éléments</small>

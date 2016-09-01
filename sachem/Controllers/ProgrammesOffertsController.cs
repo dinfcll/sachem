@@ -34,7 +34,7 @@ namespace sachem.Controllers
             }
 
             int numeroPage = (page ?? 1);
-            return View(programmesEtude.ToPagedList(numeroPage, 12));
+            return View(programmesEtude.ToPagedList(numeroPage, 16));
         }
         private void Valider([Bind(Include = "id_ProgEtu,Code,NomProg,Annee,Actif")] ProgrammeEtude programme)
         {
