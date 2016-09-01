@@ -8,6 +8,13 @@
 
 <p>
     @Html.ActionLink("Ajouter un programme d'étude", "Create")
+    @using (Html.BeginForm())
+    {
+    <p>
+        Trouver par code ou nom de programme : @Html.TextBox("recherche")
+        <input type="submit" value="Rechercher" />
+    </p>
+    }
 </p>
 <table class="table">
     <tr>

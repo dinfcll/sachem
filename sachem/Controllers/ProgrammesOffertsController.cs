@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using sachem.Models;
+using PagedList;
 
 namespace sachem.Controllers
 {
@@ -11,12 +12,17 @@ namespace sachem.Controllers
     {
         private readonly SACHEMEntities db = new SACHEMEntities();
         // GET: ProgrammesOfferts
-        public ActionResult Index()
+        public ActionResult Index(string recherche)
         {
-            var m = from c in db.ProgrammeEtude
+            var programmesEtude = from c in db.ProgrammeEtude
                     orderby c.Code, c.Annee
                     select c;
-            return View(m.ToList());
+            if (!String.IsNullOrEmpty(recherche))
+            {
+                programmesEtude = programmesEtude.Where(c => c.Code.Contains(recherche) || c.NomProg.Contains(recherche)) as IOrderedQueryable<ProgrammeEtude>;
+            }
+            
+            return View(programmesEtude.ToList());
         }
 
         // GET: ProgrammesOfferts/Details/5
