@@ -21,21 +21,6 @@ namespace sachem.Controllers
             return View(personne.ToList());
         }
 
-        // GET: Enseignant/Details/5
-        public ActionResult Details(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Personne personne = db.Personne.Find(id);
-            if (personne == null)
-            {
-                return HttpNotFound();
-            }
-            return View(personne);
-        }
-
         // GET: Enseignant/Create
         public ActionResult Create()
         {
