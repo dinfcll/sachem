@@ -5,28 +5,28 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="87c408b2aa33480fa4d22fc25f085259" Name="Diagram1">
-        <EntityTypeShape EntityType="SACHEMModel.Courriel" Width="1.5" PointX="13" PointY="1.75" />
-        <EntityTypeShape EntityType="SACHEMModel.Cours" Width="1.5" PointX="6" PointY="0.75" />
-        <EntityTypeShape EntityType="SACHEMModel.CoursSuivi" Width="1.5" PointX="8.25" PointY="8" />
-        <EntityTypeShape EntityType="SACHEMModel.EtuProgEtude" Width="1.5" PointX="5.25" PointY="4.625" />
-        <EntityTypeShape EntityType="SACHEMModel.Groupe" Width="1.5" PointX="8.25" PointY="4.5" />
-        <EntityTypeShape EntityType="SACHEMModel.GroupeEtudiant" Width="1.5" PointX="10.5" PointY="7.375" />
-        <EntityTypeShape EntityType="SACHEMModel.Inscription" Width="1.5" PointX="5.25" PointY="7.875" />
-        <EntityTypeShape EntityType="SACHEMModel.Jumelage" Width="1.5" PointX="10.5" PointY="10.875" />
-        <EntityTypeShape EntityType="SACHEMModel.p_College" Width="1.5" PointX="6" PointY="15.25" />
-        <EntityTypeShape EntityType="SACHEMModel.p_Contact" Width="1.5" PointX="12.75" PointY="5.5" />
-        <EntityTypeShape EntityType="SACHEMModel.p_HoraireInscription" Width="1.5" PointX="5.25" PointY="18.25" />
-        <EntityTypeShape EntityType="SACHEMModel.p_Jour" Width="1.5" PointX="8.25" PointY="13" />
-        <EntityTypeShape EntityType="SACHEMModel.p_Saison" Width="1.5" PointX="0.75" PointY="2.625" />
-        <EntityTypeShape EntityType="SACHEMModel.p_Sexe" Width="1.5" PointX="0.75" PointY="6" />
-        <EntityTypeShape EntityType="SACHEMModel.p_StatutCours" Width="1.5" PointX="6" PointY="12.875" />
-        <EntityTypeShape EntityType="SACHEMModel.p_StatutInscription" Width="1.5" PointX="3" PointY="20.25" />
-        <EntityTypeShape EntityType="SACHEMModel.p_TypeCourriel" Width="1.5" PointX="10.75" PointY="2.125" />
-        <EntityTypeShape EntityType="SACHEMModel.p_TypeInscription" Width="1.5" PointX="3" PointY="17.875" />
-        <EntityTypeShape EntityType="SACHEMModel.p_TypeUsag" Width="1.5" PointX="0.75" PointY="9" />
-        <EntityTypeShape EntityType="SACHEMModel.Personne" Width="1.5" PointX="3" PointY="7.375" />
-        <EntityTypeShape EntityType="SACHEMModel.ProgrammeEtude" Width="1.5" PointX="3" PointY="14.625" />
-        <EntityTypeShape EntityType="SACHEMModel.Session" Width="1.5" PointX="3" PointY="1.875" />
+        <EntityTypeShape EntityType="SACHEMModel.Courriel" Width="1.5" PointX="13" PointY="1.625" />
+        <EntityTypeShape EntityType="SACHEMModel.Cours" Width="1.5" PointX="3" PointY="3.625" />
+        <EntityTypeShape EntityType="SACHEMModel.CoursSuivi" Width="1.5" PointX="5.25" PointY="3.875" />
+        <EntityTypeShape EntityType="SACHEMModel.EtuProgEtude" Width="1.5" PointX="8.25" PointY="8.5" />
+        <EntityTypeShape EntityType="SACHEMModel.Groupe" Width="1.5" PointX="5.25" PointY="8.375" />
+        <EntityTypeShape EntityType="SACHEMModel.GroupeEtudiant" Width="1.5" PointX="7.5" PointY="11.75" />
+        <EntityTypeShape EntityType="SACHEMModel.Inscription" Width="1.5" PointX="8.25" PointY="3.75" />
+        <EntityTypeShape EntityType="SACHEMModel.Jumelage" Width="1.5" PointX="10.5" PointY="6" />
+        <EntityTypeShape EntityType="SACHEMModel.p_College" Width="1.5" PointX="3" PointY="19.625" />
+        <EntityTypeShape EntityType="SACHEMModel.p_Contact" Width="1.5" PointX="10.75" PointY="11.375" />
+        <EntityTypeShape EntityType="SACHEMModel.p_HoraireInscription" Width="1.5" PointX="5.25" PointY="12" />
+        <EntityTypeShape EntityType="SACHEMModel.p_Jour" Width="1.5" PointX="8.25" PointY="1.125" />
+        <EntityTypeShape EntityType="SACHEMModel.p_Saison" Width="1.5" PointX="0.75" PointY="14.25" />
+        <EntityTypeShape EntityType="SACHEMModel.p_Sexe" Width="1.5" PointX="0.75" PointY="8.875" />
+        <EntityTypeShape EntityType="SACHEMModel.p_StatutCours" Width="1.5" PointX="3" PointY="17.25" />
+        <EntityTypeShape EntityType="SACHEMModel.p_StatutInscription" Width="1.5" PointX="6" PointY="15.125" />
+        <EntityTypeShape EntityType="SACHEMModel.p_TypeCourriel" Width="1.5" PointX="10.75" PointY="2" />
+        <EntityTypeShape EntityType="SACHEMModel.p_TypeInscription" Width="1.5" PointX="6" PointY="0.75" />
+        <EntityTypeShape EntityType="SACHEMModel.p_TypeUsag" Width="1.5" PointX="0.75" PointY="5.875" />
+        <EntityTypeShape EntityType="SACHEMModel.Personne" Width="1.5" PointX="3" PointY="7.25" />
+        <EntityTypeShape EntityType="SACHEMModel.ProgrammeEtude" Width="1.5" PointX="6" PointY="17.625" />
+        <EntityTypeShape EntityType="SACHEMModel.Session" Width="1.5" PointX="3" PointY="13.625" />
         <AssociationConnector Association="SACHEMModel.FK_Courriel_p_TypeCourriel" />
         <AssociationConnector Association="SACHEMModel.FK_CoursSuivi_Cours" />
         <AssociationConnector Association="SACHEMModel.FK_Groupe_Cours" />
