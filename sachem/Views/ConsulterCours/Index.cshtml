@@ -1,0 +1,54 @@
+﻿@model IEnumerable<sachem.Models.Cours>
+
+@{
+    ViewBag.Title = "Consulter cours";
+}
+
+<h2>Consulter cours</h2>
+    
+@using (Html.BeginForm("Index", "ConsulterCours", FormMethod.Post, new {@class = "form-inline", role = "form"}))
+{
+    <p>
+        <h4>Recherche</h4>
+    </p>
+
+    <div class="form-group">
+        <p>
+            <div class="form-group">
+                Session :
+                @Html.DropDownList("Session", "Toutes")
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="Rechercher" class="btn-toolbar"/>
+            </div>
+        </p>
+    </div>
+}
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Code)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Nom)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Code)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Nom)
+        </td>
+        <td>
+            @Html.ActionLink("Consulter", "Details", new { id = item.id_Cours }) 
+        </td>
+    </tr>
+}
+
+</table>

@@ -1,0 +1,42 @@
+﻿@model sachem.Models.Session
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Session</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Annee)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Annee)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.p_HoraireInscription.id_Sess)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.p_HoraireInscription.id_Sess)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.p_Saison.Saison)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.p_Saison.Saison)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.id_Sess }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
