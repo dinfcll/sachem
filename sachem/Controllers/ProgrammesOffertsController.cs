@@ -12,7 +12,7 @@ namespace sachem.Controllers
     {
         private readonly SACHEMEntities db = new SACHEMEntities();
         // GET: ProgrammesOfferts
-        public ActionResult Index(string filtreOrdre, string recherche, int? page)
+        public ActionResult Index(string recherche, int? page)
         {
             
 
@@ -20,12 +20,7 @@ namespace sachem.Controllers
             {
                 page = 1;
             }
-            else
-            {
-                recherche = filtreOrdre;
-            }
 
-            ViewBag.Filtre = recherche;
             var programmesEtude = from c in db.ProgrammeEtude
                     orderby c.Code, c.Annee
                     select c;
