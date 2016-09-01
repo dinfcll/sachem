@@ -9,7 +9,7 @@
           <Key>
             <PropertyRef Name="id_Courriel" />
           </Key>
-          <Property Name="id_Courriel" Type="int" Nullable="false" />
+          <Property Name="id_Courriel" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="id_TypeCourriel" Type="int" Nullable="false" />
           <Property Name="Titre" Type="varchar" MaxLength="100" Nullable="false" />
           <Property Name="Courriel" Type="varchar(max)" Nullable="false" />
@@ -24,6 +24,23 @@
           <Property Name="Code" Type="varchar" MaxLength="8" Nullable="false" />
           <Property Name="Nom" Type="varchar" MaxLength="250" Nullable="false" />
           <Property Name="Actif" Type="bit" Nullable="false" />
+        </EntityType>
+        <!--Erreurs détectées durant la génération :
+avertissement 6002: La table/vue 'SACHEM.dbo.CoursSuivi' n'a pas de clé primaire définie. La clé a été déduite et la définition a été créée en tant que table/vue en lecture seule.-->
+        <EntityType Name="CoursSuivi">
+          <Key>
+            <PropertyRef Name="id_CoursReussi" />
+            <PropertyRef Name="id_Pers" />
+          </Key>
+          <Property Name="id_CoursReussi" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="id_Sess" Type="int" />
+          <Property Name="id_Pers" Type="int" Nullable="false" />
+          <Property Name="id_College" Type="int" />
+          <Property Name="id_Statut" Type="int" />
+          <Property Name="id_Cours" Type="int" />
+          <Property Name="resultat" Type="int" />
+          <Property Name="autre_Cours" Type="varchar" MaxLength="100" />
+          <Property Name="autre_College" Type="varchar" MaxLength="100" />
         </EntityType>
         <EntityType Name="EtuProgEtude">
           <Key>
@@ -40,7 +57,7 @@
           </Key>
           <Property Name="id_Groupe" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="id_Cours" Type="int" Nullable="false" />
-          <Property Name="id_Session" Type="int" Nullable="false" />
+          <Property Name="id_Sess" Type="int" Nullable="false" />
           <Property Name="id_Enseignant" Type="int" />
           <Property Name="NoGroupe" Type="int" Nullable="false" />
         </EntityType>
@@ -52,15 +69,70 @@
           <Property Name="id_Groupe" Type="int" Nullable="false" />
           <Property Name="id_Etudiant" Type="int" Nullable="false" />
         </EntityType>
+        <!--Erreurs détectées durant la génération :
+avertissement 6002: La table/vue 'SACHEM.dbo.Inscription' n'a pas de clé primaire définie. La clé a été déduite et la définition a été créée en tant que table/vue en lecture seule.-->
+        <EntityType Name="Inscription">
+          <Key>
+            <PropertyRef Name="id_Inscription" />
+            <PropertyRef Name="id_Sess" />
+            <PropertyRef Name="id_Pers" />
+            <PropertyRef Name="id_Statut" />
+            <PropertyRef Name="id_TypeInscription" />
+          </Key>
+          <Property Name="id_Inscription" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="id_Sess" Type="int" Nullable="false" />
+          <Property Name="id_Pers" Type="int" Nullable="false" />
+          <Property Name="id_Statut" Type="int" Nullable="false" />
+          <Property Name="id_TypeInscription" Type="int" Nullable="false" />
+          <Property Name="TransmettreInfoTuteur" Type="bit" />
+          <Property Name="NoteSup" Type="nvarchar(max)" />
+          <Property Name="ContratEngagement" Type="bit" />
+          <Property Name="BonEchange" Type="bit" />
+        </EntityType>
+        <!--Erreurs détectées durant la génération :
+avertissement 6002: La table/vue 'SACHEM.dbo.Jumelage' n'a pas de clé primaire définie. La clé a été déduite et la définition a été créée en tant que table/vue en lecture seule.-->
+        <EntityType Name="Jumelage">
+          <Key>
+            <PropertyRef Name="id_Jumelage" />
+            <PropertyRef Name="id_InscEleve" />
+            <PropertyRef Name="id_InscrTuteur" />
+            <PropertyRef Name="id_Sess" />
+            <PropertyRef Name="id_Enseignant" />
+            <PropertyRef Name="id_Jour" />
+            <PropertyRef Name="DateDebut" />
+            <PropertyRef Name="HeureDebut" />
+            <PropertyRef Name="HeureFin" />
+          </Key>
+          <Property Name="id_Jumelage" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="id_InscEleve" Type="int" Nullable="false" />
+          <Property Name="id_InscrTuteur" Type="int" Nullable="false" />
+          <Property Name="id_Sess" Type="int" Nullable="false" />
+          <Property Name="id_Enseignant" Type="int" Nullable="false" />
+          <Property Name="id_Jour" Type="int" Nullable="false" />
+          <Property Name="DateDebut" Type="datetime" Nullable="false" />
+          <Property Name="DateFin" Type="datetime" />
+          <Property Name="HeureDebut" Type="datetime" Nullable="false" />
+          <Property Name="HeureFin" Type="datetime" Nullable="false" />
+        </EntityType>
+        <!--Erreurs détectées durant la génération :
+avertissement 6002: La table/vue 'SACHEM.dbo.p_College' n'a pas de clé primaire définie. La clé a été déduite et la définition a été créée en tant que table/vue en lecture seule.-->
+        <EntityType Name="p_College">
+          <Key>
+            <PropertyRef Name="id_College" />
+            <PropertyRef Name="College" />
+          </Key>
+          <Property Name="id_College" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="College" Type="varchar" MaxLength="100" Nullable="false" />
+        </EntityType>
         <EntityType Name="p_Contact">
           <Key>
             <PropertyRef Name="id_Contact" />
           </Key>
-          <Property Name="id_Contact" Type="int" Nullable="false" />
+          <Property Name="id_Contact" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Nom" Type="varchar" MaxLength="30" Nullable="false" />
           <Property Name="Prenom" Type="varchar" MaxLength="30" Nullable="false" />
           <Property Name="Courriel" Type="varchar" MaxLength="256" Nullable="false" />
-          <Property Name="Telephone" Type="int" Nullable="false" />
+          <Property Name="Telephone" Type="varchar" MaxLength="10" Nullable="false" />
           <Property Name="Poste" Type="int" />
           <Property Name="Facebook" Type="varchar" MaxLength="100" />
           <Property Name="SiteWeb" Type="varchar" MaxLength="100" />
@@ -76,6 +148,16 @@
           <Property Name="DateDebut" Type="date" Nullable="false" />
           <Property Name="DateFin" Type="date" Nullable="false" />
         </EntityType>
+        <!--Erreurs détectées durant la génération :
+avertissement 6002: La table/vue 'SACHEM.dbo.p_Jour' n'a pas de clé primaire définie. La clé a été déduite et la définition a été créée en tant que table/vue en lecture seule.-->
+        <EntityType Name="p_Jour">
+          <Key>
+            <PropertyRef Name="id_Jour" />
+            <PropertyRef Name="Jour" />
+          </Key>
+          <Property Name="id_Jour" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Jour" Type="varchar" MaxLength="10" Nullable="false" />
+        </EntityType>
         <EntityType Name="p_Saison">
           <Key>
             <PropertyRef Name="id_Saison" />
@@ -90,12 +172,42 @@
           <Property Name="id_Sexe" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Sexe" Type="varchar" MaxLength="10" Nullable="false" />
         </EntityType>
+        <!--Erreurs détectées durant la génération :
+avertissement 6002: La table/vue 'SACHEM.dbo.p_StatutCours' n'a pas de clé primaire définie. La clé a été déduite et la définition a été créée en tant que table/vue en lecture seule.-->
+        <EntityType Name="p_StatutCours">
+          <Key>
+            <PropertyRef Name="id_Statut" />
+            <PropertyRef Name="Statut" />
+          </Key>
+          <Property Name="id_Statut" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Statut" Type="varchar" MaxLength="25" Nullable="false" />
+        </EntityType>
+        <!--Erreurs détectées durant la génération :
+avertissement 6002: La table/vue 'SACHEM.dbo.p_StatutInscription' n'a pas de clé primaire définie. La clé a été déduite et la définition a été créée en tant que table/vue en lecture seule.-->
+        <EntityType Name="p_StatutInscription">
+          <Key>
+            <PropertyRef Name="id_Statut" />
+            <PropertyRef Name="Statut" />
+          </Key>
+          <Property Name="id_Statut" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Statut" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
         <EntityType Name="p_TypeCourriel">
           <Key>
             <PropertyRef Name="id_TypeCourriel" />
           </Key>
           <Property Name="id_TypeCourriel" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="TypeCourriel" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <!--Erreurs détectées durant la génération :
+avertissement 6002: La table/vue 'SACHEM.dbo.p_TypeInscription' n'a pas de clé primaire définie. La clé a été déduite et la définition a été créée en tant que table/vue en lecture seule.-->
+        <EntityType Name="p_TypeInscription">
+          <Key>
+            <PropertyRef Name="id_TypeInscription" />
+            <PropertyRef Name="TypeInscription" />
+          </Key>
+          <Property Name="id_TypeInscription" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TypeInscription" Type="varchar" MaxLength="50" Nullable="false" />
         </EntityType>
         <EntityType Name="p_TypeUsag">
           <Key>
@@ -117,7 +229,7 @@
           <Property Name="Matricule" Type="varchar" MaxLength="9" />
           <Property Name="MP" Type="varchar" MaxLength="32" />
           <Property Name="Courriel" Type="varchar" MaxLength="256" />
-          <Property Name="Telephone" Type="int" />
+          <Property Name="Telephone" Type="varchar" MaxLength="10" />
           <Property Name="DateNais" Type="date" />
           <Property Name="Actif" Type="bit" Nullable="false" />
         </EntityType>
@@ -138,6 +250,16 @@
           <Property Name="id_Sess" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="id_Saison" Type="int" Nullable="false" />
           <Property Name="Annee" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
         </EntityType>
         <Association Name="FK_Courriel_p_TypeCourriel">
           <End Role="p_TypeCourriel" Type="Self.p_TypeCourriel" Multiplicity="1" />
@@ -225,7 +347,7 @@
               <PropertyRef Name="id_Sess" />
             </Principal>
             <Dependent Role="Groupe">
-              <PropertyRef Name="id_Session" />
+              <PropertyRef Name="id_Sess" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -322,6 +444,77 @@
           <EntitySet Name="Personne" EntityType="Self.Personne" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ProgrammeEtude" EntityType="Self.ProgrammeEtude" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Session" EntityType="Self.Session" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CoursSuivi" EntityType="Self.CoursSuivi" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [CoursSuivi].[id_CoursReussi] AS [id_CoursReussi], 
+    [CoursSuivi].[id_Sess] AS [id_Sess], 
+    [CoursSuivi].[id_Pers] AS [id_Pers], 
+    [CoursSuivi].[id_College] AS [id_College], 
+    [CoursSuivi].[id_Statut] AS [id_Statut], 
+    [CoursSuivi].[id_Cours] AS [id_Cours], 
+    [CoursSuivi].[resultat] AS [resultat], 
+    [CoursSuivi].[autre_Cours] AS [autre_Cours], 
+    [CoursSuivi].[autre_College] AS [autre_College]
+    FROM [dbo].[CoursSuivi] AS [CoursSuivi]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="Inscription" EntityType="Self.Inscription" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [Inscription].[id_Inscription] AS [id_Inscription], 
+    [Inscription].[id_Sess] AS [id_Sess], 
+    [Inscription].[id_Pers] AS [id_Pers], 
+    [Inscription].[id_Statut] AS [id_Statut], 
+    [Inscription].[id_TypeInscription] AS [id_TypeInscription], 
+    [Inscription].[TransmettreInfoTuteur] AS [TransmettreInfoTuteur], 
+    [Inscription].[NoteSup] AS [NoteSup], 
+    [Inscription].[ContratEngagement] AS [ContratEngagement], 
+    [Inscription].[BonEchange] AS [BonEchange]
+    FROM [dbo].[Inscription] AS [Inscription]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="Jumelage" EntityType="Self.Jumelage" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [Jumelage].[id_Jumelage] AS [id_Jumelage], 
+    [Jumelage].[id_InscEleve] AS [id_InscEleve], 
+    [Jumelage].[id_InscrTuteur] AS [id_InscrTuteur], 
+    [Jumelage].[id_Sess] AS [id_Sess], 
+    [Jumelage].[id_Enseignant] AS [id_Enseignant], 
+    [Jumelage].[id_Jour] AS [id_Jour], 
+    [Jumelage].[DateDebut] AS [DateDebut], 
+    [Jumelage].[DateFin] AS [DateFin], 
+    [Jumelage].[HeureDebut] AS [HeureDebut], 
+    [Jumelage].[HeureFin] AS [HeureFin]
+    FROM [dbo].[Jumelage] AS [Jumelage]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="p_College" EntityType="Self.p_College" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [p_College].[id_College] AS [id_College], 
+    [p_College].[College] AS [College]
+    FROM [dbo].[p_College] AS [p_College]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="p_Jour" EntityType="Self.p_Jour" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [p_Jour].[id_Jour] AS [id_Jour], 
+    [p_Jour].[Jour] AS [Jour]
+    FROM [dbo].[p_Jour] AS [p_Jour]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="p_StatutCours" EntityType="Self.p_StatutCours" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [p_StatutCours].[id_Statut] AS [id_Statut], 
+    [p_StatutCours].[Statut] AS [Statut]
+    FROM [dbo].[p_StatutCours] AS [p_StatutCours]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="p_StatutInscription" EntityType="Self.p_StatutInscription" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [p_StatutInscription].[id_Statut] AS [id_Statut], 
+    [p_StatutInscription].[Statut] AS [Statut]
+    FROM [dbo].[p_StatutInscription] AS [p_StatutInscription]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="p_TypeInscription" EntityType="Self.p_TypeInscription" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [p_TypeInscription].[id_TypeInscription] AS [id_TypeInscription], 
+    [p_TypeInscription].[TypeInscription] AS [TypeInscription]
+    FROM [dbo].[p_TypeInscription] AS [p_TypeInscription]</DefiningQuery>
+          </EntitySet>
           <AssociationSet Name="FK_Courriel_p_TypeCourriel" Association="Self.FK_Courriel_p_TypeCourriel">
             <End Role="p_TypeCourriel" EntitySet="p_TypeCourriel" />
             <End Role="Courriel" EntitySet="Courriel" />
@@ -379,27 +572,104 @@
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="SACHEMModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="SACHEMEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Courriel" EntityType="SACHEMModel.Courriel" />
+          <EntitySet Name="Cours" EntityType="SACHEMModel.Cours" />
+          <EntitySet Name="EtuProgEtude" EntityType="SACHEMModel.EtuProgEtude" />
+          <EntitySet Name="Groupe" EntityType="SACHEMModel.Groupe" />
+          <EntitySet Name="GroupeEtudiant" EntityType="SACHEMModel.GroupeEtudiant" />
+          <EntitySet Name="p_Contact" EntityType="SACHEMModel.p_Contact" />
+          <EntitySet Name="p_HoraireInscription" EntityType="SACHEMModel.p_HoraireInscription" />
+          <EntitySet Name="p_Saison" EntityType="SACHEMModel.p_Saison" />
+          <EntitySet Name="p_Sexe" EntityType="SACHEMModel.p_Sexe" />
+          <EntitySet Name="p_TypeCourriel" EntityType="SACHEMModel.p_TypeCourriel" />
+          <EntitySet Name="p_TypeUsag" EntityType="SACHEMModel.p_TypeUsag" />
+          <EntitySet Name="Personne" EntityType="SACHEMModel.Personne" />
+          <EntitySet Name="ProgrammeEtude" EntityType="SACHEMModel.ProgrammeEtude" />
+          <EntitySet Name="Session" EntityType="SACHEMModel.Session" />
+          <EntitySet Name="sysdiagrams" EntityType="SACHEMModel.sysdiagrams" />
+          <EntitySet Name="CoursSuivi" EntityType="SACHEMModel.CoursSuivi" />
+          <EntitySet Name="Inscription" EntityType="SACHEMModel.Inscription" />
+          <EntitySet Name="Jumelage" EntityType="SACHEMModel.Jumelage" />
+          <EntitySet Name="p_College" EntityType="SACHEMModel.p_College" />
+          <EntitySet Name="p_Jour" EntityType="SACHEMModel.p_Jour" />
+          <EntitySet Name="p_StatutCours" EntityType="SACHEMModel.p_StatutCours" />
+          <EntitySet Name="p_StatutInscription" EntityType="SACHEMModel.p_StatutInscription" />
+          <EntitySet Name="p_TypeInscription" EntityType="SACHEMModel.p_TypeInscription" />
+          <AssociationSet Name="FK_Courriel_p_TypeCourriel" Association="SACHEMModel.FK_Courriel_p_TypeCourriel">
+            <End Role="p_TypeCourriel" EntitySet="p_TypeCourriel" />
+            <End Role="Courriel" EntitySet="Courriel" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Groupe_Cours" Association="SACHEMModel.FK_Groupe_Cours">
+            <End Role="Cours" EntitySet="Cours" />
+            <End Role="Groupe" EntitySet="Groupe" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EtuProgEtude_Personne" Association="SACHEMModel.FK_EtuProgEtude_Personne">
+            <End Role="Personne" EntitySet="Personne" />
+            <End Role="EtuProgEtude" EntitySet="EtuProgEtude" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EtuProgEtude_ProgrammeEtude" Association="SACHEMModel.FK_EtuProgEtude_ProgrammeEtude">
+            <End Role="ProgrammeEtude" EntitySet="ProgrammeEtude" />
+            <End Role="EtuProgEtude" EntitySet="EtuProgEtude" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EtuProgEtude_Session" Association="SACHEMModel.FK_EtuProgEtude_Session">
+            <End Role="Session" EntitySet="Session" />
+            <End Role="EtuProgEtude" EntitySet="EtuProgEtude" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Groupe_Personne" Association="SACHEMModel.FK_Groupe_Personne">
+            <End Role="Personne" EntitySet="Personne" />
+            <End Role="Groupe" EntitySet="Groupe" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Groupe_Session" Association="SACHEMModel.FK_Groupe_Session">
+            <End Role="Session" EntitySet="Session" />
+            <End Role="Groupe" EntitySet="Groupe" />
+          </AssociationSet>
+          <AssociationSet Name="FK_GroupeEtudiant_Groupe" Association="SACHEMModel.FK_GroupeEtudiant_Groupe">
+            <End Role="Groupe" EntitySet="Groupe" />
+            <End Role="GroupeEtudiant" EntitySet="GroupeEtudiant" />
+          </AssociationSet>
+          <AssociationSet Name="FK_GroupeEtudiant_Personne" Association="SACHEMModel.FK_GroupeEtudiant_Personne">
+            <End Role="Personne" EntitySet="Personne" />
+            <End Role="GroupeEtudiant" EntitySet="GroupeEtudiant" />
+          </AssociationSet>
+          <AssociationSet Name="FK_p_HoraireInscription_Session" Association="SACHEMModel.FK_p_HoraireInscription_Session">
+            <End Role="Session" EntitySet="Session" />
+            <End Role="p_HoraireInscription" EntitySet="p_HoraireInscription" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Session_p_Saison" Association="SACHEMModel.FK_Session_p_Saison">
+            <End Role="p_Saison" EntitySet="p_Saison" />
+            <End Role="Session" EntitySet="Session" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Personne_p_Sexe" Association="SACHEMModel.FK_Personne_p_Sexe">
+            <End Role="p_Sexe" EntitySet="p_Sexe" />
+            <End Role="Personne" EntitySet="Personne" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Personne_p_TypeUsag" Association="SACHEMModel.FK_Personne_p_TypeUsag">
+            <End Role="p_TypeUsag" EntitySet="p_TypeUsag" />
+            <End Role="Personne" EntitySet="Personne" />
+          </AssociationSet>
+        </EntityContainer>
         <EntityType Name="Courriel">
           <Key>
             <PropertyRef Name="id_Courriel" />
           </Key>
-          <Property Name="id_Courriel" Type="Int32" Nullable="false" />
+          <Property Name="id_Courriel" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="id_TypeCourriel" Type="Int32" Nullable="false" />
-          <Property Name="Titre" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="Courriel1" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Titre" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Courriel1" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="DateDebut" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="DateFin" Type="DateTime" Precision="0" />
-          <NavigationProperty Name="p_TypeCourriel" Relationship="Self.FK_Courriel_p_TypeCourriel" FromRole="Courriel" ToRole="p_TypeCourriel" />
+          <NavigationProperty Name="p_TypeCourriel" Relationship="SACHEMModel.FK_Courriel_p_TypeCourriel" FromRole="Courriel" ToRole="p_TypeCourriel" />
         </EntityType>
         <EntityType Name="Cours">
           <Key>
             <PropertyRef Name="id_Cours" />
           </Key>
           <Property Name="id_Cours" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Code" Type="String" MaxLength="8" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="Nom" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Code" Type="String" Nullable="false" MaxLength="8" FixedLength="false" Unicode="false" />
+          <Property Name="Nom" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="false" />
           <Property Name="Actif" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="Groupe" Relationship="Self.FK_Groupe_Cours" FromRole="Cours" ToRole="Groupe" />
+          <NavigationProperty Name="Groupe" Relationship="SACHEMModel.FK_Groupe_Cours" FromRole="Cours" ToRole="Groupe" />
         </EntityType>
         <EntityType Name="EtuProgEtude">
           <Key>
@@ -409,9 +679,9 @@
           <Property Name="id_ProgEtu" Type="Int32" Nullable="false" />
           <Property Name="id_Etu" Type="Int32" Nullable="false" />
           <Property Name="id_Sess" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Personne" Relationship="Self.FK_EtuProgEtude_Personne" FromRole="EtuProgEtude" ToRole="Personne" />
-          <NavigationProperty Name="ProgrammeEtude" Relationship="Self.FK_EtuProgEtude_ProgrammeEtude" FromRole="EtuProgEtude" ToRole="ProgrammeEtude" />
-          <NavigationProperty Name="Session" Relationship="Self.FK_EtuProgEtude_Session" FromRole="EtuProgEtude" ToRole="Session" />
+          <NavigationProperty Name="Personne" Relationship="SACHEMModel.FK_EtuProgEtude_Personne" FromRole="EtuProgEtude" ToRole="Personne" />
+          <NavigationProperty Name="ProgrammeEtude" Relationship="SACHEMModel.FK_EtuProgEtude_ProgrammeEtude" FromRole="EtuProgEtude" ToRole="ProgrammeEtude" />
+          <NavigationProperty Name="Session" Relationship="SACHEMModel.FK_EtuProgEtude_Session" FromRole="EtuProgEtude" ToRole="Session" />
         </EntityType>
         <EntityType Name="Groupe">
           <Key>
@@ -419,13 +689,13 @@
           </Key>
           <Property Name="id_Groupe" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="id_Cours" Type="Int32" Nullable="false" />
-          <Property Name="id_Session" Type="Int32" Nullable="false" />
+          <Property Name="id_Sess" Type="Int32" Nullable="false" />
           <Property Name="id_Enseignant" Type="Int32" />
           <Property Name="NoGroupe" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Cours" Relationship="Self.FK_Groupe_Cours" FromRole="Groupe" ToRole="Cours" />
-          <NavigationProperty Name="Personne" Relationship="Self.FK_Groupe_Personne" FromRole="Groupe" ToRole="Personne" />
-          <NavigationProperty Name="Session" Relationship="Self.FK_Groupe_Session" FromRole="Groupe" ToRole="Session" />
-          <NavigationProperty Name="GroupeEtudiant" Relationship="Self.FK_GroupeEtudiant_Groupe" FromRole="Groupe" ToRole="GroupeEtudiant" />
+          <NavigationProperty Name="Cours" Relationship="SACHEMModel.FK_Groupe_Cours" FromRole="Groupe" ToRole="Cours" />
+          <NavigationProperty Name="Personne" Relationship="SACHEMModel.FK_Groupe_Personne" FromRole="Groupe" ToRole="Personne" />
+          <NavigationProperty Name="Session" Relationship="SACHEMModel.FK_Groupe_Session" FromRole="Groupe" ToRole="Session" />
+          <NavigationProperty Name="GroupeEtudiant" Relationship="SACHEMModel.FK_GroupeEtudiant_Groupe" FromRole="Groupe" ToRole="GroupeEtudiant" />
         </EntityType>
         <EntityType Name="GroupeEtudiant">
           <Key>
@@ -434,22 +704,22 @@
           <Property Name="id_GroupeEtudiant" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="id_Groupe" Type="Int32" Nullable="false" />
           <Property Name="id_Etudiant" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Groupe" Relationship="Self.FK_GroupeEtudiant_Groupe" FromRole="GroupeEtudiant" ToRole="Groupe" />
-          <NavigationProperty Name="Personne" Relationship="Self.FK_GroupeEtudiant_Personne" FromRole="GroupeEtudiant" ToRole="Personne" />
+          <NavigationProperty Name="Groupe" Relationship="SACHEMModel.FK_GroupeEtudiant_Groupe" FromRole="GroupeEtudiant" ToRole="Groupe" />
+          <NavigationProperty Name="Personne" Relationship="SACHEMModel.FK_GroupeEtudiant_Personne" FromRole="GroupeEtudiant" ToRole="Personne" />
         </EntityType>
         <EntityType Name="p_Contact">
           <Key>
             <PropertyRef Name="id_Contact" />
           </Key>
-          <Property Name="id_Contact" Type="Int32" Nullable="false" />
-          <Property Name="Nom" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="Prenom" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="Courriel" Type="String" MaxLength="256" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="Telephone" Type="Int32" Nullable="false" />
+          <Property Name="id_Contact" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nom" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="Prenom" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="Courriel" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="false" />
+          <Property Name="Telephone" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
           <Property Name="Poste" Type="Int32" />
           <Property Name="Facebook" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="SiteWeb" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="Local" Type="String" MaxLength="5" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Local" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="p_HoraireInscription">
           <Key>
@@ -460,39 +730,39 @@
           <Property Name="HeureFin" Type="Time" Nullable="false" Precision="7" />
           <Property Name="DateDebut" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="DateFin" Type="DateTime" Nullable="false" Precision="0" />
-          <NavigationProperty Name="Session" Relationship="Self.FK_p_HoraireInscription_Session" FromRole="p_HoraireInscription" ToRole="Session" />
+          <NavigationProperty Name="Session" Relationship="SACHEMModel.FK_p_HoraireInscription_Session" FromRole="p_HoraireInscription" ToRole="Session" />
         </EntityType>
         <EntityType Name="p_Saison">
           <Key>
             <PropertyRef Name="id_Saison" />
           </Key>
           <Property Name="id_Saison" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Saison" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
-          <NavigationProperty Name="Session" Relationship="Self.FK_Session_p_Saison" FromRole="p_Saison" ToRole="Session" />
+          <Property Name="Saison" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Session" Relationship="SACHEMModel.FK_Session_p_Saison" FromRole="p_Saison" ToRole="Session" />
         </EntityType>
         <EntityType Name="p_Sexe">
           <Key>
             <PropertyRef Name="id_Sexe" />
           </Key>
           <Property Name="id_Sexe" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Sexe" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
-          <NavigationProperty Name="Personne" Relationship="Self.FK_Personne_p_Sexe" FromRole="p_Sexe" ToRole="Personne" />
+          <Property Name="Sexe" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Personne" Relationship="SACHEMModel.FK_Personne_p_Sexe" FromRole="p_Sexe" ToRole="Personne" />
         </EntityType>
         <EntityType Name="p_TypeCourriel">
           <Key>
             <PropertyRef Name="id_TypeCourriel" />
           </Key>
           <Property Name="id_TypeCourriel" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="TypeCourriel" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <NavigationProperty Name="Courriel" Relationship="Self.FK_Courriel_p_TypeCourriel" FromRole="p_TypeCourriel" ToRole="Courriel" />
+          <Property Name="TypeCourriel" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Courriel" Relationship="SACHEMModel.FK_Courriel_p_TypeCourriel" FromRole="p_TypeCourriel" ToRole="Courriel" />
         </EntityType>
         <EntityType Name="p_TypeUsag">
           <Key>
             <PropertyRef Name="id_TypeUsag" />
           </Key>
           <Property Name="id_TypeUsag" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="TypeUsag" Type="String" MaxLength="25" FixedLength="false" Unicode="false" Nullable="false" />
-          <NavigationProperty Name="Personne" Relationship="Self.FK_Personne_p_TypeUsag" FromRole="p_TypeUsag" ToRole="Personne" />
+          <Property Name="TypeUsag" Type="String" Nullable="false" MaxLength="25" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Personne" Relationship="SACHEMModel.FK_Personne_p_TypeUsag" FromRole="p_TypeUsag" ToRole="Personne" />
         </EntityType>
         <EntityType Name="Personne">
           <Key>
@@ -501,31 +771,31 @@
           <Property Name="id_Pers" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="id_Sexe" Type="Int32" />
           <Property Name="id_TypeUsag" Type="Int32" Nullable="false" />
-          <Property Name="Nom" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="Prenom" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Nom" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="Prenom" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
           <Property Name="NomUsager" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
           <Property Name="Matricule" Type="String" MaxLength="9" FixedLength="false" Unicode="false" />
           <Property Name="MP" Type="String" MaxLength="32" FixedLength="false" Unicode="false" />
           <Property Name="Courriel" Type="String" MaxLength="256" FixedLength="false" Unicode="false" />
-          <Property Name="Telephone" Type="Int32" />
+          <Property Name="Telephone" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
           <Property Name="DateNais" Type="DateTime" Precision="0" />
           <Property Name="Actif" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="EtuProgEtude" Relationship="Self.FK_EtuProgEtude_Personne" FromRole="Personne" ToRole="EtuProgEtude" />
-          <NavigationProperty Name="Groupe" Relationship="Self.FK_Groupe_Personne" FromRole="Personne" ToRole="Groupe" />
-          <NavigationProperty Name="GroupeEtudiant" Relationship="Self.FK_GroupeEtudiant_Personne" FromRole="Personne" ToRole="GroupeEtudiant" />
-          <NavigationProperty Name="p_Sexe" Relationship="Self.FK_Personne_p_Sexe" FromRole="Personne" ToRole="p_Sexe" />
-          <NavigationProperty Name="p_TypeUsag" Relationship="Self.FK_Personne_p_TypeUsag" FromRole="Personne" ToRole="p_TypeUsag" />
+          <NavigationProperty Name="EtuProgEtude" Relationship="SACHEMModel.FK_EtuProgEtude_Personne" FromRole="Personne" ToRole="EtuProgEtude" />
+          <NavigationProperty Name="Groupe" Relationship="SACHEMModel.FK_Groupe_Personne" FromRole="Personne" ToRole="Groupe" />
+          <NavigationProperty Name="GroupeEtudiant" Relationship="SACHEMModel.FK_GroupeEtudiant_Personne" FromRole="Personne" ToRole="GroupeEtudiant" />
+          <NavigationProperty Name="p_Sexe" Relationship="SACHEMModel.FK_Personne_p_Sexe" FromRole="Personne" ToRole="p_Sexe" />
+          <NavigationProperty Name="p_TypeUsag" Relationship="SACHEMModel.FK_Personne_p_TypeUsag" FromRole="Personne" ToRole="p_TypeUsag" />
         </EntityType>
         <EntityType Name="ProgrammeEtude">
           <Key>
             <PropertyRef Name="id_ProgEtu" />
           </Key>
           <Property Name="id_ProgEtu" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Code" Type="String" MaxLength="5" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="NomProg" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Code" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="NomProg" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="false" />
           <Property Name="Annee" Type="Int32" Nullable="false" />
           <Property Name="Actif" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="EtuProgEtude" Relationship="Self.FK_EtuProgEtude_ProgrammeEtude" FromRole="ProgrammeEtude" ToRole="EtuProgEtude" />
+          <NavigationProperty Name="EtuProgEtude" Relationship="SACHEMModel.FK_EtuProgEtude_ProgrammeEtude" FromRole="ProgrammeEtude" ToRole="EtuProgEtude" />
         </EntityType>
         <EntityType Name="Session">
           <Key>
@@ -534,14 +804,120 @@
           <Property Name="id_Sess" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="id_Saison" Type="Int32" Nullable="false" />
           <Property Name="Annee" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="EtuProgEtude" Relationship="Self.FK_EtuProgEtude_Session" FromRole="Session" ToRole="EtuProgEtude" />
-          <NavigationProperty Name="Groupe" Relationship="Self.FK_Groupe_Session" FromRole="Session" ToRole="Groupe" />
-          <NavigationProperty Name="p_HoraireInscription" Relationship="Self.FK_p_HoraireInscription_Session" FromRole="Session" ToRole="p_HoraireInscription" />
-          <NavigationProperty Name="p_Saison" Relationship="Self.FK_Session_p_Saison" FromRole="Session" ToRole="p_Saison" />
+          <NavigationProperty Name="EtuProgEtude" Relationship="SACHEMModel.FK_EtuProgEtude_Session" FromRole="Session" ToRole="EtuProgEtude" />
+          <NavigationProperty Name="Groupe" Relationship="SACHEMModel.FK_Groupe_Session" FromRole="Session" ToRole="Groupe" />
+          <NavigationProperty Name="p_HoraireInscription" Relationship="SACHEMModel.FK_p_HoraireInscription_Session" FromRole="Session" ToRole="p_HoraireInscription" />
+          <NavigationProperty Name="p_Saison" Relationship="SACHEMModel.FK_Session_p_Saison" FromRole="Session" ToRole="p_Saison" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="CoursSuivi">
+          <Key>
+            <PropertyRef Name="id_CoursReussi" />
+            <PropertyRef Name="id_Pers" />
+          </Key>
+          <Property Name="id_CoursReussi" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="id_Sess" Type="Int32" />
+          <Property Name="id_Pers" Type="Int32" Nullable="false" />
+          <Property Name="id_College" Type="Int32" />
+          <Property Name="id_Statut" Type="Int32" />
+          <Property Name="id_Cours" Type="Int32" />
+          <Property Name="resultat" Type="Int32" />
+          <Property Name="autre_Cours" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="autre_College" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="Inscription">
+          <Key>
+            <PropertyRef Name="id_Inscription" />
+            <PropertyRef Name="id_Sess" />
+            <PropertyRef Name="id_Pers" />
+            <PropertyRef Name="id_Statut" />
+            <PropertyRef Name="id_TypeInscription" />
+          </Key>
+          <Property Name="id_Inscription" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="id_Sess" Type="Int32" Nullable="false" />
+          <Property Name="id_Pers" Type="Int32" Nullable="false" />
+          <Property Name="id_Statut" Type="Int32" Nullable="false" />
+          <Property Name="id_TypeInscription" Type="Int32" Nullable="false" />
+          <Property Name="TransmettreInfoTuteur" Type="Boolean" />
+          <Property Name="NoteSup" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ContratEngagement" Type="Boolean" />
+          <Property Name="BonEchange" Type="Boolean" />
+        </EntityType>
+        <EntityType Name="Jumelage">
+          <Key>
+            <PropertyRef Name="id_Jumelage" />
+            <PropertyRef Name="id_InscEleve" />
+            <PropertyRef Name="id_InscrTuteur" />
+            <PropertyRef Name="id_Sess" />
+            <PropertyRef Name="id_Enseignant" />
+            <PropertyRef Name="id_Jour" />
+            <PropertyRef Name="DateDebut" />
+            <PropertyRef Name="HeureDebut" />
+            <PropertyRef Name="HeureFin" />
+          </Key>
+          <Property Name="id_Jumelage" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="id_InscEleve" Type="Int32" Nullable="false" />
+          <Property Name="id_InscrTuteur" Type="Int32" Nullable="false" />
+          <Property Name="id_Sess" Type="Int32" Nullable="false" />
+          <Property Name="id_Enseignant" Type="Int32" Nullable="false" />
+          <Property Name="id_Jour" Type="Int32" Nullable="false" />
+          <Property Name="DateDebut" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="DateFin" Type="DateTime" Precision="3" />
+          <Property Name="HeureDebut" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="HeureFin" Type="DateTime" Nullable="false" Precision="3" />
+        </EntityType>
+        <EntityType Name="p_College">
+          <Key>
+            <PropertyRef Name="id_College" />
+            <PropertyRef Name="College" />
+          </Key>
+          <Property Name="id_College" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="College" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="p_Jour">
+          <Key>
+            <PropertyRef Name="id_Jour" />
+            <PropertyRef Name="Jour" />
+          </Key>
+          <Property Name="id_Jour" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Jour" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="p_StatutCours">
+          <Key>
+            <PropertyRef Name="id_Statut" />
+            <PropertyRef Name="Statut" />
+          </Key>
+          <Property Name="id_Statut" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Statut" Type="String" Nullable="false" MaxLength="25" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="p_StatutInscription">
+          <Key>
+            <PropertyRef Name="id_Statut" />
+            <PropertyRef Name="Statut" />
+          </Key>
+          <Property Name="id_Statut" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Statut" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="p_TypeInscription">
+          <Key>
+            <PropertyRef Name="id_TypeInscription" />
+            <PropertyRef Name="TypeInscription" />
+          </Key>
+          <Property Name="id_TypeInscription" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TypeInscription" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
         </EntityType>
         <Association Name="FK_Courriel_p_TypeCourriel">
-          <End Role="p_TypeCourriel" Type="Self.p_TypeCourriel" Multiplicity="1" />
-          <End Role="Courriel" Type="Self.Courriel" Multiplicity="*" />
+          <End Type="SACHEMModel.p_TypeCourriel" Role="p_TypeCourriel" Multiplicity="1" />
+          <End Type="SACHEMModel.Courriel" Role="Courriel" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="p_TypeCourriel">
               <PropertyRef Name="id_TypeCourriel" />
@@ -552,8 +928,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Groupe_Cours">
-          <End Role="Cours" Type="Self.Cours" Multiplicity="1" />
-          <End Role="Groupe" Type="Self.Groupe" Multiplicity="*" />
+          <End Type="SACHEMModel.Cours" Role="Cours" Multiplicity="1" />
+          <End Type="SACHEMModel.Groupe" Role="Groupe" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Cours">
               <PropertyRef Name="id_Cours" />
@@ -564,10 +940,10 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_EtuProgEtude_Personne">
-          <End Role="Personne" Type="Self.Personne" Multiplicity="1">
+          <End Type="SACHEMModel.Personne" Role="Personne" Multiplicity="1">
             <OnDelete Action="Cascade" />
           </End>
-          <End Role="EtuProgEtude" Type="Self.EtuProgEtude" Multiplicity="*" />
+          <End Type="SACHEMModel.EtuProgEtude" Role="EtuProgEtude" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Personne">
               <PropertyRef Name="id_Pers" />
@@ -578,10 +954,10 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_EtuProgEtude_ProgrammeEtude">
-          <End Role="ProgrammeEtude" Type="Self.ProgrammeEtude" Multiplicity="1">
+          <End Type="SACHEMModel.ProgrammeEtude" Role="ProgrammeEtude" Multiplicity="1">
             <OnDelete Action="Cascade" />
           </End>
-          <End Role="EtuProgEtude" Type="Self.EtuProgEtude" Multiplicity="*" />
+          <End Type="SACHEMModel.EtuProgEtude" Role="EtuProgEtude" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="ProgrammeEtude">
               <PropertyRef Name="id_ProgEtu" />
@@ -592,10 +968,10 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_EtuProgEtude_Session">
-          <End Role="Session" Type="Self.Session" Multiplicity="1">
+          <End Type="SACHEMModel.Session" Role="Session" Multiplicity="1">
             <OnDelete Action="Cascade" />
           </End>
-          <End Role="EtuProgEtude" Type="Self.EtuProgEtude" Multiplicity="*" />
+          <End Type="SACHEMModel.EtuProgEtude" Role="EtuProgEtude" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Session">
               <PropertyRef Name="id_Sess" />
@@ -606,8 +982,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Groupe_Personne">
-          <End Role="Personne" Type="Self.Personne" Multiplicity="0..1" />
-          <End Role="Groupe" Type="Self.Groupe" Multiplicity="*" />
+          <End Type="SACHEMModel.Personne" Role="Personne" Multiplicity="0..1" />
+          <End Type="SACHEMModel.Groupe" Role="Groupe" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Personne">
               <PropertyRef Name="id_Pers" />
@@ -618,20 +994,20 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Groupe_Session">
-          <End Role="Session" Type="Self.Session" Multiplicity="1" />
-          <End Role="Groupe" Type="Self.Groupe" Multiplicity="*" />
+          <End Type="SACHEMModel.Session" Role="Session" Multiplicity="1" />
+          <End Type="SACHEMModel.Groupe" Role="Groupe" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Session">
               <PropertyRef Name="id_Sess" />
             </Principal>
             <Dependent Role="Groupe">
-              <PropertyRef Name="id_Session" />
+              <PropertyRef Name="id_Sess" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_GroupeEtudiant_Groupe">
-          <End Role="Groupe" Type="Self.Groupe" Multiplicity="1" />
-          <End Role="GroupeEtudiant" Type="Self.GroupeEtudiant" Multiplicity="*" />
+          <End Type="SACHEMModel.Groupe" Role="Groupe" Multiplicity="1" />
+          <End Type="SACHEMModel.GroupeEtudiant" Role="GroupeEtudiant" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Groupe">
               <PropertyRef Name="id_Groupe" />
@@ -642,8 +1018,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_GroupeEtudiant_Personne">
-          <End Role="Personne" Type="Self.Personne" Multiplicity="1" />
-          <End Role="GroupeEtudiant" Type="Self.GroupeEtudiant" Multiplicity="*" />
+          <End Type="SACHEMModel.Personne" Role="Personne" Multiplicity="1" />
+          <End Type="SACHEMModel.GroupeEtudiant" Role="GroupeEtudiant" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Personne">
               <PropertyRef Name="id_Pers" />
@@ -654,8 +1030,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_p_HoraireInscription_Session">
-          <End Role="Session" Type="Self.Session" Multiplicity="1" />
-          <End Role="p_HoraireInscription" Type="Self.p_HoraireInscription" Multiplicity="0..1" />
+          <End Type="SACHEMModel.Session" Role="Session" Multiplicity="1" />
+          <End Type="SACHEMModel.p_HoraireInscription" Role="p_HoraireInscription" Multiplicity="0..1" />
           <ReferentialConstraint>
             <Principal Role="Session">
               <PropertyRef Name="id_Sess" />
@@ -666,10 +1042,10 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Session_p_Saison">
-          <End Role="p_Saison" Type="Self.p_Saison" Multiplicity="1">
+          <End Type="SACHEMModel.p_Saison" Role="p_Saison" Multiplicity="1">
             <OnDelete Action="Cascade" />
           </End>
-          <End Role="Session" Type="Self.Session" Multiplicity="*" />
+          <End Type="SACHEMModel.Session" Role="Session" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="p_Saison">
               <PropertyRef Name="id_Saison" />
@@ -680,10 +1056,10 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Personne_p_Sexe">
-          <End Role="p_Sexe" Type="Self.p_Sexe" Multiplicity="0..1">
+          <End Type="SACHEMModel.p_Sexe" Role="p_Sexe" Multiplicity="0..1">
             <OnDelete Action="Cascade" />
           </End>
-          <End Role="Personne" Type="Self.Personne" Multiplicity="*" />
+          <End Type="SACHEMModel.Personne" Role="Personne" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="p_Sexe">
               <PropertyRef Name="id_Sexe" />
@@ -694,10 +1070,10 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Personne_p_TypeUsag">
-          <End Role="p_TypeUsag" Type="Self.p_TypeUsag" Multiplicity="1">
+          <End Type="SACHEMModel.p_TypeUsag" Role="p_TypeUsag" Multiplicity="1">
             <OnDelete Action="Cascade" />
           </End>
-          <End Role="Personne" Type="Self.Personne" Multiplicity="*" />
+          <End Type="SACHEMModel.Personne" Role="Personne" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="p_TypeUsag">
               <PropertyRef Name="id_TypeUsag" />
@@ -707,75 +1083,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="SACHEMEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="Courriel" EntityType="Self.Courriel" />
-          <EntitySet Name="Cours" EntityType="Self.Cours" />
-          <EntitySet Name="EtuProgEtude" EntityType="Self.EtuProgEtude" />
-          <EntitySet Name="Groupe" EntityType="Self.Groupe" />
-          <EntitySet Name="GroupeEtudiant" EntityType="Self.GroupeEtudiant" />
-          <EntitySet Name="p_Contact" EntityType="Self.p_Contact" />
-          <EntitySet Name="p_HoraireInscription" EntityType="Self.p_HoraireInscription" />
-          <EntitySet Name="p_Saison" EntityType="Self.p_Saison" />
-          <EntitySet Name="p_Sexe" EntityType="Self.p_Sexe" />
-          <EntitySet Name="p_TypeCourriel" EntityType="Self.p_TypeCourriel" />
-          <EntitySet Name="p_TypeUsag" EntityType="Self.p_TypeUsag" />
-          <EntitySet Name="Personne" EntityType="Self.Personne" />
-          <EntitySet Name="ProgrammeEtude" EntityType="Self.ProgrammeEtude" />
-          <EntitySet Name="Session" EntityType="Self.Session" />
-          <AssociationSet Name="FK_Courriel_p_TypeCourriel" Association="Self.FK_Courriel_p_TypeCourriel">
-            <End Role="p_TypeCourriel" EntitySet="p_TypeCourriel" />
-            <End Role="Courriel" EntitySet="Courriel" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Groupe_Cours" Association="Self.FK_Groupe_Cours">
-            <End Role="Cours" EntitySet="Cours" />
-            <End Role="Groupe" EntitySet="Groupe" />
-          </AssociationSet>
-          <AssociationSet Name="FK_EtuProgEtude_Personne" Association="Self.FK_EtuProgEtude_Personne">
-            <End Role="Personne" EntitySet="Personne" />
-            <End Role="EtuProgEtude" EntitySet="EtuProgEtude" />
-          </AssociationSet>
-          <AssociationSet Name="FK_EtuProgEtude_ProgrammeEtude" Association="Self.FK_EtuProgEtude_ProgrammeEtude">
-            <End Role="ProgrammeEtude" EntitySet="ProgrammeEtude" />
-            <End Role="EtuProgEtude" EntitySet="EtuProgEtude" />
-          </AssociationSet>
-          <AssociationSet Name="FK_EtuProgEtude_Session" Association="Self.FK_EtuProgEtude_Session">
-            <End Role="Session" EntitySet="Session" />
-            <End Role="EtuProgEtude" EntitySet="EtuProgEtude" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Groupe_Personne" Association="Self.FK_Groupe_Personne">
-            <End Role="Personne" EntitySet="Personne" />
-            <End Role="Groupe" EntitySet="Groupe" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Groupe_Session" Association="Self.FK_Groupe_Session">
-            <End Role="Session" EntitySet="Session" />
-            <End Role="Groupe" EntitySet="Groupe" />
-          </AssociationSet>
-          <AssociationSet Name="FK_GroupeEtudiant_Groupe" Association="Self.FK_GroupeEtudiant_Groupe">
-            <End Role="Groupe" EntitySet="Groupe" />
-            <End Role="GroupeEtudiant" EntitySet="GroupeEtudiant" />
-          </AssociationSet>
-          <AssociationSet Name="FK_GroupeEtudiant_Personne" Association="Self.FK_GroupeEtudiant_Personne">
-            <End Role="Personne" EntitySet="Personne" />
-            <End Role="GroupeEtudiant" EntitySet="GroupeEtudiant" />
-          </AssociationSet>
-          <AssociationSet Name="FK_p_HoraireInscription_Session" Association="Self.FK_p_HoraireInscription_Session">
-            <End Role="Session" EntitySet="Session" />
-            <End Role="p_HoraireInscription" EntitySet="p_HoraireInscription" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Session_p_Saison" Association="Self.FK_Session_p_Saison">
-            <End Role="p_Saison" EntitySet="p_Saison" />
-            <End Role="Session" EntitySet="Session" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Personne_p_Sexe" Association="Self.FK_Personne_p_Sexe">
-            <End Role="p_Sexe" EntitySet="p_Sexe" />
-            <End Role="Personne" EntitySet="Personne" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Personne_p_TypeUsag" Association="Self.FK_Personne_p_TypeUsag">
-            <End Role="p_TypeUsag" EntitySet="p_TypeUsag" />
-            <End Role="Personne" EntitySet="Personne" />
-          </AssociationSet>
-        </EntityContainer>
-      </Schema>
+        </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
@@ -784,148 +1092,245 @@
           <EntitySetMapping Name="Courriel">
             <EntityTypeMapping TypeName="SACHEMModel.Courriel">
               <MappingFragment StoreEntitySet="Courriel">
-                <ScalarProperty Name="id_Courriel" ColumnName="id_Courriel" />
-                <ScalarProperty Name="id_TypeCourriel" ColumnName="id_TypeCourriel" />
-                <ScalarProperty Name="Titre" ColumnName="Titre" />
-                <ScalarProperty Name="Courriel1" ColumnName="Courriel" />
-                <ScalarProperty Name="DateDebut" ColumnName="DateDebut" />
                 <ScalarProperty Name="DateFin" ColumnName="DateFin" />
+                <ScalarProperty Name="DateDebut" ColumnName="DateDebut" />
+                <ScalarProperty Name="Courriel1" ColumnName="Courriel" />
+                <ScalarProperty Name="Titre" ColumnName="Titre" />
+                <ScalarProperty Name="id_TypeCourriel" ColumnName="id_TypeCourriel" />
+                <ScalarProperty Name="id_Courriel" ColumnName="id_Courriel" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Cours">
             <EntityTypeMapping TypeName="SACHEMModel.Cours">
               <MappingFragment StoreEntitySet="Cours">
-                <ScalarProperty Name="id_Cours" ColumnName="id_Cours" />
-                <ScalarProperty Name="Code" ColumnName="Code" />
-                <ScalarProperty Name="Nom" ColumnName="Nom" />
                 <ScalarProperty Name="Actif" ColumnName="Actif" />
+                <ScalarProperty Name="Nom" ColumnName="Nom" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="id_Cours" ColumnName="id_Cours" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="EtuProgEtude">
             <EntityTypeMapping TypeName="SACHEMModel.EtuProgEtude">
               <MappingFragment StoreEntitySet="EtuProgEtude">
-                <ScalarProperty Name="id_EtuProgEtude" ColumnName="id_EtuProgEtude" />
-                <ScalarProperty Name="id_ProgEtu" ColumnName="id_ProgEtu" />
-                <ScalarProperty Name="id_Etu" ColumnName="id_Etu" />
                 <ScalarProperty Name="id_Sess" ColumnName="id_Sess" />
+                <ScalarProperty Name="id_Etu" ColumnName="id_Etu" />
+                <ScalarProperty Name="id_ProgEtu" ColumnName="id_ProgEtu" />
+                <ScalarProperty Name="id_EtuProgEtude" ColumnName="id_EtuProgEtude" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Groupe">
             <EntityTypeMapping TypeName="SACHEMModel.Groupe">
               <MappingFragment StoreEntitySet="Groupe">
-                <ScalarProperty Name="id_Groupe" ColumnName="id_Groupe" />
-                <ScalarProperty Name="id_Cours" ColumnName="id_Cours" />
-                <ScalarProperty Name="id_Session" ColumnName="id_Session" />
-                <ScalarProperty Name="id_Enseignant" ColumnName="id_Enseignant" />
                 <ScalarProperty Name="NoGroupe" ColumnName="NoGroupe" />
+                <ScalarProperty Name="id_Enseignant" ColumnName="id_Enseignant" />
+                <ScalarProperty Name="id_Sess" ColumnName="id_Sess" />
+                <ScalarProperty Name="id_Cours" ColumnName="id_Cours" />
+                <ScalarProperty Name="id_Groupe" ColumnName="id_Groupe" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="GroupeEtudiant">
             <EntityTypeMapping TypeName="SACHEMModel.GroupeEtudiant">
               <MappingFragment StoreEntitySet="GroupeEtudiant">
-                <ScalarProperty Name="id_GroupeEtudiant" ColumnName="id_GroupeEtudiant" />
-                <ScalarProperty Name="id_Groupe" ColumnName="id_Groupe" />
                 <ScalarProperty Name="id_Etudiant" ColumnName="id_Etudiant" />
+                <ScalarProperty Name="id_Groupe" ColumnName="id_Groupe" />
+                <ScalarProperty Name="id_GroupeEtudiant" ColumnName="id_GroupeEtudiant" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="p_Contact">
             <EntityTypeMapping TypeName="SACHEMModel.p_Contact">
               <MappingFragment StoreEntitySet="p_Contact">
-                <ScalarProperty Name="id_Contact" ColumnName="id_Contact" />
-                <ScalarProperty Name="Nom" ColumnName="Nom" />
-                <ScalarProperty Name="Prenom" ColumnName="Prenom" />
-                <ScalarProperty Name="Courriel" ColumnName="Courriel" />
-                <ScalarProperty Name="Telephone" ColumnName="Telephone" />
-                <ScalarProperty Name="Poste" ColumnName="Poste" />
-                <ScalarProperty Name="Facebook" ColumnName="Facebook" />
-                <ScalarProperty Name="SiteWeb" ColumnName="SiteWeb" />
                 <ScalarProperty Name="Local" ColumnName="Local" />
+                <ScalarProperty Name="SiteWeb" ColumnName="SiteWeb" />
+                <ScalarProperty Name="Facebook" ColumnName="Facebook" />
+                <ScalarProperty Name="Poste" ColumnName="Poste" />
+                <ScalarProperty Name="Telephone" ColumnName="Telephone" />
+                <ScalarProperty Name="Courriel" ColumnName="Courriel" />
+                <ScalarProperty Name="Prenom" ColumnName="Prenom" />
+                <ScalarProperty Name="Nom" ColumnName="Nom" />
+                <ScalarProperty Name="id_Contact" ColumnName="id_Contact" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="p_HoraireInscription">
             <EntityTypeMapping TypeName="SACHEMModel.p_HoraireInscription">
               <MappingFragment StoreEntitySet="p_HoraireInscription">
-                <ScalarProperty Name="id_Sess" ColumnName="id_Sess" />
-                <ScalarProperty Name="HeureDebut" ColumnName="HeureDebut" />
-                <ScalarProperty Name="HeureFin" ColumnName="HeureFin" />
-                <ScalarProperty Name="DateDebut" ColumnName="DateDebut" />
                 <ScalarProperty Name="DateFin" ColumnName="DateFin" />
+                <ScalarProperty Name="DateDebut" ColumnName="DateDebut" />
+                <ScalarProperty Name="HeureFin" ColumnName="HeureFin" />
+                <ScalarProperty Name="HeureDebut" ColumnName="HeureDebut" />
+                <ScalarProperty Name="id_Sess" ColumnName="id_Sess" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="p_Saison">
             <EntityTypeMapping TypeName="SACHEMModel.p_Saison">
               <MappingFragment StoreEntitySet="p_Saison">
-                <ScalarProperty Name="id_Saison" ColumnName="id_Saison" />
                 <ScalarProperty Name="Saison" ColumnName="Saison" />
+                <ScalarProperty Name="id_Saison" ColumnName="id_Saison" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="p_Sexe">
             <EntityTypeMapping TypeName="SACHEMModel.p_Sexe">
               <MappingFragment StoreEntitySet="p_Sexe">
-                <ScalarProperty Name="id_Sexe" ColumnName="id_Sexe" />
                 <ScalarProperty Name="Sexe" ColumnName="Sexe" />
+                <ScalarProperty Name="id_Sexe" ColumnName="id_Sexe" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="p_TypeCourriel">
             <EntityTypeMapping TypeName="SACHEMModel.p_TypeCourriel">
               <MappingFragment StoreEntitySet="p_TypeCourriel">
-                <ScalarProperty Name="id_TypeCourriel" ColumnName="id_TypeCourriel" />
                 <ScalarProperty Name="TypeCourriel" ColumnName="TypeCourriel" />
+                <ScalarProperty Name="id_TypeCourriel" ColumnName="id_TypeCourriel" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="p_TypeUsag">
             <EntityTypeMapping TypeName="SACHEMModel.p_TypeUsag">
               <MappingFragment StoreEntitySet="p_TypeUsag">
-                <ScalarProperty Name="id_TypeUsag" ColumnName="id_TypeUsag" />
                 <ScalarProperty Name="TypeUsag" ColumnName="TypeUsag" />
+                <ScalarProperty Name="id_TypeUsag" ColumnName="id_TypeUsag" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Personne">
             <EntityTypeMapping TypeName="SACHEMModel.Personne">
               <MappingFragment StoreEntitySet="Personne">
-                <ScalarProperty Name="id_Pers" ColumnName="id_Pers" />
-                <ScalarProperty Name="id_Sexe" ColumnName="id_Sexe" />
-                <ScalarProperty Name="id_TypeUsag" ColumnName="id_TypeUsag" />
-                <ScalarProperty Name="Nom" ColumnName="Nom" />
-                <ScalarProperty Name="Prenom" ColumnName="Prenom" />
-                <ScalarProperty Name="NomUsager" ColumnName="NomUsager" />
-                <ScalarProperty Name="Matricule" ColumnName="Matricule" />
-                <ScalarProperty Name="MP" ColumnName="MP" />
-                <ScalarProperty Name="Courriel" ColumnName="Courriel" />
-                <ScalarProperty Name="Telephone" ColumnName="Telephone" />
-                <ScalarProperty Name="DateNais" ColumnName="DateNais" />
                 <ScalarProperty Name="Actif" ColumnName="Actif" />
+                <ScalarProperty Name="DateNais" ColumnName="DateNais" />
+                <ScalarProperty Name="Telephone" ColumnName="Telephone" />
+                <ScalarProperty Name="Courriel" ColumnName="Courriel" />
+                <ScalarProperty Name="MP" ColumnName="MP" />
+                <ScalarProperty Name="Matricule" ColumnName="Matricule" />
+                <ScalarProperty Name="NomUsager" ColumnName="NomUsager" />
+                <ScalarProperty Name="Prenom" ColumnName="Prenom" />
+                <ScalarProperty Name="Nom" ColumnName="Nom" />
+                <ScalarProperty Name="id_TypeUsag" ColumnName="id_TypeUsag" />
+                <ScalarProperty Name="id_Sexe" ColumnName="id_Sexe" />
+                <ScalarProperty Name="id_Pers" ColumnName="id_Pers" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="ProgrammeEtude">
             <EntityTypeMapping TypeName="SACHEMModel.ProgrammeEtude">
               <MappingFragment StoreEntitySet="ProgrammeEtude">
-                <ScalarProperty Name="id_ProgEtu" ColumnName="id_ProgEtu" />
-                <ScalarProperty Name="Code" ColumnName="Code" />
-                <ScalarProperty Name="NomProg" ColumnName="NomProg" />
-                <ScalarProperty Name="Annee" ColumnName="Annee" />
                 <ScalarProperty Name="Actif" ColumnName="Actif" />
+                <ScalarProperty Name="Annee" ColumnName="Annee" />
+                <ScalarProperty Name="NomProg" ColumnName="NomProg" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="id_ProgEtu" ColumnName="id_ProgEtu" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Session">
             <EntityTypeMapping TypeName="SACHEMModel.Session">
               <MappingFragment StoreEntitySet="Session">
-                <ScalarProperty Name="id_Sess" ColumnName="id_Sess" />
-                <ScalarProperty Name="id_Saison" ColumnName="id_Saison" />
                 <ScalarProperty Name="Annee" ColumnName="Annee" />
+                <ScalarProperty Name="id_Saison" ColumnName="id_Saison" />
+                <ScalarProperty Name="id_Sess" ColumnName="id_Sess" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="SACHEMModel.sysdiagrams">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="definition" ColumnName="definition" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CoursSuivi">
+            <EntityTypeMapping TypeName="SACHEMModel.CoursSuivi">
+              <MappingFragment StoreEntitySet="CoursSuivi">
+                <ScalarProperty Name="autre_College" ColumnName="autre_College" />
+                <ScalarProperty Name="autre_Cours" ColumnName="autre_Cours" />
+                <ScalarProperty Name="resultat" ColumnName="resultat" />
+                <ScalarProperty Name="id_Cours" ColumnName="id_Cours" />
+                <ScalarProperty Name="id_Statut" ColumnName="id_Statut" />
+                <ScalarProperty Name="id_College" ColumnName="id_College" />
+                <ScalarProperty Name="id_Pers" ColumnName="id_Pers" />
+                <ScalarProperty Name="id_Sess" ColumnName="id_Sess" />
+                <ScalarProperty Name="id_CoursReussi" ColumnName="id_CoursReussi" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Inscription">
+            <EntityTypeMapping TypeName="SACHEMModel.Inscription">
+              <MappingFragment StoreEntitySet="Inscription">
+                <ScalarProperty Name="BonEchange" ColumnName="BonEchange" />
+                <ScalarProperty Name="ContratEngagement" ColumnName="ContratEngagement" />
+                <ScalarProperty Name="NoteSup" ColumnName="NoteSup" />
+                <ScalarProperty Name="TransmettreInfoTuteur" ColumnName="TransmettreInfoTuteur" />
+                <ScalarProperty Name="id_TypeInscription" ColumnName="id_TypeInscription" />
+                <ScalarProperty Name="id_Statut" ColumnName="id_Statut" />
+                <ScalarProperty Name="id_Pers" ColumnName="id_Pers" />
+                <ScalarProperty Name="id_Sess" ColumnName="id_Sess" />
+                <ScalarProperty Name="id_Inscription" ColumnName="id_Inscription" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Jumelage">
+            <EntityTypeMapping TypeName="SACHEMModel.Jumelage">
+              <MappingFragment StoreEntitySet="Jumelage">
+                <ScalarProperty Name="HeureFin" ColumnName="HeureFin" />
+                <ScalarProperty Name="HeureDebut" ColumnName="HeureDebut" />
+                <ScalarProperty Name="DateFin" ColumnName="DateFin" />
+                <ScalarProperty Name="DateDebut" ColumnName="DateDebut" />
+                <ScalarProperty Name="id_Jour" ColumnName="id_Jour" />
+                <ScalarProperty Name="id_Enseignant" ColumnName="id_Enseignant" />
+                <ScalarProperty Name="id_Sess" ColumnName="id_Sess" />
+                <ScalarProperty Name="id_InscrTuteur" ColumnName="id_InscrTuteur" />
+                <ScalarProperty Name="id_InscEleve" ColumnName="id_InscEleve" />
+                <ScalarProperty Name="id_Jumelage" ColumnName="id_Jumelage" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="p_College">
+            <EntityTypeMapping TypeName="SACHEMModel.p_College">
+              <MappingFragment StoreEntitySet="p_College">
+                <ScalarProperty Name="College" ColumnName="College" />
+                <ScalarProperty Name="id_College" ColumnName="id_College" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="p_Jour">
+            <EntityTypeMapping TypeName="SACHEMModel.p_Jour">
+              <MappingFragment StoreEntitySet="p_Jour">
+                <ScalarProperty Name="Jour" ColumnName="Jour" />
+                <ScalarProperty Name="id_Jour" ColumnName="id_Jour" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="p_StatutCours">
+            <EntityTypeMapping TypeName="SACHEMModel.p_StatutCours">
+              <MappingFragment StoreEntitySet="p_StatutCours">
+                <ScalarProperty Name="Statut" ColumnName="Statut" />
+                <ScalarProperty Name="id_Statut" ColumnName="id_Statut" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="p_StatutInscription">
+            <EntityTypeMapping TypeName="SACHEMModel.p_StatutInscription">
+              <MappingFragment StoreEntitySet="p_StatutInscription">
+                <ScalarProperty Name="Statut" ColumnName="Statut" />
+                <ScalarProperty Name="id_Statut" ColumnName="id_Statut" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="p_TypeInscription">
+            <EntityTypeMapping TypeName="SACHEMModel.p_TypeInscription">
+              <MappingFragment StoreEntitySet="p_TypeInscription">
+                <ScalarProperty Name="TypeInscription" ColumnName="TypeInscription" />
+                <ScalarProperty Name="id_TypeInscription" ColumnName="id_TypeInscription" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

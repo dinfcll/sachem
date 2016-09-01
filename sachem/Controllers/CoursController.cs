@@ -85,7 +85,7 @@ namespace sachem.Controllers
             ListeSession(sess);
 
             var cours = from c in db.Cours
-                        where (db.Groupe.Any(r => r.id_Cours == c.id_Cours && r.id_Session == sess) || sess == 0)
+                        where (db.Groupe.Any(r => r.id_Cours == c.id_Cours && r.id_Sess == sess) || sess == 0)
                         && c.Actif == actif
                         orderby c.Code
                         select c;

@@ -10,7 +10,8 @@
 namespace sachem.Models
 {
     using System;
-
+    using System.Collections.Generic;
+    
     public partial class Courriel
     {
         public int id_Courriel { get; set; }

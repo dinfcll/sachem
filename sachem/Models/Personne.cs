@@ -31,7 +31,7 @@ namespace sachem.Models
         public string Matricule { get; set; }
         public string MP { get; set; }
         public string Courriel { get; set; }
-        public Nullable<int> Telephone { get; set; }
+        public string Telephone { get; set; }
         public Nullable<System.DateTime> DateNais { get; set; }
         public bool Actif { get; set; }
     

@@ -39,5 +39,14 @@ namespace sachem.Models
         public virtual DbSet<Personne> Personne { get; set; }
         public virtual DbSet<ProgrammeEtude> ProgrammeEtude { get; set; }
         public virtual DbSet<Session> Session { get; set; }
+        public virtual DbSet<sysdiagrams> sysdiagrams { get; set; }
+        public virtual DbSet<CoursSuivi> CoursSuivi { get; set; }
+        public virtual DbSet<Inscription> Inscription { get; set; }
+        public virtual DbSet<Jumelage> Jumelage { get; set; }
+        public virtual DbSet<p_College> p_College { get; set; }
+        public virtual DbSet<p_Jour> p_Jour { get; set; }
+        public virtual DbSet<p_StatutCours> p_StatutCours { get; set; }
+        public virtual DbSet<p_StatutInscription> p_StatutInscription { get; set; }
+        public virtual DbSet<p_TypeInscription> p_TypeInscription { get; set; }
     }
 }
