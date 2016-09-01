@@ -48,8 +48,6 @@ namespace sachem.Controllers
             //Cette méthode fonctionnera dans les 2 cas
             //Request["cle"]
 
-
-
             if (Request.RequestType == "GET" && Session["DernRechCours"] != null && (string)Session["DernRechCoursUrl"] == Request.Url?.LocalPath)
             {
                 var anciennerech = (string)Session["DernRechCours"];
