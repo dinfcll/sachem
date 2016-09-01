@@ -210,3 +210,6 @@ FakesAssemblies/
 GeneratedArtifacts/
 _Pvt_Extensions/
 ModelManifest.xml
+/sachem/Models/Model1.edmx.sql
+/sachem/Models
+/Sachem_sprint1.bak
