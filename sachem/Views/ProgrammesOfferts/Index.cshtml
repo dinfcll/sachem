@@ -1,7 +1,12 @@
-﻿    @model IEnumerable<sachem.Models.ProgrammeEtude>
+﻿   
+@model IEnumerable<sachem.Models.ProgrammeEtude>
+@using PagedList    
+@using PagedList.Mvc;
+    <link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
 
 @{
     ViewBag.Title = "Programmes d'étude";
+    var pagedlist = (IPagedList)Model;
 }
 
 <h2>Index</h2>
@@ -55,3 +60,8 @@
 }
 
 </table>
+<br />
+@Html.PagedListPager(pagedlist, page => Url.Action("Index", new { page = page }))
+Page @(pagedlist.PageCount < pagedlist.PageNumber ? 0 : pagedlist.PageNumber) de @pagedlist.PageCount
+
+@pagedlist.FirstItemOnPage de @pagedlist.LastItemOnPage sur @pagedlist.TotalItemCount éléments
