@@ -3,15 +3,20 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using sachem.Models;
 
 namespace sachem.Controllers
 {
     public class ProgrammesOffertsController : Controller
     {
+        private readonly SACHEMEntities db = new SACHEMEntities();
         // GET: ProgrammesOfferts
         public ActionResult Index()
         {
-            return View();
+            var m = from c in db.ProgrammeEtude
+                    orderby c.Code, c.Annee
+                    select c;
+            return View(m.ToList());
         }
 
         // GET: ProgrammesOfferts/Details/5
