@@ -6,53 +6,63 @@
 
 <h2>Enseignants</h2>
 <h4>Recherche</h4>
-
-<p>
-    @Html.ActionLink("Ajouter un enseignant", "Create")
-</p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Nom)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Prenom)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.NomUsager)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Actif)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.p_TypeUsag.TypeUsag)
-        </th>
-        <th></th>
-    </tr>
-
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Nom)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Prenom)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.NomUsager)
-        </td>
-
-        <td>
-            @Html.DisplayFor(modelItem => item.Actif)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.p_TypeUsag.TypeUsag)
-        </td>
-        <td>
-            @Html.ActionLink("Modifier", "Edit", new { id=item.id_Pers }) |
-            @Html.ActionLink("Supprimer", "Delete", new { id=item.id_Pers })
-        </td>
-    </tr>
+@using (Html.BeginForm("Index", "Enseignant", FormMethod.Post, new { @class = "form-inline", role = "form" }))
+{ 
+    <div class="form-group">
+        Actif :
+        @Html.CheckBox("Actif", (bool)ViewBag.Actif) 
+    </div>
+        <div class="form-group">
+            <input type="submit" value="Rechercher" class="btn-toolbar" />
+    </div>
 }
+    <p>
+        @Html.ActionLink("Ajouter un enseignant", "Create")
+    </p>
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Nom)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Prenom)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NomUsager)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Actif)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.p_TypeUsag.TypeUsag)
+            </th>
+            <th></th>
+        </tr>
 
-</table>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Nom)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Prenom)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NomUsager)
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.Actif)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.p_TypeUsag.TypeUsag)
+                </td>
+                <td>
+                    @Html.ActionLink("Modifier", "Edit", new { id = item.id_Pers }) |
+                    @Html.ActionLink("Supprimer", "Delete", new { id = item.id_Pers })
+                </td>
+            </tr>
+        }
+
+    </table>
