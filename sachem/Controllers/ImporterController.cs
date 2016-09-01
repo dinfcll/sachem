@@ -47,6 +47,10 @@ namespace sachem.Controllers
                         file.SaveAs(path);
 
                     }
+                    else
+                    {
+                        isSavedSuccessfully = false;
+                    }
 
                 }
 
