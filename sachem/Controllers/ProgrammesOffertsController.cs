@@ -104,7 +104,7 @@ namespace sachem.Controllers
                 db.Entry(programme).State = EntityState.Modified;
                 db.SaveChanges();
 
-                TempData["Success"] = string.Format(Messages.I_003(programme.NomProg));
+                TempData["Success"] = string.Format(Messages.I_004(programme.NomProg));
                 return RedirectToAction("Index");
             }
 

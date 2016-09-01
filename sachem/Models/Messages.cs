@@ -28,7 +28,13 @@ namespace sachem.Models
         /// <returns></returns>private string I_003(string cours)
         public static string I_003(string Cours)
         { return $"Le cours {Cours} a été enregistré."; }
-
+        /// <summary>
+        /// Le programme a été modifier.
+        /// </summary>
+        /// <param name="Programme"></param>
+        /// <returns></returns>
+        public static string I_004(string Programme)
+        { return $"Le programme {Programme} a été Modifié."; }
         /// <summary>
         /// Le cours {0} a été supprimé.
         /// </summary>
