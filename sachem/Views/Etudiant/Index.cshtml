@@ -1,0 +1,101 @@
+﻿@model IEnumerable<sachem.Models.Personne>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Étudiant</h2>
+<h4>Recherche</h4>
+<table class="Recherche">
+    <tr>
+        <th width="30">
+            @Html.DisplayName("Matricule:")
+        </th>
+        <th width="5%">
+            <input type="text" name="Matricule">
+        </th>
+        <th width="30">
+            @Html.DisplayName("ou")
+        </th>
+        <th width="30">
+            @Html.DisplayName("Session :")
+            ­<select>
+                <option value="a"></option>
+                <option value="b"></option>
+                <option value="c"></option>
+            </select>
+        </th>
+        <th width="30">
+            @Html.DisplayName("Cours: ")
+            <select>
+                <option value="a"></option>
+                <option value="b"></option>
+                <option value="c"></option>
+            </select>
+        </th>
+        <th width="30">
+            @Html.DisplayName("Groupe: ")
+            <select>
+                <option value="a"></option>
+                <option value="b"></option>
+                <option value="c"></option>
+            </select>
+            <button type="Rechercher">
+                Rechercher
+            </button>
+        </th>
+    </tr>
+
+    <p>
+        @Html.ActionLink("Ajouter un étudiant", "Create")
+    </p>
+    <table class="table">
+        <tr>
+            <th width="300666666666">
+                @Html.DisplayName("Nom")
+            </th>
+            <th width="15%">
+                @Html.DisplayName("Matricule")
+            </th>
+            <th width="10%">
+                @Html.DisplayName("Sexe")
+            </th>
+            <th width="25%">
+                @Html.DisplayName("Date de naissance")
+            </th>
+            <th width="25%">
+                @Html.DisplayName("Programme d'études")
+            </th>
+
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Nom)
+                    @Html.DisplayFor(modelItem => item.Prenom)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Matricule)
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.p_Sexe.Sexe)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DateNais)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DateNais)
+                </td>
+                <td>
+                    @Html.ActionLink("Modifier", "Edit", new { id = item.id_Pers }) |
+                    @Html.ActionLink("Details", "Details", new { id = item.id_Pers }) |
+                    @Html.ActionLink("Supprimer", "Delete", new { id = item.id_Pers })
+                </td>
+            </tr>
+        }
+
+    </table>

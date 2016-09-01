@@ -19,6 +19,7 @@ namespace sachem.Controllers
         [NonAction]
         private void ListeSession(int Session = 0)
         {
+            
             var lSessions = db.Session.AsNoTracking().OrderBy(s => s.Annee).ThenBy(s => s.p_Saison.Saison);
             var slSession = new List<SelectListItem>();
             slSession.AddRange(new SelectList(lSessions, "id_Sess", "NomSession", Session));

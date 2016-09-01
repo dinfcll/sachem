@@ -18,6 +18,9 @@ namespace sachem.Models
 
         public string NomPrenom => Prenom == null ? Nom : $"{Nom}, {Prenom}";
 
+    
+    
+
         public int Age
         {
             get
