@@ -102,7 +102,6 @@ namespace sachem.Controllers
         public ActionResult DeleteConfirmed(int id, int? page)
         {
             var pageNumber = page ?? 1;
-            var programme1 = db.ProgrammeEtude.Find(id);
             if (db.ProgrammeEtude.Any(p => p.id_ProgEtu == id))
             {
                 ModelState.AddModelError(string.Empty, Messages.I_001());
