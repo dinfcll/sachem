@@ -1,4 +1,5 @@
-﻿@model IEnumerable<sachem.Models.Cours>
+﻿@using System.Diagnostics.Eventing.Reader
+@model IEnumerable<sachem.Models.Groupe>
 
 @{
     ViewBag.Title = "Consulter cours";
@@ -18,6 +19,10 @@
                 Session :
                 @Html.DropDownList("Session", "Toutes")
             </div>
+            <div class="form-group">
+                Enseignant :
+                @Html.DropDownList("Personne", "Tous")
+            </div>
 
             <div class="form-group">
                 <input type="submit" value="Rechercher" class="btn-toolbar"/>
@@ -27,28 +32,74 @@
 }
 
 <table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Code)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Nom)
-        </th>
-        <th></th>
-    </tr>
+    
+    
+    
+    @if (false)
+    {
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Cours.Code)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Cours.Nom)
+            </th>
+            <th></th>
+        </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Code)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Nom)
-        </td>
-        <td>
-            @Html.ActionLink("Consulter", "Details", new { id = item.id_Cours }) 
-        </td>
-    </tr>
-}
+        foreach (var item in Model)
+        {
+             <tr>
+                 <td>
+                     @Html.DisplayFor(modelItem => item.Cours.Code)
+                 </td>
+                 <td>
+                     @Html.DisplayFor(modelItem => item.Cours.Nom)
+                 </td>
+                 <td>
+                     @Html.ActionLink("Consulter", "Details", new {id = item.id_Cours})
+                 </td>
+             </tr>
+        }
+    }
+    else
+    {
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Cours.Code)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Cours.Nom)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Cours.Actif)
+            </th>
+            <th>
+                Enseignant
+            </th>
+            <th></th>
+        </tr>
+
+        foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Cours.Code)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Cours.Nom)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Cours.Actif)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Personne.PrenomNom)
+                </td>
+                <td>
+                    @Html.ActionLink("Consulter", "Details", new { id = item.id_Cours })
+                </td>
+            </tr>
+        }
+    }
 
 </table>

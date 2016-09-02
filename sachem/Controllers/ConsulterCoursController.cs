@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Web;
@@ -24,9 +25,12 @@ namespace sachem.Controllers
 
         //Fonction pour afficher lescours assignés à l'utilisateur connecté
         [NonAction]
-        private IEnumerable<Cours> AfficherCoursAssignes()
+        private IEnumerable<Groupe> AfficherCoursAssignes()
         {
             var sess = 0;
+            var idPersonne = 1; // 1 = la seule résponsable, 2-9 = enseignants
+            var idTypeUsage = 3; // 2 = enseignant, 3 = responsable
+            var cours = from c in db.Cours select c;
 
             //Pour accéder à la valeur de cle envoyée en GET dans le formulaire
             //Request.QueryString["cle"]
@@ -57,24 +61,34 @@ namespace sachem.Controllers
             }
             
             ListeSession(sess);
+            ListePersonne();
 
-            //idTypeUSager 2 = enseignant
-            //idTypeUSager 3 = responsable sachem
 
-            var cours = from c in db.Cours
-                        where (db.Groupe.Any(r => r.id_Cours == c.id_Cours && r.id_Sess == sess) || sess == 0)
-                        orderby c.Code //sont-ils toujours actifs?
+            if (idTypeUsage == 2) //enseignant
+            {
+                var ens = from c in db.Groupe
+                        where (c.id_Sess == sess && c.id_Enseignant == 3) || (sess == 0 && c.id_Enseignant == 3)
                         select c;
 
+                Session["DernRechCours"] = sess + ";";
+                Session["DernRechCoursUrl"] = Request.Url?.LocalPath;
 
+                return ens.ToList();
+            }
+            else //responsable
+            {
+                var resp = from c in db.Groupe
+                    where c.id_Sess == sess || sess == 0
+                    select c;
 
-            
+                Session["DernRechCours"] = sess + ";";
+                Session["DernRechCoursUrl"] = Request.Url?.LocalPath;
+
+                return resp.ToList();
+            }
 
             //on enregistre la recherche
-            Session["DernRechCours"] = sess + ";";
-            Session["DernRechCoursUrl"] = Request.Url?.LocalPath;
-
-            return cours.ToList();
+            
         }
 
         //fonctions permettant d'initialiser les listes déroulantes
@@ -86,6 +100,20 @@ namespace sachem.Controllers
             slSession.AddRange(new SelectList(lSessions, "id_Sess", "NomSession", Session));
 
             ViewBag.Session = slSession;
+        }
+
+        //fonctions permettant d'initialiser les listes déroulantes
+        [NonAction]
+        private void ListePersonne()
+        {
+            //var lPersonne = db.Personne.AsNoTracking().OrderBy(p => p.Prenom).ThenBy(p => p.Nom);
+            var lPersonne = from p in db.Personne
+                            where p.id_TypeUsag == 2
+                            select p;
+            var slPersonne = new List<SelectListItem>();
+            slPersonne.AddRange(new SelectList(lPersonne, "id_Pers", "Prenom" + "Nom"));
+
+            ViewBag.Personne = slPersonne;
         }
 
 

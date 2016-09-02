@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Web.Mvc.Html;
 
 namespace sachem.Models
 {
@@ -52,5 +53,6 @@ namespace sachem.Models
     {
         //Nom complet de l'enseignant formatté
         public string CodeNom => $"{Code}-{Nom}";
+        
     }
 }
