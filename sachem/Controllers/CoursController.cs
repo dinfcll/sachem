@@ -185,8 +185,6 @@ namespace sachem.Controllers
                 return HttpNotFound();
 
             return View(cours);
-
-
         }
 
         // POST: Cours/Delete/5

@@ -16,21 +16,9 @@ namespace sachem.Controllers
         // GET: ProgrammesOfferts
         public ActionResult Index(string recherche, int? page)
         {
-            if (recherche != null)
-            {
-                page = 1;
-            }
-
-            var programmesEtude = from c in db.ProgrammeEtude
-                orderby c.Code, c.Annee
-                select c;
-            if (!String.IsNullOrEmpty(recherche))
-            {
-                programmesEtude = programmesEtude.Where(c => c.Code.Contains(recherche) || c.NomProg.Contains(recherche)) as IOrderedQueryable<ProgrammeEtude>;
-            }
-
+            Recherche(recherche);
             int numeroPage = (page ?? 1);
-            return View(programmesEtude.ToPagedList(numeroPage, 16));
+            return View(Recherche(recherche).ToPagedList(numeroPage, 20));
         }
         
         // GET: ProgrammesOfferts/Details/5
@@ -95,7 +83,7 @@ namespace sachem.Controllers
         }
 
         // GET: ProgrammesOfferts/Delete/5
-        public ActionResult Supprimer(int? id)
+        public ActionResult Delete(int? id)
         {
             if (id == null)
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -109,12 +97,13 @@ namespace sachem.Controllers
         }
 
         // POST: ProgrammesOfferts/Delete/5
-        [HttpPost, ActionName("Supprimer")]
+        [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id, int? page)
         {
             var pageNumber = page ?? 1;
-            if (db.ProgrammeEtude.Any(g => g.id_ProgEtu == id))
+            var programme1 = db.ProgrammeEtude.Find(id);
+            if (db.ProgrammeEtude.Any(p => p.id_ProgEtu == id))
             {
                 ModelState.AddModelError(string.Empty, Messages.I_001());
             }
@@ -126,12 +115,26 @@ namespace sachem.Controllers
                 db.SaveChanges();
                 ViewBag.Success = string.Format(Messages.I_008(programme.NomProg));
             }
-            return RedirectToAction("Index");
+            return View("Index",Recherche(null).ToPagedList(pageNumber,20));
         }
         private void Valider([Bind(Include = "id_ProgEtu,Code,NomProg,Annee,Actif")] ProgrammeEtude programme)
         {
             if (db.Cours.Any(r => r.Code == programme.Code && r.id_Cours != programme.id_ProgEtu))
                 ModelState.AddModelError(string.Empty, Messages.I_002(programme.Code));
+        }
+
+        private IEnumerable<ProgrammeEtude> Recherche(string recherche)
+        {
+            var programmesEtude = from c in db.ProgrammeEtude
+                                  orderby c.Code, c.Annee
+                                  select c;
+            if (!String.IsNullOrEmpty(recherche))
+            {
+                programmesEtude = programmesEtude.Where(c => c.Code.Contains(recherche) || c.NomProg.Contains(recherche)) as IOrderedQueryable<ProgrammeEtude>;
+            }
+
+            
+            return programmesEtude.ToList();
         }
     }
 }
