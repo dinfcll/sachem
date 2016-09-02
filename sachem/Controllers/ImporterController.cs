@@ -15,7 +15,7 @@ namespace sachem.Controllers
         //nom du repertoire de depot pour le fichier importé.
         private string IMPORTEDFILESDIRECTORY = "Fichier_a_traiter";
         private int MAXFILES = 1;
-        private long MAXFILESIZE = -1;
+        private long MAXFILESIZE =10485760; //long.MaxValue pour ne pas le limiter, la valeur est en byte, default : 10485760 (10mo)
         private string EXTENSIONFILE = ".csv"; //en minuscule seulement
         private long MINFILESIZE = 0;
         // GET: Importer
@@ -27,13 +27,11 @@ namespace sachem.Controllers
         [HttpPost]
         public ActionResult SaveUploadedFile()
         {
-            bool isSavedSuccessfully = true;
-            bool isExtAuthorized = true;
-            bool isFileNotThere = true;
-            bool isValidedSize = true;
+            bool isSavedSuccessfully = false;
             string Max = "";
             string fName = "";
             string fExt = "";
+
             try
             {
                 foreach (string fileName in Request.Files)
@@ -54,11 +52,11 @@ namespace sachem.Controllers
 
                         bool isDirExists = System.IO.Directory.Exists(pathString);
 
-                        bool isFileExist = System.IO.File.Exists(pathString+fName);
+                        bool isFileExist = System.IO.File.Exists(pathString+"\\"+fName);
 
                         if (isFileExist)
                         {
-                            isFileNotThere = false;
+                            ModelState.AddModelError(string.Empty, Messages.I_035(fName));
                         }
 
                         if (!isDirExists)
@@ -68,57 +66,37 @@ namespace sachem.Controllers
                         if (fExt == EXTENSIONFILE)
                         {
                             file.SaveAs(path);
+
                         }
                         else
                         {
-                            isExtAuthorized = false;
+                            ModelState.AddModelError(string.Empty, Messages.C_007(EXTENSIONFILE));
                         }
 
                     }
                     else if(!(file.ContentLength > MINFILESIZE && file.ContentLength < MAXFILESIZE))
                     {
-                        if (MAXFILESIZE != -1)
+                        if (MAXFILESIZE != long.MaxValue)
                             Max = " et inférieur à " + MAXFILESIZE.ToString();
-                        isValidedSize = false;
+                        ModelState.AddModelError(string.Empty, Messages.I_037(fName, Max));
                     }
-                    else
-                    {
-                        isSavedSuccessfully = false;
-                    }
-
                 }
 
             }
             catch (Exception ex)
             {
-                isSavedSuccessfully = false;
+                ModelState.AddModelError(string.Empty, Messages.I_034(fName));
             }
 
-
-            if (isSavedSuccessfully)
+            if (ModelState.IsValid)
             {
-                ViewBag.Success = string.Format(Messages.I_033(fName));
-                return Json(new { Message = fName });
+                // ViewBag.Success = string.Format(Messages.I_033(fName));
+                TempData["Success"] = string.Format(Messages.I_033(fName));
+                
+                //return Json(new { Message = fName });
             }
-            else
-            {
-                ViewBag.Erreur = string.Format(Messages.I_034(fName));
-            }
-
-            if (!isValidedSize)
-            {
-                ViewBag.Erreur = string.Format(Messages.I_037(fName, Max));
-            }
-
-            if (!isExtAuthorized)
-            {
-                ViewBag.Erreur = string.Format(Messages.C_007(fExt));
-            }
-            if (!isFileNotThere)
-            {
-                ViewBag.Erreur = string.Format(Messages.I_035(fName));
-            }
-            return Json(new {Message = ""});
+            // return View("Index");
+            return RedirectToAction("Index");
         }
 
     }
