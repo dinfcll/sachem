@@ -45,7 +45,7 @@
     </dl>
 
     @using (Html.BeginForm("Delete", "ProgrammesOfferts", FormMethod.Post, new { @class = "form-inline", role = "form" }))
-    { 
+    {
         @Html.AntiForgeryToken()
 
         <div class="form-actions no-color">

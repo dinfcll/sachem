@@ -35,6 +35,7 @@ namespace sachem.Controllers
 
         // POST: ProgrammesOfferts/Create
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "id_ProgEtu,Code,NomProg,Annee,Actif")] ProgrammeEtude programme)
         {
           
@@ -54,7 +55,6 @@ namespace sachem.Controllers
 
         }
         // POST: ProgrammesOfferts/Edit/5
-        
         public ActionResult Edit(int? id)
         {
 
@@ -72,6 +72,7 @@ namespace sachem.Controllers
             return View(programme);
         }
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "id_ProgEtu,Code,NomProg,Annee,Actif")] ProgrammeEtude programme, int? page)
         {
             Valider(programme);

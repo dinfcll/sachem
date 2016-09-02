@@ -37,35 +37,43 @@ namespace sachem.Models
         public static string I_004(string Programme)
         { return $"Le programme {Programme} a été Modifié."; }
 
+        /// <summary>
+        /// Un étudiant est associé à ce programme d'études. Ce programme ne peut être supprimé.
+        /// </summary>
+        /// <param name="Cours"></param>
+        /// <returns></returns>
+        public static string I_005()
+        { return $"Un étudiant est associé à ce programme d'études. Ce programme ne peut être supprimé."; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="code"></param>
+        /// <returns></returns>
+        public static string I_006(string code)
+        { return $"Impossible d'enregistrer ce programme d'études. Il existe déjà un programme ayant le code {code}."; }
+
         ///<summary>
-        /// Le programme {0} a été supprimer
+        /// Le programme d'études {0} a été enregistré
+        /// </summary>
+        ///<param name="nomProgrammeEtude"></param>
+        /// <returns></returns>
+        public static string I_007(string nomProgrammeEtude)
+        { return $"Le programme d'études {nomProgrammeEtude} a été enregistré"; }
+
+        ///<summary>
+        /// Le programme d'études {0} a été supprimé
         /// </summary>
         ///<param name="nomProgrammeEtude"></param>
         /// <returns></returns>
         public static  string I_008(string nomProgrammeEtude)
-        {  return $"Le programme d'étude {nomProgrammeEtude} a été supprimer"; }
-
-        /// <summary>
-        /// le programme a été enregistré.
-        /// </summary>
-        /// <param name="Cours"></param>
-        /// <returns></returns>
-        public static string I_005(string Nom)
-        { return $"Le cours {Nom} a été enregistré."; }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="Code"></param>
-        /// <returns></returns>
-        public static string I_006(string code)
-        { return $"Il existe déjà un Programme ayant le nom {code}."; }
-
+        {  return $"Le programme d'études {nomProgrammeEtude} a été supprimer"; }
 
         /// <summary>
         /// Le cours {0} a été supprimé.
         /// </summary>
         /// <param name="Cours"></param>
-        /// <returns></returns>private string I_009(string cours)
+        /// <returns></returns>
         public static string I_009(string Cours)
         { return $"Le cours {Cours} a été supprimé."; }
 
