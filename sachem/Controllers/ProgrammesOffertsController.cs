@@ -16,8 +16,6 @@ namespace sachem.Controllers
         // GET: ProgrammesOfferts
         public ActionResult Index(string recherche, int? page)
         {
-
-
             if (recherche != null)
             {
                 page = 1;
@@ -28,9 +26,7 @@ namespace sachem.Controllers
                 select c;
             if (!String.IsNullOrEmpty(recherche))
             {
-                programmesEtude =
-                    programmesEtude.Where(c => c.Code.Contains(recherche) || c.NomProg.Contains(recherche)) as
-                        IOrderedQueryable<ProgrammeEtude>;
+                programmesEtude = programmesEtude.Where(c => c.Code.Contains(recherche) || c.NomProg.Contains(recherche)) as IOrderedQueryable<ProgrammeEtude>;
             }
 
             int numeroPage = (page ?? 1);
@@ -112,26 +108,39 @@ namespace sachem.Controllers
         }
 
         // GET: ProgrammesOfferts/Delete/5
-        public ActionResult Supprimer(int id)
+        public ActionResult Supprimer(int? id)
         {
-            var programme = db.ProgrammeEtude.Single(r => r.id_ProgEtu == id);
+            if (id == null)
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+
+            var programme = db.ProgrammeEtude.Find(id);
+
+            if (programme == null)
+                return HttpNotFound();
+
             return View(programme);
+
         }
 
         // POST: ProgrammesOfferts/Delete/5
-        [HttpPost]
-        public ActionResult Supprimer(int id, FormCollection collection)
+        [HttpPost, ActionName("Supprimer")]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteConfirmed(int id, int? page)
         {
-            try
+            var pageNumber = page ?? 1;
+            if (db.ProgrammeEtude.Any(g => g.id_ProgEtu == id))
             {
-                // TODO: Add delete logic here
+                ModelState.AddModelError(string.Empty, Messages.I_001());
+            }
 
-                return RedirectToAction("Index");
-            }
-            catch
+            if (ModelState.IsValid)
             {
-                return View();
+                var programme = db.ProgrammeEtude.Find(id);
+                db.ProgrammeEtude.Remove(programme);
+                db.SaveChanges();
+                ViewBag.Success = string.Format(Messages.I_008(programme.NomProg));
             }
+            return RedirectToAction("Index");
         }
     }
 }

@@ -28,6 +28,7 @@ namespace sachem.Models
         /// <returns></returns>private string I_003(string cours)
         public static string I_003(string Cours)
         { return $"Le cours {Cours} a été enregistré."; }
+
         /// <summary>
         /// Le programme a été modifier.
         /// </summary>
@@ -35,6 +36,15 @@ namespace sachem.Models
         /// <returns></returns>
         public static string I_004(string Programme)
         { return $"Le programme {Programme} a été Modifié."; }
+
+        ///<summary>
+        /// Le programme {0} a été supprimer
+        /// </summary>
+        ///<param name="nomProgrammeEtude"></param>
+        /// <returns></returns>
+        public static  string I_008(string nomProgrammeEtude)
+        {  return $"Le programme d'étude {nomProgrammeEtude} a été supprimer"; }
+
         /// <summary>
         /// Le cours {0} a été supprimé.
         /// </summary>
@@ -76,8 +86,14 @@ namespace sachem.Models
         public static string Q_001(string Cours)
         { return $"Voulez-vous vraiment supprimer le cours {Cours} ?"; }
 
+        /// <summary>
+        /// Voulez-vous vraiment supprimer le programme d'études {0} ?
+        /// </summary>
+        /// <param name="nomProgrammeEtude"></param>
+        /// <returns></returns>private string Q_002(string NomProgrammeEtude)
+        public static  string Q_002(string nomProgrammeEtude)
+        { return $"Voulez-vous vraiment supprimer le programme d'études {nomProgrammeEtude} ?"; }
 
         #endregion
-
     }
 }

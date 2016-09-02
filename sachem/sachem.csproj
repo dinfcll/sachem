@@ -263,6 +263,7 @@
     <Compile Include="Models\ProgrammeEtude.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\ProgrammeEtudeMetadata.cs" />
     <Compile Include="Models\p_College.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
