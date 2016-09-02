@@ -82,19 +82,10 @@ namespace sachem.Controllers
             }
 
             List<SelectListItem> items = new List<SelectListItem>();
-            items.Add(new SelectListItem
-            {
-                Text = "Enseignant",
-                Value = "2"
-            });
-            items.Add(new SelectListItem
-            {
-                Text = "Responsable du Sachem",
-                Value = "3",
-                Selected = true
-            });
+            items.Add(new SelectListItem{Text = "Enseignant",Value = "2", Selected = true});
+            items.Add(new SelectListItem{Text = "Responsable du Sachem",Value = "3",});
             ViewBag.id_Sexe = new SelectList(db.p_Sexe, "id_Sexe", "Sexe", personne.id_Sexe);
-            ViewBag.id_TypeUsag = new SelectList(db.p_TypeUsag, "id_TypeUsag", "TypeUsag", personne.id_TypeUsag);
+            ViewBag.id_TypeUsag = items; /*new SelectList(db.p_TypeUsag, "id_TypeUsag", "TypeUsag", personne.id_TypeUsag);*/
             return View(personne);
         }
 
