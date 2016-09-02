@@ -1,0 +1,74 @@
+﻿@model sachem.Models.CoursSuivi
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>CoursSuivi</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.id_Sess)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.id_Sess)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.id_College)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.id_College)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.id_Statut)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.id_Statut)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.id_Cours)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.id_Cours)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.resultat)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.resultat)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.autre_Cours)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.autre_Cours)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.autre_College)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.autre_College)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

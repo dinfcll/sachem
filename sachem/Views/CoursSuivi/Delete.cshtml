@@ -1,0 +1,80 @@
+﻿@model sachem.Models.CoursSuivi
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>CoursSuivi</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.id_Sess)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.id_Sess)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.id_College)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.id_College)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.id_Statut)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.id_Statut)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.id_Cours)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.id_Cours)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.resultat)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.resultat)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.autre_Cours)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.autre_Cours)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.autre_College)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.autre_College)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>
