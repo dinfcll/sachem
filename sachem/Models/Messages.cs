@@ -36,12 +36,21 @@ namespace sachem.Models
         public static string I_004(string Programme)
         { return $"Le programme {Programme} a été Modifié."; }
         /// <summary>
+        /// le programme a été enregistré.
+        /// </summary>
+        /// <param name="Cours"></param>
+        /// <returns></returns>
+        public static string I_005(string Nom)
+        { return $"Le cours {Nom} a été enregistré."; }
+        /// <summary>
         /// 
         /// </summary>
         /// <param name="Code"></param>
         /// <returns></returns>
-        public static string I_005(string code)
+        public static string I_006(string code)
         { return $"Il existe déjà un Programme ayant le nom {code}."; }
+
+
         /// <summary>
         /// Le cours {0} a été supprimé.
         /// </summary>
