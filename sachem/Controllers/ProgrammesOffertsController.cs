@@ -18,7 +18,7 @@ namespace sachem.Controllers
         {
             Recherche(recherche);
             int numeroPage = (page ?? 1);
-            return View(Recherche(recherche).ToPagedList(numeroPage, 20));
+            return View("Index",Recherche(recherche).ToPagedList(numeroPage, 20));
         }
         
         // GET: ProgrammesOfferts/Details/5
@@ -35,7 +35,6 @@ namespace sachem.Controllers
 
         // POST: ProgrammesOfferts/Create
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "id_ProgEtu,Code,NomProg,Annee,Actif")] ProgrammeEtude programme)
         {
           
@@ -72,7 +71,6 @@ namespace sachem.Controllers
             return View(programme);
         }
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "id_ProgEtu,Code,NomProg,Annee,Actif")] ProgrammeEtude programme, int? page)
         {
             Valider(programme);
@@ -104,7 +102,6 @@ namespace sachem.Controllers
 
         // POST: ProgrammesOfferts/Delete/5
         [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id, int? page)
         {
             var pageNumber = page ?? 1;

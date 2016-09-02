@@ -46,8 +46,6 @@
 
     @using (Html.BeginForm("Delete", "ProgrammesOfferts", FormMethod.Post, new { @class = "form-inline", role = "form" }))
     {
-        @Html.AntiForgeryToken()
-
         <div class="form-actions no-color">
             <input type="submit" value="Supprimer" class="btn btn-default" /> |
             @Html.ActionLink("Retourner à la recherche des programmes d'étude", "Index")
