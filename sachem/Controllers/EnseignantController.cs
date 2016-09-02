@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using sachem.Models;
+using PagedList;
 
 namespace sachem.Controllers
 {
@@ -18,7 +19,7 @@ namespace sachem.Controllers
         {
             var lEnseignant = db.Personne.AsNoTracking().OrderBy(p => p.Nom ).ThenBy(p => p.Prenom);
             var slEnseignant = new List<SelectListItem>();
-            slEnseignant.AddRange(new SelectList(lEnseignant, "id_Pers", "NomSession", Enseignant)); // TO DO "NomSession"
+            slEnseignant.AddRange(new SelectList(lEnseignant, "id_Pers", "Nom", Enseignant));
 
             ViewBag.Enseignant = slEnseignant;
         }
@@ -31,65 +32,31 @@ namespace sachem.Controllers
             var enseignant = 0;
             var actif = true;
 
-            //Pour accéder à la valeur de cle envoyée en GET dans le formulaire
-            //Request.QueryString["cle"]
-            //Pour accéder à la valeur cle envoyée en POST dans le formulaire
-            //Request.Form["cle"]
-            //Cette méthode fonctionnera dans les 2 cas
-            //Request["cle"]
+            // Verifier si la case a cocher est coché ou non
+            if (!string.IsNullOrEmpty(Request.Form["Actif"]))
+                actif = Request.Form["Actif"].Contains("true");
 
-            if (Request.RequestType == "GET" /*&& Session["DernRechCours"] != null && (string)Session["DernRechCoursUrl"] == Request.Url?.LocalPath*/)
-            {
-                /*var anciennerech = (string)Session["DernRechCours"];
-                var tanciennerech = anciennerech.Split(';');
-
-                if (tanciennerech[0] != "")
-                {
-                    enseignant = int.Parse(tanciennerech[0]);
-                }
-                if (tanciennerech[1] != "")
-                {
-                    actif = bool.Parse(tanciennerech[1]);
-                }*/
-
-            }
-            else
-            {
-                /*//La méthode String.IsNullOrEmpty permet à la fois de vérifier si la chaine est NULL (lors du premier affichage de la page ou vide, lorsque le paramètre n'est pas appliquée 
-                if (!string.IsNullOrEmpty(Request.Form["Session"]))
-                    enseignant = Convert.ToInt32(Request.Form["Session"]);
-                //si la variable est null c'est que la page est chargée pour la première fois, donc il faut assigner la session à la session en cours, la plus grande dans la base de données
-                else if (Request.Form["Session"] == null)
-                    enseignant = db.Session.Max(s => s.id_Sess);*/
-
-                //la méthode Html.checkbox crée automatiquement un champ hidden du même nom que la case à cocher, lorsque la case n'est pas cochée une seule valeur sera soumise, par contre lorsqu'elle est cochée
-                //2 valeurs sont soumises, il faut alors vérifier que l'une des valeurs est à true pour vérifier si elle est cochée
-                if (!string.IsNullOrEmpty(Request.Form["Actif"]))
-                    actif = Request.Form["Actif"].Contains("true");
-            }
 
             ViewBag.Actif = actif;
-
+            // liste et pagination
             ListeSession(enseignant);
 
-            var cours = from c in db.Personne
-                        where c.id_TypeUsag == 2
+            // Requete linq pour aller chercher les enseignants et responsables dans la BD
+            var Enseignant = from c in db.Personne
+                        where (c.id_TypeUsag == 2 || c.id_TypeUsag == 3)
                         && c.Actif == actif
                         orderby c.Nom,c.Prenom
                         select c;
 
-            //on enregistre la recherche
-            /*Session["DernRechCours"] = enseignant + ";" + actif;
-            Session["DernRechCoursUrl"] = Request.Url?.LocalPath;*/
-
-            return cours.ToList();
+            return Enseignant.ToList();
         }
 
-        // GET: Enseignant
-        public ActionResult Index()
+
+        public ActionResult Index(int? page)
         {
-            var personne = db.Personne.Include(p => p.p_Sexe).Include(p => p.p_TypeUsag);
-            return View(personne.ToList());
+            var pageNumber = page ?? 1;
+
+            return View(Rechercher().ToPagedList(pageNumber, 20));
         }
 
         // GET: Enseignant/Create
@@ -105,7 +72,7 @@ namespace sachem.Controllers
         // plus de détails, voir  http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "id_Pers,id_Sexe,id_TypeUsag,Nom,Prenom,NomUsager,Matricule,MP,Courriel,Telephone,DateNais,Actif")] Personne personne)
+        public ActionResult Create([Bind(Include = "id_Pers,id_Sexe,id_TypeUsag,Nom,Prenom,NomUsager,MP,Courriel,DateNais,Actif")] Personne personne)
         {
             if (ModelState.IsValid)
             {
@@ -114,6 +81,18 @@ namespace sachem.Controllers
                 return RedirectToAction("Index");
             }
 
+            List<SelectListItem> items = new List<SelectListItem>();
+            items.Add(new SelectListItem
+            {
+                Text = "Enseignant",
+                Value = "2"
+            });
+            items.Add(new SelectListItem
+            {
+                Text = "Responsable du Sachem",
+                Value = "3",
+                Selected = true
+            });
             ViewBag.id_Sexe = new SelectList(db.p_Sexe, "id_Sexe", "Sexe", personne.id_Sexe);
             ViewBag.id_TypeUsag = new SelectList(db.p_TypeUsag, "id_TypeUsag", "TypeUsag", personne.id_TypeUsag);
             return View(personne);

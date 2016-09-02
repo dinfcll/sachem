@@ -1,4 +1,4 @@
-﻿@model IEnumerable<sachem.Models.Personne>
+﻿@model PagedList.IPagedList<sachem.Models.Personne>
 
 @{
     ViewBag.Title = "Enseignants";
@@ -22,19 +22,16 @@
     <table class="table">
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Nom)
+                @Html.DisplayNameFor(model => model.First().Nom)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Prenom)
+                @Html.DisplayNameFor(model => model.First().NomUsager)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.NomUsager)
+                @Html.DisplayNameFor(model => model.First().Actif)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Actif)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.p_TypeUsag.TypeUsag)
+                @Html.DisplayNameFor(model => model.First().p_TypeUsag.TypeUsag)
             </th>
             <th></th>
         </tr>
@@ -43,10 +40,7 @@
         {
             <tr>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Nom)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Prenom)
+                    @Html.DisplayFor(modelItem => item.Nom), @Html.DisplayFor(modelItem => item.Prenom)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.NomUsager)
@@ -64,5 +58,12 @@
                 </td>
             </tr>
         }
+        @if (!Model.Any())
+        {
+            <tr>
+                <td colspan="6">Aucun Enseignant ne répond à ces critères</td>
+            </tr>
+        }
 
     </table>
+@Html.Partial("_PageRecherche", Model)

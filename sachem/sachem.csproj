@@ -220,6 +220,8 @@
     <Compile Include="Models\Cours.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\PersonneMetadata .cs" />
+    <Compile Include="Models\PTypeUsagMetadata.cs" />
     <Compile Include="Models\CoursMetadata.cs" />
     <Compile Include="Models\CoursSuivi.cs">
       <DependentUpon>Model1.tt</DependentUpon>
