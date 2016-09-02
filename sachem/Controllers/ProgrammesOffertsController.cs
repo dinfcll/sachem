@@ -35,18 +35,23 @@ namespace sachem.Controllers
 
         // POST: ProgrammesOfferts/Create
         [HttpPost]
-        public ActionResult Create(FormCollection collection)
+        public ActionResult Create([Bind(Include = "id_ProgEtu,Code,NomProg,Annee,Actif")] ProgrammeEtude programme)
         {
-            try
+          
+                Valider(programme);
+            if (ModelState.IsValid)
             {
-                // TODO: Add insert logic here
+                
+                db.ProgrammeEtude.Add(programme);
+                db.SaveChanges();
 
+                TempData["Success"] = string.Format(Messages.I_006(programme.NomProg));
                 return RedirectToAction("Index");
+
             }
-            catch
-            {
-                return View();
-            }
+            return View(programme);
+
+
         }
         // POST: ProgrammesOfferts/Edit/5
         
