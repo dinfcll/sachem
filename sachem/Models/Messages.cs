@@ -57,7 +57,21 @@ namespace sachem.Models
         /// <returns></returns>
         public const string U_003 = "Longueur requise : 8 caractères.";
 
-
+        /// <summary>
+        /// Longeur maximale de 30 caractères
+        /// </summary>
+        /// <returns></returns>
+        public const string U_004 = "Longeur maximale permise : 30 caractères.";
+        /// <summary>
+        /// Longeur maximale de 256 caractères
+        /// </summary>
+        /// <returns></returns>
+        public const string U_005 = "Longeur maximale permise : 256 caractères.";
+        /// <summary>
+        /// Longeur maximale de 25 caractères
+        /// </summary>
+        /// <returns></returns>
+        public const string U_006 = "Longeur maximale permise : 25 caractères.";
         #endregion
 
         #region Question
@@ -72,6 +86,6 @@ namespace sachem.Models
 
 
         #endregion
-
+         
     }
 }

@@ -46,6 +46,8 @@ namespace sachem.Models
                 Matricule = DateTime.Now.Year.ToString().Substring(0, 2) + value;//pour avoir un matricule de la forme 201334110
             }
         }
+
+       public string ConfMP { get; set; }
     }
 
     public partial class Cours

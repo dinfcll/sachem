@@ -17,22 +17,47 @@ namespace sachem.Models
     {
 
         [Display(Name = "Nom d'usager")]
+        [Required(ErrorMessage = Messages.U_001)]
+        [StringLength(30,ErrorMessage = Messages.U_004)]
         public string NomUsager;
 
         [Display(Name = "Prénom")]
+        [Required(ErrorMessage = Messages.U_001)]
+        [StringLength(30, ErrorMessage = Messages.U_004)]
         public string Prenom;
 
+        [Display(Name = "Nom")]
+        [Required(ErrorMessage = Messages.U_001)]
+        public string Nom;
+
         [Display(Name = "Sexe")]
+        [Required(ErrorMessage = Messages.U_001)]
         public string id_Sexe;
 
         [Display(Name = "Date de naissance")]
+        [Required(ErrorMessage = Messages.U_001)]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy/MM/dd}")]
         public string DateNais;
 
         [Display(Name = "Type d'usager")]
+        [Required(ErrorMessage = Messages.U_001)]
+        [StringLength(25, ErrorMessage = Messages.U_006)]
         public string id_TypeUsag;
 
         [Display(Name = "Mot de passe")]
+        [Required(ErrorMessage = Messages.U_001)]
         public string MP;
+
+        [Display(Name = "Confirmation du mot de passe")]
+        [Required(ErrorMessage = Messages.U_001)]
+        public string ConfMP;
+
+        [Display(Name = "Courriel")]
+        [Required(ErrorMessage = Messages.U_001)]
+        [StringLength(256, ErrorMessage = Messages.U_005)]
+        public string Courriel;
+
+
 
     }
 

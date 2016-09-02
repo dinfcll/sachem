@@ -5,6 +5,7 @@ using System.Data.Entity;
 using System.Linq;
 using System.Net;
 using System.Web;
+using System.Web.DynamicData;
 using System.Web.Mvc;
 using sachem.Models;
 using PagedList;
@@ -15,7 +16,7 @@ namespace sachem.Controllers
     {
         private SACHEMEntities db = new SACHEMEntities();
 
-        private void ListeSession(int Enseignant = 0)
+        private void ListeEnseignant(int Enseignant = 0)
         {
             var lEnseignant = db.Personne.AsNoTracking().OrderBy(p => p.Nom ).ThenBy(p => p.Prenom);
             var slEnseignant = new List<SelectListItem>();
@@ -39,7 +40,7 @@ namespace sachem.Controllers
 
             ViewBag.Actif = actif;
             // liste et pagination
-            ListeSession(enseignant);
+            ListeEnseignant(enseignant);
 
             // Requete linq pour aller chercher les enseignants et responsables dans la BD
             var Enseignant = from c in db.Personne
@@ -72,21 +73,28 @@ namespace sachem.Controllers
         // plus de détails, voir  http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "id_Pers,id_Sexe,id_TypeUsag,Nom,Prenom,NomUsager,MP,Courriel,DateNais,Actif")] Personne personne)
+        public ActionResult Create([Bind(Include = "id_Pers,id_Sexe,id_TypeUsag,Nom,Prenom,NomUsager,MP,ConfMP,Courriel,DateNais,Actif")] Personne personne)
         {
-            if (ModelState.IsValid)
-            {
-                db.Personne.Add(personne);
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
+            var listeNomUtil = new SelectList(db.Personne, "id_pers", "NomUsager");
 
-            List<SelectListItem> items = new List<SelectListItem>();
-            items.Add(new SelectListItem{Text = "Enseignant",Value = "2", Selected = true});
-            items.Add(new SelectListItem{Text = "Responsable du Sachem",Value = "3",});
-            ViewBag.id_Sexe = new SelectList(db.p_Sexe, "id_Sexe", "Sexe", personne.id_Sexe);
-            ViewBag.id_TypeUsag = items; /*new SelectList(db.p_TypeUsag, "id_TypeUsag", "TypeUsag", personne.id_TypeUsag);*/
-            return View(personne);
+            if (!listeNomUtil.Any(x => x.Text == personne.NomUsager)) // Verifier si le nom d'usager existe
+            {
+                if (personne.MP == personne.ConfMP) // Verifier la correspondance des mots de passe
+                {
+
+                    if (ModelState.IsValid)
+                    {
+                        db.Personne.Add(personne);
+                        db.SaveChanges();
+                        return RedirectToAction("Index");
+                    }
+
+                    ViewBag.id_Sexe = new SelectList(db.p_Sexe, "id_Sexe", "Sexe", personne.id_Sexe);
+                    return View(personne);
+                }
+
+            }
+            return null;
         }
 
         // GET: Enseignant/Edit/5
