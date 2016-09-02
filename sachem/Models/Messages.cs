@@ -46,31 +46,38 @@ namespace sachem.Models
         { return $"Le fichier {Fichier} a bien été transféré sur le serveur."; }
 
         /// <summary>
-        /// Une erreur c'est produite lors du transfert de fichier.
+        /// Erreur lors du transfert de fichier.
         /// </summary>
         /// <returns></returns>
         public static string I_034(string Fichier)
-        { return $"Une erreur c'est produite lors du transfert du fichier {Fichier}."; }
+        { return $"Erreur lors du transfert du fichier {Fichier}."; }
 
         /// <summary>
-        /// Le fichier {0} existe déjà dans le répertoire de la base de donnée.
+        /// Un fichier {0} de même nom est déjà présent sur le serveur.
         /// </summary>
         /// <param name="Fichier"></param>
         /// <returns></returns>
         public static string I_035(string Fichier)
         { return $"Un fichier {Fichier} de même nom est déjà présent sur le serveur."; }
 
-
+        /// <summary>
+        /// Le fichier {0} ne doit pas être vide{1}.
+        /// </summary>
+        /// <param name="Fichier"></param>
+        /// <param name="Max"></param>
+        /// <returns></returns>
+        public static string I_037(string Fichier, string Max)
+        { return $"Le fichier {Fichier} ne doit pas être vide{Max}."; }
 
         #endregion
 
-        #region MessageContexte
+            #region MessageContexte
 
-        /// <summary>
-        /// L'extension du fichier doit être {0} .
-        /// </summary>
-        /// <param name="Extension"></param>
-        /// <returns></returns>
+            /// <summary>
+            /// L'extension du fichier doit être {0} .
+            /// </summary>
+            /// <param name="Extension"></param>
+            /// <returns></returns>
         public static string C_007(string Extension)
         { return $"L'extension du fichier doit être {Extension} ."; }
         #endregion
