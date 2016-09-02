@@ -49,6 +49,15 @@ namespace sachem.Controllers
 
             ViewBag.Cours = slCours;
         }
+        private void ListeGroupe(int Groupe = 0)
+        {
+
+            var lCours = db.Cours.AsNoTracking().OrderBy(s => s.Actif).ThenBy(s => s.id_Cours);
+            var slCours = new List<SelectListItem>();
+            slCours.AddRange(new SelectList(lCours, "id_Groupe", "Nom", Groupe)); //, "id_Cours", "Nom"));
+
+            ViewBag.Cours = slCours;
+        }
         // GET: Etudiant/Details/5
         public ActionResult Details(int? id)
         {
