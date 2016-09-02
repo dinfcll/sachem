@@ -19,20 +19,21 @@
             @Html.DisplayName("ou")
         </th>
         <th>
-            @Html.DisplayName("Session :")
-            ­<select>
-                <option value="a"></option>
-                <option value="b"></option>
-                <option value="c"></option>
-            </select>
+            @*@Html.DisplayName("Session :")
+        ­<select>
+            <option value="a"></option>
+            <option value="b"></option>
+            <option value="c"></option>
+        </select>*@
+            @Html.DropDownList("Session", "Toutes")
+            @*@Html.DropDownList("Session", ViewBag.SessionList as SelectList)*@
+            @*@Html.DropDownList("ListeCours", null, htmlAttributes:new {@class="form-control"})*@
         </th>
         <th>
-            @Html.DisplayName("Cours: ")
-            <select>
-                <option value="a"></option>
-                <option value="b"></option>
-                <option value="c"></option>
-            </select>
+            
+           @Html.DisplayName("Cours: ")
+        @*@Html.DropDownList("Cours", ViewBag.SessionList as SelectList)*@
+        @Html.DropDownList("Cours", "Tous")
         </th>
         <th>
             @Html.DisplayName("Groupe: ")
