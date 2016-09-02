@@ -123,7 +123,26 @@ namespace sachem.Controllers
             return View();
         }
 
-       
+        // GET: /Account/Mot de passe oublié
+        [AllowAnonymous]
+        public ActionResult ForgotPassword()
+        {
+            //Un utilisateur connecté ne peut pas récupérer sont mot de passe.
+            if (SachemIdentite.ObtenirTypeUsager(Session) != TypeUsagers.Aucun)
+                return RedirectToAction("Error", "Home", null);
+
+            return View();
+        }
+
+        //
+        // POST: /Account/Mot de passe oublié
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public ActionResult ForgotPassword(string Courriel)
+        {
+            return View();
+        }
         //
         // POST: /Account/LogOff
         [HttpPost]
