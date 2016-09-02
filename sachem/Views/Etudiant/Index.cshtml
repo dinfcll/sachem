@@ -37,11 +37,7 @@
         </th>
         <th>
             @Html.DisplayName("Groupe: ")
-            <select>
-                <option value="a"></option>
-                <option value="b"></option>
-                <option value="c"></option>
-            </select>
+            @Html.DropDownList("Groupe")
             <button type="Rechercher">
                 Rechercher
             </button>
@@ -92,7 +88,11 @@
                 
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.DateNais)
+                    @*@Html.DisplayFor(modelItem => item.DateNais)*@
+                    @foreach (Personne personne in @Model)
+                    {
+                       @Html.DisplayFor(modelItem => item.Matricule7)
+                    }
                 </td>
                 <td>
                     @Html.ActionLink("Modifier", "Edit", new { id = item.id_Pers }) |
