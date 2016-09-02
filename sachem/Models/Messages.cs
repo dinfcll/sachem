@@ -37,6 +37,30 @@ namespace sachem.Models
         public static string I_009(string Cours)
         { return $"Le cours {Cours} a été supprimé."; }
 
+        /// <summary>
+        /// Le fichier {0} a bien été enregistré.
+        /// </summary>
+        /// <param name="Fichier"></param>
+        /// <returns></returns>
+        public static string I_033(string Fichier)
+        { return $"Le fichier {Fichier} a bien été enregistré."; }
+
+        /// <summary>
+        /// Une erreur c'est produite lors du transfert de fichier.
+        /// </summary>
+        /// <returns></returns>
+        public static string I_034()
+        { return "Une erreur c'est produite lors du transfert de fichier."; }
+
+        /// <summary>
+        /// Le fichier {0} existe déjà dans le répertoire de la base de donnée.
+        /// </summary>
+        /// <param name="Fichier"></param>
+        /// <returns></returns>
+        public static string I_035(string Fichier)
+        { return $"Le fichier {Fichier} existe déjà dans le répertoire de la base de donnée."; }
+    }
+
 
         #endregion
 
