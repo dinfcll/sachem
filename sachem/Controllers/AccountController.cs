@@ -23,7 +23,7 @@ namespace sachem.Controllers
         {
 
         }
-        /*
+        
         //
         // GET: /Account/Login
         [AllowAnonymous]
@@ -38,31 +38,16 @@ namespace sachem.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Login(LoginViewModel model, string returnUrl)
+        public ActionResult Login(Personne infos)
         {
             if (!ModelState.IsValid)
             {
-                return View(model);
+                return View(infos);
             }
 
-            // Ceci ne comptabilise pas les échecs de connexion pour le verrouillage du compte
-            // Pour que les échecs de mot de passe déclenchent le verrouillage du compte, utilisez shouldLockout: true
-            var result = await SignInManager.PasswordSignInAsync(model.NomUsager, model.MP, model.RememberMe, shouldLockout: false);
-            switch (result)
-            {
-                case SignInStatus.Success:
-                    return RedirectToLocal(returnUrl);
-                case SignInStatus.LockedOut:
-                    return View("Lockout");
-                case SignInStatus.RequiresVerification:
-                    return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = model.RememberMe });
-                case SignInStatus.Failure:
-                default:
-                    ModelState.AddModelError("", "Tentative de connexion non valide.");
-                    return View(model);
-            }
+            return View();
         }
-        */
+        
         //
         // GET: /Account/Register
         [AllowAnonymous]
