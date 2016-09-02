@@ -1,4 +1,5 @@
-﻿@model IEnumerable<sachem.Models.Personne>
+﻿@using sachem.Models
+@model IEnumerable<sachem.Models.Personne>
 
 @{
     ViewBag.Title = "Index";
@@ -8,16 +9,16 @@
 <h4>Recherche</h4>
 <table class="Recherche">
     <tr>
-        <th width="30">
+        <th>
             @Html.DisplayName("Matricule:")
         </th>
-        <th width="5%">
-            <input type="text" name="Matricule">
+        <th width = "4%">
+            <input type="text" name="Matricule" size ="20">
         </th>
-        <th width="30">
+        <th>
             @Html.DisplayName("ou")
         </th>
-        <th width="30">
+        <th>
             @Html.DisplayName("Session :")
             ­<select>
                 <option value="a"></option>
@@ -25,7 +26,7 @@
                 <option value="c"></option>
             </select>
         </th>
-        <th width="30">
+        <th>
             @Html.DisplayName("Cours: ")
             <select>
                 <option value="a"></option>
@@ -33,7 +34,7 @@
                 <option value="c"></option>
             </select>
         </th>
-        <th width="30">
+        <th>
             @Html.DisplayName("Groupe: ")
             <select>
                 <option value="a"></option>
@@ -45,30 +46,31 @@
             </button>
         </th>
     </tr>
-
+    
     <p>
         @Html.ActionLink("Ajouter un étudiant", "Create")
     </p>
     <table class="table">
         <tr>
-            <th width="300666666666">
+            <th>
                 @Html.DisplayName("Nom")
             </th>
-            <th width="15%">
+            <th>
                 @Html.DisplayName("Matricule")
             </th>
-            <th width="10%">
+            <th>
                 @Html.DisplayName("Sexe")
             </th>
-            <th width="25%">
+            <th>
                 @Html.DisplayName("Date de naissance")
             </th>
-            <th width="25%">
+            <th>
                 @Html.DisplayName("Programme d'études")
             </th>
 
             <th></th>
         </tr>
+        <BR>
 
         @foreach (var item in Model)
         {
@@ -78,14 +80,15 @@
                     @Html.DisplayFor(modelItem => item.Prenom)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Matricule)
+                    @Html.DisplayFor(modelItem => item.Matricule7)
                 </td>
 
                 <td>
                     @Html.DisplayFor(modelItem => item.p_Sexe.Sexe)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.DateNais)
+                    @Html.DisplayFor(modelItem => item.DateNais,"{0:dd/MM/yyyy}")
+                
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.DateNais)
