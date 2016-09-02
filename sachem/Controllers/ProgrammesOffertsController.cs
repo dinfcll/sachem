@@ -36,11 +36,7 @@ namespace sachem.Controllers
             int numeroPage = (page ?? 1);
             return View(programmesEtude.ToPagedList(numeroPage, 16));
         }
-        private void Valider([Bind(Include = "id_ProgEtu,Code,NomProg,Annee,Actif")] ProgrammeEtude programme)
-        {
-            if (db.Cours.Any(r => r.Code == programme.Code && r.id_Cours != programme.id_ProgEtu))
-                ModelState.AddModelError(string.Empty, Messages.I_002(programme.Code));
-        }
+
         // GET: ProgrammesOfferts/Details/5
         public ActionResult Details(int id)
         {
@@ -70,13 +66,8 @@ namespace sachem.Controllers
         }
 
         // GET: ProgrammesOfferts/Edit/5
-        public ActionResult Edit(int id)
-        {
-            return View();
-        }
-
         // POST: ProgrammesOfferts/Edit/5
-        [HttpPost]
+       
         public ActionResult Edit(int? id)
         {
 
@@ -88,13 +79,13 @@ namespace sachem.Controllers
             if (programme == null)
                 return HttpNotFound();
 
-            if (programme.NomProg.Any())
+            if (programme.Code.Any())
                 ViewBag.DisEns = "True";
             
-            return RedirectToAction("Edit");
+            return View(programme);
         }
-
-        public ActionResult Modifier([Bind(Include = "id_ProgEtu,Code,NomProg,Annee,Actif")] ProgrammeEtude programme, int? page)
+        [HttpPost]
+        public ActionResult Edit([Bind(Include = "id_ProgEtu,Code,NomProg,Annee,Actif")] ProgrammeEtude programme)
         {
 
             Valider(programme);
@@ -108,9 +99,9 @@ namespace sachem.Controllers
                 return RedirectToAction("Index");
             }
 
-            return View("Edit");
+            return View(programme);
         }
-
+        
         // GET: ProgrammesOfferts/Delete/5
         public ActionResult Supprimer(int id)
         {
@@ -132,6 +123,15 @@ namespace sachem.Controllers
             {
                 return View();
             }
+        }
+        /// <summary>
+        /// methode pour valider le programme
+        /// </summary>
+        /// <param name="programme"></param>
+        private void Valider([Bind(Include = "id_ProgEtu,Code,NomProg,Annee,Actif")] ProgrammeEtude programme)
+        {
+            if (db.ProgrammeEtude.Any(r => r.Code == programme.Code && r.id_ProgEtu != programme.id_ProgEtu))
+                ModelState.AddModelError(string.Empty, Messages.I_002(programme.Code));
         }
     }
 }
