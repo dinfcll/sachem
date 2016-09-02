@@ -5,6 +5,7 @@ using System.Data.Entity;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.Mvc;
 using sachem.Models;
@@ -27,68 +28,39 @@ namespace sachem.Controllers
         [NonAction]
         private IEnumerable<Groupe> AfficherCoursAssignes()
         {
-            var sess = 0;
-            var idPersonne = 1; // 1 = la seule résponsable, 2-9 = enseignants
+            var idSess = 0;
+            var idPers = 5; // 1 = la seule résponsable, 2-9 = enseignants
             var idTypeUsage = 3; // 2 = enseignant, 3 = responsable
             var cours = from c in db.Cours select c;
 
-            //Pour accéder à la valeur de cle envoyée en GET dans le formulaire
-            //Request.QueryString["cle"]
-            //Pour accéder à la valeur cle envoyée en POST dans le formulaire
-            //Request.Form["cle"]
-            //Cette méthode fonctionnera dans les 2 cas
-            //Request["cle"]
-
-            if (Request.RequestType == "GET" && Session["DernRechCours"] != null && (string)Session["DernRechCoursUrl"] == Request.Url?.LocalPath)
-            {
-                var anciennerech = (string)Session["DernRechCours"];
-                var tanciennerech = anciennerech.Split(';');
-
-                if (tanciennerech[0] != "")
-                {
-                    sess = int.Parse(tanciennerech[0]);
-                }
-
-            }
-            else
-            {
-                //La méthode String.IsNullOrEmpty permet à la fois de vérifier si la chaine est NULL (lors du premier affichage de la page ou vide, lorsque le paramètre n'est pas appliquée 
-                if (!string.IsNullOrEmpty(Request.Form["Session"]))
-                    sess = Convert.ToInt32(Request.Form["Session"]);
-                //si la variable est null c'est que la page est chargée pour la première fois, donc il faut assigner la session à la session en cours, la plus grande dans la base de données
-                else if (Request.Form["Session"] == null)
-                    sess = db.Session.Max(s => s.id_Sess);
-            }
-            
-            ListeSession(sess);
-            ListePersonne();
-
-
             if (idTypeUsage == 2) //enseignant
             {
+                Int32.TryParse(Request.Form["Session"], out idSess);
+                ListeSession(idSess); //créer liste Session pour le dropdown
+
                 var ens = from c in db.Groupe
-                        where (c.id_Sess == sess && c.id_Enseignant == 3) || (sess == 0 && c.id_Enseignant == 3)
+                        where (c.id_Sess == idSess && c.id_Enseignant == idPers) || (idSess == 0 && c.id_Enseignant == idPers)
                         select c;
 
-                Session["DernRechCours"] = sess + ";";
-                Session["DernRechCoursUrl"] = Request.Url?.LocalPath;
+                ViewBag.IsEnseignant = true;
 
                 return ens.ToList();
             }
             else //responsable
             {
+                Int32.TryParse(Request.Form["Personne"], out idPers); //seuls les responsables le voient
+                Int32.TryParse(Request.Form["Session"], out idSess);
+                ListeSession(idSess); //créer liste Session pour le dropdown
+                ListePersonne(idPers); //créer liste Enseignants pour le dropdown
+
                 var resp = from c in db.Groupe
-                    where c.id_Sess == sess || sess == 0
+                    where c.id_Sess == (idSess == 0 ? c.id_Sess : idSess) && c.id_Enseignant == (idPers == 0 ? c.id_Enseignant : idPers)
                     select c;
 
-                Session["DernRechCours"] = sess + ";";
-                Session["DernRechCoursUrl"] = Request.Url?.LocalPath;
+                ViewBag.IsEnseignant = false;
 
                 return resp.ToList();
             }
-
-            //on enregistre la recherche
-            
         }
 
         //fonctions permettant d'initialiser les listes déroulantes
@@ -104,14 +76,14 @@ namespace sachem.Controllers
 
         //fonctions permettant d'initialiser les listes déroulantes
         [NonAction]
-        private void ListePersonne()
+        private void ListePersonne(int idPersonne = 0)
         {
             //var lPersonne = db.Personne.AsNoTracking().OrderBy(p => p.Prenom).ThenBy(p => p.Nom);
             var lPersonne = from p in db.Personne
                             where p.id_TypeUsag == 2
                             select p;
             var slPersonne = new List<SelectListItem>();
-            slPersonne.AddRange(new SelectList(lPersonne, "id_Pers", "Prenom" + "Nom"));
+            slPersonne.AddRange(new SelectList(lPersonne, "id_Pers", "PrenomNom", idPersonne));
 
             ViewBag.Personne = slPersonne;
         }

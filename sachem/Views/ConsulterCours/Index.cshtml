@@ -1,4 +1,5 @@
 ﻿@using System.Diagnostics.Eventing.Reader
+@using Microsoft.Ajax.Utilities
 @model IEnumerable<sachem.Models.Groupe>
 
 @{
@@ -19,11 +20,14 @@
                 Session :
                 @Html.DropDownList("Session", "Toutes")
             </div>
-            <div class="form-group">
-                Enseignant :
-                @Html.DropDownList("Personne", "Tous")
-            </div>
-
+            @if (!ViewBag.IsEnseignant)
+            {
+                <div class="form-group">
+                    Enseignant :
+                    @Html.DropDownList("Personne", "Tous")
+                </div>
+            }
+            
             <div class="form-group">
                 <input type="submit" value="Rechercher" class="btn-toolbar"/>
             </div>
@@ -33,9 +37,7 @@
 
 <table class="table">
     
-    
-    
-    @if (false)
+    @if (ViewBag.IsEnseignant)
     {
         <tr>
             <th>
