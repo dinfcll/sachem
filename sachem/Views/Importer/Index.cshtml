@@ -6,7 +6,11 @@
 }
 
 <h2>@ViewBag.Title</h2>
-<h5>À partir de cette page, il vous est possible de déposer des fichers de l'administration qui alimenteront les listes de données de l'application PAM.</h5>
+<h5>À partir de cette page, il vous est possible de déposer des fichers de l'administration qui alimenteront les listes de données de l'application SACHEM.</h5>
+
+
+
+
 <div class="jumbotron">
     <form action="~/Importer/SaveUploadedFile" method="post" enctype="multipart/form-data" class="dropzone" id="dropzoneForm" style="border: dashed; height:300px;">
         <div class="dz-message">
@@ -20,8 +24,3 @@
     </form>
 </div>
 
-<script>
-    Dropzone.options.dropzoneForm = {
-        maxFilesize: 5
-    };
-</script>
