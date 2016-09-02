@@ -59,7 +59,6 @@ namespace sachem.Models
         /// <returns></returns>
         public static string I_035(string Fichier)
         { return $"Le fichier {Fichier} existe déjà dans le répertoire de la base de donnée."; }
-    }
 
 
         #endregion
