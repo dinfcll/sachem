@@ -10,7 +10,7 @@ using sachem.Models;
 
 namespace sachem
 {
-    public class EmailService : IIdentityMessageService
+   /* public class EmailService : IIdentityMessageService
     {
         public Task SendAsync(IdentityMessage message)
         {
@@ -84,7 +84,7 @@ namespace sachem
         }
     }
 
-    // Configurer le gestionnaire de connexion d'application qui est utilisé dans cette application.
+   // Configurer le gestionnaire de connexion d'application qui est utilisé dans cette application.
     public class ApplicationSignInManager : SignInManager<ApplicationUser, string>
     {
         public ApplicationSignInManager(ApplicationUserManager userManager, IAuthenticationManager authenticationManager)
@@ -101,5 +101,5 @@ namespace sachem
         {
             return new ApplicationSignInManager(context.GetUserManager<ApplicationUserManager>(), context.Authentication);
         }
-    }
+    }*/
 }

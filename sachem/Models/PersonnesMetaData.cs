@@ -7,7 +7,7 @@ using System.Web.Mvc;
 
 namespace sachem.Models
 {
-    public class PersonnesMetaData
+    public partial class Personne
     {
         //Pour valider la confirmation de mot de passe dans la vue, on crée une nouvelle valeur dans le modèle avec la balise
         //NotMappedAttribute qui ne sera pas sauvegardée sur la BD mais qui pourra être utilisée pour les validations.
@@ -25,5 +25,8 @@ namespace sachem.Models
 
         [NotMappedAttribute]
         public string AncienMotDePasse { get; set; }
+
+
+        //Envoi vers sachemModeIDN
     }
 }
