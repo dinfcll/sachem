@@ -83,9 +83,10 @@ namespace sachem.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public ActionResult Register(Personne personne, bool autorisation)
+        public ActionResult Register(Personne personne)
             //Fortement Extrait du PAM, approuvé par J, Lainesse
         {
+            ViewBag.id_Sexe = new SelectList(db.p_Sexe, "id_Sexe", "Sexe");
 
             if (personne.MP == null)
             {
@@ -103,8 +104,7 @@ namespace sachem.Controllers
             else
             {
                 //Sort la personne de la BD pour la compléter
-                Personne EtudiantBD =
-                    db.Personne.AsNoTracking().Where(x => x.Matricule == personne.Matricule).FirstOrDefault();
+                Personne EtudiantBD = db.Personne.AsNoTracking().Where(x => x.Matricule == personne.Matricule).FirstOrDefault();
 
                 //Erreur si les infos ne concordent pas
                 if (personne.DateNais != EtudiantBD.DateNais || personne.id_Sexe != EtudiantBD.id_Sexe)
@@ -113,6 +113,7 @@ namespace sachem.Controllers
                 {
                     //Mise à jour des infos
                     EtudiantBD.Courriel = personne.Courriel;
+                   // EtudiantBD.Telephone = personne.Telephone;
                     EtudiantBD.MP = personne.MP;
                     SachemIdentite.encrypterMPPersonne(ref EtudiantBD);
 
@@ -120,7 +121,7 @@ namespace sachem.Controllers
                     db.SaveChanges();
 
                     ViewBag.Success = Messages.I_026();
-                    ViewBag.id_Sexe = new SelectList(db.p_Sexe, "id_Sexe", "Sexe");
+                 
                     return View();
 
 

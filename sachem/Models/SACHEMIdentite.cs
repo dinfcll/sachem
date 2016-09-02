@@ -7,7 +7,7 @@ using System.Text;
 
 /*******************************************************/
 /**Cette classe est grandement inspirée du projet PAM.**/
-/************Crédits aux auteurs originaux.************/
+/************Crédits aux auteurs originaux.*************/
 /*******************************************************/
 
 namespace sachem.Models
