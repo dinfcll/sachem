@@ -102,7 +102,8 @@ namespace sachem.Controllers
         public ActionResult DeleteConfirmed(int id, int? page)
         {
             var pageNumber = page ?? 1;
-            if (db.ProgrammeEtude.Any(p => p.id_ProgEtu == id))
+           
+            if (db.ProgrammeEtude.Find(id) == null)
             {
                 ModelState.AddModelError(string.Empty, Messages.I_001());
             }
@@ -114,11 +115,11 @@ namespace sachem.Controllers
                 db.SaveChanges();
                 ViewBag.Success = string.Format(Messages.I_008(programme.NomProg));
             }
-            return View("Index",Recherche(null).ToPagedList(pageNumber,20));
+            return View("Index", Recherche(null).ToPagedList(pageNumber, 20));
         }
         private void Valider([Bind(Include = "id_ProgEtu,Code,NomProg,Annee,Actif")] ProgrammeEtude programme)
         {
-            if (db.Cours.Any(r => r.Code == programme.Code && r.id_Cours != programme.id_ProgEtu))
+            if (db.ProgrammeEtude.Any(r => r.Code == programme.Code && r.id_ProgEtu != programme.id_ProgEtu))
                 ModelState.AddModelError(string.Empty, Messages.I_002(programme.Code));
         }
 
