@@ -35,19 +35,6 @@ namespace sachem.Models
 
         public string ProgEtu { get; set; }
 
-        public string Telephone2
-        {
-            set
-            {
-                var charsToRemove = new string[] {".", "-","("," ",")" };
-                foreach (var c in charsToRemove)
-                {
-                    value = value.Replace(c, string.Empty);
-                }
-                Telephone = value;
-            }
-        }
-
         public string Matricule7//couper le matricule pour avoir 7 de long
         {
             get

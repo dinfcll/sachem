@@ -113,7 +113,7 @@ namespace sachem.Controllers
                 {
                     //Mise à jour des infos
                     EtudiantBD.Courriel = personne.Courriel;
-                   // EtudiantBD.Telephone = personne.Telephone;
+                  //  EtudiantBD.Telephone = SachemIdentite.FormatTelephone(personne.Telephone);
                     EtudiantBD.MP = personne.MP;
                     SachemIdentite.encrypterMPPersonne(ref EtudiantBD);
 
@@ -123,8 +123,6 @@ namespace sachem.Controllers
                     ViewBag.Success = Messages.I_026();
                  
                     return View();
-
-
                 }
             }
             // Si nous sommes arrivés là, un échec s’est produit. Réafficher le formulaire

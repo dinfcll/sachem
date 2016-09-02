@@ -40,6 +40,16 @@ namespace sachem.Models
             int idRole = (session["id_TypeUsag"] == null ? 0 : (int)session["id_TypeUsag"]);
             return ListeRoles.Contains((TypeUsagers)idRole);
         }
+
+        public static string FormatTelephone(string s)
+        {
+            var charsToRemove = new string[] { ".", "-", "(", " ", ")" };
+            foreach (var c in charsToRemove)
+            {
+                s = s.Replace(c, string.Empty);
+            }
+            return s;
+        }
         //Permet de calculer un hash MD5 pour stocker/comparer les mots de passe sur une personne
         public static void encrypterMPPersonne(ref Personne personne)
         {
