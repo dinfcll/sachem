@@ -25,9 +25,30 @@ namespace sachem.Controllers
                 select c;
                  
            // var personne = db.Personne.Include(p => p.p_Sexe).Include(p => p.p_TypeUsag);
+            ListeSession();
+            ListeCours();
             return View(personne.ToList());
         }
 
+        private void ListeSession(int Session = 0)
+        {
+
+            var lSessions = db.Session.AsNoTracking().OrderBy(s => s.Annee).ThenBy(s => s.p_Saison.Saison);
+            var slSession = new List<SelectListItem>();
+            slSession.AddRange(new SelectList(lSessions, "id_Sess", "NomSession", Session));
+
+            ViewBag.Session = slSession;
+
+        }
+        private void ListeCours(int Cours = 0)
+        {
+
+            var lCours = db.Cours.AsNoTracking().OrderBy(s => s.Actif).ThenBy(s => s.id_Cours);
+            var slCours = new List<SelectListItem>();
+            slCours.AddRange(new SelectList(lCours, "id_Cours", "Nom", Cours)); //, "id_Cours", "Nom"));
+
+            ViewBag.Cours = slCours;
+        }
         // GET: Etudiant/Details/5
         public ActionResult Details(int? id)
         {
@@ -87,6 +108,10 @@ namespace sachem.Controllers
             return View(personne);
         }
 
+        public void FillDropDownlist()
+        {
+            
+        }
         // POST: Etudiant/Edit/5
         // Afin de déjouer les attaques par sur-validation, activez les propriétés spécifiques que vous voulez lier. Pour 
         // plus de détails, voir  http://go.microsoft.com/fwlink/?LinkId=317598.

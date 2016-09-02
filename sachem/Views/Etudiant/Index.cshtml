@@ -6,45 +6,45 @@
 
 <h2>Étudiant</h2>
 <h4>Recherche</h4>
-<table class="Recherche">
-    <tr>
-        <th width="30">
-            @Html.DisplayName("Matricule:")
-        </th>
-        <th width="5%">
-            <input type="text" name="Matricule">
-        </th>
-        <th width="30">
-            @Html.DisplayName("ou")
-        </th>
-        <th width="30">
-            @Html.DisplayName("Session :")
+<tr>
+    <th width="30">
+        @Html.DisplayName("Matricule:")
+    </th>
+    <th width="5%">
+        <input type="text" name="Matricule">
+    </th>
+    <th width="30">
+        @Html.DisplayName("ou")
+    </th>
+    <th width="30">
+        @*@Html.DisplayName("Session :")
             ­<select>
                 <option value="a"></option>
                 <option value="b"></option>
                 <option value="c"></option>
-            </select>
-        </th>
-        <th width="30">
-            @Html.DisplayName("Cours: ")
-            <select>
-                <option value="a"></option>
-                <option value="b"></option>
-                <option value="c"></option>
-            </select>
-        </th>
-        <th width="30">
-            @Html.DisplayName("Groupe: ")
-            <select>
-                <option value="a"></option>
-                <option value="b"></option>
-                <option value="c"></option>
-            </select>
-            <button type="Rechercher">
-                Rechercher
-            </button>
-        </th>
-    </tr>
+            </select>*@
+        @Html.DropDownList("Session", "Toutes")
+        @*@Html.DropDownList("Session", ViewBag.SessionList as SelectList)*@
+        @*@Html.DropDownList("ListeCours", null, htmlAttributes:new {@class="form-control"})*@
+    </th>
+    <th width="30">
+        @Html.DisplayName("Cours: ")
+        @*@Html.DropDownList("Cours", ViewBag.SessionList as SelectList)*@
+        @Html.DropDownList("Cours", "Tous")
+    </th>
+    <th width="30">
+        @Html.DisplayName("Groupe: ")
+        <select>
+            <option value="a"></option>
+            <option value="b"></option>
+            <option value="c"></option>
+        </select>
+        <button type="Rechercher">
+            Rechercher
+        </button>
+    </th>
+</tr>
+
 
     <p>
         @Html.ActionLink("Ajouter un étudiant", "Create")
