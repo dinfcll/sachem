@@ -5,6 +5,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Mvc.Html;
+using System.Web.WebPages;
 using sachem.Models;
 
 namespace sachem.Controllers
@@ -31,6 +32,7 @@ namespace sachem.Controllers
             string Max = "";
             string fName = "";
             string fExt = "";
+            string message = "";
 
             try
             {
@@ -56,7 +58,7 @@ namespace sachem.Controllers
 
                         if (isFileExist)
                         {
-                            ModelState.AddModelError(string.Empty, Messages.I_035(fName));
+                           message = Messages.I_035(fName);
                         }
 
                         if (!isDirExists)
@@ -70,7 +72,7 @@ namespace sachem.Controllers
                         }
                         else
                         {
-                            ModelState.AddModelError(string.Empty, Messages.C_007(EXTENSIONFILE));
+                            message = Messages.C_007(EXTENSIONFILE);
                         }
 
                     }
@@ -78,25 +80,30 @@ namespace sachem.Controllers
                     {
                         if (MAXFILESIZE != long.MaxValue)
                             Max = " et inférieur à " + MAXFILESIZE.ToString();
-                        ModelState.AddModelError(string.Empty, Messages.I_037(fName, Max));
+
+                       message = Messages.I_037(fName, Max);
                     }
                 }
 
             }
             catch (Exception ex)
             {
-                ModelState.AddModelError(string.Empty, Messages.I_034(fName));
+                message = Messages.I_034(fName);
             }
 
-            if (ModelState.IsValid)
+            if (message.IsEmpty())
             {
-                // ViewBag.Success = string.Format(Messages.I_033(fName));
-                TempData["Success"] = string.Format(Messages.I_033(fName));
-                
-                //return Json(new { Message = fName });
+                return Json(new object[] { new object() }, JsonRequestBehavior.AllowGet);
+
             }
-            // return View("Index");
-            return RedirectToAction("Index");
+            else
+            {
+                Response.ClearHeaders();
+                Response.ClearContent();
+                Response.StatusCode = 500;
+                Response.StatusDescription = "Erreur interne";
+                return Json(new { errorMessage = message, JsonRequestBehavior.AllowGet });
+            }
         }
 
     }

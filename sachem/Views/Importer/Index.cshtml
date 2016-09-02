@@ -1,5 +1,4 @@
-﻿@using sachem.Models
-<link rel="stylesheet" href="~/Scripts/dropzone/dropzone.css"/>
+﻿<link rel="stylesheet" href="~/Scripts/dropzone/dropzone.css"/>
 <script src="~/Scripts/dropzone/dropzone.js"></script>
 
 @{
@@ -7,15 +6,7 @@
 }
 
 <h2>@ViewBag.Title</h2>
-
-@Html.ValidationSummary(true, "", new { @class = "text-danger" })
-<p class="text-success">
-    @Html.ViewBag.Success
-    @TempData["Success"]
-    allo!
-</p>
-
-<h5>À partir de cette page, il vous est possible de déposer des fichers de l'administration qui alimenteront les listes de données de l'application SACHEM.</h5>
+<h5>À partir de cette page, il vous est possible de déposer des fichers de l'administration qui alimenteront les listes de données de l'application Sachem.</h5>
 
 <div class="jumbotron">
     <form action="~/Importer/SaveUploadedFile" method="post" enctype="multipart/form-data" class="dropzone" id="dropzoneForm" style="border: dashed; height:300px;">
@@ -30,3 +21,20 @@
     </form>
 </div>
 
+<script>
+    //File Upload response from the server
+    Dropzone.options.dropzoneForm = {
+        maxFilesize: 20,
+        init: function() {
+            this.on('error', function (file, response) {
+                var errorMessage = response.errorMessage;
+                $(file.previewElement).find('.dz-error-message').text(errorMessage);
+            });
+
+            this.on('success', function (file, response) {
+                var successMessage = response.successMessage;
+                $(file.previewElement).find('.dz-success-message').text(successMessage);
+            });
+        }
+    };
+</script>
