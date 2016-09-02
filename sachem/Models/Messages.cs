@@ -46,6 +46,13 @@ namespace sachem.Models
         {  return $"Le programme d'étude {nomProgrammeEtude} a été supprimer"; }
 
         /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="Code"></param>
+        /// <returns></returns>
+        public static string I_005(string code)
+        { return $"Il existe déjà un Programme ayant le nom {code}."; }
+        /// <summary>
         /// Le cours {0} a été supprimé.
         /// </summary>
         /// <param name="Cours"></param>
