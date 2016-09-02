@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using PagedList;
 using sachem.Models;
 
 namespace sachem.Controllers
@@ -15,10 +16,12 @@ namespace sachem.Controllers
         private SACHEMEntities db = new SACHEMEntities();
 
         // GET: Groupes
-        public ActionResult Index()
+        public ActionResult Index(int? page)
         {
-            var groupe = db.Groupe.Include(g => g.Cours).Include(g => g.Personne).Include(g => g.Session);
-            return View(groupe.ToList());
+            RegisterViewbags();
+            
+            var pageNumber = page ?? 1;
+            return View(Rechercher().ToPagedList(pageNumber, 20));
         }
 
         // GET: Groupes/Details/5
@@ -40,7 +43,8 @@ namespace sachem.Controllers
         public ActionResult Create()
         {
             ViewBag.id_Cours = new SelectList(db.Cours, "id_Cours", "CodeNom");
-            ViewBag.id_Enseignant = new SelectList(db.Personne, "id_Pers", "NomPrenom");
+            var ens = from c in db.Personne where c.id_TypeUsag == 2 select c;
+            ViewBag.id_Enseignant = new SelectList(ens, "id_Pers", "NomPrenom");
             ViewBag.id_Sess = new SelectList(db.Session, "id_Sess", "NomSession");
             return View();
         }
@@ -130,6 +134,25 @@ namespace sachem.Controllers
             return RedirectToAction("Index");
         }
 
+        [NonAction]
+        private IEnumerable<Groupe> Rechercher()
+        {
+            int idSess = 0, idEns = 0, idCours = 0;
+            if (Request.RequestType == "POST")
+            {
+                int.TryParse(Request.Form["Sessions"], out idSess);
+                int.TryParse(Request.Form["Enseignants"], out idEns);
+                int.TryParse(Request["Cours"], out idCours);
+                
+                RegisterViewbags();
+
+                var groupes = from d in db.Groupe where d.id_Cours == (idCours == 0 ? d.id_Cours : idCours) && d.id_Enseignant == (idEns == 0 ? d.id_Enseignant : idEns) && d.id_Sess == (idSess == 0 ? d.id_Sess : idSess) select d;
+                return groupes.ToList();
+            }
+            var groupe = db.Groupe.Include(g => g.Cours).Include(g => g.Personne).Include(g => g.Session);
+            return groupe.ToList();
+        }
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)
@@ -137,6 +160,17 @@ namespace sachem.Controllers
                 db.Dispose();
             }
             base.Dispose(disposing);
+        }
+
+        [NonAction]
+        private void RegisterViewbags()
+        {
+            int sess = db.Session.Max(s => s.id_Sess);
+            //var last = from b in db.Session orderby b.id_Sess descending select b;
+            ViewBag.Sessions = new SelectList(db.Session, "id_Sess", "NomSession", sess);
+            var ens = from c in db.Personne where c.id_TypeUsag == 2 select c;
+            ViewBag.Enseignants = new SelectList(ens, "id_Pers", "NomPrenom");
+            ViewBag.Cours = new SelectList(db.Cours, "id_Cours", "CodeNom");
         }
     }
 }

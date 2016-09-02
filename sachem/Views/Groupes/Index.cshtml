@@ -1,27 +1,60 @@
-﻿@model IEnumerable<sachem.Models.Groupe>
+﻿@model PagedList.IPagedList<sachem.Models.Groupe>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Groupes";
 }
 
 <h2>Index</h2>
 
+@using (Html.BeginForm("Index", "Groupes", FormMethod.Post, new { @class = "form-inline", role = "form" }))
+{
+    <p>
+        <h4>Recherche</h4>
+    </p>
+    <div class="form-group">
+        <p>
+            <div class="form-group">
+                Session :
+                @Html.DropDownList("Sessions", "Toutes")
+            </div>
+            
+            <div class="form-group">
+                Enseignant :
+                @Html.DropDownList("Enseignants", "Toutes")
+            </div>
+            
+            <div class="form-group">
+                Cours :
+                @Html.DropDownList("Cours", "Toutes")
+            </div>
+
+
+            <div class="form-group">
+                <input type="submit" value="Rechercher" class="btn-toolbar" />
+            </div>
+        </p>
+    </div>
+}
+
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("Ajouter un groupe", "Create")
 </p>
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.NoGroupe)
+            @Html.DisplayNameFor(model => model.FirstOrDefault().Session.NomSession)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Cours.Code)
+            @Html.DisplayNameFor(model => model.FirstOrDefault().Cours.CodeNom)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Personne.Nom)
+            @Html.DisplayNameFor(model => model.FirstOrDefault().NoGroupe)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Session.id_Sess)
+            @Html.DisplayNameFor(model => model.FirstOrDefault().Personne.NomPrenom)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FirstOrDefault().nbPersonne)
         </th>
         <th></th>
     </tr>
@@ -29,23 +62,27 @@
 @foreach (var item in Model) {
     <tr>
         <td>
-            @Html.DisplayFor(modelItem => item.NoGroupe)
+            @Html.DisplayFor(modelItem => item.Session.NomSession)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Cours.Code)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Personne.Nom)
+            @Html.DisplayFor(modelItem => item.NoGroupe)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Session.id_Sess)
+            @Html.DisplayFor(modelItem => item.Personne.NomPrenom)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.id_Groupe }) |
-            @Html.ActionLink("Details", "Details", new { id=item.id_Groupe }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.id_Groupe })
+            @Html.DisplayFor(modelItem => item.nbPersonne)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new {id = item.id_Groupe}) |
+            @Html.ActionLink("Details", "Details", new {id = item.id_Groupe}) |
+            @Html.ActionLink("Delete", "Delete", new {id = item.id_Groupe})
         </td>
     </tr>
 }
 
 </table>
+@Html.Partial("_PageRecherche", Model)
