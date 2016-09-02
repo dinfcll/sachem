@@ -4,15 +4,16 @@
     ViewBag.Title = "Delete";
 }
 
-<h2>Supprimer</h2>
+<h2>Supprimer un étudiant</h2>
 
-<h3>Are you sure you want to delete this?</h3>
+<h3>Voulez-vous vraiment supprimer l'étudiant @Html.DisplayFor(model => model.PrenomNom) ?</h3>
+
+
 <div>
-    <h4>Personne</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.Nom)
+            @Html.DisplayName("Nom")
         </dt>
 
         <dd>
@@ -20,7 +21,7 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Prenom)
+            @Html.DisplayName("Prénom")
         </dt>
 
         <dd>
@@ -28,7 +29,7 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.NomUsager)
+            @Html.DisplayName("Nom usager")
         </dt>
 
         <dd>
@@ -40,11 +41,11 @@
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Matricule)
+            @Html.DisplayFor(model => model.Matricule7)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.MP)
+            @Html.DisplayName("Mot de passe")
         </dt>
 
         <dd>
@@ -60,7 +61,7 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Telephone)
+            @Html.DisplayName("Téléphone")
         </dt>
 
         <dd>
@@ -68,7 +69,7 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.DateNais)
+            @Html.DisplayName("Date de naissance")
         </dt>
 
         <dd>
@@ -92,7 +93,7 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.p_TypeUsag.TypeUsag)
+            @Html.DisplayName("Type usager")
         </dt>
 
         <dd>

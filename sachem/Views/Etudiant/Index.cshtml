@@ -1,4 +1,5 @@
-﻿@model IEnumerable<sachem.Models.Personne>
+﻿@using sachem.Models
+@model IEnumerable<sachem.Models.Personne>
 
 @{
     ViewBag.Title = "Index";
@@ -6,69 +7,70 @@
 
 <h2>Étudiant</h2>
 <h4>Recherche</h4>
-<tr>
-    <th width="30">
-        @Html.DisplayName("Matricule:")
-    </th>
-    <th width="5%">
-        <input type="text" name="Matricule">
-    </th>
-    <th width="30">
-        @Html.DisplayName("ou")
-    </th>
-    <th width="30">
-        @*@Html.DisplayName("Session :")
+<table class="Recherche">
+    <tr>
+        <th>
+            @Html.DisplayName("Matricule:")
+        </th>
+        <th width = "4%">
+            <input type="text" name="Matricule" size ="20">
+        </th>
+        <th>
+            @Html.DisplayName("ou")
+        </th>
+        <th>
+            @Html.DisplayName("Session :")
             ­<select>
                 <option value="a"></option>
                 <option value="b"></option>
                 <option value="c"></option>
-            </select>*@
-        @Html.DropDownList("Session", "Toutes")
-        @*@Html.DropDownList("Session", ViewBag.SessionList as SelectList)*@
-        @*@Html.DropDownList("ListeCours", null, htmlAttributes:new {@class="form-control"})*@
-    </th>
-    <th width="30">
-        @Html.DisplayName("Cours: ")
-        @*@Html.DropDownList("Cours", ViewBag.SessionList as SelectList)*@
-        @Html.DropDownList("Cours", "Tous")
-    </th>
-    <th width="30">
-        @Html.DisplayName("Groupe: ")
-        <select>
-            <option value="a"></option>
-            <option value="b"></option>
-            <option value="c"></option>
-        </select>
-        <button type="Rechercher">
-            Rechercher
-        </button>
-    </th>
-</tr>
-
-
+            </select>
+        </th>
+        <th>
+            @Html.DisplayName("Cours: ")
+            <select>
+                <option value="a"></option>
+                <option value="b"></option>
+                <option value="c"></option>
+            </select>
+        </th>
+        <th>
+            @Html.DisplayName("Groupe: ")
+            <select>
+                <option value="a"></option>
+                <option value="b"></option>
+                <option value="c"></option>
+            </select>
+            <button type="Rechercher">
+                Rechercher
+            </button>
+        </th>
+    </tr>
+    
     <p>
         @Html.ActionLink("Ajouter un étudiant", "Create")
     </p>
     <table class="table">
         <tr>
-            <th width="300666666666">
+            <th>
                 @Html.DisplayName("Nom")
             </th>
-            <th width="15%">
+            <th>
                 @Html.DisplayName("Matricule")
             </th>
-            <th width="10%">
+            <th>
                 @Html.DisplayName("Sexe")
             </th>
-            <th width="25%">
+            <th>
                 @Html.DisplayName("Date de naissance")
             </th>
-            <th width="25%">
+            <th>
                 @Html.DisplayName("Programme d'études")
             </th>
 
             <th></th>
         </tr>
+        <BR>
 
         @foreach (var item in Model)
         {
@@ -78,14 +80,15 @@
                     @Html.DisplayFor(modelItem => item.Prenom)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Matricule)
+                    @Html.DisplayFor(modelItem => item.Matricule7)
                 </td>
 
                 <td>
                     @Html.DisplayFor(modelItem => item.p_Sexe.Sexe)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.DateNais)
+                    @Html.DisplayFor(modelItem => item.DateNais,"{0:dd/MM/yyyy}")
+                
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.DateNais)
