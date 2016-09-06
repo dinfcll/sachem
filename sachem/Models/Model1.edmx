@@ -79,6 +79,7 @@
           <Property Name="NoteSup" Type="nvarchar(max)" />
           <Property Name="ContratEngagement" Type="bit" />
           <Property Name="BonEchange" Type="bit" />
+          <Property Name="DateInscription" Type="date" Nullable="false" />
         </EntityType>
         <EntityType Name="Jumelage">
           <Key>
@@ -918,6 +919,7 @@
           <NavigationProperty Name="Session" Relationship="SACHEMModel.FK_Inscription_Session" FromRole="Inscription" ToRole="Session" />
           <NavigationProperty Name="Jumelage" Relationship="SACHEMModel.FK_Jumelage_Inscription" FromRole="Inscription" ToRole="Jumelage" />
           <NavigationProperty Name="Jumelage1" Relationship="SACHEMModel.FK_Jumelage_Inscription1" FromRole="Inscription" ToRole="Jumelage" />
+          <Property Name="DateInscription" Type="DateTime" Nullable="false" Precision="0" />
         </EntityType>
         <EntityType Name="Jumelage">
           <Key>
@@ -1499,6 +1501,7 @@
           <EntitySetMapping Name="Inscription">
             <EntityTypeMapping TypeName="SACHEMModel.Inscription">
               <MappingFragment StoreEntitySet="Inscription">
+                <ScalarProperty Name="DateInscription" ColumnName="DateInscription" />
                 <ScalarProperty Name="BonEchange" ColumnName="BonEchange" />
                 <ScalarProperty Name="ContratEngagement" ColumnName="ContratEngagement" />
                 <ScalarProperty Name="NoteSup" ColumnName="NoteSup" />

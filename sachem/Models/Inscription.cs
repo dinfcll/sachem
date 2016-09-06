@@ -30,6 +30,7 @@ namespace sachem.Models
         public string NoteSup { get; set; }
         public Nullable<bool> ContratEngagement { get; set; }
         public Nullable<bool> BonEchange { get; set; }
+        public System.DateTime DateInscription { get; set; }
     
         public virtual p_StatutInscription p_StatutInscription { get; set; }
         public virtual p_TypeInscription p_TypeInscription { get; set; }
