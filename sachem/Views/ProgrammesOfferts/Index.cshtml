@@ -13,7 +13,7 @@
 
 <p>
     @Html.ActionLink("Ajouter un programme d'étude", "Create")
-    @using (Html.BeginForm())
+    @using (Html.BeginForm("Index", "ProgrammesOfferts", FormMethod.Post, new { @class = "form-inline", role = "form" }))
     {
         <p>
             Trouver par code ou nom de programme @Html.TextBox("recherche")
