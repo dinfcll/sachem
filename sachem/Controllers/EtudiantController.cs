@@ -174,6 +174,10 @@ namespace sachem.Controllers
             {
                 return HttpNotFound();
             }
+            var Prog = from d in db.ProgrammeEtude
+                       where personne.ProgEtu == d.NomProg
+                       select d;
+
             ViewBag.id_Sexe = new SelectList(db.p_Sexe, "id_Sexe", "Sexe", personne.id_Sexe);
             ViewBag.id_TypeUsag = new SelectList(db.p_TypeUsag, "id_TypeUsag", "TypeUsag", personne.id_TypeUsag);
             return View(personne);
@@ -213,6 +217,7 @@ namespace sachem.Controllers
             {
                 return HttpNotFound();
             }
+            
             return View(personne);
         }
 
@@ -222,7 +227,22 @@ namespace sachem.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             Personne personne = db.Personne.Find(id);
+
+            var etuProgEtu = db.EtuProgEtude.Where(x => x.id_Etu == personne.id_Pers);
+            db.EtuProgEtude.RemoveRange(etuProgEtu);
+            var groupeEtu = db.GroupeEtudiant.Where(y => y.id_Etudiant == personne.id_Pers);
+            db.GroupeEtudiant.RemoveRange(groupeEtu);
+            var Jumul = db.Jumelage.Where(z => z.id_InscEleve == personne.id_Pers);
+            db.Jumelage.RemoveRange(Jumul);
+            var Inscri = db.Inscription.Where(a => a.id_Pers == personne.id_Pers);
+            db.Inscription.RemoveRange(Inscri);
+            var CoursSuiv = db.CoursSuivi.Where(b => b.id_Pers == personne.id_Pers);
+            db.CoursSuivi.RemoveRange(CoursSuiv);
+
+
+
             db.Personne.Remove(personne);
+            
             db.SaveChanges();
             return RedirectToAction("Index");
         }

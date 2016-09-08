@@ -14,7 +14,7 @@
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    
+
     <div class="form-horizontal">
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
@@ -45,7 +45,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.Prenom,"Prénom", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.Prenom, "Prénom", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.Prenom, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.Prenom, "", new { @class = "text-danger" })
@@ -53,7 +53,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.NomUsager,"Nom usager", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.NomUsager, "Nom usager", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.NomUsager, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.NomUsager, "", new { @class = "text-danger" })
@@ -64,16 +64,16 @@
             @Html.LabelFor(model => model.Matricule, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.Matricule7, new { htmlAttributes = new { @class = "form-control", disabled = "disabled", @readonly = "readonly" } })
-                @Html.ValidationMessageFor(model => model.Matricule, "", new {@class = "text-danger"})
+                @Html.ValidationMessageFor(model => model.Matricule, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.MP,"Mot de passe", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.MP, "Mot de passe", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 
-                @Html.EditorFor(model => model.MP, new {htmlAttributes = new {@class = "form-control"}})
-                @Html.ValidationMessageFor(model => model.MP, "", new {@class = "text-danger"})
+                @Html.EditorFor(model => model.MP, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.MP, "", new { @class = "text-danger" })
             </div>
         </div>
 
@@ -86,7 +86,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.Telephone,"Téléphone", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.Telephone, "Téléphone", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.Telephone, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.Telephone, "", new { @class = "text-danger" })
@@ -94,7 +94,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.DateNais,"Date de naissance", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.DateNais, "Date de naissance", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.DateNais, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.DateNais, "", new { @class = "text-danger" })
@@ -118,7 +118,8 @@
         </div>
     </div>
 
-    <h2>Ajouter un programme d'étude</h2>
+
+    @*<h2>Ajouter un programme d'étude</h2>
     <hr>
     <div class="form-group">
         @Html.LabelFor(model => model.id_Sexe, "Programme d'étude", htmlAttributes: new { @class = "control-label col-md-2" })
@@ -137,8 +138,9 @@
     </div>
     <div class="col-md-offset-2 col-md-10">
         <input type="submit" value="Enregistrer" class="btn btn-default" />
-    </div>
+    </div>*@
 }
+
 
 <div>
     @Html.ActionLink("Retour à la recherche des étudiants", "Index")
@@ -147,3 +149,4 @@
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
 }
+@*@Html.Partial("_ProgrammeEtude")*@
