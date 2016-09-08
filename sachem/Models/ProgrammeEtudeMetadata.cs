@@ -1,9 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.Configuration;
-using Newtonsoft.Json;
-using System;
-using System.Globalization;
-using System.Web.ModelBinding;
+
 
 namespace sachem.Models
 {
