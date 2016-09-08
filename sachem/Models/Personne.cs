@@ -17,9 +17,12 @@ namespace sachem.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Personne()
         {
+            this.CoursSuivi = new HashSet<CoursSuivi>();
             this.EtuProgEtude = new HashSet<EtuProgEtude>();
             this.Groupe = new HashSet<Groupe>();
             this.GroupeEtudiant = new HashSet<GroupeEtudiant>();
+            this.Inscription = new HashSet<Inscription>();
+            this.Jumelage = new HashSet<Jumelage>();
         }
     
         public int id_Pers { get; set; }
@@ -36,11 +39,17 @@ namespace sachem.Models
         public bool Actif { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<CoursSuivi> CoursSuivi { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<EtuProgEtude> EtuProgEtude { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Groupe> Groupe { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<GroupeEtudiant> GroupeEtudiant { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Inscription> Inscription { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Jumelage> Jumelage { get; set; }
         public virtual p_Sexe p_Sexe { get; set; }
         public virtual p_TypeUsag p_TypeUsag { get; set; }
     }

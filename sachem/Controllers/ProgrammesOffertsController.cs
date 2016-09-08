@@ -39,8 +39,7 @@ namespace sachem.Controllers
         {
                 Valider(programme);
             if (ModelState.IsValid)
-            {
-                
+            {               
                 db.ProgrammeEtude.Add(programme);
                 db.SaveChanges();
 
@@ -50,7 +49,6 @@ namespace sachem.Controllers
             return View(programme);
         }
 
-        // POST: ProgrammesOfferts/Edit/5
         /// <summary>
         /// GET:modifier un programme
         /// </summary>
@@ -134,7 +132,7 @@ namespace sachem.Controllers
         public void Valider([Bind(Include = "id_ProgEtu,Code,NomProg,Annee,Actif")]ProgrammeEtude programme)
         {
             if (db.ProgrammeEtude.Any(c => c.Code == programme.Code && c.Actif == true && c.Annee == programme.Annee))
-        {
+            {
                 ModelState.AddModelError(String.Empty, Messages.I_006(programme.Code));
             }
         }
