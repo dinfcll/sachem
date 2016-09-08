@@ -14,11 +14,20 @@ using System.Dynamic;
 namespace sachem.Models
 {
     public enum TypeUsagers { Aucun = 0, Etudiant = 1, Enseignant = 2, Responsable = 3, Super = 4 } //Enum contenant les types d'usagers du SACHEM
+    public class Login
+    {
+        public string NomUsager;
+        public string MP; //Pas un risque de sécurité tant que le MP est détruit de la mémoire (le model crée la variable en public de toute façon).
+        public Login()
+        {
 
+        }
+    }
     public class SachemIdentite
     {
+        public static string[] TypeListeAdmin1 = { "Enseignant", "Responsable", "Super" };
         //Pour l'encryption du cookie (MachineCode)
-        #pragma warning disable 0618 //Extrait du projet PAM: Pour l'encryption du cookie (MachineCode)
+#pragma warning disable 0618 //Extrait du projet PAM: Pour l'encryption du cookie (MachineCode)
 
         public static TypeUsagers ObtenirTypeUsager(HttpSessionStateBase Session)
         {
@@ -68,6 +77,8 @@ namespace sachem.Models
         }
     }
     // Classe scellée pour le HttpSession héritant du DynamicObject
+    //Article sur l'accès des données dans un objet dynamique (session) en asp.net mvc5 (.NET 4.0+)
+    //http://www.codeproject.com/Articles/191422/Accessing-ASP-NET-Session-Data-Using-Dynamics
     public sealed class SessionBag : DynamicObject
     {
         private static readonly SessionBag sessionBag;
@@ -80,28 +91,43 @@ namespace sachem.Models
         private SessionBag()
         {
         }
+
         private HttpSessionStateBase Session
         {
             get { return new HttpSessionStateWrapper(HttpContext.Current.Session); }
         }
-       
-        //Article sur l'accès des données dans un objet dynamique (session) en asp.net mvc5 (.NET 4.0+)
-        //http://www.codeproject.com/Articles/191422/Accessing-ASP-NET-Session-Data-Using-Dynamics
-        public override bool TryGetMember(GetMemberBinder binder, out object result) //overried du get d'un objet dynamique (session)
+
+        public override bool TryGetMember(GetMemberBinder binder, out object result)
         {
             result = Session[binder.Name];
             return true;
         }
 
-        public override bool TrySetMember(SetMemberBinder binder, object value) //override du set d'un objet dynamique
+        public override bool TrySetMember(SetMemberBinder binder, object value)
         {
             Session[binder.Name] = value;
             return true;
         }
-        public static dynamic Current //Objet dynamique contenant la session active et seulement celle-ci
+
+        public override bool TryGetIndex(GetIndexBinder
+               binder, object[] indexes, out object result)
+        {
+            int index = (int)indexes[0];
+            result = Session[index];
+            return result != null;
+        }
+
+        public override bool TrySetIndex(SetIndexBinder binder,
+               object[] indexes, object value)
+        {
+            int index = (int)indexes[0];
+            Session[index] = value;
+            return true;
+        }
+
+        public static dynamic Current
         {
             get { return sessionBag; }
         }
-
     }
 }

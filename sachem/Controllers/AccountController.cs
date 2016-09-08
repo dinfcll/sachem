@@ -9,6 +9,7 @@ using Microsoft.AspNet.Identity.Owin;
 using System.Web.Security;
 using Microsoft.Owin.Security;
 using sachem.Models;
+using System.Text.RegularExpressions;
 
 namespace sachem.Controllers
 {
@@ -29,7 +30,7 @@ namespace sachem.Controllers
         [AllowAnonymous]
         public ActionResult Login(string returnUrl)
         {
-            ViewBag.ReturnUrl = returnUrl;
+            //ViewBag.ReturnUrl = returnUrl;
             return View();
         }
 
@@ -41,32 +42,47 @@ namespace sachem.Controllers
         public ActionResult Login(Personne infos)
         {
             string mdpPlain = infos.MP;
-
+            Personne PersonneBD = new Personne();
             //Validations des champs et de la connection
             if (mdpPlain == "")
-                ModelState.AddModelError("MP", Messages.U_001);
+                ModelState.AddModelError("MP", Messages.U_001); //enter mdp
             else
                 if (infos.NomUsager == null)
-                ModelState.AddModelError("NomUsager", Messages.U_001);
-            else
-                    if (!db.Personne.Any(x => x.NomUsager == infos.NomUtilisateur || x.Matricule.Substring(2) == infos.NomUtilisateur))
-                        ModelState.AddModelError(string.Empty, Messages.I_017());  //Erreur de connection
-            else
-            {
-                //Encrypter le mdp et tester la connection
-                SachemIdentite.encrypterMPPersonne(ref infos);
-                Personne PersonneBD = db.Personne.AsNoTracking().Where(x => x.NomUsager == infos.NomUtilisateur || x.Matricule.Substring(2) == infos.NomUtilisateur).FirstOrDefault();
-                //Vérifie si le mot de passe concorde 
-                if (!db.Personne.Any(x => x.id_Pers == PersonneBD.id_Pers && x.MP == infos.MP))
-                    ModelState.AddModelError(string.Empty, Messages.I_017()); //Erreur de connection
+                    ModelState.AddModelError("NomUsager", Messages.U_001); //enter user
+                else
+                    if(Regex.IsMatch(infos.NomUsager, @"^\d+$") && infos.NomUsager.Length == 7) //Vérifie que le matricule est 7 de long
+                        if (!db.Personne.Any(x => x.Matricule.Substring(2) == infos.NomUsager))
+                            ModelState.AddModelError(string.Empty, Messages.I_017());  //Erreur de connection
+                        else
+                            PersonneBD = db.Personne.AsNoTracking().Where(x => x.Matricule.Substring(2) == infos.NomUsager).FirstOrDefault();
+            
+                    if (!db.Personne.Any(x => x.NomUsager == infos.NomUsager))
+                    {
+                        PersonneBD = db.Personne.AsNoTracking().Where(x => x.NomUsager == infos.NomUsager).FirstOrDefault();
+                    }
+                    else
+                    {
+                        //Encrypter le mdp et tester la connection
+                        SachemIdentite.encrypterMPPersonne(ref infos);
+                        PersonneBD = db.Personne.AsNoTracking().Where(x => x.NomUsager == infos.NomUtilisateur || x.Matricule.Substring(2) == infos.Matricule7).FirstOrDefault();
+                        //Vérifie si le mot de passe concorde 
+                        if (!db.Personne.Any(x => x.id_Pers == PersonneBD.id_Pers && x.MP == infos.MP))
+                            ModelState.AddModelError(string.Empty, Messages.I_017()); //Erreur de connection
+                        if (!ModelState.IsValid)
+                            return View(infos); //Retourne le formulaire rempli avec l'erreur
 
-                if (!ModelState.IsValid)
-                {
-                    return View(infos); //Retourne le formulaire rempli avec l'erreur
-                }
-            }
+                        //Si tout va bien, on rempli la session avec les informations de l'utilisateur!
+                        SessionBag.Current.NomUsager = infos.NomUsager;
+                        SessionBag.Current.NomComplet = infos.PrenomNom;
+                        SessionBag.Current.MP = infos.MP;
+                        SessionBag.Current.id_TypeUsag = PersonneBD.id_TypeUsag;
+                        SessionBag.Current.id_Pers = PersonneBD.id_Pers;
 
-            return View();
+                        //On retourne à l'accueil en attendant de voir la suite.
+                        return RedirectToAction("Index", "Home");
+                     }
+
+             return View(infos);
         }
         
         //
