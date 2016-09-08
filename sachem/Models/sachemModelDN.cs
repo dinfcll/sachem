@@ -13,6 +13,8 @@ namespace sachem.Models
     //redéfinition de la classe partielle
     public partial class Personne
     {
+        public string pEtu;
+        public int idpEtu;
         //Nom complet de l'enseignant formatté
 
         public string PrenomNom => $"{Prenom} {Nom}";
@@ -34,10 +36,35 @@ namespace sachem.Models
             }
         }
 
-        public string ProgEtu {
-            get;
+        public int idProgEtu
+        {
+            get
+            {
+                if (ProgEtu != null)
+                {
+
+                }
+                return idpEtu;
+            }
+
+            set
+            {
+                idpEtu = value;
+            }
+        }
+
+
+        public string ProgEtu
+        {
+            get
+            {
+                return pEtu;
+            }
           
-            set;
+            set
+            {
+                pEtu = value;
+            }
         }
 
         public string Matricule7//couper le matricule pour avoir 7 de long

@@ -7,6 +7,8 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using sachem.Models;
+using System.Linq;
+using System.Web.Services;
 
 namespace sachem.Controllers
 {
@@ -17,22 +19,64 @@ namespace sachem.Controllers
         // GET: Etudiant
         public ActionResult Index()
         {
-
-           
+            List<object> lpersonne = new List<object>();
 
             //var test = from d in db.Personne
             //           where 
 
-            var test = from d in db.EtuProgEtude
-                where d.id_Etu == d.Personne.id_Pers && d.id_EtuProgEtude == d.ProgrammeEtude.id_ProgEtu
-                select d;
+            //var test = from d in db.EtuProgEtude
+            //    where d.id_Etu == d.Personne.id_Pers && d.id_EtuProgEtude == d.ProgrammeEtude.id_ProgEtu
+            //    select d;
 
             var personne = from c in db.Personne
                            //join gr in db.EtuProgEtude on c.id_Pers equals gr.id_Etu
                            //join pr in db.ProgrammeEtude on gr.id_Etu equals pr.id_ProgEtu
                            where c.Actif == true && c.id_TypeUsag == 1
                            select c;
+            int nbpers = personne.Count();
+            int i = 0;
+            foreach (var pers in personne)
+            {
 
+                //where d.id_Etu == pers.id_Pers
+                //select d;
+
+                //pers.ProgEtu = ProgEtu.ToString();
+                //// PROBLEME A REGLER, olivier filion a un programme qui n'existe pas dans BD programma etude
+
+
+                //var pEtu = (from p in db.EtuProgEtude
+                //            where pers.id_Pers = 
+                //            orderby p.id_Sess descending//FirstOrDefault
+                //            select p).FirstOrDefault();
+
+
+                //var id = db.EtuProgEtude.Find(pers.id_Pers);
+                //    if (id != null)
+                //        {
+                //            pers.idpEtu = id.id_ProgEtu;
+                //            var pEtu = db.ProgrammeEtude.Find(id.id_ProgEtu);
+                //            string pe = pEtu.NomProg;
+                //            pers.ProgEtu = pe;
+                //            i = i + 1;
+                //        }
+            }
+            //i = i + 0;
+            //    var pEtu = (from p in db.EtuProgEtude
+            //                where
+            //                orderby p.id_Sess descending//FirstOrDefault
+            //                select p).FirstOrDefault();
+            //string pe = pEtu.NomProg;
+            //pers.ProgEtu = pe;
+            //var pEtu = from d in db.ProgrammeEtude
+            //           where d.id_ProgEtu == id.id_ProgEtu
+            //           orderby d.Annee descending
+            //           select d;
+            //var pEtu = db.ProgrammeEtude.Find();
+            //string pe = pEtu.FirstOrDefault().ToString();
+            //pers.ProgEtu = pe;
+            //(From p In context.Persons Select p Order By age Descending).FirstOrDefault
+            //}
 
             ListeSession();
             ListeCours();
