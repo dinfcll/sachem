@@ -60,14 +60,23 @@ namespace sachem.Controllers
             return View(Rechercher().ToPagedList(pageNumber, 20));
         }
 
+        private void Valider([Bind(Include = "id_Pers,id_Sexe,id_TypeUsag,Nom,Prenom,NomUsager,MP,ConfMP,Courriel,DateNais,Actif")] Personne personne)
+        {
+            var listeNomUtil = new SelectList(db.Personne, "id_pers", "NomUsager");
+
+            if (listeNomUtil.Any(x => x.Text == personne.NomUsager)) // Verifier si le nom d'usager existe
+                ModelState.AddModelError(string.Empty, Messages.I_013(personne.NomUsager));
+
+            if (personne.MP != personne.ConfMP) // Verifier la correspondance des mots de passe
+                ModelState.AddModelError(string.Empty, Messages.C_001);
+        }
+
         // GET: Enseignant/Create
         public ActionResult Create()
         {
             ViewBag.id_Sexe = new SelectList(db.p_Sexe, "id_Sexe", "Sexe");
-            var lstType = from c in db.p_TypeUsag
-                             where (c.TypeUsag == "Enseignant" || c.TypeUsag == "Responsable du SACHEM")
-                             select c.TypeUsag; // 
-            ViewBag.id_TypeUsag = new SelectList(lstType);
+            ViewBag.id_TypeUsag = new SelectList(db.p_TypeUsag.Where(x => x.TypeUsag == "Enseignant" || x.TypeUsag == "Responsable du SACHEM"), "id_TypeUsag", "TypeUsag");
+            
             return View();
         }
 
@@ -76,15 +85,10 @@ namespace sachem.Controllers
         // plus de détails, voir  http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "id_Pers,id_Sexe,id_TypeUsag,Nom,Prenom,NomUsager,MP,ConfMP,Courriel,DateNais,Actif")] Personne personne)
+        public ActionResult Create([Bind(Include = "id_Pers,id_Sexe,id_TypeUsag,Nom,Prenom,NomUsager,MP,ConfMP,Courriel,DateNais,Actif")] Personne personne, int? page)
         {
-            var listeNomUtil = new SelectList(db.Personne, "id_pers", "NomUsager");
-
-            if (listeNomUtil.Any(x => x.Text == personne.NomUsager)) // Verifier si le nom d'usager existe
-                ModelState.AddModelError(string.Empty, Messages.I_013);
-
-            if (personne.MP != personne.ConfMP) // Verifier la correspondance des mots de passe
-                ModelState.AddModelError(string.Empty, Messages.C_001);
+            Console.WriteLine(personne.id_Pers + personne.ToString());
+            Valider(personne);
 
             if (ModelState.IsValid)
             {
@@ -94,10 +98,7 @@ namespace sachem.Controllers
             }
 
             ViewBag.id_Sexe = new SelectList(db.p_Sexe, "id_Sexe", "Sexe", personne.id_Sexe);
-            var lstType = from c in db.p_TypeUsag
-                          where (c.TypeUsag == "Enseignant" || c.TypeUsag == "Responsable du SACHEM")
-                          select c.TypeUsag; // 
-            ViewBag.id_TypeUsag = new SelectList(lstType);
+            ViewBag.id_TypeUsag = new SelectList(db.p_TypeUsag.Where(x => x.TypeUsag == "Enseignant" || x.TypeUsag == "Responsable du SACHEM"), "id_TypeUsag", "TypeUsag", personne.id_TypeUsag);
             return View(personne);
 
         }

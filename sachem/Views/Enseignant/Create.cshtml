@@ -4,7 +4,7 @@
     ViewBag.Title = "Ajouter Enseignant";
 }
 
-<h2>Create</h2>
+<h2>Ajouter Enseignant</h2>
 
 
 @using (Html.BeginForm("Create", "Enseignant", FormMethod.Post)) 
@@ -84,7 +84,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.ConfMP,htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                <!-- @Html.EditorFor(model => model.ConfMP, new { htmlAttributes = new { @class = "form-control" } }) -->
+                <!-- @Html.EditorFor(model => model.ConfMP, new { htmlAttributes = new { @class = "form+-control" } }) -->
                 @Html.PasswordFor(model => Model.ConfMP, new { id = "ConfMP", Textmode = "Password" })
                 @Html.ValidationMessageFor(model => model.ConfMP, "", new { @class = "text-danger" })
             </div>

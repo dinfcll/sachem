@@ -41,7 +41,8 @@ namespace sachem.Models
         /// Le nom d'utilisateur est déjà utilisé.
         /// </summary>
         /// <returns></returns>
-        public const string I_013 = "Le nom d'utilisateur est déjà utilisé.";
+        public static string I_013(string NomUsager)
+        { return $"Le nom d'utilisateur {NomUsager} est déjà pris."; }
 
 
         #endregion
