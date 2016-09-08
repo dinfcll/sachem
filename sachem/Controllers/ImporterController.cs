@@ -40,32 +40,24 @@ namespace sachem.Controllers
                 {
                     HttpPostedFileBase file = Request.Files[fileName];
                     fName = file.FileName;
-                    //fExt = Path.GetExtension(fName).ToLower();//extension en minuscule pour verification
-                   // if (file != null)//si le fichier est transferable et correspond a la taille definit on continue
-                   // {
-                        var originalDirectory = new DirectoryInfo(string.Format("{0}"+IMPORTEDFILESDIRECTORY, Server.MapPath(@"\")));//on definit le nom du repertoire
-                        string pathString = System.IO.Path.Combine(originalDirectory.ToString());//on recupere le nom du repertoire
-                        var fileName1 = Path.GetFileName(file.FileName);//on recupere le nom du fichier
-                        bool isDirExists = System.IO.Directory.Exists(pathString);
-                        bool isFileExist = System.IO.File.Exists(pathString+"\\"+fName);
+                    var originalDirectory = new DirectoryInfo(string.Format("{0}"+IMPORTEDFILESDIRECTORY, Server.MapPath(@"\")));//on definit le nom du repertoire
+                    string pathString = System.IO.Path.Combine(originalDirectory.ToString());//on recupere le nom du repertoire
+                    var fileName1 = Path.GetFileName(file.FileName);//on recupere le nom du fichier
+                    bool isDirExists = System.IO.Directory.Exists(pathString);
+                    bool isFileExist = System.IO.File.Exists(pathString+"\\"+fName);
 
-                        if (isFileExist)//si le fichier existe (a deja ete uploade) on arrete
-                        {
-                           message = Messages.I_035(fName);
-                        }
-                        else
-                        {
-                            if (!isDirExists)//creation du repertoire sur le serveur s'il n'existe pas
-                                System.IO.Directory.CreateDirectory(pathString);
+                    if (isFileExist)//si le fichier existe (a deja ete uploade) on arrete
+                    {
+                        message = Messages.I_035(fName);
+                    }
+                    else
+                    {
+                        if (!isDirExists)//creation du repertoire sur le serveur s'il n'existe pas
+                            System.IO.Directory.CreateDirectory(pathString);
 
-                            var path = string.Format("{0}\\{1}", pathString, file.FileName);
-                            file.SaveAs(path);//ici on sauvegarde, lorsque la verification de l'extension fonctionne
-                        }
-                    //}
-                    //else
-                    //{
-                     //   message = Messages.I_034(fName);//erreur interne-- rare
-                    //}
+                        var path = string.Format("{0}\\{1}", pathString, file.FileName);
+                        file.SaveAs(path);//ici on sauvegarde, lorsque la verification de l'extension fonctionne
+                    }
                 }
 
             }
