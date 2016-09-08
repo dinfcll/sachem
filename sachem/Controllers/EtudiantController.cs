@@ -33,7 +33,7 @@ namespace sachem.Controllers
                            where c.Actif == true && c.id_TypeUsag == 1
                            select c;
 
-
+            //viewbag
             ListeSession();
             ListeCours();
             ListeGroupe();
@@ -190,6 +190,10 @@ namespace sachem.Controllers
             db.GroupeEtudiant.RemoveRange(groupeEtu);
             var Jumul = db.Jumelage.Where(z => z.id_InscEleve == personne.id_Pers);
             db.Jumelage.RemoveRange(Jumul);
+            var Inscri = db.Inscription.Where(a => a.id_Pers == personne.id_Pers);
+            db.Inscription.RemoveRange(Inscri);
+            var CoursSuiv = db.CoursSuivi.Where(b => b.id_Pers == personne.id_Pers);
+            db.CoursSuivi.RemoveRange(CoursSuiv);
 
 
 

@@ -8,6 +8,14 @@ using System.ComponentModel.DataAnnotations;
 
 namespace sachem.Models
 {
+    //instruction pour indiquer que la classe de CoursMetaData est une classe de métadonnée
+    [MetadataType(typeof(PersonneMetadata))]
+    //on doit redéfinir la classe partielle même si on ajout rien. Placé immédiatement avant la classe de métadonnée associée
+    public partial class Personne
+    {
+
+
+    }
     public class PersonneMetadata {
         [Display(Name = "Date de naissance")]
         [RegularExpression(@"^[0-9]{4}-[0-9]{2}-[0-9]{2} [0-2][0-9]:[0-5][0-9]:[0-5][0-9]$|^[0-9]{4}\/[0-9]{2}\/[0-9]{2}$"/*, ErrorMessage = Messages.U_007*/)]
