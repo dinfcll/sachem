@@ -42,8 +42,8 @@ namespace sachem.Models
         /// </summary>
         /// <param name="Fichier"></param>
         /// <returns></returns>
-        public static string I_033(string Fichier)
-        { return $"Le fichier {Fichier} a bien été transféré sur le serveur."; }
+        //public static string I_033(string Fichier)
+        //{ return $"Le fichier {Fichier} a bien été transféré sur le serveur."; }
 
         /// <summary>
         /// Erreur lors du transfert de fichier.
@@ -66,8 +66,8 @@ namespace sachem.Models
         /// <param name="Fichier"></param>
         /// <param name="Max"></param>
         /// <returns></returns>
-        public static string I_037(string Fichier, string Max)
-        { return $"Le fichier {Fichier} ne doit pas être vide{Max}."; }
+        //public static string I_037()
+        //{ return $"Le fichier est trop énorme"; }
 
         #endregion
 
@@ -78,8 +78,8 @@ namespace sachem.Models
             /// </summary>
             /// <param name="Extension"></param>
             /// <returns></returns>
-        public static string C_007(string Extension)
-        { return $"L'extension du fichier doit être {Extension} ."; }
+        //public static string C_007(string Extension)
+        //{ return $"L'extension du fichier doit être {Extension} ."; }
         #endregion
 
         #region MessageUnitaire

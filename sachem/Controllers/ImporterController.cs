@@ -15,94 +15,77 @@ namespace sachem.Controllers
     {
         //nom du repertoire de depot pour le fichier importé.
         private string IMPORTEDFILESDIRECTORY = "Fichier_a_traiter";
-        private int MAXFILES = 1;
-        private long MAXFILESIZE =10485760; //long.MaxValue pour ne pas le limiter, la valeur est en byte, default : 10485760 (10mo)
-        private string EXTENSIONFILE = ".csv"; //en minuscule seulement
-        private long MINFILESIZE = 0;
+        private int MAXFILES = 10;//nbre de fichier telechargeable
+        private int MAXFILESIZE =20; //la taille maximale du fichier en mo.
+        private string FILEEXTENSION = ".csv"; //en minuscule seulement
+
         // GET: Importer
         public ActionResult Index()
         {
+            ViewBag.MAXFILES = MAXFILES;//transfere de la donnee maxfiles a la vue
+            ViewBag.MAXFILESIZE = MAXFILESIZE;
+            ViewBag.FILEEXTENSION = FILEEXTENSION;
             return View();
         }
 
         [HttpPost]
         public ActionResult SaveUploadedFile()
         {
-            bool isSavedSuccessfully = false;
-            string Max = "";
             string fName = "";
-            string fExt = "";
             string message = "";
 
             try
             {
-                foreach (string fileName in Request.Files)
+                foreach (string fileName in Request.Files)//pour chaque fichier transfere
                 {
                     HttpPostedFileBase file = Request.Files[fileName];
-                    
-
                     fName = file.FileName;
-                    fExt = Path.GetExtension(fName).ToLower();
-                    if (file != null && file.ContentLength > MINFILESIZE && file.ContentLength < MAXFILESIZE)
-                    {
-
-                        var originalDirectory = new DirectoryInfo(string.Format("{0}"+IMPORTEDFILESDIRECTORY, Server.MapPath(@"\")));
-
-                        string pathString = System.IO.Path.Combine(originalDirectory.ToString());
-
-                        var fileName1 = Path.GetFileName(file.FileName);
-
+                    //fExt = Path.GetExtension(fName).ToLower();//extension en minuscule pour verification
+                   // if (file != null)//si le fichier est transferable et correspond a la taille definit on continue
+                   // {
+                        var originalDirectory = new DirectoryInfo(string.Format("{0}"+IMPORTEDFILESDIRECTORY, Server.MapPath(@"\")));//on definit le nom du repertoire
+                        string pathString = System.IO.Path.Combine(originalDirectory.ToString());//on recupere le nom du repertoire
+                        var fileName1 = Path.GetFileName(file.FileName);//on recupere le nom du fichier
                         bool isDirExists = System.IO.Directory.Exists(pathString);
-
                         bool isFileExist = System.IO.File.Exists(pathString+"\\"+fName);
 
-                        if (isFileExist)
+                        if (isFileExist)//si le fichier existe (a deja ete uploade) on arrete
                         {
                            message = Messages.I_035(fName);
                         }
-
-                        if (!isDirExists)
-                            System.IO.Directory.CreateDirectory(pathString);
-
-                        var path = string.Format("{0}\\{1}", pathString, file.FileName);
-                        if (fExt == EXTENSIONFILE)
-                        {
-                            file.SaveAs(path);
-
-                        }
                         else
                         {
-                            message = Messages.C_007(EXTENSIONFILE);
+                            if (!isDirExists)//creation du repertoire sur le serveur s'il n'existe pas
+                                System.IO.Directory.CreateDirectory(pathString);
+
+                            var path = string.Format("{0}\\{1}", pathString, file.FileName);
+                            file.SaveAs(path);//ici on sauvegarde, lorsque la verification de l'extension fonctionne
                         }
-
-                    }
-                    else if(!(file.ContentLength > MINFILESIZE && file.ContentLength < MAXFILESIZE))
-                    {
-                        if (MAXFILESIZE != long.MaxValue)
-                            Max = " et inférieur à " + MAXFILESIZE.ToString();
-
-                       message = Messages.I_037(fName, Max);
-                    }
+                    //}
+                    //else
+                    //{
+                     //   message = Messages.I_034(fName);//erreur interne-- rare
+                    //}
                 }
 
             }
             catch (Exception ex)
             {
-                message = Messages.I_034(fName);
+                message = Messages.I_034(fName);//erreur interne-- rare
             }
 
             if (message.IsEmpty())
             {
-                return Json(new object[] { new object() }, JsonRequestBehavior.AllowGet);
+                return Json(new object[] { new object() }, JsonRequestBehavior.AllowGet);//affichera un crochet valide vert si tout c'est bien passé (message de succes)
 
             }
             else
             {
-                Response.ClearHeaders();
-                Response.ClearContent();
+                Response.ClearHeaders();//efface l'entete de l'erreur par defaut du module dropzone pour mettre notre message d'erreur perso
+                Response.ClearContent();//efface le contenu de l'erreur par defaut du module dropzone pour mettre notre message d'erreur perso
                 Response.StatusCode = 500;
                 Response.StatusDescription = "Erreur interne";
-                return Json(new { errorMessage = message, JsonRequestBehavior.AllowGet });
+                return Json(new { errorMessage = message, JsonRequestBehavior.AllowGet });//affiche message d'erreur perso
             }
         }
 

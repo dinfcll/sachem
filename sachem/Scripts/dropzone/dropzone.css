@@ -171,21 +171,24 @@
     -o-transform: scale(1);
     transform: scale(1); } }
 .dropzone, .dropzone * {
-  box-sizing: border-box; }
+  box-sizing: border-box;
+}
 
 .dropzone {
   min-height: 150px;
-  border: 2px solid rgba(0, 0, 0, 0.3);
+  border: 2px dashed rgba(0, 0, 0, 0.3);
   background: white;
   padding: 20px 20px; }
   .dropzone.dz-clickable {
-    cursor: pointer; }
+    cursor: pointer;
+  }
     .dropzone.dz-clickable * {
       cursor: default; }
     .dropzone.dz-clickable .dz-message, .dropzone.dz-clickable .dz-message * {
       cursor: pointer; }
   .dropzone.dz-started .dz-message {
-    display: none; }
+    display: none;
+  }
   .dropzone.dz-drag-hover {
     border-style: solid; }
     .dropzone.dz-drag-hover .dz-message {
