@@ -38,7 +38,7 @@ namespace sachem.Models
         { return $"Un étudiant est associé à ce programme d'études. Ce programme ne peut être supprimé."; }
 
         /// <summary>
-        /// 
+        /// Impossible d'enregistrer ce programme d'études. Il existe déjà un programme ayant le code {0}.
         /// </summary>
         /// <param name="code"></param>
         /// <returns></returns>
@@ -51,7 +51,7 @@ namespace sachem.Models
         ///<param name="nomProgrammeEtude"></param>
         /// <returns></returns>
         public static string I_007(string nomProgrammeEtude)
-        { return $"Le programme d'études {nomProgrammeEtude} a été enregistré"; }
+        { return $"Le programme d'études {nomProgrammeEtude} a été enregistré."; }
 
         ///<summary>
         /// Le programme d'études {0} a été supprimé
@@ -59,7 +59,7 @@ namespace sachem.Models
         ///<param name="nomProgrammeEtude"></param>
         /// <returns></returns>
         public static  string I_008(string nomProgrammeEtude)
-        {  return $"Le programme d'études {nomProgrammeEtude} a été supprimer"; }
+        {  return $"Le programme d'études {nomProgrammeEtude} a été supprimé."; }
 
         /// <summary>
         /// Le cours {0} a été supprimé.
@@ -89,6 +89,12 @@ namespace sachem.Models
         /// </summary>
         /// <returns></returns>
         public const string U_003 = "Longueur requise : 8 caractères.";
+
+        /// <summary>
+        /// Format : AAAA
+        /// </summary>
+        /// <returns></returns>
+        public const string U_006 = "Format : AAAA";
 
 
         #endregion

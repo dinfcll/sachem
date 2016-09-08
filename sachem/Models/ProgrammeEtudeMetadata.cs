@@ -1,5 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Configuration;
+using Newtonsoft.Json;
+using System;
+using System.Globalization;
+using System.Web.ModelBinding;
 
 namespace sachem.Models
 {
@@ -29,6 +33,7 @@ namespace sachem.Models
 
         
         [Required(ErrorMessage = Messages.U_001)]
+        [ValidationModif(ErrorMessage = Messages.U_006)]
         [Display(Name = "Année")]
         public int Annee { get; set; }
     }
