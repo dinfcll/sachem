@@ -6,28 +6,24 @@
 @{
     ViewBag.Title = "Programmes d'étude";
     var pagedlist = (IPagedList)Model;
-
 }
 
 <h2>Index</h2>
-  
 
 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 <p class="text-success">
     @Html.ViewBag.Success
     @TempData["Success"]
 </p>
-
 <p>
-    @Html.ActionLink("Ajouter un programme d'étude", "Create")
     @using (Html.BeginForm("Index", "ProgrammesOfferts", FormMethod.Post, new { @class = "form-inline", role = "form" }))
     {
-        <p>
-            Trouver par code ou nom de programme @Html.TextBox("recherche")
-            <input type="submit" value="Rechercher"/>
-        </p>
-        
+    <p>
+        Trouver par code ou nom de programme @Html.TextBox("recherche")
+        <input type="submit" value="Rechercher" />
+    </p>
     }
+    @Html.ActionLink("Ajouter un programme d'étude", "Create")
 </p>
 <table class="table">
     <tr>
