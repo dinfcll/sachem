@@ -80,34 +80,26 @@ namespace sachem.Controllers
         {
             var listeNomUtil = new SelectList(db.Personne, "id_pers", "NomUsager");
 
-            if (!listeNomUtil.Any(x => x.Text == personne.NomUsager)) // Verifier si le nom d'usager existe
+            if (listeNomUtil.Any(x => x.Text == personne.NomUsager)) // Verifier si le nom d'usager existe
+                ModelState.AddModelError(string.Empty, Messages.I_013);
+
+            if (personne.MP != personne.ConfMP) // Verifier la correspondance des mots de passe
+                ModelState.AddModelError(string.Empty, Messages.C_001);
+
+            if (ModelState.IsValid)
             {
-
-                if (personne.MP == personne.ConfMP) // Verifier la correspondance des mots de passe
-                {
-
-                    if (ModelState.IsValid)
-                    {
-                        db.Personne.Add(personne);
-                        db.SaveChanges();
-                        return RedirectToAction("Index");
-                    }
-
-                    ViewBag.id_Sexe = new SelectList(db.p_Sexe, "id_Sexe", "Sexe", personne.id_Sexe);
-                    return View(personne);
-                }
-                else
-                {
-                    
-                    return RedirectToAction("Create");
-                }
-
+                db.Personne.Add(personne);
+                db.SaveChanges();
+                return RedirectToAction("Index");
             }
-            else
-            {
 
-                return RedirectToAction("Create");
-            }
+            ViewBag.id_Sexe = new SelectList(db.p_Sexe, "id_Sexe", "Sexe", personne.id_Sexe);
+            var lstType = from c in db.p_TypeUsag
+                          where (c.TypeUsag == "Enseignant" || c.TypeUsag == "Responsable du SACHEM")
+                          select c.TypeUsag; // 
+            ViewBag.id_TypeUsag = new SelectList(lstType);
+            return View(personne);
+
         }
 
         // GET: Enseignant/Edit/5
