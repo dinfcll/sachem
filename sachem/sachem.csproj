@@ -400,6 +400,8 @@
     <Content Include="Views\ProgrammesOfferts\Edit.cshtml" />
     <Content Include="Views\ProgrammesOfferts\Create.cshtml" />
     <Content Include="Views\ProgrammesOfferts\Delete.cshtml" />
+    <Content Include="Views\ProgrammesOfferts\_ProgrammesOfferts.cshtml" />
+    <Content Include="Views\ProgrammesOfferts\_Footer.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
