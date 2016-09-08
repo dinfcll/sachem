@@ -29,7 +29,7 @@ namespace sachem.Models
 
         
         [Required(ErrorMessage = Messages.U_001)]
-        [ValidationModif(ErrorMessage = Messages.U_006)]
+        [VerificationDate(ErrorMessage = Messages.U_006)]
         [Display(Name = "Année")]
         public int Annee { get; set; }
     }

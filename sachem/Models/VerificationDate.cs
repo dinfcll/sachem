@@ -6,18 +6,19 @@ using System.Web;
 
 namespace sachem.Models
 {
-    public class ValidationModif : ValidationAttribute
+    public class VerificationDate : ValidationAttribute
     {
 
         protected override ValidationResult IsValid(object value, ValidationContext validationContext)
 
         {
-            int valeur = (int) value;
+            int valeur = (int)value;
             if (valeur >= 1967 && valeur <= DateTime.Now.Year + 1)
             {
                 return ValidationResult.Success;
             }
-             return new ValidationResult("");
+            return new ValidationResult("");
         }
     }
+}
 }
