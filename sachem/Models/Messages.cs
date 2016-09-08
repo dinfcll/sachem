@@ -41,6 +41,11 @@ namespace sachem.Models
         #endregion
 
         #region MessageContexte
+        /// <summary>
+        /// Mot de passe non correspondant
+        /// </summary>
+        /// <returns></returns>
+        public const string C_001 = "les mots de passe ne correspondent pas.";
         #endregion
 
         #region MessageUnitaire
@@ -72,6 +77,16 @@ namespace sachem.Models
         /// </summary>
         /// <returns></returns>
         public const string U_006 = "Longeur maximale permise : 25 caractères.";
+        /// <summary>
+        /// Format : AAAA/MM/JJ
+        /// </summary>
+        /// <returns></returns>
+        public const string U_007 = "Format de date Invalide, format requis : AAAA/MM/JJ.";
+        /// <summary>
+        /// Format de courriel a respecter
+        /// </summary>
+        /// <returns></returns>
+        public const string U_008 = "Format de courriel a respecter.";
         #endregion
 
         #region Question

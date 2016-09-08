@@ -64,7 +64,10 @@ namespace sachem.Controllers
         public ActionResult Create()
         {
             ViewBag.id_Sexe = new SelectList(db.p_Sexe, "id_Sexe", "Sexe");
-            ViewBag.id_TypeUsag = new SelectList(db.p_TypeUsag, "id_TypeUsag", "TypeUsag");
+            var lstType = from c in db.p_TypeUsag
+                             where (c.TypeUsag == "Enseignant" || c.TypeUsag == "Responsable du SACHEM")
+                             select c.TypeUsag; // 
+            ViewBag.id_TypeUsag = new SelectList(lstType);
             return View();
         }
 
@@ -79,6 +82,7 @@ namespace sachem.Controllers
 
             if (!listeNomUtil.Any(x => x.Text == personne.NomUsager)) // Verifier si le nom d'usager existe
             {
+
                 if (personne.MP == personne.ConfMP) // Verifier la correspondance des mots de passe
                 {
 
@@ -92,9 +96,18 @@ namespace sachem.Controllers
                     ViewBag.id_Sexe = new SelectList(db.p_Sexe, "id_Sexe", "Sexe", personne.id_Sexe);
                     return View(personne);
                 }
+                else
+                {
+                    
+                    return RedirectToAction("Create");
+                }
 
             }
-            return null;
+            else
+            {
+
+                return RedirectToAction("Create");
+            }
         }
 
         // GET: Enseignant/Edit/5
