@@ -90,13 +90,13 @@ namespace sachem.Controllers
 
                     if (ModelState.IsValid)
                     {
-                        personne.MP = encrypterChaine(personne.MP);
+                        personne.MP = encrypterChaine(personne.MP); // Encryption du mot de passe
                         db.Personne.Add(personne);
                         db.SaveChanges();
                         return RedirectToAction("Index");
                     }
 
-                    ViewBag.id_Sexe = new SelectList(db.p_Sexe, "id_Sexe", "Sexe", personne.id_Sexe);
+                    ViewBag.id_Sexe = new SelectList(db.p_Sexe, "id_Sexe", "Sexe", personne.id_Sexe); // Remettre les deux listes déroulantes
                     var lstType = from c in db.p_TypeUsag
                           where (c.TypeUsag == "Enseignant" || c.TypeUsag == "Responsable du SACHEM")
                                   select c.TypeUsag; 
@@ -164,11 +164,24 @@ namespace sachem.Controllers
         // POST: Enseignant/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
+        public ActionResult DeleteConfirmed(int idEnseignant)
         {
-            Personne personne = db.Personne.Find(id);
-            db.Personne.Remove(personne);
-            db.SaveChanges();
+            if (db.Groupe.Any(g => g.id_Enseignant == idEnseignant)) // Verifier si l'enseignant est relié a un groupe
+            {
+                ModelState.AddModelError(string.Empty, Messages.I_012);
+            }
+            if (db.Jumelage.Any(g => g.id_Enseignant == idEnseignant)) // Vérifier si l'enseignant est relié a un jumelage
+            {
+                ModelState.AddModelError(string.Empty, Messages.I_033);
+            }
+            if (ModelState.IsValid)
+            {                          
+                Personne personne = db.Personne.Find(idEnseignant);
+                var SuppPersonne = db.Personne.Where(x => x.id_Pers == idEnseignant); // rechercher l'enseignant
+                db.Personne.RemoveRange(SuppPersonne); // retirer toute les occurences de l'enseignant
+                db.SaveChanges();
+                ViewBag.Success = string.Format(Messages.I_029(personne.NomUsager));
+            }
             return RedirectToAction("Index");
         }
 
