@@ -57,7 +57,10 @@ namespace sachem.Models
         /// <returns></returns>
         public const string U_003 = "Longueur requise : 8 caractères.";
 
-
+        /// <summary>
+        /// Resultat 0 à 100
+        /// </summary>
+        public const string U_011 = "Le résultat doit être de 0 à 100.";
         #endregion
 
         #region Question

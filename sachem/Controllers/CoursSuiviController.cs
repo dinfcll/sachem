@@ -14,6 +14,43 @@ namespace sachem.Controllers
     {
         private SACHEMEntities db = new SACHEMEntities();
 
+
+        private void ListeCours()
+        {
+            var lCours = db.Cours.AsNoTracking().OrderBy(c => c.Code);
+            var slCours = new List<SelectListItem>();
+            slCours.AddRange(new SelectList(lCours, "id_Cours", "Code" + "Nom", 0));
+
+            ViewBag.Cours = slCours;
+        }
+
+        private void ListeCollege()
+        {
+            var lCollege = db.p_College.AsNoTracking().OrderBy(n => n.College);
+            var slCollege = new List<SelectListItem>();
+            slCollege.AddRange(new SelectList(lCollege, "id_College", "College", 0));
+
+            ViewBag.College = slCollege;
+        }
+
+        private void ListeStatut()
+        {
+            var lStatut = db.p_StatutCours.AsNoTracking();
+            var slStatut = new List<SelectListItem>();
+            slStatut.AddRange(new SelectList(lStatut, "id_Statut", "Statut", 0));
+
+            ViewBag.Statut = slStatut;
+        }
+
+        private void ListeSession()
+        {
+            var lSessions = db.Session.AsNoTracking().OrderBy(s => s.Annee).ThenBy(s => s.p_Saison.Saison);
+            var slSession = new List<SelectListItem>();
+            slSession.AddRange(new SelectList(lSessions, "id_Sess", "NomSession", 0));
+
+            ViewBag.Session = slSession;
+        }
+
         // GET: CoursSuivi
         public ActionResult Index()
         {
@@ -35,9 +72,15 @@ namespace sachem.Controllers
             return View(coursSuivi);
         }
 
+ 
+
         // GET: CoursSuivi/Create
         public ActionResult Create()
         {
+            ListeCours();
+            ListeCollege();
+            ListeStatut();
+            ListeSession();
             return View();
         }
 
@@ -88,6 +131,7 @@ namespace sachem.Controllers
             }
             return View(coursSuivi);
         }
+
 
         // GET: CoursSuivi/Delete/5
         public ActionResult Delete(int? id)
