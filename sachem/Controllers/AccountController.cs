@@ -9,6 +9,9 @@ using Microsoft.AspNet.Identity.Owin;
 using System.Web.Security;
 using Microsoft.Owin.Security;
 using sachem.Models;
+using System.Net;
+using System.Net.Mail;
+using System.Text;
 
 namespace sachem.Controllers
 {
@@ -115,14 +118,6 @@ namespace sachem.Controllers
         }
 
 
-        //
-        // GET: /Account/ResetPasswordConfirmation
-        [AllowAnonymous]
-        public ActionResult ResetPasswordConfirmation()
-        {
-            return View();
-        }
-
         // GET: /Account/Mot de passe oublié
         [AllowAnonymous]
         public ActionResult ForgotPassword()
@@ -139,8 +134,20 @@ namespace sachem.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public ActionResult ForgotPassword(string Courriel)
+        public ActionResult ForgotPassword(string courriel)
         {
+            SmtpClient client = new SmtpClient();
+            MailMessage message = new MailMessage("sachemcllmail@gmail.com",courriel,"test","bonjour");//Test d'envoi de email
+            client.Port = 587;
+            client.Host = "smtp.gmail.com";
+            client.EnableSsl = true;
+            client.Timeout = 10000;
+            client.DeliveryMethod=SmtpDeliveryMethod.Network;
+            client.UseDefaultCredentials = false;
+            client.Credentials=new NetworkCredential("sachemcllmail@gmail.com", "sachemadmin#123");//information de connection au email d'envoi de message de SACHEM
+            message.BodyEncoding = Encoding.UTF8;
+            client.Send(message);
+
             return View();
         }
         //
