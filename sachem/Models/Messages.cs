@@ -30,14 +30,6 @@ namespace sachem.Models
         { return $"Le cours {Cours} a été enregistré."; }
 
         /// <summary>
-        /// Le programme a été modifier.
-        /// </summary>
-        /// <param name="Programme"></param>
-        /// <returns></returns>
-        public static string I_004(string Programme)
-        { return $"Le programme {Programme} a été Modifié."; }
-
-        /// <summary>
         /// Un étudiant est associé à ce programme d'études. Ce programme ne peut être supprimé.
         /// </summary>
         /// <param name="Cours"></param>
