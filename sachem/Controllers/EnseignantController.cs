@@ -9,6 +9,7 @@ using System.Web.DynamicData;
 using System.Web.Mvc;
 using sachem.Models;
 using PagedList;
+using System.Security.Cryptography;
 
 namespace sachem.Controllers
 {
@@ -79,7 +80,6 @@ namespace sachem.Controllers
         public ActionResult Create([Bind(Include = "id_Pers,id_Sexe,id_TypeUsag,Nom,Prenom,NomUsager,MP,ConfMP,Courriel,DateNais,Actif")] Personne personne)
         {
             var listeNomUtil = new SelectList(db.Personne, "id_pers", "NomUsager");
-
             if (!listeNomUtil.Any(x => x.Text == personne.NomUsager)) // Verifier si le nom d'usager existe
             {
 
@@ -94,6 +94,8 @@ namespace sachem.Controllers
                     }
 
                     ViewBag.id_Sexe = new SelectList(db.p_Sexe, "id_Sexe", "Sexe", personne.id_Sexe);
+                    
+                    ViewBag.id_TypeUsag = new SelectList(lstType);
                     return View(personne);
                 }
                 else
@@ -109,7 +111,13 @@ namespace sachem.Controllers
                 return RedirectToAction("Create");
             }
         }
-
+       /*** public static string encrypterChaine(string Chaine)
+        {
+            byte[] buffer;
+            MD5CryptoServiceProvider provider = new MD5CryptoServiceProvider();
+            buffer = Encoding.UTF8.GetBytes(Chaine);
+            return BitConverter.ToString(provider.ComputeHash(buffer)).Replace("-", "").ToLower();
+        }**/
         // GET: Enseignant/Edit/5
         public ActionResult Edit(int? id)
         {
