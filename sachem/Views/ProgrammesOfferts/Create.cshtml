@@ -5,9 +5,10 @@
 }
 
 <h2>Ajouter un programme d'étude</h2>
+@Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
 
-@using (Html.BeginForm())
+@using (Html.BeginForm("Create","ProgrammesOfferts", FormMethod.Post))
 {
     @Html.AntiForgeryToken()
     

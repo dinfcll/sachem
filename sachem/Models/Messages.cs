@@ -69,6 +69,7 @@ namespace sachem.Models
         public static string I_009(string Cours)
         { return $"Le cours {Cours} a été supprimé."; }
 
+       
 
         #endregion
 
