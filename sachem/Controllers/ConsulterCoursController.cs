@@ -8,38 +8,41 @@ using System.Net;
 using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.Mvc;
+using Microsoft.Ajax.Utilities;
 using sachem.Models;
 
 namespace sachem.Controllers
 {
     public class ConsulterCoursController : Controller
     {
+
+        int m_IdPers = 8; // 1 = la seule résponsable, 2-9 = enseignants
+        int m_IdTypeUsage = 3; // 2 = enseignant, 3 = responsable
+
         private SACHEMEntities db = new SACHEMEntities();
 
         // GET: ConsulterCours
         public ActionResult Index()
         {
             return View(AfficherCoursAssignes());
-            //db.Cours.ToList()
         }
 
 
-        //Fonction pour afficher lescours assignés à l'utilisateur connecté
+        //Fonction pour afficher les cours assignés à l'utilisateur connecté
         [NonAction]
         private IEnumerable<Groupe> AfficherCoursAssignes()
         {
             var idSess = 0;
-            var idPers = 5; // 1 = la seule résponsable, 2-9 = enseignants
-            var idTypeUsage = 3; // 2 = enseignant, 3 = responsable
+
             var cours = from c in db.Cours select c;
 
-            if (idTypeUsage == 2) //enseignant
+            if (m_IdTypeUsage == 2) //enseignant
             {
                 Int32.TryParse(Request.Form["Session"], out idSess);
                 ListeSession(idSess); //créer liste Session pour le dropdown
 
-                var ens = from c in db.Groupe
-                        where (c.id_Sess == idSess && c.id_Enseignant == idPers) || (idSess == 0 && c.id_Enseignant == idPers)
+                var ens = from c in db.Groupe.DistinctBy(c => c.id_Cours)
+                        where (c.id_Sess == idSess && c.id_Enseignant == m_IdPers) || (idSess == 0 && c.id_Enseignant == m_IdPers)
                         select c;
 
                 ViewBag.IsEnseignant = true;
@@ -48,13 +51,13 @@ namespace sachem.Controllers
             }
             else //responsable
             {
-                Int32.TryParse(Request.Form["Personne"], out idPers); //seuls les responsables le voient
+                Int32.TryParse(Request.Form["Personne"], out m_IdPers); //seuls les responsables le voient
                 Int32.TryParse(Request.Form["Session"], out idSess);
                 ListeSession(idSess); //créer liste Session pour le dropdown
-                ListePersonne(idPers); //créer liste Enseignants pour le dropdown
+                ListePersonne(m_IdPers); //créer liste Enseignants pour le dropdown
 
                 var resp = from c in db.Groupe
-                    where c.id_Sess == (idSess == 0 ? c.id_Sess : idSess) && c.id_Enseignant == (idPers == 0 ? c.id_Enseignant : idPers)
+                           where c.id_Sess == (idSess == 0 ? c.id_Sess : idSess) && c.id_Enseignant == (m_IdPers == 0 ? c.id_Enseignant : m_IdPers)
                     select c;
 
                 ViewBag.IsEnseignant = false;
@@ -99,18 +102,6 @@ namespace sachem.Controllers
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
         // GET: ConsulterCours/Details/5
         public ActionResult Details(int? id)
         {
@@ -118,13 +109,35 @@ namespace sachem.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Session session = db.Session.Find(id);
-            if (session == null)
+            
+            var gr = from g in db.Groupe //obtenir les groupes en lien avec le cours trouvé
+                     where g.id_Cours == id
+                     select g;
+
+            if(!gr.Any())
             {
-                return HttpNotFound();
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            return View(session);
+
+            if (m_IdTypeUsage == 2) //enseignant
+            {
+                ViewBag.IsEnseignant = true;
+            }
+            else //responsable
+            {
+                ViewBag.IsEnseignant = false;
+            }
+
+
+            return View(gr.ToList()); //renvoyer la liste des groupes en lien avec le cours
         }
+
+
+
+
+
+
+
 
         // GET: ConsulterCours/Create
         public ActionResult Create()
@@ -133,6 +146,7 @@ namespace sachem.Controllers
             ViewBag.id_Saison = new SelectList(db.p_Saison, "id_Saison", "Saison");
             return View();
         }
+
 
         // POST: ConsulterCours/Create
         // Afin de déjouer les attaques par sur-validation, activez les propriétés spécifiques que vous voulez lier. Pour 

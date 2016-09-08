@@ -1,5 +1,6 @@
 ﻿@using System.Diagnostics.Eventing.Reader
 @using Microsoft.Ajax.Utilities
+@using sachem.Models
 @model IEnumerable<sachem.Models.Groupe>
 
 @{
@@ -37,7 +38,7 @@
 
 <table class="table">
     
-    @if (ViewBag.IsEnseignant)
+    @if (ViewBag.IsEnseignant) //si enseignant
     {
         <tr>
             <th>
@@ -64,7 +65,7 @@
              </tr>
         }
     }
-    else
+    else //si responsable
     {
         <tr>
             <th>
@@ -82,25 +83,63 @@
             <th></th>
         </tr>
 
+        string codeCoursCourant = "";
+        string codeCoursSuivant = "";
+        string affichageNomPrenom ="";
+        string prenomNomCol = "";
+        int i = 0;
+        List<string> t_PrenomNom = new List<string>();
+
         foreach (var item in Model)
         {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Cours.Code)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Cours.Nom)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Cours.Actif)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Personne.PrenomNom)
-                </td>
-                <td>
-                    @Html.ActionLink("Consulter", "Details", new { id = item.id_Cours })
-                </td>
-            </tr>
+            codeCoursCourant = Model.ElementAt(i).Cours.Code; //code du cours courant
+
+            if (i < Model.Count()-1)
+            {
+                codeCoursSuivant = Model.ElementAt(i + 1).Cours.Code; //code du cours suivant
+            }
+            else
+            {
+                codeCoursSuivant = "";
+            }
+
+
+            if (codeCoursCourant.Equals(codeCoursSuivant)) //s'il y a des cours répétés
+            {
+                if (!t_PrenomNom.Contains(item.Personne.PrenomNom))
+                {
+                    prenomNomCol += item.Personne.PrenomNom + ", ";
+
+                    affichageNomPrenom = prenomNomCol;
+
+                    t_PrenomNom.Add(item.Personne.PrenomNom);
+                }
+
+            }
+            else //si dernier cours
+            {
+
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Cours.Code)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Cours.Nom)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Cours.Actif)
+                    </td>
+                    <td>
+                        @affichageNomPrenom
+                    </td>
+                    <td>
+                        @Html.ActionLink("Consulter", "Details", new { id = item.id_Cours })
+                    </td>
+                </tr>
+                prenomNomCol = "";
+            }
+
+            i++;
         }
     }
 
