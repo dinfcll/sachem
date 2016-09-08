@@ -21,7 +21,7 @@ namespace sachem.Controllers
             var slCours = new List<SelectListItem>();
             slCours.AddRange(new SelectList(lCours, "id_Cours", "CodeNom", 0));
 
-            ViewBag.Cours = slCours;
+            ViewBag.id_Cours = slCours;
         }
 
         private void ListeCollege()
@@ -30,7 +30,7 @@ namespace sachem.Controllers
             var slCollege = new List<SelectListItem>();
             slCollege.AddRange(new SelectList(lCollege, "id_College", "College", 0));
 
-            ViewBag.College = slCollege;
+            ViewBag.id_College = slCollege;
         }
 
         private void ListeStatut()
@@ -39,7 +39,7 @@ namespace sachem.Controllers
             var slStatut = new List<SelectListItem>();
             slStatut.AddRange(new SelectList(lStatut, "id_Statut", "Statut", 0));
 
-            ViewBag.Statut = slStatut;
+            ViewBag.id_Statut = slStatut;
         }
 
         private void ListeSession()
@@ -48,7 +48,7 @@ namespace sachem.Controllers
             var slSession = new List<SelectListItem>();
             slSession.AddRange(new SelectList(lSessions, "id_Sess", "NomSession", 0));
 
-            ViewBag.Session = slSession;
+            ViewBag.id_Sess = slSession;
         }
 
         // GET: CoursSuivi
@@ -93,6 +93,8 @@ namespace sachem.Controllers
         //id_CoursReussi,id_Sess,id_Pers,id_College,id_Statut,id_Cours,resultat,autre_Cours,autre_College
         //Cours,autre_Cours,College,autre_College,Session,Statut,resultat
         {
+            ViewBag.Donne = coursSuivi.id_Cours;
+
             if (ModelState.IsValid)
             {
                 db.CoursSuivi.Add(coursSuivi);
