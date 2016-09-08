@@ -5,9 +5,9 @@ using System.Web;
 
 namespace sachem.Models
 {
-    public class EM
+    public class MasterGroupesEtudiants
     {
         public Groupe groupe;
-        public int nbEtudiant;
+        public IEnumerable<Personne> personnes;
     }
 }

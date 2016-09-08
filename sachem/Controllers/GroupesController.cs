@@ -19,7 +19,6 @@ namespace sachem.Controllers
         public ActionResult Index(int? page)
         {
             RegisterViewbags();
-            
             var pageNumber = page ?? 1;
             return View(Rechercher().ToPagedList(pageNumber, 20));
         }
@@ -137,6 +136,7 @@ namespace sachem.Controllers
         [NonAction]
         private IEnumerable<Groupe> Rechercher()
         {
+            IQueryable<Groupe> groupes;
             int idSess = 0, idEns = 0, idCours = 0;
             if (Request.RequestType == "POST")
             {
@@ -146,11 +146,17 @@ namespace sachem.Controllers
                 
                 RegisterViewbags();
 
-                var groupes = from d in db.Groupe where d.id_Cours == (idCours == 0 ? d.id_Cours : idCours) && d.id_Enseignant == (idEns == 0 ? d.id_Enseignant : idEns) && d.id_Sess == (idSess == 0 ? d.id_Sess : idSess) select d;
-                return groupes.ToList();
+                groupes = from d in db.Groupe where d.id_Cours == (idCours == 0 ? d.id_Cours : idCours) && d.id_Enseignant == (idEns == 0 ? d.id_Enseignant : idEns) && d.id_Sess == (idSess == 0 ? d.id_Sess : idSess) orderby d.Session.p_Saison.Saison, d.Session.Annee, d.Cours.Code, d.Cours.Nom, d.NoGroupe select d;
             }
-            var groupe = db.Groupe.Include(g => g.Cours).Include(g => g.Personne).Include(g => g.Session);
-            return groupe.ToList();
+            else
+            {
+                groupes = from d in db.Groupe orderby d.Session.p_Saison.Saison, d.Session.Annee, d.Cours.Code, d.Cours.Nom, d.NoGroupe select d;
+            }
+            foreach (var n in groupes)
+            {
+                n.nbPersonne = (from c in db.GroupeEtudiant where c.id_Groupe == n.id_Groupe select c).Count();
+            }
+            return groupes.ToList();
         }
 
         protected override void Dispose(bool disposing)

@@ -57,8 +57,56 @@
     </div>
 }
 
+<p>
+    @Html.ActionLink("Ajouter des étudiants au groupe", "Eleve", "Ajouter")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Personne.NomPrenom)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Personne.Matricule)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Personne.Age)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Personne.p_Sexe.Sexe)
+        </th>
+        <th>
+            
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model.GroupeEtudiant.OrderBy(x => x.Personne.Matricule7).OrderBy(x => x.Personne.NomPrenom))
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Personne.NomPrenom)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Personne.Matricule7)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Personne.Age)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Personne.p_Sexe.Sexe)
+            </td>
+            <td>
+                @Html.ActionLink("Déplacer", "Details", new { id = item.id_Groupe }) |
+                @Html.ActionLink("Supprimer", "Delete", new { id = item.id_Groupe })
+            </td>
+        </tr>
+    }
+
+</table>
+
+
 <div>
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Retour à la recherche des groupes", "Index")
 </div>
 
 @section Scripts {
