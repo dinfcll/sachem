@@ -37,6 +37,12 @@ namespace sachem.Models
         public static string I_009(string Cours)
         { return $"Le cours {Cours} a été supprimé."; }
 
+        /// <summary>
+        /// Le nom d'utilisateur est déjà utilisé.
+        /// </summary>
+        /// <returns></returns>
+        public const string I_013 = "Le nom d'utilisateur est déjà utilisé.";
+
 
         #endregion
 
@@ -86,7 +92,7 @@ namespace sachem.Models
         /// Format de courriel a respecter
         /// </summary>
         /// <returns></returns>
-        public const string U_008 = "Format de courriel a respecter.";
+        public const string U_008 = "Format de courriel a respecter : exemple@gmail.com";
         #endregion
 
         #region Question

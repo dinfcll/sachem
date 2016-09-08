@@ -10,6 +10,7 @@ using System.Web.Mvc;
 using sachem.Models;
 using PagedList;
 using System.Security.Cryptography;
+using System.Text;
 
 namespace sachem.Controllers
 {
@@ -80,44 +81,36 @@ namespace sachem.Controllers
         public ActionResult Create([Bind(Include = "id_Pers,id_Sexe,id_TypeUsag,Nom,Prenom,NomUsager,MP,ConfMP,Courriel,DateNais,Actif")] Personne personne)
         {
             var listeNomUtil = new SelectList(db.Personne, "id_pers", "NomUsager");
-            if (!listeNomUtil.Any(x => x.Text == personne.NomUsager)) // Verifier si le nom d'usager existe
-            {
 
-                if (personne.MP == personne.ConfMP) // Verifier la correspondance des mots de passe
-                {
+            if (listeNomUtil.Any(x => x.Text == personne.NomUsager)) // Verifier si le nom d'usager existe
+                ModelState.AddModelError(string.Empty, Messages.I_013);
+
+            if (personne.MP != personne.ConfMP) // Verifier la correspondance des mots de passe
+                ModelState.AddModelError(string.Empty, Messages.C_001);
 
                     if (ModelState.IsValid)
                     {
+                        personne.MP = encrypterChaine(personne.MP);
                         db.Personne.Add(personne);
                         db.SaveChanges();
                         return RedirectToAction("Index");
                     }
 
                     ViewBag.id_Sexe = new SelectList(db.p_Sexe, "id_Sexe", "Sexe", personne.id_Sexe);
-                    
-                    ViewBag.id_TypeUsag = new SelectList(lstType);
-                    return View(personne);
-                }
-                else
-                {
-                    
-                    return RedirectToAction("Create");
-                }
+                    var lstType = from c in db.p_TypeUsag
+                          where (c.TypeUsag == "Enseignant" || c.TypeUsag == "Responsable du SACHEM")
+                                  select c.TypeUsag; 
+            ViewBag.id_TypeUsag = new SelectList(lstType);
+                            return View(personne);
 
-            }
-            else
-            {
-
-                return RedirectToAction("Create");
-            }
         }
-       /*** public static string encrypterChaine(string Chaine)
+        public static string encrypterChaine(string Chaine)
         {
             byte[] buffer;
             MD5CryptoServiceProvider provider = new MD5CryptoServiceProvider();
             buffer = Encoding.UTF8.GetBytes(Chaine);
             return BitConverter.ToString(provider.ComputeHash(buffer)).Replace("-", "").ToLower();
-        }**/
+        }
         // GET: Enseignant/Edit/5
         public ActionResult Edit(int? id)
         {

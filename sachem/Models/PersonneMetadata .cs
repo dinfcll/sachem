@@ -54,6 +54,7 @@ namespace sachem.Models
 
         [Display(Name = "Courriel")]
         [Required(ErrorMessage = Messages.U_001)]
+        [EmailAddress(ErrorMessage = Messages.U_008)]
         [StringLength(256, ErrorMessage = Messages.U_005)]
         public string Courriel;
 
