@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Security.Cryptography;
 using System.Text;
+using System.Dynamic;
 
 /*******************************************************/
 /**Cette classe est grandement inspirée du projet PAM.**/
@@ -65,5 +66,42 @@ namespace sachem.Models
             buffer = Encoding.UTF8.GetBytes(Chaine);
             return BitConverter.ToString(provider.ComputeHash(buffer)).Replace("-", "").ToLower();
         }
+    }
+    // Classe scellée pour le HttpSession héritant du DynamicObject
+    public sealed class SessionBag : DynamicObject
+    {
+        private static readonly SessionBag sessionBag;
+
+        static SessionBag()
+        {
+            sessionBag = new SessionBag();
+        }
+
+        private SessionBag()
+        {
+        }
+        private HttpSessionStateBase Session
+        {
+            get { return new HttpSessionStateWrapper(HttpContext.Current.Session); }
+        }
+       
+        //Article sur l'accès des données dans un objet dynamique (session) en asp.net mvc5 (.NET 4.0+)
+        //http://www.codeproject.com/Articles/191422/Accessing-ASP-NET-Session-Data-Using-Dynamics
+        public override bool TryGetMember(GetMemberBinder binder, out object result) //overried du get d'un objet dynamique (session)
+        {
+            result = Session[binder.Name];
+            return true;
+        }
+
+        public override bool TrySetMember(SetMemberBinder binder, object value) //override du set d'un objet dynamique
+        {
+            Session[binder.Name] = value;
+            return true;
+        }
+        public static dynamic Current //Objet dynamique contenant la session active et seulement celle-ci
+        {
+            get { return sessionBag; }
+        }
+
     }
 }

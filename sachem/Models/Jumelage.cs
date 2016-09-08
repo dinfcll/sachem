@@ -24,5 +24,11 @@ namespace sachem.Models
         public Nullable<System.DateTime> DateFin { get; set; }
         public System.DateTime HeureDebut { get; set; }
         public System.DateTime HeureFin { get; set; }
+    
+        public virtual Inscription Inscription { get; set; }
+        public virtual Inscription Inscription1 { get; set; }
+        public virtual p_Jour p_Jour { get; set; }
+        public virtual Personne Personne { get; set; }
+        public virtual Session Session { get; set; }
     }
 }
