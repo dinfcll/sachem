@@ -40,9 +40,30 @@ namespace sachem.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Login(Personne infos)
         {
-            if (!ModelState.IsValid)
+            string mdpPlain = infos.MP;
+
+            //Validations des champs et de la connection
+            if (mdpPlain == "")
+                ModelState.AddModelError("MP", Messages.U_001);
+            else
+                if (infos.NomUsager == null)
+                ModelState.AddModelError("NomUsager", Messages.U_001);
+            else
+                    if (!db.Personne.Any(x => x.NomUsager == infos.NomUtilisateur || x.Matricule.Substring(2) == infos.NomUtilisateur))
+                        ModelState.AddModelError(string.Empty, Messages.I_017());  //Erreur de connection
+            else
             {
-                return View(infos);
+                //Encrypter le mdp et tester la connection
+                SachemIdentite.encrypterMPPersonne(ref infos);
+                Personne PersonneBD = db.Personne.AsNoTracking().Where(x => x.NomUsager == infos.NomUtilisateur || x.Matricule.Substring(2) == infos.NomUtilisateur).FirstOrDefault();
+                //Vérifie si le mot de passe concorde 
+                if (!db.Personne.Any(x => x.id_Pers == PersonneBD.id_Pers && x.MP == infos.MP))
+                    ModelState.AddModelError(string.Empty, Messages.I_017()); //Erreur de connection
+
+                if (!ModelState.IsValid)
+                {
+                    return View(infos); //Retourne le formulaire rempli avec l'erreur
+                }
             }
 
             return View();
@@ -71,24 +92,26 @@ namespace sachem.Controllers
         public ActionResult Register(Personne personne)
             //Fortement Extrait du PAM, approuvé par J, Lainesse
         {
+            //Get le sexe du formulaire
             ViewBag.id_Sexe = new SelectList(db.p_Sexe, "id_Sexe", "Sexe");
 
             if (personne.MP == null)
             {
-                ModelState.AddModelError("MP", Messages.U_001);
-                ModelState.AddModelError("ConfirmPassword", Messages.U_001);
+                ModelState.AddModelError("MP", Messages.U_001); //requis
+                ModelState.AddModelError("ConfirmPassword", Messages.U_001); //requis
             }
             if (personne.Matricule7 == null)
-                ModelState.AddModelError("Matricule7", Messages.U_001);
-            else if (personne.Matricule7.Length != 7 || !personne.Matricule.All(char.IsDigit))
-                ModelState.AddModelError("Matricule7", Messages.U_004);
+                ModelState.AddModelError("Matricule7", Messages.U_001); //requis
+            else if (personne.Matricule7.Length != 7 || !personne.Matricule.All(char.IsDigit)) //vérifie le matricule
+                ModelState.AddModelError("Matricule7", Messages.U_004); //longueur
             else if (db.Personne.Any(x => x.Matricule == personne.Matricule && x.MP != null))
-                ModelState.AddModelError(string.Empty, Messages.I_025());
+                ModelState.AddModelError(string.Empty, Messages.I_025()); //Un compte existe déjà pour cet étudiant.
             else if (!db.Personne.Any(x => x.Matricule == personne.Matricule))
-                ModelState.AddModelError(string.Empty, Messages.I_027());
+                ModelState.AddModelError(string.Empty, Messages.I_027()); //Aucun étudiant ne correspond aux données saisies. 
             else
             {
                 //Sort la personne de la BD pour la compléter
+                //Exemple du PAM grande inspiration
                 Personne EtudiantBD = db.Personne.AsNoTracking().Where(x => x.Matricule == personne.Matricule).FirstOrDefault();
 
                 //Erreur si les infos ne concordent pas
@@ -98,7 +121,7 @@ namespace sachem.Controllers
                 {
                     //Mise à jour des infos
                     EtudiantBD.Courriel = personne.Courriel;
-                  //  EtudiantBD.Telephone = SachemIdentite.FormatTelephone(personne.Telephone);
+                    EtudiantBD.Telephone = SachemIdentite.FormatTelephone(personne.Telephone);
                     EtudiantBD.MP = personne.MP;
                     SachemIdentite.encrypterMPPersonne(ref EtudiantBD);
 

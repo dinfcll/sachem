@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Security.Cryptography;
 using System.Text;
+using System.Dynamic;
 
 /*******************************************************/
 /**Cette classe est grandement inspirée du projet PAM.**/
@@ -64,6 +65,31 @@ namespace sachem.Models
             MD5CryptoServiceProvider provider = new MD5CryptoServiceProvider();
             buffer = Encoding.UTF8.GetBytes(Chaine);
             return BitConverter.ToString(provider.ComputeHash(buffer)).Replace("-", "").ToLower();
+        }
+    }
+    // Classe scellée pour le HttpSession héritant du DynamicObject
+    public sealed class SessionBag : DynamicObject
+    {
+        private HttpSessionStateBase Session
+        {
+            get { return new HttpSessionStateWrapper(HttpContext.Current.Session); }
+        }
+        private SessionBag()
+        {
+
+        }
+        //
+        //http://www.codeproject.com/Articles/191422/Accessing-ASP-NET-Session-Data-Using-Dynamics
+        public override bool TryGetMember(GetMemberBinder binder, out object result)
+        {
+            result = Session[binder.Name];
+            return true;
+        }
+
+        public override bool TrySetMember(SetMemberBinder binder, object value)
+        {
+            Session[binder.Name] = value;
+            return true;
         }
     }
 }

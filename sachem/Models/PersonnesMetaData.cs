@@ -55,7 +55,7 @@ namespace sachem.Models
             public global::System.String Courriel;
 
             [Display(Name = "Téléphone")]
-            [RegularExpression(@"((\(\d{3}\) ?)|(\d{3}-))?\d{3}-\d{4}", ErrorMessage = "Veuillez utiliser le format: (999) 999-9999")]
+            [RegularExpression(@"^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$", ErrorMessage = "Veuillez utiliser le format: (999) 999-9999")] //Vérifie le format du tel
             public global::System.String Telephone; //Ajout pour #Tel dans BD
 
             [Display(Name = "Nom d'usager")]
@@ -66,7 +66,7 @@ namespace sachem.Models
             [StringLength(9)]
             public global::System.String Matricule;
 
-            //Extrait du PAM
+            //Extrait du PAM partiellement
             [Display(Name = "Matricule7")]
             [StringLength(7)]
             public global::System.String Matricule7;
