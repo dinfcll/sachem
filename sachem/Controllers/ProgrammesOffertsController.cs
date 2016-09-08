@@ -36,27 +36,23 @@ namespace sachem.Controllers
         // POST: ProgrammesOfferts/Create
         [HttpPost]
         public ActionResult Create([Bind(Include = "id_ProgEtu,Code,NomProg,Annee,Actif")] ProgrammeEtude programme)
-        {
-          
-                Valider(programme);
+        { 
+            Valider(programme);
             if (ModelState.IsValid)
             {
                 
                 db.ProgrammeEtude.Add(programme);
                 db.SaveChanges();
 
-                TempData["Success"] = string.Format(Messages.I_006(programme.NomProg));
+                TempData["Success"] = string.Format(Messages.I_007(programme.NomProg));
                 return RedirectToAction("Index");
-
             }
             return View(programme);
-
-
         }
+
         // POST: ProgrammesOfferts/Edit/5
         public ActionResult Edit(int? id)
         {
-
             if (id == null)
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
@@ -70,6 +66,7 @@ namespace sachem.Controllers
             
             return View(programme);
         }
+
         [HttpPost]
         public ActionResult Edit([Bind(Include = "id_ProgEtu,Code,NomProg,Annee,Actif")] ProgrammeEtude programme, int? page)
         {
@@ -80,7 +77,7 @@ namespace sachem.Controllers
                 db.Entry(programme).State = EntityState.Modified;
                 db.SaveChanges();
 
-                TempData["Success"] = string.Format(Messages.I_004(programme.NomProg));
+                TempData["Success"] = string.Format(Messages.I_007(programme.NomProg));
                 return RedirectToAction("Index");
             }
             return View(programme);
@@ -101,14 +98,16 @@ namespace sachem.Controllers
         }
 
         // POST: ProgrammesOfferts/Delete/5
+        /*Fonction qui permet de supprimer un programme. Premièrement, elle regarde s'il y a un étudiant lié au programme d'études.
+        Si oui, il est impossible de le supprimer. Sinon, le programme est supprimé*/
         [HttpPost, ActionName("Delete")]
         public ActionResult DeleteConfirmed(int id, int? page)
         {
             var pageNumber = page ?? 1;
            
-            if (db.ProgrammeEtude.Find(id) == null)
+            if (db.EtuProgEtude.Any(r => r.id_ProgEtu == id))
             {
-                ModelState.AddModelError(string.Empty, Messages.I_001());
+                ModelState.AddModelError(string.Empty, Messages.I_005());
             }
 
             if (ModelState.IsValid)
@@ -120,23 +119,24 @@ namespace sachem.Controllers
             }
             return View("Index", Recherche(null).ToPagedList(pageNumber, 20));
         }
+
         private void Valider([Bind(Include = "id_ProgEtu,Code,NomProg,Annee,Actif")] ProgrammeEtude programme)
         {
             if (db.ProgrammeEtude.Any(r => r.Code == programme.Code && r.id_ProgEtu != programme.id_ProgEtu))
-                ModelState.AddModelError(string.Empty, Messages.I_002(programme.Code));
+                ModelState.AddModelError(string.Empty, Messages.I_006(programme.Code));
         }
 
+        //Méthode qui permet de faire la recherche, soit sur le nom de programme ou sur le code.
         private IEnumerable<ProgrammeEtude> Recherche(string recherche)
         {
             var programmesEtude = from c in db.ProgrammeEtude
                                   orderby c.Code, c.Annee
                                   select c;
+
             if (!String.IsNullOrEmpty(recherche))
             {
                 programmesEtude = programmesEtude.Where(c => c.Code.Contains(recherche) || c.NomProg.Contains(recherche)) as IOrderedQueryable<ProgrammeEtude>;
             }
-
-            
             return programmesEtude.ToList();
         }
     }
