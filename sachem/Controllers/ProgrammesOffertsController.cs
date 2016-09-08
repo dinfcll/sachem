@@ -131,7 +131,7 @@ namespace sachem.Controllers
         [NonAction]
         public void Valider([Bind(Include = "id_ProgEtu,Code,NomProg,Annee,Actif")]ProgrammeEtude programme)
         {
-            if (db.ProgrammeEtude.Any(c => c.Code == programme.Code && c.Actif == true && c.Annee == programme.Annee))
+            if (db.ProgrammeEtude.Any(c => c.Code == programme.Code && c.Actif && c.Annee == programme.Annee))
             {
                 ModelState.AddModelError(String.Empty, Messages.I_006(programme.Code));
             }
