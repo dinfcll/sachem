@@ -7,9 +7,11 @@ using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using System.Web.Security;
-using Microsoft.Owin.Security;
-using sachem.Models;
 using System.Text.RegularExpressions;
+using sachem.Models;
+using System.Net;
+using System.Net.Mail;
+using System.Text;
 
 namespace sachem.Controllers
 {
@@ -49,11 +51,11 @@ namespace sachem.Controllers
             else
                 if (infos.NomUsager == null)
                     ModelState.AddModelError("NomUsager", Messages.U_001); //enter user
-                else
+            else
                     if(Regex.IsMatch(infos.NomUsager, @"^\d+$") && infos.NomUsager.Length == 7) //Vérifie que le matricule est 7 de long
                         if (!db.Personne.Any(x => x.Matricule.Substring(2) == infos.NomUsager))
-                            ModelState.AddModelError(string.Empty, Messages.I_017());  //Erreur de connection
-                        else
+                        ModelState.AddModelError(string.Empty, Messages.I_017());  //Erreur de connection
+            else
                             PersonneBD = db.Personne.AsNoTracking().Where(x => x.Matricule.Substring(2) == infos.NomUsager).FirstOrDefault();
             
                     if (!db.Personne.Any(x => x.NomUsager == infos.NomUsager))
@@ -61,15 +63,15 @@ namespace sachem.Controllers
                         PersonneBD = db.Personne.AsNoTracking().Where(x => x.NomUsager == infos.NomUsager).FirstOrDefault();
                     }
                     else
-                    {
-                        //Encrypter le mdp et tester la connection
-                        SachemIdentite.encrypterMPPersonne(ref infos);
-                        PersonneBD = db.Personne.AsNoTracking().Where(x => x.NomUsager == infos.NomUtilisateur || x.Matricule.Substring(2) == infos.Matricule7).FirstOrDefault();
-                        //Vérifie si le mot de passe concorde 
-                        if (!db.Personne.Any(x => x.id_Pers == PersonneBD.id_Pers && x.MP == infos.MP))
-                            ModelState.AddModelError(string.Empty, Messages.I_017()); //Erreur de connection
-                        if (!ModelState.IsValid)
-                            return View(infos); //Retourne le formulaire rempli avec l'erreur
+            {
+                    //Encrypter le mdp et tester la connection
+                    SachemIdentite.encrypterMPPersonne(ref infos);
+                            PersonneBD = db.Personne.AsNoTracking().Where(x => x.NomUsager == infos.NomUtilisateur || x.Matricule.Substring(2) == infos.Matricule7).FirstOrDefault();
+                    //Vérifie si le mot de passe concorde 
+                    if (!db.Personne.Any(x => x.id_Pers == PersonneBD.id_Pers && x.MP == infos.MP))
+                        ModelState.AddModelError(string.Empty, Messages.I_017()); //Erreur de connection
+                    if (!ModelState.IsValid)
+                    return View(infos); //Retourne le formulaire rempli avec l'erreur
 
                         //Si tout va bien, on rempli la session avec les informations de l'utilisateur!
                         SessionBag.Current.NomUsager = infos.NomUsager;
@@ -80,7 +82,7 @@ namespace sachem.Controllers
 
                         //On retourne à l'accueil en attendant de voir la suite.
                         return RedirectToAction("Index", "Home");
-                     }
+            }
 
              return View(infos);
         }
@@ -154,14 +156,6 @@ namespace sachem.Controllers
         }
 
 
-        //
-        // GET: /Account/ResetPasswordConfirmation
-        [AllowAnonymous]
-        public ActionResult ResetPasswordConfirmation()
-        {
-            return View();
-        }
-
         // GET: /Account/Mot de passe oublié
         [AllowAnonymous]
         public ActionResult ForgotPassword()
@@ -178,8 +172,20 @@ namespace sachem.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public ActionResult ForgotPassword(string Courriel)
+        public ActionResult ForgotPassword(string courriel)
         {
+            SmtpClient client = new SmtpClient();
+            MailMessage message = new MailMessage("sachemcllmail@gmail.com",courriel,"test","bonjour");//Test d'envoi de email
+            client.Port = 587;
+            client.Host = "smtp.gmail.com";
+            client.EnableSsl = true;
+            client.Timeout = 10000;
+            client.DeliveryMethod=SmtpDeliveryMethod.Network;
+            client.UseDefaultCredentials = false;
+            client.Credentials=new NetworkCredential("sachemcllmail@gmail.com", "sachemadmin#123");//information de connection au email d'envoi de message de SACHEM
+            message.BodyEncoding = Encoding.UTF8;
+            client.Send(message);
+
             return View();
         }
         //
