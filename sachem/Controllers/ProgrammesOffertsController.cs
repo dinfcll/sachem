@@ -35,6 +35,7 @@ namespace sachem.Controllers
 
         // POST: ProgrammesOfferts/Create
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "id_ProgEtu,Code,NomProg,Annee,Actif")] ProgrammeEtude programme)
         {
           
@@ -54,6 +55,11 @@ namespace sachem.Controllers
 
         }
         // POST: ProgrammesOfferts/Edit/5
+        /// <summary>
+        /// GET:modifier un programme
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public ActionResult Edit(int? id)
         {
 
@@ -71,6 +77,7 @@ namespace sachem.Controllers
             return View(programme);
         }
         [HttpPost]
+        //POST:modifier un programme
         public ActionResult Edit([Bind(Include = "id_ProgEtu,Code,NomProg,Annee,Actif")] ProgrammeEtude programme, int? page)
         {
             Valider(programme);
@@ -120,10 +127,18 @@ namespace sachem.Controllers
             }
             return View("Index", Recherche(null).ToPagedList(pageNumber, 20));
         }
-        private void Valider([Bind(Include = "id_ProgEtu,Code,NomProg,Annee,Actif")] ProgrammeEtude programme)
+        /// <summary>
+        /// méthode de validation d'un programme
+        /// </summary>
+        /// <param name="programme"></param>
+   
+        [NonAction]
+        public void Valider([Bind(Include = "id_ProgEtu,Code,NomProg,Annee,Actif")]ProgrammeEtude programme)
         {
-            if (db.ProgrammeEtude.Any(r => r.Code == programme.Code && r.id_ProgEtu != programme.id_ProgEtu))
-                ModelState.AddModelError(string.Empty, Messages.I_002(programme.Code));
+            if (db.ProgrammeEtude.Any(c => c.Code == programme.Code && c.Actif == true && c.Annee == programme.Annee))
+            {
+                ModelState.AddModelError(String.Empty, Messages.I_006(programme.Code));
+            }
         }
 
         private IEnumerable<ProgrammeEtude> Recherche(string recherche)

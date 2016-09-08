@@ -29,7 +29,6 @@ namespace sachem.Models
 
         
         [Required(ErrorMessage = Messages.U_001)]
-        
         [Display(Name = "Année")]
         public int Annee { get; set; }
     }
