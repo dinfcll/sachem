@@ -19,7 +19,7 @@ namespace sachem.Controllers
         {
             var lCours = db.Cours.AsNoTracking().OrderBy(c => c.Code);
             var slCours = new List<SelectListItem>();
-            slCours.AddRange(new SelectList(lCours, "id_Cours", "Code" + "Nom", 0));
+            slCours.AddRange(new SelectList(lCours, "id_Cours", "CodeNom", 0));
 
             ViewBag.Cours = slCours;
         }
@@ -90,6 +90,8 @@ namespace sachem.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "id_CoursReussi,id_Sess,id_Pers,id_College,id_Statut,id_Cours,resultat,autre_Cours,autre_College")] CoursSuivi coursSuivi)
+        //id_CoursReussi,id_Sess,id_Pers,id_College,id_Statut,id_Cours,resultat,autre_Cours,autre_College
+        //Cours,autre_Cours,College,autre_College,Session,Statut,resultat
         {
             if (ModelState.IsValid)
             {
@@ -97,6 +99,10 @@ namespace sachem.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
+            ListeCours();
+            ListeCollege();
+            ListeStatut();
+            ListeSession();
 
             return View(coursSuivi);
         }

@@ -13,27 +13,22 @@ namespace sachem.Models
     {
         [DisplayFormat(ConvertEmptyStringToNull = false)]
         [Display(Name = "Cours")]
-        [Required(ErrorMessage = Messages.U_001)]
         public string id_Cours;
 
         [DisplayFormat(ConvertEmptyStringToNull = false)]
         [Display(Name = "Autre cours")]
-        [Required(ErrorMessage = Messages.U_001)]
         public string autre_Cours;
 
         [DisplayFormat(ConvertEmptyStringToNull = false)]
         [Display(Name = "Collège")]
-        [Required(ErrorMessage = Messages.U_001)]
         public string id_College;
 
         [DisplayFormat(ConvertEmptyStringToNull = false)]
         [Display(Name = "Autre collège")]
-        [Required(ErrorMessage = Messages.U_001)]
         public string autre_College;
 
         [DisplayFormat(ConvertEmptyStringToNull = false)]
         [Display(Name = "Session")]
-        [Required(ErrorMessage = Messages.U_001)]
         public string id_Sess;
 
         [Display(Name = "Statut")]
