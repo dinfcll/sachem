@@ -21,12 +21,37 @@ namespace sachem.Controllers
         private readonly SACHEMEntities db = new SACHEMEntities();
 
 
-        
+
         public AccountController()
         {
 
         }
-        
+
+        [NonAction]
+        private bool EnvoyerCourriel(String Email, string nouveaumdp)
+        {
+            SmtpClient client = new SmtpClient();
+            //Création du message envoyé par courriel
+            MailMessage message = new MailMessage("sachemcllmail@gmail.com", Email, "Demande de réinitialisation de mot de passe", "Voici votre nouveau mot de passe: " + nouveaumdp + " .");
+            client.Port = 587;
+            client.Host = "smtp.gmail.com";
+            client.EnableSsl = true;
+            client.Timeout = 10000;
+            client.DeliveryMethod = SmtpDeliveryMethod.Network;
+            client.UseDefaultCredentials = false;
+            client.Credentials = new NetworkCredential("sachemcllmail@gmail.com", "sachemadmin#123"); //information de connection au email d'envoi de message de SACHEM
+            message.BodyEncoding = Encoding.UTF8;
+            message.DeliveryNotificationOptions = DeliveryNotificationOptions.OnFailure;
+            try//pour savoir si l'envoi à fonctionner
+            {
+                client.Send(message);//Envoi
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+            return true;
+        }
         //
         // GET: /Account/Login
         [AllowAnonymous]
@@ -159,18 +184,36 @@ namespace sachem.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult ForgotPassword(string courriel)
         {
-            SmtpClient client = new SmtpClient();
-            MailMessage message = new MailMessage("sachemcllmail@gmail.com",courriel,"test","bonjour");//Test d'envoi de email
-            client.Port = 587;
-            client.Host = "smtp.gmail.com";
-            client.EnableSsl = true;
-            client.Timeout = 10000;
-            client.DeliveryMethod=SmtpDeliveryMethod.Network;
-            client.UseDefaultCredentials = false;
-            client.Credentials=new NetworkCredential("sachemcllmail@gmail.com", "sachemadmin#123");//information de connection au email d'envoi de message de SACHEM
-            message.BodyEncoding = Encoding.UTF8;
-            client.Send(message);
-
+            if (db.Personne.Any(y => y.Courriel == courriel && y.Actif == true))//vérifie si le courriel est associé à un compte utilisateur
+            {
+                //Création du mot de passe
+                //Inspiré par la fonction trouvé sur le site web: http://madskristensen.net/post/generate-random-password-in-c
+                string caracterePossible = "abcdefghijkmnopqrstuvwxyzABCDEFGHJKLMNOPQRSTUVWXYZ0123456789!@$?"; //liste de caractères qui sont utilisés pour la création du mot de passe
+                string nouveaumdp = "";
+                Random r = new Random();
+                for (int i = 0; i < 10; i++)
+                    //cette boucle crée un nouveau mot de passe qui aura une longueur de 10 caractères contenue dans la variable caractèrepossible
+                {
+                    nouveaumdp = nouveaumdp + caracterePossible[r.Next(0, caracterePossible.Length)];
+                }
+                if (EnvoyerCourriel(courriel, nouveaumdp))//Envoi le courriel et test s'il a été envoyé avant d'enregistré le nouveau mot de passe, la méthode retourne true ou false.
+                {
+                    Personne utilisateur = db.Personne.AsNoTracking().Where(x => x.Courriel == courriel).FirstOrDefault();
+                    utilisateur.MP = nouveaumdp;//Change le mot de passe
+                    SachemIdentite.encrypterMPPersonne(ref utilisateur);//l'Encrypte
+                    db.Entry(utilisateur).State = EntityState.Modified;
+                    db.SaveChanges();//L'enregistre
+                    ViewBag.Success = Messages.I_019();
+                }
+                else
+                {
+                    ModelState.AddModelError(string.Empty,"Problème lors de l'envoi du courriel, le port 587 est bloqué.");
+                }
+            }
+            else
+            {
+                ModelState.AddModelError("Courriel",Messages.C_003);
+            }
             return View();
         }
         //
