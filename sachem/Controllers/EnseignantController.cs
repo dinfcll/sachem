@@ -9,6 +9,8 @@ using System.Web.DynamicData;
 using System.Web.Mvc;
 using sachem.Models;
 using PagedList;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace sachem.Controllers
 {
@@ -87,11 +89,17 @@ namespace sachem.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "id_Pers,id_Sexe,id_TypeUsag,Nom,Prenom,NomUsager,MP,ConfMP,Courriel,DateNais,Actif")] Personne personne, int? page)
         {
-            Console.WriteLine(personne.id_Pers + personne.ToString());
-            Valider(personne);
+            var listeNomUtil = new SelectList(db.Personne, "id_pers", "NomUsager");
+
+            if (listeNomUtil.Any(x => x.Text == personne.NomUsager)) // Verifier si le nom d'usager existe
+                ModelState.AddModelError(string.Empty, Messages.I_013);
+
+            if (personne.MP != personne.ConfMP) // Verifier la correspondance des mots de passe
+                ModelState.AddModelError(string.Empty, Messages.C_001);
 
             if (ModelState.IsValid)
             {
+                        personne.MP = encrypterChaine(personne.MP); // Encryption du mot de passe
                 db.Personne.Add(personne);
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -102,7 +110,13 @@ namespace sachem.Controllers
             return View(personne);
 
         }
-
+        public static string encrypterChaine(string Chaine)
+        {
+            byte[] buffer;
+            MD5CryptoServiceProvider provider = new MD5CryptoServiceProvider();
+            buffer = Encoding.UTF8.GetBytes(Chaine);
+            return BitConverter.ToString(provider.ComputeHash(buffer)).Replace("-", "").ToLower();
+        }
         // GET: Enseignant/Edit/5
         public ActionResult Edit(int? id)
         {
@@ -156,11 +170,24 @@ namespace sachem.Controllers
         // POST: Enseignant/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
+        public ActionResult DeleteConfirmed(int idEnseignant)
         {
-            Personne personne = db.Personne.Find(id);
-            db.Personne.Remove(personne);
+            if (db.Groupe.Any(g => g.id_Enseignant == idEnseignant)) // Verifier si l'enseignant est relié a un groupe
+            {
+                ModelState.AddModelError(string.Empty, Messages.I_012);
+            }
+            if (db.Jumelage.Any(g => g.id_Enseignant == idEnseignant)) // Vérifier si l'enseignant est relié a un jumelage
+            {
+                ModelState.AddModelError(string.Empty, Messages.I_033);
+            }
+            if (ModelState.IsValid)
+        {
+                Personne personne = db.Personne.Find(idEnseignant);
+                var SuppPersonne = db.Personne.Where(x => x.id_Pers == idEnseignant); // rechercher l'enseignant
+                db.Personne.RemoveRange(SuppPersonne); // retirer toute les occurences de l'enseignant
             db.SaveChanges();
+                ViewBag.Success = string.Format(Messages.I_029(personne.NomUsager));
+            }
             return RedirectToAction("Index");
         }
 

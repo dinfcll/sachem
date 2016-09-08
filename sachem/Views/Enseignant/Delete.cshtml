@@ -1,30 +1,22 @@
 ﻿@model sachem.Models.Personne
 
 @{
-    ViewBag.Title = "Delete";
+    ViewBag.Title = "Supprimer enseignant";
 }
 
-<h2>Delete</h2>
+<h2>Supprimer un enseignant</h2>
 
-<h3>Are you sure you want to delete this?</h3>
+<h3>@sachem.Models.Messages.Q_003(Model.NomUsager)</h3>
 <div>
-    <h4>Personne</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
             @Html.DisplayNameFor(model => model.Nom)
         </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Nom)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Prenom)
-        </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Prenom)
+            @Html.DisplayFor(model => model.Nom), @Html.DisplayFor(model => model.Prenom)
         </dd>
 
         <dt>
@@ -36,43 +28,11 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Matricule)
+            @Html.DisplayNameFor(model => model.p_TypeUsag.TypeUsag)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Matricule)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.MP)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.MP)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Courriel)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Courriel)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Telephone)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Telephone)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.DateNais)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.DateNais)
+            @Html.DisplayFor(model => model.p_TypeUsag.TypeUsag)
         </dd>
 
         <dt>
@@ -83,30 +43,14 @@
             @Html.DisplayFor(model => model.Actif)
         </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.p_Sexe.Sexe)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.p_Sexe.Sexe)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.p_TypeUsag.TypeUsag)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.p_TypeUsag.TypeUsag)
-        </dd>
-
     </dl>
 
     @using (Html.BeginForm()) {
         @Html.AntiForgeryToken()
 
         <div class="form-actions no-color">
-            <input type="submit" value="Delete" class="btn btn-default" /> |
-            @Html.ActionLink("Back to List", "Index")
+            <input type="submit" value="Supprimer" class="btn btn-default" /> |
+            @Html.ActionLink("Retour à la recherche des enseignants", "Index")
         </div>
     }
 </div>
