@@ -398,6 +398,7 @@
     <Content Include="Views\Enseignant\Details.cshtml" />
     <Content Include="Views\Enseignant\Edit.cshtml" />
     <Content Include="Views\Enseignant\Index.cshtml" />
+    <Content Include="Views\Enseignant\_Enseignant.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -412,6 +413,9 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
