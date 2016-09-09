@@ -20,7 +20,6 @@ namespace sachem.Controllers
             var lCours = db.Cours.AsNoTracking().OrderBy(c => c.Code);
             var slCours = new List<SelectListItem>();
             slCours.AddRange(new SelectList(lCours, "id_Cours", "CodeNom", Cours));
-
             ViewBag.id_Cours = slCours;
         }
 
@@ -107,16 +106,20 @@ namespace sachem.Controllers
         // GET: CoursSuivi/Edit/5
         public ActionResult Edit(int? id)
         {
+            int id2 = 1;
+            
             if (id == null)
-            {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            CoursSuivi coursSuivi = db.CoursSuivi.Find(id);
-            if (coursSuivi == null)
+            CoursSuivi cs = db.CoursSuivi.Where(r => r.id_Pers == id2 && r.id_CoursReussi == id).FirstOrDefault();
+            ListeCours(cs.id_Cours.Value);
+            ListeCollege(cs.id_College.Value);
+            ListeStatut();
+            ListeSession();
+            if (cs == null)
             {
                 return HttpNotFound();
             }
-            return View(coursSuivi);
+            return View(cs);
         }
 
         // POST: CoursSuivi/Edit/5

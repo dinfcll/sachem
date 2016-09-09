@@ -1,4 +1,5 @@
-﻿@model IEnumerable<sachem.Models.CoursSuivi>
+﻿@using sachem.Models
+@model IEnumerable<sachem.Models.CoursSuivi>
 
 @{
     ViewBag.Title = "Index";
@@ -59,9 +60,9 @@
             @Html.DisplayFor(modelItem => item.autre_College)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-            @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-            @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+            @Html.ActionLink("Edit", "Edit", new { id=item.id_CoursReussi }) |
+            @Html.ActionLink("Details", "Details", new { id=item.id_CoursReussi }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.id_CoursReussi })
         </td>
     </tr>
 }
