@@ -28,7 +28,7 @@ namespace sachem.Models
         /// <returns></returns>private string I_003(string cours)
         public static string I_003(string Cours)
         { return $"Le cours {Cours} a été enregistré."; }
-
+        
         /// <summary>
         /// Le cours {0} a été supprimé.
         /// </summary>
@@ -37,6 +37,13 @@ namespace sachem.Models
         public static string I_009(string Cours)
         { return $"Le cours {Cours} a été supprimé."; }
 
+        /// <summary>
+        /// Impossible d’enregistrer ce cours. Il existe déjà dans votre liste de cours suivi antérieurement.
+        /// </summary>
+        /// <param name="Cours"></param>
+        /// <returns></returns>
+        public static string I_036()
+        { return "Impossible d’enregistrer ce cours. Il existe déjà dans votre liste de cours suivi antérieurement"; }
 
         #endregion
 

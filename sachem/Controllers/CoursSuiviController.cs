@@ -50,6 +50,18 @@ namespace sachem.Controllers
             ViewBag.id_Sess = slSession;
         }
 
+        private void Valider([Bind(Include = "id_CoursReussi,id_Sess,id_Pers,id_College,id_Statut,id_Cours,resultat,autre_Cours,autre_College")] CoursSuivi coursSuivi)
+        {
+            if (db.CoursSuivi.Any(r => r.id_Cours == coursSuivi.id_Cours && r.id_Pers == coursSuivi.id_Pers && r.id_Sess == coursSuivi.id_Sess && r.id_College == coursSuivi.id_College))
+                ModelState.AddModelError(string.Empty, Messages.I_036());
+
+            if (coursSuivi.id_Cours == null && coursSuivi.autre_Cours == string.Empty)
+                ModelState.AddModelError(string.Empty, Messages.U_001);
+
+            if (coursSuivi.id_College == null && coursSuivi.autre_College == string.Empty)
+                ModelState.AddModelError(string.Empty, Messages.U_001);
+        }
+
         // GET: CoursSuivi
         public ActionResult Index()
         {
@@ -92,7 +104,15 @@ namespace sachem.Controllers
         //id_CoursReussi,id_Sess,id_Pers,id_College,id_Statut,id_Cours,resultat,autre_Cours,autre_College
         //Cours,autre_Cours,College,autre_College,Session,Statut,resultat
         {
-            ViewBag.Donne = coursSuivi.id_Cours;
+            ListeCours();
+            ListeCollege();
+            ListeStatut();
+            ListeSession();
+
+            //Valeur fictive de personne
+            coursSuivi.id_Pers = 1;
+
+            Valider(coursSuivi);
 
             if (ModelState.IsValid)
             {
