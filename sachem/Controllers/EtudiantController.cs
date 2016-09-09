@@ -88,69 +88,75 @@ namespace sachem.Controllers
         //    return View(personne.ToList());
         //}
 
-        public ActionResult Index(int? page)
+        public ActionResult Index(string recherche, int? page)
         {
-            var pageNumber = page ?? 1;
-
-            return View(Rechercher().ToPagedList(pageNumber, 25));
-        }
-
-        private IEnumerable<Personne> Rechercher()
-        {
-            var personne = from c in db.Personne
-                           where c.Actif == true && c.id_TypeUsag == 1
-                           select c;
-            if (Request.RequestType == "POST")
+            if (recherche != null)
             {
-                if (!String.IsNullOrEmpty(Request.Form["SearchMatricule"]))
-                {
-                    //personne = null;
-                    //pers = personne.Where(s => s.Matricule7.Contains(Request.Form["SearchMatricule"]));
-                    personne = from c in db.Personne
-                               where c.Actif == true && c.id_TypeUsag == 1
-                               //&& c.Matricule7.Contains(Request.Form["SearchMatricule"])
-                               select c;
-                }
+                page = 1;
             }
 
-            //var personne = from c in db.Personne
-            //               where c.Actif == true && c.id_TypeUsag == 1
-            //               select c;
-            //if (Request.RequestType == "POST")
-            //{
-            //    string m = ViewBag.Mat;
-            //    if (!String.IsNullOrEmpty(m))
-            //    {
-            //        //personne = null;
-            //        personne = from c in db.Personne
-            //                   where c.Actif == true && c.id_TypeUsag == 1
-            //                   && c.Matricule7.Contains(m)
-            //                   select c;
-            //    }
-            //}
+            var personne = from c in db.Personne   
+                           where c.Actif == true && c.id_TypeUsag == 1
+                           select c;
+            if (!String.IsNullOrEmpty(recherche))
+            {
+                personne = personne.Where(c => c.Matricule7.Contains(recherche)) as IOrderedQueryable<Personne>;
+            }
 
-            //foreach (var pers in personne)
-            //{
-            //    var pidEtu = (from p in db.EtuProgEtude
-            //                  where pers.id_Pers == p.id_Etu
-            //                  orderby p.id_Sess descending
-            //                  select p).FirstOrDefault();
-
-            //    var pEtu = db.ProgrammeEtude.Find(pidEtu.id_ProgEtu);
-            //    pers.ProgEtu = pEtu.NomProg.ToString();
-
-            //}
-
-            //on enregistre la recherche
-            //Session["DernRechCours"] = sess + ";" + actif;
-            //Session["DernRechCoursUrl"] = Request.Url?.LocalPath;
-
-
-            ListeSession();
-            ListeCours();
-            ListeGroupe();
-            return personne.ToList();
+            int numeroPage = (page ?? 1);
+            return View(personne.ToPagedList(numeroPage, 25));
         }
+
+
+        //private IEnumerable<Personne> Rechercher()
+        //{
+        //    var personne = from c in db.Personne
+        //                   where c.Actif == true && c.id_TypeUsag == 1
+        //                   select c;
+        //        if (!String.IsNullOrEmpty(recherche))
+        //        {
+        //            personne = personne.Where(c => c.Matricule7.Contains() || c.NomProg.Contains(recherche)) as IOrderedQueryable<ProgrammeEtude>;
+        //        }
+        //}
+
+        //    //var personne = from c in db.Personne
+        //    //               where c.Actif == true && c.id_TypeUsag == 1
+        //    //               select c;
+        //    //if (Request.RequestType == "POST")
+        //    //{
+        //    //    string m = ViewBag.Mat;
+        //    //    if (!String.IsNullOrEmpty(m))
+        //    //    {
+        //    //        //personne = null;
+        //    //        personne = from c in db.Personne
+        //    //                   where c.Actif == true && c.id_TypeUsag == 1
+        //    //                   && c.Matricule7.Contains(m)
+        //    //                   select c;
+        //    //    }
+        //    //}
+
+        //    //foreach (var pers in personne)
+        //    //{
+        //    //    var pidEtu = (from p in db.EtuProgEtude
+        //    //                  where pers.id_Pers == p.id_Etu
+        //    //                  orderby p.id_Sess descending
+        //    //                  select p).FirstOrDefault();
+
+        //    //    var pEtu = db.ProgrammeEtude.Find(pidEtu.id_ProgEtu);
+        //    //    pers.ProgEtu = pEtu.NomProg.ToString();
+
+        //    //}
+
+        //    //on enregistre la recherche
+        //    //Session["DernRechCours"] = sess + ";" + actif;
+        //    //Session["DernRechCoursUrl"] = Request.Url?.LocalPath;
+
+
+        //    ListeSession();
+        //    ListeCours();
+        //    ListeGroupe();
+        //    return personne.ToList();
+        //}
 
 
         //private IEnumerable<Cours> Rechercher()
