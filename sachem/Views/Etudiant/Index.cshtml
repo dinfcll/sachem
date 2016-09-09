@@ -1,19 +1,20 @@
 ﻿@using sachem.Models
-@model IEnumerable<sachem.Models.Personne>
-
+@model PagedList.IPagedList<sachem.Models.Personne>
 @{
     ViewBag.Title = "Index";
 }
 
 <h2>Étudiant</h2>
 <h4>Recherche</h4>
+@using (Html.BeginForm("Index", "Etudiant", FormMethod.Post, new { @class = "Recherche", role = "form" }))
+{
 <table class="Recherche">
     <tr>
         <th>
             @Html.DisplayName("Matricule:")
         </th>
         <th width = "4%">
-            <input type="text" name="Matricule" size ="20">
+            @Html.TextBox("SearchMatricule", (string)ViewBag.Mat)
         </th>
         <th>
             @Html.DisplayName("ou")
@@ -31,19 +32,21 @@
         </th>
         <th>
             
-           @Html.DisplayName("Cours: ")
+        @Html.DisplayName("Cours: ")
         @*@Html.DropDownList("Cours", ViewBag.SessionList as SelectList)*@
         @Html.DropDownList("Cours", "Choisir")
         </th>
         <th>
             @Html.DisplayName("Groupe: ")
             @Html.DropDownList("Groupe")
-            <button type="Rechercher">
-                Rechercher
-            </button>
+            <input type="submit" value="Rechercher" class="btn-toolbar" />
+                           
+            @*<input type="button" value="Some text" onclick="window.location.href='<%= Url.Action("Rechercher", "EtudiantController" ) %>';" />*@ 
         </th>
     </tr>
-    
+</table>
+}
+
     <p>
         @Html.ActionLink("Ajouter un étudiant", "Create")
     </p>
@@ -88,7 +91,7 @@
                 
                 </td>
                 <td>
-                   @* @Html.DisplayFor(modelItem => item.ProgEtu)*@
+                    @Html.DisplayFor(modelItem => item.ProgEtu)
                     @*@Html.DisplayFor(modelItem => item.DateNais)*@
                     @*@foreach (Personne personne in @Model)
                     {
@@ -104,3 +107,4 @@
         }
 
     </table>
+    @Html.Partial("_PageRecherche", Model)
