@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Data.Entity;
 using System.Linq;
-
 using System.Web.Mvc;
-
 using System.Text.RegularExpressions;
 using sachem.Models;
 using System.Net;
@@ -94,6 +92,11 @@ namespace sachem.Controllers
                     ModelState.AddModelError(string.Empty, Messages.I_017()); //Erreur de connection
                 if (!ModelState.IsValid)
                     return View(PersonneBD); //Retourne le formulaire rempli avec l'erreur
+
+
+                var lstCours = from i in db.Inscription
+                               join ti in db.p_TypeInscription on i.id_TypeInscription equals ti.id_TypeInscription
+                               where i.id_Pers == PersonneBD.id_Pers select i;
 
                 //Si tout va bien, on rempli la session avec les informations de l'utilisateur!
                 SessionBag.Current.NomUsager = PersonneBD.NomUsager;
@@ -285,6 +288,7 @@ namespace sachem.Controllers
         //
         // POST: /Account/LogOff
         [HttpPost]
+        [AllowAnonymous]
         [ValidateAntiForgeryToken]
         public ActionResult LogOff()
         {
