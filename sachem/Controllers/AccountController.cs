@@ -66,50 +66,50 @@ namespace sachem.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public ActionResult Login(Personne infos)
+        public ActionResult Login(string NomUsager, string MP)
         {
-            string mdpPlain = infos.MP;
+            string mdpPlain = MP;
             Personne PersonneBD = new Personne();
             //Validations des champs et de la connection
             if (mdpPlain == "")
                 ModelState.AddModelError("MP", Messages.U_001); //enter mdp
             else
-                if (infos.NomUsager == null)
-                    ModelState.AddModelError("NomUsager", Messages.U_001); //enter user
+                if (NomUsager == null)
+                ModelState.AddModelError("NomUsager", Messages.U_001); //enter user
             else
-                    if(Regex.IsMatch(infos.NomUsager, @"^\d+$") && infos.NomUsager.Length == 7) //Vérifie que le matricule est 7 de long
-                        if (!db.Personne.Any(x => x.Matricule.Substring(2) == infos.NomUsager))
-                        ModelState.AddModelError(string.Empty, Messages.I_017());  //Erreur de connection
-            else
-                            PersonneBD = db.Personne.AsNoTracking().Where(x => x.Matricule.Substring(2) == infos.NomUsager).FirstOrDefault();
-            
-                    if (!db.Personne.Any(x => x.NomUsager == infos.NomUsager))
-                    {
-                        PersonneBD = db.Personne.AsNoTracking().Where(x => x.NomUsager == infos.NomUsager).FirstOrDefault();
-                    }
+                    if (Regex.IsMatch(NomUsager, @"^\d+$") && NomUsager.Length == 7) //Vérifie que le matricule est 7 de long
+                        if (!db.Personne.Any(x => x.Matricule.Substring(2) == NomUsager))
+                            ModelState.AddModelError(string.Empty, Messages.I_017());  //Erreur de connection
+                        else
+                            PersonneBD = db.Personne.AsNoTracking().Where(x => x.Matricule.Substring(2) == NomUsager).FirstOrDefault();
                     else
+                        if (!db.Personne.Any(x => x.NomUsager == NomUsager))
+                ModelState.AddModelError(string.Empty, Messages.I_017());  //Erreur de connection
+                        else
+                            PersonneBD = db.Personne.AsNoTracking().Where(x => x.NomUsager == PersonneBD.NomUsager).FirstOrDefault();
+            if (ModelState.IsValid)
             {
-                    //Encrypter le mdp et tester la connection
-                    SachemIdentite.encrypterMPPersonne(ref infos);
-                            PersonneBD = db.Personne.AsNoTracking().Where(x => x.NomUsager == infos.NomUtilisateur || x.Matricule.Substring(2) == infos.Matricule7).FirstOrDefault();
-                    //Vérifie si le mot de passe concorde 
-                    if (!db.Personne.Any(x => x.id_Pers == PersonneBD.id_Pers && x.MP == infos.MP))
-                        ModelState.AddModelError(string.Empty, Messages.I_017()); //Erreur de connection
-                    if (!ModelState.IsValid)
-                    return View(infos); //Retourne le formulaire rempli avec l'erreur
+                //Encrypter le mdp et tester la connection
+                MP = SachemIdentite.encrypterChaine(MP);
+                                
+                //Vérifie si le mot de passe concorde 
+                if (PersonneBD.MP != MP)
+                    ModelState.AddModelError(string.Empty, Messages.I_017()); //Erreur de connection
+                if (!ModelState.IsValid)
+                    return View(PersonneBD); //Retourne le formulaire rempli avec l'erreur
 
-                        //Si tout va bien, on rempli la session avec les informations de l'utilisateur!
-                        SessionBag.Current.NomUsager = infos.NomUsager;
-                        SessionBag.Current.NomComplet = infos.PrenomNom;
-                        SessionBag.Current.MP = infos.MP;
-                        SessionBag.Current.id_TypeUsag = PersonneBD.id_TypeUsag;
-                        SessionBag.Current.id_Pers = PersonneBD.id_Pers;
+                //Si tout va bien, on rempli la session avec les informations de l'utilisateur!
+                SessionBag.Current.NomUsager = PersonneBD.NomUsager;
+                SessionBag.Current.Matricule7 = PersonneBD.Matricule7;
+                SessionBag.Current.NomComplet = PersonneBD.PrenomNom;
+                SessionBag.Current.MP = PersonneBD.MP;
+                SessionBag.Current.id_TypeUsag = PersonneBD.id_TypeUsag;
+                SessionBag.Current.id_Pers = PersonneBD.id_Pers;
 
-                        //On retourne à l'accueil en attendant de voir la suite.
-                        return RedirectToAction("Index", "Home");
+                    //On retourne à l'accueil en attendant de voir la suite.
+                    return RedirectToAction("Index", "Home");
             }
-
-             return View(infos);
+            return View(PersonneBD);
         }
         
         //
@@ -202,7 +202,7 @@ namespace sachem.Controllers
             if (db.Personne.Any(y => y.Courriel == courriel && y.Actif == true))//vérifie si le courriel est associé à un compte utilisateur
             {
                 //Création du mot de passe
-                //Inspiré par la fonction trouvé sur le site web: http://madskristensen.net/post/generate-random-password-in-c
+                //Inspiré par la fonction trouvée sur le site web: http://madskristensen.net/post/generate-random-password-in-c
                 string caracterePossible = "abcdefghijkmnopqrstuvwxyzABCDEFGHJKLMNOPQRSTUVWXYZ0123456789!@$?"; //liste de caractères qui sont utilisés pour la création du mot de passe
                 string nouveaumdp = "";
                 Random r = new Random();
@@ -237,7 +237,12 @@ namespace sachem.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult LogOff()
         {
-            //AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
+            SessionBag.Current.NomUsager = null;
+            SessionBag.Current.Matricule7 = null;
+            SessionBag.Current.NomComplet = null;
+            SessionBag.Current.MP = null;
+            SessionBag.Current.id_TypeUsag = null;
+            SessionBag.Current.id_Pers = null;
             return RedirectToAction("Index", "Home");
         }
     }

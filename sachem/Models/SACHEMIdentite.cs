@@ -14,6 +14,7 @@ using System.Dynamic;
 namespace sachem.Models
 {
     public enum TypeUsagers { Aucun = 0, Etudiant = 1, Enseignant = 2, Responsable = 3, Super = 4 } //Enum contenant les types d'usagers du SACHEM
+    
     public class Login
     {
         public string NomUsager;
@@ -25,7 +26,7 @@ namespace sachem.Models
     }
     public class SachemIdentite
     {
-        public static string[] TypeListeAdmin1 = { "Enseignant", "Responsable", "Super" };
+        public static List<TypeUsagers> TypeListeAdmin = new List<TypeUsagers> { TypeUsagers.Enseignant, TypeUsagers.Responsable, TypeUsagers.Super };
         //Pour l'encryption du cookie (MachineCode)
 #pragma warning disable 0618 //Extrait du projet PAM: Pour l'encryption du cookie (MachineCode)
 
@@ -76,6 +77,7 @@ namespace sachem.Models
             return BitConverter.ToString(provider.ComputeHash(buffer)).Replace("-", "").ToLower();
         }
     }
+
     // Classe scellée pour le HttpSession héritant du DynamicObject
     //Article sur l'accès des données dans un objet dynamique (session) en asp.net mvc5 (.NET 4.0+)
     //http://www.codeproject.com/Articles/191422/Accessing-ASP-NET-Session-Data-Using-Dynamics

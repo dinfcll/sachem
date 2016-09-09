@@ -15,7 +15,7 @@
                 @Html.AntiForgeryToken()
                 <h4>Utilisez un compte pour vous connecter.</h4>
                 <hr/>
-                @SessionBag.Current.NomUtilisateur
+                
                 @Html.ValidationSummary(true, "", new {@class = "text-danger"})
                 <div class="form-group">
                     @Html.LabelFor(model => model.NomUsager, htmlAttributes: new {@class = "control-label col-md-2"})
