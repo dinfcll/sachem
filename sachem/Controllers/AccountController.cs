@@ -1,12 +1,9 @@
 ﻿using System;
 using System.Data.Entity;
 using System.Linq;
-using System.Threading.Tasks;
-using System.Web;
+
 using System.Web.Mvc;
-using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.Owin;
-using System.Web.Security;
+
 using System.Text.RegularExpressions;
 using sachem.Models;
 using System.Net;
@@ -76,7 +73,7 @@ namespace sachem.Controllers
             else
                 if (NomUsager == null)
                 ModelState.AddModelError("NomUsager", Messages.U_001); //enter user
-            else
+                else
                     if (Regex.IsMatch(NomUsager, @"^\d+$") && NomUsager.Length == 7) //Vérifie que le matricule est 7 de long
                         if (!db.Personne.Any(x => x.Matricule.Substring(2) == NomUsager))
                             ModelState.AddModelError(string.Empty, Messages.I_017());  //Erreur de connection
@@ -84,7 +81,7 @@ namespace sachem.Controllers
                             PersonneBD = db.Personne.AsNoTracking().Where(x => x.Matricule.Substring(2) == NomUsager).FirstOrDefault();
                     else
                         if (!db.Personne.Any(x => x.NomUsager == NomUsager))
-                ModelState.AddModelError(string.Empty, Messages.I_017());  //Erreur de connection
+                            ModelState.AddModelError(string.Empty, Messages.I_017());  //Erreur de connection
                         else
                             PersonneBD = db.Personne.AsNoTracking().Where(x => x.NomUsager == PersonneBD.NomUsager).FirstOrDefault();
             if (ModelState.IsValid)
@@ -106,8 +103,8 @@ namespace sachem.Controllers
                 SessionBag.Current.id_TypeUsag = PersonneBD.id_TypeUsag;
                 SessionBag.Current.id_Pers = PersonneBD.id_Pers;
 
-                    //On retourne à l'accueil en attendant de voir la suite.
-                    return RedirectToAction("Index", "Home");
+                //On retourne à l'accueil en attendant de voir la suite.
+                return RedirectToAction("Index", "Home");
             }
             return View(PersonneBD);
         }
