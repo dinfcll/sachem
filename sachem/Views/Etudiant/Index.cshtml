@@ -6,8 +6,6 @@
 
 <h2>Étudiant</h2>
 <h4>Recherche</h4>
-@using (Html.BeginForm("Index", "Etudiant", FormMethod.Post, new { @class = "Recherche", role = "form" }))
-{
 <table class="Recherche">
     <tr>
         <th>
@@ -39,13 +37,18 @@
         <th>
             @Html.DisplayName("Groupe: ")
             @Html.DropDownList("Groupe")
-            <input type="submit" value="Rechercher" class="btn-toolbar" />
+            @using (Html.BeginForm())
+            {
+                <p>
+                    Trouver par code ou nom de programme @Html.TextBox("recherche")
+                    <input type="submit" value="Rechercher" />
+                </p>
+            }
                            
             @*<input type="button" value="Some text" onclick="window.location.href='<%= Url.Action("Rechercher", "EtudiantController" ) %>';" />*@ 
         </th>
     </tr>
 </table>
-}
 
     <p>
         @Html.ActionLink("Ajouter un étudiant", "Create")
