@@ -175,14 +175,14 @@ namespace sachem.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Session session = db.Session.Find(id);
-            if (session == null)
+
+            Groupe groupe = db.Groupe.Find(id);
+            if (groupe == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.id_Sess = new SelectList(db.p_HoraireInscription, "id_Sess", "id_Sess", session.id_Sess);
-            ViewBag.id_Saison = new SelectList(db.p_Saison, "id_Saison", "Saison", session.id_Saison);
-            return View(session);
+            
+            return View("Edit", "Groupe", groupe); //appel de la vue de Loïc pour modifier le groupe sélectionné
         }
 
         // POST: ConsulterCours/Edit/5
