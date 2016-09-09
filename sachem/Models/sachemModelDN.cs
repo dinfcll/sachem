@@ -47,7 +47,8 @@ namespace sachem.Models
             }
         }
 
-       public string ConfMP { get; set; }
+       public string ConfMP { get; set; } 
+       public string MPDemander { get; set; } 
     }
 
     public partial class Cours
