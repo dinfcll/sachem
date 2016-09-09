@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Data.Entity;
 using System.Linq;
-
 using System.Web.Mvc;
-
 using System.Text.RegularExpressions;
 using sachem.Models;
 using System.Net;
@@ -95,9 +93,11 @@ namespace sachem.Controllers
                 if (!ModelState.IsValid)
                     return View(PersonneBD); //Retourne le formulaire rempli avec l'erreur
 
-               /* var idInscr = db.Inscription.AsNoTracking().Where(x => x.id_Pers == PersonneBD.id_Pers).FirstOrDefault();
-                var typeInscr = db.p_TypeInscription.AsNoTracking().Where(x => x.id_TypeInscription == idInscr.id_Inscription).FirstOrDefault();
-                */
+
+                var lstCours = from i in db.Inscription
+                               join ti in db.p_TypeInscription on i.id_TypeInscription equals ti.id_TypeInscription
+                               where i.id_Pers == PersonneBD.id_Pers select i;
+
                 //Si tout va bien, on rempli la session avec les informations de l'utilisateur!
                 SessionBag.Current.NomUsager = PersonneBD.NomUsager;
                 SessionBag.Current.Matricule7 = PersonneBD.Matricule7;
