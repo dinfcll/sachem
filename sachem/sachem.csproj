@@ -272,6 +272,7 @@
     <Compile Include="Models\p_HoraireInscription.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\p_HoraireInscriptionMetadata.cs" />
     <Compile Include="Models\p_Jour.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -391,10 +392,10 @@
     <Content Include="Views\Cours\_Cours.cshtml" />
     <Content Include="Views\Cours\_Footer.cshtml" />
     <Content Include="Views\Shared\_PageRecherche.cshtml" />
+    <Content Include="Views\Parametres\EditHoraire.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Parametres\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

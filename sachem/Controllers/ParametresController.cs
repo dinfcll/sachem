@@ -64,6 +64,10 @@ namespace sachem.Controllers
             }
         }
 
+        public ActionResult EditHoraire(int? id)
+        {
+            return View();
+        }
         // GET: Parametres/Delete/5
         public ActionResult Delete(int id)
         {
