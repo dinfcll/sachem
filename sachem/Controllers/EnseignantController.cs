@@ -88,11 +88,8 @@ namespace sachem.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "id_Pers,id_Sexe,id_TypeUsag,Nom,Prenom,NomUsager,MP,ConfMP,Courriel,DateNais,Actif")] Personne personne)
-        {
-            
-            var listeNomUtil = new SelectList(db.Personne, "id_pers", "NomUsager");
-
-            if (listeNomUtil.Any(x => x.Text == personne.NomUsager)) // Verifier si le nom d'usager existe
+        {           
+            if (db.Personne.Any(x => x.NomUsager == personne.NomUsager)) // Verifier si le nom d'usager existe
                 ModelState.AddModelError(string.Empty, Messages.I_013(personne.NomUsager));
 
             if (personne.MP != personne.ConfMP) // Verifier la correspondance des mots de passe
@@ -131,7 +128,7 @@ namespace sachem.Controllers
                 return HttpNotFound();
             }
             ViewBag.id_Sexe = new SelectList(db.p_Sexe, "id_Sexe", "Sexe", personne.id_Sexe);
-            ViewBag.id_TypeUsag = new SelectList(db.p_TypeUsag.Where(x => x.TypeUsag == "Enseignant" || x.TypeUsag == "Responsable du SACHEM"), "id_TypeUsag", "TypeUsag", personne.id_TypeUsag);
+            ViewBag.id_TypeUsag = new SelectList(db.p_TypeUsag.Where(x => x.id_TypeUsag == 2 || x.id_TypeUsag == 3), "id_TypeUsag", "TypeUsag", personne.id_TypeUsag);
             return View(personne);
         }
 
@@ -140,22 +137,22 @@ namespace sachem.Controllers
         // plus de détails, voir  http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "id_Pers,id_Sexe,id_TypeUsag,Nom,Prenom,NomUsager,Matricule,MP,Courriel,Telephone,DateNais,Actif")] Personne personne)
-        {
-            var listeNomUtil = new SelectList(db.Personne, "id_pers", "NomUsager");
-
-            if (listeNomUtil.Any(x => x.Text == personne.NomUsager)) // Verifier si le nom d'usager existe
-                ModelState.AddModelError(string.Empty, Messages.I_013(personne.NomUsager));
+        public ActionResult Edit([Bind(Include = "id_Pers, id_Sexe, id_TypeUsag, Nom, Prenom, NomUsager, MP, ConfMP, Courriel, DateNais, Actif")] Personne personne)
+        {         
+            if (db.Personne.Any(x => x.NomUsager == personne.NomUsager && x.id_Pers != personne.id_Pers))// Verifier si le nom d'usager existe ou s'il a entré son ancien nom
+               ModelState.AddModelError(string.Empty, Messages.I_013(personne.NomUsager));
 
             if (personne.MP != personne.ConfMP) // Verifier la correspondance des mots de passe
                 ModelState.AddModelError(string.Empty, Messages.C_001);
 
             if (ModelState.IsValid)
             {
-                personne.MP = encrypterChaine(personne.MP);
+                personne.MP = encrypterChaine(personne.MP); // Appel de la méthode qui encrypte le mot de passe
                 db.Entry(personne).State = EntityState.Modified;
                 db.SaveChanges();
+                TempData["Success"] = Messages.I_015(personne.NomUsager);
                 return RedirectToAction("Index");
+
             }
             ViewBag.id_Sexe = new SelectList(db.p_Sexe, "id_Sexe", "Sexe", personne.id_Sexe);
             ViewBag.id_TypeUsag = new SelectList(db.p_TypeUsag.Where(x => x.TypeUsag == "Enseignant" || x.TypeUsag == "Responsable du SACHEM"), "id_TypeUsag", "TypeUsag", personne.id_TypeUsag);

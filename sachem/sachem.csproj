@@ -395,7 +395,6 @@
     <Content Include="Views\Shared\_PageRecherche.cshtml" />
     <Content Include="Views\Enseignant\Create.cshtml" />
     <Content Include="Views\Enseignant\Delete.cshtml" />
-    <Content Include="Views\Enseignant\Details.cshtml" />
     <Content Include="Views\Enseignant\Edit.cshtml" />
     <Content Include="Views\Enseignant\Index.cshtml" />
     <Content Include="Views\Enseignant\_Enseignant.cshtml" />

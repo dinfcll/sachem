@@ -51,6 +51,13 @@ namespace sachem.Models
         { return $"Le nom d'utilisateur {NomUsager} est déjà pris."; }
 
         /// <summary>
+        /// Le nom d'utilisateur est déjà utilisé.
+        /// </summary>
+        /// <returns></returns>
+        public static string I_015(string NomUsager)
+        { return $"L'usager {NomUsager} à été modifié."; }
+
+        /// <summary>
         /// l'enseignant {0} a été supprimer.
         /// </summary>
         /// <param name="NomUsager"></param>
