@@ -18,10 +18,43 @@ namespace sachem.Models
     }
     public class PersonneMetadata {
         [Display(Name = "Date de naissance")]
-        [RegularExpression(@"^[0-9]{4}-[0-9]{2}-[0-9]{2} [0-2][0-9]:[0-5][0-9]:[0-5][0-9]$|^[0-9]{4}\/[0-9]{2}\/[0-9]{2}$"/*, ErrorMessage = Messages.U_007*/)]
+        [RegularExpression(@"^[0-9]{4}-[0-9]{2}-[0-9]{2} [0-2][0-9]:[0-5][0-9]:[0-5][0-9]$|^[0-9]{4}\/[0-9]{2}\/[0-9]{2}$", ErrorMessage = Messages.U_007)]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = @"{0:yyyy\/MM\/dd}")]
+        [Required(ErrorMessage = Messages.U_001)]
         public global::System.DateTime DateNais;
 
+        [Display(Name = "Nom")]
+        [DisplayFormat(ConvertEmptyStringToNull = false)]
+        [Required(ErrorMessage = Messages.U_001)]
+        [StringLength(30, ErrorMessage = Messages.U_001)]
+        public string Nom;
+
+        [Display(Name = "Prénom")]
+        [DisplayFormat(ConvertEmptyStringToNull = false)]
+        [Required(ErrorMessage = Messages.U_001)]
+        [StringLength(30, ErrorMessage = Messages.U_001)]
+        public string Prenom;
+
+        [Display(Name = "Courriel")]
+        [DisplayFormat(ConvertEmptyStringToNull = false)]
+        [Required(ErrorMessage = Messages.U_001)]
+        [EmailAddress(ErrorMessage = Messages.U_008)]
+        public string Courriel;
+
+        [Display(Name = "Numéro de téléphone")]
+        [RegularExpression(@"^\(?([0-9]{3})\)?([0-9]{3})-([0-9]{4})$", ErrorMessage = Messages.U_009)]
+        public string Telephone;
+
+        [Display(Name = "Matricule")]
+        [DisplayFormat(ConvertEmptyStringToNull = false)]
+        [Required(ErrorMessage = Messages.U_001)]
+        [StringLength(7,MinimumLength = 7, ErrorMessage = Messages.U_004)]
+        public string Matricule;
+
+        [Display(Name = "Mot de passe")]
+        [DisplayFormat(ConvertEmptyStringToNull = false)]
+        [Required(ErrorMessage = Messages.U_001)]
+        public string Mp;
     }
- 
+
 }

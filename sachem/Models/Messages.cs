@@ -145,7 +145,11 @@ namespace sachem.Models
         public static string Q_001(string Cours)
         { return $"Voulez-vous vraiment supprimer le cours {Cours} ?"; }
 
+        public static string Q_002(string Etudiant)
+        { return $"Voulez-vous vraiment supprimer l'étudiant {Etudiant} ?"; }
 
+        public static string Q_011(string Etudiant)
+        { return $"Voulez-vous vraiment supprimer le cours {Etudiant} ?"; }
         #endregion
 
     }
