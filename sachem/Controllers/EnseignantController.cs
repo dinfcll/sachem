@@ -77,7 +77,8 @@ namespace sachem.Controllers
         public ActionResult Create()
         {
             ViewBag.id_Sexe = new SelectList(db.p_Sexe, "id_Sexe", "Sexe");
-            ViewBag.id_TypeUsag = new SelectList(db.p_TypeUsag.Where(x => x.id_TypeUsag == 2 || x.id_TypeUsag == 3), "id_TypeUsag", "TypeUsag");
+            // Permet d'afficher seulement Enseignant et Responsable du Sachem dans les valeurs possibles de la list déroulante.
+            ViewBag.id_TypeUsag = new SelectList(db.p_TypeUsag.Where(x => x.id_TypeUsag == 2 || x.id_TypeUsag == 3), "id_TypeUsag", "TypeUsag"); 
             
             return View();
         }
@@ -103,14 +104,17 @@ namespace sachem.Controllers
                 personne.MP = encrypterChaine(personne.MP); // Encryption du mot de passe
                 db.Personne.Add(personne);
                 db.SaveChanges();
+                TempData["Success"] = Messages.Q_004(personne.NomUsager);
                 return RedirectToAction("Index");
             }
 
             ViewBag.id_Sexe = new SelectList(db.p_Sexe, "id_Sexe", "Sexe", personne.id_Sexe);
             ViewBag.id_TypeUsag = new SelectList(db.p_TypeUsag.Where(x => x.id_TypeUsag == 2 || x.id_TypeUsag == 3), "id_TypeUsag", "TypeUsag");
+
             return View(personne);
 
         }
+        //Méthode d'encryption de mot de passe.
         public static string encrypterChaine(string Chaine)
         {
             byte[] buffer;

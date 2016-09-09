@@ -67,10 +67,10 @@ namespace sachem.Models
 
         #region MessageContexte
         /// <summary>
-        /// Mot de passe non correspondant
+        /// Les mot de passes non correspondant
         /// </summary>
         /// <returns></returns>
-        public const string C_001 = "les mots de passe ne correspondent pas.";
+        public const string C_001 = "les mots de passes ne correspondent pas.";
         #endregion
 
         #region MessageUnitaire
@@ -118,6 +118,9 @@ namespace sachem.Models
         public static string Q_003(string Enseignant)
         { return $"Voulez-vous vraiment supprimer l'enseignant {Enseignant} ?"; }
         #endregion
+
+        public static string Q_004(string NomUsager)
+        { return $"L'enseignant {NomUsager} a été créé. Souhaitez-vous y associer un groupe?"; }
 
     }
 }
