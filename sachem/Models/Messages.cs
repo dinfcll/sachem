@@ -127,7 +127,9 @@ namespace sachem.Models
         #endregion
 
         public static string Q_004(string NomUsager)
-        { return $"L'enseignant {NomUsager} a été créé. Souhaitez-vous y associer un groupe?"; }
+        {
+            return $"L'enseignant {NomUsager} a été créé. Souhaitez-vous y associer un groupe?"; // TO DO METTRE UN LIEN DANS LA STRING.
+        }
 
     }
 }

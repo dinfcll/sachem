@@ -78,8 +78,7 @@ namespace sachem.Controllers
         {
             ViewBag.id_Sexe = new SelectList(db.p_Sexe, "id_Sexe", "Sexe");
             // Permet d'afficher seulement Enseignant et Responsable du Sachem dans les valeurs possibles de la list déroulante.
-            ViewBag.id_TypeUsag = new SelectList(db.p_TypeUsag.Where(x => x.id_TypeUsag == 2 || x.id_TypeUsag == 3), "id_TypeUsag", "TypeUsag"); 
-            
+            ViewBag.id_TypeUsag = new SelectList(db.p_TypeUsag.Where(x => x.id_TypeUsag == 2 || x.id_TypeUsag == 3), "id_TypeUsag", "TypeUsag");
             return View();
         }
 
@@ -90,11 +89,7 @@ namespace sachem.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "id_Pers,id_Sexe,id_TypeUsag,Nom,Prenom,NomUsager,MP,ConfMP,Courriel,DateNais,Actif")] Personne personne)
         {           
-            if (db.Personne.Any(x => x.NomUsager == personne.NomUsager)) // Verifier si le nom d'usager existe
-                ModelState.AddModelError(string.Empty, Messages.I_013(personne.NomUsager));
 
-            if (personne.MP != personne.ConfMP) // Verifier la correspondance des mots de passe
-                ModelState.AddModelError(string.Empty, Messages.C_001);
 
             if (ModelState.IsValid)
             {
