@@ -16,7 +16,8 @@ namespace sachem.Models
 
 
     }
-    public class PersonneMetadata {
+    public class PersonneMetadata
+    {
         [Display(Name = "Date de naissance")]
         [RegularExpression(@"^[0-9]{4}-[0-9]{2}-[0-9]{2} [0-2][0-9]:[0-5][0-9]:[0-5][0-9]$|^[0-9]{4}\/[0-9]{2}\/[0-9]{2}$", ErrorMessage = Messages.U_007)]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = @"{0:yyyy\/MM\/dd}")]
@@ -48,13 +49,13 @@ namespace sachem.Models
         [Display(Name = "Matricule")]
         [DisplayFormat(ConvertEmptyStringToNull = false)]
         [Required(ErrorMessage = Messages.U_001)]
-        [StringLength(7,MinimumLength = 7, ErrorMessage = Messages.U_004)]
+        [StringLength(7, MinimumLength = 7, ErrorMessage = Messages.U_004)]
         public string Matricule;
 
-        [Display(Name = "Mot de passe")]
-        [DisplayFormat(ConvertEmptyStringToNull = false)]
-        [Required(ErrorMessage = Messages.U_001)]
-        public string Mp;
+        //    [Display(Name = "Mot de passe")]
+        //    [DisplayFormat(ConvertEmptyStringToNull = false)]
+        //    [Required(ErrorMessage = Messages.U_001)]
+        //    public string Mp;
     }
 
 }

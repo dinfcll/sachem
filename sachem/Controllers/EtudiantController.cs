@@ -308,7 +308,9 @@ namespace sachem.Controllers
             ViewBag.id_TypeUsag = new SelectList(db.p_TypeUsag, "id_TypeUsag", "TypeUsag", personne.id_TypeUsag);
             //ViewBag.id_Programme = new SelectList(db.ProgrammeEtude, "id_ProgEtu", "nomProg", personne.idProgEtu);
             //ViewBag.id_Session = new SelectList(db.Session, "id_Sess", "NomSession",)
-            return View(personne);
+            return View(personne,);
+            //tuple a faire
+            //ou faire une liste de prog dans la classe personne
             //faire des viewbag pour voir les données
         }
 
