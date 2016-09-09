@@ -93,6 +93,8 @@ namespace sachem.Controllers
         //id_CoursReussi,id_Sess,id_Pers,id_College,id_Statut,id_Cours,resultat,autre_Cours,autre_College
         //Cours,autre_Cours,College,autre_College,Session,Statut,resultat
         {
+            ViewBag.Donne = coursSuivi.id_Cours;
+
             if (ModelState.IsValid)
             {
                 db.CoursSuivi.Add(coursSuivi);
