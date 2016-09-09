@@ -1,4 +1,5 @@
-﻿@model sachem.Models.Groupe
+﻿@using sachem.Models
+@model sachem.Models.Groupe
 
 @{
     ViewBag.Title = "Modification";
@@ -58,7 +59,7 @@
 }
 
 <p>
-    @Html.ActionLink("Ajouter des étudiants au groupe", "AjouterEleve", "Groupes")
+    @Html.ActionLink("Ajouter des étudiants au groupe", "AjouterEleve", "Groupes", new { idg = Model.id_Groupe },null)
 </p>
 <table class="table">
     <tr>
@@ -80,7 +81,7 @@
         <th></th>
     </tr>
 
-    @foreach (var item in Model.GroupeEtudiant.OrderBy(x => x.Personne.Matricule7).OrderBy(x => x.Personne.NomPrenom))
+    @foreach (var item in Model.GroupeEtudiant.OrderBy(x => x.Personne.NomPrenom).ThenBy(x => x.Personne.Matricule7))
     {
         <tr>
             <td>

@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.Data.Entity.Core.Mapping;
 using System.Linq;
 using System.Net;
 using System.Web;
@@ -179,15 +181,31 @@ namespace sachem.Controllers
             ViewBag.Cours = new SelectList(db.Cours, "id_Cours", "CodeNom");
         }
 
-        public ActionResult AjouterEleve()
+        public ActionResult AjouterEleve(int idg, int? page)
         {
-            //IEnumerable<Personne> personnes = (from c in db.Personne where c.id_TypeUsag == 1 select c).ToList();
-            //return View(personnes);
-            return Content("test");
+            ViewBag.idg = idg;
+            Groupe groupe = db.Groupe.Find(idg);
+            IEnumerable < Personne > personnes = (from c in db.Personne where c.id_TypeUsag == 1 select c).ToList().OrderBy(x => x.NomPrenom).ThenBy(x => x.Matricule7);
+            foreach (var n in personnes)
+            {
+                n.ProgEtu = "";
+                var arr = (from c in db.ProgrammeEtude
+                join p in db.EtuProgEtude on c.id_ProgEtu equals p.id_ProgEtu
+                where p.id_Sess == groupe.id_Sess && p.id_Etu == n.id_Pers 
+                select c).ToList();
+                foreach (var i in arr)
+                {
+                    n.ProgEtu += i.Code + "-"+ i.NomProg;
+                }
+            } 
+
+            var pageNumber = page ?? 1;
+            return View(personnes.ToPagedList(pageNumber, 20));
         }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult AjouterEleve(int id)
+        public ActionResult AjouterEleve(int idg, int idp)
         {
             return View();
         }
