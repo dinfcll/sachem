@@ -94,9 +94,8 @@ namespace sachem.Controllers
                     return View(PersonneBD); //Retourne le formulaire rempli avec l'erreur
 
 
-                var lstCours = from i in db.Inscription
-                               join ti in db.p_TypeInscription on i.id_TypeInscription equals ti.id_TypeInscription
-                               where i.id_Pers == PersonneBD.id_Pers select i;
+                var inscr =  from i in db.Inscription
+                             where i.id_Pers == PersonneBD.id_Pers select i.id_TypeInscription;
 
                 //Si tout va bien, on rempli la session avec les informations de l'utilisateur!
                 SessionBag.Current.NomUsager = PersonneBD.NomUsager;
