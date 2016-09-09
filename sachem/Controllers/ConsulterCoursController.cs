@@ -17,7 +17,7 @@ namespace sachem.Controllers
     {
 
         int m_IdPers = 3; // 1 = la seule résponsable, 2-9 = enseignants
-        int m_IdTypeUsage = 2; // 2 = enseignant, 3 = responsable
+        int m_IdTypeUsage = 3; // 2 = enseignant, 3 = responsable
 
         private SACHEMEntities db = new SACHEMEntities();
 
