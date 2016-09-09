@@ -23,5 +23,11 @@ namespace sachem.Models
         public Nullable<int> resultat { get; set; }
         public string autre_Cours { get; set; }
         public string autre_College { get; set; }
+    
+        public virtual Cours Cours { get; set; }
+        public virtual p_College p_College { get; set; }
+        public virtual p_StatutCours p_StatutCours { get; set; }
+        public virtual Personne Personne { get; set; }
+        public virtual Session Session { get; set; }
     }
 }

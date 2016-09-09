@@ -178,5 +178,18 @@ namespace sachem.Controllers
             ViewBag.Enseignants = new SelectList(ens, "id_Pers", "NomPrenom");
             ViewBag.Cours = new SelectList(db.Cours, "id_Cours", "CodeNom");
         }
+
+        public ActionResult AjouterEleve()
+        {
+            //IEnumerable<Personne> personnes = (from c in db.Personne where c.id_TypeUsag == 1 select c).ToList();
+            //return View(personnes);
+            return Content("test");
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult AjouterEleve(int id)
+        {
+            return View();
+        }
     }
 }
