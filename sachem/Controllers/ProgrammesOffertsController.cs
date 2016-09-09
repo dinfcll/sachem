@@ -127,11 +127,11 @@ namespace sachem.Controllers
         /// méthode de validation d'un programme
         /// </summary>
         /// <param name="programme"></param>
-   
         [NonAction]
         public void Valider([Bind(Include = "id_ProgEtu,Code,NomProg,Annee,Actif")]ProgrammeEtude programme)
         {
-            if (db.ProgrammeEtude.Any(c => c.Code == programme.Code && c.Actif && c.Annee == programme.Annee))
+            
+            if (db.ProgrammeEtude.Any(c => c.Code == programme.Code && c.Actif && c.Annee == programme.Annee && c.id_ProgEtu != programme.id_ProgEtu))
             {
                 ModelState.AddModelError(String.Empty, Messages.I_006(programme.Code));
             }
