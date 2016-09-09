@@ -99,7 +99,7 @@ namespace sachem.Controllers
 
             if (ModelState.IsValid)
             {
-                        personne.MP = encrypterChaine(personne.MP); // Encryption du mot de passe
+                personne.MP = encrypterChaine(personne.MP); // Encryption du mot de passe
                 db.Personne.Add(personne);
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -130,7 +130,7 @@ namespace sachem.Controllers
                 return HttpNotFound();
             }
             ViewBag.id_Sexe = new SelectList(db.p_Sexe, "id_Sexe", "Sexe", personne.id_Sexe);
-            ViewBag.id_TypeUsag = new SelectList(db.p_TypeUsag, "id_TypeUsag", "TypeUsag", personne.id_TypeUsag);
+            ViewBag.id_TypeUsag = new SelectList(db.p_TypeUsag.Where(x => x.TypeUsag == "Enseignant" || x.TypeUsag == "Responsable du SACHEM"), "id_TypeUsag", "TypeUsag", personne.id_TypeUsag);
             return View(personne);
         }
 
@@ -141,14 +141,23 @@ namespace sachem.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "id_Pers,id_Sexe,id_TypeUsag,Nom,Prenom,NomUsager,Matricule,MP,Courriel,Telephone,DateNais,Actif")] Personne personne)
         {
+            var listeNomUtil = new SelectList(db.Personne, "id_pers", "NomUsager");
+
+            if (listeNomUtil.Any(x => x.Text == personne.NomUsager)) // Verifier si le nom d'usager existe
+                ModelState.AddModelError(string.Empty, Messages.I_013(personne.NomUsager));
+
+            if (personne.MP != personne.ConfMP) // Verifier la correspondance des mots de passe
+                ModelState.AddModelError(string.Empty, Messages.C_001);
+
             if (ModelState.IsValid)
             {
+                personne.MP = encrypterChaine(personne.MP);
                 db.Entry(personne).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
             ViewBag.id_Sexe = new SelectList(db.p_Sexe, "id_Sexe", "Sexe", personne.id_Sexe);
-            ViewBag.id_TypeUsag = new SelectList(db.p_TypeUsag, "id_TypeUsag", "TypeUsag", personne.id_TypeUsag);
+            ViewBag.id_TypeUsag = new SelectList(db.p_TypeUsag.Where(x => x.TypeUsag == "Enseignant" || x.TypeUsag == "Responsable du SACHEM"), "id_TypeUsag", "TypeUsag", personne.id_TypeUsag);
             return View(personne);
         }
 

@@ -88,25 +88,11 @@ namespace sachem.Models
         public const string U_003 = "Longueur requise : 8 caractères.";
 
         /// <summary>
-        /// Longeur maximale de 30 caractères
-        /// </summary>
-        /// <returns></returns>
-        public const string U_004 = "Longeur maximale permise : 30 caractères.";
-        /// <summary>
-        /// Longeur maximale de 256 caractères
-        /// </summary>
-        /// <returns></returns>
-        public const string U_005 = "Longeur maximale permise : 256 caractères.";
-        /// <summary>
-        /// Longeur maximale de 25 caractères
-        /// </summary>
-        /// <returns></returns>
-        public const string U_006 = "Longeur maximale permise : 25 caractères.";
-        /// <summary>
         /// Format : AAAA/MM/JJ
         /// </summary>
         /// <returns></returns>
         public const string U_007 = "Format de date Invalide, format requis : AAAA/MM/JJ.";
+
         /// <summary>
         /// Format de courriel a respecter
         /// </summary>

@@ -18,12 +18,10 @@ namespace sachem.Models
 
         [Display(Name = "Nom d'usager")]
         [Required(ErrorMessage = Messages.U_001)]
-        [StringLength(30,ErrorMessage = Messages.U_004)]
         public string NomUsager;
 
         [Display(Name = "Prénom")]
         [Required(ErrorMessage = Messages.U_001)]
-        [StringLength(30, ErrorMessage = Messages.U_004)]
         public string Prenom;
 
         [Display(Name = "Nom")]
@@ -41,7 +39,6 @@ namespace sachem.Models
 
         [Display(Name = "Type d'usager")]
         [Required(ErrorMessage = Messages.U_001)]
-        [StringLength(25, ErrorMessage = Messages.U_006)]
         public string id_TypeUsag;
 
         [Display(Name = "Mot de passe")]
@@ -55,7 +52,6 @@ namespace sachem.Models
         [Display(Name = "Courriel")]
         [Required(ErrorMessage = Messages.U_001)]
         [EmailAddress(ErrorMessage = Messages.U_008)]
-        [StringLength(256, ErrorMessage = Messages.U_005)]
         public string Courriel;
 
 
