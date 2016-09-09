@@ -131,7 +131,7 @@ namespace sachem.Controllers
                 return HttpNotFound();
             }
             ViewBag.id_Sexe = new SelectList(db.p_Sexe, "id_Sexe", "Sexe", personne.id_Sexe);
-            ViewBag.id_TypeUsag = new SelectList(db.p_TypeUsag, "id_TypeUsag", "TypeUsag", personne.id_TypeUsag);
+            ViewBag.id_TypeUsag = new SelectList(db.p_TypeUsag.Where(x => x.TypeUsag == "Enseignant" || x.TypeUsag == "Responsable du SACHEM"), "id_TypeUsag", "TypeUsag", personne.id_TypeUsag);
             return View(personne);
         }
 
@@ -142,14 +142,23 @@ namespace sachem.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "id_Pers,id_Sexe,id_TypeUsag,Nom,Prenom,NomUsager,Matricule,MP,Courriel,Telephone,DateNais,Actif")] Personne personne)
         {
+            var listeNomUtil = new SelectList(db.Personne, "id_pers", "NomUsager");
+
+            if (listeNomUtil.Any(x => x.Text == personne.NomUsager)) // Verifier si le nom d'usager existe
+                ModelState.AddModelError(string.Empty, Messages.I_013(personne.NomUsager));
+
+            if (personne.MP != personne.ConfMP) // Verifier la correspondance des mots de passe
+                ModelState.AddModelError(string.Empty, Messages.C_001);
+
             if (ModelState.IsValid)
             {
+                personne.MP = encrypterChaine(personne.MP);
                 db.Entry(personne).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
             ViewBag.id_Sexe = new SelectList(db.p_Sexe, "id_Sexe", "Sexe", personne.id_Sexe);
-            ViewBag.id_TypeUsag = new SelectList(db.p_TypeUsag, "id_TypeUsag", "TypeUsag", personne.id_TypeUsag);
+            ViewBag.id_TypeUsag = new SelectList(db.p_TypeUsag.Where(x => x.TypeUsag == "Enseignant" || x.TypeUsag == "Responsable du SACHEM"), "id_TypeUsag", "TypeUsag", personne.id_TypeUsag);
             return View(personne);
         }
 
@@ -171,25 +180,26 @@ namespace sachem.Controllers
         // POST: Enseignant/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int idEnseignant)
+        public ActionResult DeleteConfirmed(int id,int? page)
         {
-            if (db.Groupe.Any(g => g.id_Enseignant == idEnseignant)) // Verifier si l'enseignant est relié a un groupe
+            var pageNumber = page ?? 1;
+            if (db.Groupe.Any(g => g.id_Enseignant == id)) // Verifier si l'enseignant est relié a un groupe
             {
                 ModelState.AddModelError(string.Empty, Messages.I_012);
             }
-            if (db.Jumelage.Any(g => g.id_Enseignant == idEnseignant)) // Vérifier si l'enseignant est relié a un jumelage
+            if (db.Jumelage.Any(g => g.id_Enseignant == id)) // Vérifier si l'enseignant est relié a un jumelage
             {
                 ModelState.AddModelError(string.Empty, Messages.I_033);
             }
             if (ModelState.IsValid)
-        {
-                Personne personne = db.Personne.Find(idEnseignant);
-                var SuppPersonne = db.Personne.Where(x => x.id_Pers == idEnseignant); // rechercher l'enseignant
+            {
+                Personne personne = db.Personne.Find(id);
+                var SuppPersonne = db.Personne.Where(x => x.id_Pers == id); // rechercher l'enseignant
                 db.Personne.RemoveRange(SuppPersonne); // retirer toute les occurences de l'enseignant
-            db.SaveChanges();
+                db.SaveChanges();
                 ViewBag.Success = string.Format(Messages.I_029(personne.NomUsager));
             }
-            return RedirectToAction("Index");
+            return View("Index", Rechercher().ToPagedList(pageNumber, 20)); // retour à index avec les divisions par page
         }
 
         protected override void Dispose(bool disposing)
