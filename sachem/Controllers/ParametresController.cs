@@ -9,9 +9,9 @@ namespace sachem.Controllers
     public class ParametresController : Controller
     {
         // GET: Parametres
-        public ActionResult Index()
+        public ActionResult IndexModifier()
         {
-            return View();
+            return View("ModifierContact");
         }
 
         // GET: Parametres/Details/5

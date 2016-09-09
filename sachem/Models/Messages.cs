@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 
 namespace sachem.Models
 {
@@ -28,7 +29,7 @@ namespace sachem.Models
         /// <returns></returns>private string I_003(string cours)
         public static string I_003(string Cours)
         { return $"Le cours {Cours} a été enregistré."; }
-
+     
         /// <summary>
         /// Le cours {0} a été supprimé.
         /// </summary>
