@@ -11,7 +11,7 @@ namespace sachem.Models
 
     public class CoursSuiviMetadata
     {
-        [DisplayFormat(ConvertEmptyStringToNull = false)]
+        [DisplayFormat(ConvertEmptyStringToNull = true)]
         [Display(Name = "Cours")]
         public string id_Cours;
 
@@ -19,7 +19,7 @@ namespace sachem.Models
         [Display(Name = "Autre cours")]
         public string autre_Cours;
 
-        [DisplayFormat(ConvertEmptyStringToNull = false)]
+        [DisplayFormat(ConvertEmptyStringToNull = true)]
         [Display(Name = "Collège")]
         public string id_College;
 
