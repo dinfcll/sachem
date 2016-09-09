@@ -16,8 +16,8 @@ namespace sachem.Controllers
     public class ConsulterCoursController : Controller
     {
 
-        int m_IdPers = 8; // 1 = la seule résponsable, 2-9 = enseignants
-        int m_IdTypeUsage = 3; // 2 = enseignant, 3 = responsable
+        int m_IdPers = 3; // 1 = la seule résponsable, 2-9 = enseignants
+        int m_IdTypeUsage = 2; // 2 = enseignant, 3 = responsable
 
         private SACHEMEntities db = new SACHEMEntities();
 
@@ -41,9 +41,10 @@ namespace sachem.Controllers
                 Int32.TryParse(Request.Form["Session"], out idSess);
                 ListeSession(idSess); //créer liste Session pour le dropdown
 
-                var ens = from c in db.Groupe.DistinctBy(c => c.id_Cours)
-                        where (c.id_Sess == idSess && c.id_Enseignant == m_IdPers) || (idSess == 0 && c.id_Enseignant == m_IdPers)
-                        select c;
+                //.DistinctBy(c =>c.id_Cours)
+                var ens = from c in db.Groupe
+                          where (c.id_Sess == idSess && c.id_Enseignant == m_IdPers) || (idSess == 0 && c.id_Enseignant == m_IdPers)
+                          select c;
 
                 ViewBag.IsEnseignant = true;
 

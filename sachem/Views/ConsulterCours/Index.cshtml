@@ -5,6 +5,9 @@
 
 @{
     ViewBag.Title = "Consulter cours";
+    string codeCoursCourant = "";
+    string codeCoursSuivant = "";
+    int i = 0;
 }
 
 <h2>Consulter cours</h2>
@@ -37,9 +40,11 @@
 }
 
 <table class="table">
-    
+
     @if (ViewBag.IsEnseignant) //si enseignant
     {
+        i = 0;
+
         <tr>
             <th>
                 @Html.DisplayNameFor(model => model.Cours.Code)
@@ -52,21 +57,41 @@
 
         foreach (var item in Model)
         {
-             <tr>
-                 <td>
-                     @Html.DisplayFor(modelItem => item.Cours.Code)
-                 </td>
-                 <td>
-                     @Html.DisplayFor(modelItem => item.Cours.Nom)
-                 </td>
-                 <td>
-                     @Html.ActionLink("Consulter", "Details", new {id = item.id_Cours})
-                 </td>
-             </tr>
+            codeCoursCourant = Model.ElementAt(i).Cours.Code; //code du cours courant
+
+            if (i < Model.Count() - 1) //vérifier s'il y a un cours suivant
+            {
+                codeCoursSuivant = Model.ElementAt(i + 1).Cours.Code; //code du cours suivant
+            }
+            else
+            {
+                codeCoursSuivant = "";
+            }
+
+            if (!codeCoursCourant.Equals(codeCoursSuivant)) //si dernier cours
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Cours.Code)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Cours.Nom)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Consulter", "Details", new { id = item.id_Cours })
+                        <br /> @Html.DisplayFor(modelItem => item.Personne.PrenomNom)
+                    </td>
+                </tr>
+
+            }
+
+            i++;
         }
     }
     else //si responsable
     {
+        i = 0;
+
         <tr>
             <th>
                 @Html.DisplayNameFor(model => model.Cours.Code)
@@ -83,18 +108,14 @@
             <th></th>
         </tr>
 
-        string codeCoursCourant = "";
-        string codeCoursSuivant = "";
-        string affichageNomPrenom ="";
         string prenomNomCol = "";
-        int i = 0;
         List<string> t_PrenomNom = new List<string>();
 
         foreach (var item in Model)
         {
             codeCoursCourant = Model.ElementAt(i).Cours.Code; //code du cours courant
 
-            if (i < Model.Count()-1)
+            if (i < Model.Count() - 1) //vérifier s'il y a un cours suivant
             {
                 codeCoursSuivant = Model.ElementAt(i + 1).Cours.Code; //code du cours suivant
             }
@@ -104,13 +125,13 @@
             }
 
 
-            if (codeCoursCourant.Equals(codeCoursSuivant)) //s'il y a des cours répétés
+            if (codeCoursCourant.Equals(codeCoursSuivant)) //vérifier s'il y a un cours suivant
             {
                 if (!t_PrenomNom.Contains(item.Personne.PrenomNom))
                 {
                     prenomNomCol += item.Personne.PrenomNom + ", ";
 
-                    affichageNomPrenom = prenomNomCol;
+                    //affichageNomPrenom = prenomNomCol;
 
                     t_PrenomNom.Add(item.Personne.PrenomNom);
                 }
@@ -118,6 +139,19 @@
             }
             else //si dernier cours
             {
+                if (!t_PrenomNom.Contains(item.Personne.PrenomNom))
+                {
+                    prenomNomCol += item.Personne.PrenomNom;
+
+                    //affichageNomPrenom = prenomNomCol;
+
+                    t_PrenomNom.Add(item.Personne.PrenomNom);
+                }
+                else
+                {
+                    prenomNomCol = prenomNomCol.Remove(prenomNomCol.Length - 2);
+                }
+
 
                 <tr>
                     <td>
@@ -130,12 +164,14 @@
                         @Html.DisplayFor(modelItem => item.Cours.Actif)
                     </td>
                     <td>
-                        @affichageNomPrenom
+                        @prenomNomCol
                     </td>
                     <td>
                         @Html.ActionLink("Consulter", "Details", new { id = item.id_Cours })
                     </td>
                 </tr>
+
+                t_PrenomNom.Clear();
                 prenomNomCol = "";
             }
 
