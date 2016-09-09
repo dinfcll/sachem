@@ -11,7 +11,7 @@ namespace sachem.Controllers
         // GET: Parametres
         public ActionResult IndexModifier()
         {
-            return View("ModifierContact");
+            return View("Edit");
         }
 
         // GET: Parametres/Details/5
