@@ -208,6 +208,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\CoursController.cs" />
     <Compile Include="Controllers\CoursSuiviController.cs" />
+    <Compile Include="Controllers\DossierEtudiantController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Global.asax.cs">
@@ -394,11 +395,13 @@
     <Content Include="Views\Shared\_PageRecherche.cshtml" />
     <Content Include="Views\CoursSuivi\Create.cshtml" />
     <Content Include="Views\CoursSuivi\Delete.cshtml" />
-    <Content Include="Views\CoursSuivi\Details.cshtml" />
     <Content Include="Views\CoursSuivi\Edit.cshtml" />
     <Content Include="Views\CoursSuivi\Index.cshtml" />
     <Content Include="Views\CoursSuivi\_CoursSuivi.cshtml" />
     <Content Include="Views\CoursSuivi\_Footer.cshtml" />
+    <Content Include="Views\DossierEtudiant\Index.cshtml" />
+    <Content Include="Views\DossierEtudiant\Details.cshtml" />
+    <Content Include="Views\DossierEtudiant\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
