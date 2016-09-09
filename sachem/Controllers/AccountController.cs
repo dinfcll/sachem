@@ -266,7 +266,7 @@ namespace sachem.Controllers
                 {
                     return View(personne);
                 }
-                if (SachemIdentite.encrypterChaine(personne.AncienMotDePasse) != ancienmdpbd)
+                if (SachemIdentite.encrypterChaine(personne.AncienMotDePasse) != ancienmdpbd)//Vérifier si le champ anciem mot de passe est le bon mot de passe
                 {
                     ModelState.AddModelError("AncienMotDePasse", Messages.C_002);
                     return View(personne);
