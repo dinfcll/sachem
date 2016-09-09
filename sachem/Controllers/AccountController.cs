@@ -191,7 +191,6 @@ namespace sachem.Controllers
 
             return View();
         }
-
         //
         // POST: /Account/Mot de passe oublié
         [HttpPost]
@@ -202,7 +201,7 @@ namespace sachem.Controllers
             if (db.Personne.Any(y => y.Courriel == courriel && y.Actif == true))//vérifie si le courriel est associé à un compte utilisateur
             {
                 //Création du mot de passe
-                //Inspiré par la fonction trouvé sur le site web: http://madskristensen.net/post/generate-random-password-in-c
+                //Inspiré par la fonction trouvée sur le site web: http://madskristensen.net/post/generate-random-password-in-c
                 string caracterePossible = "abcdefghijkmnopqrstuvwxyzABCDEFGHJKLMNOPQRSTUVWXYZ0123456789!@$?"; //liste de caractères qui sont utilisés pour la création du mot de passe
                 string nouveaumdp = "";
                 Random r = new Random();
@@ -229,7 +228,51 @@ namespace sachem.Controllers
             {
                 ModelState.AddModelError("Courriel",Messages.C_003);
             }
+            return View(courriel);
+        }
+        //GET: /Account/Modifier Mot de passe
+        [AllowAnonymous]
+        public ActionResult ModifierPassword()
+        {
             return View();
+        }
+        //
+        // POST: /Account/Modifier Mot de Passe
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public ActionResult ModifierPassword(Personne personne)
+        {
+            int idpersonne = SessionBag.Current.id_Pers;
+            string ancienmdpbd = SessionBag.Current.MP;
+            if (personne.AncienMotDePasse == null)//Validation pour les champs requis
+            {
+                ModelState.AddModelError("AncienMotDePasse", Messages.U_001); //requis
+                if (personne.MP == null)
+                {
+                    ModelState.AddModelError("MP", Messages.U_001); //requis
+                }
+                if (personne.ConfirmPassword == null)
+                {
+                    ModelState.AddModelError("ConfirmPassword", Messages.U_001); //requis
+                }
+                return View(personne);
+            }
+            if (SachemIdentite.encrypterChaine(personne.AncienMotDePasse)!= ancienmdpbd)
+            {
+                ModelState.AddModelError("AncienMotDePasse", Messages.C_002);
+                return View(personne);
+            }
+            else
+            {
+                Personne utilisateur = db.Personne.AsNoTracking().Where(x => x.id_Pers==idpersonne).FirstOrDefault();
+                utilisateur.MP = personne.MP;//Change le mot de passe
+                SachemIdentite.encrypterMPPersonne(ref utilisateur);//l'Encrypte
+                db.Entry(utilisateur).State = EntityState.Modified;
+                db.SaveChanges();//L'enregistre
+                ViewBag.Success = Messages.I_018();
+                return View(personne);
+            }
         }
         //
         // POST: /Account/LogOff
