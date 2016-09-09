@@ -1,11 +1,15 @@
-﻿@model PagedList.IPagedList<sachem.Models.ProgrammeEtude>
+﻿﻿@model IEnumerable<sachem.Models.ProgrammeEtude>
+@using PagedList
+@using PagedList.Mvc;
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
 
 @{
-    ViewBag.Title = "Programmes d'étude";    
+    ViewBag.Title = "Programmes d'étude";
+    var pagedlist = (IPagedList)Model;
 }
 
 <h2>Programmes d'étude</h2>
-  
+
 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 <p class="text-success">
     @Html.ViewBag.Success
@@ -14,58 +18,59 @@
 <p>
     @using (Html.BeginForm("Index", "ProgrammesOfferts", FormMethod.Post, new { @class = "form-inline", role = "form" }))
     {
-        <p>
-            Trouver par code ou nom de programme @Html.TextBox("recherche")
+    <p>
+        Trouver par code ou nom de programme @Html.TextBox("Recherche")
         <input type="submit" value="Rechercher" />
-        </p>
+    </p>
     }
     @Html.ActionLink("Ajouter un programme d'étude", "Create")
-</p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.First().Code)
-        </th>
-        <th>   
-            @Html.DisplayNameFor(model => model.First().NomProg)         
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.First().Annee) 
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.First().Actif)
-        </th>
-        <th></th>
-    </tr>
-
-    @foreach (var item in Model) {
+    </p>
+    <table class="table">
         <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Code)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.NomProg)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Annee)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Actif)
-            </td>
-            <td>
-                @Html.ActionLink("Modifier", "Edit", new {  id=item.id_ProgEtu }) |
-                @Html.ActionLink("Supprimer", "Delete", new { id=item.id_ProgEtu})
-            </td>
+            <th>
+                @Html.DisplayNameFor(model => model.Code)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NomProg)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Annee)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Actif)
+            </th>
+            <th></th>
         </tr>
-    }
 
-    @if (!Model.Any())
-    {
-        <tr>
-            <td colspan="6">Aucun programme d'étude ne répond à ces critères</td>
-        </tr>
-    }
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Code)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NomProg)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Annee)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Actif)
+                </td>
+                <td>
+                    @Html.ActionLink("Modifier", "Edit", new { id = item.id_ProgEtu }) |
+                    @Html.ActionLink("Supprimer", "Delete", new { id = item.id_ProgEtu })
+                </td>
+            </tr>
+        }
 
-</table>
-
-@Html.Partial("_PageRecherche", Model)
+    </table>
+<div>
+    <div>
+        Page @(pagedlist.PageCount < pagedlist.PageNumber ? 0 : pagedlist.PageNumber) sur @pagedlist.PageCount)
+    </div>
+    @Html.PagedListPager(pagedlist, page => Url.Action("Index", "ProgrammesOfferts", new {recherche = ViewBag.Recherche, page = page }))
+</div>
+    
+        
+    

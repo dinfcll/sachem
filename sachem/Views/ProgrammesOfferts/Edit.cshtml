@@ -5,7 +5,6 @@
 }
 
 <h2>Modifier Programme d'étude</h2>
-@Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
 @using (Html.BeginForm("Edit","ProgrammesOfferts",FormMethod.Post))
 {
@@ -14,6 +13,7 @@
     <div class="form-horizontal">
 
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.id_ProgEtu)
 
         @Html.Partial("_ProgrammesOfferts")
 

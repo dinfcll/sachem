@@ -15,8 +15,8 @@ namespace sachem.Controllers
         // GET: ProgrammesOfferts
         public ActionResult Index(string recherche, int? page)
         {
-            Recherche(recherche);
             int numeroPage = (page ?? 1);
+            ViewBag.Recherche = recherche;
             return View("Index",Recherche(recherche).ToPagedList(numeroPage, 20));
         }
         
