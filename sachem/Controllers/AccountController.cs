@@ -95,6 +95,9 @@ namespace sachem.Controllers
                 if (!ModelState.IsValid)
                     return View(PersonneBD); //Retourne le formulaire rempli avec l'erreur
 
+               /* var idInscr = db.Inscription.AsNoTracking().Where(x => x.id_Pers == PersonneBD.id_Pers).FirstOrDefault();
+                var typeInscr = db.p_TypeInscription.AsNoTracking().Where(x => x.id_TypeInscription == idInscr.id_Inscription).FirstOrDefault();
+                */
                 //Si tout va bien, on rempli la session avec les informations de l'utilisateur!
                 SessionBag.Current.NomUsager = PersonneBD.NomUsager;
                 SessionBag.Current.Matricule7 = PersonneBD.Matricule7;
@@ -274,6 +277,7 @@ namespace sachem.Controllers
         //
         // POST: /Account/LogOff
         [HttpPost]
+        [AllowAnonymous]
         [ValidateAntiForgeryToken]
         public ActionResult LogOff()
         {

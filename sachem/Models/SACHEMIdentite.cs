@@ -13,37 +13,37 @@ using System.Dynamic;
 
 namespace sachem.Models
 {
-    public enum TypeUsagers { Aucun = 0, Etudiant = 1, Enseignant = 2, Responsable = 3, Super = 4 } //Enum contenant les types d'usagers du SACHEM
+    public enum TypeUsagers { Aucun = 0, Etudiant = 1, Eleve = 2, Tuteur = 3, Enseignant = 4, Responsable = 5, Super = 6 } //Enum contenant les types d'usagers du SACHEM
     
-    public class Login
-    {
-        public string NomUsager;
-        public string MP; //Pas un risque de sécurité tant que le MP est détruit de la mémoire (le model crée la variable en public de toute façon).
-        public Login()
-        {
-
-        }
-    }
+    
     public class SachemIdentite
     {
-        public static List<TypeUsagers> TypeListeAdmin = new List<TypeUsagers> { TypeUsagers.Enseignant, TypeUsagers.Responsable, TypeUsagers.Super };
+        public static List<TypeUsagers> TypeListeAdmin = new List<TypeUsagers> { TypeUsagers.Enseignant, TypeUsagers.Responsable, TypeUsagers.Super }; //Enum des types ayant pouvoirs d'admin
         //Pour l'encryption du cookie (MachineCode)
-#pragma warning disable 0618 //Extrait du projet PAM: Pour l'encryption du cookie (MachineCode)
+        #pragma warning disable 0618 //Extrait du projet PAM: Pour l'encryption du cookie (MachineCode)
 
         public static TypeUsagers ObtenirTypeUsager(HttpSessionStateBase Session)
         {
-            if (Session["id_TypeUsag"] == null)
+            //Switch case pour déterminer le type d'usager
+            if(Session["id_TypeUsag"] == null)
                 return TypeUsagers.Aucun;
-            else if ((int)Session["id_TypeUsag"] == 1)
-                return TypeUsagers.Etudiant;
-            else if ((int)Session["id_TypeUsag"] == 2)
-                return TypeUsagers.Enseignant;
-            else if ((int)Session["id_TypeUsag"] == 3)
-                return TypeUsagers.Responsable;
-            else if ((int)Session["id_TypeUsag"] == 4)
-                return TypeUsagers.Super;
-            else
-                return TypeUsagers.Aucun;
+            switch ((int)Session["id_TypeUsag"])
+            {
+                case 1:
+                    return TypeUsagers.Etudiant;
+                case 2:
+                    return TypeUsagers.Eleve;
+                case 3:
+                    return TypeUsagers.Tuteur;
+                case 4:
+                    return TypeUsagers.Enseignant;
+                case 5:
+                    return TypeUsagers.Responsable;
+                case 6:
+                    return TypeUsagers.Super;
+                default:
+                    return TypeUsagers.Aucun;
+            }
         }
 
         public static bool ValiderRoleAcces(List<TypeUsagers> ListeRoles, HttpSessionStateBase session)
