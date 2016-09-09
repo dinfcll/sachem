@@ -57,6 +57,17 @@ namespace sachem.Models
         /// <returns></returns>
         public const string U_003 = "Longueur requise : 8 caractères.";
 
+        ///<summary>
+        /// Format: AAAA/MM/JJ
+        /// </summary>
+        /// <returns></returns>
+        public const string U_007 = "Format : AAAA/MM/JJ";
+
+        ///<summary>
+        /// Format : HH:MM
+        /// </summary>
+        /// <returns></returns>
+        public const string U_010 = "Format : HH:MM";
 
         #endregion
 
