@@ -241,13 +241,20 @@ namespace sachem.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public ActionResult ModifierPassword(Personne personne)
+        public ActionResult ModifierPassword(Personne personne,string Modifier,string Annuler)
         {
-            int idpersonne = SessionBag.Current.id_Pers;
-            string ancienmdpbd = SessionBag.Current.MP;
-            if (personne.AncienMotDePasse == null)//Validation pour les champs requis
+            if(Annuler != null)//Verifier si c'est le bouton annuler qui a été cliqué
             {
-                ModelState.AddModelError("AncienMotDePasse", Messages.U_001); //requis
+                return RedirectToAction("Index", "Home");
+            }
+            if (Modifier != null)//Si modifier mdp a été cliqué
+            {
+                int idpersonne = SessionBag.Current.id_Pers;//Chercher l'id et le mot de passe de l'utilisateur en cours
+                string ancienmdpbd = SessionBag.Current.MP;
+                if (personne.AncienMotDePasse == null)
+                {
+                    ModelState.AddModelError("AncienMotDePasse", Messages.U_001); //requis
+                }
                 if (personne.MP == null)
                 {
                     ModelState.AddModelError("MP", Messages.U_001); //requis
@@ -256,23 +263,27 @@ namespace sachem.Controllers
                 {
                     ModelState.AddModelError("ConfirmPassword", Messages.U_001); //requis
                 }
-                return View(personne);
+                if (personne.AncienMotDePasse == null || personne.MP == null || personne.ConfirmPassword == null)//Validation pour les champs requis
+                {
+                    return View(personne);
+                }
+                if (SachemIdentite.encrypterChaine(personne.AncienMotDePasse) != ancienmdpbd)
+                {
+                    ModelState.AddModelError("AncienMotDePasse", Messages.C_002);
+                    return View(personne);
+                }
+                else
+                {
+                    Personne utilisateur = db.Personne.AsNoTracking().Where(x => x.id_Pers == idpersonne).FirstOrDefault();
+                    utilisateur.MP = personne.MP;//Change le mot de passe
+                    SachemIdentite.encrypterMPPersonne(ref utilisateur);//l'Encrypte
+                    db.Entry(utilisateur).State = EntityState.Modified;
+                    db.SaveChanges();//L'enregistre
+                    ViewBag.Success = Messages.I_018();
+                    return View(personne);
+                }
             }
-            if (SachemIdentite.encrypterChaine(personne.AncienMotDePasse)!= ancienmdpbd)
-            {
-                ModelState.AddModelError("AncienMotDePasse", Messages.C_002);
-                return View(personne);
-            }
-            else
-            {
-                Personne utilisateur = db.Personne.AsNoTracking().Where(x => x.id_Pers==idpersonne).FirstOrDefault();
-                utilisateur.MP = personne.MP;//Change le mot de passe
-                SachemIdentite.encrypterMPPersonne(ref utilisateur);//l'Encrypte
-                db.Entry(utilisateur).State = EntityState.Modified;
-                db.SaveChanges();//L'enregistre
-                ViewBag.Success = Messages.I_018();
-                return View(personne);
-            }
+            return View();
         }
         //
         // POST: /Account/LogOff
