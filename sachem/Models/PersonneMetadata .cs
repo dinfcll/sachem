@@ -40,13 +40,13 @@ namespace sachem.Models
         [Required(ErrorMessage = Messages.U_001)]
         public string id_TypeUsag;
 
-        [Display(Name = "Mot de passe")]
-        [DataType(DataType.Password)]
-        public string MP;
-
         [Display(Name = "Confirmation du mot de passe")]
         [DataType(DataType.Password)]
         public string ConfMP;
+
+        [Display(Name = "Mot de passe")]
+        [DataType(DataType.Password)]
+        public string MPDemander;
 
         [Display(Name = "Courriel")]
         [Required(ErrorMessage = Messages.U_001)]
