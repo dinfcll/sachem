@@ -7,6 +7,7 @@ using System.Web.Mvc;
 using sachem.Models;
 using PagedList;
 
+
 namespace sachem.Controllers
 {
     public class CoursController : Controller
@@ -47,7 +48,6 @@ namespace sachem.Controllers
             //Request.Form["cle"]
             //Cette méthode fonctionnera dans les 2 cas
             //Request["cle"]
-
             if (Request.RequestType == "GET" && Session["DernRechCours"] != null && (string)Session["DernRechCoursUrl"] == Request.Url?.LocalPath)
             {
                 var anciennerech = (string)Session["DernRechCours"];
@@ -67,7 +67,8 @@ namespace sachem.Controllers
             {
                 //La méthode String.IsNullOrEmpty permet à la fois de vérifier si la chaine est NULL (lors du premier affichage de la page ou vide, lorsque le paramètre n'est pas appliquée 
                 if (!string.IsNullOrEmpty(Request.Form["Session"]))
-                    sess = Convert.ToInt32(Request.Form["Session"]);
+                    //sess = Convert.ToInt32(Request.Form["Session"]);
+                    int.TryParse(Request.Form["Session"], out sess); // MODIF: Loic turgeon et Cristian Zubieta
                 //si la variable est null c'est que la page est chargée pour la première fois, donc il faut assigner la session à la session en cours, la plus grande dans la base de données
                 else if (Request.Form["Session"] == null)
                     sess = db.Session.Max(s => s.id_Sess);
