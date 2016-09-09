@@ -1,16 +1,19 @@
 ﻿@using Microsoft.AspNet.Identity
-@if (Request.IsAuthenticated)
+@model sachem.Models.Personne
+@using sachem.Models
+@if (SessionBag.Current.NomComplet !=null)
 {
+    string NomComplet = SessionBag.Current.NomComplet;
     using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
     {
-    @Html.AntiForgeryToken()
+        @Html.AntiForgeryToken()
+        <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown"> @NomComplet <b class="caret"></b> </a>
 
-    <ul class="nav navbar-nav navbar-right">
-        <li>
-            @Html.ActionLink("Bonjour " + User.Identity.GetUserName() + "!", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
+            <ul class="dropdown-menu">
+                <li>@Html.ActionLink("Se déconnecter", "LogOff", "Account")</li>
+            </ul>
         </li>
-        <li><a href="javascript:document.getElementById('logoutForm').submit()">Se déconnecter</a></li>
-    </ul>
     }
 }
 else
