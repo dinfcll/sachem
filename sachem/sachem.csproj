@@ -401,10 +401,10 @@
     <Content Include="Views\CoursSuivi\Edit.cshtml" />
     <Content Include="Views\CoursSuivi\Index.cshtml" />
     <Content Include="Views\CoursSuivi\_CoursSuivi.cshtml" />
+    <Content Include="Views\CoursSuivi\_Footer.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\CoursSuiviMetadata\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

@@ -15,40 +15,40 @@ namespace sachem.Controllers
         private SACHEMEntities db = new SACHEMEntities();
 
 
-        private void ListeCours()
+        private void ListeCours(int Cours=0)
         {
             var lCours = db.Cours.AsNoTracking().OrderBy(c => c.Code);
             var slCours = new List<SelectListItem>();
-            slCours.AddRange(new SelectList(lCours, "id_Cours", "CodeNom", 0));
+            slCours.AddRange(new SelectList(lCours, "id_Cours", "CodeNom", Cours));
 
-            ViewBag.Cours = slCours;
+            ViewBag.id_Cours = slCours;
         }
 
-        private void ListeCollege()
+        private void ListeCollege(int College=0)
         {
             var lCollege = db.p_College.AsNoTracking().OrderBy(n => n.College);
             var slCollege = new List<SelectListItem>();
-            slCollege.AddRange(new SelectList(lCollege, "id_College", "College", 0));
+            slCollege.AddRange(new SelectList(lCollege, "id_College", "College", College));
 
-            ViewBag.College = slCollege;
+            ViewBag.id_College = slCollege;
         }
 
-        private void ListeStatut()
+        private void ListeStatut(int Statut = 0)
         {
             var lStatut = db.p_StatutCours.AsNoTracking();
             var slStatut = new List<SelectListItem>();
-            slStatut.AddRange(new SelectList(lStatut, "id_Statut", "Statut", 0));
+            slStatut.AddRange(new SelectList(lStatut, "id_Statut", "Statut", Statut));
 
-            ViewBag.Statut = slStatut;
+            ViewBag.id_Statut = slStatut;
         }
 
-        private void ListeSession()
+        private void ListeSession(int Session=0)
         {
             var lSessions = db.Session.AsNoTracking().OrderBy(s => s.Annee).ThenBy(s => s.p_Saison.Saison);
             var slSession = new List<SelectListItem>();
-            slSession.AddRange(new SelectList(lSessions, "id_Sess", "NomSession", 0));
+            slSession.AddRange(new SelectList(lSessions, "id_Sess", "NomSession", Session));
 
-            ViewBag.Session = slSession;
+            ViewBag.id_Sess = slSession;
         }
 
         // GET: CoursSuivi
@@ -99,11 +99,6 @@ namespace sachem.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ListeCours();
-            ListeCollege();
-            ListeStatut();
-            ListeSession();
-
             return View(coursSuivi);
         }
 
