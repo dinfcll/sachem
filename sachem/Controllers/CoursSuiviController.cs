@@ -50,16 +50,20 @@ namespace sachem.Controllers
             ViewBag.id_Sess = slSession;
         }
 
-        private void Valider([Bind(Include = "id_CoursReussi,id_Sess,id_Pers,id_College,id_Statut,id_Cours,resultat,autre_Cours,autre_College")] CoursSuivi coursSuivi)
+        //Validation des champs cours et collège
+        private void Valider([Bind(Include = "id_CoursReussi,id_Sess,id_Pers,id_College,id_Statut,id_Cours,resultat,autre_Cours,autre_College")] CoursSuivi coursSuivi, int i = 0)
         {
-            if (db.CoursSuivi.Any(r => r.id_Cours == coursSuivi.id_Cours && r.id_Pers == coursSuivi.id_Pers && r.id_Sess == coursSuivi.id_Sess && r.id_College == coursSuivi.id_College))
-                ModelState.AddModelError(string.Empty, Messages.I_036());
+            if (i == 1)
+            {
+                if (db.CoursSuivi.Any(r => r.id_Cours == coursSuivi.id_Cours && r.id_Pers == coursSuivi.id_Pers && r.id_Sess == coursSuivi.id_Sess && r.id_College == coursSuivi.id_College))
+                    ModelState.AddModelError(string.Empty, Messages.I_036());
+            }
 
-            if (coursSuivi.id_Cours == null && coursSuivi.autre_Cours == string.Empty)
-                ModelState.AddModelError(string.Empty, Messages.U_001);
+            if (coursSuivi.id_Cours == null && coursSuivi.autre_Cours == string.Empty || coursSuivi.id_Cours != null && coursSuivi.autre_Cours != string.Empty)
+                ModelState.AddModelError(string.Empty, Messages.C_009("Cours" , "Autre cours"));
 
-            if (coursSuivi.id_College == null && coursSuivi.autre_College == string.Empty)
-                ModelState.AddModelError(string.Empty, Messages.U_001);
+            if (coursSuivi.id_College == null && coursSuivi.autre_College == string.Empty || coursSuivi.id_College != null && coursSuivi.autre_College != string.Empty)
+                ModelState.AddModelError(string.Empty, Messages.C_009("Collège", "Autre collège"));
         }
 
         // GET: CoursSuivi
@@ -112,7 +116,7 @@ namespace sachem.Controllers
             //Valeur fictive de personne
             coursSuivi.id_Pers = 1;
 
-            Valider(coursSuivi);
+            Valider(coursSuivi, 1);
 
             if (ModelState.IsValid)
             {
@@ -126,19 +130,27 @@ namespace sachem.Controllers
         // GET: CoursSuivi/Edit/5
         public ActionResult Edit(int? id)
         {
+            //temp
             int id2 = 1;
-            
+
             if (id == null)
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             CoursSuivi cs = db.CoursSuivi.Where(r => r.id_Pers == id2 && r.id_CoursReussi == id).FirstOrDefault();
-            ListeCours(cs.id_Cours.Value);
-            ListeCollege(cs.id_College.Value);
-            ListeStatut();
-            ListeSession();
+
             if (cs == null)
-            {
                 return HttpNotFound();
-            }
+
+            if (cs.id_Cours == null)
+                ListeCours();
+            else
+                ListeCours(cs.id_Cours.Value);
+
+            if (cs.id_College == null)
+                ListeCollege();
+            else
+                ListeCollege(cs.id_College.Value);
+            ListeStatut(cs.id_Statut.Value);
+            ListeSession(cs.id_Sess.Value);
             return View(cs);
         }
 
@@ -149,6 +161,24 @@ namespace sachem.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "id_CoursReussi,id_Sess,id_Pers,id_College,id_Statut,id_Cours,resultat,autre_Cours,autre_College")] CoursSuivi coursSuivi)
         {
+            //temp
+            coursSuivi.id_Pers = 1;
+
+            if (coursSuivi.id_Cours == null)
+                ListeCours();
+            else
+                ListeCours(coursSuivi.id_Cours.Value);
+
+            if (coursSuivi.id_College == null)
+                ListeCollege();
+            else
+                ListeCollege(coursSuivi.id_College.Value);
+
+            ListeStatut(coursSuivi.id_Statut.Value);
+            ListeSession(coursSuivi.id_Sess.Value);
+
+            Valider(coursSuivi);
+
             if (ModelState.IsValid)
             {
                 db.Entry(coursSuivi).State = EntityState.Modified;
@@ -162,16 +192,31 @@ namespace sachem.Controllers
         // GET: CoursSuivi/Delete/5
         public ActionResult Delete(int? id)
         {
+            //temp
+            int id2 = 1;
+
+            CoursSuivi cs = db.CoursSuivi.Where(r => r.id_Pers == id2 && r.id_CoursReussi == id).FirstOrDefault();
+
+            //if (cs == null)
+            //    return HttpNotFound();
+
+
+            //if (cs.id_Cours == null)
+            //    ViewBag.Cours = cs.autre_Cours;
+            //else
+            //    ViewBag.Cours = cs.id_Cours;
+            //ViewBag.Session = cs.id_Sess;
+            //ViewBag.Statut = cs.id_Statut;
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            CoursSuivi coursSuivi = db.CoursSuivi.Find(id);
-            if (coursSuivi == null)
+            if (cs == null)
             {
                 return HttpNotFound();
             }
-            return View(coursSuivi);
+            return View(cs);
         }
 
         // POST: CoursSuivi/Delete/5

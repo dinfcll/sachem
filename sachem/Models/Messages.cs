@@ -50,6 +50,15 @@ namespace sachem.Models
         #region MessageContexte
         #endregion
 
+        /// <summary>
+        /// Un des deux champs {0}, {1} doit être complété.
+        /// </summary>
+        /// <param name="param1"></param>
+        /// <param name="param2"></param>
+        /// <returns></returns>
+        public static string C_009(string param1, string param2)
+        { return $"Un des deux champs {param1}, {param2} doit être complété."; }
+
         #region MessageUnitaire
 
         /// <summary>
@@ -79,6 +88,14 @@ namespace sachem.Models
         /// <returns></returns>private string Q_001(string Cours)
         public static string Q_001(string Cours)
         { return $"Voulez-vous vraiment supprimer le cours {Cours} ?"; }
+
+        /// <summary>
+        /// Voulez-vous vraiment supprimer le cours {0} de votre liste de cours suivis?
+        /// </summary>
+        /// <param name="Cours"></param>
+        /// <returns></returns>
+        public static string Q_009(string Cours)
+        { return $"Voulez-vous vraiment supprimer le cours {Cours} de votre liste de cours suivis?"; }
 
 
         #endregion
