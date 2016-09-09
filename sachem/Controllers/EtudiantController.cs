@@ -101,7 +101,7 @@ namespace sachem.Controllers
                            where c.Actif == true && c.id_TypeUsag == 1
                            select c;
             if (Request.RequestType == "POST")
-            { 
+            {
                 if (!String.IsNullOrEmpty(Request.Form["SearchMatricule"]))
                 {
                     //personne = null;
@@ -224,7 +224,7 @@ namespace sachem.Controllers
           
             return "allo";
         }
-
+        //viewbag
         private void ListeSession(int Session = 0)
         {
 
@@ -253,20 +253,13 @@ namespace sachem.Controllers
 
             ViewBag.Groupe = slGroupe;
         }
-        // GET: Etudiant/Details/5
-        public ActionResult Details(int? id)
+        private void ListeProg(int Programme = 0)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Personne personne = db.Personne.Find(id);
-            if (personne == null)
-            {
-                return HttpNotFound();
-            }
-            return View(personne);
+            var lProgramme = db.ProgrammeEtude.AsNoTracking().OrderBy(s => s.NomProg);
+            var slProgramme = new List<SelectListItem>();
+            slProgramme.AddRange(new SelectList(lProgramme, "id_ProgEtu", "nomProg", Programme));
         }
+        // GET: Etudiant/Details/5
 
         // GET: Etudiant/Create
         public ActionResult Create()
@@ -313,7 +306,10 @@ namespace sachem.Controllers
 
             ViewBag.id_Sexe = new SelectList(db.p_Sexe, "id_Sexe", "Sexe", personne.id_Sexe);
             ViewBag.id_TypeUsag = new SelectList(db.p_TypeUsag, "id_TypeUsag", "TypeUsag", personne.id_TypeUsag);
+            //ViewBag.id_Programme = new SelectList(db.ProgrammeEtude, "id_ProgEtu", "nomProg", personne.idProgEtu);
+            //ViewBag.id_Session = new SelectList(db.Session, "id_Sess", "NomSession",)
             return View(personne);
+            //faire des viewbag pour voir les données
         }
 
         public void FillDropDownlist()
