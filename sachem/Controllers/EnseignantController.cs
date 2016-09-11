@@ -89,7 +89,6 @@ namespace sachem.Controllers
         {           
             personne.MP = personne.MPDemander;
             Valider(personne);
-
             if (ModelState.IsValid)
             {
                 personne.MP = encrypterChaine(personne.MP); // Encryption du mot de passe

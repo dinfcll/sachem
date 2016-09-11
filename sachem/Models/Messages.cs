@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using System.Web.Mvc;
 
 namespace sachem.Models
 {
@@ -126,10 +127,11 @@ namespace sachem.Models
         { return $"Voulez-vous vraiment supprimer l'enseignant {Enseignant} ?"; }
         #endregion
 
-        public static string Q_004(string NomUsager)
+        public static MvcHtmlString Q_004(string NomUsager)
         {
-            return $"L'enseignant {NomUsager} a été créé. Souhaitez-vous y associer un groupe?"; // TO DO METTRE UN LIEN DANS LA STRING.
+            
+            return MvcHtmlString.Create($"L'enseignant {NomUsager} a été créé. Souhaitez-vous <a href=\".\">y associer un groupe?</a>"); // Note: Changé vers quel page le lien pointe.
         }
 
-    }
+    } 
 }
