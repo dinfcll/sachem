@@ -222,6 +222,7 @@
     <Compile Include="Controllers\EtudiantController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\RechercheEtudiantController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -413,9 +414,11 @@
     <Content Include="Views\Etudiant\Edit.cshtml" />
     <Content Include="Views\Etudiant\Index.cshtml" />
     <Content Include="Views\Etudiant\_ProgrammeEtude.cshtml" />
+    <Content Include="Views\Shared\_RechercheEtudiant.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\RechercheEtudiant\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

@@ -42,6 +42,8 @@ namespace sachem.Controllers
             var sess = 0;
             var actif = true;
 
+            
+
             //Pour accéder à la valeur de cle envoyée en GET dans le formulaire
             //Request.QueryString["cle"]
             //Pour accéder à la valeur cle envoyée en POST dans le formulaire

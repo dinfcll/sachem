@@ -8,15 +8,22 @@ using System.Web;
 using System.Web.Mvc;
 using sachem.Models;
 using PagedList;
-using System.Linq;
 using System.Web.Services;
 
 namespace sachem.Controllers
 {
-    public class EtudiantController : Controller
+    public class EtudiantController : RechercheEtudiantController
     {
-        private SACHEMEntities db = new SACHEMEntities();
+       
 
+
+        public string ProgEtude()
+        {
+
+            return "allo";
+        }
+
+        #region enCommentaire
         // GET: Etudiant
         //public ActionResult Index()
         //{
@@ -88,26 +95,20 @@ namespace sachem.Controllers
         //    return View(personne.ToList());
         //}
 
-        public ActionResult Index(string recherche, int? page)
-        {
-            if (recherche != null)
-            {
-                page = 1;
-            }
+        #endregion
 
+        public ActionResult Index(int? page)
+        {
+            noPage = (page ?? noPage);
+           
             var personne = from c in db.Personne   
                            where c.Actif == true && c.id_TypeUsag == 1
                            select c;
-            if (!String.IsNullOrEmpty(recherche))
-            {
-                personne = personne.Where(c => c.Matricule7.Contains(recherche)) as IOrderedQueryable<Personne>;
-            }
 
-            int numeroPage = (page ?? 1);
-            return View(personne.ToPagedList(numeroPage, 25));
+            return View(Rechercher().ToPagedList(noPage, 20));
         }
 
-
+        #region enCommentaire
         //private IEnumerable<Personne> Rechercher()
         //{
         //    var personne = from c in db.Personne
@@ -223,48 +224,9 @@ namespace sachem.Controllers
 
         //    return personne.ToList();
         //}
+        #endregion
 
-
-        public string ProgEtude()
-        {
-          
-            return "allo";
-        }
-        //viewbag
-        private void ListeSession(int Session = 0)
-        {
-
-            var lSessions = db.Session.AsNoTracking().OrderBy(s => s.Annee).ThenBy(s => s.p_Saison.Saison);
-            var slSession = new List<SelectListItem>();
-            slSession.AddRange(new SelectList(lSessions, "id_Sess", "NomSession", Session));
-
-            ViewBag.Session = slSession;
-
-        }
-        private void ListeCours(int Cours = 0)
-        {
-
-            var lCours = db.Cours.AsNoTracking().OrderBy(s => s.Actif).ThenBy(s => s.id_Cours);
-            var slCours = new List<SelectListItem>();
-            slCours.AddRange(new SelectList(lCours, "id_Cours", "Nom", Cours)); //, "id_Cours", "Nom"));
-
-            ViewBag.Cours = slCours;
-        }
-        private void ListeGroupe(int Groupe = 0)
-        {
-
-            var lGroupe = db.Groupe.AsNoTracking().OrderBy(s => s.NoGroupe);
-            var slGroupe = new List<SelectListItem>();
-            slGroupe.AddRange(new SelectList(lGroupe, "id_Groupe","NoGroupe", Groupe)); //, "id_Cours", "Nom"));
-
-            ViewBag.Groupe = slGroupe;
-        }
-        private void ListeProg(int Programme = 0)
-        {
-            var lProgramme = db.ProgrammeEtude.AsNoTracking().OrderBy(s => s.NomProg);
-            var slProgramme = new List<SelectListItem>();
-            slProgramme.AddRange(new SelectList(lProgramme, "id_ProgEtu", "nomProg", Programme));
-        }
+      
         // GET: Etudiant/Details/5
 
         // GET: Etudiant/Create
@@ -306,15 +268,15 @@ namespace sachem.Controllers
             {
                 return HttpNotFound();
             }
-            var Prog = from d in db.ProgrammeEtude
-                       where personne.ProgEtu == d.NomProg
-                       select d;
+            //var Prog = from d in db.ProgrammeEtude
+            //           where personne.ProgEtu == d.NomProg
+            //           select d;
 
             ViewBag.id_Sexe = new SelectList(db.p_Sexe, "id_Sexe", "Sexe", personne.id_Sexe);
             ViewBag.id_TypeUsag = new SelectList(db.p_TypeUsag, "id_TypeUsag", "TypeUsag", personne.id_TypeUsag);
             //ViewBag.id_Programme = new SelectList(db.ProgrammeEtude, "id_ProgEtu", "nomProg", personne.idProgEtu);
             //ViewBag.id_Session = new SelectList(db.Session, "id_Sess", "NomSession",)
-            return View(personne,);
+            return View(personne);
             //tuple a faire
             //ou faire une liste de prog dans la classe personne
             //faire des viewbag pour voir les données

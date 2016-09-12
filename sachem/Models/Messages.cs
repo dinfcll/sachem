@@ -84,6 +84,13 @@ namespace sachem.Models
         public static string I_028(string Etudiant)
         { return $"L'étudiant {Etudiant} a été supprimé."; }
 
+        /// <summary>
+        /// "Tous les critères de la recherche doivent être précisés."
+        /// </summary>
+        public static string I_039()
+        { return "Tous les critères de la recherche doivent être précisés."; }
+          
+
         #endregion
 
         #region MessageContexte
