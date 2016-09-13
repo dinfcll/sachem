@@ -272,9 +272,8 @@ namespace sachem.Controllers
                 return HttpNotFound();
             }
             //var Prog = from d in db.ProgrammeEtude
-              //         where personne.ProgEtu == d.NomProg
-                //       select d;
-
+            //           where personne.progEtu == d.NomProg
+            //           select d;
             ViewBag.id_Sexe = new SelectList(db.p_Sexe, "id_Sexe", "Sexe", personne.id_Sexe);
             ViewBag.id_TypeUsag = new SelectList(db.p_TypeUsag, "id_TypeUsag", "TypeUsag", personne.id_TypeUsag);
             //ViewBag.id_Programme = new SelectList(db.ProgrammeEtude, "id_ProgEtu", "nomProg", personne.idProgEtu);
@@ -287,8 +286,7 @@ namespace sachem.Controllers
         }
 
         public void FillDropDownlist()
-        {
-            
+        {  
         }
         // POST: Etudiant/Edit/5
         // Afin de déjouer les attaques par sur-validation, activez les propriétés spécifiques que vous voulez lier. Pour 
