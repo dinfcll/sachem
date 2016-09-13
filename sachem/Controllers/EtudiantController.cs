@@ -8,6 +8,8 @@ using System.Web;
 using System.Web.Mvc;
 using sachem.Models;
 using PagedList;
+using System.Security.Cryptography;// pour encripter mdp
+using System.Text;
 using System.Web.Services;
 
 namespace sachem.Controllers
@@ -345,6 +347,14 @@ namespace sachem.Controllers
             
             db.SaveChanges();
             return RedirectToAction("Index");
+        }
+        //Méthode pour encrypter le de mot de passe.
+        public static string encrypterChaine(string mdp)
+        {
+            byte[] Buffer;
+            MD5CryptoServiceProvider provider = new MD5CryptoServiceProvider();
+            Buffer = Encoding.UTF8.GetBytes(mdp);
+            return BitConverter.ToString(provider.ComputeHash(Buffer)).Replace("-", "").ToLower();
         }
 
         protected override void Dispose(bool disposing)

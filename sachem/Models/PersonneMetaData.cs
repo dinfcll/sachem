@@ -55,6 +55,7 @@ namespace sachem.Models
         [StringLength(7, MinimumLength = 7, ErrorMessage = Messages.U_004)]
         public string Matricule;
 
+
         //    [Display(Name = "Mot de passe")]
         //    [DisplayFormat(ConvertEmptyStringToNull = false)]
         //    [Required(ErrorMessage = Messages.U_001)]
