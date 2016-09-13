@@ -46,6 +46,12 @@ namespace sachem.Models
         [EmailAddress(ErrorMessage = Messages.U_008)]
         public string Courriel;
 
+        [Display(Name = "Sexe")]
+        public string id_Sexe;
+
+        [Display(Name = "Type usager")]
+        public string id_TypeUsag;
+
         [Display(Name = "Numéro de téléphone")]
         [RegularExpression(@"^\(?([0-9]{3})\)?([0-9]{3})-([0-9]{4})$", ErrorMessage = Messages.U_009)]
         public string Telephone;
@@ -57,10 +63,14 @@ namespace sachem.Models
         public string Matricule;
 
 
-        //    [Display(Name = "Mot de passe")]
-        //    [DisplayFormat(ConvertEmptyStringToNull = false)]
-        //    [Required(ErrorMessage = Messages.U_001)]
-        //    public string Mp;
+        [Display(Name = "Mot de passe")]
+        [DisplayFormat(ConvertEmptyStringToNull = false)]
+        [Required(ErrorMessage = Messages.U_001)]
+        public string MP;
+
+        //[Display(Name = "Confirmation du mot de passe")]
+        //[DataType(DataType.Password)]
+        //public string ConfMP;
     }
 
 }

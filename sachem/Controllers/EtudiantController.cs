@@ -253,6 +253,7 @@ namespace sachem.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
+            //personne.ConfMP = personne.MP;
 
             ViewBag.id_Sexe = new SelectList(db.p_Sexe, "id_Sexe", "Sexe", personne.id_Sexe);
             ViewBag.id_TypeUsag = new SelectList(db.p_TypeUsag, "id_TypeUsag", "TypeUsag", personne.id_TypeUsag);
@@ -361,8 +362,8 @@ namespace sachem.Controllers
             if (db.Personne.Any(x => x.Matricule7 == personne.Matricule7))// Verifier si le nom d'usager existe ou s'il a entré son ancien nom
                 ModelState.AddModelError(string.Empty, Messages.I_004(personne.Matricule7));
 
-            //if (personne.MP != personne.ConfMP) // Verifier si le premier mot de passe correspond au deuxieme mot de passe
-              //  ModelState.AddModelError(string.Empty, Messages.C_001);
+            //if (personne.MP != personne.) // Verifier si le premier mot de passe correspond au deuxieme mot de passe
+              //  ModelState.AddModelError(string.Empty, Messages.C_001());
         }
 
         protected override void Dispose(bool disposing)
