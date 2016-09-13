@@ -18,11 +18,11 @@ namespace sachem.Models
     }
     public class PersonneMetadata
     {
-        [Display(Name = "Date de naissance")]
-        [RegularExpression(@"^\d{4}[/](0?[1-9]|1[012])[/](0?[1-9]|[12][0-9]|3[01])$", ErrorMessage = Messages.U_007)]
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = @"{0:yyyy\/MM\/dd}")]
-        [Required(ErrorMessage = Messages.U_001)]
-        public global::System.DateTime DateNais;
+            [Display(Name = "Date de naissance")]
+            [RegularExpression(@"^\d{4}[/](0?[1-9]|1[012])[/](0?[1-9]|[12][0-9]|3[01])$", ErrorMessage = Messages.U_007)]
+            [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = @"{0:yyyy\/MM\/dd}")]
+            [Required(ErrorMessage = Messages.U_001)]
+            public global::System.DateTime DateNais;
 
         [Display(Name = "Nom")]
         [DisplayFormat(ConvertEmptyStringToNull = false)]
