@@ -36,6 +36,9 @@ namespace sachem.Models
         [StringLength(30, ErrorMessage = Messages.U_001)]
         public string Prenom;
 
+        [Display(Name = "Nom usager")]
+        public string NomUsager;
+
         [Display(Name = "Courriel")]
         [DisplayFormat(ConvertEmptyStringToNull = false)]
         [Required(ErrorMessage = Messages.U_001)]
