@@ -248,6 +248,7 @@ namespace sachem.Controllers
         {
             if (ModelState.IsValid)
             {
+                personne.MP = encrypterChaine(personne.MP); // Encryption du mot de passe
                 db.Personne.Add(personne);
                 db.SaveChanges();
                 return RedirectToAction("Index");
