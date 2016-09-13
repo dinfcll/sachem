@@ -97,8 +97,8 @@
                 @Html.DisplayFor(modelItem => item.Personne.p_Sexe.Sexe)
             </td>
             <td>
-                @Html.ActionLink("Déplacer", "Details", new { id = item.id_Groupe }) |
-                @Html.ActionLink("Supprimer", "Delete", new { id = item.id_Groupe })
+                @Html.ActionLink("Déplacer", "Deplacer", new { id = item.id_GroupeEtudiant }) |
+                @Html.ActionLink("Supprimer", "DeleteEleve", new { id = item.id_GroupeEtudiant })
             </td>
         </tr>
     }

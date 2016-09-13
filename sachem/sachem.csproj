@@ -245,7 +245,6 @@
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ManageViewModels.cs" />
-    <Compile Include="Models\MasterGroupesEtudiants.cs" />
     <Compile Include="Models\Messages.cs" />
     <Compile Include="Models\Model1.Context.cs">
       <AutoGen>True</AutoGen>
@@ -402,6 +401,8 @@
     <Content Include="Views\Groupes\Edit.cshtml" />
     <Content Include="Views\Groupes\Index.cshtml" />
     <Content Include="Views\Groupes\AjouterEleve.cshtml" />
+    <Content Include="Views\Groupes\DeleteEleve.cshtml" />
+    <Content Include="Views\Groupes\Deplacer.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

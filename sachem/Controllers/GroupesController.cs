@@ -209,5 +209,70 @@ namespace sachem.Controllers
         {
             return View();
         }
+
+        public ActionResult DeleteEleve(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            GroupeEtudiant ge = db.GroupeEtudiant.Find(id);
+            if (ge == null)
+            {
+                return HttpNotFound();
+            }
+            return View(ge);
+        }
+
+        // POST: Groupes/Delete/5
+        [HttpPost, ActionName("DeleteEleve")]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteEleveConfirmed(int id)
+        {
+            GroupeEtudiant ge = db.GroupeEtudiant.Find(id);
+            db.GroupeEtudiant.Remove(ge);
+            db.SaveChanges();
+            return RedirectToAction("Index");
+        }
+
+        public ActionResult Deplacer(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            GroupeEtudiant ge = db.GroupeEtudiant.Find(id);
+            if (ge == null)
+            {
+                return HttpNotFound();
+            }
+            ViewBag.id_groupedepl = new SelectList(db.Groupe, "id_Groupe", "Cours.CodeNom");
+            return View(ge);
+        }
+
+        [HttpPost, ActionName("Deplacer")]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeplacerConfirmed(int? id)
+        {
+            int idgretu, idg;
+            if (!int.TryParse(Request.Form["idGroupeEtudiant"], out idgretu) || !int.TryParse(Request.Form["id_groupedepl"], out idg))
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            GroupeEtudiant ge = db.GroupeEtudiant.Find(idgretu);
+            Groupe g = db.Groupe.Find(idg);
+
+            if(ge == null || g == null)
+            {
+                return HttpNotFound();
+            }
+
+            ge.Groupe = g;
+            db.SaveChanges();
+            return RedirectToAction("Index");
+        }
     }
 }
