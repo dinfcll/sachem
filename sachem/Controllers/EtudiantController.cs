@@ -356,6 +356,15 @@ namespace sachem.Controllers
             return BitConverter.ToString(provider.ComputeHash(Buffer)).Replace("-", "").ToLower();
         }
 
+        private void Valider([Bind(Include = "id_Pers,id_Sexe,id_TypeUsag,Nom,Prenom,NomUsager,MP,ConfMP,Courriel,DateNais,Actif")] Personne personne)
+        {
+            if (db.Personne.Any(x => x.Matricule7 == personne.Matricule7))// Verifier si le nom d'usager existe ou s'il a entré son ancien nom
+                ModelState.AddModelError(string.Empty, Messages.I_004(personne.Matricule7));
+
+            //if (personne.MP != personne.ConfMP) // Verifier si le premier mot de passe correspond au deuxieme mot de passe
+              //  ModelState.AddModelError(string.Empty, Messages.C_001);
+        }
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)

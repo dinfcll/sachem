@@ -36,7 +36,7 @@ namespace sachem.Models
         /// <param name="matricule"></param>
         /// <returns></returns>
         public static string I_004(string matricule)
-        { return $"Impossible d'enregistrer cet étudiant. Il existe déja im tudiant ayant le matricule {matricule}."; }
+        { return $"Impossible d'enregistrer cet étudiant. Il existe déja un étudiant ayant le matricule {matricule}."; }
 
         /// <summary>
         /// Le cours {0} a été supprimé.
