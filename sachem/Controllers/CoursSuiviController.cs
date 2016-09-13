@@ -13,7 +13,7 @@ namespace sachem.Controllers
     public class CoursSuiviController : Controller
     {
         private SACHEMEntities db = new SACHEMEntities();
-        //manque dossieretudiantcontroller - 9/13/2016 - maison
+        //test pour rajout DossierEtu.cs
 
         private void ListeCours(int Cours=0)
         {
