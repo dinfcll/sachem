@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.IO;
 using System.Linq;
 using System.Web;
@@ -14,7 +15,7 @@ namespace sachem.Controllers
     public class ImporterController : Controller
     {
         //nom du repertoire de depot pour le fichier importé.
-        private string IMPORTEDFILESDIRECTORY = "Fichier_a_traiter";
+        private string IMPORTEDFILESDIRECTORY = ConfigurationManager.AppSettings["RepertoireATraiter"];
         private int MAXFILES = 10;//nbre de fichier telechargeable
         private int MAXFILESIZE =20; //la taille maximale du fichier en mo.
         private string FILEEXTENSION = ".csv"; //en minuscule seulement
@@ -40,7 +41,7 @@ namespace sachem.Controllers
                 {
                     HttpPostedFileBase file = Request.Files[fileName];
                     fName = file.FileName;
-                    var originalDirectory = new DirectoryInfo(string.Format("{0}"+IMPORTEDFILESDIRECTORY, Server.MapPath(@"\")));//on definit le nom du repertoire
+                    var originalDirectory = new DirectoryInfo(string.Format("{0}"+IMPORTEDFILESDIRECTORY, Server.MapPath(@"\"+ConfigurationManager.AppSettings["RepertoireFichier"]+@"\")));//on definit le nom du repertoire
                     string pathString = System.IO.Path.Combine(originalDirectory.ToString());//on recupere le nom du repertoire
                     var fileName1 = Path.GetFileName(file.FileName);//on recupere le nom du fichier
                     bool isDirExists = System.IO.Directory.Exists(pathString);
