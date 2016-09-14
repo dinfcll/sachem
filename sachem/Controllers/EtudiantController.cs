@@ -18,13 +18,6 @@ namespace sachem.Controllers
     {
        
 
-
-        public string ProgEtude()
-        {
-
-            return "allo";
-        }
-
         #region enCommentaire
         // GET: Etudiant
         //public ActionResult Index()
@@ -308,6 +301,7 @@ namespace sachem.Controllers
         }
 
         // GET: Etudiant/Delete/5
+        //exécuté lorsqu'un étudiant est supprimé
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -328,8 +322,9 @@ namespace sachem.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
+            //trouve la personne à supprimer
             Personne personne = db.Personne.Find(id);
-
+            //suppression de la personne dans tout les tables qu'on la retrouve
             var etuProgEtu = db.EtuProgEtude.Where(x => x.id_Etu == personne.id_Pers);
             db.EtuProgEtude.RemoveRange(etuProgEtu);
             var groupeEtu = db.GroupeEtudiant.Where(y => y.id_Etudiant == personne.id_Pers);
@@ -342,10 +337,10 @@ namespace sachem.Controllers
             db.CoursSuivi.RemoveRange(CoursSuiv);
 
 
-
+            //suppresion et sauvegarde dans la bd
             db.Personne.Remove(personne);
-            
             db.SaveChanges();
+            //redirection à l'index après la suppression
             return RedirectToAction("Index");
         }
         //Méthode pour encrypter le de mot de passe.
@@ -359,7 +354,8 @@ namespace sachem.Controllers
 
         private void Valider([Bind(Include = "id_Pers,id_Sexe,id_TypeUsag,Nom,Prenom,NomUsager,MP,ConfMP,Courriel,DateNais,Actif")] Personne personne)
         {
-            if (db.Personne.Any(x => x.Matricule7 == personne.Matricule7))// Verifier si le nom d'usager existe ou s'il a entré son ancien nom
+            // Verifier si le nom d'usager existe ou s'il a entré son ancien nom
+            if (db.Personne.Any(x => x.Matricule7 == personne.Matricule7))
                 ModelState.AddModelError(string.Empty, Messages.I_004(personne.Matricule7));
 
             //if (personne.MP != personne.) // Verifier si le premier mot de passe correspond au deuxieme mot de passe
