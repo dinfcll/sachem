@@ -10,6 +10,7 @@
 <p>
     @Html.ActionLink("Create New", "Create")
 </p>
+
 <table class="table">
     <tr>
         <th>
@@ -48,7 +49,7 @@
                 @Html.DisplayFor(modelItem => item.ProgEtu)
             </td>
             <td>
-                @Html.ActionLink("Ajouter", "AjouterEleve", new { idg = ViewBag.idg, idp = item.id_Pers })
+                @Html.ActionLink("Ajouter", "AjouterEleveGET", new { idg = ViewBag.idg, idp = item.id_Pers })
             </td>
         </tr>
     }

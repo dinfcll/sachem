@@ -186,6 +186,7 @@ namespace sachem.Controllers
             ViewBag.idg = idg;
             Groupe groupe = db.Groupe.Find(idg);
             IEnumerable < Personne > personnes = (from c in db.Personne where c.id_TypeUsag == 1 select c).ToList().OrderBy(x => x.NomPrenom).ThenBy(x => x.Matricule7);
+
             foreach (var n in personnes)
             {
                 n.ProgEtu = "";
@@ -203,11 +204,40 @@ namespace sachem.Controllers
             return View(personnes.ToPagedList(pageNumber, 20));
         }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult AjouterEleve(int idg, int idp)
+        [HttpGet]
+        //[ValidateAntiForgeryToken]
+        public ActionResult AjouterEleveGET(int idg, int idp)
         {
-            return View();
+            if(db.GroupeEtudiant.Where(x => x.id_Etudiant == idp).Where(x => x.id_Groupe == idg).FirstOrDefault() != null)
+            {
+                return Content("L'élève est déjà dans ce groupe.");
+                //return HttpNotFound();
+            }
+
+            if(db.GroupeEtudiant.Where(x => x.id_Etudiant == idp).FirstOrDefault() != null)
+            {
+                //return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return Content("L'élève est déjà dans un groupe.");
+            }
+
+            Groupe g = db.Groupe.Find(idg);
+            Personne p = db.Personne.Find(idp);
+            
+            if(g == null || p == null)
+            {
+                return HttpNotFound();
+            }
+
+            GroupeEtudiant ge = new GroupeEtudiant();
+            ge.Personne = p;
+            ge.Groupe = g;
+
+            db.GroupeEtudiant.Add(ge);
+            g.GroupeEtudiant.Add(ge);
+
+            db.SaveChanges();
+
+            return RedirectToAction("Index");
         }
 
         public ActionResult DeleteEleve(int? id)
