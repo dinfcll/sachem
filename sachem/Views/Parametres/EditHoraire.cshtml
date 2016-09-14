@@ -1,4 +1,4 @@
-﻿@model Tuple<sachem.Models.p_HoraireInscription,sachem.Models.Session,sachem.Models.p_Saison,string[]>
+﻿@model Tuple<sachem.Models.p_HoraireInscription,sachem.Models.Session,sachem.Models.p_Saison>
 
 @{
     ViewBag.Title = "Modification de l'horaire";
@@ -6,7 +6,10 @@
 
 <h2>Modifier l'horaire d'ouverture d'inscription au SACHEM</h2>
 
-
+<p class="text-success">
+    @Html.ViewBag.Success
+    @TempData["Success"]
+</p>
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
@@ -17,7 +20,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.Item1.id_Sess, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Item1.id_Sess, new { htmlAttributes = new { @class = "form-control" , @Value = Model.Item2[0]} })
+                @Html.EditorFor(model => model.Item1.id_Sess, new { htmlAttributes = new { @class = "form-control" , @Value = Model.Item4[0]} })
                 @Html.ValidationMessageFor(model => model.Item1.id_Sess, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -25,7 +28,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.Item1.DateDebut, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Item1.DateDebut, new { htmlAttributes = new { @class = "form-control", @placeholder = "AAAA/MM/JJ", @Value = Model.Item2[1] } })
+                @Html.EditorFor(model => model.Item1.DateDebut, new { htmlAttributes = new { @class = "form-control", @placeholder = "AAAA/MM/JJ", @Value = Model.Item1.DateDebut.Date.ToString("yyyy/MM/dd") } })
                 @Html.ValidationMessageFor(model => model.Item1.DateDebut, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -33,7 +36,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.Item1.DateFin, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Item1.DateFin, new { htmlAttributes = new { @class = "form-control", @placeholder = "AAAA/MM/JJ", @Value = Model.Item2[2] } })
+                @Html.EditorFor(model => model.Item1.DateFin, new { htmlAttributes = new { @class = "form-control", @placeholder = "AAAA/MM/JJ", @Value = Model.Item1.DateFin.Date.ToString("yyyy/MM/dd") } })
                 @Html.ValidationMessageFor(model => model.Item1.DateFin, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -41,7 +44,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.Item1.HeureDebut, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Item1.HeureDebut, new { htmlAttributes = new { @class = "form-control" , @placeholder = "hh:mm", @Value = Model.Item2[3] } })
+                @Html.EditorFor(model => model.Item1.HeureDebut, new { htmlAttributes = new { @class = "form-control" , @placeholder = "hh:mm", @Value = Model.Item1.HeureDebut.ToString(@"hh\:mm") } })
                 @Html.ValidationMessageFor(model => model.Item1.HeureDebut, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -49,7 +52,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.Item1.HeureFin, htmlAttributes: new { @class = "control-label col-md-2"})
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Item1.HeureFin, new { htmlAttributes = new { @class = "form-control", @placeholder = "hh:mm", @Value = Model.Item2[4] } })
+                @Html.EditorFor(model => model.Item1.HeureFin, new { htmlAttributes = new { @class = "form-control", @placeholder = "hh:mm", @Value = Model.Item1.HeureFin.ToString(@"hh\:mm") } })
                 @Html.ValidationMessageFor(model => model.Item1.HeureFin, "", new { @class = "text-danger" })
             </div>
         </div>
