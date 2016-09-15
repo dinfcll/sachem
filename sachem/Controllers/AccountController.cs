@@ -318,7 +318,7 @@ namespace sachem.Controllers
             }
             if (Modifier != null)//Si modifier mdp a été cliqué
             {
-                int idpersonne = SessionBag.Current.id_Pers;//Chercher l'id et le mot de passe de l'utilisateur en cours
+                int idpersonne = SessionBag.Current.id_Pers;//Chercher l'id et le mot de passe de l'utilisateur en cours dans l'objet sessionbag
                 string ancienmdpbd = SessionBag.Current.MP;
 
                 if (personne.AncienMotDePasse == null)
@@ -343,6 +343,7 @@ namespace sachem.Controllers
                     Personne utilisateur = db.Personne.AsNoTracking().Where(x => x.id_Pers == idpersonne).FirstOrDefault();
                     utilisateur.MP = personne.MP;//Change le mot de passe
                     SachemIdentite.encrypterMPPersonne(ref utilisateur);//l'Encrypte
+                    SessionBag.Current.MP = utilisateur.MP;//Modifier le mot de passe dans le sessionbag
                     db.Entry(utilisateur).State = EntityState.Modified;
                     db.SaveChanges();//L'enregistre
                     ViewBag.Success = Messages.I_018();
