@@ -114,6 +114,12 @@ namespace sachem.Models
         public const string U_003 = "Longueur requise : 8 caractères.";
 
         /// <summary>
+        /// Format : Longueur requise: 7 caractères
+        /// </summary>
+        /// <returns></returns>
+        public const string U_004 = "Longueur requise: 7 caractères";
+
+        /// <summary>
         /// Format : AAAA/MM/JJ
         /// </summary>
         /// <returns></returns>
@@ -125,9 +131,10 @@ namespace sachem.Models
         /// <returns></returns>
         public const string U_008 = "Format de courriel a respecter : exemple@gmail.com";
 
-
-        public const string U_004 = "Longueur requise: 7 caractères";
-
+        /// <summary>
+        /// Format : (999) 999-9999
+        /// </summary>
+        /// <returns></returns>
         public const string U_009 = "Format : (999) 999-9999";
 
 
@@ -150,13 +157,19 @@ namespace sachem.Models
         /// <returns></returns>private string Q_003(string Enseignant)
         public static string Q_003(string Enseignant)
         { return $"Voulez-vous vraiment supprimer l'enseignant {Enseignant} ?"; }
-        #endregion
 
+        /// <summary>
+        /// L'enseignant {0} a été créé. Souhaitez-vous <a href=\"Sachem/Groupes/{1}\">y associer un groupe?</a>
+        /// </summary>
+        /// <param name="NomUsager" name="id_Ensiegnant"></param>
+        /// <returns></returns>public string Q_043(string NomUsager, int id_Enseignant)
         public static MvcHtmlString Q_004(string NomUsager, int id_Enseignant)
         {
-
             return MvcHtmlString.Create($"L'enseignant {NomUsager} a été créé. Souhaitez-vous <a href=\"Sachem/Groupes/{id_Enseignant}\">y associer un groupe?</a>"); // Note: Changé vers quel page le lien pointe.
         }
+        #endregion
+
+
 
     }
 }
