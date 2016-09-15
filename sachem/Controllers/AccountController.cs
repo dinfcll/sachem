@@ -91,7 +91,7 @@ namespace sachem.Controllers
         #endregion
 
 
-         #region fn_Login
+        #region fn_Login
         //
         // GET: /Account/Login
         [AllowAnonymous]
@@ -144,7 +144,7 @@ namespace sachem.Controllers
                         if (!db.Personne.Any(x => x.NomUsager == NomUsager))
                             ModelState.AddModelError(string.Empty, Messages.I_017());  //Erreur de connection
                         else
-                            PersonneBD = db.Personne.AsNoTracking().Where(x => x.NomUsager == PersonneBD.NomUsager).FirstOrDefault();
+                            PersonneBD = db.Personne.AsNoTracking().Where(x => x.NomUsager == NomUsager).FirstOrDefault();
             if (ModelState.IsValid)
             {
                 //Encrypter le mdp et tester la connection
@@ -376,20 +376,17 @@ namespace sachem.Controllers
         #region fn_Deconnexion
 
         //
-        // POST: /Account/LogOff
-        [HttpPost]
+        // GET: /Account/LogOff
         [AllowAnonymous]
-        [ValidateAntiForgeryToken]
+        [HttpGet]
         public ActionResult LogOff()
         {
-            SessionBag.Current.NomUsager = null;
-            SessionBag.Current.Matricule7 = null;
-            SessionBag.Current.NomComplet = null;
-            SessionBag.Current.MP = null;
-            SessionBag.Current.id_TypeUsag = null;
-            SessionBag.Current.id_Pers = null;
-            return RedirectToAction("Index", "Home");
+            //Supprime les données contenues dans la session et supprime le cookie puis retour à l'index.
+            Session.Clear();
+            return RedirectToAction("Index", "Home", null);
         }
+
         #endregion
+
     }
 }
