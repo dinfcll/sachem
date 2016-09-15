@@ -71,6 +71,14 @@ namespace sachem.Models
         [StringLength(7, MinimumLength = 7, ErrorMessage = Messages.U_004)]
         public string Matricule;
 
+        //Matricule 7 chiffres
+        [Display(Name = "Matricule")]
+        public string Matricule7;
+
+        //Nom et prénom
+        [Display(Name = "Nom")]
+        public string NomPrenom;
+
         //Mot de passe
         [Display(Name = "Mot de passe")]
         [DisplayFormat(ConvertEmptyStringToNull = false)]

@@ -80,11 +80,17 @@ namespace sachem.Controllers
             {
                 return HttpNotFound();
             }
+
+            var vCoursSuivi = from d in db.CoursSuivi
+                           where d.id_Pers == inscription.id_Pers
+                           select d;
+            CoursSuivi dbCoursSuivi = db.CoursSuivi.Find(inscription.id_Pers);
+
             ViewBag.id_Statut = new SelectList(db.p_StatutInscription, "id_Statut", "Statut", inscription.id_Statut);
             ViewBag.id_TypeInscription = new SelectList(db.p_TypeInscription, "id_TypeInscription", "TypeInscription", inscription.id_TypeInscription);
             ViewBag.id_Pers = new SelectList(db.Personne, "id_Pers", "Nom", inscription.id_Pers);
             ViewBag.id_Sess = new SelectList(db.Session, "id_Sess", "id_Sess", inscription.id_Sess);
-            return View(inscription);
+            return View(Tuple.Create(inscription, vCoursSuivi.AsEnumerable()));
         }
 
         // POST: DossierEtudiant/Edit/5

@@ -1,4 +1,5 @@
-﻿@model sachem.Models.Inscription
+﻿@*@model sachem.Models.Inscription*@ 
+@model Tuple<sachem.Models.Inscription, IEnumerable<sachem.Models.CoursSuivi>>
 
 @{
     ViewBag.Title = "Details";
@@ -8,59 +9,82 @@
 
 <div>
     <h4>Identification de l'étudiant</h4>
-    <hr />
+    <hr /> @*Pas comme exemple mais beau*@
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.Personne.Matricule7)
+            @Html.DisplayNameFor(model => model.Item1.Personne.Matricule7)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Personne.Matricule7)
+            @Html.DisplayFor(model => model.Item1.Personne.Matricule7)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Personne.NomPrenom)
+            @Html.DisplayNameFor(model => model.Item1.Personne.NomPrenom)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Personne.NomPrenom)
+            @Html.DisplayFor(model => model.Item1.Personne.NomPrenom)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Personne.DateNais)
+            @Html.DisplayNameFor(model => model.Item1.Personne.DateNais)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Personne.DateNais)
+            @Html.DisplayFor(model => model.Item1.Personne.DateNais)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Personne.Courriel)
+            @Html.DisplayNameFor(model => model.Item1.Personne.Courriel)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Personne.Courriel)
+            @Html.DisplayFor(model => model.Item1.Personne.Courriel)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Personne.Telephone)
+            @Html.DisplayNameFor(model => model.Item1.Personne.Telephone)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Personne.Telephone)
+            @Html.DisplayFor(model => model.Item1.Personne.Telephone)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.BonEchange)
+            @Html.DisplayNameFor(model => model.Item1.BonEchange)
         </dt>
 
         <dd>
-            @Html.CheckBoxFor(model => model.BonEchange.Value)
+            @Html.CheckBoxFor(model => model.Item1.BonEchange.Value)
+            Acheté
         </dd>
-
     </dl>
+
+    @*Cours Antérieur*@
+    <div>
+        <h4>Cours de mathématiques antérieurs</h4>
+        @*@Html.ActionLink("Create", "Create", new { id = Model.Item2.id_CoursReussi })*@
+        <table class="table">
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Item2.First().Cours.CodeNom)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Item2.First().Session.Annee)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Item2.First().resultat)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Item2.First().p_StatutCours.Statut)
+                </th>
+            </tr>
+        </table>
+    </div>
+
 </div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.id_Inscription }) |
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Item1.id_Inscription }) |
     @Html.ActionLink("Back to List", "Index")
 </p>

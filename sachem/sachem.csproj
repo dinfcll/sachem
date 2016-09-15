@@ -239,6 +239,7 @@
     <Compile Include="Models\Inscription.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\InscriptionMetadata.cs" />
     <Compile Include="Models\Jumelage.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -405,6 +406,7 @@
     <Content Include="Views\DossierEtudiant\Edit.cshtml" />
     <Content Include="Views\DossierEtudiant\Create.cshtml" />
     <Content Include="Views\DossierEtudiant\Delete.cshtml" />
+    <Content Include="Views\DossierEtudiant\_CoursAnterieur.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
