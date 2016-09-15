@@ -2,19 +2,45 @@
 @model PagedList.IPagedList<sachem.Models.Personne>
 
 @{
-    ViewBag.Title = "AjouterEleve";
+    ViewBag.Title = "Ajouter des étudiants au groupe";
 }
 
-<h2>AjouterEleve</h2>
+<h2>Ajouter des étudiants au groupe</h2>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
+@using (Html.BeginForm("AjouterEleve", "Groupes", new { idg = ViewBag.idg }, FormMethod.Post, new { @class = "form-inline", role = "form" }))
+{
+    <p>
+        <h4>Recherche</h4>
+    </p>
+    <div class="form-group">
+        <p>
+            <div class="form-group">
+                Matricule :
+                @Html.TextBox("Matricule")
+            </div>
+
+            <div class="form-group">
+                Nom :
+                @Html.TextBox("Nom")
+            </div>
+
+            <div class="form-group">
+                Prénom :
+                @Html.TextBox("Prenom")
+            </div>
+
+
+            <div class="form-group">
+                <input type="submit" value="Rechercher" class="btn-toolbar" />
+            </div>
+        </p>
+    </div>
+}
 
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.FirstOrDefault().NomPrenom)
+            @Html.DisplayNameFor(model => model.FirstOrDefault().Nom)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.FirstOrDefault().Matricule7)

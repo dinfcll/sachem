@@ -84,9 +84,9 @@ namespace sachem.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.id_Cours = new SelectList(db.Cours, "id_Cours", "Code", groupe.id_Cours);
-            ViewBag.id_Enseignant = new SelectList(db.Personne, "id_Pers", "Nom", groupe.id_Enseignant);
-            ViewBag.id_Sess = new SelectList(db.Session, "id_Sess", "id_Sess", groupe.id_Sess);
+            ViewBag.id_Cours = new SelectList(db.Cours, "id_Cours", "CodeNom", groupe.id_Cours);
+            ViewBag.id_Enseignant = new SelectList(db.Personne, "id_Pers", "NomPrenom", groupe.id_Enseignant);
+            ViewBag.id_Sess = new SelectList(db.Session, "id_Sess", "NomSession", groupe.id_Sess);
             return View(groupe);
         }
 
@@ -185,9 +185,9 @@ namespace sachem.Controllers
         {
             ViewBag.idg = idg;
             Groupe groupe = db.Groupe.Find(idg);
-            IEnumerable < Personne > personnes = (from c in db.Personne where c.id_TypeUsag == 1 select c).ToList().OrderBy(x => x.NomPrenom).ThenBy(x => x.Matricule7);
-
-            foreach (var n in personnes)
+            //IEnumerable < Personne > personnes = (from c in db.Personne where c.id_TypeUsag == 1 select c).ToList().OrderBy(x => x.NomPrenom).ThenBy(x => x.Matricule7);
+            IEnumerable<Personne> personnes = RechercherEleve();
+            /*foreach (var n in personnes)
             {
                 n.ProgEtu = "";
                 var arr = (from c in db.ProgrammeEtude
@@ -198,7 +198,7 @@ namespace sachem.Controllers
                 {
                     n.ProgEtu += i.Code + "-"+ i.NomProg;
                 }
-            } 
+            } */
 
             var pageNumber = page ?? 1;
             return View(personnes.ToPagedList(pageNumber, 20));
@@ -303,6 +303,31 @@ namespace sachem.Controllers
             ge.Groupe = g;
             db.SaveChanges();
             return RedirectToAction("Index");
+        }
+
+        [NonAction]
+        private IEnumerable<Personne> RechercherEleve()
+        {
+            IEnumerable<Personne> personnes = null;
+
+            string Nom = Request.Form["Nom"];
+            string Prenom = Request.Form["Prenom"];
+            string Matricule = Request.Form["Matricule"];
+
+            if (String.IsNullOrEmpty(Matricule) && String.IsNullOrEmpty(Nom) && String.IsNullOrEmpty(Prenom))
+            {
+                personnes = (from c in db.Personne where c.id_TypeUsag == 1 select c).ToList().OrderBy(x => x.NomPrenom).ThenBy(x => x.Matricule7);
+            }
+            else
+            {
+                /*personnes = (from c in db.Personne where c.id_TypeUsag == 1 && 
+                                c.Nom == (!String.IsNullOrEmpty(Nom) ? Nom: c.Nom) &&
+                                c.Prenom == (!String.IsNullOrEmpty(Prenom) ? Prenom : c.Prenom)
+                                select c).ToList().Where(x => x.Matricule7 == (!String.IsNullOrEmpty(Matricule) ? Matricule : x.Matricule7));*/
+                personnes = db.Personne.Where(x => x.id_TypeUsag == 1).Where(c => c.Nom.Contains(!String.IsNullOrEmpty(Nom) ? Nom : c.Nom)).Where(c => c.Prenom.Contains(!String.IsNullOrEmpty(Prenom) ? Prenom : c.Prenom));
+                personnes = personnes.Where(x => x.Matricule7.Contains(!String.IsNullOrEmpty(Matricule) ? Matricule : x.Matricule7));
+            }
+            return personnes;
         }
     }
 }
