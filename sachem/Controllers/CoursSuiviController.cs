@@ -13,8 +13,8 @@ namespace sachem.Controllers
     public class CoursSuiviController : Controller
     {
         private SACHEMEntities db = new SACHEMEntities();
-        //test pour rajout DossierEtu.cs
 
+        [NonAction]
         private void ListeCours(int Cours=0)
         {
             var lCours = db.Cours.AsNoTracking().OrderBy(c => c.Code);
@@ -23,6 +23,7 @@ namespace sachem.Controllers
             ViewBag.id_Cours = slCours;
         }
 
+        [NonAction]
         private void ListeCollege(int College=0)
         {
             var lCollege = db.p_College.AsNoTracking().OrderBy(n => n.College);
@@ -32,6 +33,7 @@ namespace sachem.Controllers
             ViewBag.id_College = slCollege;
         }
 
+        [NonAction]
         private void ListeStatut(int Statut = 0)
         {
             var lStatut = db.p_StatutCours.AsNoTracking();
@@ -41,6 +43,7 @@ namespace sachem.Controllers
             ViewBag.id_Statut = slStatut;
         }
 
+        [NonAction]
         private void ListeSession(int Session=0)
         {
             var lSessions = db.Session.AsNoTracking().OrderBy(s => s.Annee).ThenBy(s => s.p_Saison.Saison);
@@ -51,6 +54,7 @@ namespace sachem.Controllers
         }
 
         //Validation des champs cours et collège
+        [NonAction]
         private void Valider([Bind(Include = "id_CoursReussi,id_Sess,id_Pers,id_College,id_Statut,id_Cours,resultat,autre_Cours,autre_College")] CoursSuivi coursSuivi, int i = 0)
         {
             if (i == 1)

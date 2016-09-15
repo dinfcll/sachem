@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
-using System.Web.Http;
 using System.ComponentModel.DataAnnotations;
 
 namespace sachem.Models
@@ -61,6 +60,7 @@ namespace sachem.Models
 
         //numéro de téléphone
         [Display(Name = "Numéro de téléphone")]
+        [DisplayFormat(DataFormatString = "{0:(###)###-####}")]
         [RegularExpression(@"^\(?([0-9]{3})\)?([0-9]{3})-([0-9]{4})$", ErrorMessage = Messages.U_009)]
         public string Telephone;
 

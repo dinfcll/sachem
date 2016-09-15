@@ -4,34 +4,50 @@
     ViewBag.Title = "Details";
 }
 
-<h2>Details</h2>
+<h2>Dossier de l'étudiant</h2>
 
 <div>
-    <h4>Inscription</h4>
+    <h4>Identification de l'étudiant</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.TransmettreInfoTuteur)
+            @Html.DisplayNameFor(model => model.Personne.Matricule7)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.TransmettreInfoTuteur)
+            @Html.DisplayFor(model => model.Personne.Matricule7)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.NoteSup)
+            @Html.DisplayNameFor(model => model.Personne.NomPrenom)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.NoteSup)
+            @Html.DisplayFor(model => model.Personne.NomPrenom)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.ContratEngagement)
+            @Html.DisplayNameFor(model => model.Personne.DateNais)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.ContratEngagement)
+            @Html.DisplayFor(model => model.Personne.DateNais)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Personne.Courriel)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Personne.Courriel)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Personne.Telephone)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Personne.Telephone)
         </dd>
 
         <dt>
@@ -39,47 +55,7 @@
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.BonEchange)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.DateInscription)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.DateInscription)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.p_StatutInscription.Statut)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.p_StatutInscription.Statut)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.p_TypeInscription.TypeInscription)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.p_TypeInscription.TypeInscription)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Personne.Nom)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Personne.Nom)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Session.id_Sess)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Session.id_Sess)
+            @Html.CheckBoxFor(model => model.BonEchange.Value)
         </dd>
 
     </dl>
