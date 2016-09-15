@@ -25,7 +25,7 @@ namespace sachem.Models
         [Required(ErrorMessage = Messages.U_001)]
         public string Prenom;
 
-        [Display(Name = "Contact")]
+        [Display(Name = "Nom")]
         public string Nom;
     }
 

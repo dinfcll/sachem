@@ -56,6 +56,8 @@ namespace sachem.Controllers
 
             if (contact == null)
                 return HttpNotFound();
+            if (contact.Nom.Any())
+                ViewBag.Disens = "True";
             return View(contact);
         }
 
