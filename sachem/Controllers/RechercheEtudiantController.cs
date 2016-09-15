@@ -187,7 +187,7 @@ namespace sachem.Controllers
                     else if (!String.IsNullOrEmpty(Request.Params["Groupe"]))
                     {
                         groupe = Convert.ToInt32(Request.Params["Groupe"]);
-                        ViewBag.Groupe = groupe;
+                        ViewBag.Groupe = groupe; 
                         champsRenseignes++;
                     }
                     if (!String.IsNullOrEmpty(Request.Form["SelectSession"]))

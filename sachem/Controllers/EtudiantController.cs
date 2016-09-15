@@ -266,13 +266,13 @@ namespace sachem.Controllers
                 return HttpNotFound();
             }
             var Prog = from d in db.EtuProgEtude
-                       where  d.id_Etu== personne.id_Pers
+                       where d.id_Etu == personne.id_Pers
                        select d;
             ViewBag.id_Sexe = new SelectList(db.p_Sexe, "id_Sexe", "Sexe", personne.id_Sexe);
             ViewBag.id_TypeUsag = new SelectList(db.p_TypeUsag, "id_TypeUsag", "TypeUsag", personne.id_TypeUsag);
             //ViewBag.id_Programme = new SelectList(db.ProgrammeEtude, "id_ProgEtu", "nomProg", personne.idProgEtu);
             //ViewBag.id_Session = new SelectList(db.Session, "id_Sess", "NomSession",)
-            return View(Tuple.Create(personne,Prog));
+            return View(Tuple.Create(personne, Prog.AsEnumerable()));
             //return View(personne);
             //tuple a faire
             //ou faire une liste de prog dans la classe personne
