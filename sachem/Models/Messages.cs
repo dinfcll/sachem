@@ -73,6 +73,30 @@ namespace sachem.Models
         /// <returns></returns>
         public const string U_003 = "Longueur requise : 8 caractères.";
 
+              /// <summary>
+        /// 9 caractères
+        /// </summary>
+        /// <returns></returns>
+        public const string U_004 = "Longueur requise : 9 caractères.";
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public const string U_007 = "Format de l'année invalide. Format : AAAA/MM/JJ";
+
+        /// <summary>
+        /// Format : nom@domaine
+        /// </summary>
+        /// <returns></returns>
+        public const string U_008 = "Format de l'adresse email invalide. Format : nom@domaine";
+
+        /// <summary>
+        /// Format : (999)999-9999
+        /// </summary>
+        /// <returns></returns>
+        public const string U_009 = "Format du numéro de téléphone invalide. Format : (999)999-9999";
+
         /// <summary>
         /// Resultat 0 à 100
         /// </summary>

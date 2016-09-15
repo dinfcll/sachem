@@ -7,39 +7,49 @@
 <h2>Dossier de l'étudiant</h2>
 
 @*rechercher*@
-<h4>Recherche</h4>
+<p>
+    <h4>Recherche</h4>
+</p>
+<div class="form-group">
+    <p>
+        <div class="form-group">
+            Session :
+            @Html.DropDownList("Session", "Toutes")
+        </div>
+        </p>
+    </div>
+        @*fin rechercher*@
 
-@*fin rechercher*@
+        <table class="table">
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Personne.NomPrenom)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Personne.Matricule7)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.p_TypeInscription.TypeInscription)
+                </th>
+                <th></th>
+            </tr>
 
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Personne.NomPrenom)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Personne.Matricule7)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.p_TypeInscription.TypeInscription)
-        </th>
-        <th></th>
-    </tr>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Personne.NomPrenom)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Personne.Matricule7)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.p_TypeInscription.TypeInscription)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Consulter dossier", "details", new { id = item.id_Inscription })
+                    </td>
+                </tr>
+            }
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Personne.NomPrenom)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Personne.Matricule7)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.p_TypeInscription.TypeInscription)
-        </td>
-        <td>
-            @Html.ActionLink("Consulter dossier", "details", new { id=item.id_Inscription })
-        </td>
-    </tr>
-}
-
-</table>
+        </table>
