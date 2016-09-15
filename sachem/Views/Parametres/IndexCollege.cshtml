@@ -1,0 +1,34 @@
+﻿@model IEnumerable<sachem.Models.p_College>
+
+@{
+    ViewBag.Title = "IndexCollege";
+}
+
+<h2>IndexCollege</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.id_College)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.College)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.College)
+        </td>
+        <td>
+            @Html.ActionLink("Modifier", "EditCollege", new { item.id_College }) |
+            @Html.ActionLink("Supprimer", "DeleteCollege","Parametres", new {id = item.id_College } )
+    </tr>
+}
+
+</table>

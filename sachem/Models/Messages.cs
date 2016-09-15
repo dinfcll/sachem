@@ -71,6 +71,15 @@ namespace sachem.Models
         { return $"Voulez-vous vraiment supprimer le cours {Cours} ?"; }
 
 
+
+        /// <summary>
+        /// Voulez-vous vraiment supprimer le collège {0}?
+        /// </summary>
+        /// <param name="CodeUsager"></param>
+        /// <returns></returns>private string Q_001(string Cours)
+        public static string Q_014(string College)
+        { return $"Voulez-vous vraiment supprimer le collège {College} ?"; }
+
         #endregion
 
     }

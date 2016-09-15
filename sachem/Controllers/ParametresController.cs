@@ -1,13 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
-using System.Web;
+using System.Net;
 using System.Web.Mvc;
+using sachem.Models;
+using PagedList;
 
 namespace sachem.Controllers
 {
+    
     public class ParametresController : Controller
     {
+        private readonly SACHEMEntities db = new SACHEMEntities();
         // GET: Parametres
         public ActionResult Index()
         {
@@ -88,6 +93,24 @@ namespace sachem.Controllers
             {
                 return View();
             }
+        }
+        public ActionResult IndexCollege()
+        {
+            var college = from tout in db.p_College
+                          orderby tout.College
+                          select tout;
+            return View(college);
+        }
+        [HttpPost]
+        public ActionResult DeleteCollege(int? id)
+        {
+            var college = db.p_College.Find(id);
+            if(college != null)
+            {
+                db.p_College.Remove(college);
+                db.SaveChanges();
+            }
+            return new EmptyResult();
         }
     }
 }
