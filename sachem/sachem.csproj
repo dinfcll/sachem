@@ -396,6 +396,8 @@
     <Content Include="Views\Shared\_PageRecherche.cshtml" />
     <Content Include="Views\Parametres\EditHoraire.cshtml" />
     <Content Include="Views\Parametres\IndexCollege.cshtml" />
+    <Content Include="Views\Parametres\AddCollege.cshtml" />
+    <Content Include="Views\Parametres\_ParametresCollege.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

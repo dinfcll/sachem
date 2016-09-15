@@ -101,20 +101,19 @@ namespace sachem.Controllers
                           select tout;
             return View(college);
         }
-
+        [HttpPost]
         public void EditCollege(string nomCollege, int? id)
         {
             
             if (db.p_College.Any(r => r.id_College == id))
             {
                 var college = db.p_College.Find(id);
-                college.College = nomCollege;
                 db.Entry(college).State = EntityState.Modified;
                 db.SaveChanges();
             }
         }
 
-        public void AddCollege(string nomCollege)
+        public ActionResult AddCollege(string nomCollege)
         {
             if (!db.p_College.Any(p => p.College == nomCollege))
             {
@@ -124,8 +123,12 @@ namespace sachem.Controllers
                 };
                 db.p_College.Add(college);
                 db.SaveChanges();
-                ModelState.Clear();
+                
             }
+            var college2 = from tout in db.p_College
+                          orderby tout.College
+                          select tout;
+            return View(college2);
         }
 
 
