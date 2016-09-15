@@ -15,10 +15,10 @@ namespace sachem.Models
     //Remarquez que cette classe de métadonnées n’est pas partielle.
     public class p_ContactMetadata
     {
-        [DisplayFormat(ConvertEmptyStringToNull = false)]
-        [Required(ErrorMessage = Messages.U_001)]
-        [StringLength(8, MinimumLength = 30, ErrorMessage = Messages.U_003)]
-        public string Nom;
+     //   [DisplayFormat(ConvertEmptyStringToNull = false)]
+       // [Required(ErrorMessage = Messages.U_001)]
+       // [StringLength(8, MinimumLength = 30, ErrorMessage = Messages.U_003)]
+       // public string id_Contact;
 
 
         [DisplayFormat(ConvertEmptyStringToNull = false)]
@@ -26,7 +26,7 @@ namespace sachem.Models
         public string Prenom;
 
         [Display(Name = "Contact")]
-        public string NomContact;
+        public string Nom;
     }
 
 }

@@ -1,15 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using sachem.Models;
+using System.Data.Entity;
 
 namespace sachem.Controllers
 {
     public class ParametresController : Controller
     {
+        private readonly SACHEMEntities db = new SACHEMEntities();
         // GET: Parametres
-        public ActionResult IndexModifier()
+        public ActionResult IndexModifier(int? id)
         {
             return View("Edit");
         }
@@ -43,25 +47,35 @@ namespace sachem.Controllers
         }
 
         // GET: Parametres/Edit/5
-        public ActionResult Edit(int id)
+        public ActionResult Edit(int? id)
         {
-            return View();
+            if (id == null)
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+
+            var contact = db.p_Contact.Find(id);
+
+            if (contact == null)
+                return HttpNotFound();
+            return View(contact);
         }
 
         // POST: Parametres/Edit/5
         [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit([Bind(Include = "id_Contact,Nom,Prenom,Courriel,Telephone,Poste,Facebook,SiteWeb,Local")] p_Contact contact)
         {
-            try
-            {
-                // TODO: Add update logic here
+            Valider(contact);
 
+            if (ModelState.IsValid)
+            {
+                db.Entry(contact).State = EntityState.Modified;
+                db.SaveChanges();
+
+                TempData["Success"] = string.Format(Messages.I_003(contact.Nom));
                 return RedirectToAction("Index");
             }
-            catch
-            {
-                return View();
-            }
+
+            return View(contact);
         }
 
         // GET: Parametres/Delete/5
@@ -84,6 +98,12 @@ namespace sachem.Controllers
             {
                 return View();
             }
+        }
+        [NonAction]
+        private void Valider([Bind(Include = "id_Contact,Nom,Prenom,Courriel,Telephone,Poste,Facebook,SiteWeb,Local")]p_Contact contact)
+        {
+            if (db.p_Contact.Any(r => r.id_Contact == contact.id_Contact && r.Prenom != contact.Prenom && r.Nom != contact.Nom))
+                ModelState.AddModelError(string.Empty, Messages.I_002(contact.id_Contact.ToString()));
         }
     }
 }
