@@ -81,7 +81,7 @@ namespace sachem.Controllers
                         if (!db.Personne.Any(x => x.NomUsager == NomUsager))
                             ModelState.AddModelError(string.Empty, Messages.I_017());  //Erreur de connection
                         else
-                            PersonneBD = db.Personne.AsNoTracking().Where(x => x.NomUsager == PersonneBD.NomUsager).FirstOrDefault();
+                            PersonneBD = db.Personne.AsNoTracking().Where(x => x.NomUsager == NomUsager).FirstOrDefault();
             if (ModelState.IsValid)
             {
                 //Encrypter le mdp et tester la connection
@@ -102,7 +102,10 @@ namespace sachem.Controllers
                 SessionBag.Current.Matricule7 = PersonneBD.Matricule7;
                 SessionBag.Current.NomComplet = PersonneBD.PrenomNom;
                 SessionBag.Current.MP = PersonneBD.MP;
+                
+                //problème ici, à ajuster!
                 SessionBag.Current.id_TypeUsag = PersonneBD.id_TypeUsag;
+
                 SessionBag.Current.id_Pers = PersonneBD.id_Pers;
 
                 //On retourne à l'accueil en attendant de voir la suite.
@@ -285,10 +288,9 @@ namespace sachem.Controllers
             return View();
         }
         //
-        // POST: /Account/LogOff
-        [HttpPost]
+        // GET: /Account/LogOff
+        [HttpGet]
         [AllowAnonymous]
-        [ValidateAntiForgeryToken]
         public ActionResult LogOff()
         {
             SessionBag.Current.NomUsager = null;

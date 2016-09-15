@@ -22,5 +22,10 @@ namespace sachem.Controllers
 
             return View();
         }
+
+        public ActionResult Error()
+        {
+            return View();
+        }
     }
 }
