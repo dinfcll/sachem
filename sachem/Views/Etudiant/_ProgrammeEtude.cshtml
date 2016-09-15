@@ -1,9 +1,9 @@
-﻿@model IEnumerable<sachem.Models.ProgrammeEtude>
+﻿@model IEnumerable<sachem.Models.EtuProgEtude>
 
 <p>
     @Html.ActionLink("Create New", "Create")
 </p>
-<table class="table">
+@*<table class="table">
     <tr>
         <th>
             @Html.DisplayNameFor(model => model.Code)
@@ -39,7 +39,7 @@
             @Html.ActionLink("Details", "Details", new { id=item.id_ProgEtu }) |
             @Html.ActionLink("Delete", "Delete", new { id=item.id_ProgEtu })
         </td>
-    </tr>
+    </tr>*@
 }
 
 </table>
