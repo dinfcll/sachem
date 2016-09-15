@@ -73,14 +73,17 @@ namespace sachem.Controllers
             var horaire = db.p_HoraireInscription.First();
             var session = db.Session.Single(r => r.id_Sess == horaire.id_Sess);
             var saison = db.p_Saison.Single(r => r.id_Saison == session.id_Saison);
-
+            TempData["session"] = session;
+            TempData["saison"] = saison;
             
             return View(Tuple.Create(horaire,session,saison));
         }
         //A VERIF
         [HttpPost]
-        public ActionResult EditHoraire([Bind(Include = "id_Sess,DateDebut,DateFin,HeureDebut,HeureFin")] p_HoraireInscription horaire, Session session, p_Saison saison)
+        public ActionResult EditHoraire([Bind(Prefix = "Item1")] p_HoraireInscription horaire)
         {
+            Session session = (Session)TempData["session"];
+            p_Saison saison = (p_Saison)TempData["saison"];
             if (!(session.Annee == horaire.DateFin.Year) || !(session.Annee == horaire.DateDebut.Year))
             {
                 ModelState.AddModelError(string.Empty, Messages.C_006);
@@ -124,7 +127,6 @@ namespace sachem.Controllers
                 db.Entry(horaire).State = EntityState.Modified;
                 db.SaveChanges();
 
-                TempData["Success"] = string.Format(Messages.I_030);
                 return RedirectToAction("Index");
             }
             return View();
