@@ -35,56 +35,7 @@
         <th></th>
     </tr>
 
-@foreach ("Index", "Etudiant", FormMethod.Post, new { @class = "Recherche", role = "form" }))
-
-
-#line default
-#line hidden
-
-#line 5 "Z:\sachem-09-08\sachem\Views\CoursSuivi\Index.cshtml"
-       __o = Html.DisplayName("Session");
-
-
-#line default
-#line hidden
-
-#line 6 "Z:\sachem-09-08\sachem\Views\CoursSuivi\Index.cshtml"
-__o = Html.DisplayName("Type d'inscription");
-
-
-#line default
-#line hidden
-
-#line 7 "Z:\sachem-09-08\sachem\Views\CoursSuivi\Index.cshtml"
-__o = Html.DisplayName("Superviseur");
-
-
-#line default
-#line hidden
-
-#line 8 "Z:\sachem-09-08\sachem\Views\CoursSuivi\Index.cshtml"
-__o = Html.DisplayName("Matricule");
-
-
-#line default
-#line hidden
-
-#line 9 "Z:\sachem-09-08\sachem\Views\CoursSuivi\Index.cshtml"
-__o = Html.DisplayName("Nom");
-
-
-#line default
-#line hidden
-
-#line 10 "Z:\sachem-09-08\sachem\Views\CoursSuivi\Index.cshtml"
-__o = Html.DisplayName("Prénom");
-r
-
-#line default
-#line hidden
-
-#line 11 "Z:\sachem-09-08\sachem\Views\CoursSuivi\Index.cshtml"
-    foreach (var item in Model)
+@foreach (var item in Model)
 {
     <tr>
         <td>
@@ -115,11 +66,4 @@ r
         </td>
     </tr>    
     }
-
-#line default
-#line hidden
-
-#line 23 "Z:\sachem-09-08\sachem\Views\CoursSuivi\Index.cshtml"
-        
-
 </table>
