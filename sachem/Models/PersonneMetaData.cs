@@ -18,13 +18,13 @@ namespace sachem.Models
     }
     public class PersonneMetadata
     {
-        //date de naissance
-        [Display(Name = "Date de naissance")]
-        //regulaExpression pour le format de la datte
-        [RegularExpression(@"^\d{4}[/](0?[1-9]|1[012])[/](0?[1-9]|[12][0-9]|3[01])$", ErrorMessage = Messages.U_007)]
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy/MM/dd}")]
-        [Required(ErrorMessage = Messages.U_001)]
-        public global::System.DateTime DateNais;
+        ////date de naissance
+        //[Display(Name = "Date de naissance")]
+        ////regulaExpression pour le format de la datte
+        //[RegularExpression(@"^\d{4}[/](0?[1-9]|1[012])[/](0?[1-9]|[12][0-9]|3[01])$", ErrorMessage = Messages.U_007)]
+        //[DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy/MM/dd}")]
+        //[Required(ErrorMessage = Messages.U_001)]
+        //public global::System.DateTime DateNais;
 
         //Nom de la personne
         [Display(Name = "Nom")]
@@ -76,6 +76,13 @@ namespace sachem.Models
         [DisplayFormat(ConvertEmptyStringToNull = false)]
         [Required(ErrorMessage = Messages.U_001)]
         public string MP;
+        //[DataType(DataType.Password)]
+        //[Display(Name = "Confirmation du mot de passe")]
+        //public global::System.String ConfirmPassword;
+
+        //[DataType(DataType.Password)]
+        //[Display(Name = "Ancien mot de passe")]
+        //public global::System.String AncienMotDePasse;
 
         //[Display(Name = "Confirmation du mot de passe")]
         //[DataType(DataType.Password)]
