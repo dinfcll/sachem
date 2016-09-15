@@ -1,4 +1,6 @@
-﻿@{
+﻿@model sachem.Models.p_Contact
+@using System.Data;
+@{
     ViewBag.Title = "Contact";
 }
 <h2>@ViewBag.Title.</h2>
@@ -10,7 +12,7 @@
     <abbr title="Phone">P:</abbr>
     425.555.0100
 </address>
-
+ @Html.DisplayFor(model => model.Telephone)
 <address>
     <strong>Support:</strong>   <a href="mailto:Support@example.com">Support@example.com</a><br />
     <strong>Marketing:</strong> <a href="mailto:Marketing@example.com">Marketing@example.com</a>
