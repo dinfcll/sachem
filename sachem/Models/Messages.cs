@@ -124,9 +124,9 @@ namespace sachem.Models
         /// </summary>
         /// <returns></returns>
         public const string U_008 = "Format de courriel a respecter : exemple@gmail.com";
+
+
         public const string U_004 = "Longueur requise: 7 caractères";
-        public const string U_007 = "Format: AAAA/MM/JJ";
-        public const string U_008 = "Format: nom@nomdomaine.com";
 
 
         #endregion
@@ -150,10 +150,10 @@ namespace sachem.Models
         { return $"Voulez-vous vraiment supprimer l'enseignant {Enseignant} ?"; }
         #endregion
 
-        public static MvcHtmlString Q_004(string NomUsager)
+        public static MvcHtmlString Q_004(string NomUsager, int id_Enseignant)
         {
 
-            return MvcHtmlString.Create($"L'enseignant {NomUsager} a été créé. Souhaitez-vous <a href=\".\">y associer un groupe?</a>"); // Note: Changé vers quel page le lien pointe.
+            return MvcHtmlString.Create($"L'enseignant {NomUsager} a été créé. Souhaitez-vous <a href=\"Sachem/Groupes/{id_Enseignant}\">y associer un groupe?</a>"); // Note: Changé vers quel page le lien pointe.
         }
 
     }
