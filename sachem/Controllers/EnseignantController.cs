@@ -140,19 +140,20 @@ namespace sachem.Controllers
             if(personne.MPDemander != null)
             {
                 personne.MP = personne.MPDemander;
+                personne.MP = encrypterChaine(personne.MPDemander); // Appel de la méthode qui encrypte le mot de passe
+                personne.ConfMP = encrypterChaine(personne.ConfMP); // Appel de la méthode qui encrypte la confirmation du mot de passe
             }
             else
-        {         
+            {         
                 var Enseignant = from c in db.Personne
-                                 where (c.id_Pers == personne.id_Pers)
+                               where (c.id_Pers == personne.id_Pers)
                                  select c.MP;
                 personne.MP = Enseignant.SingleOrDefault();
                 personne.ConfMP = personne.MP;
             }
-            Valider(personne);       
+            Valider(personne);
             if (ModelState.IsValid)
             {
-                personne.MP = encrypterChaine(personne.MP); // Appel de la méthode qui encrypte le mot de passe
                 db.Entry(personne).State = EntityState.Modified;
                 db.SaveChanges();
                 TempData["Success"] = Messages.I_015(personne.NomUsager); // Message afficher sur la page d'index confirmant la modification
