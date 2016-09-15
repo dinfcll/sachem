@@ -265,6 +265,7 @@ namespace sachem.Controllers
             {
                 return HttpNotFound();
             }
+            //retroune la liste de programme qui relié à l'élève
             var Prog = from d in db.EtuProgEtude
                        where d.id_Etu == personne.id_Pers
                        select d;
@@ -274,9 +275,6 @@ namespace sachem.Controllers
             ViewBag.id_Session = new SelectList(db.Session, "id_Sess", "NomSession");
             return View(Tuple.Create(personne, Prog.AsEnumerable()));
             //return View(personne);
-            //tuple a faire
-            //ou faire une liste de prog dans la classe personne
-            //faire des viewbag pour voir les données
         }
 
         public void FillDropDownlist()
@@ -287,7 +285,7 @@ namespace sachem.Controllers
         // plus de détails, voir  http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "id_Pers,id_Sexe,id_TypeUsag,Nom,Prenom,NomUsager,Matricule,MP,Courriel,Telephone,DateNais,Actif")] Personne personne)
+        public ActionResult Edit([Bind(Include = "id_Pers,id_Sexe,id_TypeUsag,Nom,Prenom,NomUsager,Matricule,MP,Courriel,Telephone,DateNais,Actif,id_Programme,id_Session")] Personne personne)
         {
             if (ModelState.IsValid)
             {
