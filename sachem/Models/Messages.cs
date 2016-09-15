@@ -45,6 +45,10 @@ namespace sachem.Models
         public static string I_036()
         { return "Impossible d’enregistrer ce cours. Il existe déjà dans votre liste de cours suivi antérieurement"; }
 
+        public static string I_039()
+        { return "Tous les critères de la recherche doivent être précisés."; }
+
+
         #endregion
 
         #region MessageContexte
