@@ -4,39 +4,23 @@
     ViewBag.Title = "Index";
 }
 
-<h2>Index</h2>
+<h2>Dossier de l'étudiant</h2>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
+@*rechercher*@
+<h4>Recherche</h4>
+
+@*fin rechercher*@
+
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.TransmettreInfoTuteur)
+            @Html.DisplayNameFor(model => model.Personne.NomPrenom)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.NoteSup)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.ContratEngagement)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.BonEchange)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.DateInscription)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.p_StatutInscription.Statut)
+            @Html.DisplayNameFor(model => model.Personne.Matricule7)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.p_TypeInscription.TypeInscription)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Personne.Nom)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Session.id_Sess)
         </th>
         <th></th>
     </tr>
@@ -44,36 +28,16 @@
 @foreach (var item in Model) {
     <tr>
         <td>
-            @Html.DisplayFor(modelItem => item.TransmettreInfoTuteur)
+            @Html.DisplayFor(modelItem => item.Personne.NomPrenom)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.NoteSup)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ContratEngagement)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.BonEchange)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.DateInscription)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.p_StatutInscription.Statut)
+            @Html.DisplayFor(modelItem => item.Personne.Matricule7)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.p_TypeInscription.TypeInscription)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Personne.Nom)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Session.id_Sess)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.id_Inscription }) |
-            @Html.ActionLink("Details", "Details", new { id=item.id_Inscription }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.id_Inscription })
+            @Html.ActionLink("Consulter dossier", "details", new { id=item.id_Inscription })
         </td>
     </tr>
 }
