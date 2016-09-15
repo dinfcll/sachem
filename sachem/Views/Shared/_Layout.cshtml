@@ -29,6 +29,8 @@
                     @*<li>@Html.ActionLink("Accueil", "Index", "Home")</li>*@
                     @*On accède à la présente session afin de voir si l'on peut afficher certains éléments*@
                     <!--Ces liens sont à changer selon les controlleurs/vues des équipes.-->
+
+                    
                     <!--Si c'est un étudiant.-->
                     @if (SachemIdentite.ObtenirTypeUsager(Session) == TypeUsagers.Eleve || SachemIdentite.ObtenirTypeUsager(Session) == TypeUsagers.Tuteur)
                     {
@@ -44,7 +46,6 @@
                                 @Html.ActionLink("Dossier étudiant", "Index", "Cours", new { area = "" }, new { @class = "navbar-brand", @style = "padding-left: 40px;" })
                             </li>
                         }
-
 
 
 
@@ -69,7 +70,7 @@
                             @if (SachemIdentite.ObtenirTypeUsager(Session) == TypeUsagers.Responsable)
                             {
                                     <li>@Html.ActionLink("Courriel de confirmation", "Index", "Cours")</li>
-                                    <li>@Html.ActionLink("Enseignants", "Index", "Cours")</li>
+                                    <li>@Html.ActionLink("Enseignants", "Index", "Enseignant")</li>
                             }
                                     <li>@Html.ActionLink("Étudiants", "Index", "Cours")</li>
                                     <li>@Html.ActionLink("Groupes", "Index", "Cours")</li>

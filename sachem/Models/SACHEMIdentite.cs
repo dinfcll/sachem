@@ -6,16 +6,16 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Dynamic;
 
-/*******************************************************/
-/**Cette classe est grandement inspirée du projet PAM.**/
-/************Crédits aux auteurs originaux.*************/
-/*******************************************************/
-
 namespace sachem.Models
 {
-    public enum TypeUsagers { Aucun = 0, Etudiant = 1, Eleve = 2, Tuteur = 3, Enseignant = 4, Responsable = 5, Super = 6 } //Enum contenant les types d'usagers du SACHEM
-    
-    
+    public enum TypeUsagers { Aucun = 0, Etudiant = 1, Enseignant = 2, Responsable = 3, Super = 4, Eleve = 5, Tuteur = 6 } //Enum contenant les types d'usagers du SACHEM
+
+    /*******************************************************/
+    /**Cette classe est grandement inspirée du projet PAM.**/
+    /************Crédits aux auteurs originaux.*************/
+    /*******************************************************/
+
+    #region ClasseIdentitaireSachem
     public class SachemIdentite
     {
         public static List<TypeUsagers> TypeListeAdmin = new List<TypeUsagers> { TypeUsagers.Enseignant, TypeUsagers.Responsable, TypeUsagers.Super }; //Enum des types ayant pouvoirs d'admin
@@ -32,15 +32,15 @@ namespace sachem.Models
                 case 1:
                     return TypeUsagers.Etudiant;
                 case 2:
-                    return TypeUsagers.Eleve;
-                case 3:
-                    return TypeUsagers.Tuteur;
-                case 4:
                     return TypeUsagers.Enseignant;
-                case 5:
+                case 3:
                     return TypeUsagers.Responsable;
-                case 6:
+                case 4:
                     return TypeUsagers.Super;
+                case 5:
+                    return TypeUsagers.Eleve;
+                case 6:
+                    return TypeUsagers.Tuteur;
                 default:
                     return TypeUsagers.Aucun;
             }
@@ -77,7 +77,9 @@ namespace sachem.Models
             return BitConverter.ToString(provider.ComputeHash(buffer)).Replace("-", "").ToLower();
         }
     }
+    #endregion
 
+    #region SessionBagCustomDylan
     // Classe scellée pour le HttpSession héritant du DynamicObject
     //Article sur l'accès des données dans un objet dynamique (session) en asp.net mvc5 (.NET 4.0+)
     //http://www.codeproject.com/Articles/191422/Accessing-ASP-NET-Session-Data-Using-Dynamics
@@ -132,4 +134,6 @@ namespace sachem.Models
             get { return sessionBag; }
         }
     }
+    #endregion
+
 }

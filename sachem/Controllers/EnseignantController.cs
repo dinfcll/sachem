@@ -18,6 +18,9 @@ namespace sachem.Controllers
     {
         private SACHEMEntities db = new SACHEMEntities();
 
+        List<TypeUsagers> RolesAcces = new List<TypeUsagers>() { TypeUsagers.Responsable, TypeUsagers.Super };
+
+        [NonAction]
         private void ListeEnseignant(int Enseignant = 0)
         {
             var lEnseignant = db.Personne.AsNoTracking().OrderBy(p => p.Nom ).ThenBy(p => p.Prenom);
@@ -54,26 +57,33 @@ namespace sachem.Controllers
             return Enseignant.ToList();
         }
 
-
+     
         public ActionResult Index(int? page)
         {
+            if (!SachemIdentite.ValiderRoleAcces(RolesAcces, Session))
+                return RedirectToAction("Error", "Home", null);
+
             var pageNumber = page ?? 1;
 
             return View(Rechercher().ToPagedList(pageNumber, 20));
         }
 
-        private void Valider([Bind(Include = "id_Pers,id_Sexe,id_TypeUsag,Nom,Prenom,NomUsager,MP,ConfMP,Courriel,DateNais,Actif")] Personne personne)
+        [NonAction]
+        private void Valider([Bind(Include = "id_Pers,id_Sexe,id_TypeUsag,Nom,Prenom,NomUsager,MP,ConfirmPassword,Courriel,DateNais,Actif")] Personne personne)
         {
             if (db.Personne.Any(x => x.NomUsager == personne.NomUsager && x.id_Pers != personne.id_Pers))// Verifier si le nom d'usager existe ou s'il a entré son ancien nom
                 ModelState.AddModelError(string.Empty, Messages.I_013(personne.NomUsager));
 
-            if (personne.MP != personne.ConfMP) // Verifier la correspondance des mots de passe
+            if (personne.MP != personne.ConfirmPassword) // Verifier la correspondance des mots de passe
                 ModelState.AddModelError(string.Empty, Messages.C_001);
         }
 
         // GET: Enseignant/Create
         public ActionResult Create()
         {
+            if (!SachemIdentite.ValiderRoleAcces(RolesAcces, Session))
+                return RedirectToAction("Error", "Home", null);
+
             ViewBag.id_Sexe = new SelectList(db.p_Sexe, "id_Sexe", "Sexe");
             // Permet d'afficher seulement Enseignant et Responsable du Sachem dans les valeurs possibles de la list déroulante.
             ViewBag.id_TypeUsag = new SelectList(db.p_TypeUsag.Where(x => x.id_TypeUsag == 2 || x.id_TypeUsag == 3), "id_TypeUsag", "TypeUsag"); 
@@ -85,26 +95,28 @@ namespace sachem.Controllers
         // plus de détails, voir  http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "id_Pers,id_Sexe,id_TypeUsag,Nom,Prenom,NomUsager,MPDemander,ConfMP,Courriel,DateNais,Actif")] Personne personne)
+        public ActionResult Create([Bind(Include = "id_Pers,id_Sexe,id_TypeUsag,Nom,Prenom,NomUsager,AncienMotDePasse,ConfirmPassword,Courriel,DateNais,Actif")] Personne personne)
         {           
-            personne.MP = personne.MPDemander;
+            personne.MP = personne.AncienMotDePasse;
             Valider(personne);
             if (ModelState.IsValid)
             {
                 personne.MP = encrypterChaine(personne.MP); // Encryption du mot de passe
                 db.Personne.Add(personne);
                 db.SaveChanges();
-                TempData["Success"] = Messages.Q_004(personne.NomUsager); // Message afficher sur la page d'index confirmant la création
+                TempData["Success"] = Messages.Q_004(personne.NomUsager, personne.id_Pers); // Message afficher sur la page d'index confirmant la création
                 return RedirectToAction("Index");
             }
             // afficher les listes déroulantes contenant le type d'usager et le sexe
             ViewBag.id_Sexe = new SelectList(db.p_Sexe, "id_Sexe", "Sexe", personne.id_Sexe);
             ViewBag.id_TypeUsag = new SelectList(db.p_TypeUsag.Where(x => x.id_TypeUsag == 2 || x.id_TypeUsag == 3), "id_TypeUsag", "TypeUsag");
-
+            ViewBag.id_person = personne.id_Pers;
             return View(personne);
 
         }
+
         //Méthode d'encryption de mot de passe.
+        [NonAction]
         public static string encrypterChaine(string Chaine)
         {
             byte[] buffer;
@@ -115,6 +127,9 @@ namespace sachem.Controllers
         // GET: Enseignant/Edit/5
         public ActionResult Edit(int? id)
         {
+            if (!SachemIdentite.ValiderRoleAcces(RolesAcces, Session))
+                return RedirectToAction("Error", "Home", null);
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -127,6 +142,7 @@ namespace sachem.Controllers
             // afficher les listes déroulantes contenant le type d'usager et le sexe
             ViewBag.id_Sexe = new SelectList(db.p_Sexe, "id_Sexe", "Sexe", personne.id_Sexe);
             ViewBag.id_TypeUsag = new SelectList(db.p_TypeUsag.Where(x => x.id_TypeUsag == 2 || x.id_TypeUsag == 3), "id_TypeUsag", "TypeUsag", personne.id_TypeUsag);
+            ViewBag.id_person = personne.id_Pers;
             return View(personne);
         }
 
@@ -135,13 +151,13 @@ namespace sachem.Controllers
         // plus de détails, voir  http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "id_Pers, id_Sexe, id_TypeUsag, Nom, Prenom, NomUsager, MPDemander, ConfMP, Courriel, DateNais, Actif")] Personne personne)
+        public ActionResult Edit([Bind(Include = "id_Pers, id_Sexe, id_TypeUsag, Nom, Prenom, NomUsager, AncienMotDePasse, ConfirmPassword, Courriel, DateNais, Actif")] Personne personne)
         {
-            if(personne.MPDemander != null)
+            if(personne.AncienMotDePasse != null)
             {
-                personne.MP = personne.MPDemander;
-                personne.MP = encrypterChaine(personne.MPDemander); // Appel de la méthode qui encrypte le mot de passe
-                personne.ConfMP = encrypterChaine(personne.ConfMP); // Appel de la méthode qui encrypte la confirmation du mot de passe
+                personne.MP = personne.AncienMotDePasse;
+                personne.MP = encrypterChaine(personne.AncienMotDePasse); // Appel de la méthode qui encrypte le mot de passe
+                personne.ConfirmPassword = encrypterChaine(personne.ConfirmPassword); // Appel de la méthode qui encrypte la confirmation du mot de passe
             }
             else
             {         
@@ -149,7 +165,7 @@ namespace sachem.Controllers
                                where (c.id_Pers == personne.id_Pers)
                                  select c.MP;
                 personne.MP = Enseignant.SingleOrDefault();
-                personne.ConfMP = personne.MP;
+                personne.ConfirmPassword = personne.MP;
             }
             Valider(personne);
             if (ModelState.IsValid)
@@ -162,13 +178,16 @@ namespace sachem.Controllers
             }
             // afficher les listes déroulantes contenant le type d'usager et le sexe
             ViewBag.id_Sexe = new SelectList(db.p_Sexe, "id_Sexe", "Sexe", personne.id_Sexe);
-            ViewBag.id_TypeUsag = new SelectList(db.p_TypeUsag.Where(x => x.id_TypeUsag == 2|| x.id_TypeUsag == 3), "id_TypeUsag", "TypeUsag", personne.id_TypeUsag); 
+            ViewBag.id_TypeUsag = new SelectList(db.p_TypeUsag.Where(x => x.id_TypeUsag == 2|| x.id_TypeUsag == 3), "id_TypeUsag", "TypeUsag", personne.id_TypeUsag);
             return View(personne);
         }
 
         // GET: Enseignant/Delete/5
         public ActionResult Delete(int? id)
         {
+            if (!SachemIdentite.ValiderRoleAcces(RolesAcces, Session))
+                return RedirectToAction("Error", "Home", null);
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -206,6 +225,7 @@ namespace sachem.Controllers
             return View("Index", Rechercher().ToPagedList(pageNumber, 20)); // retour à index avec les divisions par page
         }
 
+        [NonAction]
         protected override void Dispose(bool disposing)
         {
             if (disposing)

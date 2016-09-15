@@ -128,6 +128,8 @@ namespace sachem.Models
 
         public const string U_004 = "Longueur requise: 7 caractères";
 
+        public const string U_009 = "Format : (999) 999-9999";
+
 
         #endregion
 

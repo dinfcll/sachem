@@ -202,12 +202,12 @@
   <ItemGroup>
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
-    <Compile Include="App_Start\IdentityConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\CoursController.cs" />
     <Compile Include="Controllers\EnseignantController.cs" />
+    <Compile Include="Controllers\Crypt.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\PersonnesController.cs" />
     <Compile Include="Global.asax.cs">
@@ -220,7 +220,6 @@
     <Compile Include="Models\Cours.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\PersonneMetadata .cs" />
     <Compile Include="Models\PTypeUsagMetadata.cs" />
     <Compile Include="Models\CoursMetadata.cs" />
     <Compile Include="Models\CoursSuivi.cs">
