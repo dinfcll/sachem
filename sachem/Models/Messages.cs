@@ -70,14 +70,19 @@ namespace sachem.Models
         public static string Q_001(string Cours)
         { return $"Voulez-vous vraiment supprimer le cours {Cours} ?"; }
 
-
+        /// <summary>
+        /// Un collège est en cours d'ajout ou de modification. Souhaitez-vous annuler cette opération?
+        /// </summary>
+        /// <returns></returns>
+        public static string Q_014()
+        { return $"Un collège est en cours d'ajout ou de modification. Souhaitez-vous annuler cette opération?"; }
 
         /// <summary>
         /// Voulez-vous vraiment supprimer le collège {0}?
         /// </summary>
-        /// <param name="CodeUsager"></param>
-        /// <returns></returns>private string Q_001(string Cours)
-        public static string Q_014(string College)
+        /// <param name="College"></param>
+        /// <returns></returns>private string Q_015(string College)
+        public static string Q_015(string College)
         { return $"Voulez-vous vraiment supprimer le collège {College} ?"; }
 
         #endregion

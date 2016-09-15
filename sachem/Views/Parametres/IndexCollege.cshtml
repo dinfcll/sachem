@@ -3,32 +3,59 @@
 @{
     ViewBag.Title = "IndexCollege";
 }
+@Scripts.Render("~/bundles/jquery")
+<script src="~/Scripts/jquery.unobtrusive-ajax.min.js">
 
+</script>
 <h2>IndexCollege</h2>
+@using (Ajax.BeginForm("AddCollege", "Parametres", new AjaxOptions
+{
+    HttpMethod = "Post",
+    OnSuccess = "window.location.reload()"
+}))
+{
+    <div class="form-group">
+        <div class="form-group">
+            @Html.TextBox("NomCollege", null, new {@class = "form-control"})
+        </div>
+        <div class="form-group">
+            <input type="submit" value="Enregistrer" class="btn-toolbar"/>
+        </div>
+    </div>
+    <br/>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.id_College)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.College)
-        </th>
-        <th></th>
-    </tr>
-
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.College)
-        </td>
-        <td>
-            @Html.ActionLink("Modifier", "EditCollege", new { item.id_College }) |
-            @Html.ActionLink("Supprimer", "DeleteCollege","Parametres", new {id = item.id_College } )
-    </tr>
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.id_College)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.College)
+            </th>
+            <th></th>
+        </tr>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.College)
+                </td>
+                <td>
+                @Ajax.ActionLink("Modifier", "EditCollege", new {id = item.id_College}, new AjaxOptions()
+                {
+                    Confirm = @sachem.Models.Messages.Q_014(),
+                    HttpMethod = "Post",
+                    OnSuccess = "window.location.reload()",
+                    InsertionMode = InsertionMode.Replace
+                }) |
+                @Ajax.ActionLink("Supprimer", "DeleteCollege", "Parametres", new {id = item.id_College}, new AjaxOptions
+                {
+                    Confirm = @sachem.Models.Messages.Q_015(item.College),
+                    HttpMethod = "Post",
+                    OnSuccess = "window.location.reload()",
+                    InsertionMode = InsertionMode.Replace
+                })
+            </tr>
+        }
+    </table>
 }
-
-</table>

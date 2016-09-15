@@ -101,8 +101,36 @@ namespace sachem.Controllers
                           select tout;
             return View(college);
         }
+
+        public void EditCollege(string nomCollege, int? id)
+        {
+            
+            if (db.p_College.Any(r => r.id_College == id))
+            {
+                var college = db.p_College.Find(id);
+                college.College = nomCollege;
+                db.Entry(college).State = EntityState.Modified;
+                db.SaveChanges();
+            }
+        }
+
+        public void AddCollege(string nomCollege)
+        {
+            if (!db.p_College.Any(p => p.College == nomCollege))
+            {
+                var college = new p_College
+                {
+                    College = nomCollege
+                };
+                db.p_College.Add(college);
+                db.SaveChanges();
+                ModelState.Clear();
+            }
+        }
+
+
         [HttpPost]
-        public ActionResult DeleteCollege(int? id)
+        public void DeleteCollege(int? id)
         {
             var college = db.p_College.Find(id);
             if(college != null)
@@ -110,7 +138,6 @@ namespace sachem.Controllers
                 db.p_College.Remove(college);
                 db.SaveChanges();
             }
-            return new EmptyResult();
         }
     }
 }
