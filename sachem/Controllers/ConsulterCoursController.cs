@@ -17,7 +17,7 @@ namespace sachem.Controllers
     {
 
         int m_IdPers = 3; // 1 = la seule résponsable, 2-9 = enseignants
-        int m_IdTypeUsage = 3; // 2 = enseignant, 3 = responsable
+        int m_IdTypeUsage = 2; // 2 = enseignant, 3 = responsable
 
         private SACHEMEntities db = new SACHEMEntities();
 
@@ -32,7 +32,12 @@ namespace sachem.Controllers
         [NonAction]
         private IEnumerable<Groupe> AfficherCoursAssignes()
         {
-            var idSess = 0;
+
+            var tidSess = from n in db.Session
+                    group n by n.Annee into g
+                    select g.OrderByDescending(t => t.Annee).FirstOrDefault();
+
+            int idSess = tidSess.First();
 
             var cours = from c in db.Cours select c;
 
@@ -169,7 +174,7 @@ namespace sachem.Controllers
         }
 
         // GET: ConsulterCours/Edit/5
-        public ActionResult Edit(int? id)
+        /*public ActionResult Edit(int? id)
         {
             if (id == null)
             {
@@ -181,9 +186,12 @@ namespace sachem.Controllers
             {
                 return HttpNotFound();
             }
-            
-            return View("Edit", "Groupe", groupe); //appel de la vue de Loïc pour modifier le groupe sélectionné
-        }
+
+
+            //return View();
+
+            return View("Edit", "GroupesController", id); //appel de la vue de Loïc pour modifier le groupe sélectionné
+        }*/
 
         // POST: ConsulterCours/Edit/5
         // Afin de déjouer les attaques par sur-validation, activez les propriétés spécifiques que vous voulez lier. Pour 
