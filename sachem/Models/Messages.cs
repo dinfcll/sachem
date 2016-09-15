@@ -37,13 +37,28 @@ namespace sachem.Models
         /// <returns></returns>private string I_009(string cours)
         public static string I_009(string Cours)
         { return $"Le cours {Cours} a été supprimé."; }
-        
+
         /// <summary>
         /// Enseignant relié à un cour.
         /// </summary>
         /// <returns></returns>
         public const string I_012 = "l'enseignant ne peut etre supprimer car il est relié à un cours";
-        
+
+        //Comptes/Connexion
+        public static string I_017()
+        { return $"Votre tentative de connexion a échoué. Réessayez."; }
+        public static string I_018()
+        { return $"Mot de passe modifié"; }
+        public static string I_019()
+        { return $"Votre mot de passe a été envoyé à votre adresse courriel."; }
+        public static string I_025()
+        { return $"Un compte existe déjà pour cet étudiant."; }
+        public static string I_026()
+        { return $"Le compte a été créé. Vous pouvez maintenant vous connecter."; }
+        public static string I_027()
+        { return $"Aucun étudiant ne correspond aux données saisies. Vous devez être inscrit à un cours offert par le département de mathématiques."; }
+
+
         /// <summary>
         /// Le nom d'utilisateur est déjà utilisé.
         /// </summary>
@@ -74,11 +89,14 @@ namespace sachem.Models
         #endregion
 
         #region MessageContexte
-        /// <summary>
-        /// Les mot de passes non correspondant
-        /// </summary>
-        /// <returns></returns>
-        public const string C_001 = "les mots de passes ne correspondent pas.";
+        //Contexte de comptes
+        public const string C_001 = "Le mot de passe et la confirmation du mot de passe doivent être identiques.";
+        public const string C_002 = "L'ancien mot de passe est invalide.";
+        public const string C_003 = "Aucun usager associé à cette adresse courriel.";
+        public const string C_004 = "Cet usager n'existe pas ou le mot de passe est invalide.";
+
+
+
         #endregion
 
         #region MessageUnitaire
@@ -106,6 +124,11 @@ namespace sachem.Models
         /// </summary>
         /// <returns></returns>
         public const string U_008 = "Format de courriel a respecter : exemple@gmail.com";
+        public const string U_004 = "Longueur requise: 7 caractères";
+        public const string U_007 = "Format: AAAA/MM/JJ";
+        public const string U_008 = "Format: nom@nomdomaine.com";
+
+
         #endregion
 
         #region Question
@@ -129,9 +152,9 @@ namespace sachem.Models
 
         public static MvcHtmlString Q_004(string NomUsager)
         {
-            
+
             return MvcHtmlString.Create($"L'enseignant {NomUsager} a été créé. Souhaitez-vous <a href=\".\">y associer un groupe?</a>"); // Note: Changé vers quel page le lien pointe.
         }
 
-    } 
+    }
 }
