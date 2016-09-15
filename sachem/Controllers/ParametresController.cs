@@ -94,6 +94,7 @@ namespace sachem.Controllers
                 return View();
             }
         }
+
         public ActionResult IndexCollege()
         {
             var college = from tout in db.p_College
@@ -101,13 +102,15 @@ namespace sachem.Controllers
                           select tout;
             return View(college);
         }
+
         [HttpPost]
-        public void EditCollege(string nomCollege, int? id)
+        public void EditCollege(string NomCollege, int? id)
         {
             
             if (db.p_College.Any(r => r.id_College == id))
             {
                 var college = db.p_College.Find(id);
+                college.College = NomCollege;
                 db.Entry(college).State = EntityState.Modified;
                 db.SaveChanges();
             }
@@ -125,10 +128,7 @@ namespace sachem.Controllers
                 db.SaveChanges();
                 
             }
-            var college2 = from tout in db.p_College
-                          orderby tout.College
-                          select tout;
-            return View(college2);
+            return RedirectToAction("IndexCollege");
         }
 
 
