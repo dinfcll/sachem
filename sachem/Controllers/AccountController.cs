@@ -26,14 +26,13 @@ namespace sachem.Controllers
         #pragma warning disable 0618
 
         [NonAction]
-        private void CreerCookieConnexion(string NomUtilisateur, string MotDePasse)
+        private void CreerCookieConnexion(string NomUsager, string MotDePasse)
         {
-            byte[] bMotdePasse = Encoding.UTF8.GetBytes(MotDePasse);
-            System.Web.HttpCookie Maintenir = new HttpCookie("SACHEMConnexion");
-            Maintenir.Values.Add("NomUtilisateur", NomUtilisateur);
-
-            //Encrypte le mot de passe dans le cookie
-            Maintenir.Values.Add("MP", MachineKey.Encode(bMotdePasse, MachineKeyProtection.All));
+            string mdpEncrypte = Crypto.Encrypt(MotDePasse, "asdjh213498yashj2134987ash"); //Encrypte le mdp pour le cookie
+            HttpCookie Maintenir = new HttpCookie("SACHEMConnexion");
+            Maintenir.Values.Add("NomUsager", NomUsager); //On ajoute le nom utilisateur
+            //met le mdp encrypté dans le cookie
+            Maintenir.Values.Add("MP", mdpEncrypte);
 
             //Le cookie a une durée de 1 journée
             Maintenir.Expires = DateTime.Now.AddDays(1d);
@@ -61,6 +60,7 @@ namespace sachem.Controllers
         }
 
         #endregion
+
 
         #region fn_EnvoyerCourriel
         [NonAction]
@@ -91,13 +91,27 @@ namespace sachem.Controllers
         #endregion
 
 
-        #region fn_Login
+         #region fn_Login
         //
         // GET: /Account/Login
         [AllowAnonymous]
         public ActionResult Login(string returnUrl)
         {
-            //ViewBag.ReturnUrl = returnUrl;
+            //Si le cookie de connexion existe on prérempli les infos de connexion avec les infos du cookie.
+            if (CookieConnexionExiste())
+            {
+                Personne PersonneCookie = new Personne();
+                HttpCookie CookieMaintenirConnexion = Request.Cookies.Get("SACHEMConnexion");
+                PersonneCookie.NomUsager = CookieMaintenirConnexion["NomUsager"];
+                //Décrypte le mot de passe encodé dans le cookie
+                PersonneCookie.MP = Crypto.Decrypt(CookieMaintenirConnexion["MP"], "asdjh213498yashj2134987ash");
+                //Remet le maintenir connexion à oui
+                PersonneCookie.SouvenirConnexion = true;
+
+                //Permet de garder l'endroit où on se trouvait avant de cliquer sur se connecter.
+                return View(PersonneCookie);
+            }
+
             return View();
         }
 
@@ -106,7 +120,7 @@ namespace sachem.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public ActionResult Login(string NomUsager, string MP)
+        public ActionResult Login(string NomUsager, string MP, bool SouvenirConnexion)
         {
             string mdpPlain = MP;
             Personne PersonneBD = new Personne();
@@ -161,7 +175,10 @@ namespace sachem.Controllers
                 SessionBag.Current.NomComplet = PersonneBD.PrenomNom;
                 SessionBag.Current.MP = PersonneBD.MP;
                 SessionBag.Current.id_Pers = PersonneBD.id_Pers;
-
+                if (SouvenirConnexion)
+                    CreerCookieConnexion(NomUsager, mdpPlain);
+                else
+                    SupprimerCookieConnexion();
                 //On retourne à l'accueil en attendant de voir la suite.
                 return RedirectToAction("Index", "Home");
             }
@@ -241,7 +258,7 @@ namespace sachem.Controllers
         #endregion
 
 
-        #region fn_MdpOublié
+        #region fn_MdpOublie
 
         // GET: /Account/Mot de passe oublié
         [AllowAnonymous]
@@ -344,6 +361,7 @@ namespace sachem.Controllers
                     utilisateur.MP = personne.MP;//Change le mot de passe
                     SachemIdentite.encrypterMPPersonne(ref utilisateur);//l'Encrypte
                     SessionBag.Current.MP = utilisateur.MP;//Modifier le mot de passe dans le sessionbag
+                    SupprimerCookieConnexion(); //Supprime le cookie
                     db.Entry(utilisateur).State = EntityState.Modified;
                     db.SaveChanges();//L'enregistre
                     ViewBag.Success = Messages.I_018();
@@ -356,6 +374,7 @@ namespace sachem.Controllers
 
 
         #region fn_Deconnexion
+
         //
         // POST: /Account/LogOff
         [HttpPost]

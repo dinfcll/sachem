@@ -84,6 +84,7 @@ namespace sachem.Models
         public const string U_004 = "Longueur requise: 7 caractères";
         public const string U_007 = "Format: AAAA/MM/JJ";
         public const string U_008 = "Format: nom@nomdomaine.com";
+        public const string U_009 = "Format : (999) 999-9999";
 
 
         #endregion
