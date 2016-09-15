@@ -1,7 +1,6 @@
 ﻿@using System.ComponentModel
 @*@model sachem.Models.Personne*@
 
-@model Tuple<sachem.Models.Personne,sachem.Models.EtuProgEtude>
 
 @model Tuple<sachem.Models.Personne, IEnumerable<sachem.Models.EtuProgEtude>>
 
@@ -23,7 +22,7 @@
         @Html.HiddenFor(model => model.Item1.id_Pers)
 
         <div class="form-group">
-            @Html.LabelFor(model => model.Item1.id_Sexe, "Sexe", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.Item1.id_Sexe, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.DropDownList("id_Sexe", null, htmlAttributes: new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.Item1.id_Sexe, "", new { @class = "text-danger" })
@@ -31,7 +30,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.Item1.id_TypeUsag, "Type usager", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.Item1.id_TypeUsag, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.DropDownList("id_TypeUsag", null, htmlAttributes: new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.Item1.id_TypeUsag, "", new { @class = "text-danger" })
@@ -47,7 +46,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.Item1.Prenom, "Prénom", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.Item1.Prenom, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.Item1.Prenom, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.Item1.Prenom, "", new { @class = "text-danger" })
@@ -55,7 +54,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.Item1.NomUsager, "Nom usager", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.Item1.NomUsager, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.Item1.NomUsager, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.Item1.NomUsager, "", new { @class = "text-danger" })
@@ -71,9 +70,9 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.Item1.MP, "Mot de passe", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.Item1.MP, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                
+
                 @Html.EditorFor(model => model.Item1.MP, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.Item1.MP, "", new { @class = "text-danger" })
             </div>
@@ -113,34 +112,46 @@
             </div>
         </div>
 
+   
+        @foreach (var item in Model.Item2)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ProgrammeEtude.CodeNomProgramme)
+                </td>
+               
+                <td>
+                    @Html.LabelFor(model => model.Item1.MP, "Programme d'étude", htmlAttributes: new { @class = "control-label col-md-2" })
+                    @Html.ActionLink("Supprimer", "Delete", new { id = item.id_EtuProgEtude })
+                </td>
+            </tr>
+        }
+
+    
+        
+        <h4>Ajouter un programme d'étude</h4>
+        <h1>  </h1>
+
+        <hr>
         <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Enregistrer" class="btn btn-default" />
+            @Html.LabelFor(model => model.Item1.id_Sexe, "Programme d'étude", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("id_Sexe", null, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Item1.id_Sexe, "", new { @class = "text-danger" })
             </div>
         </div>
-    </div>
-
-
-    @*<h2>Ajouter un programme d'étude</h2>
-    <hr>
-    <div class="form-group">
-        @Html.LabelFor(model => model.id_Sexe, "Programme d'étude", htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.DropDownList("id_Sexe", null, htmlAttributes: new { @class = "form-control" })
-            @Html.ValidationMessageFor(model => model.id_Sexe, "", new { @class = "text-danger" })
+        
+        <div class="form-group">
+            @Html.LabelFor(model => model.Item1.id_TypeUsag, "Session", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("id_TypeUsag", null, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Item1.id_TypeUsag, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Enregistrer" class="btn btn-default" />
         </div>
     </div>
-    <h1>  </h1>
-    <div class="form-group">
-        @Html.LabelFor(model => model.id_TypeUsag, "Session", htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.DropDownList("id_TypeUsag", null, htmlAttributes: new { @class = "form-control" })
-            @Html.ValidationMessageFor(model => model.id_TypeUsag, "", new { @class = "text-danger" })
-        </div>
-    </div>
-    <div class="col-md-offset-2 col-md-10">
-        <input type="submit" value="Enregistrer" class="btn btn-default" />
-    </div>*@
 }
 
 
@@ -151,4 +162,3 @@
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
 }
-@*@Html.Partial("_ProgrammeEtude")*@
