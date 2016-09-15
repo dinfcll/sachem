@@ -246,7 +246,7 @@ namespace sachem.Controllers
                 personne.MP = encrypterChaine(personne.MP); // Encryption du mot de passe
                 db.Personne.Add(personne);
                 db.SaveChanges();
-                TempData["Success"] = Messages.I_010(personne.NomUsager); // Message afficher sur la page d'index confirmant la création
+                TempData["Success"] = Messages.I_010(personne.Matricule); // Message afficher sur la page d'index confirmant la création
                 return RedirectToAction("Index");
             }
             //personne.ConfMP = personne.MP;
@@ -358,6 +358,15 @@ namespace sachem.Controllers
             //redirection à l'index après la suppression
             return RedirectToAction("Index");
         }
+        public ActionResult deleteProgEtu([Bind(Include = "Matricule")] Personne personne, [Bind(Include = "id_EtuProgEtude")]EtuProgEtude ProgEtu)
+        {
+            //Personne personne = db.Personne.Find(id);
+
+            //supprimer dans tous les tables 
+            //faire apparaitre le message
+            return RedirectToAction("Index");
+        }
+
         //Méthode pour encrypter le de mot de passe.
         public static string encrypterChaine(string mdp)
         {
