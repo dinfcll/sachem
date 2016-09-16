@@ -58,4 +58,10 @@ namespace sachem.Models
     {
         public int nbPersonne;
     }
+
+    public partial class PersonneProgEtu
+    {
+        public Personne personne;
+        public ProgrammeEtude progEtuActif;
+    }
 }

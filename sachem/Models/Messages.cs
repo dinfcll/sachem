@@ -52,6 +52,49 @@ namespace sachem.Models
         public static string I_027()
         { return $"Aucun étudiant ne correspond aux données saisies. Vous devez être inscrit à un cours offert par le département de mathématiques."; }
 
+        // Groupes
+
+        /// <summary>
+        /// Le groupe {NoGroupe} a été supprimé.
+        /// </summary>
+        /// <param name="NoGroupe"></param>
+        /// <returns></returns>
+        public static string I_020(string NoGroupe)
+        { return $"Le groupe {NoGroupe} a été supprimé."; }
+
+        /// <summary>
+        /// Impossible d'enregistrer ce groupe. Il existe déjà un groupe ayant le numéro {NoGroupe}.
+        /// </summary>
+        /// <param name="NoGroupe"></param>
+        /// <returns></returns>
+        public static string I_021(string NoGroupe)
+        { return $"Impossible d'enregistrer ce groupe. Il existe déjà un groupe ayant le numéro {NoGroupe}."; }
+
+        /// <summary>
+        /// L'étudiant {Matricule} a été retiré du groupe {NoGroupe}.
+        /// </summary>
+        /// <param name="Matricule"></param>
+        /// <param name="NoGroupe"></param>
+        /// <returns></returns>
+        public static string I_022(string Matricule,string NoGroupe)
+        { return $"L'étudiant {Matricule} a été retiré du groupe {NoGroupe}."; }
+
+        /// <summary>
+        /// L'étudiant {Matricule} a été retiré du groupe {NoGroupe}.
+        /// </summary>
+        /// <param name="Matricule"></param>
+        /// <returns></returns>
+        public static string I_023(string Matricule)
+        { return $"Impossible d'ajouter l'étudiant {Matricule} au groupe puisqu'il en fait déjà partie"; }
+
+        /// <summary>
+        /// L'étudiant {Matricule} a été ajouté au groupe {IdGroupe}.
+        /// </summary>
+        /// <param name="Matricule"></param>
+        /// <param name="IdGroupe"></param>
+        /// <returns></returns>
+        public static string I_024(string Matricule, string IdGroupe)
+        { return $"L'étudiant {Matricule} a été ajouté au groupe {IdGroupe}."; }
 
         #endregion
 
@@ -82,6 +125,7 @@ namespace sachem.Models
 
 
         public const string U_004 = "Longueur requise: 7 caractères";
+        public const string U_005 = "Longueur requise : 4 caractères";
         public const string U_007 = "Format: AAAA/MM/JJ";
         public const string U_008 = "Format: nom@nomdomaine.com";
         public const string U_009 = "Format : (999) 999-9999";
@@ -92,13 +136,52 @@ namespace sachem.Models
         #region Question
 
         /// <summary>
-        /// Voulez-vous vraiment supprimer le cours {0} ?
+        /// Voulez-vous vraiment supprimer le cours {0}?
         /// </summary>
         /// <param name="CodeUsager"></param>
         /// <returns></returns>private string Q_001(string Cours)
         public static string Q_001(string Cours)
-        { return $"Voulez-vous vraiment supprimer le cours {Cours} ?"; }
+        { return $"Voulez-vous vraiment supprimer le cours {Cours}?"; }
 
+        /// <summary>
+        /// Voulez-vous vraiment supprimer le groupe {0}?
+        /// </summary>
+        /// <param name="NoGroupe"></param>
+        /// <returns></returns>private string Q_006(string NoGroupe)
+        public static string Q_006(string NoGroupe)
+        { return $"Voulez-vous vraiment supprimer le groupe {NoGroupe}?"; }
+
+        /// <summary>
+        /// Des étudiants sont rattachés au groupe {0} Souhaitez-vous le supprimer définitivement?
+        /// </summary>
+        /// <param name="NoGroupe"></param>
+        /// <returns></returns>private string Q_007(string NoGroupe)
+        public static string Q_007(string NoGroupe)
+        { return $"Des étudiants sont rattachés au groupe {NoGroupe} Souhaitez-vous le supprimer définitivement?"; }
+
+        /// <summary>
+        /// Le groupe {0} a été créé. Souhaitez-vous y associer des étudiants?
+        /// </summary>
+        /// <param name="NoGroupe"></param>
+        /// <returns></returns>private string Q_008(string NoGroupe)
+        public static string Q_008(string NoGroupe)
+        { return $"Le groupe {NoGroupe} a été créé. Souhaitez-vous y associer des étudiants?"; }
+
+        /// <summary>
+        /// Voulez-vous vraiment supprimer le groupe {0} ?
+        /// </summary>
+        /// <param name="NoGroupe"></param>
+        /// <returns></returns>private string Q_009(string Matricule,string NoGroupe)
+        public static string Q_009(string Matricule,string NoGroupe)
+        { return $"Voulez-vous vraiment retirer l'étudiant {Matricule} du groupe {NoGroupe}?"; }
+
+        /// <summary>
+        /// Voulez-vous vraiment supprimer le groupe {0} ?
+        /// </summary>
+        /// <param name="NoGroupe"></param>
+        /// <returns></returns>private string Q_010(string PrenomNom,string NomSaison,string NoGroupe,string NomCours)
+        public static string Q_010(string PrenomNom,string NomSaison,string NoGroupe,string NomCours)
+        { return $"L'étudiant {PrenomNom} est déjà inscrit au cours {NomCours} pour la session {NomSaison}. Voulez-vous le déplacer dans le groupe {NoGroupe}?"; }
 
         #endregion
 

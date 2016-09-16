@@ -18,16 +18,24 @@ namespace sachem.Controllers
         private SACHEMEntities db = new SACHEMEntities();
 
         // GET: Groupes
-        public ActionResult Index(int? page)
+        public ActionResult Index(int? page, int? id)
         {
+            if (!SachemIdentite.TypeListeAdmin.Contains(SachemIdentite.ObtenirTypeUsager(Session)))
+            {
+                return RedirectToAction("Index", "Home");
+            }
             RegisterViewbags();
             var pageNumber = page ?? 1;
-            return View(Rechercher().ToPagedList(pageNumber, 20));
+            return View(Rechercher(id).ToPagedList(pageNumber, 20));
         }
 
         // GET: Groupes/Details/5
         public ActionResult Details(int? id)
         {
+            if (!SachemIdentite.TypeListeAdmin.Contains(SachemIdentite.ObtenirTypeUsager(Session)))
+            {
+                return RedirectToAction("Index", "Home");
+            }
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -43,8 +51,14 @@ namespace sachem.Controllers
         // GET: Groupes/Create
         public ActionResult Create()
         {
+            if (!SachemIdentite.TypeListeAdmin.Contains(SachemIdentite.ObtenirTypeUsager(Session)))
+            {
+                return RedirectToAction("Index", "Home");
+            }
+            int? a = (Session["id_Pers"] == null ? -1 : (int)Session["id_Pers"]);
+            bool b = SachemIdentite.ObtenirTypeUsager(Session) == TypeUsagers.Responsable;
             ViewBag.id_Cours = new SelectList(db.Cours, "id_Cours", "CodeNom");
-            var ens = from c in db.Personne where c.id_TypeUsag == 2 select c;
+            var ens = from c in db.Personne where c.id_TypeUsag == 2 && (b ? true : c.id_Pers == (a == -1 ? c.id_Pers : a)) select c;
             ViewBag.id_Enseignant = new SelectList(ens, "id_Pers", "NomPrenom");
             ViewBag.id_Sess = new SelectList(db.Session, "id_Sess", "NomSession");
             return View();
@@ -57,6 +71,13 @@ namespace sachem.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "id_Groupe,id_Cours,id_Sess,id_Enseignant,NoGroupe")] Groupe groupe)
         {
+            if (!SachemIdentite.TypeListeAdmin.Contains(SachemIdentite.ObtenirTypeUsager(Session)))
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
+            Valider(groupe);
+
             if (ModelState.IsValid)
             {
                 db.Groupe.Add(groupe);
@@ -75,6 +96,12 @@ namespace sachem.Controllers
         // GET: Groupes/Edit/5
         public ActionResult Edit(int? id)
         {
+            if (!SachemIdentite.TypeListeAdmin.Contains(SachemIdentite.ObtenirTypeUsager(Session)))
+            {
+                return RedirectToAction("Index", "Home");
+            }
+            int a = (Session["id_Pers"] == null ? -1 : (int)Session["id_Pers"]);
+            bool b = SachemIdentite.ObtenirTypeUsager(Session) == TypeUsagers.Responsable;
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -85,7 +112,7 @@ namespace sachem.Controllers
                 return HttpNotFound();
             }
             ViewBag.id_Cours = new SelectList(db.Cours, "id_Cours", "CodeNom", groupe.id_Cours);
-            ViewBag.id_Enseignant = new SelectList(db.Personne, "id_Pers", "NomPrenom", groupe.id_Enseignant);
+            ViewBag.id_Enseignant = new SelectList(db.Personne.Where(x => x.id_TypeUsag == 2).Where(x => x.id_Pers == (a == -1 || b ? x.id_Pers : a)), "id_Pers", "NomPrenom", groupe.id_Enseignant);
             ViewBag.id_Sess = new SelectList(db.Session, "id_Sess", "NomSession", groupe.id_Sess);
             return View(groupe);
         }
@@ -97,6 +124,13 @@ namespace sachem.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "id_Groupe,id_Cours,id_Sess,id_Enseignant,NoGroupe")] Groupe groupe)
         {
+            if (!SachemIdentite.TypeListeAdmin.Contains(SachemIdentite.ObtenirTypeUsager(Session)))
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
+            Valider(groupe);
+
             if (ModelState.IsValid)
             {
                 db.Entry(groupe).State = EntityState.Modified;
@@ -112,6 +146,10 @@ namespace sachem.Controllers
         // GET: Groupes/Delete/5
         public ActionResult Delete(int? id)
         {
+            if (!SachemIdentite.TypeListeAdmin.Contains(SachemIdentite.ObtenirTypeUsager(Session)))
+            {
+                return RedirectToAction("Index", "Home");
+            }
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -129,6 +167,10 @@ namespace sachem.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
+            if (!SachemIdentite.TypeListeAdmin.Contains(SachemIdentite.ObtenirTypeUsager(Session)))
+            {
+                return RedirectToAction("Index", "Cours");
+            }
             Groupe groupe = db.Groupe.Find(id);
             db.Groupe.Remove(groupe);
             db.SaveChanges();
@@ -136,23 +178,32 @@ namespace sachem.Controllers
         }
 
         [NonAction]
-        private IEnumerable<Groupe> Rechercher()
+        private IEnumerable<Groupe> Rechercher(int? id)
         {
             IQueryable<Groupe> groupes;
-            int idSess = 0, idEns = 0, idCours = 0;
-            if (Request.RequestType == "POST")
+            int a = (Session["id_Pers"] == null ? -1 : (int)Session["id_Pers"]);
+            bool b = SachemIdentite.ObtenirTypeUsager(Session) == TypeUsagers.Responsable;
+            int idSess = 0, idEns = (SachemIdentite.ObtenirTypeUsager(Session) == TypeUsagers.Enseignant ? a : 0), idCours = 0;
+            if (id != null)
             {
-                int.TryParse(Request.Form["Sessions"], out idSess);
-                int.TryParse(Request.Form["Enseignants"], out idEns);
-                int.TryParse(Request["Cours"], out idCours);
-                
-                RegisterViewbags();
-
-                groupes = from d in db.Groupe where d.id_Cours == (idCours == 0 ? d.id_Cours : idCours) && d.id_Enseignant == (idEns == 0 ? d.id_Enseignant : idEns) && d.id_Sess == (idSess == 0 ? d.id_Sess : idSess) orderby d.Session.p_Saison.Saison, d.Session.Annee, d.Cours.Code, d.Cours.Nom, d.NoGroupe select d;
+                groupes = from d in db.Groupe orderby d.Session.p_Saison.Saison, d.Session.Annee, d.Cours.Code, d.Cours.Nom, d.NoGroupe where d.id_Enseignant == id select d;
             }
             else
             {
-                groupes = from d in db.Groupe orderby d.Session.p_Saison.Saison, d.Session.Annee, d.Cours.Code, d.Cours.Nom, d.NoGroupe select d;
+                if (Request.RequestType == "POST")
+                {
+                    int.TryParse(Request.Form["Sessions"], out idSess);
+                    int.TryParse(Request.Form["Enseignants"], out idEns);
+                    int.TryParse(Request["Cours"], out idCours);
+
+                    RegisterViewbags();
+
+                    groupes = from d in db.Groupe where d.id_Cours == (idCours == 0 ? d.id_Cours : idCours) && d.id_Enseignant == (idEns == 0 ? d.id_Enseignant : idEns) && d.id_Sess == (idSess == 0 ? d.id_Sess : idSess) orderby d.Session.p_Saison.Saison, d.Session.Annee, d.Cours.Code, d.Cours.Nom, d.NoGroupe select d;
+                }
+                else
+                {
+                    groupes = from d in db.Groupe orderby d.Session.p_Saison.Saison, d.Session.Annee, d.Cours.Code, d.Cours.Nom, d.NoGroupe where d.id_Enseignant == (a == -1 || b ? d.id_Enseignant : a) select d;
+                }
             }
             foreach (var n in groupes)
             {
@@ -163,6 +214,7 @@ namespace sachem.Controllers
 
         protected override void Dispose(bool disposing)
         {
+
             if (disposing)
             {
                 db.Dispose();
@@ -173,42 +225,56 @@ namespace sachem.Controllers
         [NonAction]
         private void RegisterViewbags()
         {
+            int? a = (Session["id_Pers"] == null ? -1 : (int)Session["id_Pers"]);
+            bool b = SachemIdentite.ObtenirTypeUsager(Session) == TypeUsagers.Responsable;
             int sess = db.Session.Max(s => s.id_Sess);
             //var last = from b in db.Session orderby b.id_Sess descending select b;
             ViewBag.Sessions = new SelectList(db.Session, "id_Sess", "NomSession", sess);
-            var ens = from c in db.Personne where c.id_TypeUsag == 2 select c;
+            var ens = from c in db.Personne where c.id_TypeUsag == 2 && (b ? true : c.id_Pers == (a == -1 ? c.id_Pers : a))  select c;
             ViewBag.Enseignants = new SelectList(ens, "id_Pers", "NomPrenom");
             ViewBag.Cours = new SelectList(db.Cours, "id_Cours", "CodeNom");
         }
 
         public ActionResult AjouterEleve(int idg, int? page)
         {
+            if (!SachemIdentite.TypeListeAdmin.Contains(SachemIdentite.ObtenirTypeUsager(Session)))
+            {
+                return RedirectToAction("Index", "Home");
+            }
             ViewBag.idg = idg;
             Groupe groupe = db.Groupe.Find(idg);
             //IEnumerable < Personne > personnes = (from c in db.Personne where c.id_TypeUsag == 1 select c).ToList().OrderBy(x => x.NomPrenom).ThenBy(x => x.Matricule7);
             IEnumerable<Personne> personnes = RechercherEleve();
-            /*foreach (var n in personnes)
-            {
-                n.ProgEtu = "";
-                var arr = (from c in db.ProgrammeEtude
-                join p in db.EtuProgEtude on c.id_ProgEtu equals p.id_ProgEtu
-                where p.id_Sess == groupe.id_Sess && p.id_Etu == n.id_Pers 
-                select c).ToList();
-                foreach (var i in arr)
-                {
-                    n.ProgEtu += i.Code + "-"+ i.NomProg;
-                }
-            } */
+
+            db.Configuration.LazyLoadingEnabled = false;
+
+                /*requête LINQ qui va chercher tous les étudiants répondant aux critères de recherche ainsi que leur programme d'étude actuel. */
+            var lstEtu = from q in
+                         (from p in personnes.Where(x => x.Actif == true && x.GroupeEtudiant.Any(y => y.id_Groupe == idg) && x.EtuProgEtude.Any(y => y.id_Sess == groupe.id_Sess)).OrderBy(x => x.Nom)
+                            select new
+                            {
+                                Personne = p,
+                                ProgEtu = (from pe in db.EtuProgEtude where p.id_Pers == pe.id_Etu orderby pe.id_Sess descending select pe).FirstOrDefault().ProgrammeEtude,
+                            }).AsEnumerable()
+                            orderby q.Personne.Nom, q.Personne.Prenom
+                            // le résultat de la requête sera une liste de PersonneProgEtu (déclaré plus haut),
+                            // si l'objet n'est pas déclaré, la vue dynamique n'est pas capable d'évaluer correctement
+                            select new PersonneProgEtu { personne = q.Personne, progEtuActif = q.ProgEtu };
+            db.Configuration.LazyLoadingEnabled = true;
 
             var pageNumber = page ?? 1;
-            return View(personnes.ToPagedList(pageNumber, 20));
+            return View(lstEtu.ToPagedList(pageNumber, 20));
         }
 
         [HttpGet]
         //[ValidateAntiForgeryToken]
         public ActionResult AjouterEleveGET(int idg, int idp)
         {
-            if(db.GroupeEtudiant.Where(x => x.id_Etudiant == idp).Where(x => x.id_Groupe == idg).FirstOrDefault() != null)
+            if (!SachemIdentite.TypeListeAdmin.Contains(SachemIdentite.ObtenirTypeUsager(Session)))
+            {
+                return RedirectToAction("Index", "Home");
+            }
+            if (db.GroupeEtudiant.Where(x => x.id_Etudiant == idp).Where(x => x.id_Groupe == idg).FirstOrDefault() != null)
             {
                 return Content("L'élève est déjà dans ce groupe.");
                 //return HttpNotFound();
@@ -242,6 +308,10 @@ namespace sachem.Controllers
 
         public ActionResult DeleteEleve(int? id)
         {
+            if (!SachemIdentite.TypeListeAdmin.Contains(SachemIdentite.ObtenirTypeUsager(Session)))
+            {
+                return RedirectToAction("Index", "Home");
+            }
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -260,6 +330,10 @@ namespace sachem.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteEleveConfirmed(int id)
         {
+            if (SachemIdentite.TypeListeAdmin.Contains(SachemIdentite.ObtenirTypeUsager(Session)))
+            {
+                return RedirectToAction("Index", "Cours");
+            }
             GroupeEtudiant ge = db.GroupeEtudiant.Find(id);
             db.GroupeEtudiant.Remove(ge);
             db.SaveChanges();
@@ -268,6 +342,10 @@ namespace sachem.Controllers
 
         public ActionResult Deplacer(int? id)
         {
+            if (!SachemIdentite.TypeListeAdmin.Contains(SachemIdentite.ObtenirTypeUsager(Session)))
+            {
+                return RedirectToAction("Index", "Home");
+            }
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -286,6 +364,10 @@ namespace sachem.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeplacerConfirmed(int? id)
         {
+            if (!SachemIdentite.TypeListeAdmin.Contains(SachemIdentite.ObtenirTypeUsager(Session)))
+            {
+                return RedirectToAction("Index", "Home");
+            }
             int idgretu, idg;
             if (!int.TryParse(Request.Form["idGroupeEtudiant"], out idgretu) || !int.TryParse(Request.Form["id_groupedepl"], out idg))
             {
@@ -351,5 +433,13 @@ namespace sachem.Controllers
             }
             return Json(cours.AsEnumerable(), JsonRequestBehavior.AllowGet);
         }
+ 
+        [NonAction]
+        private void Valider([Bind(Include = "id_Groupe,id_Cours,id_Sess,id_Enseignant,NoGroupe")] Groupe groupe)
+        {
+            if (db.Groupe.Any(r => r.NoGroupe == groupe.NoGroupe && r.id_Sess == groupe.id_Sess))
+                ModelState.AddModelError(string.Empty, Messages.I_021(groupe.NoGroupe.ToString()));
+        }
+
     }
 }

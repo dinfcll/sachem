@@ -20,7 +20,14 @@
             
             <div class="form-group">
                 Enseignant :
-                @Html.DropDownList("Enseignants", "Toutes")
+                @{
+                    string s = "Toutes";
+                    if (sachem.Models.SachemIdentite.ObtenirTypeUsager(Session) == sachem.Models.TypeUsagers.Enseignant)
+                    {
+                        s = null;
+                    }
+                }
+                @Html.DropDownList("Enseignants", s)
             </div>
             
             <div class="form-group">
@@ -82,6 +89,12 @@
         </td>
     </tr>
 }
-
+@if (!Model.Any())
+{
+    <tr>
+        <td colspan="6">Aucun groupe ne répond à ces critères</td>
+    </tr>
+}
 </table>
+
 @Html.Partial("_PageRecherche", Model)

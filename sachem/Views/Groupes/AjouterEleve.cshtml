@@ -1,5 +1,5 @@
 ﻿@using PagedList.Mvc
-@model PagedList.IPagedList<sachem.Models.Personne>
+@model PagedList.IPagedList<sachem.Models.PersonneProgEtu>
 
 @{
     ViewBag.Title = "Ajouter des étudiants au groupe";
@@ -40,19 +40,19 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.FirstOrDefault().Nom)
+            @Html.DisplayNameFor(model => model.FirstOrDefault().personne.Nom)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.FirstOrDefault().Matricule7)
+            @Html.DisplayNameFor(model => model.FirstOrDefault().personne.Matricule7)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.FirstOrDefault().Age)
+            @Html.DisplayNameFor(model => model.FirstOrDefault().personne.Age)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.FirstOrDefault().p_Sexe.Sexe)
+            @Html.DisplayNameFor(model => model.FirstOrDefault().personne.p_Sexe.Sexe)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.FirstOrDefault().ProgEtu)
+            @Html.DisplayNameFor(model => model.FirstOrDefault().personne.ProgEtu)
         </th>
         <th></th>
     </tr>
@@ -60,22 +60,23 @@
     @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.NomPrenom)
+                @Html.DisplayFor(modelItem => item.personne.NomPrenom)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Matricule7)
+                @Html.DisplayFor(modelItem => item.personne.Matricule7)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Age)
+                @Html.DisplayFor(modelItem => item.personne.Age)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.p_Sexe.Sexe)
+                @Html.DisplayFor(modelItem => item.personne.p_Sexe.Sexe)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.ProgEtu)
+                @Html.DisplayFor(modelItem => item.progEtuActif.Code)-
+                @Html.DisplayFor(modelItem => item.progEtuActif.NomProg)
             </td>
             <td>
-                @Html.ActionLink("Ajouter", "AjouterEleveGET", new { idg = ViewBag.idg, idp = item.id_Pers })
+                @Html.ActionLink("Ajouter", "AjouterEleveGET", new { idg = ViewBag.idg, idp = item.personne.id_Pers })
             </td>
         </tr>
     }
