@@ -407,6 +407,7 @@
     <Content Include="Views\DossierEtudiant\Create.cshtml" />
     <Content Include="Views\DossierEtudiant\Delete.cshtml" />
     <Content Include="Views\DossierEtudiant\_CoursAnterieur.cshtml" />
+    <Content Include="Views\Shared\_RechercheEtudiantInscrit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

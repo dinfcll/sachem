@@ -26,82 +26,53 @@ namespace sachem.Controllers
         //liste des sessions disponibles en ordre d'année
         private void ListeSession(int Session = 0)
         {
-            var lSessions = db.Session.AsNoTracking().OrderBy(s => s.Annee).ThenBy(s => s.p_Saison.Saison);
+            var lSessions = db.Session.AsNoTracking().OrderBy(s => s.Annee).ThenBy(s => s.p_Saison.Saison).Where(s => s.p_Saison.id_Saison == s.id_Saison);
             var slSession = new List<SelectListItem>();
             slSession.AddRange(new SelectList(lSessions, "id_Sess", "NomSession", Session));
-            ViewBag.SelectSession = slSession;
+            ViewBag.Session = slSession;
 
-        }
-        //fonctions permettant d'obtenir la liste des cours. Appelé pour l'initialisation et la maj de la liste déroulante Cours
-        [NonAction]
-        protected IEnumerable<p_TypeInscription> ObtenirListeTypeInscription(int session)
-        {
-            int Pers = 0;
-            var ResultReq = db.p_TypeInscription.AsNoTracking();//.Where(i => i.id_TypeInscription);
-            //var ResultReq = db.Cours.AsNoTracking().Where(c => c.Groupe.Any(g => (g.id_Enseignant == Pers || Pers == 0) && (g.id_Sess == session)));
-
-            return ResultReq.AsEnumerable();
         }
 
         //fonctions permettant d'obtenir la liste des groupe. Appelé pour l'initialisation et la maj de la liste déroulante Groupe
         [NonAction]
-        private IEnumerable<Personne> ObtenirListeSuperviseur(int cours, int session)
+        private IEnumerable<Inscription> ObtenirListeSuperviseur(int session)
         {
             int Pers = 0;
-            var ResultReq = db.Personne.AsNoTracking();//.Where(p => (p.id_Enseignant == Pers || Pers == 0) && (p.id_Sess == session) && (p.id_Cours == cours));
+            var ResultReq = db.Inscription.AsNoTracking().Where(p => (p.id_Pers== Pers || Pers == 0) && (p.Personne.id_TypeUsag == 2) && (p.id_Sess == session));
             return ResultReq.AsEnumerable();
         }
 
 
         //fonctions permettant d'initialiser les listes déroulantes
         [NonAction]
-        private void ListeTypeInscription(int typeinscription, int session)
+        private void ListeTypeInscription(int TypeInscription = 0)
         {
-            ViewBag.Inscription = new SelectList(ObtenirListeTypeInscription(session).AsQueryable(), "id_TypeInscription", "TypeInscription", typeinscription);
+            //ordonnee et tous par default, si tuteurs: griser eleve aide.
+            int Pers = 0;
+            var lInscriptions = db.p_TypeInscription.AsNoTracking().OrderBy(i => i.TypeInscription);
+            var slInscription = new List<SelectListItem>();
+            slInscription.AddRange(new SelectList(lInscriptions, "id_TypeInscription", "TypeInscription", TypeInscription));
+            ViewBag.Inscription = slInscription;
         }
 
         //fonctions permettant d'initialiser les listes déroulantes
         [NonAction]
-        private void ListeSuperviseur(int typeinscription, int session, int superviseur)
+        private void ListeSuperviseur(int session, int superviseur)
         {
-            ViewBag.SelectGroupe = new SelectList(ObtenirListeSuperviseur(typeinscription, session), "id_Superviseur", "Superviseur", superviseur);
+            ViewBag.Superviseur = new SelectList(ObtenirListeSuperviseur(session), "id_Superviseur", "Superviseur", superviseur);
         }
-
-        //[NonAction]
-        //private void ListeTypeInscription(int Inscription = 0)
-        //{
-        //    var lInscriptions = db.p_TypeInscription.AsNoTracking().OrderBy(i => i.id_TypeInscription);
-        //    var slInscription = new List<SelectListItem>();
-        //    slInscription.AddRange(new SelectList(lInscriptions, "id_TypeInscription", "TypeInscription", Inscription));
-
-        //    ViewBag.Inscription = slInscription;
-        //}
-
-
-
-
-
 
         #region Fonctions Ajax
         /// <summary>
         /// Actualise le dropdownlist des groupes selon l'élément sélectionné dans les dropdownlist Session et Cours
         /// </summary>
         [AcceptVerbs("Get", "Post")]
-        public JsonResult ActualiseSuperviseurddl(int typeinscription, int session)
+        public JsonResult ActualiseSuperviseurddl(int session)
         {
-            var a = ObtenirListeSuperviseur(typeinscription, session).Select(c => new { c.id_Pers, c.NomPrenom });
+            var a = ObtenirListeSuperviseur(session).Select(c => new { c.Personne.id_Pers, c.Personne.NomPrenom });
             return Json(a.ToList(), JsonRequestBehavior.AllowGet);
         }
 
-        /// <summary>
-        /// Actualise le dropdownlist des cours selon l'élément sélectionné dans le dropdownlist Session
-        /// </summary>
-        [AcceptVerbs("Get", "Post")]
-        public virtual JsonResult ActualiseTypeInscriptionddl(int session = 0)
-        {
-            var a = ObtenirListeTypeInscription(session).Select(c => new { c.id_TypeInscription, c.TypeInscription });
-            return Json(a.ToList(), JsonRequestBehavior.AllowGet);
-        }
 
         //Fonction pour gérer la recherche, elle est utilisée dans la suppression et dans l'index
         [NonAction]
@@ -227,8 +198,8 @@ namespace sachem.Controllers
             }
 
             ListeSession(session);
-            ListeTypeInscription(typeinscription, session);
-            ListeSuperviseur(typeinscription, session, superviseur);
+            ListeTypeInscription(typeinscription);
+            ListeSuperviseur(session, superviseur);
 
             //on enregistre la recherche
             Session["DernRechEtu"] = matricule + ";" + session + ";" + typeinscription + ";" + superviseur + ";" + noPage;
@@ -318,7 +289,6 @@ namespace sachem.Controllers
             noPage = (page ?? noPage);
 
             var inscription = db.Inscription.Include(i => i.p_StatutInscription).Include(i => i.p_TypeInscription).Include(i => i.Personne).Include(i => i.Session);
-
             return View(Rechercher().ToPagedList(noPage, 20));
         }
 

@@ -1,0 +1,84 @@
+﻿<script src="~/Scripts/jquery-1.10.2.js"></script>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#SelectSession").change(function () {
+            var vSession = $('#SelectSession').val();
+
+            $.ajax({
+                type: 'POST',
+                url:
+                    @Html.Raw("\"/" + HttpContext.Current.Request.RequestContext.RouteData.Values["controller"].ToString() + "/ActualiseCoursddl\""),
+                data: {
+                    session: vSession
+                },
+
+                async: false,
+                cache: false,
+                dataType: "json",
+                success: function (donnees) {
+
+                    $("#SelectSuperviseur").empty();
+                    $('#SelectSuperviseur').append($('<option>', {
+                        value: 0,
+                        text: 'Choisir'
+                    }));
+
+                    $.each(donnees, function (i, item) {
+                        $('#SelectSuperviseur').append($('<option>', {
+                            value: item.id_Cours,
+                            text: item.CodeNom
+
+                        }));
+                    });
+
+                }
+            });
+
+           
+
+        });
+
+
+    });
+
+</script>
+
+<div class="form-inline">
+
+    <h4>Recherche</h4>
+
+    <div class="form-group">
+        <p>
+            <div class="form-group">
+                Session :
+                @Html.DropDownList("Session", null, "Toutes")
+            </div>
+            <div class="form-group">
+                Type d'inscription :
+                @Html.DropDownList("Inscription", "Choisir")
+            </div>
+            <div class="form-group">
+                Superviseur :
+                @Html.DropDownList("Superviseur", "Choisir")
+            </div>
+        </p>
+        <p>
+            <div class="form-group">
+                Matricule :
+                @Html.Editor("Matricule")
+            </div>
+            <div class="form-group">
+                Prénom :
+                @Html.Editor("Prenom")
+            </div>
+            <div class="form-group">
+                Nom :
+                @Html.Editor("Nom")
+            </div>
+        </p>
+    </div>
+
+    @*Il n'existe pas de HtmlHelper pour créer un bouton submit, il faut donc le creer manuellement*@
+    <input type="submit" value="Rechercher" class="btn-toolbar" />
+</div>

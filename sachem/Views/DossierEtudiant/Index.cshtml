@@ -14,16 +14,42 @@
 <p>
     <h4>Recherche</h4>
 </p>
-<div class="form-group">
+    @Html.Partial("_RechercheEtudiantInscrit")
+@*<div class="form-group">
     <p>
         <div class="form-group">
+            Session :
+            @Html.DropDownList("Session","Toutes")
         </div>
         <div class="form-group">
-            Session :
+            Type d'inscription :
             @Html.DropDownList("Inscription")
         </div>
+        <div class="form-group">
+            Superviseur :
+            @Html.DropDownList("Superviseur")
+        </div>
     </p>
-</div>
+    <p>
+        <div class="form-group">
+            Matricule :
+            @Html.Editor("Matricule")
+        </div>
+        <div class="form-group">
+            Prénom :
+            @Html.Editor("Prenom")
+        </div>
+        <div class="form-group">
+            Nom :
+            @Html.Editor("Nom")
+        </div>
+    </p>
+    <p>  
+        <div class="btn-default">
+            <input type="submit" value="Rechercher" class="btn-toolbar" />
+        </div>
+    </p>
+</div>*@
 }
         @*fin rechercher*@
 
