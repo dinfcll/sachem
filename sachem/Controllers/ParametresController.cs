@@ -83,25 +83,24 @@ namespace sachem.Controllers
                     new SelectListItem {Text = item.id_Sess.ToString(), Value = sess.NomSession}
                 );
             }
-            
-
             return View(Tuple.Create(horaireList,horaire));
         }
 
 
         //A VERIF
         [HttpPost]
-        public ActionResult EditHoraire([Bind(Prefix = "Item2")] p_HoraireInscription horaire)
+        public ActionResult EditHoraire([Bind(Prefix = "Item2")] p_HoraireInscription nouvelHoraire)
         {
             
-            var session = db.Session.Find(horaire.id_Sess);
-            var saison = db.p_Saison.Find(horaire.Session.id_Saison);
-            if (session.Annee != horaire.DateFin.Year || session.Annee != horaire.DateDebut.Year)
+            var session = db.Session.Find(nouvelHoraire.id_Sess);
+            var saison = db.p_Saison.Find(nouvelHoraire.Session.id_Saison);
+            ModelState.Clear();
+            if (session.Annee != nouvelHoraire.DateFin.Year || session.Annee != nouvelHoraire.DateDebut.Year)
             {
                 ModelState.AddModelError(string.Empty, Messages.C_006);
             }
 
-            if((horaire.DateFin - horaire.DateDebut).TotalDays < 1)
+            if((nouvelHoraire.DateFin - nouvelHoraire.DateDebut).TotalDays < 1)
             {
                 ModelState.AddModelError(string.Empty, Messages.C_005);
             }
@@ -111,14 +110,14 @@ namespace sachem.Controllers
                     //Si hiver : de janvier inclus jusqua mai inclus (mois fin <= 5) pas besoin de verif la date de début
                     //car on est sur que c'est la bonne année et qu'elle est avant la date de fin
                     case 1:
-                        if (horaire.DateFin.Month > new DateTime(1,5,1).Month)
+                        if (nouvelHoraire.DateFin.Month > new DateTime(1,5,1).Month)
                         {
                             ModelState.AddModelError(string.Empty, Messages.C_006);
                         }
                         break;
                     //Si ete : de juin inclus jusqua aout inclus (si mois du début >= 6 et mois fin <= 8)
                     case 2:
-                        if (new DateTime(1,6,1).Month > horaire.DateDebut.Month || horaire.DateFin.Month > new DateTime(1,8,1).Month)
+                        if (new DateTime(1,6,1).Month > nouvelHoraire.DateDebut.Month || nouvelHoraire.DateFin.Month > new DateTime(1,8,1).Month)
                         {
                             ModelState.AddModelError(string.Empty, Messages.C_006);
                         }   
@@ -126,7 +125,7 @@ namespace sachem.Controllers
                     //si automne: de aout inclus jusqua decembre inclus (si mois du début >= 8 et mois fin <= 12)
                     //pas besoin de verif la date de fin car on est sur que c'est la bonne année et qu'elle est apres la date de début
                     case 3:
-                        if (new DateTime(1, 8, 1).Month > horaire.DateDebut.Month)
+                        if (new DateTime(1, 8, 1).Month > nouvelHoraire.DateDebut.Month)
                         {
                             ModelState.AddModelError(string.Empty, Messages.C_006);
                         }
@@ -136,7 +135,7 @@ namespace sachem.Controllers
             
             if (ModelState.IsValid)
             {
-                db.Entry(horaire).State = EntityState.Modified;
+                db.Entry(nouvelHoraire).State = EntityState.Modified;
                 db.SaveChanges();
 
                 return RedirectToAction("EditHoraire");
