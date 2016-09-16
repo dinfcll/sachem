@@ -67,33 +67,31 @@ namespace sachem.Controllers
         }
 
         //trouver un moyen de faire fonctionner la vue pour qu'elle affiche bien [Été 2016] en dropdownlist
-
+        // MODULO ???!?!?
         public ActionResult EditHoraire()
         {
             var horaire = db.p_HoraireInscription.First();
             var session = db.Session.Single(r => r.id_Sess == horaire.id_Sess);
             var saison = db.p_Saison.Single(r => r.id_Saison == session.id_Saison);
-            TempData["session"] = session;
-            TempData["saison"] = saison;
             
             return View(Tuple.Create(horaire,session,saison));
         }
         //A VERIF
         [HttpPost]
-        public ActionResult EditHoraire([Bind(Prefix = "Item1")] p_HoraireInscription horaire)
+        public ActionResult EditHoraire([Bind(Prefix = "Item1")] p_HoraireInscription horaire, [Bind(Prefix = "Item2")] Session session, [Bind(Prefix = "Item3")] p_Saison saison)
         {
-            Session session = (Session)TempData["session"];
-            p_Saison saison = (p_Saison)TempData["saison"];
+            session = db.Session.Find(session.id_Sess);
+            saison = db.p_Saison.Find(saison.id_Saison);
             if (!(session.Annee == horaire.DateFin.Year) || !(session.Annee == horaire.DateDebut.Year))
             {
                 ModelState.AddModelError(string.Empty, Messages.C_006);
             }
 
-            if((horaire.DateFin - horaire.DateDebut).TotalDays >= 1)
+            if((horaire.DateFin - horaire.DateDebut).TotalDays <= 1)
             {
                 ModelState.AddModelError(string.Empty, Messages.C_005);
             }
-            
+            //Regarder si cest les bon id (ps : ca lest pas)
             switch (saison.id_Saison)
                 {
                     //Si hiver : de janvier inclus jusqua mai inclus (mois fin <= 5) pas besoin de verif la date de début

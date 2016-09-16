@@ -56,6 +56,8 @@
                 @Html.ValidationMessageFor(model => model.Item1.HeureFin, "", new { @class = "text-danger" })
             </div>
         </div>
+        @Html.HiddenFor(m => m.Item2.id_Sess, new { @Value = Model.Item2.id_Sess })
+        @Html.HiddenFor(m => m.Item3.id_Saison, new { @Value = Model.Item3.id_Saison })
 
 
         <div class="form-group">
