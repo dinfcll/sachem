@@ -37,6 +37,7 @@
         dictRemoveFile: "Effacer le fichier",
         dictMaxFilesExceeded: "Vous ne pouvez pas téléverser plus de fichiers.",
         maxFiles: '@(ViewBag.MAXFILES)',//variable pour le nombre maximal de fichier a la fois, valider dans le opendialog
+
         init: function () {
             this.on('error', function (file, response) {
                 var errorMessage = response.errorMessage;

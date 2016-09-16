@@ -11,7 +11,7 @@ using sachem.Models;
 
 namespace sachem.Controllers
 {
-    
+    [Authorize]
     public class ImporterController : Controller
     {
         //nom du repertoire de depot pour le fichier importé.
@@ -20,9 +20,13 @@ namespace sachem.Controllers
         private int MAXFILESIZE =20; //la taille maximale du fichier en mo.
         private string FILEEXTENSION = ".csv"; //en minuscule seulement
 
+        //List<TypeUsagers> RolesAcces = new List<TypeUsagers>() { TypeUsagers.Responsable};
+
         // GET: Importer
         public ActionResult Index()
         {
+            if (!SachemIdentite.ValiderRoleAcces(RolesAcces, Session))
+                return RedirectToAction("Error", "Home", null);
             ViewBag.MAXFILES = MAXFILES;//transfere de la donnee maxfiles a la vue
             ViewBag.MAXFILESIZE = MAXFILESIZE;
             ViewBag.FILEEXTENSION = FILEEXTENSION;

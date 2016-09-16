@@ -209,7 +209,5 @@ FakesAssemblies/
 # LightSwitch generated files
 GeneratedArtifacts/
 _Pvt_Extensions/
-ModelManifest.xml
-/sachem/Models/Model1.edmx.sql
-/sachem/Models
-/Sachem_sprint1.bak
+
+/sachem/Fichiers/Fichier_a_traiter
