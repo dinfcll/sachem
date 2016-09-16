@@ -22,7 +22,7 @@
                 <div style="position: absolute;">
                     <img src="~/Images/logo-cegep.png" height="70" />
                 </div>
-                @Html.ActionLink("Sachem", "Index", "Home", new { area = "" }, new { @class = "navbar-brand", @style = "padding-left: 100px;" })
+                @Html.ActionLink("Sachem", "Index", "Home", new { area = "" }, new { @class = "navbar-brand",  @style = "padding-left: 100px;" })
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
@@ -35,7 +35,7 @@
                     @if (SachemIdentite.ObtenirTypeUsager(Session) == TypeUsagers.Eleve || SachemIdentite.ObtenirTypeUsager(Session) == TypeUsagers.Tuteur)
                     {
                         <li>
-                            @Html.ActionLink("Mon Dossier", "Index", "Cours", new { area = "" }, new { @class = "navbar-brand", @style = "padding-left: 50px;" })
+                            @Html.ActionLink("Mon Dossier", "Index", "Cours", new { area = "" })
                         </li>
                     }
                     
@@ -43,7 +43,7 @@
                         @if (SachemIdentite.ObtenirTypeUsager(Session) == TypeUsagers.Tuteur)
                         {
                             <li>
-                                @Html.ActionLink("Dossier étudiant", "Index", "Cours", new { area = "" }, new { @class = "navbar-brand", @style = "padding-left: 40px;" })
+                                @Html.ActionLink("Dossier étudiant", "Index", "Cours", new { area = "" })
                             </li>
                         }
 
@@ -54,8 +54,10 @@
                    @if (SachemIdentite.TypeListeAdmin.Contains(SachemIdentite.ObtenirTypeUsager(Session)))
                    {
                     <li>
-                        @Html.ActionLink("Dossier étudiant", "Index", "Cours", new { area = "" }, new { @class = "navbar-brand", @style = "padding-left: 50px;" })
-                        @Html.ActionLink("Cours enseignés", "Index", "Cours", new { area = "" }, new { @class = "navbar-brand", @style = "padding-left: 40px;" })
+                        @Html.ActionLink("Dossier étudiant", "Index", "Cours", new { area = "" })
+                    </li>
+                    <li>
+                        @Html.ActionLink("Cours enseignés", "Index", "Cours", new { area = "" })
                     </li>
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">Administration <b class="caret"></b> </a>
