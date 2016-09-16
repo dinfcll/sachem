@@ -132,14 +132,18 @@ namespace sachem.Controllers
         }
 
         // GET: CoursSuivi/Edit/5
-        public ActionResult Edit(int? id)
+        public ActionResult Edit(int? id, int? id2)
         {
-            //temp
-            int id2 = 1;
-
-            if (id == null)
+            if (id == null || id2 == null)
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             CoursSuivi cs = db.CoursSuivi.Where(r => r.id_Pers == id2 && r.id_CoursReussi == id).FirstOrDefault();
+
+            var vInscription = from d in db.Inscription
+                               where d.id_Pers == cs.id_Pers
+                               select d.id_Inscription;
+
+            ViewBag.id_insc = vInscription.First();
+
 
             if (cs == null)
                 return HttpNotFound();
@@ -165,9 +169,6 @@ namespace sachem.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "id_CoursReussi,id_Sess,id_Pers,id_College,id_Statut,id_Cours,resultat,autre_Cours,autre_College")] CoursSuivi coursSuivi)
         {
-            //temp
-            coursSuivi.id_Pers = 1;
-
             if (coursSuivi.id_Cours == null)
                 ListeCours();
             else
@@ -183,43 +184,41 @@ namespace sachem.Controllers
 
             Valider(coursSuivi);
 
+            var vInscription = from d in db.Inscription
+                              where d.id_Pers == coursSuivi.id_Pers
+                              select d.id_Inscription;
+
             if (ModelState.IsValid)
             {
                 db.Entry(coursSuivi).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Details", "DossierEtudiant", new { id = vInscription.First() });
             }
             return View(coursSuivi);
         }
 
-
+        //id étant id_CoursReussi et id2 étant id_Pers
         // GET: CoursSuivi/Delete/5
-        public ActionResult Delete(int? id)
-        {
-            //temp
-            int id2 = 1;
-
-            CoursSuivi cs = db.CoursSuivi.Where(r => r.id_Pers == id2 && r.id_CoursReussi == id).FirstOrDefault();
-
-            //if (cs == null)
-            //    return HttpNotFound();
-
-
-            //if (cs.id_Cours == null)
-            //    ViewBag.Cours = cs.autre_Cours;
-            //else
-            //    ViewBag.Cours = cs.id_Cours;
-            //ViewBag.Session = cs.id_Sess;
-            //ViewBag.Statut = cs.id_Statut;
-
-            if (id == null)
+        public ActionResult Delete(int? id, int? id2)
+        {            
+            if (id == null || id2 == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+
+            CoursSuivi cs = db.CoursSuivi.Where(r => r.id_Pers == id2 && r.id_CoursReussi == id).FirstOrDefault();
+
             if (cs == null)
             {
                 return HttpNotFound();
             }
+
+            var vInscription = from d in db.Inscription
+                               where d.id_Pers == cs.id_Pers
+                               select d.id_Inscription;
+
+            ViewBag.id_insc = vInscription.First();
+
             return View(cs);
         }
 
@@ -229,9 +228,14 @@ namespace sachem.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             CoursSuivi coursSuivi = db.CoursSuivi.Find(id);
+
+            var vInscription = from d in db.Inscription
+                               where d.id_Pers == coursSuivi.id_Pers
+                               select d.id_Inscription;
+
             db.CoursSuivi.Remove(coursSuivi);
             db.SaveChanges();
-            return RedirectToAction("Index");
+            return RedirectToAction("Details", "DossierEtudiant", new { id = vInscription.First() });
         }
 
         protected override void Dispose(bool disposing)

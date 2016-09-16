@@ -61,30 +61,7 @@
         </dd>
     </dl>
 
-    @*Cours Antérieur*@
-    <div>
-        <h4>Cours de mathématiques antérieurs</h4>
-        @*@Html.ActionLink("Create", "Create", new { id = Model.Item2.id_CoursReussi })*@
-        <table class="table">
-            <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.Item2.First().Cours.CodeNom)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Item2.First().Session.Annee)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Item2.First().resultat)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Item2.First().p_StatutCours.Statut)
-                </th>
-            </tr>
-        </table>
-    </div>
+    @Html.Partial("_CoursAnterieur", Model.Item2)
+
 
 </div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Item1.id_Inscription }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>
