@@ -20,7 +20,7 @@
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Session.Annee)
+            @Html.DisplayFor(model => model.Session.NomSession)
         </dd>
 
         <dt>
@@ -44,7 +44,7 @@
         @Html.AntiForgeryToken()
 
         <div class="form-actions no-color">
-            <input type="submit" value="Supprimer" class="btn btn-default" /> |
+            <input type="submit" value="Supprimer" class="btn btn-default" />
             @Html.Partial("_Footer", Model)
         </div>
     }

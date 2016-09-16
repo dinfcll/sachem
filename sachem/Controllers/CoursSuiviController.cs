@@ -57,6 +57,7 @@ namespace sachem.Controllers
         [NonAction]
         private void Valider([Bind(Include = "id_CoursReussi,id_Sess,id_Pers,id_College,id_Statut,id_Cours,resultat,autre_Cours,autre_College")] CoursSuivi coursSuivi, int i = 0)
         {
+            //Validation seulement lors de l'ajout
             if (i == 1)
             {
                 if (db.CoursSuivi.Any(r => r.id_Cours == coursSuivi.id_Cours && r.id_Pers == coursSuivi.id_Pers && r.id_Sess == coursSuivi.id_Sess && r.id_College == coursSuivi.id_College))
@@ -94,13 +95,30 @@ namespace sachem.Controllers
  
 
         // GET: CoursSuivi/Create
-        public ActionResult Create()
+        public ActionResult Create(int? id)
         {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            CoursSuivi cs = db.CoursSuivi.Where(r => r.id_Pers == id).FirstOrDefault();
+
+            var vInscription = from d in db.Inscription
+                               where d.id_Pers == cs.id_Pers
+                               select d.id_Inscription;
+
+            ViewBag.id_insc = vInscription.First();
+
+            if (cs == null)
+            {
+                return HttpNotFound();
+            }
+
             ListeCours();
             ListeCollege();
             ListeStatut();
             ListeSession();
-            return View();
+            return View(cs);
         }
 
         // POST: CoursSuivi/Create
@@ -117,16 +135,18 @@ namespace sachem.Controllers
             ListeStatut();
             ListeSession();
 
-            //Valeur fictive de personne
-            coursSuivi.id_Pers = 1;
 
             Valider(coursSuivi, 1);
+
+            var vInscription = from d in db.Inscription
+                               where d.id_Pers == coursSuivi.id_Pers
+                               select d.id_Inscription;
 
             if (ModelState.IsValid)
             {
                 db.CoursSuivi.Add(coursSuivi);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Details", "DossierEtudiant", new { id = vInscription.First() });
             }
             return View(coursSuivi);
         }

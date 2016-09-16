@@ -1,5 +1,6 @@
 ﻿@*@model sachem.Models.Inscription*@ 
-@model Tuple<sachem.Models.Inscription, IEnumerable<sachem.Models.CoursSuivi>>
+@model Tuple<sachem.Models.Inscription, IEnumerable<sachem.Models.CoursSuivi>, IEnumerable<sachem.Models.Inscription>>
+    @* *@
 
 @{
     ViewBag.Title = "Details";
@@ -40,15 +41,17 @@
         </dt>
 
         <dd>
+            @Html.TextBoxFor(model => model.Item1.Personne.Courriel, new { @class = "form-control" })
             @Html.DisplayFor(model => model.Item1.Personne.Courriel)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Item1.Personne.Telephone)
+            @Html.DisplayNameFor(model => model.Item1.Personne.NumTelephone)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Item1.Personne.Telephone)
+            @Html.TextBoxFor(model => model.Item1.Personne.NumTelephone, new { @class = "form-control"})
+            @Html.DisplayFor(model => model.Item1.Personne.NumTelephone)
         </dd>
 
         <dt>
@@ -58,10 +61,11 @@
         <dd>
             @Html.CheckBoxFor(model => model.Item1.BonEchange.Value)
             Acheté
-        </dd>
+        </dd>        
     </dl>
+    <input type="submit" value="Modifier" class="btn-toolbar" />
 
     @Html.Partial("_CoursAnterieur", Model.Item2)
 
-
+    @Html.Partial("_InscriptionSachem", Model.Item3)
 </div>

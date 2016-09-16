@@ -1,13 +1,9 @@
-﻿@model IEnumerable <sachem.Models.CoursSuivi >
+﻿@model IEnumerable <sachem.Models.CoursSuivi>
 
-@{
-    ViewBag.Title = "_CoursAnterieur";
-}
-
-@*Cours Antérieur*@
+<hr />
 <div>
     <h4>Cours de mathématiques antérieurs</h4>
-    @*@Html.ActionLink("Ajouter un cours", "Create", "CoursSuivi",  new {id = Model.First().id_Pers})*@
+    @Html.ActionLink("Ajouter un cours", "Create", "CoursSuivi", new { id = Model.First().id_Pers }, null)
     <table class="table">
         <tr>
             <th>
@@ -17,7 +13,7 @@
                 @Html.DisplayNameFor(model => model.First().Session.NomSession)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.First().id_College)
+                @Html.DisplayNameFor(model => model.First().p_College.College)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.First().resultat)
@@ -41,7 +37,7 @@
                     @Html.DisplayFor(modelItem => item.Session.NomSession)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.id_College)
+                    @Html.DisplayFor(modelItem => item.p_College.College)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.resultat)
