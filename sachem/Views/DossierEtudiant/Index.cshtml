@@ -1,7 +1,7 @@
-﻿@*@model IEnumerable<sachem.Models.Inscription>*@
-@using sachem.Models
-@model PagedList.IPagedList<sachem.Models.Inscription>
-
+﻿@model IEnumerable<sachem.Models.Inscription>
+ @*   @using sachem.Models
+    @model PagedList.IPagedList<sachem.Models.Inscription>
+*@
 @{
     ViewBag.Title = "Index";
 }
@@ -91,4 +91,4 @@
         </tr>
     }
 </table>
-@Html.Partial("_PageRecherche", Model)
+@*@Html.Partial("_PageRecherche", Model)*@
