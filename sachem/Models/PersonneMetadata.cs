@@ -61,7 +61,7 @@ namespace sachem.Models
         //numéro de téléphone
         [Display(Name = "Numéro de téléphone")]
         [DisplayFormat(DataFormatString = "{0:(###)###-####}")]
-        [RegularExpression(@"^\(?([0-9]{3})\)?([0-9]{3})-([0-9]{4})$", ErrorMessage = Messages.U_009)]
+        [RegularExpression(@"^\(([0-9]{3})\) ([0-9]{3})-([0-9]{4})$", ErrorMessage = Messages.U_009)]
         public string Telephone;
 
         //Matricule de l'étudiant
