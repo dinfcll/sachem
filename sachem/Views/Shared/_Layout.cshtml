@@ -7,9 +7,10 @@
     <title>@ViewBag.Title - Sachem</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
-
+  
 </head>
 <body>
+
     <div class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
             <div class="navbar-header">
@@ -23,6 +24,7 @@
                 </div>
                 @Html.ActionLink("Sachem", "Index", "Home", new { area = "" }, new { @class = "navbar-brand", @style = "padding-left: 100px;" })
             </div>
+
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                    @* <li>@Html.ActionLink("Accueil", "Index", "Home")</li>*@
@@ -31,7 +33,7 @@
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Administration <b class="caret"></b> </a>
                         <ul class="dropdown-menu">
                             <li>@Html.ActionLink("Cours", "Index", "Cours")</li>
-                            <li>@Html.ActionLink("Contact", "IndexModifier", "Parametres")</li>
+                            <li>@Html.ActionLink("Contact", "IndexModifier","Parametres")</li>
                         </ul>
                     </li>
 

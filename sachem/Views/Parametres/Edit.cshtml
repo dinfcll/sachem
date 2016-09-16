@@ -6,10 +6,11 @@
 
 <h2>Modifier les informations de la page Nous contacter</h2>
 
-@using (Html.BeginForm("Edit", "Parametres",FormMethod.Post))
+@using (Html.BeginForm("Edit", "Parametres", FormMethod.Post))
 {
     @Html.AntiForgeryToken()
-    
+    @Html.ViewBag.Success
+    @TempData["Success"]
     <div class="form-horizontal">
      
         <hr />
