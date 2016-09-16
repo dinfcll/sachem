@@ -33,17 +33,60 @@ namespace sachem.Controllers
         private IEnumerable<Groupe> AfficherCoursAssignes()
         {
 
-            var tidSess = from n in db.Session
+            /*var tidSess = from n in db.Session
                     group n by n.Annee into g
-                    select g.OrderByDescending(t => t.Annee).FirstOrDefault();
+                    select g.OrderByDescending(t => t.Annee).FirstOrDefault();*/
 
-            int idSess = tidSess.First();
+            //int idSess = 0;
+
+            var idSess = 0;
+
+            //Pour accéder à la valeur de cle envoyée en GET dans le formulaire
+            //Request.QueryString["cle"]
+            //Pour accéder à la valeur cle envoyée en POST dans le formulaire
+            //Request.Form["cle"]
+            //Cette méthode fonctionnera dans les 2 cas
+            //Request["cle"]
+            if (Request.RequestType == "GET" && Session["DernRechCours"] != null && (string)Session["DernRechCoursUrl"] == Request.Url?.LocalPath)
+            {
+                var anciennerech = (string)Session["DernRechCours"];
+                var tanciennerech = anciennerech.Split(';');
+
+                if (tanciennerech[0] != "")
+                {
+                    idSess = int.Parse(tanciennerech[0]);
+                }
+               /* if (tanciennerech[1] != "")
+                {
+                    actif = bool.Parse(tanciennerech[1]);
+                }*/
+
+            }
+            else
+            {
+                //La méthode String.IsNullOrEmpty permet à la fois de vérifier si la chaine est NULL (lors du premier affichage de la page ou vide, lorsque le paramètre n'est pas appliquée 
+                if (!string.IsNullOrEmpty(Request.Form["Session"]))
+                    //sess = Convert.ToInt32(Request.Form["Session"]);
+                    int.TryParse(Request.Form["Session"], out idSess); // MODIF: Loic turgeon et Cristian Zubieta
+                //si la variable est null c'est que la page est chargée pour la première fois, donc il faut assigner la session à la session en cours, la plus grande dans la base de données
+                else if (Request.Form["Session"] == null)
+                    idSess = db.Session.Max(s => s.id_Sess);
+
+                /*//la méthode Html.checkbox crée automatiquement un champ hidden du même nom que la case à cocher, lorsque la case n'est pas cochée une seule valeur sera soumise, par contre lorsqu'elle est cochée
+                //2 valeurs sont soumises, il faut alors vérifier que l'une des valeurs est à true pour vérifier si elle est cochée
+                if (!string.IsNullOrEmpty(Request.Form["Actif"]))
+                    actif = Request.Form["Actif"].Contains("true");*/
+            }
+
+
+
+            //idSess = db.Session.Max(s => s.id_Sess);
 
             var cours = from c in db.Cours select c;
 
             if (m_IdTypeUsage == 2) //enseignant
             {
-                Int32.TryParse(Request.Form["Session"], out idSess);
+                //Int32.TryParse(Request.Form["Session"], out idSess);
                 ListeSession(idSess); //créer liste Session pour le dropdown
 
                 //.DistinctBy(c =>c.id_Cours)
@@ -74,11 +117,11 @@ namespace sachem.Controllers
 
         //fonctions permettant d'initialiser les listes déroulantes
         [NonAction]
-        private void ListeSession(int Session = 0)
+        private void ListeSession(int _idSess = 0)
         {
             var lSessions = db.Session.AsNoTracking().OrderBy(s => s.Annee).ThenBy(s => s.p_Saison.Saison);
             var slSession = new List<SelectListItem>();
-            slSession.AddRange(new SelectList(lSessions, "id_Sess", "NomSession", Session));
+            slSession.AddRange(new SelectList(lSessions, "id_Sess", "NomSession", _idSess));
 
             ViewBag.Session = slSession;
         }
