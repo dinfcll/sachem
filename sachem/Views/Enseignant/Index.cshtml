@@ -11,6 +11,10 @@
     @Html.ViewBag.Success
     @TempData["Success"]
 </p>
+<p class="text-danger">
+    @TempData["Error"]
+</p>
+
 @using (Html.BeginForm("Index", "Enseignant", FormMethod.Post, new { @class = "form-inline", role = "form" }))
 { 
     <div class="form-group">

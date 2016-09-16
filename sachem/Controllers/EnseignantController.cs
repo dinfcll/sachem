@@ -184,6 +184,11 @@ namespace sachem.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Personne personne = db.Personne.Find(id);
+            if(SessionBag.Current.id_pers == id)
+            {
+                TempData["Error"] = Messages.I_037;
+                return RedirectToAction("Index", "Enseignant", null);
+            }
             if (personne == null)
             {
                 return HttpNotFound();

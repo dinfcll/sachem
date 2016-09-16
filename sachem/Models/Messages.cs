@@ -57,7 +57,11 @@ namespace sachem.Models
         { return $"Le compte a été créé. Vous pouvez maintenant vous connecter."; }
         public static string I_027()
         { return $"Aucun étudiant ne correspond aux données saisies. Vous devez être inscrit à un cours offert par le département de mathématiques."; }
-
+        /// <summary>
+        /// Un responsable ne peut pas se supprimer lui-même
+        /// </summary>
+        /// <returns></returns>
+        public const string I_037 = "Un responsable ne peut pas se supprimer lui-même";
 
         /// <summary>
         /// Le nom d'utilisateur est déjà utilisé.
