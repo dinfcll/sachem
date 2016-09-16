@@ -115,42 +115,42 @@ namespace sachem.Controllers
         //            }
         //    }
 
-        ////        var personne = from c in db.Personne
-        ////                       where c.Actif == true && c.id_TypeUsag == 1
-        ////                       select c;
-        ////                if (Request.RequestType == "POST")
-        ////                {
-        ////                    string m = ViewBag.Mat;
-        ////                    if (!String.IsNullOrEmpty(m))
-        ////                    {
-        ////                        //personne = null;
-        ////                        personne = from c in db.Personne
-        ////                                   where c.Actif == true && c.id_TypeUsag == 1
-        ////                                   && c.Matricule7.Contains(m)
-        ////                                   select c;
-        ////    }
-        ////}
+////        var personne = from c in db.Personne
+////                       where c.Actif == true && c.id_TypeUsag == 1
+////                       select c;
+////                if (Request.RequestType == "POST")
+////                {
+////                    string m = ViewBag.Mat;
+////                    if (!String.IsNullOrEmpty(m))
+////                    {
+////                        //personne = null;
+////                        personne = from c in db.Personne
+////                                   where c.Actif == true && c.id_TypeUsag == 1
+////                                   && c.Matricule7.Contains(m)
+////                                   select c;
+////    }
+////}
 
-        ////foreach (var pers in personne)
-        ////{
-        ////    var pidEtu = (from p in db.EtuProgEtude
-        ////                  where pers.id_Pers == p.id_Etu
-        ////                  orderby p.id_Sess descending
-        ////                  select p).FirstOrDefault();
+            ////foreach (var pers in personne)
+            ////{
+            ////    var pidEtu = (from p in db.EtuProgEtude
+            ////                  where pers.id_Pers == p.id_Etu
+            ////                  orderby p.id_Sess descending
+            ////                  select p).FirstOrDefault();
 
-        ////    var pEtu = db.ProgrammeEtude.Find(pidEtu.id_ProgEtu);
-        ////    pers.ProgEtu = pEtu.NomProg.ToString();
+            ////    var pEtu = db.ProgrammeEtude.Find(pidEtu.id_ProgEtu);
+            ////    pers.ProgEtu = pEtu.NomProg.ToString();
 
-        ////}
+            ////}
 
-        //    //on enregistre la recherche
-        //    //Session["DernRechCours"] = sess + ";" + actif;
-        //    //Session["DernRechCoursUrl"] = Request.Url?.LocalPath;
+            //    //on enregistre la recherche
+            //    //Session["DernRechCours"] = sess + ";" + actif;
+            //    //Session["DernRechCoursUrl"] = Request.Url?.LocalPath;
 
 
-        //ListeSession();
-        //ListeCours();
-        //ListeGroupe();
+            //ListeSession();
+            //ListeCours();
+            //ListeGroupe();
         //    return personne.ToList();
         //}
 
@@ -221,7 +221,7 @@ namespace sachem.Controllers
         //}
         #endregion
 
-
+      
         // GET: Etudiant/Details/5
         //fonction pour formatter le numéro de téléphone avant de mettre dans la bd
         public static string FormatTelephone(string s)
@@ -235,7 +235,7 @@ namespace sachem.Controllers
         }
         //fonction qui remet le numéro de téléphone dans le bon format
         public static string RemettreTel(string a)
-           
+
         {
             string modif;
             modif = a.Insert(0, "(");
@@ -302,7 +302,11 @@ namespace sachem.Controllers
             ViewBag.id_TypeUsag = new SelectList(db.p_TypeUsag, "id_TypeUsag", "TypeUsag", personne.id_TypeUsag);
             ViewBag.id_Programme = new SelectList(db.ProgrammeEtude, "id_ProgEtu", "nomProg");
             ViewBag.id_Session = new SelectList(db.Session, "id_Sess", "NomSession");
-            return View(Tuple.Create(personne, Prog.AsEnumerable()));
+            //return View(Tuple.Create(personne, Prog.AsEnumerable()));
+            PersonneEtuProgParent epep = new PersonneEtuProgParent();
+            epep.personne = personne;
+            epep.epe = Prog.ToList();
+            return View(epep);
         }
 
         public void FillDropDownlist()
@@ -313,19 +317,42 @@ namespace sachem.Controllers
         // plus de détails, voir  http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "id_Pers,id_Sexe,id_TypeUsag,Nom,Prenom,NomUsager,AncienMotDePasse,ConfirmPassword,Matricule,MP,Courriel,Telephone,DateNais,Actif,id_Programme,id_Session")] Personne personne)
+        public ActionResult Edit([Bind(Include = "id_Pers,id_Sexe,id_TypeUsag,Nom,Prenom,NomUsager,Matricule7,MP,Courriel,Telephone,DateNais,Actif")] Personne personne)
         {
-          
-            Valider(personne);
-            if (ModelState.IsValid)
+            PersonneEtuProgParent pepp = new PersonneEtuProgParent();
+            Personne p = db.Personne.Find(personne.id_Pers);
+            p.id_TypeUsag = 1;
+            p.Matricule = personne.Matricule;
+            var idSexe = (from d in db.Personne
+                          where d.id_Pers == p.id_Pers
+                          select d).FirstOrDefault();
+            p.id_Sexe = idSexe.id_Sexe;
+
+            db.SaveChanges();
+            pepp.personne = p;
+
+            ViewBag.id_Sexe = new SelectList(db.p_Sexe, "id_Sexe", "Sexe", pepp.personne.id_Sexe);
+            ViewBag.id_TypeUsag = new SelectList(db.p_TypeUsag, "id_TypeUsag", "TypeUsag", pepp.personne.id_TypeUsag);
+            ViewBag.id_Programme = new SelectList(db.ProgrammeEtude, "id_ProgEtu", "nomProg");
+            ViewBag.id_Session = new SelectList(db.Session, "id_Sess", "NomSession");
+
+            var etuprog = new EtuProgEtude();
+            //Ajout du programme d'étude (Si l'étudiant rajoute les champs)
+            if (Request.Form["id_Programme"] != null && Request.Form["id_Session"] != null)
             {
-                db.Entry(personne).State = EntityState.Modified;
+                etuprog.id_ProgEtu = Int32.Parse(Request.Form["id_Programme"]);
+                etuprog.id_Sess = Int32.Parse(Request.Form["id_Session"]);
+                etuprog.id_Etu = personne.id_Pers;
+                db.EtuProgEtude.Add(etuprog);
                 db.SaveChanges();
-                return RedirectToAction("Index");
             }
-            ViewBag.id_Sexe = new SelectList(db.p_Sexe, "id_Sexe", "Sexe", personne.id_Sexe);
-            ViewBag.id_TypeUsag = new SelectList(db.p_TypeUsag, "id_TypeUsag", "TypeUsag", personne.id_TypeUsag);
-            return View(personne);
+            
+            var Prog = from d in db.EtuProgEtude
+                       where d.id_Etu == pepp.personne.id_Pers
+                       select d;
+
+            pepp.epe = Prog.ToList();
+            return View(pepp);
         }
 
         // GET: Etudiant/Delete/5
