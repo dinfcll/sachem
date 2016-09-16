@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@using sachem.Models
+<!DOCTYPE html>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
@@ -25,16 +26,62 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                   @* <li>@Html.ActionLink("Accueil", "Index", "Home")</li>*@
+                    @*<li>@Html.ActionLink("Accueil", "Index", "Home")</li>*@
+                    @*On accède à la présente session afin de voir si l'on peut afficher certains éléments*@
+                    <!--Ces liens sont à changer selon les controlleurs/vues des équipes.-->
+
                     
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Administration <b class="caret"></b> </a>
+                    <!--Si c'est un étudiant.-->
+                    @if (SachemIdentite.ObtenirTypeUsager(Session) == TypeUsagers.Eleve || SachemIdentite.ObtenirTypeUsager(Session) == TypeUsagers.Tuteur)
+                    {
+                        <li>
+                            @Html.ActionLink("Mon Dossier", "Index", "Cours", new { area = "" }, new { @class = "navbar-brand", @style = "padding-left: 50px;" })
+                        </li>
+                    }
+                    
+                        <!--Si c'est un tuteur.TODO: restriction tuteur-->
+                        @if (SachemIdentite.ObtenirTypeUsager(Session) == TypeUsagers.Tuteur)
+                        {
+                            <li>
+                                @Html.ActionLink("Dossier étudiant", "Index", "Cours", new { area = "" }, new { @class = "navbar-brand", @style = "padding-left: 40px;" })
+                            </li>
+                        }
 
-                        <ul class="dropdown-menu">
-                            <li>@Html.ActionLink("Cours", "Index", "Cours")</li>
-                        </ul>
+
+
+
+                    <!--Si c'est un Enseignant et +.-->
+                   @if (SachemIdentite.TypeListeAdmin.Contains(SachemIdentite.ObtenirTypeUsager(Session)))
+                   {
+                    <li>
+                        @Html.ActionLink("Dossier étudiant", "Index", "Cours", new { area = "" }, new { @class = "navbar-brand", @style = "padding-left: 50px;" })
+                        @Html.ActionLink("Cours enseignés", "Index", "Cours", new { area = "" }, new { @class = "navbar-brand", @style = "padding-left: 40px;" })
                     </li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Administration <b class="caret"></b> </a>
 
+                            <ul class="dropdown-menu">
+                            @if (SachemIdentite.ObtenirTypeUsager(Session) == TypeUsagers.Responsable)
+                            {
+                                <li>@Html.ActionLink("Collège", "Index", "Cours")</li>
+                                <li>@Html.ActionLink("Contact", "Index", "Cours")</li>
+                            }
+                                <li>@Html.ActionLink("Cours", "Index", "Cours")</li>
+                            @if (SachemIdentite.ObtenirTypeUsager(Session) == TypeUsagers.Responsable)
+                            {
+                                    <li>@Html.ActionLink("Courriel de confirmation", "Index", "Cours")</li>
+                                    <li>@Html.ActionLink("Enseignants", "Index", "Cours")</li>
+                            }
+                                    <li>@Html.ActionLink("Étudiants", "Index", "Cours")</li>
+                                    <li>@Html.ActionLink("Groupes", "Index", "Cours")</li>
+                                    <li>@Html.ActionLink("Horaire d'inscription", "Index", "Cours")</li>
+                                    <li>@Html.ActionLink("Programmes offerts", "Index", "Cours")</li>
+                                    <li>@Html.ActionLink("Importer données", "Index", "Cours")</li>
+
+                                 
+                            </ul>
+                        </li>
+                    } 
                 </ul>
                 @Html.Partial("_LoginPartial")
             </div>
