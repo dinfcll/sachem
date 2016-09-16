@@ -13,7 +13,6 @@ namespace sachem.Models
         //Pour valider la confirmation de mot de passe dans la vue, on crée une nouvelle valeur dans le modèle avec la balise
         //NotMappedAttribute qui ne sera pas sauvegardée sur la BD mais qui pourra être utilisée pour les validations.
 
-            //Extrait du projet PAM
         [System.ComponentModel.DataAnnotations.Compare("MP", ErrorMessage = Messages.C_001)]
         [NotMappedAttribute]
         public string ConfirmPassword { get; set; }
@@ -54,8 +53,11 @@ namespace sachem.Models
             [StringLength(256)]
             public global::System.String Courriel;
 
+            [Display(Name = "Se souvenir de moi")]
+            public global::System.String SouvenirConnexion;
+
             [Display(Name = "Téléphone")]
-            [RegularExpression(@"^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$", ErrorMessage = "Veuillez utiliser le format: (999) 999-9999")] //Vérifie le format du tel
+            [RegularExpression(@"^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$", ErrorMessage = Messages.U_009)] //Vérifie le format du tel
             public global::System.String Telephone; //Ajout pour #Tel dans BD
 
             [Display(Name = "Nom d'usager")]

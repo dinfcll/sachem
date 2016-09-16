@@ -1,22 +1,54 @@
 ﻿@using Microsoft.AspNet.Identity
-@if (Request.IsAuthenticated)
+@using sachem.Models
+@if (SessionBag.Current.NomComplet !=null)
 {
+    string NomComplet = SessionBag.Current.NomComplet;
     using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
     {
-    @Html.AntiForgeryToken()
+        @Html.AntiForgeryToken()
+       
+        <ul class="nav navbar-nav navbar-right">
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                    <span class="glyphicon glyphicon-user"></span>
+                    <span>@Session["NomComplet"]</span>
+                    @if ((int)Session["id_TypeUsag"] == 1 && Session["CouleurPortrait"] != null)
+                    {
+                        <span class="glyphicon glyphicon-certificate" style="color:@Session["CouleurPortrait"]"></span>
+                    }
+                    <b class="caret">
+                    </b>
+                </a>
 
-    <ul class="nav navbar-nav navbar-right">
-        <li>
-            @Html.ActionLink("Bonjour " + User.Identity.GetUserName() + "!", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
-        </li>
-        <li><a href="javascript:document.getElementById('logoutForm').submit()">Se déconnecter</a></li>
-    </ul>
+                <ul class="dropdown-menu">
+                    <li>
+                        <a href="@Url.Action("ModifierPassword", "Account")">
+                            <span class="glyphicon glyphicon-cog"></span><span>&nbsp;Modifier mot de passe</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="@Url.Action("LogOff", "Account")">
+                            <span class="glyphicon glyphicon-log-out"></span><span>&nbsp; Déconnexion</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+
+        </ul>
     }
 }
 else
 {
-    <ul class="nav navbar-nav navbar-right">
-        <li>@Html.ActionLink("S’inscrire", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })</li>
-        <li>@Html.ActionLink("Se connecter", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
-    </ul>
+<ul class="nav navbar-nav navbar-right">
+    <li>
+        <a href="@Url.Action("Register", "Account")">
+            <span class="glyphicon glyphicon-user"></span><span>&nbsp; S’inscrire</span>
+        </a>
+    </li>
+    <li>
+        <a href="@Url.Action("Login", "Account")">
+            <span class="glyphicon glyphicon-log-in"></span><span>&nbsp; Se connecter</span>
+        </a>
+    </li>
+</ul>
 }

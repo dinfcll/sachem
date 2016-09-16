@@ -27,26 +27,25 @@ namespace sachem.Models
     
         public virtual DbSet<Courriel> Courriel { get; set; }
         public virtual DbSet<Cours> Cours { get; set; }
+        public virtual DbSet<CoursSuivi> CoursSuivi { get; set; }
         public virtual DbSet<EtuProgEtude> EtuProgEtude { get; set; }
         public virtual DbSet<Groupe> Groupe { get; set; }
         public virtual DbSet<GroupeEtudiant> GroupeEtudiant { get; set; }
+        public virtual DbSet<Inscription> Inscription { get; set; }
+        public virtual DbSet<Jumelage> Jumelage { get; set; }
+        public virtual DbSet<p_College> p_College { get; set; }
         public virtual DbSet<p_Contact> p_Contact { get; set; }
         public virtual DbSet<p_HoraireInscription> p_HoraireInscription { get; set; }
+        public virtual DbSet<p_Jour> p_Jour { get; set; }
         public virtual DbSet<p_Saison> p_Saison { get; set; }
         public virtual DbSet<p_Sexe> p_Sexe { get; set; }
+        public virtual DbSet<p_StatutCours> p_StatutCours { get; set; }
+        public virtual DbSet<p_StatutInscription> p_StatutInscription { get; set; }
         public virtual DbSet<p_TypeCourriel> p_TypeCourriel { get; set; }
+        public virtual DbSet<p_TypeInscription> p_TypeInscription { get; set; }
         public virtual DbSet<p_TypeUsag> p_TypeUsag { get; set; }
         public virtual DbSet<Personne> Personne { get; set; }
         public virtual DbSet<ProgrammeEtude> ProgrammeEtude { get; set; }
         public virtual DbSet<Session> Session { get; set; }
-        public virtual DbSet<sysdiagrams> sysdiagrams { get; set; }
-        public virtual DbSet<CoursSuivi> CoursSuivi { get; set; }
-        public virtual DbSet<Inscription> Inscription { get; set; }
-        public virtual DbSet<Jumelage> Jumelage { get; set; }
-        public virtual DbSet<p_College> p_College { get; set; }
-        public virtual DbSet<p_Jour> p_Jour { get; set; }
-        public virtual DbSet<p_StatutCours> p_StatutCours { get; set; }
-        public virtual DbSet<p_StatutInscription> p_StatutInscription { get; set; }
-        public virtual DbSet<p_TypeInscription> p_TypeInscription { get; set; }
     }
 }

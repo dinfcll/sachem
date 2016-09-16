@@ -1,9 +1,21 @@
 ﻿@model System.Web.Mvc.HandleErrorInfo
 
 @{
-    ViewBag.Title = "Error";
+    ViewBag.Title = "Erreur de chargement";
 }
-
-<h1 class="text-danger">Error.</h1>
-<h2 class="text-danger">An error occurred while processing your request.</h2>
-
+<br />
+<h2><img src="~/Images/Alert.jpg" height="25" style="vertical-align:initial" /> Il est impossible d'afficher la page que vous avez demandé</h2>
+<br />
+<ul style="list-style:none">
+    <li>
+        <h4>Voici les causes probables de ce problème :</h4>
+    </li>
+    <li>
+        <ul>
+            <li>Vous n'êtes pas connecté au site. Sélectionnez "Se connecter" pour vous connecter et réessayez.</li>
+            <li>Vous tentez d'accéder à une page qui est réservée à un autre type d'usager que le vôtre.</li>
+            <li>Votre session sur le site a expiré à cause d'une trop grande période d'inactivité. Reconnectez-vous et réessayez.</li>
+        </ul>
+    </li>
+</ul>
+<br />

@@ -17,8 +17,11 @@ namespace sachem.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Session()
         {
+            this.CoursSuivi = new HashSet<CoursSuivi>();
             this.EtuProgEtude = new HashSet<EtuProgEtude>();
             this.Groupe = new HashSet<Groupe>();
+            this.Inscription = new HashSet<Inscription>();
+            this.Jumelage = new HashSet<Jumelage>();
         }
     
         public int id_Sess { get; set; }
@@ -26,9 +29,15 @@ namespace sachem.Models
         public int Annee { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<CoursSuivi> CoursSuivi { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<EtuProgEtude> EtuProgEtude { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Groupe> Groupe { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Inscription> Inscription { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Jumelage> Jumelage { get; set; }
         public virtual p_HoraireInscription p_HoraireInscription { get; set; }
         public virtual p_Saison p_Saison { get; set; }
     }

@@ -14,7 +14,16 @@ namespace sachem.Models
     
     public partial class p_TypeInscription
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public p_TypeInscription()
+        {
+            this.Inscription = new HashSet<Inscription>();
+        }
+    
         public int id_TypeInscription { get; set; }
         public string TypeInscription { get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Inscription> Inscription { get; set; }
     }
 }
