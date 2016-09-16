@@ -27,7 +27,11 @@ namespace sachem.Controllers
         // GET: ConsulterCours
         public ActionResult Index()
         {
-            return View(AfficherCoursAssignes());
+            if (connexionValide(m_IdTypeUsage))
+                return View(AfficherCoursAssignes());
+            else
+                return View("~/Views/Shared/Error.cshtml");
+
         }
 
 
@@ -35,14 +39,19 @@ namespace sachem.Controllers
         [NonAction]
         private IEnumerable<Groupe> AfficherCoursAssignes()
         {
+            if (!connexionValide(m_IdTypeUsage))
+            {
+                RedirectToAction("~/Shared/Error.cshtml");
+            }
 
-            /*var tidSess = from n in db.Session
-                    group n by n.Annee into g
-                    select g.OrderByDescending(t => t.Annee).FirstOrDefault();*/
 
-            //int idSess = 0;
+                /*var tidSess = from n in db.Session
+                        group n by n.Annee into g
+                        select g.OrderByDescending(t => t.Annee).FirstOrDefault();*/
 
-            var idSess = 0;
+                //int idSess = 0;
+
+                var idSess = 0;
 
             //Pour accéder à la valeur de cle envoyée en GET dans le formulaire
             //Request.QueryString["cle"]
@@ -157,31 +166,40 @@ namespace sachem.Controllers
         // GET: ConsulterCours/Details/5
         public ActionResult Details(int? id)
         {
-            if (id == null)
+            if (!connexionValide(m_IdTypeUsage))
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return View("~/Views/Shared/Error.cshtml");
             }
+            else
+            {
+                if (id == null)
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
+
+                var gr = from g in db.Groupe //obtenir les groupes en lien avec le cours trouvé
+                         where g.id_Cours == id
+                         select g;
+
+                if (!gr.Any())
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
+
+                if (m_IdTypeUsage == 2) //enseignant
+                {
+                    ViewBag.IsEnseignant = true;
+                }
+                else //responsable
+                {
+                    ViewBag.IsEnseignant = false;
+                }
+
+
+                return View(gr.ToList()); //renvoyer la liste des groupes en lien avec le cours
+            }
+
             
-            var gr = from g in db.Groupe //obtenir les groupes en lien avec le cours trouvé
-                     where g.id_Cours == id
-                     select g;
-
-            if(!gr.Any())
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-
-            if (m_IdTypeUsage == 2) //enseignant
-            {
-                ViewBag.IsEnseignant = true;
-            }
-            else //responsable
-            {
-                ViewBag.IsEnseignant = false;
-            }
-
-
-            return View(gr.ToList()); //renvoyer la liste des groupes en lien avec le cours
         }
 
 
@@ -290,6 +308,19 @@ namespace sachem.Controllers
                 db.Dispose();
             }
             base.Dispose(disposing);
+        }
+
+        private bool connexionValide(int idTypeCompte)
+        {
+            bool valide = true;
+
+            if (idTypeCompte < 2 || idTypeCompte > 4)
+            {
+                valide = false;
+            }
+
+                return valide;
+
         }
     }
 }
