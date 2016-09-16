@@ -208,7 +208,6 @@
     <Compile Include="Controllers\CoursController.cs" />
     <Compile Include="Controllers\Crypt.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\ParametresController.cs" />
     <Compile Include="Controllers\PersonnesController.cs" />
     <Compile Include="Global.asax.cs">
@@ -270,6 +269,7 @@
     <Compile Include="Models\p_Contact.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\p_ContactMetadata.cs" />
     <Compile Include="Models\p_HoraireInscription.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -393,6 +393,7 @@
     <Content Include="Views\Shared\_PageRecherche.cshtml" />
     <Content Include="Views\Parametres\EditHoraire.cshtml" />
     <Content Include="Views\Parametres\IndexCollege.cshtml" />
+    <Content Include="Views\Parametres\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

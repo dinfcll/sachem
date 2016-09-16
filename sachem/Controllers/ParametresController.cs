@@ -14,9 +14,9 @@ namespace sachem.Controllers
         List<TypeUsagers> RolesAcces = new List<TypeUsagers>() { TypeUsagers.Responsable, TypeUsagers.Super };
         private readonly SACHEMEntities db = new SACHEMEntities();
         // GET: Parametres
-        public ActionResult Index()
+        public ActionResult IndexModifier(int? id)
         {
-            return View();
+            return View("Edit");
         }
 
         // GET: Parametres/Details/5
@@ -48,25 +48,31 @@ namespace sachem.Controllers
         }
 
         // GET: Parametres/Edit/5
-        public ActionResult Edit(int id)
+        public ActionResult Edit()
         {
-            return View();
+            if (!SachemIdentite.ValiderRoleAcces(RolesAcces, Session))
+                return RedirectToAction("Error", "Home", null);
+
+            var contact = db.p_Contact.First();
+            return View(contact);
         }
 
         // POST: Parametres/Edit/5
         [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit([Bind(Include = "id_Contact,Nom,Prenom,Courriel,Telephone,Poste,Facebook,SiteWeb,Local")] p_Contact contact)
         {
-            try
-            {
-                // TODO: Add update logic here
+            Valider(contact);
 
-                return RedirectToAction("Index");
-            }
-            catch
+            if (ModelState.IsValid)
             {
-                return View();
+                db.Entry(contact).State = EntityState.Modified;
+                db.SaveChanges();
+
+                TempData["Success"] = string.Format(Messages.I_003(contact.Nom));
+                return View(contact);
             }
+            return View(contact);
         }
 
         //get
@@ -103,7 +109,7 @@ namespace sachem.Controllers
             if (session.Annee != nouvelHoraire.DateFin.Year || session.Annee != nouvelHoraire.DateDebut.Year)
             {
                 ModelState.AddModelError(string.Empty, Messages.C_006);
-            }
+        }
 
             //regarde si les dates sont bonnes
             if((nouvelHoraire.DateFin - nouvelHoraire.DateDebut).TotalDays < 1)
@@ -170,6 +176,12 @@ namespace sachem.Controllers
             {
                 return View();
             }
+        }
+        [NonAction]
+        private void Valider([Bind(Include = "id_Contact,Nom,Prenom,Courriel,Telephone,Poste,Facebook,SiteWeb,Local")]p_Contact contact)
+        {
+            if (db.p_Contact.Any(r => r.id_Contact == contact.id_Contact && r.Prenom != contact.Prenom && r.Nom != contact.Nom))
+                ModelState.AddModelError(string.Empty, Messages.I_002(contact.id_Contact.ToString()));
         }
 
         public ActionResult IndexCollege()
