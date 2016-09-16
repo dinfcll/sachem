@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Web.Mvc;
@@ -71,23 +72,36 @@ namespace sachem.Controllers
         public ActionResult EditHoraire()
         {
             var horaire = db.p_HoraireInscription.First();
-            var session = db.Session.Single(r => r.id_Sess == horaire.id_Sess);
-            var saison = db.p_Saison.Single(r => r.id_Saison == session.id_Saison);
+
+            List<SelectListItem> horaireList = new List<SelectListItem>();
+
+            foreach (var item in db.p_HoraireInscription)
+            {
+                var sess = db.Session.Find(item.id_Sess);
+                horaireList.Add
+                (
+                    new SelectListItem {Text = item.id_Sess.ToString(), Value = sess.NomSession}
+                );
+            }
             
-            return View(Tuple.Create(horaire,session,saison));
+
+            return View(Tuple.Create(horaireList,horaire));
         }
+
+
         //A VERIF
         [HttpPost]
-        public ActionResult EditHoraire([Bind(Prefix = "Item1")] p_HoraireInscription horaire, [Bind(Prefix = "Item2")] Session session, [Bind(Prefix = "Item3")] p_Saison saison)
+        public ActionResult EditHoraire([Bind(Prefix = "Item2")] p_HoraireInscription horaire)
         {
-            session = db.Session.Find(session.id_Sess);
-            saison = db.p_Saison.Find(saison.id_Saison);
-            if (!(session.Annee == horaire.DateFin.Year) || !(session.Annee == horaire.DateDebut.Year))
+            
+            var session = db.Session.Find(horaire.id_Sess);
+            var saison = db.p_Saison.Find(horaire.Session.id_Saison);
+            if (session.Annee != horaire.DateFin.Year || session.Annee != horaire.DateDebut.Year)
             {
                 ModelState.AddModelError(string.Empty, Messages.C_006);
             }
 
-            if((horaire.DateFin - horaire.DateDebut).TotalDays <= 1)
+            if((horaire.DateFin - horaire.DateDebut).TotalDays < 1)
             {
                 ModelState.AddModelError(string.Empty, Messages.C_005);
             }
@@ -96,14 +110,14 @@ namespace sachem.Controllers
                 {
                     //Si hiver : de janvier inclus jusqua mai inclus (mois fin <= 5) pas besoin de verif la date de début
                     //car on est sur que c'est la bonne année et qu'elle est avant la date de fin
-                    case 0:
+                    case 1:
                         if (horaire.DateFin.Month > new DateTime(1,5,1).Month)
                         {
                             ModelState.AddModelError(string.Empty, Messages.C_006);
                         }
                         break;
                     //Si ete : de juin inclus jusqua aout inclus (si mois du début >= 6 et mois fin <= 8)
-                    case 1:
+                    case 2:
                         if (new DateTime(1,6,1).Month > horaire.DateDebut.Month || horaire.DateFin.Month > new DateTime(1,8,1).Month)
                         {
                             ModelState.AddModelError(string.Empty, Messages.C_006);
@@ -111,7 +125,7 @@ namespace sachem.Controllers
                         break;
                     //si automne: de aout inclus jusqua decembre inclus (si mois du début >= 8 et mois fin <= 12)
                     //pas besoin de verif la date de fin car on est sur que c'est la bonne année et qu'elle est apres la date de début
-                    case 2:
+                    case 3:
                         if (new DateTime(1, 8, 1).Month > horaire.DateDebut.Month)
                         {
                             ModelState.AddModelError(string.Empty, Messages.C_006);
@@ -125,9 +139,9 @@ namespace sachem.Controllers
                 db.Entry(horaire).State = EntityState.Modified;
                 db.SaveChanges();
 
-                return RedirectToAction("Index");
+                return RedirectToAction("EditHoraire");
             }
-            return View();
+            return RedirectToAction("EditHoraire");
         }
 
 
