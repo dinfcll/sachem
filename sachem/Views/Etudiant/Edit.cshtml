@@ -122,7 +122,7 @@
                
                 <td>
                     @Html.LabelFor(model => model.Item1.MP, "Programme d'étude", htmlAttributes: new { @class = "control-label col-md-2" })
-                    @Html.ActionLink("Supprimer", "Delete", new { id = item.id_EtuProgEtude })
+                    @Html.ActionLink("Supprimer", "deleteProgEtu", new { id = item.id_EtuProgEtude})
                 </td>
             </tr>
         }

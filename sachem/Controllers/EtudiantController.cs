@@ -115,42 +115,42 @@ namespace sachem.Controllers
         //            }
         //    }
 
-////        var personne = from c in db.Personne
-////                       where c.Actif == true && c.id_TypeUsag == 1
-////                       select c;
-////                if (Request.RequestType == "POST")
-////                {
-////                    string m = ViewBag.Mat;
-////                    if (!String.IsNullOrEmpty(m))
-////                    {
-////                        //personne = null;
-////                        personne = from c in db.Personne
-////                                   where c.Actif == true && c.id_TypeUsag == 1
-////                                   && c.Matricule7.Contains(m)
-////                                   select c;
-////    }
-////}
+        ////        var personne = from c in db.Personne
+        ////                       where c.Actif == true && c.id_TypeUsag == 1
+        ////                       select c;
+        ////                if (Request.RequestType == "POST")
+        ////                {
+        ////                    string m = ViewBag.Mat;
+        ////                    if (!String.IsNullOrEmpty(m))
+        ////                    {
+        ////                        //personne = null;
+        ////                        personne = from c in db.Personne
+        ////                                   where c.Actif == true && c.id_TypeUsag == 1
+        ////                                   && c.Matricule7.Contains(m)
+        ////                                   select c;
+        ////    }
+        ////}
 
-            ////foreach (var pers in personne)
-            ////{
-            ////    var pidEtu = (from p in db.EtuProgEtude
-            ////                  where pers.id_Pers == p.id_Etu
-            ////                  orderby p.id_Sess descending
-            ////                  select p).FirstOrDefault();
+        ////foreach (var pers in personne)
+        ////{
+        ////    var pidEtu = (from p in db.EtuProgEtude
+        ////                  where pers.id_Pers == p.id_Etu
+        ////                  orderby p.id_Sess descending
+        ////                  select p).FirstOrDefault();
 
-            ////    var pEtu = db.ProgrammeEtude.Find(pidEtu.id_ProgEtu);
-            ////    pers.ProgEtu = pEtu.NomProg.ToString();
+        ////    var pEtu = db.ProgrammeEtude.Find(pidEtu.id_ProgEtu);
+        ////    pers.ProgEtu = pEtu.NomProg.ToString();
 
-            ////}
+        ////}
 
-            //    //on enregistre la recherche
-            //    //Session["DernRechCours"] = sess + ";" + actif;
-            //    //Session["DernRechCoursUrl"] = Request.Url?.LocalPath;
+        //    //on enregistre la recherche
+        //    //Session["DernRechCours"] = sess + ";" + actif;
+        //    //Session["DernRechCoursUrl"] = Request.Url?.LocalPath;
 
 
-            //ListeSession();
-            //ListeCours();
-            //ListeGroupe();
+        //ListeSession();
+        //ListeCours();
+        //ListeGroupe();
         //    return personne.ToList();
         //}
 
@@ -221,9 +221,28 @@ namespace sachem.Controllers
         //}
         #endregion
 
-      
-        // GET: Etudiant/Details/5
 
+        // GET: Etudiant/Details/5
+        //fonction pour formatter le numéro de téléphone avant de mettre dans la bd
+        public static string FormatTelephone(string s)
+        {
+            var charsToRemove = new string[] { ".", "-", "(", " ", ")" };
+            foreach (var c in charsToRemove)
+            {
+                s = s.Replace(c, string.Empty);
+            }
+            return s;
+        }
+        public static string RemettreTel(string a)
+           
+        {
+            string modif;
+            modif = a.Insert(0, "(");
+            modif = modif.Insert(4, ")");
+            modif = modif.Insert(5, " ");
+            modif = modif.Insert(9,"-");
+            return modif;
+        }
         // GET: Etudiant/Create
         public ActionResult Create()
         {
@@ -238,14 +257,19 @@ namespace sachem.Controllers
         // plus de détails, voir  http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "id_Pers,id_Sexe,id_TypeUsag,Nom,Prenom,NomUsager,Matricule,MP,Courriel,Telephone,DateNais,Actif")] Personne personne,int? page)
+        public ActionResult Create([Bind(Include = "id_Pers,id_Sexe,id_TypeUsag,Nom,Prenom,Matricule,MP,Courriel,Telephone,DateNais")] Personne personne,int? page)
         {
+            personne.id_TypeUsag = 1;
+            personne.Actif = true;
+            personne.Telephone = FormatTelephone(personne.Telephone);
+    
             Valider(personne);
             if (ModelState.IsValid)
             {
                 personne.MP = encrypterChaine(personne.MP); // Encryption du mot de passe
                 db.Personne.Add(personne);
                 db.SaveChanges();
+                personne.Telephone = RemettreTel(personne.Telephone);
                 TempData["Success"] = Messages.I_010(personne.Matricule); // Message afficher sur la page d'index confirmant la création
                 return RedirectToAction("Index");
             }
@@ -373,11 +397,13 @@ namespace sachem.Controllers
             //redirection à l'index après la suppression
             return RedirectToAction("Index");
         }
-        public ActionResult deleteProgEtu([Bind(Include = "Matricule")] Personne personne, [Bind(Include = "id_EtuProgEtude")]EtuProgEtude ProgEtu)
+        public ActionResult deleteProgEtu(int id)
         {
-            //Personne personne = db.Personne.Find(id);
+            var etuProgEtu = db.EtuProgEtude.Where(x => x.id_EtuProgEtude == id);
 
-            //supprimer dans tous les tables 
+            db.EtuProgEtude.RemoveRange(etuProgEtu);
+            db.SaveChanges();
+            TempData["Success"] = Messages.I_028("salut");
             //faire apparaitre le message
             return RedirectToAction("Index");
         }

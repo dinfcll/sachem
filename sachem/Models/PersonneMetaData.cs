@@ -60,9 +60,9 @@ namespace sachem.Models
         public string id_TypeUsag;
 
         //numéro de téléphone
-        [Display(Name = "Numéro de téléphone")]
-        [RegularExpression(@"^\(?([0-9]{3})\)?([0-9]{3})-([0-9]{4})$", ErrorMessage = Messages.U_009)]
-        public string Telephone;
+        [Display(Name = "Téléphone")]
+        [RegularExpression(@"^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$", ErrorMessage = Messages.U_009)] //Vérifie le format du tel
+        public global::System.String Telephone; //Ajout pour #Tel dans BD
 
         //Matricule de l'étudiant
         [Display(Name = "Matricule")]
