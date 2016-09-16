@@ -93,38 +93,22 @@ namespace sachem.Controllers
         // plus de détails, voir  http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "id_Pers,id_Sexe,id_TypeUsag,Nom,Prenom,NomUsager,AncienMotDePasse,ConfirmPasswordEdit,Courriel,DateNais,Actif")] Personne personne)
+        public ActionResult Create([Bind(Include = "id_Pers,id_Sexe,id_TypeUsag,Nom,Prenom,NomUsager,MP,ConfirmPassword,Courriel,DateNais,Actif")] Personne personne)
         {
-            personne.MP = personne.AncienMotDePasse;
-            personne.ConfirmPassword = personne.AncienMotDePasse;
             Valider(personne);
+            
             if (ModelState.IsValid)                
             {
-                try
+                if (personne.MP == null)
+                    ModelState.AddModelError("MP",Messages.U_001);
+                else
                 {
-                    personne.MP = encrypterChaine(personne.MP); // Encryption du mot de passe
-                    personne.MP = encrypterChaine(personne.ConfirmPassword);
-                    personne.MP = encrypterChaine(personne.ConfirmPasswordEdit);
-                    personne.MP = encrypterChaine(personne.AncienMotDePasse);
+                    SachemIdentite.encrypterMPPersonne(ref personne); // Encryption du mot de passe
                     db.Personne.Add(personne);
                     db.SaveChanges();
                     TempData["Success"] = Messages.Q_004(personne.NomUsager, personne.id_Pers); // Message afficher sur la page d'index confirmant la création
                     return RedirectToAction("Index");
                 }
-                catch (DbEntityValidationException e)
-                {
-                    foreach (var eve in e.EntityValidationErrors)
-                    {
-                        Console.WriteLine("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
-                            eve.Entry.Entity.GetType().Name, eve.Entry.State);
-                        foreach (var ve in eve.ValidationErrors)
-                        {
-                            Console.WriteLine("- Property: \"{0}\", Error: \"{1}\"",
-                                ve.PropertyName, ve.ErrorMessage);
-                        }
-                    }
-                }
-
             }
             // afficher les listes déroulantes contenant le type d'usager et le sexe
             ViewBag.id_Sexe = new SelectList(db.p_Sexe, "id_Sexe", "Sexe", personne.id_Sexe);
@@ -132,16 +116,6 @@ namespace sachem.Controllers
             ViewBag.id_person = personne.id_Pers;
             return View(personne);
 
-        }
-
-        //Méthode d'encryption de mot de passe.
-        [NonAction]
-        public static string encrypterChaine(string Chaine)
-        {
-            byte[] buffer;
-            MD5CryptoServiceProvider provider = new MD5CryptoServiceProvider();
-            buffer = Encoding.UTF8.GetBytes(Chaine);
-            return BitConverter.ToString(provider.ComputeHash(buffer)).Replace("-", "").ToLower();
         }
         // GET: Enseignant/Edit/5
         public ActionResult Edit(int? id)
@@ -162,6 +136,7 @@ namespace sachem.Controllers
             ViewBag.id_Sexe = new SelectList(db.p_Sexe, "id_Sexe", "Sexe", personne.id_Sexe);
             ViewBag.id_TypeUsag = new SelectList(db.p_TypeUsag.Where(x => x.id_TypeUsag == 2 || x.id_TypeUsag == 3), "id_TypeUsag", "TypeUsag", personne.id_TypeUsag);
             ViewBag.id_person = personne.id_Pers;
+            personne.MP = "";
             return View(personne);
         }
 
@@ -170,11 +145,11 @@ namespace sachem.Controllers
         // plus de détails, voir  http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "id_Pers, id_Sexe, id_TypeUsag, Nom, Prenom, NomUsager, AncienMotDePasse, ConfirmPasswordEdit, Courriel, DateNais, Actif")] Personne personne)
+        public ActionResult Edit([Bind(Include = "id_Pers, id_Sexe, id_TypeUsag, Nom, Prenom, NomUsager, MP, ConfirmPassword, Courriel, DateNais, Actif")] Personne personne)
         {
             if(personne.AncienMotDePasse != null)
             {
-                personne.MP = encrypterChaine(personne.AncienMotDePasse); // Appel de la méthode qui encrypte le mot de passe
+                SachemIdentite.encrypterMPPersonne(ref personne); // Appel de la méthode qui encrypte le mot de passe
             }
             else
             {         

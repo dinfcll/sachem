@@ -17,11 +17,6 @@ namespace sachem.Models
         [NotMappedAttribute]
         public string ConfirmPassword { get; set; }
 
-
-        [System.ComponentModel.DataAnnotations.Compare("AncienMotDePasse", ErrorMessage = Messages.C_001)]
-        [NotMappedAttribute]
-        public string ConfirmPasswordEdit { get; set; }
-
         [NotMappedAttribute]
         public bool SouvenirConnexion { get; set; }
 
