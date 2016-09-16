@@ -69,7 +69,7 @@ namespace sachem.Models
             public global::System.String Matricule;
 
             //Extrait du PAM partiellement
-            [Display(Name = "Matricule7")]
+            [Display(Name = "Matricule")]
             [StringLength(7)]
             public global::System.String Matricule7;
 
@@ -94,6 +94,12 @@ namespace sachem.Models
 
             [Display(Name = "Nom d'utilisateur")]
             public global::System.String NomUtilisateur;
+
+            [Display(Name = "Nom du programme d'étude")]
+            public string ProgEtu;
+
+            [Display(Name = "Enseignant")]
+            public string NomPrenom;
         }
     }
 }

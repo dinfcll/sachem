@@ -10,8 +10,7 @@ namespace sachem.Models
     //on doit redéfinir la classe partielle même si on ajout rien. Placé immédiatement avant la classe de métadonnée associée
     public partial class Groupe
     {
-        [Display(Name = "Nombre de personne")]
-        public int nbPersonne;
+
     }
 
     //la classe de métadonnée doit suivre immédiatement la redéfinition de classe partielle
@@ -26,5 +25,9 @@ namespace sachem.Models
 
         [Display(Name = "Cours")]
         public string id_Cours;
+
+        //[Display(Name = "Nombre de personne")]
+        //public int nbPersonne;
+        
     }
 }
