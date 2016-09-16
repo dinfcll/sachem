@@ -12,9 +12,13 @@ namespace sachem.Controllers
     public class ProgrammesOffertsController : Controller
     {
         private readonly SACHEMEntities db = new SACHEMEntities();
+        List<TypeUsagers> RolesAcces = new List<TypeUsagers>() { TypeUsagers.Responsable, TypeUsagers.Super };
         // GET: ProgrammesOfferts
         public ActionResult Index(string recherche, int? page)
         {
+            if (!SachemIdentite.ValiderRoleAcces(RolesAcces, Session))
+                return RedirectToAction("Error", "Home", null);
+
             int numeroPage = (page ?? 1);
             ViewBag.Recherche = recherche;
             return View("Index",Recherche(recherche).ToPagedList(numeroPage, 20));
@@ -56,6 +60,8 @@ namespace sachem.Controllers
         /// <returns></returns>
         public ActionResult Edit(int? id)
         {
+            if (!SachemIdentite.ValiderRoleAcces(RolesAcces, Session))
+                return RedirectToAction("Error", "Home", null);
 
             if (id == null)
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -91,6 +97,9 @@ namespace sachem.Controllers
         // GET: ProgrammesOfferts/Delete/5
         public ActionResult Delete(int? id)
         {
+            if (!SachemIdentite.ValiderRoleAcces(RolesAcces, Session))
+                return RedirectToAction("Error", "Home", null);
+
             if (id == null)
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
@@ -139,6 +148,7 @@ namespace sachem.Controllers
         }
 
         //Méthode qui permet de faire la recherche, soit sur le nom de programme ou sur le code.
+        [NonAction]
         private IEnumerable<ProgrammeEtude> Recherche(string recherche)
         {
             var programmesEtude = from c in db.ProgrammeEtude

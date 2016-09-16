@@ -185,6 +185,7 @@ namespace sachem.Controllers
         // GET: Cours/Delete/5
         public ActionResult Delete(int? id)
         {
+
             if (!SachemIdentite.ValiderRoleAcces(RolesAcces, Session))
                 return RedirectToAction("Error", "Home", null);
 
