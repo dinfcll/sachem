@@ -1,4 +1,4 @@
-﻿@model IEnumerable <sachem.Models.CoursSuivi >
+﻿@model IEnumerable <sachem.Models.CoursSuivi>
 
 <hr />
 <div>
@@ -13,7 +13,7 @@
                 @Html.DisplayNameFor(model => model.First().Session.NomSession)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.First().id_College)
+                @Html.DisplayNameFor(model => model.First().p_College.College)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.First().resultat)
@@ -37,7 +37,7 @@
                     @Html.DisplayFor(modelItem => item.Session.NomSession)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.id_College)
+                    @Html.DisplayFor(modelItem => item.p_College.College)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.resultat)

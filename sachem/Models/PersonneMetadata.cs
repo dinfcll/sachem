@@ -12,14 +12,13 @@ namespace sachem.Models
     //on doit redéfinir la classe partielle même si on ajout rien. Placé immédiatement avant la classe de métadonnée associée
     public partial class Personne
     {
-        //asdadasda
 
     }
     public class PersonneMetadata
     {
         //date de naissance
         [Display(Name = "Date de naissance")]
-        //regulaExpression pour le format de la datte
+        //regulaExpression pour le format de la date
         [RegularExpression(@"^\d{4}[/](0?[1-9]|1[012])[/](0?[1-9]|[12][0-9]|3[01])$", ErrorMessage = Messages.U_007)]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy/MM/dd}")]
         [Required(ErrorMessage = Messages.U_001)]
@@ -60,9 +59,14 @@ namespace sachem.Models
 
         //numéro de téléphone
         [Display(Name = "Numéro de téléphone")]
-        [DisplayFormat(DataFormatString = "{0:(###)###-####}")]
+        [DisplayFormat(DataFormatString = "{0:(###) ###-####}", ApplyFormatInEditMode = true)]
         [RegularExpression(@"^\(([0-9]{3})\) ([0-9]{3})-([0-9]{4})$", ErrorMessage = Messages.U_009)]
         public string Telephone;
+
+        [Display(Name = "Numéro de téléphone")]
+        [DisplayFormat(DataFormatString = "{0:(###) ###-####}", ApplyFormatInEditMode = true)]
+        [RegularExpression(@"^\(([0-9]{3})\) ([0-9]{3})-([0-9]{4})$", ErrorMessage = Messages.U_009)]
+        public long NumTelephone;
 
         //Matricule de l'étudiant
         [Display(Name = "Matricule")]

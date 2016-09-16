@@ -1,52 +1,49 @@
-﻿@model sachem.Models.Inscription
+﻿@model IEnumerable<sachem.Models.Inscription>
 
-<hr />
-<div>
-    <h4>Demande d'inscription au Sachem</h4>
-    <table class="table">
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.DateInscription)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.p_TypeInscription.TypeInscription)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.p_StatutInscription.Statut)
-            </th>
-            <th>
-            </th>
-            <th>
-            </th>
-            <th>
-            </th>
-        </tr>
-
-        @foreach (var item in IEnumerable<ViewBag.Insc>)
-        {
+    <hr />
+    <div>
+        <h4>Demande d'inscription au Sachem</h4>
+        <table class="table">
             <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Cours.CodeNom)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Session.NomSession)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.id_College)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.resultat)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.p_StatutCours.Statut)
-                </td>
-                <td>
-                    @Html.ActionLink("Modifier", "Edit", "CoursSuivi", new { id = item.id_CoursReussi, id2 = item.id_Pers }, null)
-                </td>
-                <td>
-                    @Html.ActionLink("Supprimer", "Delete", "CoursSuivi", new { id = item.id_CoursReussi, id2 = item.id_Pers }, null)
-                </td>
+                <th>
+                    @Html.DisplayNameFor(model => model.DateInscription)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.p_TypeInscription.TypeInscription)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.p_StatutInscription.Statut)
+                </th>
+                <th>
+                </th>
+                <th>
+                </th>
+                <th>
+                </th>
             </tr>
-        }
-    </table>
-</div>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DateInscription)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.p_TypeInscription.TypeInscription)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.p_StatutInscription.Statut)
+                    </td>
+                    <td>
+                        Consulter@*Sprint4*@
+                    </td>
+                    <td>
+                        Modifier@*Sprint3*@
+                    </td>
+                    <td>
+                        Modifier informations personelles@*Sprint3*@
+                    </td>
+                </tr>
+            }
+        </table>
+    </div>

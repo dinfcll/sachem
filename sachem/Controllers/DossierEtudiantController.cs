@@ -35,13 +35,10 @@ namespace sachem.Controllers
 
         //fonctions permettant d'obtenir la liste des groupe. Appelé pour l'initialisation et la maj de la liste déroulante Groupe
         [NonAction]
-        private IEnumerable<Personne> ObtenirListeSuperviseur(int session)
+        private IEnumerable<Jumelage> ObtenirListeSuperviseur(int session)
         {
             int Pers = 0;
-            var ResultReqJum = db.Jumelage.AsNoTracking()
-                .Where(p => (p.Personne.id_Pers == p.id_Enseignant) && (p.id_Sess == session)).Distinct();
-            var ResultReq = db.Personne.AsNoTracking()
-                .Where(p => (p.p_TypeUsag.id_TypeUsag == 2));
+            var ResultReq = db.Jumelage.AsNoTracking().Where(p => (p.Personne.id_Pers== p.id_Enseignant) && (p.id_Sess == session));
             return ResultReq.AsEnumerable();
         }
 
@@ -62,7 +59,7 @@ namespace sachem.Controllers
         [NonAction]
         private void ListeSuperviseur(int session, int superviseur)
         {
-            ViewBag.Superviseur = new SelectList(ObtenirListeSuperviseur(session), "id_Pers", "NomPrenom", superviseur);
+            ViewBag.Superviseur = new SelectList(ObtenirListeSuperviseur(session), "id_Superviseur", "Superviseur", superviseur);
         }
 
         #region Fonctions Ajax
@@ -72,7 +69,7 @@ namespace sachem.Controllers
         [AcceptVerbs("Get", "Post")]
         public JsonResult ActualiseSuperviseurddl(int session)
         {
-            var a = ObtenirListeSuperviseur(session).Select(c => new { c.id_Pers, c.NomPrenom });
+            var a = ObtenirListeSuperviseur(session).Select(c => new { c.Personne.id_Pers, c.Personne.NomPrenom });
             return Json(a.ToList(), JsonRequestBehavior.AllowGet);
         }
 
@@ -150,21 +147,21 @@ namespace sachem.Controllers
                 else
                 {  //si la recherche n'est pas effectuée sur le matricule, obtenir les autres champs
 
-                    if (!String.IsNullOrEmpty(Request.Form["Inscription"]))
+                    if (!String.IsNullOrEmpty(Request.Form["SelectTypeInscription"]))
                     {
-                        typeinscription = Convert.ToInt32(Request.Form["Inscription"]);
+                        typeinscription = Convert.ToInt32(Request.Form["SelectTypeInscription"]);
                         ViewBag.Inscription = typeinscription;
                         champsRenseignes++;
                     }
-                    else if (!String.IsNullOrEmpty(Request.Params["Inscription"]))
+                    else if (!String.IsNullOrEmpty(Request.Params["typeinscription"]))
                     {
-                        typeinscription = Convert.ToInt32(Request.Params["Inscription"]);
+                        typeinscription = Convert.ToInt32(Request.Params["typeinscription"]);
                         ViewBag.Inscription = typeinscription;
                         champsRenseignes++;
                     }
-                    if (!String.IsNullOrEmpty(Request.Form["Superviseur"]))
+                    if (!String.IsNullOrEmpty(Request.Form["SelectSuperviseur"]))
                     {
-                        superviseur = Convert.ToInt32(Request.Form["Superviseur"]);
+                        superviseur = Convert.ToInt32(Request.Form["SelectSuperviseur"]);
                         ViewBag.Superviseur = superviseur;
                         champsRenseignes++;
                     }
@@ -219,7 +216,6 @@ namespace sachem.Controllers
 
                 if (matricule == "" && prenom == "" && nom == "") //recherche avec les trois champs
                 {
-            //CA PREND JUMELAGE POUR TROUVER ENSEIGNANT ID
                     /*requête LINQ qui va chercher tous les étudiants répondant aux critères de recherche ainsi que leur programme d'étude actuel. */
                     lstEtu = db.Inscription.Include(i => i.p_StatutInscription).Include(i => i.p_TypeInscription).Include(i => i.Personne).Include(i => i.Session)
                         .Where(i => i.Session.id_Sess==session && i.id_TypeInscription==typeinscription && i.Personne.id_Pers==superviseur);
@@ -291,8 +287,7 @@ namespace sachem.Controllers
             noPage = (page ?? noPage);
 
             //var inscription = db.Inscription.Include(i => i.p_StatutInscription).Include(i => i.p_TypeInscription).Include(i => i.Personne).Include(i => i.Session);
-            //return View(Rechercher().ToPagedList(noPage, 20));
-            return View(Rechercher());
+            return View(Rechercher().ToPagedList(noPage, 20));
         }
 
         // GET: DossierEtudiant/Details/5
@@ -318,11 +313,16 @@ namespace sachem.Controllers
 
             var vInscription = from d in db.Inscription
                                where d.id_Pers == inscription.id_Pers
-                               select d;
+                             select d;
+            
+            return View(Tuple.Create(inscription, vCoursSuivi.AsEnumerable(), vInscription.AsEnumerable()));
+        }
 
-            ViewBag.Insc = vInscription.AsEnumerable();
-
-            return View(Tuple.Create(inscription, vCoursSuivi.AsEnumerable()));
+        [NonAction]
+        [HttpPost, ActionName("Modifier")]
+        public ActionResult Modifier()
+        {
+            return View();
         }
 
         // GET: DossierEtudiant/Create
@@ -355,6 +355,7 @@ namespace sachem.Controllers
             ViewBag.id_Sess = new SelectList(db.Session, "id_Sess", "id_Sess", inscription.id_Sess);
             return View(inscription);
         }
+
 
         // GET: DossierEtudiant/Edit/5
         public ActionResult Edit(int? id)
@@ -422,6 +423,7 @@ namespace sachem.Controllers
             db.SaveChanges();
             return RedirectToAction("Index");
         }
+
 
         protected override void Dispose(bool disposing)
         {
