@@ -1,6 +1,6 @@
 ﻿@model sachem.Models.CoursSuivi
 
-
+@Html.HiddenFor(model => model.id_Pers)
 <div class="form-group">
     @Html.LabelFor(model => model.id_Cours, htmlAttributes: new {@class = "control-label col-md-2"})
     <div class="col-md-10">

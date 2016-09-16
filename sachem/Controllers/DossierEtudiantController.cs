@@ -277,31 +277,6 @@ namespace sachem.Controllers
             return Rechercher();
         }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         // GET: DossierEtudiant
         public ActionResult Index(int? page)
         {
@@ -323,16 +298,25 @@ namespace sachem.Controllers
         // GET: DossierEtudiant/Details/5
         public ActionResult Details(int? id)
         {
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Inscription inscription = db.Inscription.Find(id);
+
+             Inscription inscription = db.Inscription.Find(id);
+
+
             if (inscription == null)
             {
                 return HttpNotFound();
             }
-            return View(inscription);
+
+            var vCoursSuivi = from d in db.CoursSuivi
+                              where d.id_Pers == inscription.id_Pers
+                              select d;
+
+            return View(Tuple.Create(inscription, vCoursSuivi.AsEnumerable()));
         }
 
         // GET: DossierEtudiant/Create
@@ -379,16 +363,12 @@ namespace sachem.Controllers
                 return HttpNotFound();
             }
 
-            var vCoursSuivi = from d in db.CoursSuivi
-                           where d.id_Pers == inscription.id_Pers
-                           select d;
-            CoursSuivi dbCoursSuivi = db.CoursSuivi.Find(inscription.id_Pers);
 
             ViewBag.id_Statut = new SelectList(db.p_StatutInscription, "id_Statut", "Statut", inscription.id_Statut);
             ViewBag.id_TypeInscription = new SelectList(db.p_TypeInscription, "id_TypeInscription", "TypeInscription", inscription.id_TypeInscription);
             ViewBag.id_Pers = new SelectList(db.Personne, "id_Pers", "Nom", inscription.id_Pers);
             ViewBag.id_Sess = new SelectList(db.Session, "id_Sess", "id_Sess", inscription.id_Sess);
-            return View(Tuple.Create(inscription, vCoursSuivi.AsEnumerable()));
+            return View(inscription);
         }
 
         // POST: DossierEtudiant/Edit/5

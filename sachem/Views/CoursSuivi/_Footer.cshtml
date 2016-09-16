@@ -1,5 +1,7 @@
-﻿<div>
-    @Html.ActionLink("Retour au dossier de l'étudiant", "Index")
+﻿@model sachem.Models.CoursSuivi
+
+<div>
+    @Html.ActionLink("Retour au dossier de l'étudiant", "Details", "DossierEtudiant", new { id = ViewBag.id_insc}, null)
 </div>
 
 @section Scripts {
