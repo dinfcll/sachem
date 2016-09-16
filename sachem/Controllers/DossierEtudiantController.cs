@@ -37,12 +37,21 @@ namespace sachem.Controllers
         [NonAction]
         private IEnumerable<Personne> ObtenirListeSuperviseur(int session)
         {
-            int Pers = 0;
-            var ResultReqJum = db.Jumelage.AsNoTracking()
-                .Where(p => (p.Personne.id_Pers == p.id_Enseignant) && (p.id_Sess == session)).Distinct();
-            var ResultReq = db.Personne.AsNoTracking()
-                .Where(p => (p.p_TypeUsag.id_TypeUsag == 2));
-            return ResultReq.AsEnumerable();
+            //int Pers = 0;
+            //var ResultReqJum = db.Jumelage.AsNoTracking()
+            //    .Where(p => (p.Personne.id_Pers == p.id_Enseignant) && (p.id_Sess == session)).Distinct();
+            //var ResultReq = db.Personne.AsNoTracking().Include(ResultReqJum.Where(j => j.id_Enseignant == j.Personne.id_Pers)
+            //    .Where(p => ((p.Personne.p_TypeUsag.id_TypeUsag == 2) && (p.id_Enseignant == p.Personne.id_Pers))));
+
+            var lstEnseignant = from p in db.Personne
+                                where (db.Jumelage.Any(j => j.id_Sess == session && j.id_Enseignant == p.id_Pers))
+                                && p.id_TypeUsag == 2
+                                orderby p.Nom, p.Prenom
+                                select p;
+
+            return lstEnseignant.ToList();
+
+        //    return ResultReq.AsEnumerable();
         }
 
 
@@ -88,7 +97,7 @@ namespace sachem.Controllers
             var typeinscription = 0;
             var superviseur = 0;
             var champsRenseignes = 0;
-            IEnumerable<Inscription> lstEtu = new List<Inscription>();
+            // IEnumerable<Inscription> lstEtu = new List<Inscription>();
 
             //Pour accéder à la valeur de cle envoyée en GET dans le formulaire
             //Request.QueryString["cle"]
@@ -147,60 +156,69 @@ namespace sachem.Controllers
                     matricule = Request.Params["Matricule"];
                     ViewBag.Matricule = matricule;
                 }
-                else
-                {  //si la recherche n'est pas effectuée sur le matricule, obtenir les autres champs
 
-                    if (!String.IsNullOrEmpty(Request.Form["Inscription"]))
-                    {
-                        typeinscription = Convert.ToInt32(Request.Form["Inscription"]);
-                        ViewBag.Inscription = typeinscription;
-                        champsRenseignes++;
-                    }
-                    else if (!String.IsNullOrEmpty(Request.Params["Inscription"]))
-                    {
-                        typeinscription = Convert.ToInt32(Request.Params["Inscription"]);
-                        ViewBag.Inscription = typeinscription;
-                        champsRenseignes++;
-                    }
-                    if (!String.IsNullOrEmpty(Request.Form["Superviseur"]))
-                    {
-                        superviseur = Convert.ToInt32(Request.Form["Superviseur"]);
-                        ViewBag.Superviseur = superviseur;
-                        champsRenseignes++;
-                    }
-                    else if (!String.IsNullOrEmpty(Request.Params["Superviseur"]))
-                    {
-                        superviseur = Convert.ToInt32(Request.Params["Superviseur"]);
-                        ViewBag.Superviseur = superviseur;
-                        champsRenseignes++;
-                    }
-                    if (!String.IsNullOrEmpty(Request.Form["SelectSession"]))
-                    {
-                        session = Convert.ToInt32(Request.Form["SelectSession"]);
-                        ViewBag.Session = session;
-                        champsRenseignes++;
-                    }
-                    else
-                    {
-                        if (!String.IsNullOrEmpty(Request.Params["Session"]))
-                        {
-                            session = Convert.ToInt32(Request.Params["Session"]);
-                            ViewBag.Session = session;
-                            champsRenseignes++;
-                        }
-                        else if (Request.Form["Session"] == null)
-                            session = db.Session.Max(s => s.id_Sess);
+                if (!String.IsNullOrEmpty(Request.Form["Prenom"]))
+                {
+                    prenom = Request.Form["Prenom"];
+                    ViewBag.Prenom = prenom;
+                }
 
-                    }
+                else if (!String.IsNullOrEmpty(Request.Params["Prenom"]))
+                {
+                    prenom = Request.Params["Prenom"];
+                    ViewBag.Prenom = prenom;
+                }
+
+                if (!String.IsNullOrEmpty(Request.Params["Nom"]))
+                {
+                    nom = Request.Params["Nom"];
+                    ViewBag.Nom = nom;
+                }
+                else if (!String.IsNullOrEmpty(Request.Form["Nom"]))
+                {
+                    nom = Request.Form["Nom"];
+                    ViewBag.Nom = nom;
+                }
+                if (!String.IsNullOrEmpty(Request.Form["Inscription"]))
+                {
+                    typeinscription = Convert.ToInt32(Request.Form["Inscription"]);
+                    ViewBag.Inscription = typeinscription;
+                }
+                else if (!String.IsNullOrEmpty(Request.Params["Inscription"]))
+                {
+                    typeinscription = Convert.ToInt32(Request.Params["Inscription"]);
+                    ViewBag.Inscription = typeinscription;
+                }
+                if (!String.IsNullOrEmpty(Request.Form["Superviseur"]))
+                {
+                    superviseur = Convert.ToInt32(Request.Form["Superviseur"]);
+                    ViewBag.Superviseur = superviseur;
+                }
+                else if (!String.IsNullOrEmpty(Request.Params["Superviseur"]))
+                {
+                    superviseur = Convert.ToInt32(Request.Params["Superviseur"]);
+                    ViewBag.Superviseur = superviseur;
 
                 }
+                if (!String.IsNullOrEmpty(Request.Form["SelectSession"]))
+                {
+                    session = Convert.ToInt32(Request.Form["SelectSession"]);
+                    ViewBag.Session = session;
+
+                }
+                else if (!String.IsNullOrEmpty(Request.Params["Session"]))
+                {
+                    session = Convert.ToInt32(Request.Params["Session"]);
+                    ViewBag.Session = session;
+
+                }
+                else if (Request.Form["Session"] == null)
+                    session = db.Session.Max(s => s.id_Sess);
+
             }
 
-            //si un des champs de recherche est absent
-            if (champsRenseignes != 3 && champsRenseignes != 0)
-            {
-                ModelState.AddModelError(string.Empty, Messages.I_039());
-            }
+
+        
 
             ListeSession(session);
             ListeTypeInscription(typeinscription);
@@ -210,48 +228,49 @@ namespace sachem.Controllers
             Session["DernRechEtu"] = matricule + ";" + session + ";" + typeinscription + ";" + superviseur + ";" + noPage;
             Session["DernRechEtuUrl"] = Request.Url.LocalPath.ToString();
 
-            if (ModelState.IsValid)
-            {
-                /*désactiver le lazyloading dans le contexte de cette unité de traitement
-                    on désactive le lazyloading car on veut charger manuellement les entités enfants (puisqu'elles ne doivent pas toutes être chargées)
-                    */
-                db.Configuration.LazyLoadingEnabled = false;
+            var lstEtu = from p in db.Inscription
+                                    where (db.Jumelage.Any(j => j.id_Enseignant == superviseur && j.Personne.id_TypeUsag == 2 || j.Personne.id_Pers==superviseur) &&
+                                    (p.id_Sess == session || session == 0) &&
+                                    (p.id_TypeInscription == typeinscription || typeinscription == 0) &&
+                                    (p.Personne.Prenom.Contains(prenom) || prenom == "") && 
+                                    (p.Personne.Nom.Contains(nom) || nom == "") &&
+                                    p.Personne.Matricule.Substring(2).StartsWith(matricule))                              
+                                    orderby p.Personne.Nom, p.Personne.Prenom
+                                    select p;
 
-                if (matricule == "" && prenom == "" && nom == "") //recherche avec les trois champs
-                {
-            //CA PREND JUMELAGE POUR TROUVER ENSEIGNANT ID
-                    /*requête LINQ qui va chercher tous les étudiants répondant aux critères de recherche ainsi que leur programme d'étude actuel. */
-                    lstEtu = db.Inscription.Include(i => i.p_StatutInscription).Include(i => i.p_TypeInscription).Include(i => i.Personne).Include(i => i.Session)
-                        .Where(i => i.Session.id_Sess==session && i.id_TypeInscription==typeinscription && i.Personne.id_Pers==superviseur);
-                }
-                else if (matricule == "" && (prenom != "" || nom != ""))
-                {
-                    //recherche sur le nom ou le prenom
-                    if (prenom != "" && nom == "")
-                    {
-                        lstEtu = db.Inscription.Include(i => i.p_StatutInscription).Include(i => i.p_TypeInscription).Include(i => i.Personne).Include(i => i.Session)
-                            .Where(i => i.Personne.Prenom == prenom);
-                    }
-                    else if(prenom=="" && nom != "")
-                    {
-                        lstEtu = db.Inscription.Include(i => i.p_StatutInscription).Include(i => i.p_TypeInscription).Include(i => i.Personne).Include(i => i.Session)
-                            .Where(i => i.Personne.Nom == nom);
-                    }
-                    else
-                    {
-                        lstEtu = db.Inscription.Include(i => i.p_StatutInscription).Include(i => i.p_TypeInscription).Include(i => i.Personne).Include(i => i.Session)
-                            .Where(i => i.Personne.Nom == nom && i.Personne.Prenom == prenom);
-                    }
-                }
-                else
-                {
-                    //recherche sur le matricule
-                    lstEtu = db.Inscription.Include(i => i.p_StatutInscription).Include(i => i.p_TypeInscription).Include(i => i.Personne).Include(i => i.Session)
-                            .Where(i => i.Personne.Matricule7==matricule);
-                }
 
-                db.Configuration.LazyLoadingEnabled = true;
-            }
+                //    if (matricule == "" && prenom == "" && nom == "") //recherche avec les trois champs
+                //    {
+                ////CA PREND JUMELAGE POUR TROUVER ENSEIGNANT ID
+                //        /*requête LINQ qui va chercher tous les étudiants répondant aux critères de recherche ainsi que leur programme d'étude actuel. */
+                //        lstEtu = db.Inscription.Include(i => i.p_StatutInscription).Include(i => i.p_TypeInscription).Include(i => i.Personne).Include(i => i.Session)
+                //            .Where(i => i.Session.id_Sess==session && i.id_TypeInscription==typeinscription && i.Personne.id_Pers==superviseur);
+                //    }
+                //    else if (matricule == "" && (prenom != "" || nom != ""))
+                //    {
+                //        //recherche sur le nom ou le prenom
+                //        if (prenom != "" && nom == "")
+                //        {
+                //            lstEtu = db.Inscription.Include(i => i.p_StatutInscription).Include(i => i.p_TypeInscription).Include(i => i.Personne).Include(i => i.Session)
+                //                .Where(i => i.Personne.Prenom == prenom);
+                //        }
+                //        else if(prenom=="" && nom != "")
+                //        {
+                //            lstEtu = db.Inscription.Include(i => i.p_StatutInscription).Include(i => i.p_TypeInscription).Include(i => i.Personne).Include(i => i.Session)
+                //                .Where(i => i.Personne.Nom == nom);
+                //        }
+                //        else
+                //        {
+                //            lstEtu = db.Inscription.Include(i => i.p_StatutInscription).Include(i => i.p_TypeInscription).Include(i => i.Personne).Include(i => i.Session)
+                //                .Where(i => i.Personne.Nom == nom && i.Personne.Prenom == prenom);
+                //        }
+                //    }
+                //    else
+                //    {
+                //        //recherche sur le matricule
+                //        lstEtu = db.Inscription.Include(i => i.p_StatutInscription).Include(i => i.p_TypeInscription).Include(i => i.Personne).Include(i => i.Session)
+                //                .Where(i => i.Personne.Matricule.Substring(2).StartsWith(matricule)).OrderBy(x => x.Personne.Nom).ThenBy(x => x.Personne.Prenom);
+                //    }
 
             /*var personne = from c in db.Personne where c.Actif == true && c.id_TypeUsag == 1 select c;
             foreach (var pers in personne)
@@ -263,7 +282,7 @@ namespace sachem.Controllers
             }*/
 
 
-            return lstEtu;
+            return lstEtu.ToList();
         }
 
 
