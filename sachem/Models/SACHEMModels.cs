@@ -20,7 +20,7 @@ namespace sachem.Models
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         public ApplicationDbContext()
-            : base("DefaultConnection", throwIfV1Schema: false)
+            : base("SACHEMEntities", throwIfV1Schema: false) //Changement de *DefaultConnection* à *SACHEMEntities*
         {
         }
 
