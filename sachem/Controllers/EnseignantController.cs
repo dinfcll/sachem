@@ -11,6 +11,7 @@ using sachem.Models;
 using PagedList;
 using System.Security.Cryptography;
 using System.Text;
+using System.Data.Entity.Validation;
 
 namespace sachem.Controllers
 {
@@ -69,13 +70,10 @@ namespace sachem.Controllers
         }
 
         [NonAction]
-        private void Valider([Bind(Include = "id_Pers,id_Sexe,id_TypeUsag,Nom,Prenom,NomUsager,MP,ConfirmPassword,Courriel,DateNais,Actif")] Personne personne)
+        private void Valider([Bind(Include = "id_Pers,id_Sexe,id_TypeUsag,Nom,Prenom,NomUsager,MP,ConfirmPasswordEdit,Courriel,DateNais,Actif")] Personne personne)
         {
             if (db.Personne.Any(x => x.NomUsager == personne.NomUsager && x.id_Pers != personne.id_Pers))// Verifier si le nom d'usager existe ou s'il a entré son ancien nom
                 ModelState.AddModelError(string.Empty, Messages.I_013(personne.NomUsager));
-
-            if (personne.MP != personne.ConfirmPassword) // Verifier la correspondance des mots de passe
-                ModelState.AddModelError(string.Empty, Messages.C_001);
         }
 
         // GET: Enseignant/Create
@@ -95,17 +93,38 @@ namespace sachem.Controllers
         // plus de détails, voir  http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "id_Pers,id_Sexe,id_TypeUsag,Nom,Prenom,NomUsager,AncienMotDePasse,ConfirmPassword,Courriel,DateNais,Actif")] Personne personne)
-        {           
+        public ActionResult Create([Bind(Include = "id_Pers,id_Sexe,id_TypeUsag,Nom,Prenom,NomUsager,AncienMotDePasse,ConfirmPasswordEdit,Courriel,DateNais,Actif")] Personne personne)
+        {
             personne.MP = personne.AncienMotDePasse;
+            personne.ConfirmPassword = personne.AncienMotDePasse;
             Valider(personne);
-            if (ModelState.IsValid)
+            if (ModelState.IsValid)                
             {
-                personne.MP = encrypterChaine(personne.MP); // Encryption du mot de passe
-                db.Personne.Add(personne);
-                db.SaveChanges();
-                TempData["Success"] = Messages.Q_004(personne.NomUsager, personne.id_Pers); // Message afficher sur la page d'index confirmant la création
-                return RedirectToAction("Index");
+                try
+                {
+                    personne.MP = encrypterChaine(personne.MP); // Encryption du mot de passe
+                    personne.MP = encrypterChaine(personne.ConfirmPassword);
+                    personne.MP = encrypterChaine(personne.ConfirmPasswordEdit);
+                    personne.MP = encrypterChaine(personne.AncienMotDePasse);
+                    db.Personne.Add(personne);
+                    db.SaveChanges();
+                    TempData["Success"] = Messages.Q_004(personne.NomUsager, personne.id_Pers); // Message afficher sur la page d'index confirmant la création
+                    return RedirectToAction("Index");
+                }
+                catch (DbEntityValidationException e)
+                {
+                    foreach (var eve in e.EntityValidationErrors)
+                    {
+                        Console.WriteLine("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
+                            eve.Entry.Entity.GetType().Name, eve.Entry.State);
+                        foreach (var ve in eve.ValidationErrors)
+                        {
+                            Console.WriteLine("- Property: \"{0}\", Error: \"{1}\"",
+                                ve.PropertyName, ve.ErrorMessage);
+                        }
+                    }
+                }
+
             }
             // afficher les listes déroulantes contenant le type d'usager et le sexe
             ViewBag.id_Sexe = new SelectList(db.p_Sexe, "id_Sexe", "Sexe", personne.id_Sexe);
@@ -151,13 +170,11 @@ namespace sachem.Controllers
         // plus de détails, voir  http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "id_Pers, id_Sexe, id_TypeUsag, Nom, Prenom, NomUsager, AncienMotDePasse, ConfirmPassword, Courriel, DateNais, Actif")] Personne personne)
+        public ActionResult Edit([Bind(Include = "id_Pers, id_Sexe, id_TypeUsag, Nom, Prenom, NomUsager, AncienMotDePasse, ConfirmPasswordEdit, Courriel, DateNais, Actif")] Personne personne)
         {
             if(personne.AncienMotDePasse != null)
             {
-                personne.MP = personne.AncienMotDePasse;
                 personne.MP = encrypterChaine(personne.AncienMotDePasse); // Appel de la méthode qui encrypte le mot de passe
-                personne.ConfirmPassword = encrypterChaine(personne.ConfirmPassword); // Appel de la méthode qui encrypte la confirmation du mot de passe
             }
             else
             {         
@@ -165,7 +182,6 @@ namespace sachem.Controllers
                                where (c.id_Pers == personne.id_Pers)
                                  select c.MP;
                 personne.MP = Enseignant.SingleOrDefault();
-                personne.ConfirmPassword = personne.MP;
             }
             Valider(personne);
             if (ModelState.IsValid)

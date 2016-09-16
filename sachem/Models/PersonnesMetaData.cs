@@ -13,10 +13,14 @@ namespace sachem.Models
         //Pour valider la confirmation de mot de passe dans la vue, on crée une nouvelle valeur dans le modèle avec la balise
         //NotMappedAttribute qui ne sera pas sauvegardée sur la BD mais qui pourra être utilisée pour les validations.
 
-            //Extrait du projet PAM
         [System.ComponentModel.DataAnnotations.Compare("MP", ErrorMessage = Messages.C_001)]
         [NotMappedAttribute]
         public string ConfirmPassword { get; set; }
+
+
+        [System.ComponentModel.DataAnnotations.Compare("AncienMotDePasse", ErrorMessage = Messages.C_001)]
+        [NotMappedAttribute]
+        public string ConfirmPasswordEdit { get; set; }
 
         [NotMappedAttribute]
         public bool SouvenirConnexion { get; set; }
