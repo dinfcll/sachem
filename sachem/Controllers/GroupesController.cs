@@ -329,5 +329,27 @@ namespace sachem.Controllers
             }
             return personnes;
         }
+
+        public virtual JsonResult ActualiseEnseignant(int session = 0)
+        {
+            var a = db.Groupe.Where(x => (x.id_Sess == session || session == 0)).ToList();
+            List<Personne> ens = new List<Personne>();
+            foreach(var x in a)
+            {
+                ens.Add(x.Personne);
+            }
+            return Json(ens.AsEnumerable(), JsonRequestBehavior.AllowGet);
+        }
+
+        public virtual JsonResult ActualiseCours(int session = 0, int ens = 0)
+        {
+            var a = db.Groupe.Where(x => (x.id_Sess == session || session == 0)).Where(x => (x.id_Enseignant == ens || ens == 0));
+            List<Cours> cours = new List<Cours>();
+            foreach(var x in a)
+            {
+                cours.Add(x.Cours);
+            }
+            return Json(cours.AsEnumerable(), JsonRequestBehavior.AllowGet);
+        }
     }
 }
