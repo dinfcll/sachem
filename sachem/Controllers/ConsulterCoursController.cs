@@ -16,8 +16,8 @@ namespace sachem.Controllers
     public class ConsulterCoursController : Controller
     {
 
-        int m_IdPers = 3; // 1 = la seule résponsable, 2-9 = enseignants
-        int m_IdTypeUsage = 2; // 2 = enseignant, 3 = responsable
+        int m_IdPers = 2; // 1 = la seule résponsable, 2-9 = enseignants
+        int m_IdTypeUsage = 3; // 2 = enseignant, 3 = responsable
 
         private SACHEMEntities db = new SACHEMEntities();
 
@@ -101,7 +101,7 @@ namespace sachem.Controllers
             else //responsable
             {
                 Int32.TryParse(Request.Form["Personne"], out m_IdPers); //seuls les responsables le voient
-                Int32.TryParse(Request.Form["Session"], out idSess);
+                //Int32.TryParse(Request.Form["Session"], out idSess);
                 ListeSession(idSess); //créer liste Session pour le dropdown
                 ListePersonne(m_IdPers); //créer liste Enseignants pour le dropdown
 
