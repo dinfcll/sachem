@@ -37,10 +37,27 @@ namespace sachem.Models
         public static string I_009(string Cours)
         { return $"Le cours {Cours} a été supprimé."; }
 
-
+        /// <summary>
+        /// L’horaire d’inscription au SACHEM a été mis à jour.
+        /// </summary>
+        /// <returns></returns>
+        public static string I_030()
+        { return $"L’horaire d’inscription au SACHEM a été mis à jour."; }
         #endregion
 
         #region MessageContexte
+
+        ///<summary>
+        /// La dat de début doit être antérieure à la date de fin
+        /// </summary>
+        /// <returns></returns>
+        public const string C_005 = "La date de début doit être antérieure à la date de fin.";
+
+        ///<summary>
+        /// La dat de début doit être antérieure à la date de fin
+        /// </summary>
+        /// <returns></returns>
+        public const string C_006 = "Les dates de début et de fin doivent faire partie de la session sélectionnée.";
         #endregion
 
         #region MessageUnitaire
@@ -57,6 +74,17 @@ namespace sachem.Models
         /// <returns></returns>
         public const string U_003 = "Longueur requise : 8 caractères.";
 
+        ///<summary>
+        /// Format: AAAA/MM/JJ
+        /// </summary>
+        /// <returns></returns>
+        public const string U_007 = "Format : AAAA/MM/JJ";
+
+        ///<summary>
+        /// Format : HH:MM
+        /// </summary>
+        /// <returns></returns>
+        public const string U_010 = "Format : HH:MM";
 
         #endregion
 
