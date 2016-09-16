@@ -9,11 +9,8 @@
 <h2>Dossier de l'étudiant</h2>
 
 @*rechercher*@
-@using (Html.BeginForm("Index", "Cours", FormMethod.Post, new { @class = "form-inline", role = "form" }))
+@using (Html.BeginForm("Index", "DossierEtudiant", FormMethod.Post, new { @class = "form-inline", role = "form" }))
 {
-<p>
-    <h4>Recherche</h4>
-</p>
     @Html.Partial("_RechercheEtudiantInscrit")
 @*<div class="form-group">
     <p>

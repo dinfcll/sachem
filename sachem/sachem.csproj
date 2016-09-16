@@ -300,9 +300,7 @@
     <Compile Include="Models\p_TypeUsag.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\SACHEMIdentite.cs" />
     <Compile Include="Models\sachemModelDN.cs" />
-    <Compile Include="Models\SACHEMModels.cs" />
     <Compile Include="Models\Session.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -409,7 +407,7 @@
     <Content Include="Views\DossierEtudiant\Create.cshtml" />
     <Content Include="Views\DossierEtudiant\Delete.cshtml" />
     <Content Include="Views\DossierEtudiant\_CoursAnterieur.cshtml" />
-    <Content Include="Views\Shared\_RechercheEtudiantInscrit.cshtml" />
+    <Content Include="Views\DossierEtudiant\_RechercheEtudiantInscrit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

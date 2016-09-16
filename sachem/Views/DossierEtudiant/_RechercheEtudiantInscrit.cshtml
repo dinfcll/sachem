@@ -8,7 +8,7 @@
             $.ajax({
                 type: 'POST',
                 url:
-                    @Html.Raw("\"/" + HttpContext.Current.Request.RequestContext.RouteData.Values["controller"].ToString() + "/ActualiseCoursddl\""),
+                    @Html.Raw("\"/" + HttpContext.Current.Request.RequestContext.RouteData.Values["controller"].ToString() + "/ActualiseSuperviseurddl\""),
                 data: {
                     session: vSession
                 },
@@ -26,8 +26,8 @@
 
                     $.each(donnees, function (i, item) {
                         $('#SelectSuperviseur').append($('<option>', {
-                            value: item.id_Cours,
-                            text: item.CodeNom
+                            value: item.id_Sess,
+                            text: item.session
 
                         }));
                     });
@@ -77,8 +77,9 @@
                 @Html.Editor("Nom")
             </div>
         </p>
+        <p>
+            @*Il n'existe pas de HtmlHelper pour créer un bouton submit, il faut donc le creer manuellement*@
+            <input type="submit" value="Rechercher" class="btn-toolbar" />
+        </p>
     </div>
-
-    @*Il n'existe pas de HtmlHelper pour créer un bouton submit, il faut donc le creer manuellement*@
-    <input type="submit" value="Rechercher" class="btn-toolbar" />
 </div>

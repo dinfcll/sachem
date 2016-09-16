@@ -35,10 +35,10 @@ namespace sachem.Controllers
 
         //fonctions permettant d'obtenir la liste des groupe. Appelé pour l'initialisation et la maj de la liste déroulante Groupe
         [NonAction]
-        private IEnumerable<Inscription> ObtenirListeSuperviseur(int session)
+        private IEnumerable<Jumelage> ObtenirListeSuperviseur(int session)
         {
             int Pers = 0;
-            var ResultReq = db.Inscription.AsNoTracking().Where(p => (p.id_Pers== Pers || Pers == 0) && (p.Personne.id_TypeUsag == 2) && (p.id_Sess == session));
+            var ResultReq = db.Jumelage.AsNoTracking().Where(p => (p.Personne.id_Pers== p.id_Enseignant) && (p.id_Sess == session));
             return ResultReq.AsEnumerable();
         }
 
@@ -79,6 +79,8 @@ namespace sachem.Controllers
         protected IEnumerable<Inscription> Rechercher()
         {
             var matricule = "";
+            var prenom = "";
+            var nom = "";
             var session = 0;
             var typeinscription = 0;
             var superviseur = 0;
@@ -212,15 +214,36 @@ namespace sachem.Controllers
                     */
                 db.Configuration.LazyLoadingEnabled = false;
 
-                if (matricule == "") //recherche avec les trois champs. Pas besoin de préciser le cours étant donné que le id_Groupe est associé à un id_Cours
+                if (matricule == "" && prenom == "" && nom == "") //recherche avec les trois champs
                 {
                     /*requête LINQ qui va chercher tous les étudiants répondant aux critères de recherche ainsi que leur programme d'étude actuel. */
-                    lstEtu = db.Inscription.Include(i => i.p_StatutInscription).Include(i => i.p_TypeInscription).Include(i => i.Personne).Include(i => i.Session);
+                    lstEtu = db.Inscription.Include(i => i.p_StatutInscription).Include(i => i.p_TypeInscription).Include(i => i.Personne).Include(i => i.Session)
+                        .Where(i => i.Session.id_Sess==session && i.id_TypeInscription==typeinscription && i.Personne.id_Pers==superviseur);
+                }
+                else if (matricule == "" && (prenom != "" || nom != ""))
+                {
+                    //recherche sur le nom ou le prenom
+                    if (prenom != "" && nom == "")
+                    {
+                        lstEtu = db.Inscription.Include(i => i.p_StatutInscription).Include(i => i.p_TypeInscription).Include(i => i.Personne).Include(i => i.Session)
+                            .Where(i => i.Personne.Prenom == prenom);
+                    }
+                    else if(prenom=="" && nom != "")
+                    {
+                        lstEtu = db.Inscription.Include(i => i.p_StatutInscription).Include(i => i.p_TypeInscription).Include(i => i.Personne).Include(i => i.Session)
+                            .Where(i => i.Personne.Nom == nom);
+                    }
+                    else
+                    {
+                        lstEtu = db.Inscription.Include(i => i.p_StatutInscription).Include(i => i.p_TypeInscription).Include(i => i.Personne).Include(i => i.Session)
+                            .Where(i => i.Personne.Nom == nom && i.Personne.Prenom == prenom);
+                    }
                 }
                 else
                 {
                     //recherche sur le matricule
-                    lstEtu = db.Inscription.Include(i => i.p_StatutInscription).Include(i => i.p_TypeInscription).Include(i => i.Personne).Include(i => i.Session);
+                    lstEtu = db.Inscription.Include(i => i.p_StatutInscription).Include(i => i.p_TypeInscription).Include(i => i.Personne).Include(i => i.Session)
+                            .Where(i => i.Personne.Matricule7==matricule);
                 }
 
                 db.Configuration.LazyLoadingEnabled = true;
@@ -288,7 +311,7 @@ namespace sachem.Controllers
 
             noPage = (page ?? noPage);
 
-            var inscription = db.Inscription.Include(i => i.p_StatutInscription).Include(i => i.p_TypeInscription).Include(i => i.Personne).Include(i => i.Session);
+            //var inscription = db.Inscription.Include(i => i.p_StatutInscription).Include(i => i.p_TypeInscription).Include(i => i.Personne).Include(i => i.Session);
             return View(Rechercher().ToPagedList(noPage, 20));
         }
 
