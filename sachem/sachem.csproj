@@ -238,7 +238,6 @@
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\GroupeMetadata.cs" />
-    <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\Inscription.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>

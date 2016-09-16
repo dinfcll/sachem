@@ -16,8 +16,11 @@ namespace sachem.Controllers
     public class ConsulterCoursController : Controller
     {
 
-        int m_IdPers = 2; // 1 = la seule résponsable, 2-9 = enseignants
-        int m_IdTypeUsage = 3; // 2 = enseignant, 3 = responsable
+        //int m_IdPers = 2; // 1 = la seule résponsable, 2-9 = enseignants
+        //int m_IdTypeUsage = 3; // 2 = enseignant, 3 = responsable
+
+        int m_IdPers = SessionBag.Current.id_Pers;
+        int m_IdTypeUsage = SessionBag.Current.id_TypeUsag; // 2 = enseignant, 3 = responsable
 
         private SACHEMEntities db = new SACHEMEntities();
 
