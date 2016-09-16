@@ -11,7 +11,7 @@ using sachem.Models;
 
 namespace sachem.Controllers
 {
-    [Authorize]
+   // [Authorize]
     public class ImporterController : Controller
     {
         //nom du repertoire de depot pour le fichier importé.
