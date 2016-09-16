@@ -335,10 +335,24 @@ namespace sachem.Controllers
         // POST: Etudiant/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
+        public ActionResult DeleteConfirmed(int id,int? page)
         {
-            //trouve la personne à supprimer
-            Personne personne = db.Personne.Find(id);
+            var pageNumber = page ?? 1;
+            // Verifie si l'étudiant est relié a un groupe
+            /*if (db.Groupe.Any(a => a.Personne == id)) 
+            {
+                ModelState.AddModelError(string.Empty, Messages.I_014);
+
+            }*/
+            // Vérifier si l'enseignant est relié a un jumelage
+            //if (db.Jumelage.Any(g => g.id_Enseignant == id)) 
+            //{
+            //    ModelState.AddModelError(string.Empty, Messages.I_000);
+            //}
+            //if (ModelState.IsValid)
+            //{
+                //trouve la personne à supprimer
+                Personne personne = db.Personne.Find(id);
             //suppression de la personne dans tout les tables qu'on la retrouve
             var etuProgEtu = db.EtuProgEtude.Where(x => x.id_Etu == personne.id_Pers);
             db.EtuProgEtude.RemoveRange(etuProgEtu);
@@ -355,6 +369,7 @@ namespace sachem.Controllers
             //suppresion et sauvegarde dans la bd
             db.Personne.Remove(personne);
             db.SaveChanges();
+            TempData["Success"] = Messages.I_028(personne.NomPrenom);
             //redirection à l'index après la suppression
             return RedirectToAction("Index");
         }

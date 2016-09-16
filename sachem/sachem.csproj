@@ -410,7 +410,6 @@
     <Content Include="Views\Shared\_PageRecherche.cshtml" />
     <Content Include="Views\Etudiant\Create.cshtml" />
     <Content Include="Views\Etudiant\Delete.cshtml" />
-    <Content Include="Views\Etudiant\Details.cshtml" />
     <Content Include="Views\Etudiant\Edit.cshtml" />
     <Content Include="Views\Etudiant\Index.cshtml" />
     <Content Include="Views\Shared\_RechercheEtudiant.cshtml" />

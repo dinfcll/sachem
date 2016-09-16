@@ -1,7 +1,7 @@
 ﻿@model sachem.Models.Personne
 
 @{
-    ViewBag.Title = "Delete";
+    ViewBag.Title = "Supprimer";
 }
 
 <h2>Supprimer un étudiant</h2>
@@ -29,14 +29,6 @@
         </dd>
 
         <dt>
-            @Html.DisplayName("Nom usager")
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.NomUsager)
-        </dd>
-
-        <dt>
             @Html.DisplayNameFor(model => model.Matricule)
         </dt>
 
@@ -44,13 +36,6 @@
             @Html.DisplayFor(model => model.Matricule7)
         </dd>
 
-        <dt>
-            @Html.DisplayName("Mot de passe")
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.MP)
-        </dd>
 
         <dt>
             @Html.DisplayNameFor(model => model.Courriel)
@@ -60,13 +45,6 @@
             @Html.DisplayFor(model => model.Courriel)
         </dd>
 
-        <dt>
-            @Html.DisplayName("Téléphone")
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Telephone)
-        </dd>
 
         <dt>
             @Html.DisplayName("Date de naissance")
@@ -76,13 +54,6 @@
             @Html.DisplayFor(model => model.DateNais)
         </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Actif)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Actif)
-        </dd>
 
         <dt>
             @Html.DisplayNameFor(model => model.p_Sexe.Sexe)
