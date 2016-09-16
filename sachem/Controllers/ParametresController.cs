@@ -47,17 +47,10 @@ namespace sachem.Controllers
         }
 
         // GET: Parametres/Edit/5
-        public ActionResult Edit(int? id)
+        public ActionResult Edit()
         {
-            if (id == null)
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
-            var contact = db.p_Contact.Find(id);
-
-            if (contact == null)
-                return HttpNotFound();
-            if (contact.Nom.Any())
-                ViewBag.Disens = "True";
+            var contact = db.p_Contact.First();
             return View(contact);
         }
 
@@ -74,7 +67,7 @@ namespace sachem.Controllers
                 db.SaveChanges();
 
                 TempData["Success"] = string.Format(Messages.I_003(contact.Nom));
-                return RedirectToAction("Index");
+                return View(contact);
             }
 
             return View(contact);
