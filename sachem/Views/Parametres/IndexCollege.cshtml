@@ -1,17 +1,21 @@
 ﻿@using System.Activities.Expressions
+@using System.Net.Mime
 @model IEnumerable<sachem.Models.p_College>
 @{
     ViewBag.Title = "IndexCollege";
+    
 }
 <h2>Collège d'enseignement</h2>
 @Scripts.Render("~/bundles/jquery")
-<script src="~/Scripts/jquery.unobtrusive-ajax.min.js">
-</script>
+
+<script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
 <script type="text/javascript">
-    $(function () {
-        $('#edit').click(function () {
-            return $('#NomCollege').val();
-        });
+    $(function() {
+        $('#edit')
+            .attr('href',
+                function() {
+                    return this.href.replace('__NomCollege__', $('#NomCollege').val());
+                });
     });
 </script>
 @using (Ajax.BeginForm("AddCollege", "Parametres", new AjaxOptions
@@ -48,15 +52,16 @@
                     @Html.DisplayFor(modelItem => item.College)
                 </td>
                 <td>
-                   @Ajax.ActionLink("Modifier", "EditCollege","Parametres", new { nomCollege = "edit", id = item.id_College }, new AjaxOptions
-               {
-                   Confirm = @sachem.Models.Messages.Q_014(),
-                   HttpMethod = "Post",
-                   OnSuccess = "window.location.reload()",
-                   InsertionMode = InsertionMode.Replace
-               })
+                @Ajax.ActionLink("Modifier", "EditCollege",null , new {nomCollege = "__NomCollege__", id = item.id_College}, new AjaxOptions
+           {
+               Confirm = @sachem.Models.Messages.Q_014(),
+               HttpMethod = "Post",
+               OnSuccess = "window.location.reload()",
+               InsertionMode = InsertionMode.Replace
+           },
+           new {id ="edit"})
 
-               |
+                |
 
                     @Ajax.ActionLink("Supprimer", "DeleteCollege", new { id = item.id_College}, new AjaxOptions
                     {

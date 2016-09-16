@@ -104,13 +104,14 @@ namespace sachem.Controllers
         }
 
         [HttpPost]
-        public void EditCollege(string NomCollege, int? id)
+        
+        public void EditCollege(string nomCollege, int? id)
         {
             
             if (db.p_College.Any(r => r.id_College == id))
             {
                 var college = db.p_College.Find(id);
-                college.College = NomCollege;
+                college.College = nomCollege;
                 db.Entry(college).State = EntityState.Modified;
                 db.SaveChanges();
             }
