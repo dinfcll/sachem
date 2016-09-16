@@ -311,6 +311,12 @@ namespace sachem.Controllers
                               where d.id_Pers == inscription.id_Pers
                               select d;
 
+            var vInscription = from d in db.Inscription
+                               where d.id_Pers == inscription.id_Pers
+                               select d;
+
+            ViewBag.Insc = vInscription.AsEnumerable();
+
             return View(Tuple.Create(inscription, vCoursSuivi.AsEnumerable()));
         }
 

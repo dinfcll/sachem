@@ -1,25 +1,20 @@
-﻿@model IEnumerable <sachem.Models.CoursSuivi >
+﻿@model sachem.Models.Inscription
 
 <hr />
 <div>
-    <h4>Cours de mathématiques antérieurs</h4>
-    @Html.ActionLink("Ajouter un cours", "Create", "CoursSuivi", new { id = Model.First().id_Pers }, null)
+    <h4>Demande d'inscription au Sachem</h4>
     <table class="table">
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.First().Cours.CodeNom)
+                @Html.DisplayNameFor(model => model.DateInscription)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.First().Session.NomSession)
+                @Html.DisplayNameFor(model => model.p_TypeInscription.TypeInscription)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.First().id_College)
+                @Html.DisplayNameFor(model => model.p_StatutInscription.Statut)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.First().resultat)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.First().p_StatutCours.Statut)
             </th>
             <th>
             </th>
@@ -27,7 +22,7 @@
             </th>
         </tr>
 
-        @foreach (var item in Model)
+        @foreach (var item in IEnumerable<ViewBag.Insc>)
         {
             <tr>
                 <td>
@@ -46,7 +41,7 @@
                     @Html.DisplayFor(modelItem => item.p_StatutCours.Statut)
                 </td>
                 <td>
-                    @Html.ActionLink("Modifier" , "Edit", "CoursSuivi", new {  id = item.id_CoursReussi, id2 = item.id_Pers}, null)
+                    @Html.ActionLink("Modifier", "Edit", "CoursSuivi", new { id = item.id_CoursReussi, id2 = item.id_Pers }, null)
                 </td>
                 <td>
                     @Html.ActionLink("Supprimer", "Delete", "CoursSuivi", new { id = item.id_CoursReussi, id2 = item.id_Pers }, null)
