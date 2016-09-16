@@ -74,7 +74,7 @@ namespace sachem.Controllers
             ViewBag.Superviseur = new SelectList(ObtenirListeSuperviseur(session), "id_Pers", "NomPrenom", superviseur);
         }
 
-        #region Fonctions Ajax
+        #region Fonction Ajax
         /// <summary>
         /// Actualise le dropdownlist des groupes selon l'élément sélectionné dans les dropdownlist Session et Cours
         /// </summary>
@@ -84,8 +84,8 @@ namespace sachem.Controllers
             var a = ObtenirListeSuperviseur(session).Select(c => new { c.id_Pers, c.NomPrenom });
             return Json(a.ToList(), JsonRequestBehavior.AllowGet);
         }
-
-
+        #endregion
+        #region Fonction Recherche IEnumerable<Inscription> List
         //Fonction pour gérer la recherche, elle est utilisée dans la suppression et dans l'index
         [NonAction]
         protected IEnumerable<Inscription> Rechercher()
@@ -105,7 +105,7 @@ namespace sachem.Controllers
             //Request.Form["cle"]
             //Cette méthode fonctionnera dans les 2 cas
             //Request["cle"]
-
+            #region recuperer donnees form
             if (Request.RequestType == "GET" && Session["DernRechEtu"] != null && (string)Session["DernRechEtuUrl"] == Request.Url?.LocalPath)
             {
                 var anciennerech = (string)Session["DernRechEtu"];
@@ -218,8 +218,9 @@ namespace sachem.Controllers
             }
 
 
-        
 
+            #endregion
+            #region traitement donnees resultatReq
             ListeSession(session);
             ListeTypeInscription(typeinscription);
             ListeSuperviseur(session, superviseur);
@@ -229,12 +230,14 @@ namespace sachem.Controllers
             Session["DernRechEtuUrl"] = Request.Url.LocalPath.ToString();
 
             var lstEtu = from p in db.Inscription
-                                    where (db.Jumelage.Any(j => j.id_Enseignant == superviseur && j.Personne.id_TypeUsag == 2 || j.Personne.id_Pers==superviseur) &&
+                                    where (
+                                    db.Jumelage.Any(j => j.id_Enseignant == superviseur || superviseur == 0) &&
                                     (p.id_Sess == session || session == 0) &&
                                     (p.id_TypeInscription == typeinscription || typeinscription == 0) &&
                                     (p.Personne.Prenom.Contains(prenom) || prenom == "") && 
                                     (p.Personne.Nom.Contains(nom) || nom == "") &&
-                                    p.Personne.Matricule.Substring(2).StartsWith(matricule))                              
+                                    (p.Personne.Matricule.Substring(2).StartsWith(matricule) || matricule == "")
+                                                                  )
                                     orderby p.Personne.Nom, p.Personne.Prenom
                                     select p;
 
@@ -283,12 +286,10 @@ namespace sachem.Controllers
 
 
             return lstEtu.ToList();
+            #endregion
         }
-
-
-
-
         #endregion
+
         [NonAction]
         protected IEnumerable<Inscription> Rechercher(int? Page)
         {
