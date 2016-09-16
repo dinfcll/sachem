@@ -297,6 +297,7 @@
     </Compile>
     <Compile Include="Models\SachemIdentite.cs" />
     <Compile Include="Models\sachemModelDN.cs" />
+    <Compile Include="Models\SACHEMModels.cs" />
     <Compile Include="Models\Session.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
