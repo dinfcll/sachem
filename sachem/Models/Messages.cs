@@ -89,17 +89,12 @@ namespace sachem.Models
         /// </summary>
         public static string I_039()
         { return "Tous les critères de la recherche doivent être précisés."; }
-          
+
 
         #endregion
 
         #region MessageContexte
-        /// <summary>
-        /// Le mot de passe et la confirmation du mot de passe doivent être identique.
-        /// </summary>
-        /// <returns></returns>
-        public static string C_001()
-        { return "Le mot de passe et la confirmation du mot de passe doivent être identique."; }
+        public const string C_001 = "Le mot de passe et la confirmation du mot de passe doivent être identiques.";
         #endregion
 
         #region MessageUnitaire

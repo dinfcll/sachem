@@ -52,7 +52,7 @@
             </div>
         </div>
         <div class="form-group">
-            @Html.LabelFor(model => model.Telephone, "Téléphone", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.Telephone, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.Telephone, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.Telephone, "", new { @class = "text-danger" })
@@ -69,15 +69,15 @@
         <div class="form-group">
             @Html.LabelFor(model => model.MP, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.MP, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.PasswordFor(model => model.MP, new { @class = "form-control", placeholder = "Mot de passe" })
                 @Html.ValidationMessageFor(model => model.MP, "", new { @class = "text-danger" })
             </div>
         </div>
         <div class="form-group">
-            @Html.LabelFor(model => model.MP, "Confirmation du mot de passe", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.ConfirmPassword, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.MP, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.MP, "", new { @class = "text-danger" })
+                @Html.PasswordFor(model => model.ConfirmPassword, new { @class = "form-control", placeholder = "Mot de passe" })
+                @Html.ValidationMessageFor(model => model.ConfirmPassword, "", new { @class = "text-danger" })
             </div>
         </div>
 

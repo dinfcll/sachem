@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Web.Http;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
+using System.Web;
+
 
 namespace sachem.Models
 {
@@ -13,6 +13,23 @@ namespace sachem.Models
     //on doit redéfinir la classe partielle même si on ajout rien. Placé immédiatement avant la classe de métadonnée associée
     public partial class Personne
     {
+        [System.ComponentModel.DataAnnotations.Compare("MP", ErrorMessage = Messages.C_001)]
+        [NotMappedAttribute]
+        public string ConfirmPassword { get; set; }
+
+
+        [System.ComponentModel.DataAnnotations.Compare("AncienMotDePasse", ErrorMessage = Messages.C_001)]
+        [NotMappedAttribute]
+        public string ConfirmPasswordEdit { get; set; }
+
+        [NotMappedAttribute]
+        public bool SouvenirConnexion { get; set; }
+
+        [NotMappedAttribute]
+        public string NomUtilisateur { get; set; }
+
+        [NotMappedAttribute]
+        public string AncienMotDePasse { get; set; }
 
 
     }
@@ -25,6 +42,11 @@ namespace sachem.Models
         //[DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy/MM/dd}")]
         //[Required(ErrorMessage = Messages.U_001)]
         //public global::System.DateTime DateNais;
+        [Display(Name = "Date de naissance")]
+        [RegularExpression(@"^[0-9]{4}-[0-9]{2}-[0-9]{2} [0-2][0-9]:[0-5][0-9]:[0-5][0-9]$|^[0-9]{4}\/[0-9]{2}\/[0-9]{2}$", ErrorMessage = Messages.U_007)]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = @"{0:yyyy\/MM\/dd}")]
+        [Required(ErrorMessage = Messages.U_001)]
+        public global::System.DateTime DateNais;
 
         //Nom de la personne
         [Display(Name = "Nom")]
@@ -76,17 +98,15 @@ namespace sachem.Models
         [DisplayFormat(ConvertEmptyStringToNull = false)]
         [Required(ErrorMessage = Messages.U_001)]
         public string MP;
-        //[DataType(DataType.Password)]
-        //[Display(Name = "Confirmation du mot de passe")]
-        //public global::System.String ConfirmPassword;
 
-        //[DataType(DataType.Password)]
-        //[Display(Name = "Ancien mot de passe")]
-        //public global::System.String AncienMotDePasse;
+        [DataType(DataType.Password)]
+        [Display(Name = "Confirmation du mot de passe")]
+       public global::System.String ConfirmPassword;
 
-        //[Display(Name = "Confirmation du mot de passe")]
-        //[DataType(DataType.Password)]
-        //public string ConfMP;
+        [DataType(DataType.Password)]
+        [Display(Name = "Ancien mot de passe")]
+        public global::System.String AncienMotDePasse;
+
     }
 
 }
