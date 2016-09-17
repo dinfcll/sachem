@@ -5,9 +5,11 @@
 @{
     ViewBag.Title = "Details";
 }
-
 <h2>Dossier de l'étudiant</h2>
 
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
 <div>
     <h4>Identification de l'étudiant</h4>
     <hr /> @*Pas comme exemple mais beau*@
@@ -50,7 +52,7 @@
         </dt>
 
         <dd>
-            @Html.TextBoxFor(model => model.Item1.Personne.NumTelephone, new { @class = "form-control"})
+            @Html.TextBoxFor(model => model.Item1.Personne.NumTelephone, new { @class = "form-control" })
             @Html.DisplayFor(model => model.Item1.Personne.NumTelephone)
         </dd>
 
@@ -63,7 +65,9 @@
             Acheté
         </dd>        
     </dl>
-    <input type="submit" value="Modifier" class="btn-toolbar" />
+    <input type="submit" value="Modifier" class="btn btn-default"/>   
+
+    }
 
 
     @Html.Partial("_CoursAnterieur", Model.Item2)

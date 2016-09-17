@@ -256,7 +256,7 @@ namespace sachem.Controllers
         }
 
         // GET: DossierEtudiant/Details/5
-        public ActionResult Details(int? id)
+        public ActionResult Details(int? id, string courriel, string NumTel)
         {
 
             if (id == null)
