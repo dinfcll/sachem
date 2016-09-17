@@ -256,7 +256,7 @@ namespace sachem.Controllers
         }
 
         // GET: DossierEtudiant/Details/5
-        public ActionResult Details(int? id, string courriel, string NumTel)
+        public ActionResult Details(int? id)
         {
 
             if (id == null)
@@ -283,6 +283,13 @@ namespace sachem.Controllers
             ViewBag.idPers = vInscription.First().id_Pers;
 
             return View(Tuple.Create(inscription, vCoursSuivi.AsEnumerable(), vInscription.AsEnumerable()));
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Details(Inscription inscription)
+        {
+            return View();
         }
 
         // GET: DossierEtudiant/Create

@@ -44,6 +44,7 @@
 
         <dd>
             @Html.TextBoxFor(model => model.Item1.Personne.Courriel, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.Item1.Personne.Courriel, "", new { @class = "text-danger" })
             @Html.DisplayFor(model => model.Item1.Personne.Courriel)
         </dd>
 
@@ -53,6 +54,7 @@
 
         <dd>
             @Html.TextBoxFor(model => model.Item1.Personne.NumTelephone, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.Item1.Personne.NumTelephone, "", new { @class = "text-danger" })
             @Html.DisplayFor(model => model.Item1.Personne.NumTelephone)
         </dd>
 
@@ -67,10 +69,11 @@
     </dl>
     <input type="submit" value="Modifier" class="btn btn-default"/>   
 
-    }
+    
 
 
     @Html.Partial("_CoursAnterieur", Model.Item2)
 
     @Html.Partial("_InscriptionSachem", Model.Item3)
 </div>
+}
