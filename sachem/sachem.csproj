@@ -394,6 +394,7 @@
     <Content Include="Views\Parametres\EditHoraire.cshtml" />
     <Content Include="Views\Parametres\IndexCollege.cshtml" />
     <Content Include="Views\Parametres\Edit.cshtml" />
+    <Content Include="Views\Parametres\EditCourrier.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -56,7 +56,34 @@ namespace sachem.Controllers
             var contact = db.p_Contact.First();
             return View(contact);
         }
+        [HttpGet]
+        public ActionResult EditCourrier()
+        {
+            //if (!SachemIdentite.ValiderRoleAcces(RolesAcces, Session))
+            //    return RedirectToAction("Error", "Home", null);
+            var courrier = db.Courriel.First();
+            return View(courrier);
+        }
 
+        [HttpPost]
+        public ActionResult EditCourrier([Bind(Include = "SchoolCode,Title,Combinations")] Courriel courriel)
+        {
+
+            if(courriel.DateFin != null)
+            {
+                if((courriel.DateDebut - courriel.DateFin.Value).TotalDays > 0)
+                {
+                    ModelState.AddModelError(string.Empty, Messages.C_005);
+                }
+            }
+
+            if (ModelState.IsValid)
+            {
+                db.Entry(courriel).State = EntityState.Modified;
+                db.SaveChanges();
+            }
+            return View();
+        }
         // POST: Parametres/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
