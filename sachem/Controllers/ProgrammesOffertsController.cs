@@ -33,6 +33,9 @@ namespace sachem.Controllers
         // GET: ProgrammesOfferts/Create
         public ActionResult Create()
         {
+            //if (!SachemIdentite.ValiderRoleAcces(RolesAcces, Session))
+            //    return RedirectToAction("Error", "Home", null);
+
             return View();
         }
 
@@ -53,11 +56,8 @@ namespace sachem.Controllers
             return View(programme);
         }
 
-        /// <summary>
-        /// GET:modifier un programme
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
+        //Méthode qui permet de modifier un programme. on vérifie que le proramme existe bien pour pouvoir rediriger l'usager vers 
+        //la bonne vue.
         public ActionResult Edit(int? id)
         {
             if (!SachemIdentite.ValiderRoleAcces(RolesAcces, Session))
@@ -79,6 +79,7 @@ namespace sachem.Controllers
 
         [HttpPost]
         //POST:modifier un programme
+        //permet de modifier un programme et de l'enregistrer. vérification si le programme est bien et on l'enregistre par la suite.
         public ActionResult Edit([Bind(Include = "id_ProgEtu,Code,NomProg,Annee,Actif")] ProgrammeEtude programme, int? page)
         {
             Valider(programme);
@@ -95,6 +96,8 @@ namespace sachem.Controllers
         }
 
         // GET: ProgrammesOfferts/Delete/5
+        //Fonction qui permet de retourner l'utilisateur à la page de suppression avec le bon programme d'étude. On verifie si le 
+        //programme existe réellement pour rediriger l'usager vers la bonne action
         public ActionResult Delete(int? id)
         {
             if (!SachemIdentite.ValiderRoleAcces(RolesAcces, Session))
@@ -133,10 +136,8 @@ namespace sachem.Controllers
             }
             return View("Index", Recherche(null).ToPagedList(pageNumber, 20));
         }
-        /// <summary>
-        /// méthode de validation d'un programme
-        /// </summary>
-        /// <param name="programme"></param>
+
+        //Méthode qui permet de vérifier si le programme d'étude existe réellement, pour que l'on puisse le créer ou le modifier
         [NonAction]
         public void Valider([Bind(Include = "id_ProgEtu,Code,NomProg,Annee,Actif")]ProgrammeEtude programme)
         {

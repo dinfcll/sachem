@@ -11,12 +11,17 @@ namespace sachem.Models
     {
         protected override ValidationResult IsValid(object value, ValidationContext validationContext)
         {
-            int valeur = (int)value;
-            if (valeur >= 1967 && valeur <= DateTime.Now.Year + 1)
+            if(value != null)
             {
-                return ValidationResult.Success;
+                int valeur = (int)value;
+                if (valeur >= 1967 && valeur <= DateTime.Now.Year + 1)
+                {
+                    return ValidationResult.Success;
+                }
+                return new ValidationResult("");
             }
-            return new ValidationResult("");
+            return new ValidationResult(Messages.U_001);
+            
         }
     }
 }
