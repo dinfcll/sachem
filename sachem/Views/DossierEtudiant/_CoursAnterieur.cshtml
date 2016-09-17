@@ -3,7 +3,7 @@
 <hr />
 <div>
     <h4>Cours de mathématiques antérieurs</h4>
-    @Html.ActionLink("Ajouter un cours", "Create", "CoursSuivi", new { id = Model.First().id_Pers }, null)
+    @Html.ActionLink("Ajouter un cours", "Create", "CoursSuivi", new { id = ViewBag.idPers }, null)
     <table class="table">
         <tr>
             <th>

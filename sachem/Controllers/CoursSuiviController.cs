@@ -104,15 +104,11 @@ namespace sachem.Controllers
             CoursSuivi cs = db.CoursSuivi.Where(r => r.id_Pers == id).FirstOrDefault();
 
             var vInscription = from d in db.Inscription
-                               where d.id_Pers == cs.id_Pers
+                               where d.id_Pers == id
                                select d.id_Inscription;
 
             ViewBag.id_insc = vInscription.First();
-
-            if (cs == null)
-            {
-                return HttpNotFound();
-            }
+            ViewBag.idPers = id;
 
             ListeCours();
             ListeCollege();
@@ -126,7 +122,7 @@ namespace sachem.Controllers
         // plus de détails, voir  http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "id_CoursReussi,id_Sess,id_Pers,id_College,id_Statut,id_Cours,resultat,autre_Cours,autre_College")] CoursSuivi coursSuivi)
+        public ActionResult Create([Bind(Include = "id_CoursReussi,id_Sess,id_College,id_Statut,id_Cours,resultat,autre_Cours,autre_College")] CoursSuivi coursSuivi, int? id)
         //id_CoursReussi,id_Sess,id_Pers,id_College,id_Statut,id_Cours,resultat,autre_Cours,autre_College
         //Cours,autre_Cours,College,autre_College,Session,Statut,resultat
         {
@@ -135,8 +131,10 @@ namespace sachem.Controllers
             ListeStatut();
             ListeSession();
 
+            coursSuivi.id_Pers = (int)id;
 
             Valider(coursSuivi, 1);
+            
 
             var vInscription = from d in db.Inscription
                                where d.id_Pers == coursSuivi.id_Pers

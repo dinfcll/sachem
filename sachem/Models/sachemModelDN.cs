@@ -33,10 +33,11 @@ namespace sachem.Models
             }
         }
 
-        public long NumTelephone
+        public long? NumTelephone
         {
             get
             {
+                if (Telephone == null) { return null; }
                 return long.Parse(Telephone);
             }
         }
