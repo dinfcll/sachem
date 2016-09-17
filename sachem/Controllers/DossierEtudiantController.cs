@@ -44,7 +44,7 @@ namespace sachem.Controllers
             //    .Where(p => ((p.Personne.p_TypeUsag.id_TypeUsag == 2) && (p.id_Enseignant == p.Personne.id_Pers))));
 
             var lstEnseignant = from p in db.Personne
-                                where (db.Jumelage.Any(j => j.id_Sess == session && j.id_Enseignant == p.id_Pers))
+                                where (db.Jumelage.Any(j => (j.id_Sess == session || session == 0) && j.id_Enseignant == p.id_Pers))
                                 && p.id_TypeUsag == 2
                                 orderby p.Nom, p.Prenom
                                 select p;
@@ -78,6 +78,8 @@ namespace sachem.Controllers
         /// <summary>
         /// Actualise le dropdownlist des groupes selon l'élément sélectionné dans les dropdownlist Session et Cours
         /// </summary>
+        /// 
+        [NonAction]
         [AcceptVerbs("Get", "Post")]
         public JsonResult ActualiseSuperviseurddl(int session)
         {
@@ -90,24 +92,17 @@ namespace sachem.Controllers
         [NonAction]
         protected IEnumerable<Inscription> Rechercher()
         {
+            var id = 0;
             var matricule = "";
             var prenom = "";
             var nom = "";
             var session = 0;
             var typeinscription = 0;
             var superviseur = 0;
-            var champsRenseignes = 0;
-            // IEnumerable<Inscription> lstEtu = new List<Inscription>();
 
-            //Pour accéder à la valeur de cle envoyée en GET dans le formulaire
-            //Request.QueryString["cle"]
-            //Pour accéder à la valeur cle envoyée en POST dans le formulaire
-            //Request.Form["cle"]
-            //Cette méthode fonctionnera dans les 2 cas
-            //Request["cle"]
             #region recuperer donnees form
             if (Request.RequestType == "GET" && Session["DernRechEtu"] != null && (string)Session["DernRechEtuUrl"] == Request.Url?.LocalPath)
-            {
+            {//GET
                 var anciennerech = (string)Session["DernRechEtu"];
                 var tanciennerech = anciennerech.Split(';');
 
@@ -122,19 +117,16 @@ namespace sachem.Controllers
                     {
                         session = Int32.Parse(tanciennerech[1]);
                         ViewBag.Session = session;
-                        champsRenseignes++;
                     }
                     if (tanciennerech[2] != "")
                     {
                         typeinscription = Int32.Parse(tanciennerech[2]);
                         ViewBag.Inscription = typeinscription;
-                        champsRenseignes++;
                     }
                     if (tanciennerech[3] != "")
                     {
                         superviseur = Int32.Parse(tanciennerech[3]);
                         ViewBag.Superviseur = superviseur;
-                        champsRenseignes++;
                     }
 
                 }
@@ -143,7 +135,7 @@ namespace sachem.Controllers
                     noPage = Int32.Parse(tanciennerech[4]);
                 }
             }
-            else
+            else//POST
             {
                 //La méthode String.IsNullOrEmpty permet à la fois de vérifier si la chaine est NULL (lors du premier affichage de la page ou vide, lorsque le paramètre n'est pas appliqué 
                 if (!String.IsNullOrEmpty(Request.Form["Matricule"]))
@@ -240,51 +232,7 @@ namespace sachem.Controllers
                                                                   )
                                     orderby p.Personne.Nom, p.Personne.Prenom
                                     select p;
-
-
-                //    if (matricule == "" && prenom == "" && nom == "") //recherche avec les trois champs
-                //    {
-                ////CA PREND JUMELAGE POUR TROUVER ENSEIGNANT ID
-                //        /*requête LINQ qui va chercher tous les étudiants répondant aux critères de recherche ainsi que leur programme d'étude actuel. */
-                //        lstEtu = db.Inscription.Include(i => i.p_StatutInscription).Include(i => i.p_TypeInscription).Include(i => i.Personne).Include(i => i.Session)
-                //            .Where(i => i.Session.id_Sess==session && i.id_TypeInscription==typeinscription && i.Personne.id_Pers==superviseur);
-                //    }
-                //    else if (matricule == "" && (prenom != "" || nom != ""))
-                //    {
-                //        //recherche sur le nom ou le prenom
-                //        if (prenom != "" && nom == "")
-                //        {
-                //            lstEtu = db.Inscription.Include(i => i.p_StatutInscription).Include(i => i.p_TypeInscription).Include(i => i.Personne).Include(i => i.Session)
-                //                .Where(i => i.Personne.Prenom == prenom);
-                //        }
-                //        else if(prenom=="" && nom != "")
-                //        {
-                //            lstEtu = db.Inscription.Include(i => i.p_StatutInscription).Include(i => i.p_TypeInscription).Include(i => i.Personne).Include(i => i.Session)
-                //                .Where(i => i.Personne.Nom == nom);
-                //        }
-                //        else
-                //        {
-                //            lstEtu = db.Inscription.Include(i => i.p_StatutInscription).Include(i => i.p_TypeInscription).Include(i => i.Personne).Include(i => i.Session)
-                //                .Where(i => i.Personne.Nom == nom && i.Personne.Prenom == prenom);
-                //        }
-                //    }
-                //    else
-                //    {
-                //        //recherche sur le matricule
-                //        lstEtu = db.Inscription.Include(i => i.p_StatutInscription).Include(i => i.p_TypeInscription).Include(i => i.Personne).Include(i => i.Session)
-                //                .Where(i => i.Personne.Matricule.Substring(2).StartsWith(matricule)).OrderBy(x => x.Personne.Nom).ThenBy(x => x.Personne.Prenom);
-                //    }
-
-            /*var personne = from c in db.Personne where c.Actif == true && c.id_TypeUsag == 1 select c;
-            foreach (var pers in personne)
-            {
-                var pidEtu = (from p in db.EtuProgEtude where pers.id_Pers == p.id_Etu orderby p.id_Sess descending select p).FirstOrDefault();
-                var pEtu = db.ProgrammeEtude.Find(pidEtu.id_ProgEtu);
-                pers.ProgEtu = pEtu.NomProg.ToString();
-
-            }*/
-
-
+                           
             return lstEtu.ToList();
             #endregion
         }
@@ -300,17 +248,8 @@ namespace sachem.Controllers
         // GET: DossierEtudiant
         public ActionResult Index(int? page)
         {
-            //ListeSession();
-            //ListeTypeInscription(0,0);
-
-
-            //return View(Rechercher().ToPagedList(pageNumber, 20));
-            //var inscription = db.Inscription.Include(i => i.p_StatutInscription).Include(i => i.p_TypeInscription).Include(i => i.Personne).Include(i => i.Session);
-            //return View(inscription().ToPagedList(pageNumber, 20));
-
             noPage = (page ?? noPage);
 
-            //var inscription = db.Inscription.Include(i => i.p_StatutInscription).Include(i => i.p_TypeInscription).Include(i => i.Personne).Include(i => i.Session);
             //return View(Rechercher().ToPagedList(noPage, 20));
             return View(Rechercher());
         }
@@ -351,7 +290,6 @@ namespace sachem.Controllers
 
         // POST: DossierEtudiant/Create
         // Afin de déjouer les attaques par sur-validation, activez les propriétés spécifiques que vous voulez lier. Pour 
-        // plus de détails, voir  http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "id_Inscription,id_Sess,id_Pers,id_Statut,id_TypeInscription,TransmettreInfoTuteur,NoteSup,ContratEngagement,BonEchange,DateInscription")] Inscription inscription)

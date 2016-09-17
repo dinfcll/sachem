@@ -43,43 +43,48 @@
     });
 
 </script>
+<h4>Recherche</h4>
 
-<div class="form-inline">
+<table class="tsearch">
+    <tr>
+        <td>
+            Session :
+        </td><td>
+            @Html.DropDownList("Session", null, "Toutes", htmlAttributes: new { @class = "form-search" })
+        </td>
+        <td>
+            Type d'inscription :
+        </td><td>
+            @Html.DropDownList("Inscription", null, "Tous", htmlAttributes: new { @class = "form-search" })
+        </td>
+        <td>
 
-    <h4>Recherche</h4>
-
-    <div class="form-group">
-        <p>
-            <div class="form-group">
-                Session :
-                @Html.DropDownList("Session", null, "Toutes")
-            </div>
-            <div class="form-group">
-                Type d'inscription :
-                @Html.DropDownList("Inscription", null, "Tous")
-            </div>
-            <div class="form-group">
-                Superviseur :
-                @Html.DropDownList("Superviseur", "Tous")
-            </div>
-        </p>
-        <p>
-            <div class="form-group">
-                Matricule :
-                @Html.Editor("Matricule")
-            </div>
-            <div class="form-group">
-                Prénom :
-                @Html.Editor("Prenom")
-            </div>
-            <div class="form-group">
-                Nom :
-                @Html.Editor("Nom")
-            </div>
-        </p>
-        <p>
+            Superviseur :
+        </td><td>
+            @Html.DropDownList("Superviseur", null, "Tous", htmlAttributes: new { @class = "form-search" })
+        </td>
+        </tr>
+    <tr>
+        <td>
+            Matricule :
+        </td><td>
+            @Html.Editor("Matricule")
+        </td>
+        <td>
+            Prénom :
+        </td><td>
+            @Html.Editor("Prenom")
+        </td>
+        <td>
+            Nom :
+        </td><td>
+            @Html.Editor("Nom")
+        </td>
+    </tr>
+    <tr>
+        <td>
             @*Il n'existe pas de HtmlHelper pour créer un bouton submit, il faut donc le creer manuellement*@
-            <input type="submit" value="Rechercher" class="btn-toolbar" />
-        </p>
-    </div>
-</div>
+            <input type="submit" value="Rechercher" class="form-search" />
+        </td>
+    </tr>
+</table>
