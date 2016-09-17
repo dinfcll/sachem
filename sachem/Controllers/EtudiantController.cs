@@ -322,7 +322,7 @@ namespace sachem.Controllers
             PersonneEtuProgParent pepp = new PersonneEtuProgParent();
             Personne p = db.Personne.Find(personne.id_Pers);
             p.id_TypeUsag = 1;
-            p.Matricule = personne.Matricule;
+            //p.Matricule = personne.Matricule;
             var idSexe = (from d in db.Personne
                           where d.id_Pers == p.id_Pers
                           select d).FirstOrDefault();
@@ -338,7 +338,7 @@ namespace sachem.Controllers
 
             var etuprog = new EtuProgEtude();
             //Ajout du programme d'étude (Si l'étudiant rajoute les champs)
-            if (Request.Form["id_Programme"] != null && Request.Form["id_Session"] != null)
+            if (Request.Form["id_Programme"] != "" && Request.Form["id_Session"] != "")
             {
                 etuprog.id_ProgEtu = Int32.Parse(Request.Form["id_Programme"]);
                 etuprog.id_Sess = Int32.Parse(Request.Form["id_Session"]);
@@ -415,7 +415,7 @@ namespace sachem.Controllers
             db.EtuProgEtude.RemoveRange(etuProgEtu);
             db.SaveChanges();
             //faire apparaitre le message
-            TempData["Success"] = Messages.I_028("salut");
+            TempData["Success"] = Messages.I_016("");
             //retourne à l'index
             return RedirectToAction("Index");
         }
