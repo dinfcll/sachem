@@ -6,7 +6,7 @@
 
 <h2>Suppression d'élève</h2>
 
-<h3>Êtes-vous sûr de vouloir supprimer cet élève?</h3>
+<h3>@sachem.Models.Messages.Q_009(Model.Personne.Matricule7,Model.Groupe.NoGroupe)</h3>
 <div>
     <h4>Groupe</h4>
     <hr />
@@ -35,7 +35,7 @@
 
         <div class="form-actions no-color">
             <input type="submit" value="Supprimer" class="btn btn-default" /> |
-            @Html.ActionLink("Retour à la liste", "Edit")
+            @Html.ActionLink("Retour à la liste", "Edit",new { id = Model.Groupe.id_Groupe})
         </div>
     }
 </div>

@@ -21,9 +21,11 @@ namespace sachem.Models
         public int id_Groupe;
 
         [Display(Name = "Numéro de groupe")]
+        [Required(ErrorMessage = Messages.U_001)]
         public int NoGroupe;
 
         [Display(Name = "Cours")]
+        [Required(ErrorMessage = Messages.U_001)]
         public string id_Cours;
 
         //[Display(Name = "Nombre de personne")]

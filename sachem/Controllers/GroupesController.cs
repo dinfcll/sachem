@@ -82,6 +82,7 @@ namespace sachem.Controllers
             {
                 db.Groupe.Add(groupe);
                 db.SaveChanges();
+                TempData["Success"] = string.Format(Messages.Q_008(groupe.NoGroupe));
                 return RedirectToAction("Index");
             }
 
@@ -155,6 +156,12 @@ namespace sachem.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Groupe groupe = db.Groupe.Find(id);
+
+            if (db.GroupeEtudiant.Any(ge => ge.id_Groupe == id))
+            {
+                ViewBag.Error = Messages.Q_007(groupe.NoGroupe);
+            }
+
             if (groupe == null)
             {
                 return HttpNotFound();
@@ -171,9 +178,16 @@ namespace sachem.Controllers
             {
                 return RedirectToAction("Index", "Cours");
             }
+
             Groupe groupe = db.Groupe.Find(id);
-            db.Groupe.Remove(groupe);
-            db.SaveChanges();
+
+            if (ModelState.IsValid)
+            {
+                db.Groupe.Remove(groupe);
+                db.SaveChanges();
+                TempData["Success"] = string.Format(Messages.I_020(groupe.NoGroupe));
+            }
+
             return RedirectToAction("Index");
         }
 
@@ -250,11 +264,12 @@ namespace sachem.Controllers
 
                 /*requête LINQ qui va chercher tous les étudiants répondant aux critères de recherche ainsi que leur programme d'étude actuel. */
             var lstEtu = from q in
-                         (from p in personnes.Where(x => x.Actif == true && x.GroupeEtudiant.Any(y => y.id_Groupe == idg) && x.EtuProgEtude.Any(y => y.id_Sess == groupe.id_Sess)).OrderBy(x => x.Nom)
+                         (from p in personnes.Where(x => /*x.Actif == true &&  x.GroupeEtudiant.Any(y => y.id_Groupe == idg) && */ 
+                           x.EtuProgEtude.Any(y => y.id_Sess == groupe.id_Sess)).OrderBy(x => x.Nom)
                             select new
                             {
                                 Personne = p,
-                                ProgEtu = (from pe in db.EtuProgEtude where p.id_Pers == pe.id_Etu orderby pe.id_Sess descending select pe).FirstOrDefault().ProgrammeEtude,
+                                ProgEtu = (from pe in db.EtuProgEtude where p.id_Pers == pe.id_Etu && db.ProgrammeEtude.Any(y=> y.id_ProgEtu == pe.id_ProgEtu) orderby pe.id_Sess descending select pe).FirstOrDefault().ProgrammeEtude,
                             }).AsEnumerable()
                             orderby q.Personne.Nom, q.Personne.Prenom
                             // le résultat de la requête sera une liste de PersonneProgEtu (déclaré plus haut),
@@ -270,38 +285,45 @@ namespace sachem.Controllers
         //[ValidateAntiForgeryToken]
         public ActionResult AjouterEleveGET(int idg, int idp)
         {
+
             if (!SachemIdentite.TypeListeAdmin.Contains(SachemIdentite.ObtenirTypeUsager(Session)))
             {
                 return RedirectToAction("Index", "Home");
             }
-            if (db.GroupeEtudiant.Where(x => x.id_Etudiant == idp).Where(x => x.id_Groupe == idg).FirstOrDefault() != null)
-            {
-                return Content("L'élève est déjà dans ce groupe.");
-                //return HttpNotFound();
-            }
-
-            if(db.GroupeEtudiant.Where(x => x.id_Etudiant == idp).FirstOrDefault() != null)
-            {
-                //return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-                return Content("L'élève est déjà dans un groupe.");
-            }
 
             Groupe g = db.Groupe.Find(idg);
             Personne p = db.Personne.Find(idp);
-            
-            if(g == null || p == null)
+
+            if (g == null || p == null)
             {
                 return HttpNotFound();
             }
 
-            GroupeEtudiant ge = new GroupeEtudiant();
-            ge.Personne = p;
-            ge.Groupe = g;
+            if (db.GroupeEtudiant.Where(x => x.id_Etudiant == idp).Where(x => x.id_Groupe == idg).FirstOrDefault() != null)
+            {
+                //return Content("L'élève est déjà dans ce groupe.");
+                ModelState.AddModelError(string.Empty, Messages.I_023(db.GroupeEtudiant.Where(x => x.id_Etudiant == idp).Where(x => x.id_Groupe == idg).FirstOrDefault().Personne.Matricule7));
+            }
 
-            db.GroupeEtudiant.Add(ge);
-            g.GroupeEtudiant.Add(ge);
+            if(db.GroupeEtudiant.Where(x => x.id_Etudiant == idp).FirstOrDefault() != null)
+            {
+                ModelState.AddModelError(string.Empty, Messages.Q_010(p.PrenomNom,g.Session.NomSession,g.NoGroupe, g.Cours.Nom));
+                //return Content("L'élève est déjà dans un groupe.");
+            }
 
-            db.SaveChanges();
+            if (ModelState.IsValid)
+            {
+                GroupeEtudiant ge = new GroupeEtudiant();
+                ge.Personne = p;
+                ge.Groupe = g;
+
+                db.GroupeEtudiant.Add(ge);
+                g.GroupeEtudiant.Add(ge);
+
+                db.SaveChanges();
+                TempData["Success"]= string.Format(Messages.I_024(p.Matricule7,g.id_Groupe));
+
+            }
 
             return RedirectToAction("Index");
         }
@@ -330,13 +352,18 @@ namespace sachem.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteEleveConfirmed(int id)
         {
-            if (SachemIdentite.TypeListeAdmin.Contains(SachemIdentite.ObtenirTypeUsager(Session)))
+            if (!SachemIdentite.TypeListeAdmin.Contains(SachemIdentite.ObtenirTypeUsager(Session)))
             {
                 return RedirectToAction("Index", "Cours");
             }
+
+
             GroupeEtudiant ge = db.GroupeEtudiant.Find(id);
+
+            TempData["Success"] = string.Format(Messages.I_022(ge.Personne.Matricule7, ge.Groupe.NoGroupe));
             db.GroupeEtudiant.Remove(ge);
             db.SaveChanges();
+
             return RedirectToAction("Index");
         }
 
@@ -382,8 +409,13 @@ namespace sachem.Controllers
                 return HttpNotFound();
             }
 
-            ge.Groupe = g;
-            db.SaveChanges();
+            if (!(ge.id_Groupe == g.id_Groupe))
+            {
+
+                ge.Groupe = g;
+                db.SaveChanges();
+                TempData["Success"]= Messages.I_028(ge.Personne.Matricule7, g.NoGroupe, g.Cours.Nom);
+            }
             return RedirectToAction("Index");
         }
 
@@ -437,8 +469,12 @@ namespace sachem.Controllers
         [NonAction]
         private void Valider([Bind(Include = "id_Groupe,id_Cours,id_Sess,id_Enseignant,NoGroupe")] Groupe groupe)
         {
-            if (db.Groupe.Any(r => r.NoGroupe == groupe.NoGroupe && r.id_Sess == groupe.id_Sess))
-                ModelState.AddModelError(string.Empty, Messages.I_021(groupe.NoGroupe.ToString()));
+
+            if (groupe.NoGroupe.ToString().Length >4)
+                ModelState.AddModelError(string.Empty, Messages.U_005);
+
+            if (db.Groupe.Any(r => r.NoGroupe == groupe.NoGroupe && r.id_Enseignant == groupe.id_Enseignant && r.id_Sess == groupe.id_Sess && r.id_Cours == groupe.id_Cours))
+                ModelState.AddModelError(string.Empty, Messages.I_021(groupe.NoGroupe));
         }
 
     }

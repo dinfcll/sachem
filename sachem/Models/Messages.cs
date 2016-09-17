@@ -59,7 +59,7 @@ namespace sachem.Models
         /// </summary>
         /// <param name="NoGroupe"></param>
         /// <returns></returns>
-        public static string I_020(string NoGroupe)
+        public static string I_020(int NoGroupe)
         { return $"Le groupe {NoGroupe} a été supprimé."; }
 
         /// <summary>
@@ -67,7 +67,7 @@ namespace sachem.Models
         /// </summary>
         /// <param name="NoGroupe"></param>
         /// <returns></returns>
-        public static string I_021(string NoGroupe)
+        public static string I_021(int NoGroupe)
         { return $"Impossible d'enregistrer ce groupe. Il existe déjà un groupe ayant le numéro {NoGroupe}."; }
 
         /// <summary>
@@ -76,7 +76,7 @@ namespace sachem.Models
         /// <param name="Matricule"></param>
         /// <param name="NoGroupe"></param>
         /// <returns></returns>
-        public static string I_022(string Matricule,string NoGroupe)
+        public static string I_022(string Matricule,int NoGroupe)
         { return $"L'étudiant {Matricule} a été retiré du groupe {NoGroupe}."; }
 
         /// <summary>
@@ -93,8 +93,18 @@ namespace sachem.Models
         /// <param name="Matricule"></param>
         /// <param name="IdGroupe"></param>
         /// <returns></returns>
-        public static string I_024(string Matricule, string IdGroupe)
+        public static string I_024(string Matricule, int IdGroupe)
         { return $"L'étudiant {Matricule} a été ajouté au groupe {IdGroupe}."; }
+
+        /// <summary>
+        /// L'étudiant {Matricule} a été déplacé au groupe {IdGroupe} du cours {NomCours}.
+        /// </summary>
+        /// <param name="Matricule"></param>
+        /// <param name="IdGroupe"></param>
+        /// <returns></returns>
+        public static string I_028(string Matricule, int IdGroupe,string NomCours)
+        { return $"L'étudiant {Matricule} a été déplacé au groupe {IdGroupe} du cours {NomCours}."; }
+
 
         #endregion
 
@@ -148,7 +158,7 @@ namespace sachem.Models
         /// </summary>
         /// <param name="NoGroupe"></param>
         /// <returns></returns>private string Q_006(string NoGroupe)
-        public static string Q_006(string NoGroupe)
+        public static string Q_006(int NoGroupe)
         { return $"Voulez-vous vraiment supprimer le groupe {NoGroupe}?"; }
 
         /// <summary>
@@ -156,7 +166,7 @@ namespace sachem.Models
         /// </summary>
         /// <param name="NoGroupe"></param>
         /// <returns></returns>private string Q_007(string NoGroupe)
-        public static string Q_007(string NoGroupe)
+        public static string Q_007(int NoGroupe)
         { return $"Des étudiants sont rattachés au groupe {NoGroupe} Souhaitez-vous le supprimer définitivement?"; }
 
         /// <summary>
@@ -164,23 +174,23 @@ namespace sachem.Models
         /// </summary>
         /// <param name="NoGroupe"></param>
         /// <returns></returns>private string Q_008(string NoGroupe)
-        public static string Q_008(string NoGroupe)
+        public static string Q_008(int NoGroupe)
         { return $"Le groupe {NoGroupe} a été créé. Souhaitez-vous y associer des étudiants?"; }
 
         /// <summary>
-        /// Voulez-vous vraiment supprimer le groupe {0} ?
+        /// Voulez-vous vraiment retirer l'étudiant {Matricule} du groupe {NoGroupe}?
         /// </summary>
         /// <param name="NoGroupe"></param>
         /// <returns></returns>private string Q_009(string Matricule,string NoGroupe)
-        public static string Q_009(string Matricule,string NoGroupe)
+        public static string Q_009(string Matricule,int NoGroupe)
         { return $"Voulez-vous vraiment retirer l'étudiant {Matricule} du groupe {NoGroupe}?"; }
 
         /// <summary>
-        /// Voulez-vous vraiment supprimer le groupe {0} ?
+        /// L'étudiant {PrenomNom} est déjà inscrit au cours {NomCours} pour la session {NomSaison}. Voulez-vous le déplacer dans le groupe {NoGroupe}? 
         /// </summary>
         /// <param name="NoGroupe"></param>
         /// <returns></returns>private string Q_010(string PrenomNom,string NomSaison,string NoGroupe,string NomCours)
-        public static string Q_010(string PrenomNom,string NomSaison,string NoGroupe,string NomCours)
+        public static string Q_010(string PrenomNom,string NomSaison,int NoGroupe,string NomCours)
         { return $"L'étudiant {PrenomNom} est déjà inscrit au cours {NomCours} pour la session {NomSaison}. Voulez-vous le déplacer dans le groupe {NoGroupe}?"; }
 
         #endregion
