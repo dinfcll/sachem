@@ -100,6 +100,7 @@ namespace sachem.Controllers
             var typeinscription = 0;
             var superviseur = 0;
 
+            //region recuperation de donnees en GET pour initialiser les drop down listes
             #region recuperer donnees form
             if (Request.RequestType == "GET" && Session["DernRechEtu"] != null && (string)Session["DernRechEtuUrl"] == Request.Url?.LocalPath)
             {//GET
