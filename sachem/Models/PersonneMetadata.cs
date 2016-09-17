@@ -11,7 +11,7 @@ namespace sachem.Models
     [MetadataType(typeof(PersonneMetadata))]
     //on doit redéfinir la classe partielle même si on ajout rien. Placé immédiatement avant la classe de métadonnée associée
     public partial class Personne
-    {
+    {        
 
     }
     public class PersonneMetadata

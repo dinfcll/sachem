@@ -28,7 +28,7 @@ namespace sachem.Controllers
         {
             var lSessions = db.Session.AsNoTracking().OrderBy(s => s.Annee).ThenBy(s => s.p_Saison.Saison).Where(s => s.p_Saison.id_Saison == s.id_Saison);
             var slSession = new List<SelectListItem>();
-            slSession.AddRange(new SelectList(lSessions, "id_Sess", "NomSession", Session));
+            slSession.AddRange(new SelectList(lSessions.OrderBy(i => i.id_Sess), "id_Sess", "NomSession", Session));
             ViewBag.Session = slSession;
 
         }
