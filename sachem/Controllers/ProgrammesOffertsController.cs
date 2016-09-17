@@ -33,8 +33,8 @@ namespace sachem.Controllers
         // GET: ProgrammesOfferts/Create
         public ActionResult Create()
         {
-            //if (!SachemIdentite.ValiderRoleAcces(RolesAcces, Session))
-            //    return RedirectToAction("Error", "Home", null);
+            if (!SachemIdentite.ValiderRoleAcces(RolesAcces, Session))
+                return RedirectToAction("Error", "Home", null);
 
             return View();
         }
