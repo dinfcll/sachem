@@ -56,12 +56,14 @@ namespace sachem.Controllers
             var contact = db.p_Contact.First();
             return View(contact);
         }
+
         [HttpGet]
         public ActionResult EditCourrier()
         {
             //if (!SachemIdentite.ValiderRoleAcces(RolesAcces, Session))
             //    return RedirectToAction("Error", "Home", null);
             var courrier = db.Courriel.First();
+            ViewBag.id_TypeCourriel = new SelectList(db.p_TypeCourriel, "id_TypeCourriel", "TypeCourriel");
             return View(courrier);
         }
 
