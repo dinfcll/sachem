@@ -59,6 +59,13 @@ namespace sachem.Models
         public static string I_030()
         { return $"L’horaire d’inscription au SACHEM a été mis à jour."; }
 
+
+        /// <summary>
+        /// Le courriel a été mis à jour
+        /// </summary>
+        /// <returns></returns>
+        public static string I_032()
+        { return $"Le courriel a été mis à jour.";}
         #endregion
 
         #region MessageContexte

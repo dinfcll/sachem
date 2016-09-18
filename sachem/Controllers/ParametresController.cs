@@ -63,12 +63,12 @@ namespace sachem.Controllers
             //if (!SachemIdentite.ValiderRoleAcces(RolesAcces, Session))
             //    return RedirectToAction("Error", "Home", null);
             var courrier = db.Courriel.First();
-            ViewBag.id_TypeCourriel = new SelectList(db.p_TypeCourriel, "id_TypeCourriel", "TypeCourriel");
+            ViewBag.id_TypeCourriel = new SelectList(db.p_TypeCourriel, "TypeCourriel", "TypeCourriel");
             return View(courrier);
         }
 
         [HttpPost]
-        public ActionResult EditCourrier([Bind(Include = "SchoolCode,Title,Combinations")] Courriel courriel)
+        public ActionResult EditCourrier([Bind(Include = "id_TypeCourriel,Titre,Courriel1,DateDebut,DateFin,p_TypeCourriel")] Courriel courriel)
         {
 
             if(courriel.DateFin != null)
@@ -83,6 +83,7 @@ namespace sachem.Controllers
             {
                 db.Entry(courriel).State = EntityState.Modified;
                 db.SaveChanges();
+                TempData["Succes"] = Messages.I_032();
             }
             return View();
         }
