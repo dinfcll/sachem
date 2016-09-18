@@ -72,7 +72,7 @@
                             <li>@Html.ActionLink("Cours", "Index", "Cours")</li>
                             @if (SachemIdentite.ObtenirTypeUsager(Session) == TypeUsagers.Responsable)
                             {
-                                    <li>@Html.ActionLink("Courriel de confirmation", "Index", "Cours")</li>
+                                    <li>@Html.ActionLink("Courriel de confirmation", "EditCourrier", "Parametres")</li>
                                     <li>@Html.ActionLink("Enseignants", "Index", "Cours")</li>
                             }
                                     <li>@Html.ActionLink("Étudiants", "Index", "Cours")</li>
