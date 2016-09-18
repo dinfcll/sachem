@@ -6,6 +6,7 @@ using System.Net;
 using System.Web.Mvc;
 using sachem.Models;
 using PagedList;
+using System.Web.Mvc.Html;
 
 namespace sachem.Controllers
 {
@@ -60,18 +61,19 @@ namespace sachem.Controllers
         [HttpGet]
         public ActionResult EditCourrier()
         {
-            //if (!SachemIdentite.ValiderRoleAcces(RolesAcces, Session))
-            //    return RedirectToAction("Error", "Home", null);
+            if (!SachemIdentite.ValiderRoleAcces(RolesAcces, Session))
+                return RedirectToAction("Error", "Home", null);
             var courrier = db.Courriel.First();
-            ViewBag.id_TypeCourriel = new SelectList(db.p_TypeCourriel, "TypeCourriel", "TypeCourriel");
+            ViewBag.id_TypeCourriel = new SelectList(db.p_TypeCourriel, "id_TypeCourriel", "TypeCourriel");
             return View(courrier);
         }
 
         [HttpPost]
-        public ActionResult EditCourrier([Bind(Include = "id_TypeCourriel,Titre,Courriel1,DateDebut,DateFin,p_TypeCourriel")] Courriel courriel)
+        public ActionResult EditCourrier(Courriel courriel, p_TypeCourriel typeCourriel)
         {
-
-            if(courriel.DateFin != null)
+            ViewBag.id_TypeCourriel = new SelectList(db.p_TypeCourriel, "id_TypeCourriel", "TypeCourriel");
+            courriel.p_TypeCourriel = typeCourriel;
+            if (courriel.DateFin != null)
             {
                 if((courriel.DateDebut - courriel.DateFin.Value).TotalDays > 0)
                 {
@@ -83,7 +85,7 @@ namespace sachem.Controllers
             {
                 db.Entry(courriel).State = EntityState.Modified;
                 db.SaveChanges();
-                TempData["Succes"] = Messages.I_032();
+                TempData["Success"] = Messages.I_032();
             }
             return View();
         }

@@ -30,16 +30,18 @@ namespace sachem.Models
         [Required(ErrorMessage = Messages.U_001)]
         public string Courriel1 { get; set; }
 
-        [RegularExpression(@"^\d{4}[-/](0?[1-9]|1[012])[-/](0?[1-9]|[12][0-9]|3[01])$",ErrorMessage = Messages.U_007)]
+       
         [Display(Name = "Date de début")]
+        [RegularExpression(@"^\d{4}[/](0?[1-9]|1[012])[/](0?[1-9]|[12][0-9]|3[01])$", ErrorMessage = Messages.U_007)]
         public System.DateTime DateDebut { get; set; }
 
-        [RegularExpression(@"^\d{4}[/](0?[1-9]|1[012])[/](0?[1-9]|[12][0-9]|3[01])$", ErrorMessage = Messages.U_007)]
+        
         [Display(Name = "Date de fin")]
+        [RegularExpression(@"^\d{4}[/](0?[1-9]|1[012])[/](0?[1-9]|[12][0-9]|3[01])$", ErrorMessage = Messages.U_007)]
         public Nullable<System.DateTime> DateFin { get; set; }
 
         [Display(Name = "Type de courriel")]
-        public virtual p_TypeCourriel p_TypeCourriel { get; set; }
+        public virtual int p_TypeCourriel { get; set; }
     }
 
 }
