@@ -9,6 +9,29 @@
 
 @using (Html.BeginForm("AjouterEleve", "Groupes", new { idg = ViewBag.idg }, FormMethod.Post, new { @class = "form-inline", role = "form" }))
 {
+
+    @TempData["ErrorAjEl"]
+    @TempData["Success"]
+
+    if ((string)TempData["ErrorDep"] != null)
+    {
+            @TempData["ErrorDep"]
+            <br />
+
+            <tr>
+                <td>
+                    @Html.ActionLink("Oui", "Deplacer", new { id = @TempData["idGe"] }) |
+                    @Html.ActionLink("Non", "AjouterEleveGET", new { idg = @TempData["idg"], idp = @TempData["personne"] ,noclick = 1})  |
+                    @Html.ActionLink("Annuler", "AjouterEleve", new { idg = @TempData["idg"], page = ViewBag.page})
+                </td>
+            </tr>
+
+
+     }
+
+   
+    
+
     <p>
         <h4>Recherche</h4>
     </p>

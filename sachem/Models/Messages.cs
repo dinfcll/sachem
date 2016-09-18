@@ -80,7 +80,7 @@ namespace sachem.Models
         { return $"L'étudiant {Matricule} a été retiré du groupe {NoGroupe}."; }
 
         /// <summary>
-        /// L'étudiant {Matricule} a été retiré du groupe {NoGroupe}.
+        /// Impossible d'ajouter l'étudiant {Matricule}  au groupe puisqu'il en fait déjà partie.
         /// </summary>
         /// <param name="Matricule"></param>
         /// <returns></returns>
@@ -104,6 +104,15 @@ namespace sachem.Models
         /// <returns></returns>
         public static string I_028(string Matricule, int IdGroupe,string NomCours)
         { return $"L'étudiant {Matricule} a été déplacé au groupe {IdGroupe} du cours {NomCours}."; }
+
+        /// <summary>
+        /// L'étudiant {Matricule} ne peut pas être déplacé au groupe {IdGroupe} du cours {NomCours},car il y est déjà!
+        /// </summary>
+        /// <param name="Matricule"></param>
+        /// <param name="IdGroupe"></param>
+        /// <returns></returns>
+        public static string I_029(string Matricule, int IdGroupe, string NomCours)
+        { return $"L'étudiant {Matricule} ne peut pas être déplacé au groupe {IdGroupe} du cours {NomCours},car il y est déjà!"; }
 
 
         #endregion

@@ -49,10 +49,16 @@
     @using (Html.BeginForm()) {
         @Html.AntiForgeryToken()
 
+        
+            if ((string)ViewBag.Error != null)
+            {
+                @ViewBag.Error;
+            }
+
+        
+
         <div class="form-actions no-color">
-             <input type="submit" value="Supprimer" class="btn btn-default" 
-                    onclick="if (confirm('@Html.ViewBag.Error') 
-                    location.href='@Url.Action("DeleteConfirmed", "Groupes",  new { id= Model.id_Groupe })'"/>  |
+             <input type="submit" value="Supprimer" class="btn btn-default"/>  |
             @Html.ActionLink("Retour à la recherche de groupe", "Index")
         </div>
     }

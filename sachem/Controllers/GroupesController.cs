@@ -82,7 +82,8 @@ namespace sachem.Controllers
             {
                 db.Groupe.Add(groupe);
                 db.SaveChanges();
-                TempData["Success"] = string.Format(Messages.Q_008(groupe.NoGroupe));
+                TempData["Questions"] = string.Format(Messages.Q_008(groupe.NoGroupe));
+                TempData["idg"] = groupe.id_Groupe;
                 return RedirectToAction("Index");
             }
 
@@ -136,6 +137,8 @@ namespace sachem.Controllers
             {
                 db.Entry(groupe).State = EntityState.Modified;
                 db.SaveChanges();
+                TempData["Questions"] = string.Format(Messages.Q_008(groupe.NoGroupe));
+                TempData["idg"] = groupe.id_Groupe;
                 return RedirectToAction("Index");
             }
             ViewBag.id_Cours = new SelectList(db.Cours, "id_Cours", "Code", groupe.id_Cours);
@@ -180,9 +183,14 @@ namespace sachem.Controllers
             }
 
             Groupe groupe = db.Groupe.Find(id);
+            GroupeEtudiant ge = db.GroupeEtudiant.Find(groupe.id_Groupe);
 
             if (ModelState.IsValid)
             {
+                foreach (var x in (from c in db.GroupeEtudiant where c.id_Groupe == groupe.id_Groupe select c))
+                {
+                    db.GroupeEtudiant.Remove(x);
+                }
                 db.Groupe.Remove(groupe);
                 db.SaveChanges();
                 TempData["Success"] = string.Format(Messages.I_020(groupe.NoGroupe));
@@ -278,12 +286,14 @@ namespace sachem.Controllers
             db.Configuration.LazyLoadingEnabled = true;
 
             var pageNumber = page ?? 1;
+            ViewBag.page = pageNumber;
+            TempData["idg"] = idg;
             return View(lstEtu.ToPagedList(pageNumber, 20));
         }
 
         [HttpGet]
         //[ValidateAntiForgeryToken]
-        public ActionResult AjouterEleveGET(int idg, int idp)
+        public ActionResult AjouterEleveGET(int idg, int idp,int noclick = 0)
         {
 
             if (!SachemIdentite.TypeListeAdmin.Contains(SachemIdentite.ObtenirTypeUsager(Session)))
@@ -301,31 +311,39 @@ namespace sachem.Controllers
 
             if (db.GroupeEtudiant.Where(x => x.id_Etudiant == idp).Where(x => x.id_Groupe == idg).FirstOrDefault() != null)
             {
-                //return Content("L'élève est déjà dans ce groupe.");
+                TempData["ErrorAjEl"] = Messages.I_023(db.GroupeEtudiant.Where(x => x.id_Etudiant == idp).Where(x => x.id_Groupe == idg).FirstOrDefault().Personne.Matricule7);
                 ModelState.AddModelError(string.Empty, Messages.I_023(db.GroupeEtudiant.Where(x => x.id_Etudiant == idp).Where(x => x.id_Groupe == idg).FirstOrDefault().Personne.Matricule7));
-            }
-
-            if(db.GroupeEtudiant.Where(x => x.id_Etudiant == idp).FirstOrDefault() != null)
-            {
-                ModelState.AddModelError(string.Empty, Messages.Q_010(p.PrenomNom,g.Session.NomSession,g.NoGroupe, g.Cours.Nom));
-                //return Content("L'élève est déjà dans un groupe.");
             }
 
             if (ModelState.IsValid)
             {
-                GroupeEtudiant ge = new GroupeEtudiant();
-                ge.Personne = p;
-                ge.Groupe = g;
 
-                db.GroupeEtudiant.Add(ge);
-                g.GroupeEtudiant.Add(ge);
+                if (db.GroupeEtudiant.Where(x => x.id_Etudiant == idp).FirstOrDefault() != null && noclick == 0)
+                {
+                    TempData["idGe"] = db.GroupeEtudiant.Where(x => x.id_Etudiant == idp).FirstOrDefault().id_GroupeEtudiant;
+                    TempData["personne"] = p.id_Pers;
+                    TempData["idgcible"] = g.NoGroupe;
+                    TempData["ErrorDep"] = Messages.Q_010(p.PrenomNom, g.Session.NomSession, g.NoGroupe, g.Cours.Nom);
+                    ModelState.AddModelError(string.Empty, Messages.Q_010(p.PrenomNom, g.Session.NomSession, g.NoGroupe, g.Cours.Nom));
+                }
 
-                db.SaveChanges();
-                TempData["Success"]= string.Format(Messages.I_024(p.Matricule7,g.id_Groupe));
+                if (ModelState.IsValid)
+                {
+
+                    GroupeEtudiant ge = new GroupeEtudiant();
+                    ge.Personne = p;
+                    ge.Groupe = g;
+
+                    db.GroupeEtudiant.Add(ge);
+                    g.GroupeEtudiant.Add(ge);
+
+                    db.SaveChanges();
+                    TempData["Success"] = string.Format(Messages.I_024(p.Matricule7, g.id_Groupe));
+                }
 
             }
 
-            return RedirectToAction("Index");
+            return RedirectToAction("AjouterEleve", new { idg = idg, page = ViewBag.page });
         }
 
         public ActionResult DeleteEleve(int? id)
@@ -383,7 +401,11 @@ namespace sachem.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.id_groupedepl = new SelectList(db.Groupe, "id_Groupe", "Cours.CodeNom");
+
+            if ( TempData["idgcible"] == null)
+                ViewBag.id_groupedepl = new SelectList(db.Groupe, "id_Groupe", "Cours.CodeNom");
+            else
+                ViewBag.id_groupedepl = new SelectList(db.Groupe, "id_Groupe", "Cours.CodeNom",TempData["idgcible"]);
             return View(ge);
         }
 
@@ -409,13 +431,22 @@ namespace sachem.Controllers
                 return HttpNotFound();
             }
 
-            if (!(ge.id_Groupe == g.id_Groupe))
-            {
+            GroupeEtudiant ge2 = g.GroupeEtudiant.Where(x => x.id_Etudiant == ge.id_Etudiant).ToList().FirstOrDefault();
 
+            if ( ge2 != null && ge.Groupe.id_Sess == ge2.Groupe.id_Sess && ge.id_Etudiant == ge2.id_Etudiant)
+                {
+                    TempData["Success"] = Messages.I_029(ge.Personne.Matricule7, g.NoGroupe, g.Cours.Nom);
+
+                }
+
+
+             else 
+            {
                 ge.Groupe = g;
                 db.SaveChanges();
-                TempData["Success"]= Messages.I_028(ge.Personne.Matricule7, g.NoGroupe, g.Cours.Nom);
+                TempData["Success"] = Messages.I_028(ge.Personne.Matricule7, g.NoGroupe, g.Cours.Nom);
             }
+
             return RedirectToAction("Index");
         }
 
