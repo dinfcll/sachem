@@ -63,7 +63,7 @@ textarea {
 
 .tsearch
 {
-    display: inline-block;
+    display: contents;
      float:right;
      width:100%;
 }
