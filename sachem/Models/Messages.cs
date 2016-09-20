@@ -137,12 +137,6 @@ namespace sachem.Models
         /// </summary>
         public const string U_005 = "Longueur requise: 6 caractères";
 
-              /// <summary>
-        /// 9 caractères
-        /// </summary>
-        /// <returns></returns>
-        public const string U_004 = "Longueur requise : 9 caractères.";
-
         /// <summary>
         /// 
         /// </summary>
