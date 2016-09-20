@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
+using System.Web;
 
 namespace sachem.Models
 {
@@ -11,7 +11,19 @@ namespace sachem.Models
     [MetadataType(typeof(PersonneMetadata))]
     //on doit redéfinir la classe partielle même si on ajout rien. Placé immédiatement avant la classe de métadonnée associée
     public partial class Personne
-    {        
+    {
+        [System.ComponentModel.DataAnnotations.Compare("MP", ErrorMessage = Messages.C_001)]
+        [NotMappedAttribute]
+        public string ConfirmPassword { get; set; }
+
+        [NotMappedAttribute]
+        public bool SouvenirConnexion { get; set; }
+
+        [NotMappedAttribute]
+        public string NomUtilisateur { get; set; }
+
+        [NotMappedAttribute]
+        public string AncienMotDePasse { get; set; }
 
     }
     public class PersonneMetadata
