@@ -69,6 +69,10 @@ namespace sachem.Controllers
 
             if (coursSuivi.id_College == null && coursSuivi.autre_College == string.Empty || coursSuivi.id_College != null && coursSuivi.autre_College != string.Empty)
                 ModelState.AddModelError(string.Empty, Messages.C_009("Collège", "Autre collège"));
+
+            //Verif si resultat nécéssaire et présent
+            if ((coursSuivi.id_Statut == null || coursSuivi.id_Statut == 1) && coursSuivi.resultat == null)
+                ModelState.AddModelError(string.Empty, Messages.U_050);
         }
 
         // GET: CoursSuivi
@@ -132,6 +136,7 @@ namespace sachem.Controllers
             ListeSession();
 
             coursSuivi.id_Pers = (int)id;
+            ViewBag.idPers = coursSuivi.id_Pers;
 
             Valider(coursSuivi, 1);
             
@@ -139,6 +144,7 @@ namespace sachem.Controllers
             var vInscription = from d in db.Inscription
                                where d.id_Pers == coursSuivi.id_Pers
                                select d.id_Inscription;
+            ViewBag.id_insc = vInscription.First();
 
             if (ModelState.IsValid)
             {
