@@ -3213,7 +3213,7 @@ input[type="button"].btn-block {
 
 .caret {
   display: inline-block;
-  /*width: 0;*/
+  width: 0;
   height: 0;
   margin-left: 2px;
   vertical-align: middle;

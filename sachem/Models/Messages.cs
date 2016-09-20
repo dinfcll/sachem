@@ -37,6 +37,37 @@ namespace sachem.Models
         public static string I_009(string Cours)
         { return $"Le cours {Cours} a été supprimé."; }
 
+        /// <summary>
+        /// Le fichier {0} a bien été transféré sur le serveur.
+        /// </summary>
+        /// <param name="Fichier"></param>
+        /// <returns></returns>
+        //public static string I_033(string Fichier)
+        //{ return $"Le fichier {Fichier} a bien été transféré sur le serveur."; }
+
+        /// <summary>
+        /// Erreur lors du transfert de fichier.
+        /// </summary>
+        /// <returns></returns>
+        public static string I_034(string Fichier)
+        { return $"Erreur lors du transfert du fichier {Fichier}."; }
+
+        /// <summary>
+        /// Un fichier {0} de même nom est déjà présent sur le serveur.
+        /// </summary>
+        /// <param name="Fichier"></param>
+        /// <returns></returns>
+        public static string I_035(string Fichier)
+        { return $"Un fichier {Fichier} de même nom est déjà présent sur le serveur."; }
+
+        /// <summary>
+        /// Le fichier {0} ne doit pas être vide{1}.
+        /// </summary>
+        /// <param name="Fichier"></param>
+        /// <param name="Max"></param>
+        /// <returns></returns>
+        //public static string I_037()
+        //{ return $"Le fichier est trop énorme"; }
 
         //Comptes/Connexion
         public static string I_017()
@@ -64,6 +95,14 @@ namespace sachem.Models
 
 
 
+
+            /// <summary>
+            /// L'extension du fichier doit être {0} .
+            /// </summary>
+            /// <param name="Extension"></param>
+            /// <returns></returns>
+        //public static string C_007(string Extension)
+        //{ return $"L'extension du fichier doit être {Extension} ."; }
         #endregion
 
         #region MessageUnitaire
@@ -84,6 +123,7 @@ namespace sachem.Models
         public const string U_004 = "Longueur requise: 7 caractères";
         public const string U_007 = "Format: AAAA/MM/JJ";
         public const string U_008 = "Format: nom@nomdomaine.com";
+        public const string U_009 = "Format : (999) 999-9999";
 
 
         #endregion
