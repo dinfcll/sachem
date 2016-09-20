@@ -105,6 +105,11 @@ namespace sachem.Models
         /// Resultat 0 à 100
         /// </summary>
         public const string U_011 = "Le résultat doit être de 0 à 100.";
+
+        /// <summary>
+        /// Requis si réussi
+        /// </summary>
+        public const string U_050 = "Le résultat est requis si le statut du cours est réussi";
         #endregion
 
         #region Question

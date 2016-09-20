@@ -35,7 +35,6 @@ namespace sachem.Models
         public string id_Statut;
 
         [Display(Name = "Résultat")]
-        [Required(ErrorMessage = Messages.U_001)]
         [Range(0, 100 , ErrorMessage = Messages.U_011)]
         public string resultat;
     }

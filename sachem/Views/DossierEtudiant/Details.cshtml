@@ -14,6 +14,7 @@
     <h4>Identification de l'étudiant</h4>
     <hr /> @*Pas comme exemple mais beau*@
     <dl class="dl-horizontal">
+        @Html.HiddenFor(model => model.Item1.Personne.id_Pers)
         <dt>
             @Html.DisplayNameFor(model => model.Item1.Personne.Matricule7)
         </dt>
@@ -67,7 +68,7 @@
             Acheté
         </dd>        
     </dl>
-    <input type="submit" value="Modifier" class="btn btn-default"/>   
+    <input type="submit" value="Modifier" class="btn btn-default new { id = model.Item1.id_Inscription }"/>   
 
     
 
