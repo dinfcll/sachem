@@ -28,7 +28,7 @@ namespace sachem.Models
         /// <returns></returns>private string I_003(string cours)
         public static string I_003(string Cours)
         { return $"Le cours {Cours} a été enregistré."; }
-
+        
         /// <summary>
         /// Le cours {0} a été supprimé.
         /// </summary>
@@ -37,6 +37,13 @@ namespace sachem.Models
         public static string I_009(string Cours)
         { return $"Le cours {Cours} a été supprimé."; }
 
+        /// <summary>
+        /// Impossible d’enregistrer ce cours. Il existe déjà dans votre liste de cours suivi antérieurement.
+        /// </summary>
+        /// <param name="Cours"></param>
+        /// <returns></returns>
+        public static string I_036()
+        { return "Impossible d’enregistrer ce cours. Il existe déjà dans votre liste de cours suivi antérieurement"; }
 
         //Comptes/Connexion
         public static string I_017()
@@ -66,6 +73,15 @@ namespace sachem.Models
 
         #endregion
 
+        /// <summary>
+        /// Un des deux champs {0}, {1} doit être complété.
+        /// </summary>
+        /// <param name="param1"></param>
+        /// <param name="param2"></param>
+        /// <returns></returns>
+        public static string C_009(string param1, string param2)
+        { return $"Un des deux champs {param1}, {param2} doit être complété."; }
+
         #region MessageUnitaire
 
         /// <summary>
@@ -80,12 +96,34 @@ namespace sachem.Models
         /// <returns></returns>
         public const string U_003 = "Longueur requise : 8 caractères.";
 
+              /// <summary>
+        /// 9 caractères
+        /// </summary>
+        /// <returns></returns>
+        public const string U_004 = "Longueur requise : 9 caractères.";
 
-        public const string U_004 = "Longueur requise: 7 caractères";
-        public const string U_007 = "Format: AAAA/MM/JJ";
-        public const string U_008 = "Format: nom@nomdomaine.com";
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public const string U_007 = "Format de l'année invalide. Format : AAAA/MM/JJ";
 
+        /// <summary>
+        /// Format : nom@domaine
+        /// </summary>
+        /// <returns></returns>
+        public const string U_008 = "Format de l'adresse email invalide. Format : nom@domaine";
 
+        /// <summary>
+        /// Format : (999)999-9999
+        /// </summary>
+        /// <returns></returns>
+        public const string U_009 = "Format du numéro de téléphone invalide. Format : (999)999-9999";
+
+        /// <summary>
+        /// Resultat 0 à 100
+        /// </summary>
+        public const string U_011 = "Le résultat doit être de 0 à 100.";
         #endregion
 
         #region Question
@@ -97,6 +135,14 @@ namespace sachem.Models
         /// <returns></returns>private string Q_001(string Cours)
         public static string Q_001(string Cours)
         { return $"Voulez-vous vraiment supprimer le cours {Cours} ?"; }
+
+        /// <summary>
+        /// Voulez-vous vraiment supprimer le cours {0} de votre liste de cours suivis?
+        /// </summary>
+        /// <param name="Cours"></param>
+        /// <returns></returns>
+        public static string Q_009(string Cours)
+        { return $"Voulez-vous vraiment supprimer le cours {Cours} de votre liste de cours suivis?"; }
 
 
         #endregion

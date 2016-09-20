@@ -1,0 +1,64 @@
+﻿@model sachem.Models.CoursSuivi
+
+@Html.HiddenFor(model => model.id_Pers)
+<div class="form-group">
+    @Html.LabelFor(model => model.id_Cours, htmlAttributes: new {@class = "control-label col-md-2"})
+    <div class="col-md-10">
+        @Html.DropDownList("id_Cours", null , "--- Veuillez choisir un cours ---", htmlAttributes: new { @class = "form-control" })
+        @Html.ValidationMessageFor(model => model.id_Cours, "", new {@class = "text-danger"})
+    </div>
+</div>
+
+<div class="form-group">
+    @Html.LabelFor(model => model.autre_Cours, htmlAttributes: new { @class = "control-label col-md-2" })
+    <div class="col-md-10">
+        @Html.EditorFor(model => model.autre_Cours, new { htmlAttributes = new { @class = "form-control", maxlength = 100 } })
+        @Html.ValidationMessageFor(model => model.autre_Cours, "", new { @class = "text-danger" })
+    </div>
+</div>
+
+<div class="form-group">
+    @Html.LabelFor(model => model.id_College, htmlAttributes: new { @class = "control-label col-md-2" })
+    <div class="col-md-10">
+        @Html.DropDownList("id_College", null , "--- Veuillez choisir un collège ---", htmlAttributes: new { @class = "form-control" } )
+        @Html.ValidationMessageFor(model => model.id_College, "", new {@class = "text-danger"})
+    </div>
+</div>
+
+<div class="form-group">
+    @Html.LabelFor(model => model.autre_College, htmlAttributes: new { @class = "control-label col-md-2" })
+    <div class="col-md-10">
+        @Html.EditorFor(model => model.autre_College, new { htmlAttributes = new { @class = "form-control", maxlength = 250 } })
+        @Html.ValidationMessageFor(model => model.autre_College, "", new { @class = "text-danger" })
+    </div>
+</div>
+
+<div class="form-group">
+    @Html.LabelFor(model => model.id_Sess, htmlAttributes: new { @class = "control-label col-md-2" })
+    <div class="col-md-10">
+        @Html.DropDownList("id_Sess" , null, htmlAttributes: new { @class = "form-control" })
+        @Html.ValidationMessageFor(model => model.id_Sess, "", new { @class = "text-danger" })
+    </div>
+</div>
+
+<div class="form-group">
+    @Html.LabelFor(model => model.id_Statut, htmlAttributes: new { @class = "control-label col-md-2" })
+    <div class="col-md-10">
+            @Html.DropDownList("id_Statut" , null , htmlAttributes: new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.id_Statut, "", new { @class = "text-danger" })
+    </div>
+</div>
+
+<div class="form-group">
+    @Html.LabelFor(model => model.resultat, htmlAttributes: new { @class = "control-label col-md-2" })
+    <div class="col-md-10">
+        @Html.EditorFor(model => model.resultat, new { htmlAttributes = new { @class = "form-control", maxlength = 55 } })
+        @Html.ValidationMessageFor(model => model.resultat, "", new { @class = "text-danger" })
+    </div>
+</div>
+
+<div class="form-group">
+    <div class="col-md-offset-2 col-md-10">
+        <input type="submit" value="Enregistrer" class="btn btn-default new { id = ViewBag.idPers }" />
+    </div>
+</div>

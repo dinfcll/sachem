@@ -1,0 +1,23 @@
+﻿@model sachem.Models.CoursSuivi
+
+@{
+    ViewBag.Title = "Modifier un cours de mathématiques antérieur";
+}
+
+<h2>Modifier un cours de mathématiques antérieur</h2>
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.id_CoursReussi)
+
+        @Html.Partial("_CoursSuivi", Model)
+    </div>
+}
+
+@Html.Partial("_Footer", Model)

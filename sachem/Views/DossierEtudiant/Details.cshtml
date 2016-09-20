@@ -1,0 +1,79 @@
+﻿@*@model sachem.Models.Inscription*@ 
+@model Tuple<sachem.Models.Inscription, IEnumerable<sachem.Models.CoursSuivi>, IEnumerable<sachem.Models.Inscription>>
+    @* *@
+
+@{
+    ViewBag.Title = "Details";
+}
+<h2>Dossier de l'étudiant</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+<div>
+    <h4>Identification de l'étudiant</h4>
+    <hr /> @*Pas comme exemple mais beau*@
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Item1.Personne.Matricule7)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Item1.Personne.Matricule7)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Item1.Personne.NomPrenom)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Item1.Personne.NomPrenom)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Item1.Personne.DateNais)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Item1.Personne.DateNais)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Item1.Personne.Courriel)
+        </dt>
+
+        <dd>
+            @Html.TextBoxFor(model => model.Item1.Personne.Courriel, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.Item1.Personne.Courriel, "", new { @class = "text-danger" })
+            @Html.DisplayFor(model => model.Item1.Personne.Courriel)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Item1.Personne.NumTelephone)
+        </dt>
+
+        <dd>
+            @Html.TextBoxFor(model => model.Item1.Personne.NumTelephone, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.Item1.Personne.NumTelephone, "", new { @class = "text-danger" })
+            @Html.DisplayFor(model => model.Item1.Personne.NumTelephone)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Item1.BonEchange)
+        </dt>
+
+        <dd>
+            @Html.CheckBoxFor(model => model.Item1.BonEchange.Value)
+            Acheté
+        </dd>        
+    </dl>
+    <input type="submit" value="Modifier" class="btn btn-default"/>   
+
+    
+
+
+    @Html.Partial("_CoursAnterieur", Model.Item2)
+
+    @Html.Partial("_InscriptionSachem", Model.Item3)
+</div>
+}

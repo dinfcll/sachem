@@ -1,0 +1,49 @@
+﻿@model IEnumerable<sachem.Models.Inscription>
+
+    <hr />
+    <div>
+        <h4>Demande d'inscription au Sachem</h4>
+        <table class="table">
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.DateInscription)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.p_TypeInscription.TypeInscription)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.p_StatutInscription.Statut)
+                </th>
+                <th>
+                </th>
+                <th>
+                </th>
+                <th>
+                </th>
+            </tr>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DateInscription)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.p_TypeInscription.TypeInscription)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.p_StatutInscription.Statut)
+                    </td>
+                    <td>
+                        Consulter@*Sprint4*@
+                    </td>
+                    <td>
+                        Modifier@*Sprint3*@
+                    </td>
+                    <td>
+                        Modifier informations personelles@*Sprint3*@
+                    </td>
+                </tr>
+            }
+        </table>
+    </div>

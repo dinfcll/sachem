@@ -1,0 +1,69 @@
+﻿@model IEnumerable<sachem.Models.CoursSuivi>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Details</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.id_Sess)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.id_College)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.id_Statut)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.id_Cours)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.resultat)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.autre_Cours)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.autre_College)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model)
+{
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.id_Sess)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.id_College)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.id_Statut)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.id_Cours)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.resultat)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.autre_Cours)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.autre_College)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new {id = item.id_CoursReussi}) |
+            @Html.ActionLink("Details", "Details", new {id = item.id_CoursReussi}) |
+            @Html.ActionLink("Delete", "Delete", new {id = item.id_CoursReussi})
+        </td>
+    </tr>    
+    }
+</table>

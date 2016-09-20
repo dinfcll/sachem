@@ -207,6 +207,8 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\CoursController.cs" />
+    <Compile Include="Controllers\CoursSuiviController.cs" />
+    <Compile Include="Controllers\DossierEtudiantController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\PersonnesController.cs" />
     <Compile Include="Global.asax.cs">
@@ -219,10 +221,12 @@
     <Compile Include="Models\Cours.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\p_TypeInscriptionMetadata.cs" />
     <Compile Include="Models\CoursMetadata.cs" />
     <Compile Include="Models\CoursSuivi.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\CoursSuiviMetadata.cs" />
     <Compile Include="Models\EtuProgEtude.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -235,6 +239,7 @@
     <Compile Include="Models\Inscription.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\InscriptionMetadata.cs" />
     <Compile Include="Models\Jumelage.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -258,7 +263,7 @@
     <Compile Include="Models\Personne.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\PersonnesMetaData.cs" />
+    <Compile Include="Models\PersonneMetadata.cs" />
     <Compile Include="Models\ProgrammeEtude.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -301,6 +306,7 @@
     <Compile Include="Models\Session.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\SessionMetadata.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
@@ -387,6 +393,20 @@
     <Content Include="Views\Cours\_Cours.cshtml" />
     <Content Include="Views\Cours\_Footer.cshtml" />
     <Content Include="Views\Shared\_PageRecherche.cshtml" />
+    <Content Include="Views\CoursSuivi\Create.cshtml" />
+    <Content Include="Views\CoursSuivi\Delete.cshtml" />
+    <Content Include="Views\CoursSuivi\Edit.cshtml" />
+    <Content Include="Views\CoursSuivi\Index.cshtml" />
+    <Content Include="Views\CoursSuivi\_CoursSuivi.cshtml" />
+    <Content Include="Views\CoursSuivi\_Footer.cshtml" />
+    <Content Include="Views\DossierEtudiant\Index.cshtml" />
+    <Content Include="Views\DossierEtudiant\Details.cshtml" />
+    <Content Include="Views\DossierEtudiant\Edit.cshtml" />
+    <Content Include="Views\DossierEtudiant\Create.cshtml" />
+    <Content Include="Views\DossierEtudiant\Delete.cshtml" />
+    <Content Include="Views\DossierEtudiant\_CoursAnterieur.cshtml" />
+    <Content Include="Views\DossierEtudiant\_RechercheEtudiantInscrit.cshtml" />
+    <Content Include="Views\DossierEtudiant\_InscriptionSachem.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

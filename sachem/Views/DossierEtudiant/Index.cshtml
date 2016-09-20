@@ -1,0 +1,94 @@
+﻿@model IEnumerable<sachem.Models.Inscription>
+ @*   @using sachem.Models
+    @model PagedList.IPagedList<sachem.Models.Inscription>
+*@
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Dossier de l'étudiant</h2>
+
+@*rechercher*@
+@using (Html.BeginForm("Index", "DossierEtudiant", FormMethod.Post, new { @class = "form-inline", role = "form" }))
+{
+    @Html.Partial("_RechercheEtudiantInscrit")
+@*<div class="form-group">
+    <p>
+        <div class="form-group">
+            Session :
+            @Html.DropDownList("Session","Toutes")
+        </div>
+        <div class="form-group">
+            Type d'inscription :
+            @Html.DropDownList("Inscription")
+        </div>
+        <div class="form-group">
+            Superviseur :
+            @Html.DropDownList("Superviseur")
+        </div>
+    </p>
+    <p>
+        <div class="form-group">
+            Matricule :
+            @Html.Editor("Matricule")
+        </div>
+        <div class="form-group">
+            Prénom :
+            @Html.Editor("Prenom")
+        </div>
+        <div class="form-group">
+            Nom :
+            @Html.Editor("Nom")
+        </div>
+    </p>
+    <p>  
+        <div class="btn-default">
+            <input type="submit" value="Rechercher" class="btn-toolbar" />
+        </div>
+    </p>
+</div>*@
+}
+        @*fin rechercher*@
+
+        <table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.First().Personne.NomPrenom)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.First().Personne.Matricule7)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.First().p_TypeInscription.TypeInscription)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+            {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Personne.NomPrenom)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Personne.Matricule7)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.p_TypeInscription.TypeInscription)
+            </td>
+            <td>
+                @Html.ActionLink("Consulter dossier", "details", new { id = item.id_Inscription })
+            </td>
+        </tr>
+    }
+
+
+
+    @if (!Model.Any())
+    {
+        <tr>
+            <td colspan="6">Aucun cours ne répond à ces critères</td>
+        </tr>
+    }
+</table>
+@*@Html.Partial("_PageRecherche", Model)*@
