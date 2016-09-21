@@ -54,7 +54,7 @@
                    @if (SachemIdentite.TypeListeAdmin.Contains(SachemIdentite.ObtenirTypeUsager(Session)))
                    {
                     <li>
-                        @Html.ActionLink("Dossier étudiant", "Index", "Cours", new { area = "" })
+                        @Html.ActionLink("Dossier étudiant", "Index", "DossierEtudiant", new { area = "" })
                     </li>
                     <li>
                         @Html.ActionLink("Cours enseignés", "Index", "Cours", new { area = "" })
