@@ -2,11 +2,8 @@
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
-using System.Net;
 using System.Web.Mvc;
 using sachem.Models;
-using PagedList;
-using System.Web.Mvc.Html;
 
 namespace sachem.Controllers
 {
@@ -18,34 +15,6 @@ namespace sachem.Controllers
         public ActionResult IndexModifier(int? id)
         {
             return View("Edit");
-        }
-
-        // GET: Parametres/Details/5
-        public ActionResult Details(int id)
-        {
-            return View();
-        }
-
-        // GET: Parametres/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: Parametres/Create
-        [HttpPost]
-        public ActionResult Create(FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add insert logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
         }
 
         // GET: Parametres/Edit/5
@@ -188,27 +157,6 @@ namespace sachem.Controllers
         }
 
 
-        // GET: Parametres/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: Parametres/Delete/5
-        [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add delete logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
-        }
         [NonAction]
         private void Valider([Bind(Include = "id_Contact,Nom,Prenom,Courriel,Telephone,Poste,Facebook,SiteWeb,Local")]p_Contact contact)
         {
