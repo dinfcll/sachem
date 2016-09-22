@@ -28,82 +28,76 @@ namespace sachem.Models
     }
     public class PersonneMetadata
     {
-        //date de naissance
-        [Display(Name = "Date de naissance")]
-        //regulaExpression pour le format de la date
-        [RegularExpression(@"^\d{4}[/](0?[1-9]|1[012])[/](0?[1-9]|[12][0-9]|3[01])$", ErrorMessage = Messages.U_007)]
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy/MM/dd}")]
+        [Display(Name = "Prénom")]
+        [StringLength(30)]
         [Required(ErrorMessage = Messages.U_001)]
+        public global::System.String Prenom;
+
+        [Display(Name = "Nom")]
+        [StringLength(30)]
+        [Required(ErrorMessage = Messages.U_001)]
+        public global::System.String Nom;
+
+        //Expression régulière qui permet 2 formats de dates, celui exigé dans l'application YYYY/MM/DD et celui formaté par le 
+        //système en format datetime YYYY/MM/DD hh:mm:ss. Il faut que les deux expressions soient utilisables pour que le modèle
+        //ne tombe pas en erreur lors de la validation.
+        [Display(Name = "Date de naissance")]
+        [RegularExpression(@"^[0-9]{4}-[0-9]{2}-[0-9]{2} [0-2][0-9]:[0-5][0-9]:[0-5][0-9]$|^[0-9]{4}\/[0-9]{2}\/[0-9]{2}$", ErrorMessage = Messages.U_007)]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = @"{0:yyyy\/MM\/dd}")]
         public global::System.DateTime DateNais;
 
-        //Nom de la personne
-        [Display(Name = "Nom")]
-        [DisplayFormat(ConvertEmptyStringToNull = false)]
-        [Required(ErrorMessage = Messages.U_001)]
-        [StringLength(30, ErrorMessage = Messages.U_001)]
-        public string Nom;
 
-        //Prénom de la personne
-        [Display(Name = "Prénom")]
-        [DisplayFormat(ConvertEmptyStringToNull = false)]
-        [Required(ErrorMessage = Messages.U_001)]
-        [StringLength(30, ErrorMessage = Messages.U_001)]
-        public string Prenom;
-
-        //nom d'usager
-        [Display(Name = "Nom usager")]
-        public string NomUsager;
-
-        //adresse  courriel de la personne
         [Display(Name = "Courriel")]
-        [DisplayFormat(ConvertEmptyStringToNull = false)]
-        [Required(ErrorMessage = Messages.U_001)]
         [EmailAddress(ErrorMessage = Messages.U_008)]
-        public string Courriel;
+        [StringLength(256)]
+        public global::System.String Courriel;
 
-        //sexe de la personne
+        [Display(Name = "Se souvenir de moi")]
+        public global::System.String SouvenirConnexion;
+
+        [Display(Name = "Téléphone")]
+        [RegularExpression(@"^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$", ErrorMessage = Messages.U_009)] //Vérifie le format du tel
+        public global::System.String Telephone; //Ajout pour #Tel dans BD
+
+        [Display(Name = "Nom d'usager")]
+        [StringLength(25)]
+        public global::System.String NomUsager;
+
+        [Display(Name = "Matricule")]
+        [StringLength(9)]
+        public global::System.String Matricule;
+
+        //Extrait du PAM partiellement
+        [Display(Name = "Matricule7")]
+        [StringLength(7)]
+        public global::System.String Matricule7;
+
+        [DataType(DataType.Password)]
+        [Display(Name = "Mot de passe")]
+        public global::System.String MP;
+
+        [DataType(DataType.Password)]
+        [Display(Name = "Confirmation du mot de passe")]
+        public global::System.String ConfirmPassword;
+
+        [DataType(DataType.Password)]
+        [Display(Name = "Ancien mot de passe")]
+        public global::System.String AncienMotDePasse;
+
+        [Display(Name = "Type d'usager")]
+        public global::System.Int32 id_TypeUsag;
+
         [Display(Name = "Sexe")]
-        public string id_Sexe;
-        
-        //type de l'usager
-        [Display(Name = "Type usager")]
-        public string id_TypeUsag;
+        [Required(ErrorMessage = Messages.U_001)]
+        public global::System.Int32 id_Sexe;
 
-        //numéro de téléphone
-        [Display(Name = "Numéro de téléphone")]
-        [DisplayFormat(DataFormatString = "{0:(###) ###-####}", ApplyFormatInEditMode = true)]
-        [RegularExpression(@"^\(([0-9]{3})\) ([0-9]{3})-([0-9]{4})$", ErrorMessage = Messages.U_009)]
-        public string Telephone;
+        [Display(Name = "Nom d'utilisateur")]
+        public global::System.String NomUtilisateur;
 
         [Display(Name = "Numéro de téléphone")]
         [DisplayFormat(DataFormatString = "{0:(###) ###-####}", ApplyFormatInEditMode = true)]
         [RegularExpression(@"^\(([0-9]{3})\) ([0-9]{3})-([0-9]{4})$", ErrorMessage = Messages.U_009)]
         public long NumTelephone;
-
-        //Matricule de l'étudiant
-        [Display(Name = "Matricule")]
-        [DisplayFormat(ConvertEmptyStringToNull = false)]
-        [Required(ErrorMessage = Messages.U_001)]
-        [StringLength(7, MinimumLength = 7, ErrorMessage = Messages.U_004)]
-        public string Matricule;
-
-        //Matricule 7 chiffres
-        [Display(Name = "Matricule")]
-        public string Matricule7;
-
-        //Nom et prénom
-        [Display(Name = "Nom")]
-        public string NomPrenom;
-
-        //Mot de passe
-        [Display(Name = "Mot de passe")]
-        [DisplayFormat(ConvertEmptyStringToNull = false)]
-        [Required(ErrorMessage = Messages.U_001)]
-        public string MP;
-
-        //[Display(Name = "Confirmation du mot de passe")]
-        //[DataType(DataType.Password)]
-        //public string ConfMP;
     }
 
 }

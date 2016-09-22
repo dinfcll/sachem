@@ -1,4 +1,5 @@
-﻿<script src="~/Scripts/jquery-1.10.2.js"></script>
+﻿@using sachem.Models
+<script src="~/Scripts/jquery-1.10.2.js"></script>
 
 <script type="text/javascript">
     $(document).ready(function () {
@@ -52,18 +53,36 @@
         </td><td>
             @Html.DropDownList("Session", null, "Toutes", htmlAttributes: new { @class = "form-search" })
         </td>
+        
         <td>
             Type d'inscription :
-        </td><td>
+        </td>
+        
+        <!--Si c'est tuteur-->
+@if (SachemIdentite.ObtenirTypeUsager(Session) == TypeUsagers.Tuteur)
+{
+        <td>
             @Html.DropDownList("Inscription", null, "Tous", htmlAttributes: new { @class = "form-search" })
         </td>
-        <td>
+}
+else
+{
+    <td>
+        @Html.DropDownList("Inscription", null, "Tous", htmlAttributes: new { @class = "form-search" })
+    </td>
+}
+<!--Si c'est AUTRE que tuteur-->
 
+@if (SachemIdentite.ObtenirTypeUsager(Session) == TypeUsagers.Enseignant || SachemIdentite.ObtenirTypeUsager(Session) == TypeUsagers.Responsable || SachemIdentite.ObtenirTypeUsager(Session) == TypeUsagers.Super)
+{
+         <td>
             Superviseur :
-        </td><td>
-            @Html.DropDownList("Superviseur", null, "Tous", htmlAttributes: new { @class = "form-search" })
         </td>
-        </tr>
+            <td>
+                @Html.DropDownList("Superviseur", null, "Tous", htmlAttributes: new { @class = "form-search" })
+            </td>
+}
+    </tr>
     <tr>
         <td>
             Matricule :

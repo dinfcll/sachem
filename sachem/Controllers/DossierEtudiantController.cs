@@ -20,6 +20,7 @@ namespace sachem.Controllers
         private SACHEMEntities db = new SACHEMEntities();
         protected int noPage = 1;
         private int? pageRecue = null;
+        List<TypeUsagers> RolesAcces = new List<TypeUsagers>() { TypeUsagers.Responsable, TypeUsagers.Super, TypeUsagers.Enseignant, TypeUsagers.Tuteur };
 
         #region ObtentionRecherche
         [NonAction]
@@ -28,6 +29,7 @@ namespace sachem.Controllers
         {
             var lSessions = db.Session.AsNoTracking().OrderBy(s => s.Annee).ThenBy(s => s.p_Saison.Saison).Where(s => s.p_Saison.id_Saison == s.id_Saison);
             var slSession = new List<SelectListItem>();
+            
             slSession.AddRange(new SelectList(lSessions.OrderBy(i => i.id_Sess), "id_Sess", "NomSession", Session));
             ViewBag.Session = slSession;
 
@@ -42,14 +44,15 @@ namespace sachem.Controllers
             //    .Where(p => (p.Personne.id_Pers == p.id_Enseignant) && (p.id_Sess == session)).Distinct();
             //var ResultReq = db.Personne.AsNoTracking().Include(ResultReqJum.Where(j => j.id_Enseignant == j.Personne.id_Pers)
             //    .Where(p => ((p.Personne.p_TypeUsag.id_TypeUsag == 2) && (p.id_Enseignant == p.Personne.id_Pers))));
-
             var lstEnseignant = from p in db.Personne
                                 where (db.Jumelage.Any(j => (j.id_Sess == session || session == 0) && j.id_Enseignant == p.id_Pers))
                                 && p.id_TypeUsag == 2
                                 orderby p.Nom, p.Prenom
                                 select p;
-
-            return lstEnseignant.ToList();
+            if (SachemIdentite.ObtenirTypeUsager(Session) == TypeUsagers.Enseignant)
+                return lstEnseignant.ToList().Where(i => i.id_Pers == SessionBag.Current.id_Pers);
+            else
+                return lstEnseignant.ToList();
 
         //    return ResultReq.AsEnumerable();
         }
@@ -61,6 +64,8 @@ namespace sachem.Controllers
         {
             //ordonnee et tous par default, si tuteurs: griser eleve aide.
             int Pers = 0;
+            if (SachemIdentite.ObtenirTypeUsager(Session) == TypeUsagers.Tuteur)
+                TypeInscription = 1;
             var lInscriptions = db.p_TypeInscription.AsNoTracking().OrderBy(i => i.TypeInscription);
             var slInscription = new List<SelectListItem>();
             slInscription.AddRange(new SelectList(lInscriptions, "id_TypeInscription", "TypeInscription", TypeInscription));
@@ -245,10 +250,12 @@ namespace sachem.Controllers
             pageRecue = Page;
             return Rechercher();
         }
-
+        #endregion
         // GET: DossierEtudiant
         public ActionResult Index(int? page)
         {
+            if (!SachemIdentite.ValiderRoleAcces(RolesAcces, Session))
+                return RedirectToAction("Error", "Home", null);
             noPage = (page ?? noPage);
 
             //return View(Rechercher().ToPagedList(noPage, 20));
@@ -258,6 +265,8 @@ namespace sachem.Controllers
         // GET: DossierEtudiant/Details/5
         public ActionResult Details(int? id)
         {
+            if (!SachemIdentite.ValiderRoleAcces(RolesAcces, Session))
+                return RedirectToAction("Error", "Home", null);
 
             if (id == null)
             {
@@ -344,6 +353,8 @@ namespace sachem.Controllers
         // GET: DossierEtudiant/Create
         public ActionResult Create()
         {
+            if (!SachemIdentite.ValiderRoleAcces(RolesAcces, Session))
+                return RedirectToAction("Error", "Home", null);
             ViewBag.id_Statut = new SelectList(db.p_StatutInscription, "id_Statut", "Statut");
             ViewBag.id_TypeInscription = new SelectList(db.p_TypeInscription, "id_TypeInscription", "TypeInscription");
             ViewBag.id_Pers = new SelectList(db.Personne, "id_Pers", "Nom");
@@ -374,6 +385,8 @@ namespace sachem.Controllers
         // GET: DossierEtudiant/Edit/5
         public ActionResult Edit(int? id)
         {
+            if (!SachemIdentite.ValiderRoleAcces(RolesAcces, Session))
+                return RedirectToAction("Error", "Home", null);
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -415,6 +428,8 @@ namespace sachem.Controllers
         // GET: DossierEtudiant/Delete/5
         public ActionResult Delete(int? id)
         {
+            if (!SachemIdentite.ValiderRoleAcces(RolesAcces, Session))
+                return RedirectToAction("Error", "Home", null);
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -446,6 +461,6 @@ namespace sachem.Controllers
             }
             base.Dispose(disposing);
         }
-        #endregion
+        
     }
 }
