@@ -37,8 +37,13 @@ namespace sachem.Models
         {
             get
             {
-                if (Telephone == null) { return null; }
-                return long.Parse(Telephone);
+                //if (Telephone == null) { return null; }
+                //return long.Parse(Telephone);
+                return null;
+            }
+            set
+            {
+                Telephone = value.ToString();
             }
         }
 

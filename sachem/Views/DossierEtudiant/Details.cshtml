@@ -1,6 +1,4 @@
-﻿@*@model sachem.Models.Inscription*@ 
-@model Tuple<sachem.Models.Inscription, IEnumerable<sachem.Models.CoursSuivi>, IEnumerable<sachem.Models.Inscription>>
-    @* *@
+﻿@model Tuple<sachem.Models.Inscription, IEnumerable<sachem.Models.CoursSuivi>, IEnumerable<sachem.Models.Inscription>>
 
 @{
     ViewBag.Title = "Details";
@@ -69,9 +67,7 @@
             Acheté
         </dd>        
     </dl>
-    <input type="submit" value="Modifier" class="btn btn-default"/>   
-
-    
+    <input type="submit" value="Modifier" class="btn btn-default"/>       
 
 
     @Html.Partial("_CoursAnterieur", Model.Item2)

@@ -287,9 +287,58 @@ namespace sachem.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Details([Bind(Include = "id_Pers,Courriel,NumTelephone")] Personne personne, [Bind(Include = "id_Inscription")] Inscription inscription)
+        public ActionResult Details(FormCollection model)
         {
-            return View();
+            var id_Pers = Convert.ToInt32(model["item1.Personne.id_Pers"]);
+            var id_Inscription = Convert.ToInt32(model["item1.id_Inscription"]);
+            var Courriel = Convert.ToString(model["item1.Personne.Courriel"]);
+            var NumTelephone = Convert.ToInt64(model["item1.Personne.NumTelephone"]);
+            var BonEchange = model["item1.BonEchange"];
+
+            Personne personne = db.Personne.Find(id_Pers);
+            personne.Courriel = Courriel;
+            personne.NumTelephone = NumTelephone;
+
+            Inscription inscription = db.Inscription.Find(id_Inscription);
+
+            var vCoursSuivi = from d in db.CoursSuivi
+                              where d.id_Pers == inscription.id_Pers
+                              select d;
+
+            var vInscription = from d in db.Inscription
+                               where d.id_Pers == inscription.id_Pers
+                               select d;
+
+            ViewBag.idPers = vInscription.First().id_Pers;
+
+            if (ModelState.IsValid)
+            {
+                db.Entry(personne).State = EntityState.Modified;
+                db.SaveChanges();
+
+            }
+            return View(Tuple.Create(inscription, vCoursSuivi.AsEnumerable(), vInscription.AsEnumerable()));
+        }
+
+        public static string FormatTelephone(string s)
+        {
+            var charsToRemove = new string[] { ".", "-", "(", " ", ")" };
+            foreach (var c in charsToRemove)
+            {
+                s = s.Replace(c, string.Empty);
+            }
+            return s;
+        }
+        //fonction qui remet le numéro de téléphone dans le bon format
+        public static string RemettreTel(string a)
+
+        {
+            string modif;
+            modif = a.Insert(0, "(");
+            modif = modif.Insert(4, ")");
+            modif = modif.Insert(5, " ");
+            modif = modif.Insert(9, "-");
+            return modif;
         }
 
         // GET: DossierEtudiant/Create

@@ -209,6 +209,7 @@
     <Compile Include="Classes_Sachen\Crypt.cs" />
     <Compile Include="Controllers\CoursSuiviController.cs" />
     <Compile Include="Controllers\DossierEtudiantController.cs" />
+    <Compile Include="Controllers\FormattedDbEntityValidationException.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\PersonnesController.cs" />
     <Compile Include="Global.asax.cs">

@@ -17,7 +17,7 @@
     </div>
 </div>
 
-@if (SachemIdentite.ObtenirTypeUsager(Session) == TypeUsagers.Tuteur)
+@if (sachem.Models.SachemIdentite.ObtenirTypeUsager(Session) == sachem.Models.TypeUsagers.Tuteur)
 {
     <div class="form-group">
         @Html.LabelFor(model => model.id_College, htmlAttributes: new { @class = "control-label col-md-2" })
