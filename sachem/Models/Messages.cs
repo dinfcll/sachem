@@ -99,7 +99,10 @@ namespace sachem.Models
         /// Usager inexistant ou mdp invalide.
         /// </summary>
         public const string C_004 = "Cet usager n'existe pas ou le mot de passe est invalide.";
-
+        /// <summary>
+        /// Résultat requis si réussi,
+        /// </summary>
+        public const string C_010 = "Le résultat est requis si le statut du cours est réussi.";
 
 
         #endregion
@@ -160,10 +163,6 @@ namespace sachem.Models
         /// </summary>
         public const string U_011 = "Le résultat doit être de 0 à 100.";
 
-        /// <summary>
-        /// Requis si réussi
-        /// </summary>
-        public const string U_050 = "Le résultat est requis si le statut du cours est réussi";
         #endregion
 
         #region Question

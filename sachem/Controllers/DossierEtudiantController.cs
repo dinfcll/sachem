@@ -301,12 +301,12 @@ namespace sachem.Controllers
             var id_Pers = Convert.ToInt32(model["item1.Personne.id_Pers"]);
             var id_Inscription = Convert.ToInt32(model["item1.id_Inscription"]);
             var Courriel = Convert.ToString(model["item1.Personne.Courriel"]);
-            var NumTelephone = Convert.ToInt64(model["item1.Personne.NumTelephone"]);
+          //  var NumTelephone = Convert.ToString(model["item1.Personne.NumTelephone"]);
             var BonEchange = model["item1.BonEchange"];
 
             Personne personne = db.Personne.Find(id_Pers);
             personne.Courriel = Courriel;
-            personne.NumTelephone = NumTelephone;
+            personne.Telephone = SachemIdentite.FormatTelephone(Convert.ToString(model["item1.Personne.NumTelephone"]));
 
             Inscription inscription = db.Inscription.Find(id_Inscription);
 
