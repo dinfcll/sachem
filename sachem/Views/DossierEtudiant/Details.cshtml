@@ -7,7 +7,7 @@
 }
 <h2>Dossier de l'étudiant</h2>
 
-@using (Html.BeginForm())
+@using (Html.BeginForm("Details", "DossierEtudiant", FormMethod.Post, new { @class = "form-inline", role = "form" }))
 {
     @Html.AntiForgeryToken()
 <div>
@@ -15,6 +15,7 @@
     <hr /> @*Pas comme exemple mais beau*@
     <dl class="dl-horizontal">
         @Html.HiddenFor(model => model.Item1.Personne.id_Pers)
+        @Html.HiddenFor(model => model.Item1.id_Inscription)
         <dt>
             @Html.DisplayNameFor(model => model.Item1.Personne.Matricule7)
         </dt>
@@ -68,7 +69,7 @@
             Acheté
         </dd>        
     </dl>
-    <input type="submit" value="Modifier" class="btn btn-default new { id = model.Item1.id_Inscription }"/>   
+    <input type="submit" value="Modifier" class="btn btn-default"/>   
 
     
 

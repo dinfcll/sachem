@@ -287,7 +287,7 @@ namespace sachem.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Details([Bind(Include = "id_Pers,Courriel,NumTelephone")] Personne personne, int? idInsc )
+        public ActionResult Details([Bind(Include = "id_Pers,Courriel,NumTelephone")] Personne personne, [Bind(Include = "id_Inscription")] Inscription inscription)
         {
             return View();
         }
