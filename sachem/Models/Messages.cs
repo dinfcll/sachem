@@ -142,11 +142,34 @@ namespace sachem.Models
         /// <returns></returns>
         public const string U_003 = "Longueur requise : 8 caractères.";
 
-
+        /// <summary>
+        /// Message pour longueur requise de 7 caractères
+        /// </summary>
+        /// <returns></returns>
         public const string U_004 = "Longueur requise: 7 caractères";
+
+        /// <summary>
+        /// Message pour longueur requise de 4 caractères
+        /// </summary>
+        /// <returns></returns>
         public const string U_005 = "Longueur requise : 4 caractères";
+
+        /// <summary>
+        /// Message pour Format: AAAA/MM/JJ
+        /// </summary>
+        /// <returns></returns>
         public const string U_007 = "Format: AAAA/MM/JJ";
+
+        /// <summary>
+        /// Message pour Format: nom@nomdomaine.com
+        /// </summary>
+        /// <returns></returns>
         public const string U_008 = "Format: nom@nomdomaine.com";
+
+        /// <summary>
+        /// Message pour Format : (999) 999-9999
+        /// </summary>
+        /// <returns></returns>
         public const string U_009 = "Format : (999) 999-9999";
 
 

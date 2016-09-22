@@ -394,12 +394,12 @@
     <Content Include="Views\Shared\_PageRecherche.cshtml" />
     <Content Include="Views\Groupes\Create.cshtml" />
     <Content Include="Views\Groupes\Delete.cshtml" />
-    <Content Include="Views\Groupes\Details.cshtml" />
     <Content Include="Views\Groupes\Edit.cshtml" />
     <Content Include="Views\Groupes\Index.cshtml" />
     <Content Include="Views\Groupes\AjouterEleve.cshtml" />
     <Content Include="Views\Groupes\DeleteEleve.cshtml" />
     <Content Include="Views\Groupes\Deplacer.cshtml" />
+    <Content Include="Views\Groupes\_Groupes.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

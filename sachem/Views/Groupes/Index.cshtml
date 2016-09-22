@@ -100,7 +100,7 @@
             @Html.DisplayFor(modelItem => item.Personne.NomPrenom)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.nbPersonne)
+            @Html.DisplayFor(modelItem => item.GroupeEtudiant.Count())
         </td>
         <td>
             @Html.ActionLink("Modifier", "Edit", new {id = item.id_Groupe}) |
