@@ -245,7 +245,7 @@ namespace sachem.Controllers
             pageRecue = Page;
             return Rechercher();
         }
-
+        #endregion
         // GET: DossierEtudiant
         public ActionResult Index(int? page)
         {
@@ -397,6 +397,6 @@ namespace sachem.Controllers
             }
             base.Dispose(disposing);
         }
-        #endregion
+        
     }
 }
