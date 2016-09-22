@@ -1,16 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data;
-using System.Data.Entity;
 using System.Linq;
 using System.Net;
-using System.Web;
 using System.Web.Mvc;
 using sachem.Models;
 using PagedList;
 using System.Security.Cryptography;// pour encripter mdp
 using System.Text;
-using System.Web.Services;
+using System.Data.Entity;
 
 namespace sachem.Controllers
 {
@@ -317,20 +314,21 @@ namespace sachem.Controllers
         // plus de détails, voir  http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        //Modification lorsqu'on clique sur le bouton modification / Enregistrement
         public ActionResult Edit([Bind(Include = "id_Pers,id_Sexe,id_TypeUsag,Nom,Prenom,NomUsager,Matricule7,MP,Courriel,Telephone,DateNais,Actif")] Personne personne)
         {
             PersonneEtuProgParent pepp = new PersonneEtuProgParent();
             Personne p = db.Personne.Find(personne.id_Pers);
             p.id_TypeUsag = 1;
-            //p.Matricule = personne.Matricule;
             var idSexe = (from d in db.Personne
                           where d.id_Pers == p.id_Pers
                           select d).FirstOrDefault();
             p.id_Sexe = idSexe.id_Sexe;
 
-            db.SaveChanges();
+            //db.SaveChanges();
             pepp.personne = p;
 
+            //Mise à jour Viewbag
             ViewBag.id_Sexe = new SelectList(db.p_Sexe, "id_Sexe", "Sexe", pepp.personne.id_Sexe);
             ViewBag.id_TypeUsag = new SelectList(db.p_TypeUsag, "id_TypeUsag", "TypeUsag", pepp.personne.id_TypeUsag);
             ViewBag.id_Programme = new SelectList(db.ProgrammeEtude, "id_ProgEtu", "nomProg");
@@ -346,12 +344,17 @@ namespace sachem.Controllers
                 db.EtuProgEtude.Add(etuprog);
                 db.SaveChanges();
             }
-            
+            //Aller chercher Programme d'étude(nom)
             var Prog = from d in db.EtuProgEtude
                        where d.id_Etu == pepp.personne.id_Pers
                        select d;
-
             pepp.epe = Prog.ToList();
+
+            if (ModelState.IsValid)
+            {
+                db.Entry(pepp.personne).State = EntityState.Modified;
+                db.SaveChanges();
+            }
             return View(pepp);
         }
 
