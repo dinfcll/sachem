@@ -16,10 +16,16 @@
                 </th>
                 <th>
                 </th>
+@if (sachem.Models.SachemIdentite.ObtenirTypeUsager(Session) == sachem.Models.TypeUsagers.Eleve || sachem.Models.SachemIdentite.ObtenirTypeUsager(Session) == sachem.Models.TypeUsagers.Tuteur)
+{
                 <th>
                 </th>
+}
+@if (sachem.Models.SachemIdentite.ObtenirTypeUsager(Session) == sachem.Models.TypeUsagers.Eleve)
+{
                 <th>
                 </th>
+}
             </tr>
 
             @foreach (var item in Model)
@@ -37,12 +43,24 @@
                     <td>
                         Consulter@*Sprint4*@
                     </td>
+@if (sachem.Models.SachemIdentite.ObtenirTypeUsager(Session) == sachem.Models.TypeUsagers.Eleve || sachem.Models.SachemIdentite.ObtenirTypeUsager(Session) == sachem.Models.TypeUsagers.Tuteur)
+{
                     <td>
                         Modifier@*Sprint3*@
                     </td>
+}
+@if (sachem.Models.SachemIdentite.ObtenirTypeUsager(Session) == sachem.Models.TypeUsagers.Eleve)
+{
                     <td>
                         Modifier informations personelles@*Sprint3*@
                     </td>
+}
+                </tr>
+            }
+            @if (!Model.Any())
+            {
+                <tr>
+                    <td colspan="6">Aucune demande d'inscription</td>
                 </tr>
             }
         </table>

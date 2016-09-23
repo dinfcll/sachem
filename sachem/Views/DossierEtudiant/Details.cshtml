@@ -61,7 +61,7 @@ else
         <dd>
 @if (sachem.Models.SachemIdentite.ObtenirTypeUsager(Session) == sachem.Models.TypeUsagers.Tuteur || sachem.Models.SachemIdentite.ObtenirTypeUsager(Session) == sachem.Models.TypeUsagers.Eleve)
 {
-            @Html.EditorFor(model => model.Item1.Personne.Telephone, @"{0:(###) ###-####}", new { htmlAttributes = new { @class = "form-control", @placeholder = "(999) 999-9999", @maxlength = "14"} })
+            @Html.EditorFor(model => model.Item1.Personne.Telephone, new { htmlAttributes = new { @class = "form-control", @placeholder = "(999) 999-9999", @maxlength = "14" } })
             @Html.ValidationMessageFor(model => model.Item1.Personne.Telephone, "", new { @class = "text-danger" })
 }
 else
@@ -69,7 +69,8 @@ else
             @Html.DisplayFor(model => model.Item1.Personne.Telephone)
 }
         </dd>
-
+@if (sachem.Models.SachemIdentite.ObtenirTypeUsager(Session) == sachem.Models.TypeUsagers.Tuteur)
+{
         <dt>
             @Html.DisplayNameFor(model => model.Item1.BonEchange)
         </dt>
@@ -77,7 +78,8 @@ else
         <dd>
             @Html.CheckBoxFor(model => model.Item1.BonEchange.Value)
             Acheté
-        </dd>        
+        </dd>
+}
     </dl>
     <input type="submit" value="Modifier" class="btn btn-default"/>       
 

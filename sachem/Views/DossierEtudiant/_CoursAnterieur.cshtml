@@ -3,7 +3,10 @@
 <hr />
 <div>
     <h4>Cours de mathématiques antérieurs</h4>
+@if (sachem.Models.SachemIdentite.ObtenirTypeUsager(Session) == sachem.Models.TypeUsagers.Eleve || sachem.Models.SachemIdentite.ObtenirTypeUsager(Session) == sachem.Models.TypeUsagers.Tuteur)
+{
     @Html.ActionLink("Ajouter un cours", "Create", "CoursSuivi", new { id = ViewBag.idPers }, null)
+}
     <table class="table">
         <tr>
             <th>
@@ -30,10 +33,13 @@
                 @Html.DisplayNameFor(model => model.First().p_StatutCours.Statut)
             </th>
 }
+@if (sachem.Models.SachemIdentite.ObtenirTypeUsager(Session) == sachem.Models.TypeUsagers.Eleve || sachem.Models.SachemIdentite.ObtenirTypeUsager(Session) == sachem.Models.TypeUsagers.Tuteur)
+{
             <th>
             </th>
             <th>
             </th>
+}
         </tr>
 
         @foreach (var item in Model)
@@ -77,12 +83,21 @@
                     @Html.DisplayFor(modelItem => item.p_StatutCours.Statut)
                 </td>
 }
+@if (sachem.Models.SachemIdentite.ObtenirTypeUsager(Session) == sachem.Models.TypeUsagers.Eleve || sachem.Models.SachemIdentite.ObtenirTypeUsager(Session) == sachem.Models.TypeUsagers.Tuteur)
+{
                 <td>
-                    @Html.ActionLink("Modifier" , "Edit", "CoursSuivi", new {  id = item.id_CoursReussi, id2 = item.id_Pers}, null)
+                    @Html.ActionLink("Modifier", "Edit", "CoursSuivi", new { id = item.id_CoursReussi, id2 = item.id_Pers }, null)
                 </td>
                 <td>
                     @Html.ActionLink("Supprimer", "Delete", "CoursSuivi", new { id = item.id_CoursReussi, id2 = item.id_Pers }, null)
                 </td>
+}
+            </tr>
+        }
+        @if (!Model.Any())
+        {
+            <tr>
+                <td colspan="6">Aucun cours</td>
             </tr>
         }
     </table>

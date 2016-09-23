@@ -33,6 +33,7 @@ namespace sachem.Models
             }
         }
 
+
         public string ProgEtu { get; set; }
 
         public string Matricule7//couper le matricule pour avoir 7 de long
