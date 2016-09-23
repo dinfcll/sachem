@@ -29,14 +29,86 @@ namespace sachem.Models
         /// <returns></returns>private string I_003(string cours)
         public static string I_003(string Cours)
         { return $"Le cours {Cours} a été enregistré."; }
-     
+
+        /// <summary>
+        /// Le programme a été modifier.
+        /// </summary>
+        /// <param name="Programme"></param>
+        /// <returns></returns>
+        public static string I_004(string Programme)
+        { return $"Le programme {Programme} a été Modifié."; }
+
+        /// <summary>
+        /// Un étudiant est associé à ce programme d'études. Ce programme ne peut être supprimé.
+        /// </summary>
+        /// <param name="Cours"></param>
+        /// <returns></returns>
+        public static string I_005()
+        { return $"Un étudiant est associé à ce programme d'études. Ce programme ne peut être supprimé."; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="code"></param>
+        /// <returns></returns>
+        public static string I_006(string code)
+        { return $"Impossible d'enregistrer ce programme d'études. Il existe déjà un programme ayant le code {code}."; }
+
+        ///<summary>
+        /// Le programme d'études {0} a été enregistré
+        /// </summary>
+        ///<param name="nomProgrammeEtude"></param>
+        /// <returns></returns>
+        public static string I_007(string nomProgrammeEtude)
+        { return $"Le programme d'études {nomProgrammeEtude} a été enregistré"; }
+
+        ///<summary>
+        /// Le programme d'études {0} a été supprimé
+        /// </summary>
+        ///<param name="nomProgrammeEtude"></param>
+        /// <returns></returns>
+        public static  string I_008(string nomProgrammeEtude)
+        {  return $"Le programme d'études {nomProgrammeEtude} a été supprimer"; }
+
         /// <summary>
         /// Le cours {0} a été supprimé.
         /// </summary>
         /// <param name="Cours"></param>
-        /// <returns></returns>private string I_009(string cours)
+        /// <returns></returns>
         public static string I_009(string Cours)
         { return $"Le cours {Cours} a été supprimé."; }
+
+        /// <summary>
+        /// Le fichier {0} a bien été transféré sur le serveur.
+        /// </summary>
+        /// <param name="Fichier"></param>
+        /// <returns></returns>
+        //public static string I_033(string Fichier)
+        //{ return $"Le fichier {Fichier} a bien été transféré sur le serveur."; }
+
+        /// <summary>
+        /// Erreur lors du transfert de fichier.
+        /// </summary>
+        /// <returns></returns>
+        public static string I_034(string Fichier)
+        { return $"Erreur lors du transfert du fichier {Fichier}."; }
+
+        /// <summary>
+        /// Un fichier {0} de même nom est déjà présent sur le serveur.
+        /// </summary>
+        /// <param name="Fichier"></param>
+        /// <returns></returns>
+        public static string I_035(string Fichier)
+        { return $"Un fichier {Fichier} de même nom est déjà présent sur le serveur."; }
+
+        /// <summary>
+        /// Le fichier {0} ne doit pas être vide{1}.
+        /// </summary>
+        /// <param name="Fichier"></param>
+        /// <param name="Max"></param>
+        /// <returns></returns>
+        //public static string I_037()
+        //{ return $"Le fichier est trop énorme"; }
 
         //Comptes/Connexion
         /// <summary>
@@ -134,6 +206,14 @@ namespace sachem.Models
         /// </summary>
         /// <returns></returns>
         public const string C_006 = "Les dates de début et de fin doivent faire partie de la session sélectionnée.";
+
+            /// <summary>
+            /// L'extension du fichier doit être {0} .
+            /// </summary>
+            /// <param name="Extension"></param>
+            /// <returns></returns>
+        //public static string C_007(string Extension)
+        //{ return $"L'extension du fichier doit être {Extension} ."; }
         #endregion
 
         #region MessageUnitaire
@@ -151,21 +231,36 @@ namespace sachem.Models
         public const string U_003 = "Longueur requise : 8 caractères.";
 
         /// <summary>
-        /// Longueur requise: 7 caractères
+        /// Longueur requise: 7 caractères.
         /// </summary>
-        /// <returns></returns>
         public const string U_004 = "Longueur requise: 7 caractères";
 
-        ///<summary>
+        /// <summary>
+        /// Longueur requise: 6 caractères. (MDP)
+        /// </summary>
+        public const string U_005 = "Longueur requise: 6 caractères";
+
+        /// <summary>
+        /// Format : AAAA
+        /// </summary>
+        /// <returns></returns>
+        public const string U_006 = "Format : AAAA";
+
+        /// <summary>
+        /// "La date indiquée doit être entre l'année 1967 et celle en cours"
+        /// </summary>
+        /// <returns></returns>
+        public const string U_012 = "La date indiquée doit être entre l'année 1967 et celle en cours";
+
+        /// <summary>
         /// Format: AAAA/MM/JJ
         /// </summary>
-        /// <returns></returns>
-        public const string U_007 = "Format : AAAA/MM/JJ";
+        public const string U_007 = "Format: AAAA/MM/JJ";
 
-        ///<summary>
-        /// Format: nom@nomdomaine.com
+        /// <summary>
+        /// Format: nom@domaine.com
         /// </summary>
-        /// <returns></returns>
+        /// <param name="Code"></param>
         public const string U_008 = "Format: nom@nomdomaine.com";
 
         ///<summary>
@@ -193,6 +288,13 @@ namespace sachem.Models
         { return $"Voulez-vous vraiment supprimer le cours {Cours} ?"; }
 
         /// <summary>
+        /// Voulez-vous vraiment supprimer le programme d'études {0} ?
+        /// </summary>
+        /// <param name="nomProgrammeEtude"></param>
+        /// <returns></returns>private string Q_002(string NomProgrammeEtude)
+        public static  string Q_002(string nomProgrammeEtude)
+        { return $"Voulez-vous vraiment supprimer le programme d'études {nomProgrammeEtude} ?"; }
+        /// <summary>
         /// Un collège est en cours d'ajout ou de modification. Souhaitez-vous annuler cette opération?
         /// </summary>
         /// <returns></returns>
@@ -208,6 +310,5 @@ namespace sachem.Models
         { return $"Voulez-vous vraiment supprimer le collège {College} ?"; }
 
         #endregion
-
     }
 }
