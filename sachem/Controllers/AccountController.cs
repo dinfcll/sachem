@@ -15,7 +15,7 @@ namespace sachem.Controllers
     [Authorize]
     public class AccountController : Controller
     {
-        private SACHEMEntities db = new SACHEMEntities();
+        private readonly SACHEMEntities db = new SACHEMEntities();//retirer le readonly de private
         public AccountController()
         {
 
@@ -252,7 +252,29 @@ namespace sachem.Controllers
                     SachemIdentite.encrypterMPPersonne(ref EtudiantBD);
 
                     db.Entry(EtudiantBD).State = EntityState.Modified;
-                    db.SaveChanges();
+
+                    #region try-catch pour une ligne de code db.SaveChanges() qui marche pas, throw raise sur la date invalide AAAA/MM/DD
+                    try
+                    {
+                        db.SaveChanges();//essai de sauvegarder
+                    }
+                    catch(System.Data.Entity.Validation.DbEntityValidationException dbEx)
+                    {
+                        Exception raise = dbEx;
+                        foreach (var validationErrors in dbEx.EntityValidationErrors)
+                        {
+                            foreach (var validationError in validationErrors.ValidationErrors)
+                            {
+                                string message = string.Format("{0}:{1}",
+                                    validationErrors.Entry.Entity.ToString(),
+                                    validationError.ErrorMessage);
+                                // lever exception
+                                raise = new InvalidOperationException(message, raise);
+                            }
+                        }
+                        throw raise;
+                    }
+                    #endregion
 
                     ViewBag.Success = Messages.I_026();
                  

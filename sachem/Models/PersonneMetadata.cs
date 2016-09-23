@@ -9,10 +9,11 @@ namespace sachem.Models
 {
     //instruction pour indiquer que la classe de CoursMetaData est une classe de métadonnée
     [MetadataType(typeof(PersonneMetadata))]
+
     //on doit redéfinir la classe partielle même si on ajout rien. Placé immédiatement avant la classe de métadonnée associée
     public partial class Personne
     {
-      //  [System.ComponentModel.DataAnnotations.Compare("MP", ErrorMessage = Messages.C_001)]
+        [System.ComponentModel.DataAnnotations.Compare("MP", ErrorMessage = Messages.C_001)]
         [NotMappedAttribute]
         public string ConfirmPassword { get; set; }
 
@@ -42,8 +43,10 @@ namespace sachem.Models
         //système en format datetime YYYY/MM/DD hh:mm:ss. Il faut que les deux expressions soient utilisables pour que le modèle
         //ne tombe pas en erreur lors de la validation.
         [Display(Name = "Date de naissance")]
-        [RegularExpression(@"^[0-9]{4}-[0-9]{2}-[0-9]{2} [0-2][0-9]:[0-5][0-9]:[0-5][0-9]$|^[0-9]{4}\/[0-9]{2}\/[0-9]{2}$", ErrorMessage = Messages.U_007)]
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = @"{0:yyyy\/MM\/dd}")]
+        //la mise en commentaire le l'expression reguliere me permet de creer des comptes
+        //[RegularExpression(@"^[0-9]{4}-[0-9]{2}-[0-9]{2} [0-2][0-9]:[0-5][0-9]:[0-5][0-9]$|^[0-9]{4}\/[0-9]{2}\/[0-9]{2}$", ErrorMessage = Messages.U_007)]
+        [DisplayFormat(DataFormatString = "{0:YYYY/MM/DD}", ApplyFormatInEditMode = true)]
+        //[DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = @"{0:yyyy\/MM\/dd}")] //dans le mauvais sens
         public global::System.DateTime DateNais;
 
 
