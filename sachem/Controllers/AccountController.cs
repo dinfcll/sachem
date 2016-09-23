@@ -171,15 +171,17 @@ namespace sachem.Controllers
                     SessionBag.Current.id_Inscription = InscritBD.id_Inscription;
                 }
                 else
+                {
                     if (typeinscr == 1)
-                {
-                    SessionBag.Current.id_TypeUsag = 5; //sinon, c'est un élève aidé.
-                    SessionBag.Current.id_Inscription = InscritBD.id_Inscription;
-                }
-                else
-                {
-                    SessionBag.Current.id_TypeUsag = PersonneBD.id_TypeUsag; //Si c'est pas un étudiant, on va chercher directement dans la BD pour voir le ID du type.
-                    SessionBag.Current.id_Inscription = 0;
+                    {
+                        SessionBag.Current.id_TypeUsag = 5; //sinon, c'est un élève aidé.
+                        SessionBag.Current.id_Inscription = InscritBD.id_Inscription;
+                    }
+                    else
+                    {
+                        SessionBag.Current.id_TypeUsag = PersonneBD.id_TypeUsag; //Si c'est pas un étudiant, on va chercher directement dans la BD pour voir le ID du type.
+                        SessionBag.Current.id_Inscription = 0;
+                    }
                 }
 
                 //Si tout va bien, on rempli la session avec les informations de l'utilisateur!
