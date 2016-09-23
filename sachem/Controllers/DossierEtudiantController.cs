@@ -16,7 +16,9 @@ namespace sachem.Controllers
 {
     /*//id de test : 1432435 -- //// id_Pers	id_Sexe	id_TypeUsag	Nom	Prenom	NomUsager	Matricule	MP	Courriel	Telephone	DateNais	Actif
 ///////////////////////////////////13	    1	2	Lacasse Patricia    NULL	201432435	7f5c81697fcedb98e9d0cd749792a825 joseouellet@gmail.com	4182714722	1996-10-31	1
-USE [SACHEM]
+
+        Pour changer un compte de user a admin
+        USE [SACHEM]
 GO
 
 UPDATE [dbo].[Personne]
@@ -24,13 +26,23 @@ UPDATE [dbo].[Personne]
  WHERE [id_Pers] = 10
 GO
 
-
+        Pour changer un etudiant de tuteur a eleve aide
 USE [SACHEM]
 GO
 
 UPDATE [dbo].[Inscription]
    SET [id_TypeInscription] = 1 --change id_TypeInscription -- change id_type_inscription:: 1=eleveaide, 2=tutcours, 3=tutben, 4=tutremu
  WHERE [id_Pers] = 10
+GO
+
+
+        Pour changer le mot de passe dun enseignant, admin, ou responsable, connecte toi avec le usager
+ USE [SACHEM]
+GO
+
+UPDATE [dbo].[Personne]
+   SET [MP] = '7f5c81697fcedb98e9d0cd749792a825'
+ WHERE [id_Pers] = 6
 GO
 
  */
