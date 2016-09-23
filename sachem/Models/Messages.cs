@@ -110,16 +110,35 @@ namespace sachem.Models
         //{ return $"Le fichier est trop énorme"; }
 
         //Comptes/Connexion
+        /// <summary>
+        /// Connexion échouée.
+        /// </summary>
         public static string I_017()
         { return $"Votre tentative de connexion a échoué. Réessayez."; }
+        /// <summary>
+        /// Mot de passe modifié.
+        /// </summary>
         public static string I_018()
         { return $"Mot de passe modifié"; }
+
+        /// <summary>
+        /// Mot de passe envoyé au courriel
+        /// </summary>
         public static string I_019()
         { return $"Votre mot de passe a été envoyé à votre adresse courriel."; }
+        /// <summary>
+        /// Compte existant pour cet étudiant!
+        /// </summary>
         public static string I_025()
         { return $"Un compte existe déjà pour cet étudiant."; }
+        /// <summary>
+        /// Compte créé, vous pouvez vous connecter.
+        /// </summary>
         public static string I_026()
         { return $"Le compte a été créé. Vous pouvez maintenant vous connecter."; }
+        /// <summary>
+        /// Aucun étudiant ne correspond aux données saisies.
+        /// </summary>
         public static string I_027()
         { return $"Aucun étudiant ne correspond aux données saisies. Vous devez être inscrit à un cours offert par le département de mathématiques."; }
 
@@ -128,9 +147,21 @@ namespace sachem.Models
 
         #region MessageContexte
         //Contexte de comptes
+        /// <summary>
+        /// MDP doit correspondre a confirmation de mdp.
+        /// </summary>
         public const string C_001 = "Le mot de passe et la confirmation du mot de passe doivent être identiques.";
+        /// <summary>
+        /// L'ancien mdp est invalide!
+        /// </summary>
         public const string C_002 = "L'ancien mot de passe est invalide.";
+        /// <summary>
+        /// Aucune usager associé à cette adresse courriel.
+        /// </summary>
         public const string C_003 = "Aucun usager associé à cette adresse courriel.";
+        /// <summary>
+        /// Usager inexistant ou mdp invalide.
+        /// </summary>
         public const string C_004 = "Cet usager n'existe pas ou le mot de passe est invalide.";
 
 
@@ -159,10 +190,31 @@ namespace sachem.Models
         /// <returns></returns>
         public const string U_003 = "Longueur requise : 8 caractères.";
 
-
+        /// <summary>
+        /// Longueur requise: 7 caractères.
+        /// </summary>
         public const string U_004 = "Longueur requise: 7 caractères";
+
+        /// <summary>
+        /// Longueur requise: 6 caractères. (MDP)
+        /// </summary>
+        public const string U_005 = "Longueur requise: 6 caractères";
+
+
+        /// <summary>
+        /// Format: AAAA/MM/JJ
+        /// </summary>
         public const string U_007 = "Format: AAAA/MM/JJ";
+
+        /// <summary>
+        /// Format: nom@domaine.com
+        /// </summary>
+        /// <param name="Code"></param>
         public const string U_008 = "Format: nom@nomdomaine.com";
+
+        /// <summary>
+        /// Format: (999) 999-9999
+        /// </summary>
         public const string U_009 = "Format : (999) 999-9999";
 
 
