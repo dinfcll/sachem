@@ -35,7 +35,7 @@
                     @if (SachemIdentite.ObtenirTypeUsager(Session) == TypeUsagers.Eleve || SachemIdentite.ObtenirTypeUsager(Session) == TypeUsagers.Tuteur)
                     {
                         <li>
-                            @Html.ActionLink("Mon Dossier", "Details", "DossierEtudiant", new { area = ""})
+                            @Html.ActionLink("Mon Dossier", "Details", "DossierEtudiant", new { id = SessionBag.Current.id_Inscription } , null)
                         </li>
                     }
                     
@@ -43,7 +43,7 @@
                         @if (SachemIdentite.ObtenirTypeUsager(Session) == TypeUsagers.Tuteur)
                         {
                             <li>
-                                @Html.ActionLink("Dossier étudiant", "Index", "Cours", new { area = "" })
+                                @Html.ActionLink("Dossier étudiant", "Index", "DossierEtudiant")
                             </li>
                         }
 
