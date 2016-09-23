@@ -100,14 +100,6 @@ namespace sachem.Models
         /// </summary>
         public const string C_004 = "Cet usager n'existe pas ou le mot de passe est invalide.";
         /// <summary>
-        /// Résultat requis si réussi,
-        /// </summary>
-        public const string C_010 = "Le résultat est requis si le statut du cours est réussi.";
-
-
-        #endregion
-
-        /// <summary>
         /// Un des deux champs {0}, {1} doit être complété.
         /// </summary>
         /// <param name="param1"></param>
@@ -115,6 +107,15 @@ namespace sachem.Models
         /// <returns></returns>
         public static string C_009(string param1, string param2)
         { return $"Un des deux champs {param1}, {param2} doit être complété."; }
+        /// <summary>
+        /// Résultat requis si réussi,
+        /// </summary>
+        public const string C_010 = "Le résultat est requis si le statut du cours est réussi.";
+
+
+        #endregion
+
+       
 
         #region MessageUnitaire
 

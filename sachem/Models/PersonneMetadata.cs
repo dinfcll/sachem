@@ -45,7 +45,7 @@ namespace sachem.Models
         [Display(Name = "Date de naissance")]
         //la mise en commentaire le l'expression reguliere me permet de creer des comptes
         //[RegularExpression(@"^[0-9]{4}-[0-9]{2}-[0-9]{2} [0-2][0-9]:[0-5][0-9]:[0-5][0-9]$|^[0-9]{4}\/[0-9]{2}\/[0-9]{2}$", ErrorMessage = Messages.U_007)]
-        [DisplayFormat(DataFormatString = "{0:YYYY/MM/DD}", ApplyFormatInEditMode = true)]
+        [DisplayFormat(DataFormatString = "{0:yyyy/MM/dd}", ApplyFormatInEditMode = true)]
         //[DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = @"{0:yyyy\/MM\/dd}")] //dans le mauvais sens
         public global::System.DateTime DateNais;
 
@@ -96,11 +96,6 @@ namespace sachem.Models
 
         [Display(Name = "Nom d'utilisateur")]
         public global::System.String NomUtilisateur;
-
-        [Display(Name = "Numéro de téléphone")]
-        [DisplayFormat(DataFormatString = "{0:(###) ###-####}", ApplyFormatInEditMode = true)]
-        [RegularExpression(@"^\(([0-9]{3})\) ([0-9]{3})-([0-9]{4})$", ErrorMessage = Messages.U_009)]
-        public long NumTelephone;
     }
 
 }

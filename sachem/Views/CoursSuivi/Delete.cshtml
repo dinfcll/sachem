@@ -23,6 +23,8 @@
             @Html.DisplayFor(model => model.Session.NomSession)
         </dd>
 
+@if (sachem.Models.SachemIdentite.ObtenirTypeUsager(Session) == sachem.Models.TypeUsagers.Tuteur)
+{
         <dt>
             @Html.DisplayNameFor(model => model.id_Statut)
         </dt>
@@ -30,6 +32,7 @@
         <dd>
             @Html.DisplayFor(model => model.p_StatutCours.Statut)
         </dd>
+}
 
         <dt>
             @Html.DisplayNameFor(model => model.resultat)

@@ -33,20 +33,6 @@ namespace sachem.Models
             }
         }
 
-        public long? NumTelephone
-        {
-            get
-            {
-                //if (Telephone == null) { return null; }
-                //return long.Parse(Telephone);
-                return null;
-            }
-            set
-            {
-                Telephone = value.ToString();
-            }
-        }
-
         public string ProgEtu { get; set; }
 
         public string Matricule7//couper le matricule pour avoir 7 de long

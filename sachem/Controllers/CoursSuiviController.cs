@@ -72,7 +72,7 @@ namespace sachem.Controllers
 
             //Verif si resultat nécéssaire et présent
             if ((coursSuivi.id_Statut == null || coursSuivi.id_Statut == 1) && coursSuivi.resultat == null)
-                ModelState.AddModelError(string.Empty, "");//Messages.U_050
+                ModelState.AddModelError(string.Empty, Messages.C_010);
         }
 
         // GET: CoursSuivi
