@@ -20,8 +20,17 @@ USE [SACHEM]
 GO
 
 UPDATE [dbo].[Personne]
-   SET [id_TypeUsag] = 1 //change id_typeUsage -- 1=etu , 2=ens, 3=resp, 4=admin ... change id_type_inscription:: 1=eleveaide, 2=tutcours, 3=tutben, 4=tutremu
- WHERE [id_Pers] = 13
+   SET [id_TypeUsag] = 1 --1=etudiant 2=enseignant 3=respo 4=admin
+ WHERE [id_Pers] = 10
+GO
+
+
+USE [SACHEM]
+GO
+
+UPDATE [dbo].[Inscription]
+   SET [id_TypeInscription] = 1 --change id_TypeInscription -- change id_type_inscription:: 1=eleveaide, 2=tutcours, 3=tutben, 4=tutremu
+ WHERE [id_Pers] = 10
 GO
 
  */
