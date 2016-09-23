@@ -146,17 +146,6 @@ namespace sachem.Models
 
         #endregion
 
-
-
-            /// <summary>
-            /// L'extension du fichier doit être {0} .
-            /// </summary>
-            /// <param name="Extension"></param>
-            /// <returns></returns>
-        //public static string C_007(string Extension)
-        //{ return $"L'extension du fichier doit être {Extension} ."; }
-        #endregion
-
         #region MessageUnitaire
 
         /// <summary>

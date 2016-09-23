@@ -177,9 +177,6 @@ namespace sachem.Controllers
                 SessionBag.Current.Matricule7 = PersonneBD.Matricule7;
                 SessionBag.Current.NomComplet = PersonneBD.PrenomNom;
                 SessionBag.Current.MP = PersonneBD.MP;
-                
-                //problème ici, à ajuster!
-                SessionBag.Current.id_TypeUsag = PersonneBD.id_TypeUsag;
 
                 SessionBag.Current.id_Pers = PersonneBD.id_Pers;
                 if (SouvenirConnexion)
