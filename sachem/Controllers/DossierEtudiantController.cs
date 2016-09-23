@@ -14,6 +14,17 @@ using System.Web.Services;
 
 namespace sachem.Controllers
 {
+    /*//id de test : 1432435 -- //// id_Pers	id_Sexe	id_TypeUsag	Nom	Prenom	NomUsager	Matricule	MP	Courriel	Telephone	DateNais	Actif
+///////////////////////////////////13	    1	2	Lacasse Patricia    NULL	201432435	7f5c81697fcedb98e9d0cd749792a825 joseouellet@gmail.com	4182714722	1996-10-31	1
+USE [SACHEM]
+GO
+
+UPDATE [dbo].[Personne]
+   SET [id_TypeUsag] = 1 //change id_typeUsage -- 1=etu , 2=ens, 3=resp, 4=admin ... change id_type_inscription:: 1=eleveaide, 2=tutcours, 3=tutben, 4=tutremu
+ WHERE [id_Pers] = 13
+GO
+
+ */
     public class DossierEtudiantController : Controller
     {
         //test
