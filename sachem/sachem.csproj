@@ -211,6 +211,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\PersonnesController.cs" />
     <Compile Include="Controllers\ImporterController.cs" />
+    <Compile Include="Controllers\ProgrammesOffertsController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -264,6 +265,7 @@
     <Compile Include="Models\ProgrammeEtude.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\ProgrammeEtudeMetadata.cs" />
     <Compile Include="Models\p_College.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
