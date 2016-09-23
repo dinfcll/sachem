@@ -209,7 +209,6 @@
     <Compile Include="Controllers\CoursController.cs" />
     <Compile Include="Classes_Sachen\Crypt.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\ProgrammesOffertsController.cs" />
     <Compile Include="Controllers\PersonnesController.cs" />
     <Compile Include="Controllers\ImporterController.cs" />
     <Compile Include="Controllers\ProgrammesOffertsController.cs" />
