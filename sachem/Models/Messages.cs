@@ -1,5 +1,5 @@
-﻿using System.Diagnostics;
-using System;
+﻿using System;
+using System.Diagnostics;
 
 namespace sachem.Models
 {
@@ -112,61 +112,100 @@ namespace sachem.Models
 
         //Comptes/Connexion
         /// <summary>
-        /// Connexion échouée.
+        /// Votre tentative de connexion a échoué. Réessayez.
         /// </summary>
+        /// <returns></returns>
         public static string I_017()
         { return $"Votre tentative de connexion a échoué. Réessayez."; }
+
         /// <summary>
-        /// Mot de passe modifié.
+        /// Mot de passe modifié
         /// </summary>
+        /// <returns></returns>
         public static string I_018()
         { return $"Mot de passe modifié"; }
 
         /// <summary>
-        /// Mot de passe envoyé au courriel
+        /// Votre mot de passe a été envoyé à votre adresse courriel.
         /// </summary>
+        /// <returns></returns>
         public static string I_019()
         { return $"Votre mot de passe a été envoyé à votre adresse courriel."; }
+
         /// <summary>
-        /// Compte existant pour cet étudiant!
+        /// Un compte existe déjà pour cet étudiant.
         /// </summary>
+        /// <returns></returns>
         public static string I_025()
         { return $"Un compte existe déjà pour cet étudiant."; }
+
         /// <summary>
-        /// Compte créé, vous pouvez vous connecter.
+        /// Le compte a été créé. Vous pouvez maintenant vous connecter.
         /// </summary>
+        /// <returns></returns>
         public static string I_026()
         { return $"Le compte a été créé. Vous pouvez maintenant vous connecter."; }
+
         /// <summary>
-        /// Aucun étudiant ne correspond aux données saisies.
+        /// Aucun étudiant ne correspond aux données saisies. Vous devez être inscrit à un cours offert par le département de mathématiques.
         /// </summary>
+        /// <returns></returns>
         public static string I_027()
         { return $"Aucun étudiant ne correspond aux données saisies. Vous devez être inscrit à un cours offert par le département de mathématiques."; }
 
+        /// <summary>
+        /// L’horaire d’inscription au SACHEM a été mis à jour.
+        /// </summary>
+        /// <returns></returns>
+        public static string I_030()
+        { return $"L’horaire d’inscription au SACHEM a été mis à jour."; }
 
+        /// <summary>
+        /// Le courriel a été mis à jour
+        /// </summary>
+        /// <returns></returns>
+        public static string I_032()
+        { return $"Le courriel a été mis à jour.";}
         #endregion
 
         #region MessageContexte
         //Contexte de comptes
-        /// <summary>
-        /// MDP doit correspondre a confirmation de mdp.
+
+        ///<summary>
+        /// Le mot de passe et la confirmation du mot de passe doivent être identiques.
         /// </summary>
+        /// <returns></returns>
         public const string C_001 = "Le mot de passe et la confirmation du mot de passe doivent être identiques.";
-        /// <summary>
-        /// L'ancien mdp est invalide!
+
+        ///<summary>
+        /// L'ancien mot de passe est invalide.
         /// </summary>
+        /// <returns></returns>
         public const string C_002 = "L'ancien mot de passe est invalide.";
-        /// <summary>
-        /// Aucune usager associé à cette adresse courriel.
+
+        ///<summary>
+        /// "Aucun usager associé à cette adresse courriel.
         /// </summary>
+        /// <returns></returns>
         public const string C_003 = "Aucun usager associé à cette adresse courriel.";
-        /// <summary>
-        /// Usager inexistant ou mdp invalide.
+
+        ///<summary>
+        /// Cet usager n'existe pas ou le mot de passe est invalide.
         /// </summary>
+        /// <returns></returns>
         public const string C_004 = "Cet usager n'existe pas ou le mot de passe est invalide.";
 
+        ///<summary>
+        /// La date de début doit être antérieure à la date de fin
+        /// </summary>
+        /// <returns></returns>
+        public const string C_005 = "La date de début doit être antérieure à la date de fin.";
 
-
+        ///<summary>
+        /// Les dates de début et de fin doivent faire partie de la session sélectionnée.
+        /// </summary>
+        /// <returns></returns>
+        public const string C_006 = "Les dates de début et de fin doivent faire partie de la session sélectionnée.";
 
             /// <summary>
             /// L'extension du fichier doit être {0} .
@@ -224,11 +263,17 @@ namespace sachem.Models
         /// <param name="Code"></param>
         public const string U_008 = "Format: nom@nomdomaine.com";
 
-        /// <summary>
-        /// Format: (999) 999-9999
+        ///<summary>
+        /// Format : (999) 999-9999
         /// </summary>
+        /// <returns></returns>
         public const string U_009 = "Format : (999) 999-9999";
 
+        ///<summary>
+        /// Format : HH:MM
+        /// </summary>
+        /// <returns></returns>
+        public const string U_010 = "Format : HH:MM";
 
         #endregion
 
@@ -249,6 +294,20 @@ namespace sachem.Models
         /// <returns></returns>private string Q_002(string NomProgrammeEtude)
         public static  string Q_002(string nomProgrammeEtude)
         { return $"Voulez-vous vraiment supprimer le programme d'études {nomProgrammeEtude} ?"; }
+        /// <summary>
+        /// Un collège est en cours d'ajout ou de modification. Souhaitez-vous annuler cette opération?
+        /// </summary>
+        /// <returns></returns>
+        public static string Q_014()
+        { return $"Un collège est en cours d'ajout ou de modification. Souhaitez-vous annuler cette opération?"; }
+
+        /// <summary>
+        /// Voulez-vous vraiment supprimer le collège {0}?
+        /// </summary>
+        /// <param name="College"></param>
+        /// <returns></returns>private string Q_015(string College)
+        public static string Q_015(string College)
+        { return $"Voulez-vous vraiment supprimer le collège {College} ?"; }
 
         #endregion
     }
