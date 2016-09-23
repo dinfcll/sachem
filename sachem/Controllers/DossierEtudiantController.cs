@@ -60,7 +60,7 @@ GO
         [NonAction]
         private IEnumerable<Personne> ObtenirListeSuperviseur(int session)
         {
-            //int Pers = 0;
+
             //var ResultReqJum = db.Jumelage.AsNoTracking()
             //    .Where(p => (p.Personne.id_Pers == p.id_Enseignant) && (p.id_Sess == session)).Distinct();
             //var ResultReq = db.Personne.AsNoTracking().Include(ResultReqJum.Where(j => j.id_Enseignant == j.Personne.id_Pers)
@@ -70,10 +70,7 @@ GO
                                 && p.id_TypeUsag == 2
                                 orderby p.Nom, p.Prenom
                                 select p;
-            if (SachemIdentite.ObtenirTypeUsager(Session) == TypeUsagers.Enseignant)
-                return lstEnseignant.ToList().Where(i => i.id_Pers == SessionBag.Current.id_Pers);
-            else
-                return lstEnseignant.ToList();
+            return lstEnseignant.ToList();
 
         //    return ResultReq.AsEnumerable();
         }
@@ -83,10 +80,6 @@ GO
         [NonAction]
         private void ListeTypeInscription(int TypeInscription = 0)
         {
-            //ordonnee et tous par default, si tuteurs: griser eleve aide.
-            int Pers = 0;
-            if (SachemIdentite.ObtenirTypeUsager(Session) == TypeUsagers.Tuteur)
-                TypeInscription = 1;
             var lInscriptions = db.p_TypeInscription.AsNoTracking().OrderBy(i => i.TypeInscription);
             var slInscription = new List<SelectListItem>();
             slInscription.AddRange(new SelectList(lInscriptions, "id_TypeInscription", "TypeInscription", TypeInscription));
@@ -118,13 +111,13 @@ GO
         [NonAction]
         protected IEnumerable<Inscription> Rechercher()
         {
-            var id = 0;
-            var matricule = "";
-            var prenom = "";
-            var nom = "";
-            var session = 0;
-            var typeinscription = 0;
-            var superviseur = 0;
+
+            string matricule = "";
+            string prenom = "";
+            string nom = "";
+            int session = 0;
+            int typeinscription = SessionBag.Current.id_Inscription; //si different de 0, il indiquera a la dropdownlist de type inscription que c'est un tuteur et que la list doit etre grise sur son 'eleve aide'
+            int superviseur = SessionBag.Current.idSuperviseur; //si different de 0, il indiquera a la dropdownlist de superviseur de mettre le nom de l'enseignant par defaut, si l'enseignant n'est pas superviseur d'un jumelage = 0 = tous.
 
             //region recuperation de donnees en GET pour initialiser les drop down listes
             #region recuperer donnees form
@@ -249,11 +242,10 @@ GO
             Session["DernRechEtuUrl"] = Request.Url.LocalPath.ToString();
 
             var lstEtu = from p in db.Inscription
-                                    where (
-                                    db.Jumelage.Any(j => j.id_Enseignant == superviseur || superviseur == 0) &&
+                                    where (db.Jumelage.Any(j => j.id_Enseignant == superviseur || superviseur == 0) &&
                                     (p.id_Sess == session || session == 0) &&
                                     (p.id_TypeInscription == typeinscription || typeinscription == 0) &&
-                                    (p.Personne.Prenom.Contains(prenom) || prenom == "") && 
+                                    (p.Personne.Prenom.Contains(prenom) || prenom == "") &&
                                     (p.Personne.Nom.Contains(nom) || nom == "") &&
                                     (p.Personne.Matricule.Substring(2).StartsWith(matricule) || matricule == "")
                                                                   )
@@ -286,7 +278,7 @@ GO
         // GET: DossierEtudiant/Details/5
         public ActionResult Details(int? id)
         {
-            if (!SachemIdentite.ValiderRoleAcces(RolesAcces, Session))
+            if (!SachemIdentite.ValiderRoleAcces(RolesAccesDossier, Session))
                 return RedirectToAction("Error", "Home", null);
 
             if (id == null)
