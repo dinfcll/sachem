@@ -39,6 +39,9 @@ namespace sachem.Models
         [Required(ErrorMessage = Messages.U_001)]
         public global::System.String Nom;
 
+        [Display(Name = "Nom")]
+        public global::System.String NomPrenom;
+
         //Expression régulière qui permet 2 formats de dates, celui exigé dans l'application YYYY/MM/DD et celui formaté par le 
         //système en format datetime YYYY/MM/DD hh:mm:ss. Il faut que les deux expressions soient utilisables pour que le modèle
         //ne tombe pas en erreur lors de la validation.
@@ -72,7 +75,7 @@ namespace sachem.Models
         public global::System.String Matricule;
 
         //Extrait du PAM partiellement
-        [Display(Name = "Matricule7")]
+        [Display(Name = "Matricule")]
         [StringLength(7)]
         public global::System.String Matricule7;
 

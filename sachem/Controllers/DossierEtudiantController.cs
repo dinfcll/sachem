@@ -352,27 +352,6 @@ GO
             return View(Tuple.Create(inscription, vCoursSuivi.AsEnumerable(), vInscription.AsEnumerable()));
         }
 
-        public static string FormatTelephone(string s)
-        {
-            var charsToRemove = new string[] { ".", "-", "(", " ", ")" };
-            foreach (var c in charsToRemove)
-            {
-                s = s.Replace(c, string.Empty);
-            }
-            return s;
-        }
-        //fonction qui remet le numéro de téléphone dans le bon format
-        public static string RemettreTel(string a)
-
-        {
-            string modif;
-            modif = a.Insert(0, "(");
-            modif = modif.Insert(4, ")");
-            modif = modif.Insert(5, " ");
-            modif = modif.Insert(9, "-");
-            return modif;
-        }
-
         // GET: DossierEtudiant/Create
         public ActionResult Create()
         {
