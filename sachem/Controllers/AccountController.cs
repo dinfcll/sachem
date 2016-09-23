@@ -124,7 +124,7 @@ namespace sachem.Controllers
         {
             string mdpPlain = MP;
             Personne PersonneBD = new Personne();
-            Inscription InscritBD = new Inscription(); //pour obtenir le id_inscription de l'etudiant aide seulement sinon dans le sessionbag = 0;
+
             //Validations des champs et de la connection
             if (mdpPlain == "")
                 ModelState.AddModelError("MP", Messages.U_001); //Mot de passe requis
@@ -164,23 +164,26 @@ namespace sachem.Controllers
                 var typeinscr = (from i in db.Inscription
                                  where i.id_Pers == PersonneBD.id_Pers select i.id_TypeInscription).FirstOrDefault();
 
+                //conserver le typeinscrit
+                if (typeinscr != 0)
+                    SessionBag.Current.id_Inscription = typeinscr;
+                else
+                    SessionBag.Current.id_Inscription = 0;
+
                 //Si c'est un tuteur, on a type = 6
                 if (typeinscr > 1)
                 {
-                    SessionBag.Current.id_TypeUsag = 6;
-                    SessionBag.Current.id_Inscription = InscritBD.id_Inscription;
+                    SessionBag.Current.id_TypeUsag = 6;                    
                 }
                 else
                 {
                     if (typeinscr == 1)
                     {
                         SessionBag.Current.id_TypeUsag = 5; //sinon, c'est un élève aidé.
-                        SessionBag.Current.id_Inscription = InscritBD.id_Inscription;
                     }
                     else
                     {
                         SessionBag.Current.id_TypeUsag = PersonneBD.id_TypeUsag; //Si c'est pas un étudiant, on va chercher directement dans la BD pour voir le ID du type.
-                        SessionBag.Current.id_Inscription = 0;
                     }
                 }
 
