@@ -69,7 +69,7 @@ else
             @Html.DisplayFor(model => model.Item1.Personne.Telephone)
 }
         </dd>
-@if (sachem.Models.SachemIdentite.ObtenirTypeUsager(Session) == sachem.Models.TypeUsagers.Eleve)
+@if (sachem.Models.SachemIdentite.ObtenirTypeUsager(Session) == sachem.Models.TypeUsagers.Eleve || ViewBag.idTypeInsc == 1)
 {
         <dt>
             @Html.DisplayNameFor(model => model.Item1.BonEchange)

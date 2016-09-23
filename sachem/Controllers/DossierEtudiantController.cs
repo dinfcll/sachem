@@ -315,7 +315,7 @@ GO
                                select d;            
 
             ViewBag.idPers = vInscription.First().id_Pers;
-            ViewBag.idInsc = vInscription.First().id_TypeInscription;
+            ViewBag.idTypeInsc = vInscription.First().id_TypeInscription;
 
             return View(Tuple.Create(inscription, vCoursSuivi.AsEnumerable(), vInscription.AsEnumerable()));
         }
@@ -330,7 +330,7 @@ GO
             var id_Inscription = Convert.ToInt32(model["item1.id_Inscription"]);
             var Courriel = Convert.ToString(model["item1.Personne.Courriel"]);
             var Telephone = Convert.ToString(model["item1.Personne.Telephone"]);
-            var BonEchange = model["item1.BonEchange"];
+            var BonEchange = model["item1.BonEchange.Value"];
 
             Personne personne = db.Personne.Find(id_Pers);
             personne.Courriel = Courriel;
@@ -347,6 +347,7 @@ GO
                                select d;
 
             ViewBag.idPers = vInscription.First().id_Pers;
+            ViewBag.idTypeInsc = vInscription.First().id_TypeInscription;
 
             if (ModelState.IsValid)
             {

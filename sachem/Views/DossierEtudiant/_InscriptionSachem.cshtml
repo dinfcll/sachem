@@ -21,7 +21,7 @@
                 <th>
                 </th>
 }
-@if (sachem.Models.SachemIdentite.ObtenirTypeUsager(Session) == sachem.Models.TypeUsagers.Eleve)
+@if (sachem.Models.SachemIdentite.ObtenirTypeUsager(Session) == sachem.Models.TypeUsagers.Eleve || ViewBag.idTypeInsc == 1)
 {
                 <th>
                 </th>
@@ -49,7 +49,7 @@
                         Modifier@*Sprint3*@
                     </td>
 }
-@if (sachem.Models.SachemIdentite.ObtenirTypeUsager(Session) == sachem.Models.TypeUsagers.Eleve)
+@if (sachem.Models.SachemIdentite.ObtenirTypeUsager(Session) == sachem.Models.TypeUsagers.Eleve || ViewBag.idTypeInsc == 1)
 {
                     <td>
                         Modifier informations personelles@*Sprint3*@
