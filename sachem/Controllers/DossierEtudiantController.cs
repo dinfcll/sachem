@@ -300,9 +300,10 @@ GO
 
             var vInscription = from d in db.Inscription
                                where d.id_Pers == inscription.id_Pers
-                               select d;
+                               select d;            
 
             ViewBag.idPers = vInscription.First().id_Pers;
+            ViewBag.idInsc = vInscription.First().id_TypeInscription;
 
             return View(Tuple.Create(inscription, vCoursSuivi.AsEnumerable(), vInscription.AsEnumerable()));
         }
