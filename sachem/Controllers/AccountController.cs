@@ -15,7 +15,7 @@ namespace sachem.Controllers
     [Authorize]
     public class AccountController : Controller
     {
-        private readonly SACHEMEntities db = new SACHEMEntities();
+        private SACHEMEntities db = new SACHEMEntities();
         public AccountController()
         {
 
