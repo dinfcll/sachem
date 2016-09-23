@@ -32,6 +32,7 @@ GO
         protected int noPage = 1;
         private int? pageRecue = null;
         List<TypeUsagers> RolesAcces = new List<TypeUsagers>() { TypeUsagers.Responsable, TypeUsagers.Super, TypeUsagers.Enseignant, TypeUsagers.Tuteur };
+        List<TypeUsagers> RolesAccesDossier = new List<TypeUsagers>() { TypeUsagers.Responsable, TypeUsagers.Super, TypeUsagers.Enseignant, TypeUsagers.Tuteur, TypeUsagers.Eleve };
 
         #region ObtentionRecherche
         [NonAction]
@@ -309,6 +310,8 @@ GO
         [ValidateAntiForgeryToken]
         public ActionResult Details(FormCollection model)
         {
+            if (!SachemIdentite.ValiderRoleAcces(RolesAccesDossier, Session))
+                return RedirectToAction("Error", "Home", null);
             var id_Pers = Convert.ToInt32(model["item1.Personne.id_Pers"]);
             var id_Inscription = Convert.ToInt32(model["item1.id_Inscription"]);
             var Courriel = Convert.ToString(model["item1.Personne.Courriel"]);
