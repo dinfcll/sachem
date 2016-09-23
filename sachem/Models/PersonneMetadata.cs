@@ -44,7 +44,7 @@ namespace sachem.Models
         //ne tombe pas en erreur lors de la validation.
         [Display(Name = "Date de naissance")]
         //la mise en commentaire le l'expression reguliere me permet de creer des comptes
-        //[RegularExpression(@"^[0-9]{4}-[0-9]{2}-[0-9]{2} [0-2][0-9]:[0-5][0-9]:[0-5][0-9]$|^[0-9]{4}\/[0-9]{2}\/[0-9]{2}$", ErrorMessage = Messages.U_007)]
+        [RegularExpression(@"^[0-9]{4}-[0-9]{2}-[0-9]{2} [0-2][0-9]:[0-5][0-9]:[0-5][0-9]$|^[0-9]{4}\/[0-9]{2}\/[0-9]{2}$", ErrorMessage = Messages.U_007)]
         [DisplayFormat(DataFormatString = "{0:yyyy/MM/dd}", ApplyFormatInEditMode = true)]
         //[DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = @"{0:yyyy\/MM\/dd}")] //dans le mauvais sens
         public global::System.DateTime DateNais;
@@ -59,6 +59,7 @@ namespace sachem.Models
         public global::System.String SouvenirConnexion;
 
         [Display(Name = "Téléphone")]
+        [DataType(DataType.PhoneNumber)]
         [RegularExpression(@"^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$", ErrorMessage = Messages.U_009)] //Vérifie le format du tel
         public global::System.String Telephone; //Ajout pour #Tel dans BD
 
