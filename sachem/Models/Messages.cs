@@ -28,7 +28,7 @@ namespace sachem.Models
         /// <returns></returns>private string I_003(string cours)
         public static string I_003(string Cours)
         { return $"Le cours {Cours} a été enregistré."; }
-        
+
         /// <summary>
         /// Le cours {0} a été supprimé.
         /// </summary>
@@ -38,12 +38,43 @@ namespace sachem.Models
         { return $"Le cours {Cours} a été supprimé."; }
 
         /// <summary>
+        /// Le fichier {0} a bien été transféré sur le serveur.
+        /// </summary>
+        /// <param name="Fichier"></param>
+        /// <returns></returns>
+        //public static string I_033(string Fichier)
+        //{ return $"Le fichier {Fichier} a bien été transféré sur le serveur."; }
+
+        /// <summary>
+        /// Erreur lors du transfert de fichier.
+        /// </summary>
+        /// <returns></returns>
+        public static string I_034(string Fichier)
+        { return $"Erreur lors du transfert du fichier {Fichier}."; }
+        /// <summary>
         /// Impossible d’enregistrer ce cours. Il existe déjà dans votre liste de cours suivi antérieurement.
         /// </summary>
         /// <param name="Cours"></param>
         /// <returns></returns>
         public static string I_036()
         { return "Impossible d’enregistrer ce cours. Il existe déjà dans votre liste de cours suivi antérieurement"; }
+
+        /// <summary>
+        /// Un fichier {0} de même nom est déjà présent sur le serveur.
+        /// </summary>
+        /// <param name="Fichier"></param>
+        /// <returns></returns>
+        public static string I_035(string Fichier)
+        { return $"Un fichier {Fichier} de même nom est déjà présent sur le serveur."; }
+
+        /// <summary>
+        /// Le fichier {0} ne doit pas être vide{1}.
+        /// </summary>
+        /// <param name="Fichier"></param>
+        /// <param name="Max"></param>
+        /// <returns></returns>
+        //public static string I_037()
+        //{ return $"Le fichier est trop énorme"; }
 
         //Comptes/Connexion
         /// <summary>
@@ -100,14 +131,6 @@ namespace sachem.Models
         /// </summary>
         public const string C_004 = "Cet usager n'existe pas ou le mot de passe est invalide.";
         /// <summary>
-        /// Résultat requis si réussi,
-        /// </summary>
-        public const string C_010 = "Le résultat est requis si le statut du cours est réussi.";
-
-
-        #endregion
-
-        /// <summary>
         /// Un des deux champs {0}, {1} doit être complété.
         /// </summary>
         /// <param name="param1"></param>
@@ -115,6 +138,13 @@ namespace sachem.Models
         /// <returns></returns>
         public static string C_009(string param1, string param2)
         { return $"Un des deux champs {param1}, {param2} doit être complété."; }
+        /// <summary>
+        /// Résultat requis si réussi,
+        /// </summary>
+        public const string C_010 = "Le résultat est requis si le statut du cours est réussi.";
+
+
+        #endregion
 
         #region MessageUnitaire
 

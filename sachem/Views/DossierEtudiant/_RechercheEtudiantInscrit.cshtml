@@ -62,7 +62,8 @@
 @if (SachemIdentite.ObtenirTypeUsager(Session) == TypeUsagers.Tuteur)
 {
         <td>
-            @Html.DropDownList("Inscription", null, "Tous", htmlAttributes: new { @class = "form-search" })
+            @Html.DropDownList("Inscription", null, "Tous", htmlAttributes: new { @class = "form-search", disabled="disabled" })
+            
         </td>
 }
 else

@@ -124,6 +124,7 @@ namespace sachem.Controllers
         {
             string mdpPlain = MP;
             Personne PersonneBD = new Personne();
+
             //Validations des champs et de la connection
             if (mdpPlain == "")
                 ModelState.AddModelError("MP", Messages.U_001); //Mot de passe requis
@@ -163,23 +164,39 @@ namespace sachem.Controllers
                 var typeinscr = (from i in db.Inscription
                                  where i.id_Pers == PersonneBD.id_Pers select i.id_TypeInscription).FirstOrDefault();
 
+                //On va chercher le id inscription
+                var idinscr = (from i in db.Inscription
+                                 where i.id_Pers == PersonneBD.id_Pers
+                                 select i.id_Inscription).FirstOrDefault();
+
+                //conserver le typeinscrit
+                if (idinscr != 0)
+                    SessionBag.Current.id_Inscription = idinscr;
+                else
+                    SessionBag.Current.id_Inscription = 0;
+
                 //Si c'est un tuteur, on a type = 6
                 if (typeinscr > 1)
-                    SessionBag.Current.id_TypeUsag = 6;
+                {
+                    SessionBag.Current.id_TypeUsag = 6;                    
+                }
                 else
+                {
                     if (typeinscr == 1)
+                    {
                         SessionBag.Current.id_TypeUsag = 5; //sinon, c'est un élève aidé.
+                    }
                     else
+                    {
                         SessionBag.Current.id_TypeUsag = PersonneBD.id_TypeUsag; //Si c'est pas un étudiant, on va chercher directement dans la BD pour voir le ID du type.
+                    }
+                }
 
                 //Si tout va bien, on rempli la session avec les informations de l'utilisateur!
                 SessionBag.Current.NomUsager = PersonneBD.NomUsager;
                 SessionBag.Current.Matricule7 = PersonneBD.Matricule7;
                 SessionBag.Current.NomComplet = PersonneBD.PrenomNom;
                 SessionBag.Current.MP = PersonneBD.MP;
-                
-                //problème ici, à ajuster!
-                SessionBag.Current.id_TypeUsag = PersonneBD.id_TypeUsag;
 
                 SessionBag.Current.id_Pers = PersonneBD.id_Pers;
                 if (SouvenirConnexion)

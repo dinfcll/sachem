@@ -39,13 +39,16 @@ namespace sachem.Models
         [Required(ErrorMessage = Messages.U_001)]
         public global::System.String Nom;
 
+        [Display(Name = "Nom")]
+        public global::System.String NomPrenom;
+
         //Expression régulière qui permet 2 formats de dates, celui exigé dans l'application YYYY/MM/DD et celui formaté par le 
         //système en format datetime YYYY/MM/DD hh:mm:ss. Il faut que les deux expressions soient utilisables pour que le modèle
         //ne tombe pas en erreur lors de la validation.
         [Display(Name = "Date de naissance")]
         //la mise en commentaire le l'expression reguliere me permet de creer des comptes
-        //[RegularExpression(@"^[0-9]{4}-[0-9]{2}-[0-9]{2} [0-2][0-9]:[0-5][0-9]:[0-5][0-9]$|^[0-9]{4}\/[0-9]{2}\/[0-9]{2}$", ErrorMessage = Messages.U_007)]
-        [DisplayFormat(DataFormatString = "{0:YYYY/MM/DD}", ApplyFormatInEditMode = true)]
+        [RegularExpression(@"^[0-9]{4}-[0-9]{2}-[0-9]{2} [0-2][0-9]:[0-5][0-9]:[0-5][0-9]$|^[0-9]{4}\/[0-9]{2}\/[0-9]{2}$", ErrorMessage = Messages.U_007)]
+        [DisplayFormat(DataFormatString = "{0:yyyy/MM/dd}", ApplyFormatInEditMode = true)]
         //[DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = @"{0:yyyy\/MM\/dd}")] //dans le mauvais sens
         public global::System.DateTime DateNais;
 
@@ -59,6 +62,7 @@ namespace sachem.Models
         public global::System.String SouvenirConnexion;
 
         [Display(Name = "Téléphone")]
+        [DataType(DataType.PhoneNumber)]
         [RegularExpression(@"^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$", ErrorMessage = Messages.U_009)] //Vérifie le format du tel
         public global::System.String Telephone; //Ajout pour #Tel dans BD
 
@@ -71,7 +75,7 @@ namespace sachem.Models
         public global::System.String Matricule;
 
         //Extrait du PAM partiellement
-        [Display(Name = "Matricule7")]
+        [Display(Name = "Matricule")]
         [StringLength(7)]
         public global::System.String Matricule7;
 
@@ -96,11 +100,6 @@ namespace sachem.Models
 
         [Display(Name = "Nom d'utilisateur")]
         public global::System.String NomUtilisateur;
-
-        [Display(Name = "Numéro de téléphone")]
-        [DisplayFormat(DataFormatString = "{0:(###) ###-####}", ApplyFormatInEditMode = true)]
-        [RegularExpression(@"^\(([0-9]{3})\) ([0-9]{3})-([0-9]{4})$", ErrorMessage = Messages.U_009)]
-        public long NumTelephone;
     }
 
 }

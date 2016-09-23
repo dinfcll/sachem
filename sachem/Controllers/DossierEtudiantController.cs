@@ -20,8 +20,17 @@ USE [SACHEM]
 GO
 
 UPDATE [dbo].[Personne]
-   SET [id_TypeUsag] = 1 //change id_typeUsage -- 1=etu , 2=ens, 3=resp, 4=admin ... change id_type_inscription:: 1=eleveaide, 2=tutcours, 3=tutben, 4=tutremu
- WHERE [id_Pers] = 13
+   SET [id_TypeUsag] = 1 --1=etudiant 2=enseignant 3=respo 4=admin
+ WHERE [id_Pers] = 10
+GO
+
+
+USE [SACHEM]
+GO
+
+UPDATE [dbo].[Inscription]
+   SET [id_TypeInscription] = 1 --change id_TypeInscription -- change id_type_inscription:: 1=eleveaide, 2=tutcours, 3=tutben, 4=tutremu
+ WHERE [id_Pers] = 10
 GO
 
  */
@@ -32,6 +41,7 @@ GO
         protected int noPage = 1;
         private int? pageRecue = null;
         List<TypeUsagers> RolesAcces = new List<TypeUsagers>() { TypeUsagers.Responsable, TypeUsagers.Super, TypeUsagers.Enseignant, TypeUsagers.Tuteur };
+        List<TypeUsagers> RolesAccesDossier = new List<TypeUsagers>() { TypeUsagers.Responsable, TypeUsagers.Super, TypeUsagers.Enseignant, TypeUsagers.Tuteur, TypeUsagers.Eleve };
 
         #region ObtentionRecherche
         [NonAction]
@@ -309,15 +319,17 @@ GO
         [ValidateAntiForgeryToken]
         public ActionResult Details(FormCollection model)
         {
+            if (!SachemIdentite.ValiderRoleAcces(RolesAccesDossier, Session))
+                return RedirectToAction("Error", "Home", null);
             var id_Pers = Convert.ToInt32(model["item1.Personne.id_Pers"]);
             var id_Inscription = Convert.ToInt32(model["item1.id_Inscription"]);
             var Courriel = Convert.ToString(model["item1.Personne.Courriel"]);
-          //  var NumTelephone = Convert.ToString(model["item1.Personne.NumTelephone"]);
+            var Telephone = Convert.ToString(model["item1.Personne.Telephone"]);
             var BonEchange = model["item1.BonEchange"];
 
             Personne personne = db.Personne.Find(id_Pers);
             personne.Courriel = Courriel;
-            personne.Telephone = SachemIdentite.FormatTelephone(Convert.ToString(model["item1.Personne.NumTelephone"]));
+            personne.Telephone = SachemIdentite.FormatTelephone(Telephone);
 
             Inscription inscription = db.Inscription.Find(id_Inscription);
 
@@ -338,27 +350,6 @@ GO
 
             }
             return View(Tuple.Create(inscription, vCoursSuivi.AsEnumerable(), vInscription.AsEnumerable()));
-        }
-
-        public static string FormatTelephone(string s)
-        {
-            var charsToRemove = new string[] { ".", "-", "(", " ", ")" };
-            foreach (var c in charsToRemove)
-            {
-                s = s.Replace(c, string.Empty);
-            }
-            return s;
-        }
-        //fonction qui remet le numéro de téléphone dans le bon format
-        public static string RemettreTel(string a)
-
-        {
-            string modif;
-            modif = a.Insert(0, "(");
-            modif = modif.Insert(4, ")");
-            modif = modif.Insert(5, " ");
-            modif = modif.Insert(9, "-");
-            return modif;
         }
 
         // GET: DossierEtudiant/Create

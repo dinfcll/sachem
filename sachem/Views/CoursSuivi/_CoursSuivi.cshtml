@@ -1,4 +1,5 @@
 ﻿@model sachem.Models.CoursSuivi
+@using sachem.Models
 
 @Html.HiddenFor(model => model.id_Pers)
 <div class="form-group">
@@ -44,13 +45,16 @@
     </div>
 </div>
 
+@if (sachem.Models.SachemIdentite.ObtenirTypeUsager(Session) == sachem.Models.TypeUsagers.Etudiant)
+{
 <div class="form-group">
     @Html.LabelFor(model => model.id_Statut, htmlAttributes: new { @class = "control-label col-md-2" })
     <div class="col-md-10">
-            @Html.DropDownList("id_Statut" , null , htmlAttributes: new { @class = "form-control" })
+            @Html.DropDownList("id_Statut", null, htmlAttributes: new { @class = "form-control" })
             @Html.ValidationMessageFor(model => model.id_Statut, "", new { @class = "text-danger" })
     </div>
 </div>
+}
 
 <div class="form-group">
     @Html.LabelFor(model => model.resultat, htmlAttributes: new { @class = "control-label col-md-2" })
