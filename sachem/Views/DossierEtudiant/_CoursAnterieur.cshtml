@@ -12,13 +12,13 @@
             <th>
                 @Html.DisplayNameFor(model => model.First().Cours.CodeNom)
             </th>
-@if (sachem.Models.SachemIdentite.ObtenirTypeUsager(Session) == sachem.Models.TypeUsagers.Eleve)
+@if (sachem.Models.SachemIdentite.ObtenirTypeUsager(Session) == sachem.Models.TypeUsagers.Eleve || ViewBag.idTypeInsc == 1)
 {
             <th>
                 @Html.DisplayNameFor(model => model.First().Session.NomSession)
             </th>
 }
-@if (sachem.Models.SachemIdentite.ObtenirTypeUsager(Session) == sachem.Models.TypeUsagers.Tuteur)
+@if ((sachem.Models.SachemIdentite.ObtenirTypeUsager(Session) == sachem.Models.TypeUsagers.Tuteur && ViewBag.idTypeInsc != 1) || ViewBag.idTypeInsc != 1)
 {
             <th>
                 @Html.DisplayNameFor(model => model.First().p_College.College)
@@ -27,7 +27,7 @@
             <th>
                 @Html.DisplayNameFor(model => model.First().resultat)
             </th>
-@if (sachem.Models.SachemIdentite.ObtenirTypeUsager(Session) == sachem.Models.TypeUsagers.Eleve)
+@if (sachem.Models.SachemIdentite.ObtenirTypeUsager(Session) == sachem.Models.TypeUsagers.Eleve || ViewBag.idTypeInsc == 1)
 {
             <th>
                 @Html.DisplayNameFor(model => model.First().p_StatutCours.Statut)
@@ -55,13 +55,13 @@
                         @Html.DisplayFor(modelItem => item.autre_Cours)                        
                     }
                 </td>
-@if (sachem.Models.SachemIdentite.ObtenirTypeUsager(Session) == sachem.Models.TypeUsagers.Eleve)
+@if (sachem.Models.SachemIdentite.ObtenirTypeUsager(Session) == sachem.Models.TypeUsagers.Eleve || ViewBag.idTypeInsc == 1)
 {
                 <td>
                     @Html.DisplayFor(modelItem => item.Session.NomSession)
                 </td>
 }
-@if (sachem.Models.SachemIdentite.ObtenirTypeUsager(Session) == sachem.Models.TypeUsagers.Tuteur)
+@if ((sachem.Models.SachemIdentite.ObtenirTypeUsager(Session) == sachem.Models.TypeUsagers.Tuteur && ViewBag.idTypeInsc != 1) || ViewBag.idTypeInsc != 1)
 {
                 <td>
                     @if (item.autre_College == string.Empty || item.autre_College == null)
@@ -77,7 +77,7 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.resultat)
                 </td>
-@if (sachem.Models.SachemIdentite.ObtenirTypeUsager(Session) == sachem.Models.TypeUsagers.Eleve)
+@if (sachem.Models.SachemIdentite.ObtenirTypeUsager(Session) == sachem.Models.TypeUsagers.Eleve || ViewBag.idTypeInsc == 1)
 {
                 <td>
                     @Html.DisplayFor(modelItem => item.p_StatutCours.Statut)
