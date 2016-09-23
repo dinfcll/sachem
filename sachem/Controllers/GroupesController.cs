@@ -32,9 +32,9 @@ namespace sachem.Controllers
         {
             if (!SachemIdentite.ValiderRoleAcces(RolesAcces, Session)) return RedirectToAction("Error", "Home", null);
             int? idPers = (Session["id_Pers"] == null ? -1 : (int)Session["id_Pers"]);
-            bool b = SachemIdentite.ObtenirTypeUsager(Session) == TypeUsagers.Responsable;
+            bool verif = SachemIdentite.ObtenirTypeUsager(Session) == TypeUsagers.Responsable;
             ViewBag.id_Cours = new SelectList(db.Cours, "id_Cours", "CodeNom");
-            var ens = from c in db.Personne where c.id_TypeUsag == 2 && (b ? true : c.id_Pers == (idPers == -1 ? c.id_Pers : idPers)) select c;
+            var ens = from c in db.Personne where c.id_TypeUsag == 2 && (verif ? true : c.id_Pers == (idPers == -1 ? c.id_Pers : idPers)) select c;
             ViewBag.id_Enseignant = new SelectList(ens, "id_Pers", "NomPrenom");
             ViewBag.id_Sess = new SelectList(db.Session, "id_Sess", "NomSession");
             return View();
@@ -47,7 +47,7 @@ namespace sachem.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "id_Groupe,id_Cours,id_Sess,id_Enseignant,NoGroupe")] Groupe groupe)
         {
-            return CreateEdit(groupe);
+            return CreateEdit(groupe, true);
         }
 
         // GET: Groupes/Edit/5
@@ -82,7 +82,7 @@ namespace sachem.Controllers
         }
 
         [NonAction]
-        private ActionResult CreateEdit(Groupe groupe)
+        private ActionResult CreateEdit([Bind(Include = "id_Groupe,id_Cours,id_Sess,id_Enseignant,NoGroupe")] Groupe groupe, bool Ajouter = false)
         {
             if (!SachemIdentite.ValiderRoleAcces(RolesAcces, Session)) return RedirectToAction("Error", "Home", null);
 
@@ -90,7 +90,14 @@ namespace sachem.Controllers
 
             if (ModelState.IsValid)
             {
-                db.Entry(groupe).State = EntityState.Modified;
+                if (!Ajouter)
+                {
+                    db.Entry(groupe).State = EntityState.Modified;
+                }
+                else
+                {
+                    db.Groupe.Add(groupe);
+                }
                 db.SaveChanges();
                 TempData["Questions"] = string.Format(Messages.Q_008(groupe.NoGroupe));
                 TempData["idg"] = groupe.id_Groupe;
@@ -152,9 +159,9 @@ namespace sachem.Controllers
         private IEnumerable<Groupe> Rechercher(int? id)
         {
             IQueryable<Groupe> groupes;
-            int a = (Session["id_Pers"] == null ? -1 : (int)Session["id_Pers"]);
-            bool b = SachemIdentite.ObtenirTypeUsager(Session) == TypeUsagers.Responsable;
-            int idSess = 0, idEns = (SachemIdentite.ObtenirTypeUsager(Session) == TypeUsagers.Enseignant ? a : 0), idCours = 0;
+            int idPers = (Session["id_Pers"] == null ? -1 : (int)Session["id_Pers"]);
+            bool verif = SachemIdentite.ObtenirTypeUsager(Session) == TypeUsagers.Responsable;
+            int idSess = 0, idEns = (SachemIdentite.ObtenirTypeUsager(Session) == TypeUsagers.Enseignant ? idPers : 0), idCours = 0;
             if (id != null)
             {
                 groupes = from d in db.Groupe
@@ -180,7 +187,7 @@ namespace sachem.Controllers
                 else
                 {
                     groupes = from d in db.Groupe
-                              where d.id_Enseignant == (a == -1 || b ? d.id_Enseignant : a)
+                              where d.id_Enseignant == (idPers == -1 || verif ? d.id_Enseignant : idPers)
                               orderby d.Session.p_Saison.Saison, d.Session.Annee, d.Cours.Code, d.Cours.Nom, d.NoGroupe
                               select d;
                 }
@@ -189,6 +196,7 @@ namespace sachem.Controllers
             {
                 n.nbPersonne = (from c in db.GroupeEtudiant where c.id_Groupe == n.id_Groupe select c).Count();
             }*/
+            
             return groupes.ToList();
         }
 
@@ -205,12 +213,12 @@ namespace sachem.Controllers
         [NonAction]
         private void RegisterViewbags()
         {
-            int? a = (Session["id_Pers"] == null ? -1 : (int)Session["id_Pers"]);
-            bool b = SachemIdentite.ObtenirTypeUsager(Session) == TypeUsagers.Responsable;
+            int? idPers = (Session["id_Pers"] == null ? -1 : (int)Session["id_Pers"]);
+            bool verif = SachemIdentite.ObtenirTypeUsager(Session) == TypeUsagers.Responsable;
             int sess = db.Session.Max(s => s.id_Sess);
             //var last = from b in db.Session orderby b.id_Sess descending select b;
             ViewBag.Sessions = new SelectList(db.Session, "id_Sess", "NomSession", sess);
-            var ens = from c in db.Personne where c.id_TypeUsag == 2 && (b ? true : c.id_Pers == (a == -1 ? c.id_Pers : a))  select c;
+            var ens = from c in db.Personne where c.id_TypeUsag == 2 && (verif ? true : c.id_Pers == (idPers == -1 ? c.id_Pers : idPers))  select c;
             ViewBag.Enseignants = new SelectList(ens, "id_Pers", "NomPrenom");
             ViewBag.Cours = new SelectList(db.Cours, "id_Cours", "CodeNom");
         }
