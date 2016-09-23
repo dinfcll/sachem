@@ -12,7 +12,17 @@ namespace sachem.Models
     {
         // [Display(Name = "Nombre de personnes")]
         [Display(Name = "Nombre de personnes")]
-        public string nbPersonneGroupe;
+        public string nbPersonneGroupe
+        {
+            get
+            {
+                return "";
+            }
+            set
+            {
+                value = "";
+            }
+        }
     }
 
     //la classe de métadonnée doit suivre immédiatement la redéfinition de classe partielle
