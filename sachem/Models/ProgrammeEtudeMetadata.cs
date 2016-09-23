@@ -1,5 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.Configuration;
+
 
 namespace sachem.Models
 {
@@ -29,7 +29,7 @@ namespace sachem.Models
 
         
         [Required(ErrorMessage = Messages.U_001)]
-        
+        [VerificationDate(ErrorMessage = Messages.U_012)]
         [Display(Name = "Année")]
         public int Annee { get; set; }
     }

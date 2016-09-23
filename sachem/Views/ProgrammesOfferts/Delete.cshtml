@@ -1,12 +1,12 @@
 ﻿@model sachem.Models.ProgrammeEtude
 
 @{
-    ViewBag.Title = "Supprimer programmes d'étude";
+    ViewBag.Title = "Supprimer un programme d'études";
 }
 
 <h2>Supprimer</h2>
 
-<h3>Voulez-vous vraiment supprimer le programme d'études @Model.NomProg</h3>
+<h3>@sachem.Models.Messages.Q_002(Model.NomProg)</h3>
 <div>
     <hr />
     <dl class="dl-horizontal">

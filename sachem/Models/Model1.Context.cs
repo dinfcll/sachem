@@ -47,5 +47,6 @@ namespace sachem.Models
         public virtual DbSet<Personne> Personne { get; set; }
         public virtual DbSet<ProgrammeEtude> ProgrammeEtude { get; set; }
         public virtual DbSet<Session> Session { get; set; }
+        public virtual DbSet<sysdiagrams> sysdiagrams { get; set; }
     }
 }

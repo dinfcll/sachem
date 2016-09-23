@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using System;
 
 namespace sachem.Models
 {
@@ -200,6 +201,17 @@ namespace sachem.Models
         /// </summary>
         public const string U_005 = "Longueur requise: 6 caractères";
 
+        /// <summary>
+        /// Format : AAAA
+        /// </summary>
+        /// <returns></returns>
+        public const string U_006 = "Format : AAAA";
+
+        /// <summary>
+        /// "La date indiquée doit être entre l'année 1967 et celle en cours"
+        /// </summary>
+        /// <returns></returns>
+        public const string U_012 = "La date indiquée doit être entre l'année 1967 et celle en cours";
 
         /// <summary>
         /// Format: AAAA/MM/JJ
