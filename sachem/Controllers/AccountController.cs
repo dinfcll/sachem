@@ -164,26 +164,23 @@ namespace sachem.Controllers
                 var typeinscr = (from i in db.Inscription
                                  where i.id_Pers == PersonneBD.id_Pers select i.id_TypeInscription).FirstOrDefault();
 
-
-                if (typeinscr == 1) //c'est un élève aidé.
+                //Si c'est un tuteur, on a type = 6
+                if (typeinscr > 1)
                 {
-                    SessionBag.Current.id_TypeUsag = 5;
+                    SessionBag.Current.id_TypeUsag = 6;
+                    SessionBag.Current.id_Inscription = InscritBD.id_Inscription;
+                }
+                else
+                    if (typeinscr == 1)
+                {
+                    SessionBag.Current.id_TypeUsag = 5; //sinon, c'est un élève aidé.
                     SessionBag.Current.id_Inscription = InscritBD.id_Inscription;
                 }
                 else
                 {
-                    SessionBag.Current.id_Inscription = 0;// id_inscription a rien pour autre qu'un eleve aide
-                    if (typeinscr > 1)//c'est un tuteur, on a type = 6
-                    {
-                        SessionBag.Current.id_TypeUsag = 6;
-
-                    }
-                    else
-                    {
-                        SessionBag.Current.id_TypeUsag = PersonneBD.id_TypeUsag; //Si c'est pas un étudiant, on va chercher directement dans la BD pour voir le ID du type.
-                    }
+                    SessionBag.Current.id_TypeUsag = PersonneBD.id_TypeUsag; //Si c'est pas un étudiant, on va chercher directement dans la BD pour voir le ID du type.
+                    SessionBag.Current.id_Inscription = 0;
                 }
-
 
                 //Si tout va bien, on rempli la session avec les informations de l'utilisateur!
                 SessionBag.Current.NomUsager = PersonneBD.NomUsager;
