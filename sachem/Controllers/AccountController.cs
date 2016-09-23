@@ -164,9 +164,14 @@ namespace sachem.Controllers
                 var typeinscr = (from i in db.Inscription
                                  where i.id_Pers == PersonneBD.id_Pers select i.id_TypeInscription).FirstOrDefault();
 
+                //On va chercher le id inscription
+                var idinscr = (from i in db.Inscription
+                                 where i.id_Pers == PersonneBD.id_Pers
+                                 select i.id_Inscription).FirstOrDefault();
+
                 //conserver le typeinscrit
-                if (typeinscr != 0)
-                    SessionBag.Current.id_Inscription = typeinscr;
+                if (idinscr != 0)
+                    SessionBag.Current.id_Inscription = idinscr;
                 else
                     SessionBag.Current.id_Inscription = 0;
 
