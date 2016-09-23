@@ -164,7 +164,7 @@ namespace sachem.Controllers
                 var typeinscr = (from i in db.Inscription
                                  where i.id_Pers == PersonneBD.id_Pers select i.id_TypeInscription).FirstOrDefault();
 
-                //On va chercher le id inscription
+                //On va chercher le id inscription pour identifier l'etudiant (eleve, tuteur) pour son dossier etudiant
                 var idinscr = (from i in db.Inscription
                                  where i.id_Pers == PersonneBD.id_Pers
                                  select i.id_Inscription).FirstOrDefault();
@@ -182,15 +182,29 @@ namespace sachem.Controllers
                 }
                 else
                 {
+                    //sinon, c'est un élève aidé.
                     if (typeinscr == 1)
                     {
-                        SessionBag.Current.id_TypeUsag = 5; //sinon, c'est un élève aidé.
+                        SessionBag.Current.id_TypeUsag = 5; 
                     }
+                    //Si c'est pas un étudiant, on va chercher directement dans la BD pour voir le ID du type.
                     else
                     {
-                        SessionBag.Current.id_TypeUsag = PersonneBD.id_TypeUsag; //Si c'est pas un étudiant, on va chercher directement dans la BD pour voir le ID du type.
+                        SessionBag.Current.id_TypeUsag = PersonneBD.id_TypeUsag; 
                     }
                 }
+
+                //Enseignant
+                //On va chercher les id des enseignants dans les jumelages pour verifier si l'enseignant connecte est affilie a un ou des jumelags lors de l'acces a Dossier Etudiant et ...
+                var idSuperviseur = (from i in db.Jumelage
+                                     where i.id_Enseignant == PersonneBD.id_Pers
+                                     select i.id_Enseignant).FirstOrDefault();
+                if (idSuperviseur != 0)
+                {
+                    SessionBag.Current.idSuperviseur = idSuperviseur;
+                }
+                else
+                    SessionBag.Current.idSuperviseur = 0;
 
                 //Si tout va bien, on rempli la session avec les informations de l'utilisateur!
                 SessionBag.Current.NomUsager = PersonneBD.NomUsager;
