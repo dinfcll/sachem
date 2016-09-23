@@ -277,7 +277,7 @@ GO
         // GET: DossierEtudiant/Details/5
         public ActionResult Details(int? id)
         {
-            if (!SachemIdentite.ValiderRoleAcces(RolesAcces, Session))
+            if (!SachemIdentite.ValiderRoleAcces(RolesAccesDossier, Session))
                 return RedirectToAction("Error", "Home", null);
 
             if (id == null)

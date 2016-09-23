@@ -13,7 +13,7 @@ namespace sachem.Models
     //on doit redéfinir la classe partielle même si on ajout rien. Placé immédiatement avant la classe de métadonnée associée
     public partial class Personne
     {
-        [System.ComponentModel.DataAnnotations.Compare("MP", ErrorMessage = Messages.C_001)]
+        //[System.ComponentModel.DataAnnotations.Compare("MP", ErrorMessage = Messages.C_001)]
         [NotMappedAttribute]
         public string ConfirmPassword { get; set; }
 
@@ -64,6 +64,7 @@ namespace sachem.Models
         [Display(Name = "Téléphone")]
         [DataType(DataType.PhoneNumber)]
         [RegularExpression(@"^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$", ErrorMessage = Messages.U_009)] //Vérifie le format du tel
+        [DisplayFormat(DataFormatString = "{0:(###) ###-####}", ApplyFormatInEditMode = true)]
         public global::System.String Telephone; //Ajout pour #Tel dans BD
 
         [Display(Name = "Nom d'usager")]
