@@ -317,7 +317,7 @@ GO
 
             Personne personne = db.Personne.Find(id_Pers);
             personne.Courriel = Courriel;
-            personne.Telephone = SachemIdentite.FormatTelephone(Convert.ToString(model["item1.Personne.Telephone"]));
+            personne.Telephone = SachemIdentite.FormatTelephone(Telephone);
 
             Inscription inscription = db.Inscription.Find(id_Inscription);
 
