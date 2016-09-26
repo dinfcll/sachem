@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Web;
 
 namespace sachem.Models
 {
@@ -16,6 +12,10 @@ namespace sachem.Models
         [System.ComponentModel.DataAnnotations.Compare("MP", ErrorMessage = Messages.C_001)]
         [NotMappedAttribute]
         public string ConfirmPassword { get; set; }
+
+        [System.ComponentModel.DataAnnotations.Compare("AncienMotDePasse", ErrorMessage = Messages.C_001)]
+        [NotMappedAttribute]
+        public string ConfirmPasswordEdit { get; set; }
 
         [NotMappedAttribute]
         public bool SouvenirConnexion { get; set; }
