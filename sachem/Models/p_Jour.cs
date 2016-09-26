@@ -14,7 +14,16 @@ namespace sachem.Models
     
     public partial class p_Jour
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public p_Jour()
+        {
+            this.Jumelage = new HashSet<Jumelage>();
+        }
+    
         public int id_Jour { get; set; }
         public string Jour { get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Jumelage> Jumelage { get; set; }
     }
 }
