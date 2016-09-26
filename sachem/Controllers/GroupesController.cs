@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.Data.Entity.Core.Mapping;
 using System.Linq;
 using System.Net;
 using System.Web;
@@ -82,9 +84,9 @@ namespace sachem.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.id_Cours = new SelectList(db.Cours, "id_Cours", "Code", groupe.id_Cours);
-            ViewBag.id_Enseignant = new SelectList(db.Personne, "id_Pers", "Nom", groupe.id_Enseignant);
-            ViewBag.id_Sess = new SelectList(db.Session, "id_Sess", "id_Sess", groupe.id_Sess);
+            ViewBag.id_Cours = new SelectList(db.Cours, "id_Cours", "CodeNom", groupe.id_Cours);
+            ViewBag.id_Enseignant = new SelectList(db.Personne, "id_Pers", "NomPrenom", groupe.id_Enseignant);
+            ViewBag.id_Sess = new SelectList(db.Session, "id_Sess", "NomSession", groupe.id_Sess);
             return View(groupe);
         }
 
@@ -179,17 +181,175 @@ namespace sachem.Controllers
             ViewBag.Cours = new SelectList(db.Cours, "id_Cours", "CodeNom");
         }
 
-        public ActionResult AjouterEleve()
+        public ActionResult AjouterEleve(int idg, int? page)
         {
-            //IEnumerable<Personne> personnes = (from c in db.Personne where c.id_TypeUsag == 1 select c).ToList();
-            //return View(personnes);
-            return Content("test");
+            ViewBag.idg = idg;
+            Groupe groupe = db.Groupe.Find(idg);
+            //IEnumerable < Personne > personnes = (from c in db.Personne where c.id_TypeUsag == 1 select c).ToList().OrderBy(x => x.NomPrenom).ThenBy(x => x.Matricule7);
+            IEnumerable<Personne> personnes = RechercherEleve();
+            /*foreach (var n in personnes)
+            {
+                n.ProgEtu = "";
+                var arr = (from c in db.ProgrammeEtude
+                join p in db.EtuProgEtude on c.id_ProgEtu equals p.id_ProgEtu
+                where p.id_Sess == groupe.id_Sess && p.id_Etu == n.id_Pers 
+                select c).ToList();
+                foreach (var i in arr)
+                {
+                    n.ProgEtu += i.Code + "-"+ i.NomProg;
+                }
+            } */
+
+            var pageNumber = page ?? 1;
+            return View(personnes.ToPagedList(pageNumber, 20));
         }
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult AjouterEleve(int id)
+
+        [HttpGet]
+        //[ValidateAntiForgeryToken]
+        public ActionResult AjouterEleveGET(int idg, int idp)
         {
-            return View();
+            if(db.GroupeEtudiant.Where(x => x.id_Etudiant == idp).Where(x => x.id_Groupe == idg).FirstOrDefault() != null)
+            {
+                return Content("L'élève est déjà dans ce groupe.");
+                //return HttpNotFound();
+            }
+
+            if(db.GroupeEtudiant.Where(x => x.id_Etudiant == idp).FirstOrDefault() != null)
+            {
+                //return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return Content("L'élève est déjà dans un groupe.");
+            }
+
+            Groupe g = db.Groupe.Find(idg);
+            Personne p = db.Personne.Find(idp);
+            
+            if(g == null || p == null)
+            {
+                return HttpNotFound();
+            }
+
+            GroupeEtudiant ge = new GroupeEtudiant();
+            ge.Personne = p;
+            ge.Groupe = g;
+
+            db.GroupeEtudiant.Add(ge);
+            g.GroupeEtudiant.Add(ge);
+
+            db.SaveChanges();
+
+            return RedirectToAction("Index");
+        }
+
+        public ActionResult DeleteEleve(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            GroupeEtudiant ge = db.GroupeEtudiant.Find(id);
+            if (ge == null)
+            {
+                return HttpNotFound();
+            }
+            return View(ge);
+        }
+
+        // POST: Groupes/Delete/5
+        [HttpPost, ActionName("DeleteEleve")]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteEleveConfirmed(int id)
+        {
+            GroupeEtudiant ge = db.GroupeEtudiant.Find(id);
+            db.GroupeEtudiant.Remove(ge);
+            db.SaveChanges();
+            return RedirectToAction("Index");
+        }
+
+        public ActionResult Deplacer(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            GroupeEtudiant ge = db.GroupeEtudiant.Find(id);
+            if (ge == null)
+            {
+                return HttpNotFound();
+            }
+            ViewBag.id_groupedepl = new SelectList(db.Groupe, "id_Groupe", "Cours.CodeNom");
+            return View(ge);
+        }
+
+        [HttpPost, ActionName("Deplacer")]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeplacerConfirmed(int? id)
+        {
+            int idgretu, idg;
+            if (!int.TryParse(Request.Form["idGroupeEtudiant"], out idgretu) || !int.TryParse(Request.Form["id_groupedepl"], out idg))
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            GroupeEtudiant ge = db.GroupeEtudiant.Find(idgretu);
+            Groupe g = db.Groupe.Find(idg);
+
+            if(ge == null || g == null)
+            {
+                return HttpNotFound();
+            }
+
+            ge.Groupe = g;
+            db.SaveChanges();
+            return RedirectToAction("Index");
+        }
+
+        [NonAction]
+        private IEnumerable<Personne> RechercherEleve()
+        {
+            IEnumerable<Personne> personnes = null;
+
+            string Nom = Request.Form["Nom"];
+            string Prenom = Request.Form["Prenom"];
+            string Matricule = Request.Form["Matricule"];
+
+            if (String.IsNullOrEmpty(Matricule) && String.IsNullOrEmpty(Nom) && String.IsNullOrEmpty(Prenom))
+            {
+                personnes = (from c in db.Personne where c.id_TypeUsag == 1 select c).ToList().OrderBy(x => x.NomPrenom).ThenBy(x => x.Matricule7);
+            }
+            else
+            {
+                /*personnes = (from c in db.Personne where c.id_TypeUsag == 1 && 
+                                c.Nom == (!String.IsNullOrEmpty(Nom) ? Nom: c.Nom) &&
+                                c.Prenom == (!String.IsNullOrEmpty(Prenom) ? Prenom : c.Prenom)
+                                select c).ToList().Where(x => x.Matricule7 == (!String.IsNullOrEmpty(Matricule) ? Matricule : x.Matricule7));*/
+                personnes = db.Personne.Where(x => x.id_TypeUsag == 1).Where(c => c.Nom.Contains(!String.IsNullOrEmpty(Nom) ? Nom : c.Nom)).Where(c => c.Prenom.Contains(!String.IsNullOrEmpty(Prenom) ? Prenom : c.Prenom));
+                personnes = personnes.Where(x => x.Matricule7.Contains(!String.IsNullOrEmpty(Matricule) ? Matricule : x.Matricule7));
+            }
+            return personnes;
+        }
+
+        public virtual JsonResult ActualiseEnseignant(int session = 0)
+        {
+            var a = db.Groupe.Where(x => (x.id_Sess == session || session == 0)).ToList();
+            List<Personne> ens = new List<Personne>();
+            foreach(var x in a)
+            {
+                ens.Add(x.Personne);
+            }
+            return Json(ens.AsEnumerable(), JsonRequestBehavior.AllowGet);
+        }
+
+        public virtual JsonResult ActualiseCours(int session = 0, int ens = 0)
+        {
+            var a = db.Groupe.Where(x => (x.id_Sess == session || session == 0)).Where(x => (x.id_Enseignant == ens || ens == 0));
+            List<Cours> cours = new List<Cours>();
+            foreach(var x in a)
+            {
+                cours.Add(x.Cours);
+            }
+            return Json(cours.AsEnumerable(), JsonRequestBehavior.AllowGet);
         }
     }
 }

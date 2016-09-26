@@ -26,7 +26,5 @@ namespace sachem.Models
 
         [Display(Name = "Cours")]
         public string id_Cours;
-
-        
     }
 }

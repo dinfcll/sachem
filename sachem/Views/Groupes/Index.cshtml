@@ -77,9 +77,8 @@
             @Html.DisplayFor(modelItem => item.nbPersonne)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new {id = item.id_Groupe}) |
-            @Html.ActionLink("Details", "Details", new {id = item.id_Groupe}) |
-            @Html.ActionLink("Delete", "Delete", new {id = item.id_Groupe})
+            @Html.ActionLink("Modifier", "Edit", new {id = item.id_Groupe}) |
+            @Html.ActionLink("Supprimer", "Delete", new {id = item.id_Groupe})
         </td>
     </tr>
 }
