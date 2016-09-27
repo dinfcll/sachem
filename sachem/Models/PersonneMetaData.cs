@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Web;
 
 namespace sachem.Models
 {
@@ -16,6 +12,10 @@ namespace sachem.Models
         [System.ComponentModel.DataAnnotations.Compare("MP", ErrorMessage = Messages.C_001)]
         [NotMappedAttribute]
         public string ConfirmPassword { get; set; }
+
+      //  [System.ComponentModel.DataAnnotations.Compare("AncienMotDePasse", ErrorMessage = Messages.C_001)]
+        [NotMappedAttribute]
+        public string ConfirmPasswordEdit { get; set; }
 
         [NotMappedAttribute]
         public bool SouvenirConnexion { get; set; }
@@ -69,7 +69,7 @@ namespace sachem.Models
             public global::System.String Matricule;
 
             //Extrait du PAM partiellement
-            [Display(Name = "Matricule")]
+            [Display(Name = "Matricule7")]
             [StringLength(7)]
             public global::System.String Matricule7;
 
@@ -94,12 +94,6 @@ namespace sachem.Models
 
             [Display(Name = "Nom d'utilisateur")]
             public global::System.String NomUtilisateur;
-
-            [Display(Name = "Nom du programme d'étude")]
-            public string ProgEtu;
-
-            [Display(Name = "Enseignant")]
-            public string NomPrenom;
         }
     }
 }

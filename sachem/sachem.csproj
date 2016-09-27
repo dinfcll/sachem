@@ -88,6 +88,10 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Net.Http.Formatting, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.3\lib\net45\System.Net.Http.Formatting.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
     <Reference Include="System.Web.DynamicData" />
@@ -96,9 +100,12 @@
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="System.Web.Mvc, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.2.3\lib\net45\System.Web.Mvc.dll</HintPath>
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="System.Web.Http, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.5.2.3\lib\net45\System.Web.Http.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.Http.WebHost, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.WebHost.5.2.3\lib\net45\System.Web.Http.WebHost.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System.Xml.Linq" />
@@ -123,6 +130,10 @@
     <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <Private>False</Private>
       <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.2.3\lib\net45\System.Web.Mvc.dll</HintPath>
     </Reference>
     <Reference Include="System.Web.Optimization">
       <HintPath>..\packages\Microsoft.AspNet.Web.Optimization.1.1.3\lib\net40\System.Web.Optimization.dll</HintPath>
@@ -207,12 +218,17 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
+    <Compile Include="Classes_Sachem\Crypt.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\CoursController.cs" />
-    <Compile Include="Controllers\Crypt.cs" />
     <Compile Include="Controllers\GroupesController.cs" />
+    <Compile Include="Controllers\EtudiantController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\ImporterController.cs" />
+    <Compile Include="Controllers\ParametresController.cs" />
     <Compile Include="Controllers\PersonnesController.cs" />
+    <Compile Include="Controllers\ProgrammesOffertsController.cs" />
+    <Compile Include="Controllers\RechercheEtudiantController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -220,6 +236,7 @@
     <Compile Include="Models\Courriel.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\CourrielMetadata.cs" />
     <Compile Include="Models\Cours.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -263,19 +280,23 @@
     <Compile Include="Models\Personne.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\PersonnesMetaData.cs" />
+    <Compile Include="Models\PersonneEtuProgParent.cs" />
+    <Compile Include="Models\PersonneMetadata.cs" />
     <Compile Include="Models\ProgrammeEtude.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\ProgrammeEtudeMetadata.cs" />
     <Compile Include="Models\p_College.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\p_Contact.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\p_ContactMetadata.cs" />
     <Compile Include="Models\p_HoraireInscription.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\p_HoraireInscriptionMetadata.cs" />
     <Compile Include="Models\p_Jour.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -300,12 +321,17 @@
     <Compile Include="Models\p_TypeUsag.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\SachemIdentite.cs" />
+    <Compile Include="Models\SACHEMIdentite.cs" />
     <Compile Include="Models\sachemModelDN.cs" />
+    <Compile Include="Models\SACHEMModels.cs" />
     <Compile Include="Models\Session.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\SessionMetadata.cs" />
+    <Compile Include="Models\sysdiagrams.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ValidationPersonnalisee.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
@@ -357,9 +383,7 @@
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\_references.js" />
-    <Content Include="Web.config">
-      <SubType>Designer</SubType>
-    </Content>
+    <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
@@ -376,7 +400,6 @@
     <Content Include="Views\Account\ForgotPassword.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Views\Account\Register.cshtml" />
-    <Content Include="Views\Account\ModifierPassword.cshtml" />
     <Content Include="Views\Manage\AddPhoneNumber.cshtml" />
     <Content Include="Views\Manage\ChangePassword.cshtml" />
     <Content Include="Views\Manage\Index.cshtml" />
@@ -400,6 +423,12 @@
     <Content Include="Views\Groupes\DeleteEleve.cshtml" />
     <Content Include="Views\Groupes\Deplacer.cshtml" />
     <Content Include="Views\Groupes\_Groupes.cshtml" />
+    <Content Include="Views\Etudiant\Create.cshtml" />
+    <Content Include="Views\Etudiant\Delete.cshtml" />
+    <Content Include="Views\Etudiant\Edit.cshtml" />
+    <Content Include="Views\Etudiant\Index.cshtml" />
+    <Content Include="Views\Shared\_RechercheEtudiant.cshtml" />
+    <Content Include="Views\Account\ModifierPassword.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

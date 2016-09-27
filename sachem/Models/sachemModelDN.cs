@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.InteropServices;
 
 namespace sachem.Models
 {
@@ -12,6 +13,7 @@ namespace sachem.Models
     //redéfinition de la classe partielle
     public partial class Personne
     {
+        public int idpEtu;
         //Nom complet de l'enseignant formatté
 
         public string PrenomNom => $"{Prenom} {Nom}";
@@ -44,6 +46,19 @@ namespace sachem.Models
             set
             {
                 Matricule = DateTime.Now.Year.ToString().Substring(0, 2) + value;//pour avoir un matricule de la forme 201334110
+            }
+        }
+    }
+
+    //redéfinition de la classe partielle
+    public partial class ProgrammeEtude
+    {
+        //concaténation du code et du nom de programme formatté
+        public string CodeNomProgramme
+        {
+            get
+            {
+                return string.Format("{0}-{1}", Code, NomProg);
             }
         }
     }
