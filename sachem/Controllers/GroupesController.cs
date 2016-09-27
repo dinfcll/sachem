@@ -388,7 +388,7 @@ namespace sachem.Controllers
 
             if ( ge2 != null && ge.Groupe.id_Sess == ge2.Groupe.id_Sess && ge.id_Etudiant == ge2.id_Etudiant)
                 {
-                    TempData["Success"] = Messages.I_029(ge.Personne.Matricule7, g.NoGroupe, g.Cours.Nom);
+                    TempData["Success"] = Messages.I_041(ge.Personne.Matricule7, g.NoGroupe, g.Cours.Nom);
 
                 }
 
