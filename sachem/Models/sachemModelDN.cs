@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Web.Mvc.Html;
+using System.Runtime.InteropServices;
 
 namespace sachem.Models
 {
@@ -12,6 +14,7 @@ namespace sachem.Models
     //redéfinition de la classe partielle
     public partial class Personne
     {
+        public int idpEtu;
         //Nom complet de l'enseignant formatté
 
         public string PrenomNom => $"{Prenom} {Nom}";
@@ -48,9 +51,34 @@ namespace sachem.Models
         }
     }
 
+    //redéfinition de la classe partielle
+    public partial class ProgrammeEtude
+    {
+        //concaténation du code et du nom de programme formatté
+        public string CodeNomProgramme
+        {
+            get
+            {
+                return string.Format("{0}-{1}", Code, NomProg);
+            }
+        }
+    }
+
     public partial class Cours
     {
         //Nom complet de l'enseignant formatté
         public string CodeNom => $"{Code}-{Nom}";
+    }
+
+    public partial class Groupe
+    {
+        //public string nbPersonneGroupe;
+        //public int nbPersonne;
+    }
+
+    public partial class PersonneProgEtu
+    {
+        public Personne personne;
+        public ProgrammeEtude progEtuActif;
     }
 }

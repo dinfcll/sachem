@@ -1,0 +1,84 @@
+﻿@model sachem.Models.Personne
+
+@{
+    ViewBag.Title = "Supprimer";
+}
+
+<h2>Supprimer un étudiant</h2>
+
+<h3>Voulez-vous vraiment supprimer l'étudiant @Html.DisplayFor(model => model.PrenomNom) ?</h3>
+
+
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayName("Nom")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Nom)
+        </dd>
+
+        <dt>
+            @Html.DisplayName("Prénom")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Prenom)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Matricule)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Matricule7)
+        </dd>
+
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Courriel)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Courriel)
+        </dd>
+
+
+        <dt>
+            @Html.DisplayName("Date de naissance")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DateNais)
+        </dd>
+
+
+        <dt>
+            @Html.DisplayNameFor(model => model.p_Sexe.Sexe)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.p_Sexe.Sexe)
+        </dd>
+
+        <dt>
+            @Html.DisplayName("Type usager")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.p_TypeUsag.TypeUsag)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Supprimer" class="btn btn-default" /> |
+            @Html.ActionLink("Retour à la recherche des étudiants", "Index")
+        </div>
+    }
+</div>

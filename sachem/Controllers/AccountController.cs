@@ -91,7 +91,7 @@ namespace sachem.Controllers
         #endregion
 
 
-         #region fn_Login
+        #region fn_Login
         //
         // GET: /Account/Login
         [AllowAnonymous]
@@ -311,7 +311,7 @@ namespace sachem.Controllers
             {
                 ModelState.AddModelError("Courriel",Messages.C_003);
             }
-            return View(courriel);
+            return View();
         }
         #endregion
 
@@ -379,19 +379,17 @@ namespace sachem.Controllers
         #region fn_Deconnexion
 
         //
-        // POST: /Account/LogOff
-        [HttpGet]
+        // GET: /Account/LogOff
         [AllowAnonymous]
+        [HttpGet]
         public ActionResult LogOff()
         {
-            SessionBag.Current.NomUsager = null;
-            SessionBag.Current.Matricule7 = null;
-            SessionBag.Current.NomComplet = null;
-            SessionBag.Current.MP = null;
-            SessionBag.Current.id_TypeUsag = null;
-            SessionBag.Current.id_Pers = null;
-            return RedirectToAction("Index", "Home");
+            //Supprime les données contenues dans la session et supprime le cookie puis retour à l'index.
+            Session.Clear();
+            return RedirectToAction("Index", "Home", null);
         }
+
         #endregion
+
     }
 }

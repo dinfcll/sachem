@@ -1,14 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+VisualStudioVersion = 14.0.24720.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "sachem", "sachem\sachem.csproj", "{4F9EC17D-93E1-4855-97A5-6B535F34DE57}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{D7776B10-BE5B-415D-9563-13F16A001D90}"
-	ProjectSection(SolutionItems) = preProject
-		sachem\Guide utilisateur - MAJ enseignant.docx = sachem\Guide utilisateur - MAJ enseignant.docx
-	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

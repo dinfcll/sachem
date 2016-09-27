@@ -1,0 +1,48 @@
+﻿@model sachem.Models.Session
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>Session</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Annee)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Annee)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.p_HoraireInscription.id_Sess)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.p_HoraireInscription.id_Sess)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.p_Saison.Saison)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.p_Saison.Saison)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>
