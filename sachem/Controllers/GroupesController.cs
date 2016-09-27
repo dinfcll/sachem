@@ -397,7 +397,7 @@ namespace sachem.Controllers
             {
                 ge.Groupe = g;
                 db.SaveChanges();
-                TempData["Success"] = Messages.I_028(ge.Personne.Matricule7, g.NoGroupe, g.Cours.Nom);
+                TempData["Success"] = Messages.I_040(ge.Personne.Matricule7, g.NoGroupe, g.Cours.Nom);
             }
 
             return RedirectToAction("Index");

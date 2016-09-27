@@ -132,27 +132,6 @@ namespace sachem.Models
         public static string I_019()
         { return $"Votre mot de passe a été envoyé à votre adresse courriel."; }
 
-        /// <summary>
-        /// Un compte existe déjà pour cet étudiant.
-        /// </summary>
-        /// <returns></returns>
-        public static string I_025()
-        { return $"Un compte existe déjà pour cet étudiant."; }
-
-        /// <summary>
-        /// Le compte a été créé. Vous pouvez maintenant vous connecter.
-        /// </summary>
-        /// <returns></returns>
-        public static string I_026()
-        { return $"Le compte a été créé. Vous pouvez maintenant vous connecter."; }
-
-        /// <summary>
-        /// Aucun étudiant ne correspond aux données saisies. Vous devez être inscrit à un cours offert par le département de mathématiques.
-        /// </summary>
-        /// <returns></returns>
-        public static string I_027()
-        { return $"Aucun étudiant ne correspond aux données saisies. Vous devez être inscrit à un cours offert par le département de mathématiques."; }
-
         // Groupes
 
         /// <summary>
@@ -177,7 +156,7 @@ namespace sachem.Models
         /// <param name="Matricule"></param>
         /// <param name="NoGroupe"></param>
         /// <returns></returns>
-        public static string I_022(string Matricule,int NoGroupe)
+        public static string I_022(string Matricule, int NoGroupe)
         { return $"L'étudiant {Matricule} a été retiré du groupe {NoGroupe}."; }
 
         /// <summary>
@@ -187,6 +166,37 @@ namespace sachem.Models
         /// <returns></returns>
         public static string I_023(string Matricule)
         { return $"Impossible d'ajouter l'étudiant {Matricule} au groupe puisqu'il en fait déjà partie"; }
+
+        /// <summary>
+        /// L'étudiant {Matricule} a été ajouté au groupe {IdGroupe}.
+        /// </summary>
+        /// <param name="Matricule"></param>
+        /// <param name="IdGroupe"></param>
+        /// <returns></returns>
+        public static string I_024(string Matricule, int IdGroupe)
+        { return $"L'étudiant {Matricule} a été ajouté au groupe {IdGroupe}."; }
+
+        /// <summary>
+        /// Un compte existe déjà pour cet étudiant.
+        /// </summary>
+        /// <returns></returns>
+        public static string I_025()
+        { return $"Un compte existe déjà pour cet étudiant."; }
+
+        /// <summary>
+        /// Le compte a été créé. Vous pouvez maintenant vous connecter.
+        /// </summary>
+        /// <returns></returns>
+        public static string I_026()
+        { return $"Le compte a été créé. Vous pouvez maintenant vous connecter."; }
+
+        /// <summary>
+        /// Aucun étudiant ne correspond aux données saisies. Vous devez être inscrit à un cours offert par le département de mathématiques.
+        /// </summary>
+        /// <returns></returns>
+        public static string I_027()
+        { return $"Aucun étudiant ne correspond aux données saisies. Vous devez être inscrit à un cours offert par le département de mathématiques."; }
+
         /// <summary>
         /// L'étudiant {0} a été supprimé.
         /// </summary>
@@ -194,6 +204,16 @@ namespace sachem.Models
         /// <returns></returns>
         public static string I_028(string Etudiant)
         { return $"L'étudiant {Etudiant} a été supprimé."; }
+
+        /// <summary>
+        /// L'étudiant {Matricule} ne peut pas être déplacé au groupe {IdGroupe} du cours {NomCours},car il y est déjà!
+        /// </summary>
+        /// <param name="Matricule"></param>
+        /// <param name="IdGroupe"></param>
+        /// <returns></returns>
+        public static string I_029(string Matricule, int IdGroupe, string NomCours)
+        { return $"L'étudiant {Matricule} ne peut pas être déplacé au groupe {IdGroupe} du cours {NomCours},car il y est déjà!"; }
+
 
         /// <summary>
         /// L’horaire d’inscription au SACHEM a été mis à jour.
@@ -217,34 +237,6 @@ namespace sachem.Models
         { return $"Erreur lors du transfert du fichier {Fichier}."; }
 
         /// <summary>
-        /// L'étudiant {Matricule} a été ajouté au groupe {IdGroupe}.
-        /// </summary>
-        /// <param name="Matricule"></param>
-        /// <param name="IdGroupe"></param>
-        /// <returns></returns>
-        public static string I_024(string Matricule, int IdGroupe)
-        { return $"L'étudiant {Matricule} a été ajouté au groupe {IdGroupe}."; }
-
-        /// <summary>
-        /// L'étudiant {Matricule} a été déplacé au groupe {IdGroupe} du cours {NomCours}.
-        /// </summary>
-        /// <param name="Matricule"></param>
-        /// <param name="IdGroupe"></param>
-        /// <returns></returns>
-        public static string I_028(string Matricule, int IdGroupe,string NomCours)
-        { return $"L'étudiant {Matricule} a été déplacé au groupe {IdGroupe} du cours {NomCours}."; }
-
-        /// <summary>
-        /// L'étudiant {Matricule} ne peut pas être déplacé au groupe {IdGroupe} du cours {NomCours},car il y est déjà!
-        /// </summary>
-        /// <param name="Matricule"></param>
-        /// <param name="IdGroupe"></param>
-        /// <returns></returns>
-        public static string I_029(string Matricule, int IdGroupe, string NomCours)
-        { return $"L'étudiant {Matricule} ne peut pas être déplacé au groupe {IdGroupe} du cours {NomCours},car il y est déjà!"; }
-
-
-        /// <summary>
         /// Un fichier {0} de même nom est déjà présent sur le serveur.
         /// </summary>
         /// <param name="Fichier"></param>
@@ -258,6 +250,14 @@ namespace sachem.Models
         public static string I_039()
         { return "Tous les critères de la recherche doivent être précisés."; }
 
+        /// <summary>
+        /// L'étudiant {Matricule} a été déplacé au groupe {IdGroupe} du cours {NomCours}.
+        /// </summary>
+        /// <param name="Matricule"></param>
+        /// <param name="IdGroupe"></param>
+        /// <returns></returns>
+        public static string I_040(string Matricule, int IdGroupe, string NomCours)
+        { return $"L'étudiant {Matricule} a été déplacé au groupe {IdGroupe} du cours {NomCours}."; }
         #endregion
 
         #region MessageContexte
@@ -373,6 +373,14 @@ namespace sachem.Models
         { return $"Voulez-vous vraiment supprimer le cours {Cours}?"; }
 
         /// <summary>
+        /// Voulez-vous vraiment supprimer le programme d'études {0} ?
+        /// </summary>
+        /// <param name="nomProgrammeEtude"></param>
+        /// <returns></returns>private string Q_002(string NomProgrammeEtude)
+        public static string Q_002(string nomProgrammeEtude)
+        { return $"Voulez-vous vraiment supprimer le programme d'études {nomProgrammeEtude} ?"; }
+
+        /// <summary>
         /// Voulez-vous vraiment supprimer le groupe {0}?
         /// </summary>
         /// <param name="NoGroupe"></param>
@@ -405,12 +413,12 @@ namespace sachem.Models
         { return $"Voulez-vous vraiment retirer l'étudiant {Matricule} du groupe {NoGroupe}?"; }
 
         /// <summary>
-        /// Voulez-vous vraiment supprimer le programme d'études {0} ?
+        /// L'étudiant {PrenomNom} est déjà inscrit au cours {NomCours} pour la session {NomSaison}. Voulez-vous le déplacer dans le groupe {NoGroupe}? 
         /// </summary>
-        /// <param name="nomProgrammeEtude"></param>
-        /// <returns></returns>private string Q_002(string NomProgrammeEtude)
-        public static  string Q_002(string nomProgrammeEtude)
-        { return $"Voulez-vous vraiment supprimer le programme d'études {nomProgrammeEtude} ?"; }
+        /// <param name="NoGroupe"></param>
+        /// <returns></returns>private string Q_010(string PrenomNom,string NomSaison,string NoGroupe,string NomCours)
+        public static string Q_010(string PrenomNom, string NomSaison, int NoGroupe, string NomCours)
+        { return $"L'étudiant {PrenomNom} est déjà inscrit au cours {NomCours} pour la session {NomSaison}. Voulez-vous le déplacer dans le groupe {NoGroupe}?"; }
 
         public static string Q_011(string Etudiant)
         { return $"Voulez-vous vraiment supprimer le cours {Etudiant} ?"; }
@@ -421,13 +429,6 @@ namespace sachem.Models
         /// <returns></returns>
         public static string Q_014()
         { return $"Un collège est en cours d'ajout ou de modification. Souhaitez-vous annuler cette opération?"; }
-        /// <summary>
-        /// L'étudiant {PrenomNom} est déjà inscrit au cours {NomCours} pour la session {NomSaison}. Voulez-vous le déplacer dans le groupe {NoGroupe}? 
-        /// </summary>
-        /// <param name="NoGroupe"></param>
-        /// <returns></returns>private string Q_010(string PrenomNom,string NomSaison,string NoGroupe,string NomCours)
-        public static string Q_010(string PrenomNom,string NomSaison,int NoGroupe,string NomCours)
-        { return $"L'étudiant {PrenomNom} est déjà inscrit au cours {NomCours} pour la session {NomSaison}. Voulez-vous le déplacer dans le groupe {NoGroupe}?"; }
 
         /// <summary>
         /// Voulez-vous vraiment supprimer le collège {0}?
