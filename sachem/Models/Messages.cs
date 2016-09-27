@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Web.Mvc;
 
 namespace sachem.Models
 {
@@ -87,6 +88,11 @@ namespace sachem.Models
         /// <returns></returns>
         public static string I_010(string Etudiant)
         { return $"L'étudiant {Etudiant} a été enregistré."; }
+        /// <summary>
+        /// Enseignant relié à un cour.
+        /// </summary>
+        /// <returns></returns>
+        public const string I_012 = "l'enseignant ne peut etre supprimer car il est relié à un cours";
 
         /// <summary>
         /// Impossible de retirer le programme d'étude {0} des programmes suivis par l'étudiant."
@@ -196,6 +202,25 @@ namespace sachem.Models
         /// <returns></returns>
         public static string I_027()
         { return $"Aucun étudiant ne correspond aux données saisies. Vous devez être inscrit à un cours offert par le département de mathématiques."; }
+        /// <summary>
+        /// Un responsable ne peut pas se supprimer lui-même
+        /// </summary>
+        /// <returns></returns>
+        public const string I_037 = "Un responsable ne peut pas se supprimer lui-même";
+
+        /// <summary>
+        /// Le nom d'utilisateur est déjà utilisé.
+        /// </summary>
+        /// <returns></returns>
+        public static string I_013(string NomUsager)
+        { return $"Le nom d'utilisateur {NomUsager} est déjà pris."; }
+
+        /// <summary>
+        /// Le nom d'utilisateur est déjà utilisé.
+        /// </summary>
+        /// <returns></returns>
+        public static string I_015(string NomUsager)
+        { return $"L'usager {NomUsager} à été modifié."; }
 
         /// <summary>
         /// L'étudiant {0} a été supprimé.
@@ -235,6 +260,13 @@ namespace sachem.Models
         /// <returns></returns>
         public static string I_034(string Fichier)
         { return $"Erreur lors du transfert du fichier {Fichier}."; }
+        /// <summary>
+        /// l'enseignant {0} a été supprimer.
+        /// </summary>
+        /// <param name="NomUsager"></param>
+        /// <returns></returns>private string I_009(string cours)
+        public static string I_029(string Enseignant)
+        { return $"L'Enseignant {Enseignant} a été supprimé."; }
 
         /// <summary>
         /// Un fichier {0} de même nom est déjà présent sur le serveur.
@@ -258,6 +290,11 @@ namespace sachem.Models
         /// <returns></returns>
         public static string I_040(string Matricule, int IdGroupe, string NomCours)
         { return $"L'étudiant {Matricule} a été déplacé au groupe {IdGroupe} du cours {NomCours}."; }
+        /// <summary>
+        /// Enseignant présent dans un jumelage
+        /// </summary>
+        /// <returns></returns>
+        public const string I_033 = "l'enseignant ne peut être supprimer car il est encore présent dans un jumelage";
         #endregion
 
         #region MessageContexte
@@ -431,6 +468,13 @@ namespace sachem.Models
         { return $"Un collège est en cours d'ajout ou de modification. Souhaitez-vous annuler cette opération?"; }
 
         /// <summary>
+        /// Voulez-vous vraiment supprimer l'enseignant {0} ?
+        /// </summary>
+        /// <param name="NomUsager"></param>
+        /// <returns></returns>private string Q_003(string Enseignant)
+        public static string Q_003(string Enseignant)
+        { return $"Voulez-vous vraiment supprimer l'enseignant {Enseignant} ?"; }
+        /// <summary>
         /// Voulez-vous vraiment supprimer le collège {0}?
         /// </summary>
         /// <param name="College"></param>
@@ -438,6 +482,15 @@ namespace sachem.Models
         public static string Q_015(string College)
         { return $"Voulez-vous vraiment supprimer le collège {College} ?"; }
 
+        /// <summary>
+        /// L'enseignant {0} a été créé. Souhaitez-vous <a href=\"Sachem/Groupes/{1}\">y associer un groupe?</a>
+        /// </summary>
+        /// <param name="NomUsager" name="id_Ensiegnant"></param>
+        /// <returns></returns>public string Q_043(string NomUsager, int id_Enseignant)
+        public static MvcHtmlString Q_004(string NomUsager, int id_Enseignant)
+        {
+            return MvcHtmlString.Create($"L'enseignant {NomUsager} a été créé. Souhaitez-vous <a href=\"Sachem/Groupes/{id_Enseignant}\">y associer un groupe?</a>"); // Note: Changé vers quel page le lien pointe.
+        }
         #endregion
 
     }
