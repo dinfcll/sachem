@@ -8,10 +8,10 @@
     <title>@ViewBag.Title - Sachem</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/Scripts/jquery-1.10.2.js")
 
 </head>
 <body>
-
     <div class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
             <div class="navbar-header">
@@ -25,7 +25,6 @@
                 </div>
                 @Html.ActionLink("Sachem", "Index", "Home", new { area = "" }, new { @class = "navbar-brand",  @style = "padding-left: 100px;" })
             </div>
-
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     @*<li>@Html.ActionLink("Accueil", "Index", "Home")</li>*@
@@ -37,7 +36,7 @@
                     @if (SachemIdentite.ObtenirTypeUsager(Session) == TypeUsagers.Eleve || SachemIdentite.ObtenirTypeUsager(Session) == TypeUsagers.Tuteur)
                     {
                         <li>
-                            @Html.ActionLink("Mon Dossier", "Index", "Cours", new { area = "" })
+                            @Html.ActionLink("Mon Dossier", "Index", "Cours")
                         </li>
                     }
                     
@@ -45,7 +44,7 @@
                         @if (SachemIdentite.ObtenirTypeUsager(Session) == TypeUsagers.Tuteur)
                         {
                             <li>
-                                @Html.ActionLink("Dossier étudiant", "Index", "Cours", new { area = "" })
+                                @Html.ActionLink("Dossier étudiant", "Index", "Cours")
                             </li>
                         }
 
@@ -56,10 +55,10 @@
                    @if (SachemIdentite.TypeListeAdmin.Contains(SachemIdentite.ObtenirTypeUsager(Session)))
                    {
                     <li>
-                        @Html.ActionLink("Dossier étudiant", "Index", "Cours", new { area = "" })
+                        @Html.ActionLink("Dossier étudiant", "Index", "Cours")
                     </li>
                     <li>
-                        @Html.ActionLink("Cours enseignés", "Index", "Cours", new { area = "" })
+                        @Html.ActionLink("Cours enseignés", "Index", "ConsulterCours")
                     </li>
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">Administration <b class="caret"></b> </a>
@@ -76,7 +75,7 @@
                                     <li>@Html.ActionLink("Enseignants", "Index", "Cours")</li>
                             }
                                     <li>@Html.ActionLink("Étudiants", "Index", "Etudiant")</li>
-                                    <li>@Html.ActionLink("Groupes", "Index", "Cours")</li>
+                                    <li>@Html.ActionLink("Groupes", "Index", "Groupes")</li>
                                     <li>@Html.ActionLink("Horaire d'inscription", "EditHoraire", "Parametres")</li>
                                     <li>@Html.ActionLink("Programmes offerts", "Index", "ProgrammesOfferts")</li>
                                     <li>@Html.ActionLink("Importer données", "Index", "Importer")</li>

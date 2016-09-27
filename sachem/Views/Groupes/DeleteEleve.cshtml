@@ -1,0 +1,41 @@
+﻿@model sachem.Models.GroupeEtudiant
+
+@{
+    ViewBag.Title = "Suppression d'élève";
+}
+
+<h2>Suppression d'élève</h2>
+
+<h3>Êtes-vous sûr de vouloir supprimer cet élève?</h3>
+<div>
+    <h4>Groupe</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Personne.NomPrenom)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Personne.NomPrenom)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Groupe.NoGroupe)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Groupe.NoGroupe)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm("DeleteEleve", "Groupes"))
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Supprimer" class="btn btn-default" /> |
+            @Html.ActionLink("Retour à la liste", "Edit")
+        </div>
+    }
+</div>

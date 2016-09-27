@@ -1,0 +1,56 @@
+﻿@model sachem.Models.Groupe
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>Groupe</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.NoGroupe)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NoGroupe)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Cours.Code)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Cours.Nom)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Personne.Nom)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Personne.PrenomNom)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Session.id_Sess)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Session.NomSession)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>

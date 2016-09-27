@@ -1,0 +1,93 @@
+﻿@using PagedList.Mvc
+@model PagedList.IPagedList<sachem.Models.Personne>
+
+@{
+    ViewBag.Title = "Ajouter des étudiants au groupe";
+}
+
+<h2>Ajouter des étudiants au groupe</h2>
+
+@using (Html.BeginForm("AjouterEleve", "Groupes", new { idg = ViewBag.idg }, FormMethod.Post, new { @class = "form-inline", role = "form" }))
+{
+    <p>
+        <h4>Recherche</h4>
+    </p>
+    <div class="form-group">
+        <p>
+            <div class="form-group">
+                Matricule :
+                @Html.TextBox("Matricule")
+            </div>
+
+            <div class="form-group">
+                Nom :
+                @Html.TextBox("Nom")
+            </div>
+
+            <div class="form-group">
+                Prénom :
+                @Html.TextBox("Prenom")
+            </div>
+
+
+            <div class="form-group">
+                <input type="submit" value="Rechercher" class="btn-toolbar" />
+            </div>
+        </p>
+    </div>
+}
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.FirstOrDefault().Nom)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FirstOrDefault().Matricule7)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FirstOrDefault().Age)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FirstOrDefault().p_Sexe.Sexe)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FirstOrDefault().ProgEtu)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.NomPrenom)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Matricule7)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Age)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.p_Sexe.Sexe)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ProgEtu)
+            </td>
+            <td>
+                @Html.ActionLink("Ajouter", "AjouterEleveGET", new { idg = ViewBag.idg, idp = item.id_Pers })
+            </td>
+        </tr>
+    }
+
+</table>
+
+@if (Model.PageCount > 0)
+{
+    <div>
+        Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) sur @Model.PageCount
+        <div>
+            @Html.PagedListPager(Model, page => Url.Action("AjouterEleve", new { idg=ViewBag.idg, page }))
+        </div>
+    </div>
+}
