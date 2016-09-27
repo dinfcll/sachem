@@ -1,4 +1,5 @@
-﻿@model sachem.Models.Groupe
+﻿
+@model sachem.Models.Groupe
 
 @{
     ViewBag.Title = "Delete";
@@ -6,7 +7,7 @@
 
 <h2>Delete</h2>
 
-<h3>Are you sure you want to delete this?</h3>
+<h3>@sachem.Models.Messages.Q_006(Model.NoGroupe)</h3>
 <div>
     <h4>Groupe</h4>
     <hr />
@@ -20,7 +21,7 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Cours.Code)
+            @Html.DisplayNameFor(model => model.Cours.Nom)
         </dt>
 
         <dd>
@@ -36,7 +37,7 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Session.id_Sess)
+            @Html.DisplayNameFor(model => model.Session.NomSession)
         </dt>
 
         <dd>
@@ -48,9 +49,17 @@
     @using (Html.BeginForm()) {
         @Html.AntiForgeryToken()
 
+        
+            if ((string)ViewBag.Error != null)
+            {
+                @ViewBag.Error;
+            }
+
+        
+
         <div class="form-actions no-color">
-            <input type="submit" value="Delete" class="btn btn-default" /> |
-            @Html.ActionLink("Back to List", "Index")
+             <input type="submit" value="Supprimer" class="btn btn-default"/>  |
+            @Html.ActionLink("Retour à la recherche de groupe", "Index")
         </div>
     }
 </div>

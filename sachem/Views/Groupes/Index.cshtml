@@ -4,10 +4,29 @@
     ViewBag.Title = "Groupes";
 }
 
-<h2>Index</h2>
+<h2>Groupes</h2>
+
+@Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
 @using (Html.BeginForm("Index", "Groupes", FormMethod.Post, new { @class = "form-inline", role = "form" }))
 {
+
+    @TempData["Success"]
+
+    if ((string)TempData["Questions"] != null)
+    {
+        @TempData["Questions"]
+        <br />
+
+            <tr>
+                <td>
+                    @Html.ActionLink("Oui", "AjouterEleve", new { idg = @TempData["idg"] ,page = ViewBag.page}) |
+                    @Html.ActionLink("Non", "Index", new { idg = @TempData["idg"]}) 
+                </td>
+            </tr>
+
+    }
+
     <p>
         <h4>Recherche</h4>
     </p>
@@ -20,7 +39,14 @@
             
             <div class="form-group">
                 Enseignant :
-                @Html.DropDownList("Enseignants", "Toutes")
+                @{
+                    string s = "Toutes";
+                    if (sachem.Models.SachemIdentite.ObtenirTypeUsager(Session) == sachem.Models.TypeUsagers.Enseignant)
+                    {
+                        s = null;
+                    }
+                }
+                @Html.DropDownList("Enseignants", s)
             </div>
             
             <div class="form-group">
@@ -54,7 +80,7 @@
             @Html.DisplayNameFor(model => model.FirstOrDefault().Personne.NomPrenom)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.FirstOrDefault().nbPersonne)
+            @Html.DisplayNameFor(model => model.FirstOrDefault().nbPersonneGroupe)
         </th>
         <th></th>
     </tr>
@@ -74,7 +100,7 @@
             @Html.DisplayFor(modelItem => item.Personne.NomPrenom)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.nbPersonne)
+            @item.GroupeEtudiant.Count
         </td>
         <td>
             @Html.ActionLink("Modifier", "Edit", new {id = item.id_Groupe}) |
@@ -82,6 +108,12 @@
         </td>
     </tr>
 }
-
+@if (!Model.Any())
+{
+    <tr>
+        <td colspan="6">Aucun groupe ne répond à ces critères</td>
+    </tr>
+}
 </table>
+
 @Html.Partial("_PageRecherche", Model)

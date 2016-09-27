@@ -70,6 +70,12 @@ namespace sachem.Models
         public string CodeNom => $"{Code}-{Nom}";
     }
 
+    public partial class Groupe
+    {
+        //public string nbPersonneGroupe;
+        //public int nbPersonne;
+    }
+
     public partial class PersonneProgEtu
     {
         public Personne personne;
