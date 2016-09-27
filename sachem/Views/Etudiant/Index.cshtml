@@ -1,0 +1,85 @@
+﻿@using sachem.Models
+@model PagedList.IPagedList<sachem.Models.PersonneProgEtu>
+@{
+    ViewBag.Title = "Étudiants";
+}
+
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+
+<h2>@ViewBag.Title</h2>
+
+@Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+<p class="text-success">
+    @Html.Raw(@TempData["Success"])
+</p>
+
+<p class="text-danger">
+    @TempData["Echec"]
+</p>
+
+@using (Html.BeginForm("Index", "Etudiant", FormMethod.Post, new { @class = "form-inline", role = "form" }))
+{
+    @Html.Partial("_RechercheEtudiant")
+}
+<br/>
+
+    <p>
+        @Html.ActionLink("Ajouter un étudiant", "Create")
+    </p>
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayName("Nom")
+            </th>
+            <th>
+                @Html.DisplayName("Matricule")
+            </th>
+            <th>
+                @Html.DisplayName("Sexe")
+            </th>
+            <th>
+                @Html.DisplayName("Date de naissance")
+            </th>
+            <th>
+                @Html.DisplayName("Programme d'études")
+            </th>
+
+            <th></th>
+        </tr>
+        <BR>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.personne.NomPrenom)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.personne.Matricule7)
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.personne.p_Sexe.Sexe)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.personne.DateNais)
+                
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.progEtuActif.NomProg)
+                    @*@Html.DisplayFor(modelItem => item.DateNais)*@
+                    @*@foreach (Personne personne in @Model)
+                    {
+                       @Html.DisplayFor(modelItem => item.Matricule7)
+                    }*@
+                </td>
+                <td>
+                    @Html.ActionLink("Modifier", "Edit", new { id = item.personne.id_Pers }) |
+                    @Html.ActionLink("Supprimer", "Delete", new { id = item.personne.id_Pers })
+                </td>
+            </tr>
+        }
+
+    </table>
+    @Html.Partial("_PageRecherche", Model)

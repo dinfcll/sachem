@@ -23,7 +23,7 @@
                 <div style="position: absolute;">
                     <img src="~/Images/logo-cegep.png" height="70" />
                 </div>
-                @Html.ActionLink("Sachem", "Index", "Home", new { area = "" }, new { @class = "navbar-brand", @style = "padding-left: 100px;" })
+                @Html.ActionLink("Sachem", "Index", "Home", new { area = "" }, new { @class = "navbar-brand",  @style = "padding-left: 100px;" })
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
@@ -36,7 +36,7 @@
                     @if (SachemIdentite.ObtenirTypeUsager(Session) == TypeUsagers.Eleve || SachemIdentite.ObtenirTypeUsager(Session) == TypeUsagers.Tuteur)
                     {
                         <li>
-                            @Html.ActionLink("Mon Dossier", "Index", "Cours", new { area = "" }, new { @class = "navbar-brand", @style = "padding-left: 50px;" })
+                            @Html.ActionLink("Mon Dossier", "Index", "Cours")
                         </li>
                     }
                     
@@ -44,7 +44,7 @@
                         @if (SachemIdentite.ObtenirTypeUsager(Session) == TypeUsagers.Tuteur)
                         {
                             <li>
-                                @Html.ActionLink("Dossier étudiant", "Index", "Cours", new { area = "" }, new { @class = "navbar-brand", @style = "padding-left: 40px;" })
+                                @Html.ActionLink("Dossier étudiant", "Index", "Cours")
                             </li>
                         }
 
@@ -55,29 +55,30 @@
                    @if (SachemIdentite.TypeListeAdmin.Contains(SachemIdentite.ObtenirTypeUsager(Session)))
                    {
                     <li>
-                        @Html.ActionLink("Dossier étudiant", "Index", "Cours", new { area = "" }, new { @class = "navbar-brand", @style = "padding-left: 50px;" })
+                        @Html.ActionLink("Dossier étudiant", "Index", "Cours")
+                    </li>
+                    <li>
+                        @Html.ActionLink("Cours enseignés", "Index", "ConsulterCours")
                     </li>
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">Administration <b class="caret"></b> </a>
-
                             <ul class="dropdown-menu">
                             @if (SachemIdentite.ObtenirTypeUsager(Session) == TypeUsagers.Responsable)
                             {
-                                <li>@Html.ActionLink("Collège", "Index", "Cours")</li>
-                                <li>@Html.ActionLink("Contact", "Index", "Cours")</li>
+                                <li>@Html.ActionLink("Collège", "IndexCollege", "Parametres")</li>
+                                <li>@Html.ActionLink("Contact", "Edit", "Parametres")</li>
                             }
                                 <li>@Html.ActionLink("Cours", "Index", "Cours")</li>
                             @if (SachemIdentite.ObtenirTypeUsager(Session) == TypeUsagers.Responsable)
                             {
-                                    <li>@Html.ActionLink("Courriel de confirmation", "Index", "Cours")</li>
+                                    <li>@Html.ActionLink("Courriel de confirmation", "EditCourrier", "Parametres")</li>
                                     <li>@Html.ActionLink("Enseignants", "Index", "Cours")</li>
                             }
-                                    <li>@Html.ActionLink("Consulter cours", "Index", "ConsulterCours")</li>
-                                    <li>@Html.ActionLink("Étudiants", "Index", "Cours")</li>
-                                    <li>@Html.ActionLink("Groupes", "Index", "Cours")</li>
-                                    <li>@Html.ActionLink("Horaire d'inscription", "Index", "Cours")</li>
-                                    <li>@Html.ActionLink("Programmes offerts", "Index", "Cours")</li>
-                                    <li>@Html.ActionLink("Importer données", "Index", "Cours")</li>
+                                    <li>@Html.ActionLink("Étudiants", "Index", "Etudiant")</li>
+                                    <li>@Html.ActionLink("Groupes", "Index", "Groupes")</li>
+                                    <li>@Html.ActionLink("Horaire d'inscription", "EditHoraire", "Parametres")</li>
+                                    <li>@Html.ActionLink("Programmes offerts", "Index", "ProgrammesOfferts")</li>
+                                    <li>@Html.ActionLink("Importer données", "Index", "Importer")</li>
 
                                  
                             </ul>

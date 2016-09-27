@@ -154,7 +154,10 @@ namespace sachem.Controllers
                 if (PersonneBD.MP != MP)
                     ModelState.AddModelError(string.Empty, Messages.I_017()); //Erreur de connection
                 if (!ModelState.IsValid)
+                {
+                    PersonneBD.MP = "";
                     return View(PersonneBD); //Retourne le formulaire rempli avec l'erreur
+                }
 
                 //On va chercher le type d'inscription dans la BD pour le présent utilisateur (si c'est un étudiant, il faut donner le type soit tuteur ou élève)
                 var typeinscr = (from i in db.Inscription
@@ -308,7 +311,7 @@ namespace sachem.Controllers
             {
                 ModelState.AddModelError("Courriel",Messages.C_003);
             }
-            return View(courriel);
+            return View();
         }
         #endregion
 
