@@ -73,24 +73,6 @@ namespace sachem.Controllers
                 ModelState.AddModelError(string.Empty, Messages.C_010);
         }
 
-
-        // GET: CoursSuivi/Details/5
-        public ActionResult Details(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            CoursSuivi coursSuivi = db.CoursSuivi.Find(id);
-            if (coursSuivi == null)
-            {
-                return HttpNotFound();
-            }
-            return View(coursSuivi);
-        }
-
- 
-
         // GET: CoursSuivi/Create
         public ActionResult Create(int? id)
         {
@@ -170,8 +152,16 @@ namespace sachem.Controllers
                 ListeCollege();
             else
                 ListeCollege(cs.id_College.Value);
-            ListeStatut(cs.id_Statut.Value);
-            ListeSession(cs.id_Sess.Value);
+
+            if (cs.id_Statut == null)
+                ListeStatut();
+            else
+                ListeStatut(cs.id_Statut.Value);
+
+            if (cs.id_Sess == null)
+                ListeSession();
+            else
+                ListeSession(cs.id_Sess.Value);
             return View(cs);
         }
 
