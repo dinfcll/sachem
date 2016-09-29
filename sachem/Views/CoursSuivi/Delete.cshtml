@@ -23,7 +23,7 @@
             @Html.DisplayFor(model => model.Session.NomSession)
         </dd>
 
-@if (sachem.Models.SachemIdentite.ObtenirTypeUsager(Session) == sachem.Models.TypeUsagers.Tuteur)
+@if (sachem.Models.SachemIdentite.ObtenirTypeUsager(Session) == sachem.Models.TypeUsagers.Eleve)
 {
         <dt>
             @Html.DisplayNameFor(model => model.id_Statut)
