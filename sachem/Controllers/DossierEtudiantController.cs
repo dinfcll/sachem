@@ -14,41 +14,9 @@ using System.Web.Services;
 
 namespace sachem.Controllers
 {
-    /*//id de test : 1432435 -- //// id_Pers	id_Sexe	id_TypeUsag	Nom	Prenom	NomUsager	Matricule	MP	Courriel	Telephone	DateNais	Actif
-///////////////////////////////////13	    1	2	Lacasse Patricia    NULL	201432435	7f5c81697fcedb98e9d0cd749792a825 joseouellet@gmail.com	4182714722	1996-10-31	1
 
-        Pour changer un compte de user a admin
-        USE [SACHEM]
-GO
-
-UPDATE [dbo].[Personne]
-   SET [id_TypeUsag] = 1 --1=etudiant 2=enseignant 3=respo 4=admin
- WHERE [id_Pers] = 10
-GO
-
-        Pour changer un etudiant de tuteur a eleve aide
-USE [SACHEM]
-GO
-
-UPDATE [dbo].[Inscription]
-   SET [id_TypeInscription] = 1 --change id_TypeInscription -- change id_type_inscription:: 1=eleveaide, 2=tutcours, 3=tutben, 4=tutremu
- WHERE [id_Pers] = 10
-GO
-
-
-        Pour changer le mot de passe dun enseignant, admin, ou responsable, connecte toi avec le usager
- USE [SACHEM]
-GO
-
-UPDATE [dbo].[Personne]
-   SET [MP] = '7f5c81697fcedb98e9d0cd749792a825'
- WHERE [id_Pers] = 6
-GO
-
- */
     public class DossierEtudiantController : Controller
     {
-        //test
         private SACHEMEntities db = new SACHEMEntities();
         protected int noPage = 1;
         private int? pageRecue = null;
@@ -72,19 +40,12 @@ GO
         [NonAction]
         private IEnumerable<Personne> ObtenirListeSuperviseur(int session)
         {
-
-            //var ResultReqJum = db.Jumelage.AsNoTracking()
-            //    .Where(p => (p.Personne.id_Pers == p.id_Enseignant) && (p.id_Sess == session)).Distinct();
-            //var ResultReq = db.Personne.AsNoTracking().Include(ResultReqJum.Where(j => j.id_Enseignant == j.Personne.id_Pers)
-            //    .Where(p => ((p.Personne.p_TypeUsag.id_TypeUsag == 2) && (p.id_Enseignant == p.Personne.id_Pers))));
             var lstEnseignant = from p in db.Personne
                                 where (db.Jumelage.Any(j => (j.id_Sess == session || session == 0) && j.id_Enseignant == p.id_Pers))
                                 && p.id_TypeUsag == 2
                                 orderby p.Nom, p.Prenom
                                 select p;
             return lstEnseignant.ToList();
-
-        //    return ResultReq.AsEnumerable();
         }
 
 
@@ -324,6 +285,7 @@ GO
         [ValidateAntiForgeryToken]
         public ActionResult Details(FormCollection model)
         {
+            //A completer
             if (!SachemIdentite.ValiderRoleAcces(RolesAccesDossier, Session))
                 return RedirectToAction("Error", "Home", null);
             var id_Pers = Convert.ToInt32(model["item1.Personne.id_Pers"]);
@@ -358,108 +320,6 @@ GO
             return View(Tuple.Create(inscription, vCoursSuivi.AsEnumerable(), vInscription.AsEnumerable()));
         }
 
-        // GET: DossierEtudiant/Create
-        public ActionResult Create()
-        {
-            if (!SachemIdentite.ValiderRoleAcces(RolesAcces, Session))
-                return RedirectToAction("Error", "Home", null);
-            ViewBag.id_Statut = new SelectList(db.p_StatutInscription, "id_Statut", "Statut");
-            ViewBag.id_TypeInscription = new SelectList(db.p_TypeInscription, "id_TypeInscription", "TypeInscription");
-            ViewBag.id_Pers = new SelectList(db.Personne, "id_Pers", "Nom");
-            ViewBag.id_Sess = new SelectList(db.Session, "id_Sess", "id_Sess");
-            return View();
-        }
-
-        // POST: DossierEtudiant/Create
-        // Afin de déjouer les attaques par sur-validation, activez les propriétés spécifiques que vous voulez lier. Pour 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "id_Inscription,id_Sess,id_Pers,id_Statut,id_TypeInscription,TransmettreInfoTuteur,NoteSup,ContratEngagement,BonEchange,DateInscription")] Inscription inscription)
-        {
-            if (ModelState.IsValid)
-            {
-                db.Inscription.Add(inscription);
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-
-            ViewBag.id_Statut = new SelectList(db.p_StatutInscription, "id_Statut", "Statut", inscription.id_Statut);
-            ViewBag.id_TypeInscription = new SelectList(db.p_TypeInscription, "id_TypeInscription", "TypeInscription", inscription.id_TypeInscription);
-            ViewBag.id_Pers = new SelectList(db.Personne, "id_Pers", "Nom", inscription.id_Pers);
-            ViewBag.id_Sess = new SelectList(db.Session, "id_Sess", "id_Sess", inscription.id_Sess);
-            return View(inscription);
-        }
-
-        // GET: DossierEtudiant/Edit/5
-        public ActionResult Edit(int? id)
-        {
-            if (!SachemIdentite.ValiderRoleAcces(RolesAcces, Session))
-                return RedirectToAction("Error", "Home", null);
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Inscription inscription = db.Inscription.Find(id);
-            if (inscription == null)
-            {
-                return HttpNotFound();
-            }
-
-
-            ViewBag.id_Statut = new SelectList(db.p_StatutInscription, "id_Statut", "Statut", inscription.id_Statut);
-            ViewBag.id_TypeInscription = new SelectList(db.p_TypeInscription, "id_TypeInscription", "TypeInscription", inscription.id_TypeInscription);
-            ViewBag.id_Pers = new SelectList(db.Personne, "id_Pers", "Nom", inscription.id_Pers);
-            ViewBag.id_Sess = new SelectList(db.Session, "id_Sess", "id_Sess", inscription.id_Sess);
-            return View(inscription);
-        }
-
-        // POST: DossierEtudiant/Edit/5
-        // Afin de déjouer les attaques par sur-validation, activez les propriétés spécifiques que vous voulez lier. Pour 
-        // plus de détails, voir  http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "id_Inscription,id_Sess,id_Pers,id_Statut,id_TypeInscription,TransmettreInfoTuteur,NoteSup,ContratEngagement,BonEchange,DateInscription")] Inscription inscription)
-        {
-            if (ModelState.IsValid)
-            {
-                db.Entry(inscription).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-            ViewBag.id_Statut = new SelectList(db.p_StatutInscription, "id_Statut", "Statut", inscription.id_Statut);
-            ViewBag.id_TypeInscription = new SelectList(db.p_TypeInscription, "id_TypeInscription", "TypeInscription", inscription.id_TypeInscription);
-            ViewBag.id_Pers = new SelectList(db.Personne, "id_Pers", "Nom", inscription.id_Pers);
-            ViewBag.id_Sess = new SelectList(db.Session, "id_Sess", "id_Sess", inscription.id_Sess);
-            return View(inscription);
-        }
-
-        // GET: DossierEtudiant/Delete/5
-        public ActionResult Delete(int? id)
-        {
-            if (!SachemIdentite.ValiderRoleAcces(RolesAcces, Session))
-                return RedirectToAction("Error", "Home", null);
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Inscription inscription = db.Inscription.Find(id);
-            if (inscription == null)
-            {
-                return HttpNotFound();
-            }
-            return View(inscription);
-        }
-
-        // POST: DossierEtudiant/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
-        {
-            Inscription inscription = db.Inscription.Find(id);
-            db.Inscription.Remove(inscription);
-            db.SaveChanges();
-            return RedirectToAction("Index");
-        }
 
         protected override void Dispose(bool disposing)
         {

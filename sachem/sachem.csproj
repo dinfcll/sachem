@@ -416,14 +416,10 @@
     <Content Include="Views\CoursSuivi\Create.cshtml" />
     <Content Include="Views\CoursSuivi\Delete.cshtml" />
     <Content Include="Views\CoursSuivi\Edit.cshtml" />
-    <Content Include="Views\CoursSuivi\Index.cshtml" />
     <Content Include="Views\CoursSuivi\_CoursSuivi.cshtml" />
     <Content Include="Views\CoursSuivi\_Footer.cshtml" />
     <Content Include="Views\DossierEtudiant\Index.cshtml" />
     <Content Include="Views\DossierEtudiant\Details.cshtml" />
-    <Content Include="Views\DossierEtudiant\Edit.cshtml" />
-    <Content Include="Views\DossierEtudiant\Create.cshtml" />
-    <Content Include="Views\DossierEtudiant\Delete.cshtml" />
     <Content Include="Views\DossierEtudiant\_CoursAnterieur.cshtml" />
     <Content Include="Views\DossierEtudiant\_RechercheEtudiantInscrit.cshtml" />
     <Content Include="Views\DossierEtudiant\_InscriptionSachem.cshtml" />
@@ -431,7 +427,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="CSV\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

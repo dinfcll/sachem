@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
-using System.Web;
 using System.Web.Mvc;
 using sachem.Models;
 
@@ -75,11 +73,6 @@ namespace sachem.Controllers
                 ModelState.AddModelError(string.Empty, Messages.C_010);
         }
 
-        // GET: CoursSuivi
-        public ActionResult Index()
-        {
-            return View(db.CoursSuivi.ToList());
-        }
 
         // GET: CoursSuivi/Details/5
         public ActionResult Details(int? id)
@@ -122,13 +115,9 @@ namespace sachem.Controllers
         }
 
         // POST: CoursSuivi/Create
-        // Afin de déjouer les attaques par sur-validation, activez les propriétés spécifiques que vous voulez lier. Pour 
-        // plus de détails, voir  http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "id_CoursReussi,id_Sess,id_College,id_Statut,id_Cours,resultat,autre_Cours,autre_College")] CoursSuivi coursSuivi, int? id)
-        //id_CoursReussi,id_Sess,id_Pers,id_College,id_Statut,id_Cours,resultat,autre_Cours,autre_College
-        //Cours,autre_Cours,College,autre_College,Session,Statut,resultat
         {
             ListeCours();
             ListeCollege();
@@ -187,8 +176,6 @@ namespace sachem.Controllers
         }
 
         // POST: CoursSuivi/Edit/5
-        // Afin de déjouer les attaques par sur-validation, activez les propriétés spécifiques que vous voulez lier. Pour 
-        // plus de détails, voir  http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "id_CoursReussi,id_Sess,id_Pers,id_College,id_Statut,id_Cours,resultat,autre_Cours,autre_College")] CoursSuivi coursSuivi)
