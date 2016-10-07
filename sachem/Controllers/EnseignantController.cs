@@ -29,6 +29,13 @@ namespace sachem.Controllers
             ViewBag.Enseignant = slEnseignant;
         }
 
+        private bool siCaseEstCochee()
+        {
+            //Vérifier si la case est cocher ou non
+            bool CaseEstCochee = !string.IsNullOrEmpty(Request.Form["Actif"]);
+
+            return CaseEstCochee;
+        }
 
         //Fonction pour gérer la recherche, elle est utilisée dans la suppression et dans l'index
         [NonAction]
@@ -38,7 +45,7 @@ namespace sachem.Controllers
             var actif = true;
 
             // Verifier si la case a cocher est coché ou non
-            if (!string.IsNullOrEmpty(Request.Form["Actif"]))
+            if (siCaseEstCochee())
                 actif = Request.Form["Actif"].Contains("true");
 
 
@@ -127,7 +134,6 @@ namespace sachem.Controllers
             {
                 return HttpNotFound();
             }
-            // afficher les listes déroulantes contenant le type d'usager et le sexe
             RemplirDropList(personne);
             ViewBag.id_person = personne.id_Pers;
             personne.MP = "";
@@ -232,9 +238,9 @@ namespace sachem.Controllers
         }
         private void RemplirDropList(Personne personne)
         {
-            // afficher les listes déroulantes contenant le type d'usager et le sexe
+            // afficher les listes déroulantes contenant le type d'usager, le sexe et sélectionne la valeur du Sexe de la personne dans la liste déroulante.
             ViewBag.id_Sexe = new SelectList(db.p_Sexe, "id_Sexe", "Sexe", personne.id_Sexe);
-            // Permet d'afficher seulement Enseignant et Responsable du Sachem dans les valeurs possibles de la list déroulante.
+            // Permet d'afficher seulement Enseignant et Responsable du Sachem dans les valeurs possibles de la list déroulante et sélectionne la valeur du type d'usager de la personne dans la liste déroulante.
             ViewBag.id_TypeUsag = new SelectList(db.p_TypeUsag.Where(x => x.id_TypeUsag == ID_ENSEIGNANT || x.id_TypeUsag == 3), "id_TypeUsag", "TypeUsag", personne.id_TypeUsag);
         }
     }
