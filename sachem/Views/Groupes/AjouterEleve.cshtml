@@ -5,10 +5,11 @@
     ViewBag.Title = "Ajouter des étudiants au groupe";
 }
 
-<h2>@ViewBag.Title</h2>
+<h2>Ajouter des étudiants au groupe</h2>
 
 @using (Html.BeginForm("AjouterEleve", "Groupes", new { idg = ViewBag.idg }, FormMethod.Post, new { @class = "form-inline", role = "form" }))
 {
+
     @TempData["ErrorAjEl"]
     @TempData["Success"]
 
@@ -24,7 +25,13 @@
                     @Html.ActionLink("Annuler", "AjouterEleve", new { idg = @TempData["idg"], page = ViewBag.page})
                 </td>
             </tr>
+
+
      }
+
+   
+    
+
     <p>
         <h4>Recherche</h4>
     </p>
@@ -44,6 +51,8 @@
                 Prénom :
                 @Html.TextBox("Prenom")
             </div>
+
+
             <div class="form-group">
                 <input type="submit" value="Rechercher" class="btn-toolbar" />
             </div>

@@ -2,10 +2,10 @@
 @model sachem.Models.Groupe
 
 @{
-    ViewBag.Title = "Supprimer";
+    ViewBag.Title = "Delete";
 }
 
-<h2>@ViewBag.Title</h2>
+<h2>Delete</h2>
 
 <h3>@sachem.Models.Messages.Q_006(Model.NoGroupe)</h3>
 <div>
@@ -48,10 +48,15 @@
 
     @using (Html.BeginForm()) {
         @Html.AntiForgeryToken()
-        if (ViewBag.Error.ToString() != null)
-        {
-            @ViewBag.Error;
-        }
+
+        
+            if ((string)ViewBag.Error != null)
+            {
+                @ViewBag.Error;
+            }
+
+        
+
         <div class="form-actions no-color">
              <input type="submit" value="Supprimer" class="btn btn-default"/>  |
             @Html.ActionLink("Retour à la recherche de groupe", "Index")
