@@ -2,35 +2,29 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
-using System.IO;
 using System.Linq;
 using System.Net;
-using System.Text.RegularExpressions;
-using System.Web;
 using System.Web.Mvc;
-using Microsoft.Ajax.Utilities;
 using sachem.Models;
 
 namespace sachem.Controllers
 {
     public class ConsulterCoursController : Controller
     {
-
-        //int m_IdPers = 2; // 1 = la seule résponsable, 2-9 = enseignants
-        //int m_IdTypeUsage = 3; // 2 = enseignant, 3 = responsable
-
         int m_IdPers = SessionBag.Current.id_Pers;
         int m_IdTypeUsage = SessionBag.Current.id_TypeUsag; // 2 = enseignant, 3 = responsable
 
-        private SACHEMEntities db = new SACHEMEntities();
+        private readonly SACHEMEntities db = new SACHEMEntities();
+
+        List<TypeUsagers> RolesAcces = new List<TypeUsagers>() { TypeUsagers.Responsable, TypeUsagers.Super };
 
         // GET: ConsulterCours
         public ActionResult Index()
         {
-            if (connexionValide(m_IdTypeUsage))
-                return View(AfficherCoursAssignes());
-            else
-                return View("~/Views/Shared/Error.cshtml");
+            if (!SachemIdentite.ValiderRoleAcces(RolesAcces, Session))
+                return RedirectToAction("Error", "Home", null);
+
+            return View(AfficherCoursAssignes());
 
         }
 
@@ -43,15 +37,9 @@ namespace sachem.Controllers
             {
                 RedirectToAction("~/Shared/Error.cshtml");
             }
+            
 
-
-                /*var tidSess = from n in db.Session
-                        group n by n.Annee into g
-                        select g.OrderByDescending(t => t.Annee).FirstOrDefault();*/
-
-                //int idSess = 0;
-
-                var idSess = 0;
+            var idSess = 0;
 
             //Pour accéder à la valeur de cle envoyée en GET dans le formulaire
             //Request.QueryString["cle"]
@@ -68,10 +56,6 @@ namespace sachem.Controllers
                 {
                     idSess = int.Parse(tanciennerech[0]);
                 }
-               /* if (tanciennerech[1] != "")
-                {
-                    actif = bool.Parse(tanciennerech[1]);
-                }*/
 
             }
             else
@@ -83,27 +67,16 @@ namespace sachem.Controllers
                 //si la variable est null c'est que la page est chargée pour la première fois, donc il faut assigner la session à la session en cours, la plus grande dans la base de données
                 else if (Request.Form["Session"] == null)
                     idSess = db.Session.Max(s => s.id_Sess);
-
-                /*//la méthode Html.checkbox crée automatiquement un champ hidden du même nom que la case à cocher, lorsque la case n'est pas cochée une seule valeur sera soumise, par contre lorsqu'elle est cochée
-                //2 valeurs sont soumises, il faut alors vérifier que l'une des valeurs est à true pour vérifier si elle est cochée
-                if (!string.IsNullOrEmpty(Request.Form["Actif"]))
-                    actif = Request.Form["Actif"].Contains("true");*/
+                
             }
-
-
-
-            //idSess = db.Session.Max(s => s.id_Sess);
-
-            var cours = from c in db.Cours select c;
 
             if (m_IdTypeUsage == 2) //enseignant
             {
-                //Int32.TryParse(Request.Form["Session"], out idSess);
                 ListeSession(idSess); //créer liste Session pour le dropdown
-
-                //.DistinctBy(c =>c.id_Cours)
+                
                 var ens = from c in db.Groupe
                           where (c.id_Sess == idSess && c.id_Enseignant == m_IdPers) || (idSess == 0 && c.id_Enseignant == m_IdPers)
+                          orderby c.NoGroupe
                           select c;
 
                 ViewBag.IsEnseignant = true;
@@ -113,13 +86,13 @@ namespace sachem.Controllers
             else //responsable
             {
                 Int32.TryParse(Request.Form["Personne"], out m_IdPers); //seuls les responsables le voient
-                //Int32.TryParse(Request.Form["Session"], out idSess);
                 ListeSession(idSess); //créer liste Session pour le dropdown
                 ListePersonne(m_IdPers); //créer liste Enseignants pour le dropdown
 
                 var resp = from c in db.Groupe
                            where c.id_Sess == (idSess == 0 ? c.id_Sess : idSess) && c.id_Enseignant == (m_IdPers == 0 ? c.id_Enseignant : m_IdPers)
-                    select c;
+                           orderby c.NoGroupe
+                           select c;
 
                 ViewBag.IsEnseignant = false;
 
@@ -142,7 +115,6 @@ namespace sachem.Controllers
         [NonAction]
         private void ListePersonne(int idPersonne = 0)
         {
-            //var lPersonne = db.Personne.AsNoTracking().OrderBy(p => p.Prenom).ThenBy(p => p.Nom);
             var lPersonne = from p in db.Personne
                             where p.id_TypeUsag == 2
                             select p;
@@ -179,6 +151,7 @@ namespace sachem.Controllers
 
                 var gr = from g in db.Groupe //obtenir les groupes en lien avec le cours trouvé
                          where g.id_Cours == id
+                         orderby g.NoGroupe
                          select g;
 
                 if (!gr.Any())
@@ -195,132 +168,17 @@ namespace sachem.Controllers
                     ViewBag.IsEnseignant = false;
                 }
 
-
                 return View(gr.ToList()); //renvoyer la liste des groupes en lien avec le cours
             }
-
-            
-        }
-
-
-
-
-
-
-
-
-        // GET: ConsulterCours/Create
-        public ActionResult Create()
-        {
-            ViewBag.id_Sess = new SelectList(db.p_HoraireInscription, "id_Sess", "id_Sess");
-            ViewBag.id_Saison = new SelectList(db.p_Saison, "id_Saison", "Saison");
-            return View();
-        }
-
-
-        // POST: ConsulterCours/Create
-        // Afin de déjouer les attaques par sur-validation, activez les propriétés spécifiques que vous voulez lier. Pour 
-        // plus de détails, voir  http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "id_Sess,id_Saison,Annee")] Session session)
-        {
-            if (ModelState.IsValid)
-            {
-                db.Session.Add(session);
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-
-            ViewBag.id_Sess = new SelectList(db.p_HoraireInscription, "id_Sess", "id_Sess", session.id_Sess);
-            ViewBag.id_Saison = new SelectList(db.p_Saison, "id_Saison", "Saison", session.id_Saison);
-            return View(session);
-        }
-
-        // GET: ConsulterCours/Edit/5
-        /*public ActionResult Edit(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-
-            Groupe groupe = db.Groupe.Find(id);
-            if (groupe == null)
-            {
-                return HttpNotFound();
-            }
-
-
-            //return View();
-
-            return View("Edit", "GroupesController", id); //appel de la vue de Loïc pour modifier le groupe sélectionné
-        }*/
-
-        // POST: ConsulterCours/Edit/5
-        // Afin de déjouer les attaques par sur-validation, activez les propriétés spécifiques que vous voulez lier. Pour 
-        // plus de détails, voir  http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "id_Sess,id_Saison,Annee")] Session session)
-        {
-            if (ModelState.IsValid)
-            {
-                db.Entry(session).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-            ViewBag.id_Sess = new SelectList(db.p_HoraireInscription, "id_Sess", "id_Sess", session.id_Sess);
-            ViewBag.id_Saison = new SelectList(db.p_Saison, "id_Saison", "Saison", session.id_Saison);
-            return View(session);
-        }
-
-        // GET: ConsulterCours/Delete/5
-        public ActionResult Delete(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Session session = db.Session.Find(id);
-            if (session == null)
-            {
-                return HttpNotFound();
-            }
-            return View(session);
-        }
-
-        // POST: ConsulterCours/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
-        {
-            Session session = db.Session.Find(id);
-            db.Session.Remove(session);
-            db.SaveChanges();
-            return RedirectToAction("Index");
-        }
-
-        protected override void Dispose(bool disposing)
+        }       
+        
+       protected override void Dispose(bool disposing)
         {
             if (disposing)
             {
                 db.Dispose();
             }
             base.Dispose(disposing);
-        }
-
-        private bool connexionValide(int idTypeCompte)
-        {
-            bool valide = true;
-
-            if (idTypeCompte < 2 || idTypeCompte > 4)
-            {
-                valide = false;
-            }
-
-                return valide;
-
         }
     }
 }
