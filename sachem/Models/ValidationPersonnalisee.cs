@@ -13,9 +13,10 @@ namespace sachem.Models
         {
             if(value != null)
             {
+                const int ANNEE_MINIMALE = 1967;
                 int valeur = (int)value;
-                int annneMinimale = 1967;
-                if (valeur >= annneMinimale && valeur <= DateTime.Now.Year + 1)
+                
+                if (valeur >= ANNEE_MINIMALE && valeur <= DateTime.Now.Year + 1)
                 {
                     return ValidationResult.Success;
                 }
