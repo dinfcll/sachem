@@ -14,7 +14,8 @@ namespace sachem.Models
             if(value != null)
             {
                 int valeur = (int)value;
-                if (valeur >= 1967 && valeur <= DateTime.Now.Year + 1)
+                int annneMinimale = 1967;
+                if (valeur >= annneMinimale && valeur <= DateTime.Now.Year + 1)
                 {
                     return ValidationResult.Success;
                 }
