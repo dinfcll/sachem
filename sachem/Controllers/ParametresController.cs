@@ -11,13 +11,13 @@ namespace sachem.Controllers
     {
         List<TypeUsagers> RolesAcces = new List<TypeUsagers>() { TypeUsagers.Responsable, TypeUsagers.Super };
         private readonly SACHEMEntities db = new SACHEMEntities();
-        // GET: Parametres
+
         public ActionResult IndexModifier(int? id)
         {
             return View("Edit");
         }
 
-        // GET: Parametres/Edit/5
+        
         public ActionResult Edit()
         {
             if (!SachemIdentite.ValiderRoleAcces(RolesAcces, Session))
@@ -38,6 +38,7 @@ namespace sachem.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult EditCourrier(Courriel courriel, p_TypeCourriel typeCourriel)
         {
             ViewBag.id_TypeCourriel = new SelectList(db.p_TypeCourriel, "id_TypeCourriel", "TypeCourriel");
@@ -58,7 +59,7 @@ namespace sachem.Controllers
             }
             return View();
         }
-        // POST: Parametres/Edit/5
+        
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "id_Contact,Nom,Prenom,Courriel,Telephone,Poste,Facebook,SiteWeb,Local")] p_Contact contact)
@@ -76,7 +77,7 @@ namespace sachem.Controllers
             return View(contact);
         }
 
-        //get
+        
         //Méthode qui envoie a la view Edit horaire la liste de toutes les horaires d'inscription ainsi que l'horaire de la session courrante
         public ActionResult EditHoraire()
         {
