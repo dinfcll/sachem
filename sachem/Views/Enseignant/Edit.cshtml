@@ -1,15 +1,13 @@
 ﻿@model sachem.Models.Personne
 
-@{
-    ViewBag.Title = "Edit";
-}
 
-<h2>Modifier Enseignant</h2>
 @{
     ViewBag.Title = "Modifier Enseignant";
 }
 
-@using (Html.BeginForm())
+<h2>@ViewBag.Title</h2>
+
+@using (Html.BeginForm("Edit", "Enseignant", FormMethod.Post))
 {
     @Html.AntiForgeryToken()
     

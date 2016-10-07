@@ -1,23 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
-using System.Web;
-using System.Web.DynamicData;
 using System.Web.Mvc;
 using sachem.Models;
 using PagedList;
-using System.Security.Cryptography;
-using System.Text;
-using System.Data.Entity.Validation;
+
 
 namespace sachem.Controllers
 {
     public class EnseignantController : Controller
     {
-        private SACHEMEntities db = new SACHEMEntities();
+        private readonly SACHEMEntities db = new SACHEMEntities();
+
+        private const int ID_ENSEIGNANT = 2;
+        private const int ID_RESP = 3;
 
         List<TypeUsagers> RolesAcces = new List<TypeUsagers>() { TypeUsagers.Responsable, TypeUsagers.Super };
 
@@ -50,7 +48,7 @@ namespace sachem.Controllers
 
             // Requete linq pour aller chercher les enseignants et responsables dans la BD
             var Enseignant = from c in db.Personne
-                        where (c.id_TypeUsag == 2 || c.id_TypeUsag == 3)
+                        where (c.id_TypeUsag == ID_ENSEIGNANT || c.id_TypeUsag == 3)
                         && c.Actif == actif
                         orderby c.Nom,c.Prenom
                         select c;
@@ -82,9 +80,7 @@ namespace sachem.Controllers
             if (!SachemIdentite.ValiderRoleAcces(RolesAcces, Session))
                 return RedirectToAction("Error", "Home", null);
 
-            ViewBag.id_Sexe = new SelectList(db.p_Sexe, "id_Sexe", "Sexe");
-            // Permet d'afficher seulement Enseignant et Responsable du Sachem dans les valeurs possibles de la list déroulante.
-            ViewBag.id_TypeUsag = new SelectList(db.p_TypeUsag.Where(x => x.id_TypeUsag == 2 || x.id_TypeUsag == 3), "id_TypeUsag", "TypeUsag"); 
+            RemplirDropList();
             return View();
         }
 
@@ -110,9 +106,8 @@ namespace sachem.Controllers
                     return RedirectToAction("Index");
                 }
             }
-            // afficher les listes déroulantes contenant le type d'usager et le sexe
-            ViewBag.id_Sexe = new SelectList(db.p_Sexe, "id_Sexe", "Sexe", personne.id_Sexe);
-            ViewBag.id_TypeUsag = new SelectList(db.p_TypeUsag.Where(x => x.id_TypeUsag == 2 || x.id_TypeUsag == 3), "id_TypeUsag", "TypeUsag");
+
+            RemplirDropList(personne);
             ViewBag.id_person = personne.id_Pers;
             return View(personne);
 
@@ -133,8 +128,7 @@ namespace sachem.Controllers
                 return HttpNotFound();
             }
             // afficher les listes déroulantes contenant le type d'usager et le sexe
-            ViewBag.id_Sexe = new SelectList(db.p_Sexe, "id_Sexe", "Sexe", personne.id_Sexe);
-            ViewBag.id_TypeUsag = new SelectList(db.p_TypeUsag.Where(x => x.id_TypeUsag == 2 || x.id_TypeUsag == 3), "id_TypeUsag", "TypeUsag", personne.id_TypeUsag);
+            RemplirDropList(personne);
             ViewBag.id_person = personne.id_Pers;
             personne.MP = "";
             return View(personne);
@@ -167,9 +161,7 @@ namespace sachem.Controllers
                 return RedirectToAction("Index");
 
             }
-            // afficher les listes déroulantes contenant le type d'usager et le sexe
-            ViewBag.id_Sexe = new SelectList(db.p_Sexe, "id_Sexe", "Sexe", personne.id_Sexe);
-            ViewBag.id_TypeUsag = new SelectList(db.p_TypeUsag.Where(x => x.id_TypeUsag == 2|| x.id_TypeUsag == 3), "id_TypeUsag", "TypeUsag", personne.id_TypeUsag);
+
             return View(personne);
         }
 
@@ -229,6 +221,21 @@ namespace sachem.Controllers
                 db.Dispose();
             }
             base.Dispose(disposing);
+        }
+
+        private void RemplirDropList()
+        {
+            // afficher les listes déroulantes contenant le type d'usager et le sexe
+            ViewBag.id_Sexe = new SelectList(db.p_Sexe, "id_Sexe", "Sexe");
+            // Permet d'afficher seulement Enseignant et Responsable du Sachem dans les valeurs possibles de la list déroulante.
+            ViewBag.id_TypeUsag = new SelectList(db.p_TypeUsag.Where(x => x.id_TypeUsag == ID_ENSEIGNANT || x.id_TypeUsag == 3), "id_TypeUsag", "TypeUsag");
+        }
+        private void RemplirDropList(Personne personne)
+        {
+            // afficher les listes déroulantes contenant le type d'usager et le sexe
+            ViewBag.id_Sexe = new SelectList(db.p_Sexe, "id_Sexe", "Sexe", personne.id_Sexe);
+            // Permet d'afficher seulement Enseignant et Responsable du Sachem dans les valeurs possibles de la list déroulante.
+            ViewBag.id_TypeUsag = new SelectList(db.p_TypeUsag.Where(x => x.id_TypeUsag == ID_ENSEIGNANT || x.id_TypeUsag == 3), "id_TypeUsag", "TypeUsag", personne.id_TypeUsag);
         }
     }
 }
