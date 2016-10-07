@@ -72,8 +72,7 @@ namespace sachem.Models
 
     public partial class Groupe
     {
-        //public string nbPersonneGroupe;
-        //public int nbPersonne;
+
     }
 
     public partial class PersonneProgEtu
