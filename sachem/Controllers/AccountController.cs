@@ -222,6 +222,8 @@ namespace sachem.Controllers
                 ModelState.AddModelError("MP", Messages.U_001); //requis
                 ModelState.AddModelError("ConfirmPassword", Messages.U_001); //requis
             }
+            if (personne.MP != personne.ConfirmPassword)
+                ModelState.AddModelError("MP", Messages.C_001); //Doit correspondre a la confirmation du mdp.
             if (personne.Matricule7 == null)
                 ModelState.AddModelError("Matricule7", Messages.U_001); //requis
             else if (personne.Matricule7.Length != 7 || !personne.Matricule.All(char.IsDigit)) //vérifie le matricule
@@ -349,6 +351,12 @@ namespace sachem.Controllers
 
                 if (personne.ConfirmPassword == null)
                     ModelState.AddModelError("ConfirmPassword", Messages.U_001); //requis
+
+                if (personne.MP != personne.ConfirmPassword)
+                {
+                    ModelState.AddModelError("MP", Messages.C_001); //Doit correspondre a la confirmation du mdp.
+                    return View(personne);
+                }
 
                 if (personne.AncienMotDePasse == null || personne.MP == null || personne.ConfirmPassword == null)//Validation pour les champs requis
                     return View(personne);
