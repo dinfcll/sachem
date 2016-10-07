@@ -21,6 +21,7 @@ namespace sachem.Models
         public string Code;
 
 
+        [Display(Name = "Nom du cours")]
         [DisplayFormat(ConvertEmptyStringToNull = false)]
         [Required(ErrorMessage = Messages.U_001)]
         public string Nom;

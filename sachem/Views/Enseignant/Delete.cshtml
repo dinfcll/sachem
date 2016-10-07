@@ -1,0 +1,56 @@
+﻿@model sachem.Models.Personne
+
+@{
+    ViewBag.Title = "Supprimer enseignant";
+}
+
+<h2>Supprimer un enseignant</h2>
+
+<h3>@sachem.Models.Messages.Q_003(Model.NomUsager)</h3>
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Nom)
+        </dt>
+
+
+        <dd>
+            @Html.DisplayFor(model => model.Nom), @Html.DisplayFor(model => model.Prenom)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.NomUsager)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NomUsager)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.p_TypeUsag.TypeUsag)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.p_TypeUsag.TypeUsag)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Actif)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Actif)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Supprimer" class="btn btn-default" /> |
+            @Html.ActionLink("Retour à la recherche des enseignants", "Index")
+        </div>
+    }
+</div>

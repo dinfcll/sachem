@@ -8,6 +8,7 @@
     <title>@ViewBag.Title - Sachem</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/Scripts/jquery-1.10.2.js")
 
 </head>
 <body>
@@ -57,7 +58,7 @@
                         @Html.ActionLink("Dossier étudiant", "Index", "DossierEtudiant")
                     </li>
                     <li>
-                        @Html.ActionLink("Cours enseignés", "Index", "Cours", new { area = "" })
+                        @Html.ActionLink("Cours enseignés", "Index", "ConsulterCours")
                     </li>
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">Administration <b class="caret"></b> </a>
@@ -65,19 +66,19 @@
                             <ul class="dropdown-menu">
                             @if (SachemIdentite.ObtenirTypeUsager(Session) == TypeUsagers.Responsable)
                             {
-                                <li>@Html.ActionLink("Collège", "Index", "Cours")</li>
-                                <li>@Html.ActionLink("Contact", "Index", "Cours")</li>
+                                <li>@Html.ActionLink("Collège", "IndexCollege", "Parametres")</li>
+                                <li>@Html.ActionLink("Contact", "Edit", "Parametres")</li>
                             }
                                 <li>@Html.ActionLink("Cours", "Index", "Cours")</li>
                             @if (SachemIdentite.ObtenirTypeUsager(Session) == TypeUsagers.Responsable)
                             {
-                                    <li>@Html.ActionLink("Courriel de confirmation", "Index", "Cours")</li>
-                                    <li>@Html.ActionLink("Enseignants", "Index", "Cours")</li>
+                                    <li>@Html.ActionLink("Courriel de confirmation", "EditCourrier", "Parametres")</li>
+                                    <li>@Html.ActionLink("Enseignants", "Index", "Enseignant")</li>
                             }
-                                    <li>@Html.ActionLink("Étudiants", "Index", "Cours")</li>
-                                    <li>@Html.ActionLink("Groupes", "Index", "Cours")</li>
-                                    <li>@Html.ActionLink("Horaire d'inscription", "Index", "Cours")</li>
-                                    <li>@Html.ActionLink("Programmes offerts", "Index", "Cours")</li>
+                                    <li>@Html.ActionLink("Étudiants", "Index", "Etudiant")</li>
+                                    <li>@Html.ActionLink("Groupes", "Index", "Groupes")</li>
+                                    <li>@Html.ActionLink("Horaire d'inscription", "EditHoraire", "Parametres")</li>
+                                    <li>@Html.ActionLink("Programmes offerts", "Index", "ProgrammesOfferts")</li>
                                     <li>@Html.ActionLink("Importer données", "Index", "Importer")</li>
 
                                  

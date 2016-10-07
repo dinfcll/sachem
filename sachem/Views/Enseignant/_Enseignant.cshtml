@@ -1,0 +1,88 @@
+﻿@model sachem.Models.Personne
+<div class="form-group">
+        @Html.LabelFor(model => model.Nom, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Nom, new { htmlAttributes = new { @class = "form-control",maxlength = 30 } })
+            @Html.ValidationMessageFor(model => model.Nom, "", new { @class = "text-danger" })
+        </div>
+</div>
+<div class="form-group">
+        @Html.LabelFor(model => model.Prenom, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Prenom, new { htmlAttributes = new { @class = "form-control" ,maxlength = 30 } })
+            @Html.ValidationMessageFor(model => model.Prenom, "", new { @class = "text-danger" })
+        </div>
+</div>
+
+<div class="form-group">
+        @Html.LabelFor(model => model.id_Sexe, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DropDownList("id_Sexe", null, "Choisir", htmlAttributes: new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.id_Sexe, "", new { @class = "text-danger" })
+        </div>
+</div>
+
+<div class="form-group">
+        @Html.LabelFor(model => model.DateNais, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.DateNais, new { htmlAttributes = new { @class = "form-control", PlaceHolder = "AAAA/MM/JJ", @required = "required", @title = "Requis" } })
+            @Html.ValidationMessageFor(model => model.DateNais, "", new { @class = "text-danger" })
+        </div>
+</div>
+
+<div class="form-group">
+    @Html.LabelFor(model => model.Courriel, htmlAttributes: new { @class = "control-label col-md-2" })
+    <div class="col-md-10">
+        @Html.EditorFor(model => model.Courriel, new { htmlAttributes = new { @class = "form-control", maxlength = 256, @required = "required", @title = "Requis" } })
+        @Html.ValidationMessageFor(model => model.Courriel, "", new { @class = "text-danger" })
+    </div>
+</div>
+
+<div class="form-group">
+    @Html.LabelFor(model => model.NomUsager, htmlAttributes: new { @class = "control-label col-md-2" })
+    <div class="col-md-10">
+        <!--Permet de mettre le champ Nom d'usager requis seulement pour la partie enseignant afin d'évité des conflit dans le Metadata de personne.-->
+        @Html.EditorFor(model => model.NomUsager, new { htmlAttributes = new { @class = "form-control", @required = "required", @title = "Requis" } })
+        @Html.ValidationMessageFor(model => model.NomUsager, "", new { @class = "text-danger" })
+    </div>
+</div>
+
+<div class="form-group">
+    @Html.LabelFor(model => model.id_TypeUsag, htmlAttributes: new { @class = "control-label col-md-2" })
+    <div class="col-md-10">
+        @Html.DropDownList("id_TypeUsag", null, htmlAttributes: new { @class = "form-control" })
+        @Html.ValidationMessageFor(model => model.id_TypeUsag, "", new { @class = "text-danger" })
+    </div>
+</div>
+
+<div class="form-group">
+    @Html.LabelFor(model => model.MP, htmlAttributes: new { @class = "control-label col-md-2" })
+    <div class="col-md-10">
+        @Html.EditorFor(model => model.MP, new { htmlAttributes = new { @class = "form-control", @type = "password", @minlength = "6", @title = "Longueur minimale de 6 charactère." } })
+        @Html.ValidationMessageFor(model => model.MP, "", new { @class = "text-danger" })
+    </div>
+</div>
+
+<div class="form-group">
+    @Html.LabelFor(model => model.ConfirmPassword, htmlAttributes: new { @class = "control-label col-md-2" })
+    <div class="col-md-10">
+        @Html.EditorFor(model => model.ConfirmPassword, new { htmlAttributes = new { @class = "form-control", @type = "password", @minlength = "6", @title = "Longueur minimale de 6 charactère." } })
+        @Html.ValidationMessageFor(model => model.ConfirmPassword, "", new { @class = "text-danger" })
+    </div>
+</div>
+
+<div class="form-group">
+    @Html.LabelFor(model => model.Actif, htmlAttributes: new { @class = "control-label col-md-2" })
+    <div class="col-md-10">
+        <div class="checkbox">
+            @Html.EditorFor(model => model.Actif)
+            @Html.ValidationMessageFor(model => model.Actif, "", new { @class = "text-danger" })
+        </div>
+    </div>
+</div>
+
+<div class="form-group">
+    <div class="col-md-offset-2 col-md-10">
+        <input type="submit" value="Enregister" class="btn btn-default" />
+    </div>
+</div>
