@@ -90,13 +90,6 @@ namespace sachem.Models
         { return $"L'étudiant {Etudiant} a été enregistré."; }
 
         /// <summary>
-        /// Impossible de retirer le programme d'étude {0} des programmes suivis par l'étudiant."
-        /// </summary>
-        /// <param name="Programme"></param>
-        /// <returns></returns>
-        public static string I_034(string Fichier)
-        { return $"Erreur lors du transfert du fichier {Fichier}."; }
-        /// <summary>
         /// Impossible d’enregistrer ce cours. Il existe déjà dans votre liste de cours suivi antérieurement.
         /// </summary>
         /// <param name="Cours"></param>
@@ -511,6 +504,14 @@ namespace sachem.Models
         { return $"Voulez-vous vraiment supprimer le cours {Etudiant} ?"; }
 
         /// <summary>
+        /// Voulez-vous vraiment supprimer le cours {0} de votre liste de cours suivis?
+        /// </summary>
+        /// <param name="Cours"></param>
+        /// <returns></returns>
+        public static string Q_013(string Cours)
+        { return $"Voulez-vous vraiment supprimer le cours {Cours} de votre liste de cours suivis?"; }
+
+        /// <summary>
         /// Un collège est en cours d'ajout ou de modification. Souhaitez-vous annuler cette opération?
         /// </summary>
         /// <returns></returns>
@@ -526,13 +527,7 @@ namespace sachem.Models
         public static string Q_015(string College)
         { return $"Voulez-vous vraiment supprimer le collège {College} ?"; }
 
-        /// <summary>
-        /// Voulez-vous vraiment supprimer le cours {0} de votre liste de cours suivis?
-        /// </summary>
-        /// <param name="Cours"></param>
-        /// <returns></returns>
-        public static string Q_009(string Cours)
-        { return $"Voulez-vous vraiment supprimer le cours {Cours} de votre liste de cours suivis?"; }
+       
 
 
         #endregion

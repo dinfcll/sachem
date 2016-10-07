@@ -218,11 +218,10 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
-    <Compile Include="Classes_Sachem\Crypt.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\ConsulterCoursController.cs" />
     <Compile Include="Controllers\CoursController.cs" />
-    <Compile Include="Classes_Sachen\Crypt.cs" />
+    <Compile Include="Classes_Sachem\Crypt.cs" />
     <Compile Include="Controllers\CoursSuiviController.cs" />
     <Compile Include="Controllers\DossierEtudiantController.cs" />
     <Compile Include="Controllers\FormattedDbEntityValidationException.cs" />
