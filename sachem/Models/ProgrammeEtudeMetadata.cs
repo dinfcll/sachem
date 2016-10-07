@@ -11,7 +11,7 @@ namespace sachem.Models
 
     }
 
-
+    
     public class ProgrammeEtudeMetadata
     {
         [DisplayFormat(ConvertEmptyStringToNull = false)]
