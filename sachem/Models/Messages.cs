@@ -402,6 +402,12 @@ namespace sachem.Models
         /// <returns></returns>
         public const string U_012 = "La date indiquée doit être entre l'année 1967 et celle en cours";
 
+        /// <summary>
+        /// "Longueur minimale: 6 caractères!"
+        /// </summary>
+        /// <returns></returns>
+        public const string U_013 = "Longueur minimale de 6 caractères.";
+
         #endregion
 
         #region Question
