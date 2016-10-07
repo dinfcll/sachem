@@ -7,18 +7,21 @@ using System.Web.Mvc;
 using sachem.Models;
 using PagedList;
 
+
 namespace sachem.Controllers
 {
     public class CoursController : Controller
     {
         private readonly SACHEMEntities db = new SACHEMEntities();
 
+        List<TypeUsagers> RolesAcces = new List<TypeUsagers>() { TypeUsagers.Responsable, TypeUsagers.Super };
 
         //fonctions permettant d'initialiser les listes déroulantes
 
         [NonAction]
         private void ListeSession(int Session = 0)
         {
+            
             var lSessions = db.Session.AsNoTracking().OrderBy(s => s.Annee).ThenBy(s => s.p_Saison.Saison);
             var slSession = new List<SelectListItem>();
             slSession.AddRange(new SelectList(lSessions, "id_Sess", "NomSession", Session));
@@ -41,13 +44,14 @@ namespace sachem.Controllers
             var sess = 0;
             var actif = true;
 
+            
+
             //Pour accéder à la valeur de cle envoyée en GET dans le formulaire
             //Request.QueryString["cle"]
             //Pour accéder à la valeur cle envoyée en POST dans le formulaire
             //Request.Form["cle"]
             //Cette méthode fonctionnera dans les 2 cas
             //Request["cle"]
-
             if (Request.RequestType == "GET" && Session["DernRechCours"] != null && (string)Session["DernRechCoursUrl"] == Request.Url?.LocalPath)
             {
                 var anciennerech = (string)Session["DernRechCours"];
@@ -67,7 +71,8 @@ namespace sachem.Controllers
             {
                 //La méthode String.IsNullOrEmpty permet à la fois de vérifier si la chaine est NULL (lors du premier affichage de la page ou vide, lorsque le paramètre n'est pas appliquée 
                 if (!string.IsNullOrEmpty(Request.Form["Session"]))
-                    sess = Convert.ToInt32(Request.Form["Session"]);
+                    //sess = Convert.ToInt32(Request.Form["Session"]);
+                    int.TryParse(Request.Form["Session"], out sess); // MODIF: Loic turgeon et Cristian Zubieta
                 //si la variable est null c'est que la page est chargée pour la première fois, donc il faut assigner la session à la session en cours, la plus grande dans la base de données
                 else if (Request.Form["Session"] == null)
                     sess = db.Session.Max(s => s.id_Sess);
@@ -98,6 +103,9 @@ namespace sachem.Controllers
         // GET: Cours
         public ActionResult Index(int? page)
         {
+            if (!SachemIdentite.ValiderRoleAcces(RolesAcces, Session))
+                return RedirectToAction("Error", "Home", null);
+
             var pageNumber = page ?? 1;
 
             return View(Rechercher().ToPagedList(pageNumber, 20));
@@ -107,6 +115,9 @@ namespace sachem.Controllers
         // GET: Cours/Create
         public ActionResult Create()
         {
+            if (!SachemIdentite.ValiderRoleAcces(RolesAcces, Session))
+                return RedirectToAction("Error", "Home", null);
+
             return View();
         }
 
@@ -136,7 +147,9 @@ namespace sachem.Controllers
         // GET: Cours/Edit/5
         public ActionResult Edit(int? id)
         {
- 
+            if (!SachemIdentite.ValiderRoleAcces(RolesAcces, Session))
+                return RedirectToAction("Error", "Home", null);
+
             if (id == null)
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
@@ -176,6 +189,10 @@ namespace sachem.Controllers
         // GET: Cours/Delete/5
         public ActionResult Delete(int? id)
         {
+
+            if (!SachemIdentite.ValiderRoleAcces(RolesAcces, Session))
+                return RedirectToAction("Error", "Home", null);
+
             if (id == null)
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
@@ -185,8 +202,6 @@ namespace sachem.Controllers
                 return HttpNotFound();
 
             return View(cours);
-
-
         }
 
         // POST: Cours/Delete/5

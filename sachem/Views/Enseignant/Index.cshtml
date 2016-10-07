@@ -1,0 +1,78 @@
+﻿@model PagedList.IPagedList<sachem.Models.Personne>
+
+@{
+    ViewBag.Title = "Enseignants";
+}
+
+<h2>Enseignants</h2>
+<h4>Recherche</h4>
+@Html.ValidationSummary(true, "", new { @class = "text-danger" })
+<p class="text-success">
+    @Html.ViewBag.Success
+    @TempData["Success"]
+</p>
+<p class="text-danger">
+    @TempData["Error"]
+</p>
+
+@using (Html.BeginForm("Index", "Enseignant", FormMethod.Post, new { @class = "form-inline", role = "form" }))
+{ 
+    <div class="form-group">
+        Actif :
+        @Html.CheckBox("Actif", (bool)ViewBag.Actif)
+    </div>
+        <div class="form-group">
+            <input type="submit" value="Rechercher" class="btn btn-default" />
+    </div>
+}
+    <p>
+        @Html.ActionLink("Ajouter un enseignant", "Create")
+    </p>
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.First().Nom)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.First().NomUsager)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.First().Actif)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.First().p_TypeUsag.TypeUsag)
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Nom), @Html.DisplayFor(modelItem => item.Prenom)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NomUsager)
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.Actif)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.p_TypeUsag.TypeUsag)
+                </td>
+                <td>
+                    @Html.ActionLink("Modifier", "Edit", new { id = item.id_Pers }) |
+                    @Html.ActionLink("Supprimer", "Delete", new { id = item.id_Pers })
+                </td>
+            </tr>
+        }
+        @if (!Model.Any())
+        {
+            <tr>
+                <td colspan="6">Aucun Enseignant ne répond à ces critères</td>
+            </tr>
+        }
+
+    </table>
+@Html.Partial("_PageRecherche", Model)

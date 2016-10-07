@@ -1,0 +1,118 @@
+﻿@model IEnumerable<sachem.Models.Groupe>
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Consulter cours</h2>
+
+<div>
+    
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.ElementAt(0).Cours.Code)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ElementAt(0).Cours.Code)
+        </dd>
+        
+        <dt>
+            @Html.DisplayNameFor(model => model.ElementAt(0).Cours.Nom)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ElementAt(0).Cours.Nom)
+        </dd>
+        
+        <dt>
+            @Html.DisplayNameFor(model => model.ElementAt(0).Cours.Actif)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ElementAt(0).Cours.Actif)
+        </dd>
+       
+        <h4>Groupes</h4>
+        <hr />
+
+    </dl>
+    
+    
+    <table class="table">
+        
+        @if (ViewBag.IsEnseignant) //si enseignant
+        {
+
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.NoGroupe)
+                </th>
+                <th>
+                    Nombre d'étudiants
+
+                    <!--@Html.DisplayNameFor(model => model.GroupeEtudiant.Count)-->
+                </th>
+                <th></th>
+            </tr>
+
+            foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.NoGroupe)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.GroupeEtudiant.Count)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Modifier groupe", "../Groupes/Edit", new { id = item.id_Groupe }) <!-- ENVOIT L'ID DU GROUPE À LOÏC -->
+                    </td>
+                </tr>
+            }
+
+        }
+        else //si responsable
+        {
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.NoGroupe)
+                </th>
+                <th>
+                    Enseignant
+
+                   <!--@Html.DisplayNameFor(model => model.Personne.NomPrenom)-->
+                </th>
+                <th>
+                    Nombre d'étudiants
+
+                    <!--@Html.DisplayNameFor(model => model.GroupeEtudiant.Count)-->
+                </th>
+                <th></th>
+            </tr>
+
+            foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.NoGroupe)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Personne.NomPrenom)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.GroupeEtudiant.Count)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Modifier groupe", "../Groupes/Edit", new { id = item.id_Groupe }) <!-- ENVOIT L'ID DU GROUPE À LOÏC -->
+                    </td>
+                </tr>
+            }
+        }
+
+    </table>
+
+</div>
+<p>
+    @Html.ActionLink("Retour à la recherche des cours", "Index")
+</p>
