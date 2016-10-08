@@ -302,6 +302,15 @@ namespace sachem.Models
         public static string I_041(string Matricule, int IdGroupe, string NomCours)
         { return $"L'étudiant {Matricule} ne peut pas être déplacé au groupe {IdGroupe} du cours {NomCours},car il y est déjà!"; }
 
+        /// <summary>
+        /// Le collège {0} à été ajouté"
+        /// </summary>
+        /// <param name="NomCollege"></param>
+        /// <returns></returns>
+        public static string I_044(string NomCollege)
+        {
+            return $"Le collège {NomCollege} à été ajouté";
+        }
         #endregion
 
         #region MessageContexte
