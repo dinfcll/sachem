@@ -10,7 +10,6 @@ namespace sachem.Models
             //NotMappedAttribute qui ne sera pas sauvegardée sur la BD mais qui pourra être utilisée pour les validations.
 
             //Extrait du projet PAM
-            [System.ComponentModel.DataAnnotations.Compare("MP", ErrorMessage = Messages.C_001)]
             [NotMappedAttribute]
             public string ConfirmPassword { get; set; }
 

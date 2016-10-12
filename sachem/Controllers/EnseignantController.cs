@@ -44,7 +44,7 @@ namespace sachem.Controllers
 
             // Verifier si la case a cocher est coché ou non
             if (Cochee())
-                actif = Request.Form["Actif"].Contains("true");
+                actif = Request.Form["Actif"].StartsWith("true");
 
 
             ViewBag.Actif = actif;
@@ -73,10 +73,12 @@ namespace sachem.Controllers
         }
 
         [NonAction]
-        private void Valider([Bind(Include = "id_Pers,id_Sexe,id_TypeUsag,Nom,Prenom,NomUsager,MP,ConfirmPasswordEdit,Courriel,DateNais,Actif")] Personne personne)
+        private void Valider([Bind(Include = "id_Pers,id_Sexe,id_TypeUsag,Nom,Prenom,NomUsager,MP,ConfirmPassword,Courriel,DateNais,Actif")] Personne personne)
         {
-            if (db.Personne.Any(x => x.NomUsager == personne.NomUsager && x.id_Pers != personne.id_Pers))// Verifier si le nom d'usager existe ou s'il a entré son ancien nom
+            if (db.Personne.Any(x => x.NomUsager == personne.NomUsager && x.id_Pers != personne.id_Pers))// Verifier si le nom d'usager existe ou s'il a entré son ancient nom
                 ModelState.AddModelError(string.Empty, Messages.I_013(personne.NomUsager));
+            if (personne.MP != personne.ConfirmPassword)
+                ModelState.AddModelError(string.Empty, Messages.C_001);
         }
 
         // GET: Enseignant/Create
@@ -98,7 +100,7 @@ namespace sachem.Controllers
         {
             Valider(personne);
             
-            if (ModelState.IsValid)                
+            if (ModelState.IsValid)
             {
                 if (personne.MP == null)
                     ModelState.AddModelError("MP",Messages.U_001);
