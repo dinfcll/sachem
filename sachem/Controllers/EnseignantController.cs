@@ -29,12 +29,10 @@ namespace sachem.Controllers
             ViewBag.Enseignant = slEnseignant;
         }
 
-        private bool siCaseEstCochee()
+        private bool Cochee()
         {
             //Vérifier si la case est cocher ou non
-            bool CaseEstCochee = !string.IsNullOrEmpty(Request.Form["Actif"]);
-
-            return CaseEstCochee;
+            return !string.IsNullOrEmpty(Request.Form["Actif"]);
         }
 
         //Fonction pour gérer la recherche, elle est utilisée dans la suppression et dans l'index
@@ -45,7 +43,7 @@ namespace sachem.Controllers
             var actif = true;
 
             // Verifier si la case a cocher est coché ou non
-            if (siCaseEstCochee())
+            if (Cochee())
                 actif = Request.Form["Actif"].Contains("true");
 
 
@@ -55,10 +53,10 @@ namespace sachem.Controllers
 
             // Requete linq pour aller chercher les enseignants et responsables dans la BD
             var Enseignant = from c in db.Personne
-                        where (c.id_TypeUsag == ID_ENSEIGNANT || c.id_TypeUsag == 3)
-                        && c.Actif == actif
-                        orderby c.Nom,c.Prenom
-                        select c;
+                             where (c.id_TypeUsag == ID_ENSEIGNANT || c.id_TypeUsag == ID_RESP)
+                             && c.Actif == actif
+                             orderby c.Nom,c.Prenom
+                             select c;
 
             return Enseignant.ToList();
         }
@@ -154,7 +152,7 @@ namespace sachem.Controllers
             else
             {         
                 var Enseignant = from c in db.Personne
-                               where (c.id_Pers == personne.id_Pers)
+                                 where (c.id_Pers == personne.id_Pers)
                                  select c.MP;
                 personne.MP = Enseignant.SingleOrDefault();
             }
@@ -234,14 +232,14 @@ namespace sachem.Controllers
             // afficher les listes déroulantes contenant le type d'usager et le sexe
             ViewBag.id_Sexe = new SelectList(db.p_Sexe, "id_Sexe", "Sexe");
             // Permet d'afficher seulement Enseignant et Responsable du Sachem dans les valeurs possibles de la list déroulante.
-            ViewBag.id_TypeUsag = new SelectList(db.p_TypeUsag.Where(x => x.id_TypeUsag == ID_ENSEIGNANT || x.id_TypeUsag == 3), "id_TypeUsag", "TypeUsag");
+            ViewBag.id_TypeUsag = new SelectList(db.p_TypeUsag.Where(x => x.id_TypeUsag == ID_ENSEIGNANT || x.id_TypeUsag == ID_RESP), "id_TypeUsag", "TypeUsag");
         }
         private void RemplirDropList(Personne personne)
         {
-            // afficher les listes déroulantes contenant le type d'usager, le sexe et sélectionne la valeur du Sexe de la personne dans la liste déroulante.
+            // affiche les sexes dans la dropList et sélectionne par défaut la valeur dans le paramètre personne.
             ViewBag.id_Sexe = new SelectList(db.p_Sexe, "id_Sexe", "Sexe", personne.id_Sexe);
-            // Permet d'afficher seulement Enseignant et Responsable du Sachem dans les valeurs possibles de la list déroulante et sélectionne la valeur du type d'usager de la personne dans la liste déroulante.
-            ViewBag.id_TypeUsag = new SelectList(db.p_TypeUsag.Where(x => x.id_TypeUsag == ID_ENSEIGNANT || x.id_TypeUsag == 3), "id_TypeUsag", "TypeUsag", personne.id_TypeUsag);
+            // affiche Enseignant et responsable dans la dropList et sélectionne par défaut la valeur dans le paramètre personne.
+            ViewBag.id_TypeUsag = new SelectList(db.p_TypeUsag.Where(x => x.id_TypeUsag == ID_ENSEIGNANT || x.id_TypeUsag == ID_RESP), "id_TypeUsag", "TypeUsag", personne.id_TypeUsag);
         }
     }
 }
