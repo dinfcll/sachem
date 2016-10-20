@@ -317,7 +317,14 @@ namespace sachem.Controllers
             {
                 db.Entry(personne).State = EntityState.Modified;
                 db.Entry(inscription).State = EntityState.Modified;
-                db.SaveChanges();
+                try
+                {
+                    db.SaveChanges();
+                }
+                catch (DbEntityValidationException ex)
+                {
+                    string exd = ex.ToString();
+                }
                     
 
             }

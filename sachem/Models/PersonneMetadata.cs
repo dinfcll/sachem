@@ -61,10 +61,9 @@ namespace sachem.Models
         public global::System.String SouvenirConnexion;
 
         [Display(Name = "Téléphone")]
-        [DataType(DataType.PhoneNumber)]
         [RegularExpression(@"^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$", ErrorMessage = Messages.U_009)] //Vérifie le format du tel
-        [DisplayFormat(DataFormatString = "{0:(###) ###-####}", ApplyFormatInEditMode = true)]
-        public global::System.String Telephone; //Ajout pour #Tel dans BD
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:(###) ###-####}")]
+        public global::System.Int64 Telephone; //Ajout pour #Tel dans BD
 
         [Display(Name = "Nom d'usager")]
         [StringLength(25)]
