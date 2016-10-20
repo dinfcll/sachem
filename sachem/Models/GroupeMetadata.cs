@@ -11,7 +11,7 @@ namespace sachem.Models
     public partial class Groupe
     {
         // [Display(Name = "Nombre de personnes")]
-        [Display(Name = "Nombre de personnes")]
+        [Display(Name = "Nombre d'étudiants")]
         public string nbPersonneGroupe
         {
             get
