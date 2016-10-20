@@ -23,7 +23,6 @@ namespace sachem.Controllers
         private int? pageRecue = null;
         List<TypeUsagers> RolesAcces = new List<TypeUsagers>() { TypeUsagers.Responsable, TypeUsagers.Super, TypeUsagers.Enseignant, TypeUsagers.Tuteur };
         List<TypeUsagers> RolesAccesDossier = new List<TypeUsagers>() { TypeUsagers.Responsable, TypeUsagers.Super, TypeUsagers.Enseignant, TypeUsagers.Tuteur, TypeUsagers.Eleve };
-
         #region ObtentionRecherche
         [NonAction]
         //liste des sessions disponibles en ordre d'année
@@ -286,21 +285,27 @@ namespace sachem.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Details(FormCollection model)
         {
-            //A completer
             if (!SachemIdentite.ValiderRoleAcces(RolesAccesDossier, Session))
                 return RedirectToAction("Error", "Home", null);
             var id_Pers = Convert.ToInt32(model["item1.Personne.id_Pers"]);
             var id_Inscription = Convert.ToInt32(model["item1.id_Inscription"]);
-            var Courriel = Convert.ToString(model["item1.Personne.Courriel"]);
-            var Telephone = Convert.ToString(model["item1.Personne.Telephone"]);
-            var BonEchange = Convert.ToBoolean(model["Item1.BonEchange.value"] != "false");
 
             Personne personne = db.Personne.Find(id_Pers);
-            personne.Courriel = Courriel;
-            personne.Telephone = SachemIdentite.FormatTelephone(Telephone);
-
             Inscription inscription = db.Inscription.Find(id_Inscription);
-            inscription.BonEchange = BonEchange;
+
+            if (SachemIdentite.ObtenirTypeUsager(Session) == TypeUsagers.Tuteur || SachemIdentite.ObtenirTypeUsager(Session) == TypeUsagers.Eleve)
+            {
+                var Courriel = Convert.ToString(model["item1.Personne.Courriel"]);
+                var Telephone = Convert.ToString(model["item1.Personne.Telephone"]);
+                personne.Courriel = Courriel;
+                personne.Telephone = SachemIdentite.FormatTelephone(Telephone);
+            }
+
+            if (SachemIdentite.ObtenirTypeUsager(Session) == TypeUsagers.Eleve || ViewBag.idTypeInsc == 1)
+            {
+                var BonEchange = Convert.ToBoolean(model["Item1.BonEchange.value"] != "false");
+                inscription.BonEchange = BonEchange;
+            }
 
             var vCoursSuivi = from d in db.CoursSuivi
                               where d.id_Pers == inscription.id_Pers
