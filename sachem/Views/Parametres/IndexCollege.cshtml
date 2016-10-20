@@ -30,16 +30,14 @@
     Confirm = "Voulez-vous vraiment ajouter ce collège ?"
 }))
 {
-    <br />
     <div class="form-group">
-        <div class="form-group">
-            Collège : @Html.TextBox("NomCollege", null, new { @class = "form-control" , @size = 50})
-        </div>
-        <div class="form-group">
-            <input type="submit" value="Enregistrer" class="btn-toolbar" />
-        </div>
+        <p>
+            <div class="form-group">
+                Collège : @Html.TextBox("NomCollege")
+                <input type="submit" value="Enregistrer" class="btn-toolbar"/>
+            </div>
+        </p>
     </div>
-    <br />
 
     <table class="table">
         <tr>
