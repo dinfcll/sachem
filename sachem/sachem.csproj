@@ -418,10 +418,7 @@
     <Content Include="Views\Cours\_Cours.cshtml" />
     <Content Include="Views\Cours\_Footer.cshtml" />
     <Content Include="Views\Shared\_PageRecherche.cshtml" />
-    <Content Include="Views\ConsulterCours\Create.cshtml" />
-    <Content Include="Views\ConsulterCours\Delete.cshtml" />
     <Content Include="Views\ConsulterCours\Details.cshtml" />
-    <Content Include="Views\ConsulterCours\Edit.cshtml" />
     <Content Include="Views\ConsulterCours\Index.cshtml" />
     <Content Include="Views\Groupes\Create.cshtml" />
     <Content Include="Views\Groupes\Delete.cshtml" />
