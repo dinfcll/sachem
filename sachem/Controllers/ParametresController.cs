@@ -196,7 +196,7 @@ namespace sachem.Controllers
                 };
                 db.p_College.Add(college);
                 db.SaveChanges();
-                
+                TempData["Success"] = string.Format(Messages.I_044(nomCollege));
             }
             return RedirectToAction("IndexCollege");
         }

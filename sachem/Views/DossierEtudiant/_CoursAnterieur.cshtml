@@ -1,0 +1,104 @@
+﻿@model IEnumerable <sachem.Models.CoursSuivi>
+
+<hr />
+<div>
+    <h4>Cours de mathématiques antérieurs</h4>
+@if (sachem.Models.SachemIdentite.ObtenirTypeUsager(Session) == sachem.Models.TypeUsagers.Eleve || sachem.Models.SachemIdentite.ObtenirTypeUsager(Session) == sachem.Models.TypeUsagers.Tuteur)
+{
+    @Html.ActionLink("Ajouter un cours", "Create", "CoursSuivi", new { id = ViewBag.idPers }, null)
+}
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.First().Cours.CodeNom)
+            </th>
+@if (sachem.Models.SachemIdentite.ObtenirTypeUsager(Session) == sachem.Models.TypeUsagers.Eleve || ViewBag.idTypeInsc == 1)
+{
+            <th>
+                @Html.DisplayNameFor(model => model.First().Session.NomSession)
+            </th>
+}
+@if ((sachem.Models.SachemIdentite.ObtenirTypeUsager(Session) == sachem.Models.TypeUsagers.Tuteur && ViewBag.idTypeInsc != 1) || ViewBag.idTypeInsc != 1)
+{
+            <th>
+                @Html.DisplayNameFor(model => model.First().p_College.College)
+            </th>
+}
+            <th>
+                @Html.DisplayNameFor(model => model.First().resultat)
+            </th>
+@if (sachem.Models.SachemIdentite.ObtenirTypeUsager(Session) == sachem.Models.TypeUsagers.Eleve || ViewBag.idTypeInsc == 1)
+{
+            <th>
+                @Html.DisplayNameFor(model => model.First().p_StatutCours.Statut)
+            </th>
+}
+@if (sachem.Models.SachemIdentite.ObtenirTypeUsager(Session) == sachem.Models.TypeUsagers.Eleve || sachem.Models.SachemIdentite.ObtenirTypeUsager(Session) == sachem.Models.TypeUsagers.Tuteur)
+{
+            <th>
+            </th>
+            <th>
+            </th>
+}
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @if (item.autre_Cours == string.Empty || item.autre_Cours == null)
+                    {
+                        @Html.DisplayFor(modelItem => item.Cours.CodeNom)
+                    }
+                    else
+                    {
+                        @Html.DisplayFor(modelItem => item.autre_Cours)                        
+                    }
+                </td>
+@if (sachem.Models.SachemIdentite.ObtenirTypeUsager(Session) == sachem.Models.TypeUsagers.Eleve || ViewBag.idTypeInsc == 1)
+{
+                <td>
+                    @Html.DisplayFor(modelItem => item.Session.NomSession)
+                </td>
+}
+@if ((sachem.Models.SachemIdentite.ObtenirTypeUsager(Session) == sachem.Models.TypeUsagers.Tuteur && ViewBag.idTypeInsc != 1) || ViewBag.idTypeInsc != 1)
+{
+                <td>
+                    @if (item.autre_College == string.Empty || item.autre_College == null)
+                    {
+                        @Html.DisplayFor(modelItem => item.p_College.College)
+                    }
+                    else
+                    {
+                        @Html.DisplayFor(modelItem => item.autre_College)
+                    }
+                </td>
+}
+                <td>
+                    @Html.DisplayFor(modelItem => item.resultat)
+                </td>
+@if (sachem.Models.SachemIdentite.ObtenirTypeUsager(Session) == sachem.Models.TypeUsagers.Eleve || ViewBag.idTypeInsc == 1)
+{
+                <td>
+                    @Html.DisplayFor(modelItem => item.p_StatutCours.Statut)
+                </td>
+}
+@if (sachem.Models.SachemIdentite.ObtenirTypeUsager(Session) == sachem.Models.TypeUsagers.Eleve || sachem.Models.SachemIdentite.ObtenirTypeUsager(Session) == sachem.Models.TypeUsagers.Tuteur)
+{
+                <td>
+                    @Html.ActionLink("Modifier", "Edit", "CoursSuivi", new { id = item.id_CoursReussi, id2 = item.id_Pers }, null)
+                </td>
+                <td>
+                    @Html.ActionLink("Supprimer", "Delete", "CoursSuivi", new { id = item.id_CoursReussi, id2 = item.id_Pers }, null)
+                </td>
+}
+            </tr>
+        }
+        @if (!Model.Any())
+        {
+            <tr>
+                <td colspan="6">Aucun cours</td>
+            </tr>
+        }
+    </table>
+</div>

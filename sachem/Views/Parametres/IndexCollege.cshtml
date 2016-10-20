@@ -6,14 +6,19 @@
     
 }
 <h2>Collège d'enseignement</h2>
+
+@Html.ValidationSummary(true, "", new { @class = "text-danger" })
+<p class="text-success">
+    @Html.ViewBag.Success
+    @TempData["Success"]
+</p>
+
 @Scripts.Render("~/bundles/jquery")
 
 <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
 <script type="text/javascript">
     $(function() {
-        $('#edit')
-            .attr('href',
-                function() {
+        $('#edit').attr('href',function() {
                     return this.href.replace('__NomCollege__', $('#NomCollege').val());
                 });
     });
