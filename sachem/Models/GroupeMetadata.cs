@@ -33,6 +33,7 @@ namespace sachem.Models
         public int id_Groupe;
 
         [Display(Name = "Numéro de groupe")]
+        [MaxLength(4,)]
         [Required(ErrorMessage = Messages.U_001)]
         public int NoGroupe;
 

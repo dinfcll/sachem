@@ -17,6 +17,24 @@ namespace sachem.Controllers
     {
         private readonly SACHEMEntities db = new SACHEMEntities();
         List<TypeUsagers> RolesAcces = new List<TypeUsagers>() { TypeUsagers.Enseignant, TypeUsagers.Responsable, TypeUsagers.Super };
+
+        [NonAction]
+        private void RegisterViewbags()
+        {
+            int? idPers = (Session["id_Pers"] == null ? -1 : (int)Session["id_Pers"]);
+            bool verif = SachemIdentite.ObtenirTypeUsager(Session) == TypeUsagers.Responsable;
+            int sess = db.Session.Max(s => s.id_Sess);
+            ViewBag.Sessions = new SelectList(db.Session.OrderByDescending(s => s.id_Sess), "id_Sess", "NomSession", sess);
+            var ens = from c in db.Personne where c.id_TypeUsag == 2 && (verif ? true : c.id_Pers == (idPers == -1 ? c.id_Pers : idPers)) && c.Actif == true orderby c.Nom, c.Prenom select c;
+            ViewBag.Enseignants = new SelectList(ens, "id_Pers", "NomPrenom");
+            ViewBag.Cours = new SelectList(db.Cours.Where(x => x.Actif == true).OrderBy(x => x.Code), "id_Cours", "CodeNom");
+        }
+        [NonAction]
+        private void RegisterViewBagsSessCours(Groupe groupe)
+        {
+            ViewBag.id_Sess = new SelectList(db.Session, "id_Sess", "id_Sess", groupe.id_Sess);
+            ViewBag.id_Cours = new SelectList(db.Cours, "id_Cours", "Code", groupe.id_Cours);
+        }
         // GET: Groupes
         public ActionResult Index(int? page, int? id)
         {
@@ -25,18 +43,16 @@ namespace sachem.Controllers
             var pageNumber = page ?? 1;
             return View(Rechercher(id).ToPagedList(pageNumber, 20));
         }
-
-
         // GET: Groupes/Create
         public ActionResult Create()
         {
             if (!SachemIdentite.ValiderRoleAcces(RolesAcces, Session)) return RedirectToAction("Error", "Home", null);
             int? idPers = (Session["id_Pers"] == null ? -1 : (int)Session["id_Pers"]);
             bool verif = SachemIdentite.ObtenirTypeUsager(Session) == TypeUsagers.Responsable;
-            ViewBag.id_Cours = new SelectList(db.Cours, "id_Cours", "CodeNom");
-            var ens = from c in db.Personne where c.id_TypeUsag == 2 && (verif ? true : c.id_Pers == (idPers == -1 ? c.id_Pers : idPers)) select c;
+            ViewBag.id_Cours = new SelectList(db.Cours.Where(x => x.Actif == true).OrderBy(x => x.Code), "id_Cours", "CodeNom");
+            var ens = from c in db.Personne where c.id_TypeUsag == 2 && (verif ? true : c.id_Pers == (idPers == -1 ? c.id_Pers : idPers)) && c.Actif == true orderby c.Nom, c.Prenom select c;
             ViewBag.id_Enseignant = new SelectList(ens, "id_Pers", "NomPrenom");
-            ViewBag.id_Sess = new SelectList(db.Session, "id_Sess", "NomSession");
+            ViewBag.id_Sess = new SelectList(db.Session.OrderByDescending(s => s.id_Sess), "id_Sess", "NomSession");
             return View();
         }
 
@@ -65,9 +81,9 @@ namespace sachem.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.id_Cours = new SelectList(db.Cours, "id_Cours", "CodeNom", groupe.id_Cours);
-            ViewBag.id_Enseignant = new SelectList(db.Personne.Where(x => x.id_TypeUsag == 2).Where(x => x.id_Pers == (idPers == -1 || verif ? x.id_Pers : idPers)), "id_Pers", "NomPrenom", groupe.id_Enseignant);
-            ViewBag.id_Sess = new SelectList(db.Session, "id_Sess", "NomSession", groupe.id_Sess);
+            ViewBag.id_Cours = new SelectList(db.Cours.Where(x => x.Actif == true).OrderBy(x => x.Code), "id_Cours", "CodeNom", groupe.id_Cours);
+            ViewBag.id_Enseignant = new SelectList(db.Personne.Where(x => x.id_TypeUsag == 2 && x.id_Pers == (idPers == -1 || verif ? x.id_Pers : idPers) && x.Actif == true).OrderBy(x=>x.Prenom).OrderBy(x=>x.Nom), "id_Pers", "NomPrenom", groupe.id_Enseignant);
+            ViewBag.id_Sess = new SelectList(db.Session.OrderByDescending(s => s.id_Sess), "id_Sess", "NomSession", groupe.id_Sess);
             return View(groupe);
         }
 
@@ -205,24 +221,6 @@ namespace sachem.Controllers
                 db.Dispose();
             }
             base.Dispose(disposing);
-        }
-
-        [NonAction]
-        private void RegisterViewbags()
-        {
-            int? idPers = (Session["id_Pers"] == null ? -1 : (int)Session["id_Pers"]);
-            bool verif = SachemIdentite.ObtenirTypeUsager(Session) == TypeUsagers.Responsable;
-            int sess = db.Session.Max(s => s.id_Sess);
-            ViewBag.Sessions = new SelectList(db.Session, "id_Sess", "NomSession", sess);
-            var ens = from c in db.Personne where c.id_TypeUsag == 2 && (verif ? true : c.id_Pers == (idPers == -1 ? c.id_Pers : idPers))  select c;
-            ViewBag.Enseignants = new SelectList(ens, "id_Pers", "NomPrenom");
-            ViewBag.Cours = new SelectList(db.Cours, "id_Cours", "CodeNom");
-        }
-        [NonAction]
-        private void RegisterViewBagsSessCours(Groupe groupe)
-        {
-            ViewBag.id_Sess = new SelectList(db.Session, "id_Sess", "id_Sess", groupe.id_Sess);
-            ViewBag.id_Cours = new SelectList(db.Cours, "id_Cours", "Code", groupe.id_Cours);
         }
         public ActionResult AjouterEleve(int idg, int? page)
         {
@@ -386,8 +384,6 @@ namespace sachem.Controllers
                     TempData["Success"] = Messages.I_041(ge.Personne.Matricule7, g.NoGroupe, g.Cours.Nom);
 
                 }
-
-
              else 
             {
                 ge.Groupe = g;
@@ -444,11 +440,10 @@ namespace sachem.Controllers
         [NonAction]
         private void Valider([Bind(Include = "id_Groupe,id_Cours,id_Sess,id_Enseignant,NoGroupe")] Groupe groupe)
         {
-
             if (groupe.NoGroupe.ToString().Length >4)
                 ModelState.AddModelError(string.Empty, Messages.U_005);
 
-            if (db.Groupe.Any(r => r.NoGroupe == groupe.NoGroupe && r.id_Enseignant == groupe.id_Enseignant && r.id_Sess == groupe.id_Sess && r.id_Cours == groupe.id_Cours))
+            if (db.Groupe.Any(r => r.NoGroupe == groupe.NoGroupe && r.id_Sess == groupe.id_Sess && r.id_Cours == groupe.id_Cours))
                 ModelState.AddModelError(string.Empty, Messages.I_021(groupe.NoGroupe));
         }
 
