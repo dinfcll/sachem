@@ -19,7 +19,7 @@ namespace sachem.Models
     {
         public static List<TypeUsagers> TypeListeAdmin = new List<TypeUsagers> { TypeUsagers.Enseignant, TypeUsagers.Responsable, TypeUsagers.Super }; //Enum des types ayant pouvoirs d'admin
         //Pour l'encryption du cookie (MachineCode)
-        //#pragma warning disable 0618 //Extrait du projet PAM: Pour l'encryption du cookie (MachineCode)
+        #pragma warning disable 0618 //Extrait du projet PAM: Pour l'encryption du cookie (MachineCode)
 
         public static TypeUsagers ObtenirTypeUsager(HttpSessionStateBase Session)
         {
