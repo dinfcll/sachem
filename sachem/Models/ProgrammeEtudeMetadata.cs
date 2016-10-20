@@ -5,7 +5,6 @@ namespace sachem.Models
 {
     
     [MetadataType(typeof(ProgrammeEtudeMetadata))]
-    
     public partial class ProgrammeEtude
     {
 

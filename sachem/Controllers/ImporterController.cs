@@ -67,7 +67,7 @@ namespace sachem.Controllers
             }
             catch (Exception ex)
             {
-                message = Messages.I_034(fName);//erreur interne-- rare
+                message = Messages.I_034(fName)+"\n"+ex.Message;//erreur interne-- rare
             }
 
             if (message.IsEmpty())

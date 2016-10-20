@@ -34,6 +34,7 @@ namespace sachem.Models
             }
         }
 
+
         public string ProgEtu { get; set; }
 
         public string Matricule7//couper le matricule pour avoir 7 de long
@@ -70,8 +71,7 @@ namespace sachem.Models
 
     public partial class Groupe
     {
-        //public string nbPersonneGroupe;
-        //public int nbPersonne;
+
     }
 
     public partial class PersonneProgEtu
