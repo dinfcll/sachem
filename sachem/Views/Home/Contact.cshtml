@@ -8,11 +8,22 @@
 
 <table class="table">
     <tr>
+ 
         <th>
-            @Html.DisplayFor(model => model.Telephone)
+            Personne à contacter : @Html.DisplayFor(model => model.Prenom) @Html.DisplayFor(model => model.Nom)
         </th>
         <th>
-            @Html.DisplayFor(model => model.Prenom)
+            Numéro de téléphone : @Html.DisplayFor(model => model.Telephone) 
+            Poste : @Html.DisplayFor(model => model.Poste)
+        </th>
+        <th>
+            Page Facebook : @Html.DisplayFor(model => Facebook)
+        </th>
+        <th>
+            Site web : @Html.DisplayFor(model => model.SiteWeb)
+        </th>
+        <th>
+            Local : @Html.DisplayFor(model => model.Poste)
         </th>
     </tr>
 </table>
