@@ -103,14 +103,14 @@ namespace sachem.Models
         /// Enseignant relié à un cour.
         /// </summary>
         /// <returns></returns>
-        public const string I_012 = "l'enseignant ne peut etre supprimer car il est relié à un cours";
+        public const string I_012 = "l'enseignant ne peut être supprimé car il est relié à un cours";
 
         /// <summary>
         /// Le nom d'utilisateur est déjà utilisé.
         /// </summary>
         /// <returns></returns>
         public static string I_013(string NomUsager)
-        { return $"Le nom d'utilisateur {NomUsager} est déjà pris."; }
+        { return $"Impossible d’enregistrer cet enseignant. Il existe déjà un enseignant ayant le nom d'usager {NomUsager}."; }
 
         /// <summary>
         /// l'étudiant ne peut être supprimé
@@ -124,7 +124,7 @@ namespace sachem.Models
         /// </summary>
         /// <returns></returns>
         public static string I_015(string NomUsager)
-        { return $"L'usager {NomUsager} à été modifié."; }
+        { return $"L'usager {NomUsager} a été modifié."; }
 
         /// <summary>
         /// Le programme d'étude {0} a été retiré de la liste des programmes suivis par l'étudiant.
@@ -255,7 +255,7 @@ namespace sachem.Models
         /// Enseignant présent dans un jumelage
         /// </summary>
         /// <returns></returns>
-        public const string I_033 = "l'enseignant ne peut être supprimer car il est encore présent dans un jumelage";
+        public const string I_033 = "L'enseignant ne peut être supprimé car il est encore présent dans un jumelage";
 
         /// <summary>
         /// Erreur lors du transfert de fichier.
