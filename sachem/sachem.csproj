@@ -224,6 +224,8 @@
     <Compile Include="Classes_Sachem\Crypt.cs" />
     <Compile Include="Controllers\CoursSuiviController.cs" />
     <Compile Include="Controllers\DossierEtudiantController.cs" />
+    <Compile Include="Controllers\EnseignantController.cs" />
+    <Compile Include="Controllers\EtudiantController.cs" />
     <Compile Include="Controllers\FormattedDbEntityValidationException.cs" />
     <Compile Include="Controllers\GroupesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -243,6 +245,7 @@
     <Compile Include="Models\Cours.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\PersonneMetadata.cs" />
     <Compile Include="Models\p_TypeInscriptionMetadata.cs" />
     <Compile Include="Models\PTypeUsagMetadata.cs" />
     <Compile Include="Models\CoursMetadata.cs" />
@@ -288,7 +291,6 @@
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\PersonneEtuProgParent.cs" />
-    <Compile Include="Models\PersonneMetadata.cs" />
     <Compile Include="Models\ProgrammeEtude.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
