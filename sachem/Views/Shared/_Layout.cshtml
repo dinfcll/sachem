@@ -66,8 +66,8 @@
                             <ul class="dropdown-menu">
                             @if (SachemIdentite.ObtenirTypeUsager(Session) == TypeUsagers.Responsable)
                             {
-                                <li>@Html.ActionLink("Collège", "IndexCollege", "Parametres")</li>
-                                <li>@Html.ActionLink("Contact", "Edit", "Parametres")</li>
+                                <li>@Html.ActionLink("Collège", "EditCollege", "Parametres")</li>
+                                <li>@Html.ActionLink("Contact", "EditContact", "Parametres")</li>
                             }
                                 <li>@Html.ActionLink("Cours", "Index", "Cours")</li>
                             @if (SachemIdentite.ObtenirTypeUsager(Session) == TypeUsagers.Responsable)

@@ -59,10 +59,19 @@ namespace sachem.Controllers
             }
             return View();
         }
-        
+
+        [HttpGet]
+        public ActionResult EditContact()
+        {
+            if (!SachemIdentite.ValiderRoleAcces(RolesAcces, Session))
+                return RedirectToAction("Error", "Home", null);
+            var contact = db.p_Contact.First();
+            return View(contact);
+        }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "id_Contact,Nom,Prenom,Courriel,Telephone,Poste,Facebook,SiteWeb,Local")] p_Contact contact)
+        public ActionResult EditContact([Bind(Include = "id_Contact,Nom,Prenom,Courriel,Telephone,Poste,Facebook,SiteWeb,Local")] p_Contact contact)
         {
             Valider(contact);
 
@@ -170,6 +179,14 @@ namespace sachem.Controllers
             var college = from tout in db.p_College
                           orderby tout.College
                           select tout;
+            return View(college);
+        }
+        [HttpGet]
+        public ActionResult EditCollege()
+        {
+            if (!SachemIdentite.ValiderRoleAcces(RolesAcces, Session))
+                return RedirectToAction("Error", "Home", null);
+            var college = from c in db.p_College select c;
             return View(college);
         }
 
