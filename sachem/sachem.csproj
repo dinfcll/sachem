@@ -225,6 +225,7 @@
     <Compile Include="Controllers\CoursSuiviController.cs" />
     <Compile Include="Controllers\DossierEtudiantController.cs" />
     <Compile Include="Controllers\FormattedDbEntityValidationException.cs" />
+    <Compile Include="Controllers\GroupesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ImporterController.cs" />
     <Compile Include="Controllers\ParametresController.cs" />
