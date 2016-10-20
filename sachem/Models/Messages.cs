@@ -388,9 +388,9 @@ namespace sachem.Models
         public const string U_004 = "Longueur requise: 7 caractères";
 
         /// <summary>
-        /// Longueur requise: 6 caractères. (MDP)
+        /// Longueur requise: 4 caractères. (MDP)
         /// </summary>
-        public const string U_005 = "Longueur requise: 6 caractères";
+        public const string U_005 = "Longueur requise: 4 caractères";
 
         /// <summary>
         /// Format : AAAA
