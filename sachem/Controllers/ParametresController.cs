@@ -59,6 +59,16 @@ namespace sachem.Controllers
             return View();
         }
         
+        [HttpGet]
+        [ValidationAccesParametres]
+        public ActionResult EditContact()
+        {
+            if (!SachemIdentite.ValiderRoleAcces(RolesAcces, Session))
+                return RedirectToAction("Error", "Home", null);
+            var contact = db.p_Contact.First();
+            return View(contact);
+        }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         [ValidationAccesParametres]
@@ -77,7 +87,7 @@ namespace sachem.Controllers
             return View(contact);
         }
 
-
+        
         //Méthode qui envoie a la view Edit horaire la liste de toutes les horaires d'inscription ainsi que l'horaire de la session courrante
         [ValidationAccesParametres]
         public ActionResult EditHoraire()
@@ -97,7 +107,7 @@ namespace sachem.Controllers
             return View(Tuple.Create(horaireList,horaire));
         }
 
-        
+
         [HttpPost]
         [ValidationAccesParametres]
         public ActionResult EditHoraire([Bind(Prefix = "Item2")] p_HoraireInscription nouvelHoraire)
@@ -169,6 +179,16 @@ namespace sachem.Controllers
             var college = from tout in db.p_College
                           orderby tout.College
                           select tout;
+            return View(college);
+        }
+
+        [HttpGet]
+        [ValidationAccesParametres]
+        public ActionResult EditCollege()
+        {
+            if (!SachemIdentite.ValiderRoleAcces(RolesAcces, Session))
+                return RedirectToAction("Error", "Home", null);
+            var college = from c in db.p_College select c;
             return View(college);
         }
 

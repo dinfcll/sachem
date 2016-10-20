@@ -13,7 +13,7 @@ namespace sachem.Controllers
     {
         private readonly SACHEMEntities db = new SACHEMEntities();
         List<TypeUsagers> RolesAcces = new List<TypeUsagers>() { TypeUsagers.Responsable, TypeUsagers.Super };
-        // GET: ProgrammesOfferts
+
         public ActionResult Index(string recherche, int? page)
         {
             if (!SachemIdentite.ValiderRoleAcces(RolesAcces, Session))
@@ -76,10 +76,10 @@ namespace sachem.Controllers
             
             return View(programme);
         }
-
-        [HttpPost]
-        //POST:modifier un programme
+//POST:modifier un programme
         //permet de modifier un programme et de l'enregistrer. vérification si le programme est bien et on l'enregistre par la suite.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "id_ProgEtu,Code,NomProg,Annee,Actif")] ProgrammeEtude programme, int? page)
         {
             Valider(programme);
@@ -118,6 +118,7 @@ namespace sachem.Controllers
         /*Fonction qui permet de supprimer un programme. Premièrement, elle regarde s'il y a un étudiant lié au programme d'études.
         Si oui, il est impossible de le supprimer. Sinon, le programme est supprimé*/
         [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id, int? page)
         {
             var pageNumber = page ?? 1;

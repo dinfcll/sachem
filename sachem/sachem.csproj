@@ -225,7 +225,10 @@
     <Compile Include="Classes_Sachem\Crypt.cs" />
     <Compile Include="Controllers\CoursSuiviController.cs" />
     <Compile Include="Controllers\DossierEtudiantController.cs" />
+    <Compile Include="Controllers\EnseignantController.cs" />
+    <Compile Include="Controllers\EtudiantController.cs" />
     <Compile Include="Controllers\FormattedDbEntityValidationException.cs" />
+    <Compile Include="Controllers\GroupesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ImporterController.cs" />
     <Compile Include="Controllers\ParametresController.cs" />
@@ -243,6 +246,8 @@
     <Compile Include="Models\Cours.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\p_CollegeMetadata.cs" />
+    <Compile Include="Models\PersonneMetadata.cs" />
     <Compile Include="Models\p_TypeInscriptionMetadata.cs" />
     <Compile Include="Models\PTypeUsagMetadata.cs" />
     <Compile Include="Models\CoursMetadata.cs" />
@@ -288,7 +293,6 @@
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\PersonneEtuProgParent.cs" />
-    <Compile Include="Models\PersonneMetadata.cs" />
     <Compile Include="Models\ProgrammeEtude.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -450,10 +454,10 @@
     <Content Include="Views\Etudiant\Index.cshtml" />
     <Content Include="Views\Shared\_RechercheEtudiant.cshtml" />
     <Content Include="Views\Account\ModifierPassword.cshtml" />
-    <Content Include="Views\Parametres\Edit.cshtml" />
+    <Content Include="Views\Parametres\EditContact.cshtml" />
     <Content Include="Views\Parametres\EditCourrier.cshtml" />
     <Content Include="Views\Parametres\EditHoraire.cshtml" />
-    <Content Include="Views\Parametres\IndexCollege.cshtml" />
+    <Content Include="Views\Parametres\EditCollege.cshtml" />
     <Content Include="Views\ProgrammesOfferts\Create.cshtml" />
     <Content Include="Views\ProgrammesOfferts\Delete.cshtml" />
     <Content Include="Views\ProgrammesOfferts\Edit.cshtml" />
@@ -467,6 +471,7 @@
     <Content Include="Views\Enseignant\Edit.cshtml" />
     <Content Include="Views\Enseignant\Index.cshtml" />
     <Content Include="Views\Enseignant\_Enseignant.cshtml" />
+    <Content Include="Views\Etudiant\_Etudiant.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
