@@ -17,38 +17,33 @@
 
 <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
 <script type="text/javascript">
-    $(function() {
-        $('#edit').attr('href',function() {
-                    return this.href.replace('__NomCollege__', $('#NomCollege').val());
-                });
+    $(document).ready(function () {
+        $('#edit').attr('href', function () {
+            return this.href.replace('__NomCollege__', $('#NomCollege').val());
+        });
     });
 </script>
 @using (Ajax.BeginForm("AddCollege", "Parametres", new AjaxOptions
 {
     HttpMethod = "Post",
-    OnSuccess = "window.location.reload()"
+    OnSuccess = "window.location.reload()",
+    Confirm = "Voulez-vous vraiment ajouter ce collège ?"
 }))
 {
-    <br />
     <div class="form-group">
-        <div class="form-group">
-           Collège : @Html.TextBox("NomCollege", null, new { @class = "form-control" , @size = 50})
-        </div>
-        <div class="form-group">
-            <input type="submit" value="Enregistrer" class="btn-toolbar" />
-        </div>
+        <p>
+            <div class="form-group">
+                Collège : @Html.TextBox("NomCollege")
+                <input type="submit" value="Enregistrer" class="btn-toolbar"/>
+            </div>
+        </p>
     </div>
-    <br />
 
     <table class="table">
         <tr>
             <th>
                 @Html.DisplayNameFor(model => model.id_College)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.College)
-            </th>
-            <th></th>
         </tr>
         @foreach (var item in Model)
         {

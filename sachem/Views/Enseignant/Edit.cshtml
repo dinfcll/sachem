@@ -1,15 +1,13 @@
 ﻿@model sachem.Models.Personne
 
-@{
-    ViewBag.Title = "Edit";
-}
 
-<h2>Modifier Enseignant</h2>
 @{
     ViewBag.Title = "Modifier Enseignant";
 }
 
-@using (Html.BeginForm())
+<h2>@ViewBag.Title</h2>
+
+@using (Html.BeginForm("Edit", "Enseignant", FormMethod.Post))
 {
     @Html.AntiForgeryToken()
     
@@ -20,7 +18,7 @@
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
                 
-                <input type="button" value="Accèder aux groupes de l'enseignant" class="btn btn-default" onclick="location.href='@Url.Action("Index", "Groupe", new { id = Model.id_Pers})'"/>
+                <input type="button" value="Accéder aux groupes de l'enseignant" class="btn btn-default" onclick="location.href='@Url.Action("Index", "Groupes", new { id = Model.id_Pers})'"/>
                 
             </div>
         </div>
