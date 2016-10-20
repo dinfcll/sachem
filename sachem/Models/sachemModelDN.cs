@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Web.Mvc.Html;
-using System.Runtime.InteropServices;
 
 namespace sachem.Models
 {
@@ -73,8 +71,7 @@ namespace sachem.Models
 
     public partial class Groupe
     {
-        //public string nbPersonneGroupe;
-        //public int nbPersonne;
+
     }
 
     public partial class PersonneProgEtu
