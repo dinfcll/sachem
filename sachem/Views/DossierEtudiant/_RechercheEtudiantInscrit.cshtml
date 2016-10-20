@@ -1,0 +1,110 @@
+﻿@using sachem.Models
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#SelectSession").change(function () {
+            var vSession = $('#SelectSession').val();
+
+            $.ajax({
+                type: 'POST',
+                url:
+                    @Html.Raw("\"/" + HttpContext.Current.Request.RequestContext.RouteData.Values["controller"].ToString() + "/ActualiseSuperviseurddl\""),
+                data: {
+                    session: vSession
+                },
+
+                async: false,
+                cache: false,
+                dataType: "json",
+                success: function (donnees) {
+
+                    $("#SelectSuperviseur").empty();
+                    $('#SelectSuperviseur').append($('<option>', {
+                        value: 0,
+                        text: 'Choisir'
+                    }));
+
+                    $.each(donnees, function (i, item) {
+                        $('#SelectSuperviseur').append($('<option>', {
+                            value: item.id_Sess,
+                            text: item.session
+
+                        }));
+                    });
+
+                }
+            });
+
+           
+
+        });
+
+
+    });
+
+</script>
+<h4>Recherche</h4>
+
+<table class="tsearch">
+    <tr>
+        <td>
+            Session :
+        </td><td>
+            @Html.DropDownList("Session", null, "Toutes", htmlAttributes: new { @class = "form-search" })
+        </td>
+        
+        <td>
+            Type d'inscription :
+        </td>
+        
+        <!--Si c'est tuteur-->
+@if (SachemIdentite.ObtenirTypeUsager(Session) == TypeUsagers.Tuteur)
+{
+        <td>
+            @Html.DropDownList("Inscription", null, "Tous", htmlAttributes: new { @class = "form-search", disabled="disabled" })
+            
+        </td>
+}
+else
+{
+    <td>
+        @Html.DropDownList("Inscription", null, "Tous", htmlAttributes: new { @class = "form-search" })
+    </td>
+}
+<!--Si c'est AUTRE que tuteur-->
+
+@if (SachemIdentite.ObtenirTypeUsager(Session) == TypeUsagers.Enseignant || SachemIdentite.ObtenirTypeUsager(Session) == TypeUsagers.Responsable || SachemIdentite.ObtenirTypeUsager(Session) == TypeUsagers.Super)
+{
+         <td>
+            Superviseur :
+        </td>
+            <td>
+                @Html.DropDownList("Superviseur", null, "Tous", htmlAttributes: new { @class = "form-search" })
+            </td>
+}
+    </tr>
+    <tr>
+        <td>
+            Matricule :
+        </td><td>
+            @Html.Editor("Matricule", new { htmlAttributes = new { @class = "form-control", @maxlength = "7" } })
+        </td>
+        <td>
+            Prénom :
+        </td><td>
+            @Html.Editor("Prenom")
+        </td>
+        <td>
+            Nom :
+        </td><td>
+            @Html.Editor("Nom")
+        </td>
+    </tr>
+    <tr>
+        <td>
+            @*Il n'existe pas de HtmlHelper pour créer un bouton submit, il faut donc le creer manuellement*@
+            <input type="submit" value="Rechercher" class="form-search" />
+        </td>
+    </tr>
+</table>

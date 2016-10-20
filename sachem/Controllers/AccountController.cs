@@ -15,7 +15,7 @@ namespace sachem.Controllers
     [Authorize]
     public class AccountController : Controller
     {
-        private readonly SACHEMEntities db = new SACHEMEntities();
+        private readonly SACHEMEntities db = new SACHEMEntities();//retirer le readonly de private
         public AccountController()
         {
 
@@ -124,6 +124,7 @@ namespace sachem.Controllers
         {
             string mdpPlain = MP;
             Personne PersonneBD = new Personne();
+
             //Validations des champs et de la connection
             if (mdpPlain == "")
                 ModelState.AddModelError("MP", Messages.U_001); //Mot de passe requis
@@ -163,20 +164,54 @@ namespace sachem.Controllers
                 var typeinscr = (from i in db.Inscription
                                  where i.id_Pers == PersonneBD.id_Pers select i.id_TypeInscription).FirstOrDefault();
 
+                //On va chercher le id inscription pour identifier l'etudiant (eleve, tuteur) pour son dossier etudiant
+                var idinscr = (from i in db.Inscription
+                                 where i.id_Pers == PersonneBD.id_Pers
+                                 select i.id_Inscription).FirstOrDefault();
+
+                //conserver le typeinscrit
+                if (idinscr != 0)
+                    SessionBag.Current.id_Inscription = idinscr;
+                else
+                    SessionBag.Current.id_Inscription = 0;
+
                 //Si c'est un tuteur, on a type = 6
                 if (typeinscr > 1)
-                    SessionBag.Current.id_TypeUsag = 6;
+                {
+                    SessionBag.Current.id_TypeUsag = 6;                    
+                }
                 else
+                {
+                    //sinon, c'est un élève aidé.
                     if (typeinscr == 1)
-                        SessionBag.Current.id_TypeUsag = 5; //sinon, c'est un élève aidé.
+                    {
+                        SessionBag.Current.id_TypeUsag = 5; 
+                    }
+                    //Si c'est pas un étudiant, on va chercher directement dans la BD pour voir le ID du type.
                     else
-                        SessionBag.Current.id_TypeUsag = PersonneBD.id_TypeUsag; //Si c'est pas un étudiant, on va chercher directement dans la BD pour voir le ID du type.
+                    {
+                        SessionBag.Current.id_TypeUsag = PersonneBD.id_TypeUsag; 
+                    }
+                }
+
+                //Enseignant
+                //On va chercher les id des enseignants dans les jumelages pour verifier si l'enseignant connecte est affilie a un ou des jumelags lors de l'acces a Dossier Etudiant et ...
+                var idSuperviseur = (from i in db.Jumelage
+                                     where i.id_Enseignant == PersonneBD.id_Pers
+                                     select i.id_Enseignant).FirstOrDefault();
+                if (idSuperviseur != 0)
+                {
+                    SessionBag.Current.idSuperviseur = idSuperviseur;
+                }
+                else
+                    SessionBag.Current.idSuperviseur = 0;
 
                 //Si tout va bien, on rempli la session avec les informations de l'utilisateur!
                 SessionBag.Current.NomUsager = PersonneBD.NomUsager;
                 SessionBag.Current.Matricule7 = PersonneBD.Matricule7;
                 SessionBag.Current.NomComplet = PersonneBD.PrenomNom;
                 SessionBag.Current.MP = PersonneBD.MP;
+
                 SessionBag.Current.id_Pers = PersonneBD.id_Pers;
                 if (SouvenirConnexion)
                     CreerCookieConnexion(NomUsager, mdpPlain);
@@ -248,7 +283,29 @@ namespace sachem.Controllers
                     SachemIdentite.encrypterMPPersonne(ref EtudiantBD);
 
                     db.Entry(EtudiantBD).State = EntityState.Modified;
-                    db.SaveChanges();
+
+                    #region try-catch pour une ligne de code db.SaveChanges() qui marche pas, throw raise sur la date invalide AAAA/MM/DD
+                    try
+                    {
+                        db.SaveChanges();//essai de sauvegarder
+                    }
+                    catch(System.Data.Entity.Validation.DbEntityValidationException dbEx)
+                    {
+                        Exception raise = dbEx;
+                        foreach (var validationErrors in dbEx.EntityValidationErrors)
+                        {
+                            foreach (var validationError in validationErrors.ValidationErrors)
+                            {
+                                string message = string.Format("{0}:{1}",
+                                    validationErrors.Entry.Entity.ToString(),
+                                    validationError.ErrorMessage);
+                                // lever exception
+                                raise = new InvalidOperationException(message, raise);
+                            }
+                        }
+                        throw raise;
+                    }
+                    #endregion
 
                     ViewBag.Success = Messages.I_026();
                  
@@ -380,8 +437,8 @@ namespace sachem.Controllers
 
         //
         // GET: /Account/LogOff
-        [AllowAnonymous]
         [HttpGet]
+        [AllowAnonymous]
         public ActionResult LogOff()
         {
             //Supprime les données contenues dans la session et supprime le cookie puis retour à l'index.

@@ -1,0 +1,91 @@
+﻿@model Tuple<sachem.Models.Inscription, IEnumerable<sachem.Models.CoursSuivi>, IEnumerable<sachem.Models.Inscription>>
+
+@{
+    ViewBag.Title = "Details";
+}
+<h2>Dossier de l'étudiant</h2>
+
+@using (Html.BeginForm("Details", "DossierEtudiant", FormMethod.Post, new { @class = "form-inline", role = "form" }))
+{
+    @Html.AntiForgeryToken()
+<div>
+    <h4>Identification de l'étudiant</h4>
+    <hr /> @*Pas comme exemple mais beau*@
+    <dl class="dl-horizontal">
+        @Html.HiddenFor(model => model.Item1.Personne.id_Pers)
+        @Html.HiddenFor(model => model.Item1.id_Inscription)
+        <dt>
+            @Html.DisplayNameFor(model => model.Item1.Personne.Matricule7)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Item1.Personne.Matricule7)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Item1.Personne.NomPrenom)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Item1.Personne.NomPrenom)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Item1.Personne.DateNais)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Item1.Personne.DateNais)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Item1.Personne.Courriel)
+        </dt>
+
+        <dd>
+@if (sachem.Models.SachemIdentite.ObtenirTypeUsager(Session) == sachem.Models.TypeUsagers.Tuteur || sachem.Models.SachemIdentite.ObtenirTypeUsager(Session) == sachem.Models.TypeUsagers.Eleve)
+{
+            @Html.EditorFor(model => model.Item1.Personne.Courriel, new { htmlAttributes = new { @class = "form-control", @maxlength = "256" } })
+            @Html.ValidationMessageFor(model => model.Item1.Personne.Courriel, "", new { @class = "text-danger" })
+}
+else
+{
+            @Html.DisplayFor(model => model.Item1.Personne.Courriel)
+}
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Item1.Personne.Telephone)
+        </dt>
+
+        <dd>
+@if (sachem.Models.SachemIdentite.ObtenirTypeUsager(Session) == sachem.Models.TypeUsagers.Tuteur || sachem.Models.SachemIdentite.ObtenirTypeUsager(Session) == sachem.Models.TypeUsagers.Eleve)
+{
+            @Html.EditorFor(model => model.Item1.Personne.Telephone, new { htmlAttributes = new { @class = "form-control", @placeholder = "(999) 999-9999", @maxlength = "14" } })
+            @Html.ValidationMessageFor(model => model.Item1.Personne.Telephone, "", new { @class = "text-danger" })
+}
+else
+{
+            @Html.DisplayFor(model => model.Item1.Personne.Telephone)
+}
+        </dd>
+@if (sachem.Models.SachemIdentite.ObtenirTypeUsager(Session) == sachem.Models.TypeUsagers.Eleve || ViewBag.idTypeInsc == 1)
+{
+        <dt>
+            @Html.DisplayNameFor(model => model.Item1.BonEchange)
+        </dt>
+
+        <dd>
+            @Html.CheckBoxFor(model => model.Item1.BonEchange.Value)
+            Acheté
+        </dd>
+}
+    </dl>
+    <input type="submit" value="Modifier" class="btn btn-default"/>       
+
+
+    @Html.Partial("_CoursAnterieur", Model.Item2)
+
+    @Html.Partial("_InscriptionSachem", Model.Item3)
+</div>
+}
