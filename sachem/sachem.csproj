@@ -224,6 +224,8 @@
     <Compile Include="Classes_Sachem\Crypt.cs" />
     <Compile Include="Controllers\CoursSuiviController.cs" />
     <Compile Include="Controllers\DossierEtudiantController.cs" />
+    <Compile Include="Controllers\EnseignantController.cs" />
+    <Compile Include="Controllers\EtudiantController.cs" />
     <Compile Include="Controllers\FormattedDbEntityValidationException.cs" />
     <Compile Include="Controllers\GroupesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
