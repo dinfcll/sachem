@@ -77,6 +77,7 @@ else
 
         <dd>
             @Html.CheckBoxFor(model => model.Item1.BonEchange.Value)
+            <input type="hidden" value="false" @(Model.Item1.BonEchange.Value ? "checked=\"checked\"": "") name="BonEchange" />
             Acheté
         </dd>
 }
