@@ -62,8 +62,10 @@ else
 @if (sachem.Models.SachemIdentite.ObtenirTypeUsager(Session) == sachem.Models.TypeUsagers.Tuteur || sachem.Models.SachemIdentite.ObtenirTypeUsager(Session) == sachem.Models.TypeUsagers.Eleve)
 {
            // @Html.EditorFor(model => model.Item1.Personne.Telephone, new { htmlAttributes = new { @class = "form-control", @placeholder = "(999) 999-9999", @maxlength = "14", @type="tel" } })
-           <input name="telephone" type="tel" value="@(String.Format("{0:(###) ###-####}", Convert.ToInt64(Model.Item1.Personne.Telephone)))" class="form-control" placeholder = "(999) 999-9999"/>
-            @Html.HiddenFor(model => model.Item1.Personne.Telephone, new { htmlAttributes = new { @name = "telephone" } })
+            
+            @Html.HiddenFor(model => model.Item1.Personne.Telephone, new { htmlAttributes = new { @id = "telephone", @name="telephone", @value="" } })
+            <input name="telephone" id="telephone" type="tel" value="@(String.Format("{0:(###) ###-####}", Convert.ToInt64(Model.Item1.Personne.Telephone)))" class="form-control" placeholder = "(999) 999-9999"/>
+            
             @Html.ValidationMessageFor(model => model.Item1.Personne.Telephone, "", new { @class = "text-danger" })
 }
 else
