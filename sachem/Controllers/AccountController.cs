@@ -217,13 +217,11 @@ namespace sachem.Controllers
             //Get le sexe du formulaire
             ViewBag.id_Sexe = new SelectList(db.p_Sexe, "id_Sexe", "Sexe");
 
-            if (personne.MP == null)
-            {
-                ModelState.AddModelError("MP", Messages.U_001); //requis
-                ModelState.AddModelError("ConfirmPassword", Messages.U_001); //requis
-            }
-            if (personne.MP != personne.ConfirmPassword)
-                ModelState.AddModelError("MP", Messages.C_001); //Doit correspondre a la confirmation du mdp.
+            var validation = fn_ConfirmeMdp(personne.MP, personne.ConfirmPassword); // validation mdp
+
+            if (!validation)
+                return View(personne);
+
             if (personne.Matricule7 == null)
                 ModelState.AddModelError("Matricule7", Messages.U_001); //requis
             else if (personne.Matricule7.Length != 7 || !personne.Matricule.All(char.IsDigit)) //vérifie le matricule
@@ -346,19 +344,12 @@ namespace sachem.Controllers
                 if (personne.AncienMotDePasse == null)
                     ModelState.AddModelError("AncienMotDePasse", Messages.U_001); //requis
 
-                if (personne.MP == null)
-                    ModelState.AddModelError("MP", Messages.U_001); //requis
+                var validation = fn_ConfirmeMdp(personne.MP, personne.ConfirmPassword); //valide mdp
 
-                if (personne.ConfirmPassword == null)
-                    ModelState.AddModelError("ConfirmPassword", Messages.U_001); //requis
-
-                if (personne.MP != personne.ConfirmPassword)
-                {
-                    ModelState.AddModelError("MP", Messages.C_001); //Doit correspondre a la confirmation du mdp.
+                if (!validation)
                     return View(personne);
-                }
 
-                if (personne.AncienMotDePasse == null || personne.MP == null || personne.ConfirmPassword == null)//Validation pour les champs requis
+                if (personne.AncienMotDePasse == null || personne.MP == null || personne.ConfirmPassword == null) //Validation pour les champs requis
                     return View(personne);
 
                 if (SachemIdentite.encrypterChaine(personne.AncienMotDePasse) != ancienmdpbd)//Vérifier si le champ ancien mot de passe est le bon mot de passe
@@ -399,5 +390,23 @@ namespace sachem.Controllers
 
         #endregion
 
+
+        #region Fonctions secondaires
+        private bool fn_ConfirmeMdp(string s1, string s2)
+        {
+            if (s1 == null || s2 == null)
+            {
+                ModelState.AddModelError("MP", Messages.U_001);
+                ModelState.AddModelError("ConfirmPassword", Messages.U_001);
+                return false;
+            }
+            if (s1 != s2)
+            {
+                ModelState.AddModelError("ConfirmPassword", Messages.C_001);
+                return false;
+            }
+            return true;
+        }
+        #endregion
     }
 }
