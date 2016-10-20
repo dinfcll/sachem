@@ -192,10 +192,7 @@ namespace sachem.Controllers
                               select d;
                 }
             }
-            /*foreach (var n in groupes)
-            {
-                n.nbPersonne = (from c in db.GroupeEtudiant where c.id_Groupe == n.id_Groupe select c).Count();
-            }*/
+
             
             return groupes.ToList();
         }
@@ -216,7 +213,6 @@ namespace sachem.Controllers
             int? idPers = (Session["id_Pers"] == null ? -1 : (int)Session["id_Pers"]);
             bool verif = SachemIdentite.ObtenirTypeUsager(Session) == TypeUsagers.Responsable;
             int sess = db.Session.Max(s => s.id_Sess);
-            //var last = from b in db.Session orderby b.id_Sess descending select b;
             ViewBag.Sessions = new SelectList(db.Session, "id_Sess", "NomSession", sess);
             var ens = from c in db.Personne where c.id_TypeUsag == 2 && (verif ? true : c.id_Pers == (idPers == -1 ? c.id_Pers : idPers))  select c;
             ViewBag.Enseignants = new SelectList(ens, "id_Pers", "NomPrenom");
@@ -233,7 +229,6 @@ namespace sachem.Controllers
             if (!SachemIdentite.ValiderRoleAcces(RolesAcces, Session)) return RedirectToAction("Error", "Home", null);
             ViewBag.idg = idg;
             Groupe groupe = db.Groupe.Find(idg);
-            //IEnumerable < Personne > personnes = (from c in db.Personne where c.id_TypeUsag == 1 select c).ToList().OrderBy(x => x.NomPrenom).ThenBy(x => x.Matricule7);
             IEnumerable<Personne> personnes = RechercherEleve();
 
             db.Configuration.LazyLoadingEnabled = false;
@@ -418,12 +413,8 @@ namespace sachem.Controllers
             }
             else
             {
-                /*personnes = (from c in db.Personne where c.id_TypeUsag == 1 && 
-                                c.Nom == (!String.IsNullOrEmpty(Nom) ? Nom: c.Nom) &&
-                                c.Prenom == (!String.IsNullOrEmpty(Prenom) ? Prenom : c.Prenom)
-                                select c).ToList().Where(x => x.Matricule7 == (!String.IsNullOrEmpty(Matricule) ? Matricule : x.Matricule7));*/
-                personnes = db.Personne.Where(x => x.id_TypeUsag == 1).Where(c => c.Nom.Contains(!String.IsNullOrEmpty(Nom) ? Nom : c.Nom)).Where(c => c.Prenom.Contains(!String.IsNullOrEmpty(Prenom) ? Prenom : c.Prenom));
-                personnes = personnes.Where(x => x.Matricule7.Contains(!String.IsNullOrEmpty(Matricule) ? Matricule : x.Matricule7));
+                personnes = db.Personne.Where(x => x.id_TypeUsag == 1).Where(c => c.Nom.StartsWith(!String.IsNullOrEmpty(Nom) ? Nom : c.Nom)).Where(c => c.Prenom.StartsWith(!String.IsNullOrEmpty(Prenom) ? Prenom : c.Prenom));
+                personnes = personnes.Where(x => x.Matricule7.StartsWith(!String.IsNullOrEmpty(Matricule) ? Matricule : x.Matricule7));
             }
             return personnes;
         }
