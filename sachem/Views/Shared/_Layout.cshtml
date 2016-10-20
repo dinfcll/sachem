@@ -64,13 +64,13 @@
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">Administration <b class="caret"></b> </a>
 
                             <ul class="dropdown-menu">
-                            @if (SachemIdentite.ObtenirTypeUsager(Session) == TypeUsagers.Responsable || SachemIdentite.ObtenirTypeUsager(Session) == TypeUsagers.Super)
+                            @if (SachemIdentite.ObtenirTypeUsager(Session) == TypeUsagers.Responsable)
                             {
                                 <li>@Html.ActionLink("Collège", "EditCollege", "Parametres")</li>
                                 <li>@Html.ActionLink("Contact", "EditContact", "Parametres")</li>
                             }
                                 <li>@Html.ActionLink("Cours", "Index", "Cours")</li>
-                            @if (SachemIdentite.ObtenirTypeUsager(Session) == TypeUsagers.Responsable || SachemIdentite.ObtenirTypeUsager(Session) == TypeUsagers.Super)
+                            @if (SachemIdentite.ObtenirTypeUsager(Session) == TypeUsagers.Responsable)
                             {
                                     <li>@Html.ActionLink("Courriel de confirmation", "EditCourrier", "Parametres")</li>
                                     <li>@Html.ActionLink("Enseignants", "Index", "Enseignant")</li>
