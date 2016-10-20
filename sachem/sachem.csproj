@@ -453,10 +453,10 @@
     <Content Include="Views\Etudiant\Index.cshtml" />
     <Content Include="Views\Shared\_RechercheEtudiant.cshtml" />
     <Content Include="Views\Account\ModifierPassword.cshtml" />
-    <Content Include="Views\Parametres\Edit.cshtml" />
+    <Content Include="Views\Parametres\EditContact.cshtml" />
     <Content Include="Views\Parametres\EditCourrier.cshtml" />
     <Content Include="Views\Parametres\EditHoraire.cshtml" />
-    <Content Include="Views\Parametres\IndexCollege.cshtml" />
+    <Content Include="Views\Parametres\EditCollege.cshtml" />
     <Content Include="Views\ProgrammesOfferts\Create.cshtml" />
     <Content Include="Views\ProgrammesOfferts\Delete.cshtml" />
     <Content Include="Views\ProgrammesOfferts\Edit.cshtml" />
