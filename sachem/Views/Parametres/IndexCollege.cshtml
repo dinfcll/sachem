@@ -33,7 +33,7 @@
     <br />
     <div class="form-group">
         <div class="form-group">
-            Collège : @Html.TextBox("NomCollege", null, new { @class = "form-control" , @size = 50}) <input type="submit" value="Enregistrer" class="btn-toolbar" />
+            Collège : @Html.TextBox("NomCollege", null, new { @class = "form-control" , @size = 50})
         </div>
         <div class="form-group">
             <input type="submit" value="Enregistrer" class="btn-toolbar" />
@@ -46,10 +46,6 @@
             <th>
                 @Html.DisplayNameFor(model => model.id_College)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.College)
-            </th>
-            <th></th>
         </tr>
         @foreach (var item in Model)
         {
