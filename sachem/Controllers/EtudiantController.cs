@@ -8,6 +8,7 @@ using PagedList;
 using System.Security.Cryptography;// pour encripter mdp
 using System.Text;
 using System.Data.Entity;
+using System.Collections.Generic;
 
 namespace sachem.Controllers
 {
@@ -47,12 +48,18 @@ namespace sachem.Controllers
             modif = modif.Insert(9,"-");
             return modif;
         }
+
         // GET: Etudiant/Create
         public ActionResult Create()
         {
 
             ViewBag.id_Sexe = new SelectList(db.p_Sexe, "id_Sexe", "Sexe");
+            TempData["id_Sexe"] = new SelectList(db.p_Sexe, "id_Sexe", "Sexe");
             ViewBag.id_TypeUsag = new SelectList(db.p_TypeUsag, "id_TypeUsag", "TypeUsag");
+            ViewBag.id_Programme = new SelectList(db.ProgrammeEtude, "id_ProgEtu", "nomProg");
+            ViewBag.id_Session = new SelectList(db.Session, "id_Sess", "NomSession");
+
+            //return View();
             return View();
         }
 
@@ -61,29 +68,50 @@ namespace sachem.Controllers
         // plus de détails, voir  http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "id_Pers,id_Sexe,id_TypeUsag,Nom,Prenom,Matricule,MP,ConfirmPassword,Courriel,Telephone,DateNais")] Personne personne,int? page)
-        {
+        public ActionResult Create(Personne personne)
+        {//[Bind(Include = "id_Pers,id_Sexe,id_TypeUsag,Nom,Prenom,Matricule,MP,ConfirmPassword,Courriel,Telephone,DateNais")]
+            ViewBag.id_Sexe = new SelectList(db.p_Sexe, "id_Sexe", "sexe");
+            
+            ViewBag.id_TypeUsag = new SelectList(db.p_TypeUsag, "id_TypeUsag", "TypeUsag");
+            ViewBag.id_Programme = new SelectList(db.ProgrammeEtude, "id_ProgEtu", "nomProg");
+            ViewBag.id_Session = new SelectList(db.Session, "id_Sess", "NomSession");
+
+            PersonneEtuProgParent pepp = new PersonneEtuProgParent();
+            personne.id_Sexe = Int32.Parse(Request.Form["id_Sexe"]);
+            //ModelState["id_Sexe"].Value = personne.id_Sexe.Value;
             personne.id_TypeUsag = 1;
             personne.Actif = true;
             personne.Telephone = FormatTelephone(personne.Telephone);
+           
+            pepp.personne = personne;
+            
 
-            Valider(personne);
+            var etuprog = new EtuProgEtude();
+
+
+            if (Request.Form["id_Programme"] != "" && Request.Form["id_Session"] != "")
+            {
+                etuprog.id_ProgEtu = Int32.Parse(Request.Form["id_Programme"]);
+                etuprog.id_Sess = Int32.Parse(Request.Form["id_Session"]);
+                var idEtu = db.Personne.AsNoTracking().OrderByDescending(p => p.id_Pers).FirstOrDefault();
+                etuprog.id_Etu = idEtu.id_Pers;
+            }
+
+            Valider(pepp.personne);
             // Si les données sont valides, faire l'ajout
             if (ModelState.IsValid)
             {
-                personne.MP = encrypterChaine(personne.MP); // Encryption du mot de passe
-                personne.ConfirmPassword = encrypterChaine(personne.ConfirmPassword); // Encryption du mot de passe 
-                
-                db.Personne.Add(personne);
+                pepp.personne.MP = encrypterChaine(pepp.personne.MP); // Encryption du mot de passe
+                pepp.personne.ConfirmPassword = encrypterChaine(pepp.personne.ConfirmPassword); // Encryption du mot de passe   
+                db.Personne.Add(pepp.personne);
+                db.SaveChanges();
+                db.EtuProgEtude.Add(etuprog);
                 db.SaveChanges();
                 personne.Telephone = RemettreTel(personne.Telephone);
                 TempData["Success"] = Messages.I_010(personne.Matricule); // Message afficher sur la page d'index confirmant la création
                 return RedirectToAction("Index");
             }
-
-            ViewBag.id_Sexe = new SelectList(db.p_Sexe, "id_Sexe", "Sexe", personne.id_Sexe);
-            ViewBag.id_TypeUsag = new SelectList(db.p_TypeUsag, "id_TypeUsag", "TypeUsag", personne.id_TypeUsag);
-            return View(personne);
+            return View(pepp);
         }
 
         // GET: Etudiant/Edit/5
@@ -113,9 +141,6 @@ namespace sachem.Controllers
             return View(epep);
         }
 
-        public void FillDropDownlist()
-        {  
-        }
         // POST: Etudiant/Edit/5
         // Afin de déjouer les attaques par sur-validation, activez les propriétés spécifiques que vous voulez lier. Pour 
         // plus de détails, voir  http://go.microsoft.com/fwlink/?LinkId=317598.
@@ -159,7 +184,7 @@ namespace sachem.Controllers
 
             if (ModelState.IsValid)
             {
-                db.Entry(pepp.personne).State = EntityState.Modified;
+                db.Entry(pepp).State = EntityState.Modified;
                 db.SaveChanges();
             }
             return View(pepp);

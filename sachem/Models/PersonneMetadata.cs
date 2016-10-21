@@ -32,15 +32,15 @@ namespace sachem.Models
         [Display(Name = "Prénom")]
         [StringLength(30)]
         [Required(ErrorMessage = Messages.U_001)]
-        public global::System.String Prenom;
+        public string Prenom;
 
         [Display(Name = "Nom")]
         [StringLength(30)]
         [Required(ErrorMessage = Messages.U_001)]
-        public global::System.String Nom;
+        public string Nom;
 
         [Display(Name = "Nom")]
-        public global::System.String NomPrenom;
+        public string NomPrenom;
 
         //Expression régulière qui permet 2 formats de dates, celui exigé dans l'application YYYY/MM/DD et celui formaté par le 
         //système en format datetime YYYY/MM/DD hh:mm:ss. Il faut que les deux expressions soient utilisables pour que le modèle
@@ -50,26 +50,26 @@ namespace sachem.Models
         [RegularExpression(@"^[0-9]{4}-[0-9]{2}-[0-9]{2} [0-2][0-9]:[0-5][0-9]:[0-5][0-9]$|^[0-9]{4}\/[0-9]{2}\/[0-9]{2}$", ErrorMessage = Messages.U_007)]
         [DisplayFormat(DataFormatString = "{0:yyyy/MM/dd}", ApplyFormatInEditMode = true)]
         //[DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = @"{0:yyyy\/MM\/dd}")] //dans le mauvais sens
-        public global::System.DateTime DateNais;
+        public DateTime DateNais;
 
 
         [Display(Name = "Courriel")]
         [EmailAddress(ErrorMessage = Messages.U_008)]
         [StringLength(256)]
-        public global::System.String Courriel;
+        public string Courriel;
 
         [Display(Name = "Se souvenir de moi")]
-        public global::System.String SouvenirConnexion;
+        public string SouvenirConnexion;
 
         [Display(Name = "Téléphone")]
         [DataType(DataType.PhoneNumber)]
         [RegularExpression(@"^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$", ErrorMessage = Messages.U_009)] //Vérifie le format du tel
         [DisplayFormat(DataFormatString = "{0:(###) ###-####}", ApplyFormatInEditMode = true)]
-        public global::System.String Telephone; //Ajout pour #Tel dans BD
+        public string Telephone; //Ajout pour #Tel dans BD
 
         [Display(Name = "Nom d'usager")]
         [StringLength(25)]
-        public global::System.String NomUsager;
+        public string NomUsager;
 
         [Display(Name = "Matricule")]
         [StringLength(9)]
@@ -78,29 +78,29 @@ namespace sachem.Models
         //Extrait du PAM partiellement
         [Display(Name = "Matricule")]
         [StringLength(7)]
-        public global::System.String Matricule7;
+        public string Matricule7;
 
         [DataType(DataType.Password)]
         [Display(Name = "Mot de passe")]
-        public global::System.String MP;
+        public string MP;
 
         [DataType(DataType.Password)]
         [Display(Name = "Confirmation du mot de passe")]
-        public global::System.String ConfirmPassword;
+        public string ConfirmPassword;
 
         [DataType(DataType.Password)]
         [Display(Name = "Ancien mot de passe")]
-        public global::System.String AncienMotDePasse;
+        public string AncienMotDePasse;
 
         [Display(Name = "Type d'usager")]
-        public global::System.Int32 id_TypeUsag;
+        public int id_TypeUsag;
 
         [Display(Name = "Sexe")]
         [Required(ErrorMessage = Messages.U_001)]
-        public global::System.Int32 id_Sexe;
+        public int id_Sexe { get { return id_Sexe; } set { id_Sexe = value; } }
 
         [Display(Name = "Nom d'utilisateur")]
-        public global::System.String NomUtilisateur;
+        public string NomUtilisateur;
     }
 
 }
