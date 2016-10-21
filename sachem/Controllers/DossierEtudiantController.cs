@@ -295,7 +295,8 @@ namespace sachem.Controllers
             Personne personne = db.Personne.Find(id_Pers);
             Inscription inscription = db.Inscription.Find(id_Inscription);
 
-            if (SachemIdentite.ObtenirTypeUsager(Session) == TypeUsagers.Tuteur || SachemIdentite.ObtenirTypeUsager(Session) == TypeUsagers.Eleve)
+            if (SachemIdentite.ObtenirTypeUsager(Session) == TypeUsagers.Tuteur ||
+                SachemIdentite.ObtenirTypeUsager(Session) == TypeUsagers.Eleve)
             {
                 var Courriel = Convert.ToString(model["item1.Personne.Courriel"]);
                 var Telephone = Convert.ToString(model["item1.Personne.Telephone"]);
