@@ -177,14 +177,14 @@ namespace sachem.Controllers
         [HttpGet]
         public ActionResult EditCollege()
         {
-            if (!SachemIdentite.ValiderRoleAcces(RolesAcces, Session))
-                return RedirectToAction("Error", "Home", null);
+            //if (!SachemIdentite.ValiderRoleAcces(RolesAcces, Session))
+            //    return RedirectToAction("Error", "Home", null);
             var college = from c in db.p_College orderby c.College select c;
             return View(college);
         }
 
         [HttpPost]
-        public void ModifCollege(string nomCollege, int? id)
+        public ActionResult EditCollege(string nomCollege, int? id)
         {
             
             if (db.p_College.Any(r => r.id_College == id))
@@ -194,6 +194,8 @@ namespace sachem.Controllers
                 db.Entry(college).State = EntityState.Modified;
                 db.SaveChanges();
             }
+            var collegeretour = from c in db.p_College orderby c.College select c;
+            return RedirectToAction("EditCollege");
         }
 
         public ActionResult AddCollege(string nomCollege)
@@ -208,7 +210,7 @@ namespace sachem.Controllers
                 db.SaveChanges();
                 TempData["Success"] = string.Format(Messages.I_044(nomCollege));
             }
-            return RedirectToAction("IndexCollege");
+            return RedirectToAction("EditCollege");
         }
 
         [HttpPost]
