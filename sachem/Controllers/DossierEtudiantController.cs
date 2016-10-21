@@ -242,11 +242,9 @@ namespace sachem.Controllers
         }
 
         // GET: DossierEtudiant/Details/5
+        [ValidationAccesEtu]
         public ActionResult Details(int? id)
         {
-            if (!SachemIdentite.ValiderRoleAcces(RolesAccesDossier, Session))
-                return RedirectToAction("Error", "Home", null);
-
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -276,11 +274,9 @@ namespace sachem.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [ValidationAccesEtu]
         public ActionResult Details(FormCollection model)
         {
-            //A completer
-            if (!SachemIdentite.ValiderRoleAcces(RolesAccesDossier, Session))
-                return RedirectToAction("Error", "Home", null);
             var id_Pers = Convert.ToInt32(model["item1.Personne.id_Pers"]);
             var id_Inscription = Convert.ToInt32(model["item1.id_Inscription"]);
             var Courriel = Convert.ToString(model["item1.Personne.Courriel"]);
