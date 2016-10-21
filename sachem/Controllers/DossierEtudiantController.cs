@@ -11,7 +11,6 @@ using PagedList;
 using System.Security.Cryptography;// pour encripter mdp
 using System.Text;
 using System.Web.Services;
-using System.Data.Entity.Validation;
 
 namespace sachem.Controllers
 {
@@ -325,16 +324,7 @@ namespace sachem.Controllers
             {
                 db.Entry(personne).State = EntityState.Modified;
                 db.Entry(inscription).State = EntityState.Modified;
-                try
-                {
-                    db.SaveChanges();
-                }
-                catch (DbEntityValidationException ex)
-                {
-                    string exd = ex.ToString();
-                }
-                    
-
+                db.SaveChanges();                
             }
             return View(Tuple.Create(inscription, vCoursSuivi.AsEnumerable(), vInscription.AsEnumerable()));
         }
