@@ -237,7 +237,7 @@ namespace sachem.Controllers
             //db.Configuration.LazyLoadingEnabled = false;
             var lstEtu = db.Personne.Where(x => x.id_TypeUsag == 1).Join(db.EtuProgEtude, p => p.id_Pers, epe => epe.id_Etu, (p, epe) => new PersEtuProg(p,epe)).OrderBy(x=>x.p.Nom).ToList();
 
-                /*requête LINQ qui va chercher tous les étudiants répondant aux critères de recherche ainsi que leur programme d'étude actuel. */
+                /*requête LINQ qui va chercher tous les étudiants répondant aux critères de recherche ainsi que leur programme d'étude actuel.*/
             /*var lstEtu = from q in
                          (from p in personnes.Where(x => /*x.Actif == true &&  x.GroupeEtudiant.Any(y => y.id_Groupe == idg) &&  
                            x.EtuProgEtude.Any(y => y.id_Sess == groupe.id_Sess)).OrderBy(x => x.Nom).Take(10)
