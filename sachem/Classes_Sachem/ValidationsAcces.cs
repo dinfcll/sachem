@@ -12,6 +12,7 @@ namespace sachem.Classes_Sachem
     {
         public const string pathErreurAuth = "/Home/Error";
        
+
         public class ValidationAccesSuper : ActionFilterAttribute
         {
             
