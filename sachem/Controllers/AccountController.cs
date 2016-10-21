@@ -8,7 +8,6 @@ using System.Net;
 using System.Net.Mail;
 using System.Text;
 using System.Web;
-using System.Web.Security;
 
 namespace sachem.Controllers
 {
@@ -28,7 +27,7 @@ namespace sachem.Controllers
         [NonAction]
         private void CreerCookieConnexion(string NomUsager, string MotDePasse)
         {
-            string mdpEncrypte = Crypto.Encrypt(MotDePasse, "asdjh213498yashj2134987ash"); //Encrypte le mdp pour le cookie
+            string mdpEncrypte = Crypto.Encrypt(MotDePasse, System.Configuration.ConfigurationManager.AppSettings.Get("CryptoKey")); //Encrypte le mdp pour le cookie
             HttpCookie Maintenir = new HttpCookie("SACHEMConnexion");
             Maintenir.Values.Add("NomUsager", NomUsager); //On ajoute le nom utilisateur
             //met le mdp encrypté dans le cookie
