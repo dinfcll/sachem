@@ -88,11 +88,8 @@ namespace sachem.Controllers
         [NonAction]
         private void ListeSession(int session = 0)
         {
-            var lSessions = db.Session.AsNoTracking().OrderBy(s => s.Annee).ThenBy(s => s.p_Saison.Saison).Where(s => s.p_Saison.id_Saison == s.id_Saison);
-            var slSession = new List<SelectListItem>();
-
-            slSession.AddRange(new SelectList(lSessions.OrderBy(i => i.id_Sess), "id_Sess", "NomSession", Session));
-            ViewBag.Session = slSession;
+            var id_Session = new SelectList(db.Session.AsNoTracking().OrderByDescending(y => y.Annee).ThenByDescending(x => x.id_Saison), "id_Sess", "NomSession", Session);
+            ViewBag.id_Sess = id_Session.ToList();
         }
 
         //trouver un moyen de faire fonctionner la vue pour qu'elle affiche bien [Été 2016] en dropdownlist
@@ -113,56 +110,64 @@ namespace sachem.Controllers
 
         [HttpPost]
         [ValidationAccesParametres]
-        public ActionResult EditHoraire([Bind(Prefix = "Item2")] p_HoraireInscription nouvelHoraire)
+        public ActionResult EditHoraire([Bind(Include = "id_Sess, DateDebut, DateFin, HeureDebut, HeureFin")] p_HoraireInscription HI)
         {
-            var session = db.Session.Find(nouvelHoraire.id_Sess);
-            var saison = db.p_Saison.Find(session.id_Saison);
-            //regarde l'année
-            if (session.Annee != nouvelHoraire.DateFin.Year || session.Annee != nouvelHoraire.DateDebut.Year)
+            var id_Session = db.Session.AsNoTracking().OrderByDescending(y => y.Annee).ThenByDescending(x => x.id_Saison).FirstOrDefault();
+            Session session = db.Session.Find(HI.id_Sess);
+            if (id_Session.id_Sess == session.id_Sess)
             {
-                ModelState.AddModelError(string.Empty, Messages.C_006);
-        }
+                //regarde l'année
+                if (session.Annee != HI.DateDebut.Year || session.Annee != HI.DateFin.Year)
+                {
+                    ModelState.AddModelError(string.Empty, Messages.C_006);
+                }
 
-            //regarde si les dates sont bonnes
-            if((nouvelHoraire.DateFin - nouvelHoraire.DateDebut).TotalDays < 1)
-            {
-                ModelState.AddModelError(string.Empty, Messages.C_005);
-            }
-            //Regarder si cest les bon id (ps : ca lest pas)
-            switch (saison.id_Saison)
+                //regarde si les dates sont bonnes
+                if ((HI.DateFin - HI.DateDebut).TotalDays < 1)
+                {
+                    ModelState.AddModelError(string.Empty, Messages.C_005);
+                }
+                //Regarder si cest les bon id (ps : ca lest pas)
+                switch (session.p_Saison.id_Saison)
                 {
                     //Si hiver : de janvier inclus jusqua mai inclus (mois fin <= 5) pas besoin de verif la date de début
                     //car on est sur que c'est la bonne année et qu'elle est avant la date de fin
                     case 1:
-                        if (nouvelHoraire.DateFin.Month > new DateTime(1,5,1).Month)
+                        if (HI.DateFin.Month > new DateTime(1, 5, 1).Month)
                         {
                             ModelState.AddModelError(string.Empty, Messages.C_006);
                         }
                         break;
                     //Si ete : de juin inclus jusqua aout inclus (si mois du début >= 6 et mois fin <= 8)
                     case 2:
-                        if (new DateTime(1,6,1).Month > nouvelHoraire.DateDebut.Month || nouvelHoraire.DateFin.Month > new DateTime(1,8,1).Month)
+                        if (new DateTime(1, 6, 1).Month > HI.DateDebut.Month || HI.DateFin.Month > new DateTime(1, 8, 1).Month)
                         {
                             ModelState.AddModelError(string.Empty, Messages.C_006);
-        }
+                        }
                         break;
                     //si automne: de aout inclus jusqua decembre inclus (si mois du début >= 8 et mois fin <= 12)
                     //pas besoin de verif la date de fin car on est sur que c'est la bonne année et qu'elle est apres la date de début
                     case 3:
-                        if (new DateTime(1, 8, 1).Month > nouvelHoraire.DateDebut.Month)
+                        if (new DateTime(1, 8, 1).Month > HI.DateDebut.Month)
                         {
                             ModelState.AddModelError(string.Empty, Messages.C_006);
                         }
-                    break;
+                        break;
                 }
 
-            
-            if (ModelState.IsValid)
-            {
-                db.Entry(nouvelHoraire).State = EntityState.Modified;
-                db.SaveChanges();
-
-                return RedirectToAction("EditHoraire");
+                if (ModelState.IsValid)
+                {
+                    var SessionSurHI = db.p_HoraireInscription.AsNoTracking().OrderBy(x => x.id_Sess).FirstOrDefault();
+                    if (SessionSurHI.id_Sess != session.id_Sess)
+                    {
+                        db.Entry(HI).State = EntityState.Added;
+                    }
+                    else
+                    {
+                        db.Entry(HI).State = EntityState.Modified;
+                    }
+                    db.SaveChanges();
+                }
             }
             return RedirectToAction("EditHoraire");
         }
