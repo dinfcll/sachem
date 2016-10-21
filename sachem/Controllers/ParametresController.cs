@@ -67,23 +67,40 @@ namespace sachem.Controllers
             }
         }
 
+        [NonAction]
+        private IEnumerable<Session> ObtenirSession(int session = 0)
+        {
+            var lstSession = from s in db.Session
+                                where (db.p_HoraireInscription.Any(j => (j.id_Sess == s.id_Sess || session == 0)))
+                                orderby s.NomSession
+                                select s;
+            return lstSession.ToList();
+        }
+
+        [NonAction]
+        private void ListeSession(int session)
+        {
+            ViewBag.Session = new SelectList(ObtenirSession(session), "id_Sess", "NomSession", session);
+        }
+
         //trouver un moyen de faire fonctionner la vue pour qu'elle affiche bien [Été 2016] en dropdownlist
         // MODULO ???!?!?
         public ActionResult EditHoraire()
         {
-            var horaire = db.p_HoraireInscription.First();
+            //var horaire = db.p_HoraireInscription.First();
+            //List<SelectListItem> horaireList = new List<SelectListItem>();
+            //foreach (var item in db.p_HoraireInscription)
+            //{
+            //    var sess = db.Session.Find(item.id_Sess);
+            //    horaireList.Add
+            //    (
+            //        new SelectListItem {Text = item.id_Sess.ToString(), Value = sess.NomSession}
+            //    );
+            //}
 
-            List<SelectListItem> horaireList = new List<SelectListItem>();
-
-            foreach (var item in db.p_HoraireInscription)
-            {
-                var sess = db.Session.Find(item.id_Sess);
-                horaireList.Add
-                (
-                    new SelectListItem {Text = item.id_Sess.ToString(), Value = sess.NomSession}
-                );
-            }
-            return View(Tuple.Create(horaireList,horaire));
+            ListeSession(0);
+            // return View(Tuple.Create(horaireList,horaire));
+            return View();
         }
 
 

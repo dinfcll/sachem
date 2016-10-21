@@ -21,8 +21,9 @@
         <div class="form-group">
             @Html.LabelFor(model => model.Item2.id_Sess, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.ListBoxFor(model => model.Item2.id_Sess, Model.Item1, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Item1, "", new { @class = "text-danger" })
+                @*@Html.ListBoxFor(model => model.Item2.id_Sess, Model.Item1, new { htmlAttributes = new { @class = "form-control" } })*@
+                @Html.DropDownList("Session", "Toutes")
+                @*@Html.ValidationMessageFor(model => model.Item1, "", new { @class = "text-danger" })*@
             </div>
         </div>
 
