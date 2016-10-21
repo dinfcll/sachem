@@ -6,8 +6,6 @@ using System.Web.Mvc;
 using sachem.Models;
 using PagedList;
 using sachem.Classes_Sachem;
-using System.Security.Cryptography;// pour encripter mdp
-using System.Text;
 using System.Data.Entity;
 
 namespace sachem.Controllers
@@ -76,8 +74,8 @@ namespace sachem.Controllers
             // Si les données sont valides, faire l'ajout
             if (ModelState.IsValid)
             {
-                personne.MP = encrypterChaine(personne.MP); // Encryption du mot de passe
-                personne.ConfirmPassword = encrypterChaine(personne.ConfirmPassword); // Encryption du mot de passe 
+                personne.MP = SachemIdentite.encrypterChaine(personne.MP);
+                personne.ConfirmPassword = SachemIdentite.encrypterChaine(personne.ConfirmPassword); // Encryption du mot de passe 
                 
                 db.Personne.Add(personne);
                 db.SaveChanges();
@@ -112,7 +110,6 @@ namespace sachem.Controllers
             ViewBag.id_TypeUsag = new SelectList(db.p_TypeUsag, "id_TypeUsag", "TypeUsag", personne.id_TypeUsag);
             ViewBag.id_Programme = new SelectList(db.ProgrammeEtude, "id_ProgEtu", "nomProg");
             ViewBag.id_Session = new SelectList(db.Session, "id_Sess", "NomSession");
-            //return View(Tuple.Create(personne, Prog.AsEnumerable()));
             PersonneEtuProgParent epep = new PersonneEtuProgParent();
             epep.personne = personne;
             epep.epe = Prog.ToList();
@@ -138,8 +135,7 @@ namespace sachem.Controllers
                           where d.id_Pers == p.id_Pers
                           select d).FirstOrDefault();
             p.id_Sexe = idSexe.id_Sexe;
-
-            //db.SaveChanges();
+            
             pepp.personne = p;
 
             //Mise à jour Viewbag
@@ -197,18 +193,9 @@ namespace sachem.Controllers
         public ActionResult DeleteConfirmed(int id,int? page)
         {
             var pageNumber = page ?? 1;
-            // Verifie si l'étudiant est relié a un groupe
-            /*if (db.Groupe.Any(a => a.Personne == id)) 
-            {
-                ModelState.AddModelError(string.Empty, Messages.I_014);
+            
+            Personne personne = db.Personne.Find(id);
 
-            }*/
-           
-            //if (ModelState.IsValid)
-            //{
-                //trouve la personne à supprimer
-                Personne personne = db.Personne.Find(id);
-            //suppression de la personne dans tout les tables qu'on la retrouve
             var etuProgEtu = db.EtuProgEtude.Where(x => x.id_Etu == personne.id_Pers);
             db.EtuProgEtude.RemoveRange(etuProgEtu);
             var groupeEtu = db.GroupeEtudiant.Where(y => y.id_Etudiant == personne.id_Pers);
@@ -239,15 +226,7 @@ namespace sachem.Controllers
             //retourne à l'index
             return RedirectToAction("Index");
         }
-
-        //Méthode pour encrypter le de mot de passe.
-        public static string encrypterChaine(string mdp)
-        {
-            byte[] Buffer;
-            MD5CryptoServiceProvider provider = new MD5CryptoServiceProvider();
-            Buffer = Encoding.UTF8.GetBytes(mdp);
-            return BitConverter.ToString(provider.ComputeHash(Buffer)).Replace("-", "").ToLower();
-        }
+        
         //fonction de validation
         private void Valider([Bind(Include = "id_Pers,id_Sexe,id_TypeUsag,Nom,Prenom,NomUsager,MP,ConfirmPassword,Courriel,DateNais,Actif")] Personne personne)
         {
