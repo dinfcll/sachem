@@ -31,4 +31,27 @@ namespace sachem.Classes_Sachem
         }
 
     }
+
+    public class ValidationAccesTuteur : ActionFilterAttribute
+    {
+        static readonly List<TypeUsagers> rolesAcces = new List<TypeUsagers>() { TypeUsagers.Responsable, TypeUsagers.Super, TypeUsagers.Enseignant, TypeUsagers.Tuteur };
+        public override void OnActionExecuting(ActionExecutingContext filterContext)
+        {
+            var verif = SachemIdentite.ValiderRoleAcces(rolesAcces, filterContext.HttpContext.Session);
+            if (!verif)
+                filterContext.Result = new RedirectResult("/Home/Error");
+        }
+
+    }
+    public class ValidationAccesEtu : ActionFilterAttribute
+    {
+        static readonly List<TypeUsagers> rolesAcces = new List<TypeUsagers>() { TypeUsagers.Responsable, TypeUsagers.Super, TypeUsagers.Enseignant, TypeUsagers.Tuteur, TypeUsagers.Eleve };
+        public override void OnActionExecuting(ActionExecutingContext filterContext)
+        {
+            var verif = SachemIdentite.ValiderRoleAcces(rolesAcces, filterContext.HttpContext.Session);
+            if (!verif)
+                filterContext.Result = new RedirectResult("/Home/Error");
+        }
+
+    }
 }
