@@ -177,8 +177,6 @@ namespace sachem.Controllers
         [HttpGet]
         public ActionResult EditCollege()
         {
-            //if (!SachemIdentite.ValiderRoleAcces(RolesAcces, Session))
-            //    return RedirectToAction("Error", "Home", null);
             var college = from c in db.p_College orderby c.College select c;
             return View(college);
         }
