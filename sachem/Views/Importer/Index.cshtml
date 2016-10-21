@@ -1,0 +1,58 @@
+﻿<link rel="stylesheet" href="~/Scripts/dropzone/dropzone.css"/>
+<script src="~/Scripts/dropzone/dropzone.js"></script>
+
+@{
+    ViewBag.Title = "Importer les données";
+}
+
+<h2>@ViewBag.Title</h2>
+<h5>À partir de cette page, il vous est possible de déposer des fichers de l'administration qui alimenteront les listes de données de l'application Sachem.</h5>
+
+<div class="jumbotron">
+    <form action="~/Importer/SaveUploadedFile" method="post" enctype="multipart/form-data" class="dropzone" id="dropzoneForm" ">
+        <div class="dz-message">
+            Déposez les fichiers ici ou cliquez pour téléverser.<br />
+            <h5>Les fichers seront traités dans les prochaines dix minutes.</h5>
+        </div>
+        <div class="fallback">
+            <input name="file" type="file" multiple />
+            <input type="submit" value="Upload" />
+        </div>
+    </form>
+</div>
+
+<script>
+    //File Upload response from the server
+    Dropzone.options.dropzoneForm = {
+        maxFilesize: '@(ViewBag.MAXFILESIZE)', //variable pour la taille maximale du fichier
+        acceptedFiles: '@(ViewBag.FILEEXTENSION)', //variable de l'extension du fichier requis, valider dans le opendialog
+        dictDefaultMessage: "Glisser le fichier ici pour le téléverser au serveur.",
+        dictFallbackMessage: "Votre navigateur ne supporte pas la fonction glisser-déposer de fichiers.",
+        dictFallbackText: "SVP utiliser le formulaire ci-dessous pour le téléversement de fichiers.",
+        dictFileTooBig: "Le fichier est trop énorme: ({{filesize}}MiB). Taille maximale: {{maxFilesize}}MiB.",
+        dictInvalidFileType: "Seulement les fichiers de type " + '@(ViewBag.FILEEXTENSION)'+ " sont acceptés.",
+        dictResponseError: "Le serveur a répondu le code d'erreur: {{statusCode}}.",
+        dictCancelUpload: "Annuler le téléversement",
+        dictCancelUploadConfirmation: "Etes-vous certain d'annuler le téléversement?",
+        dictRemoveFile: "Effacer le fichier",
+        dictMaxFilesExceeded: "Vous ne pouvez pas téléverser plus de fichiers.",
+        maxFiles: '@(ViewBag.MAXFILES)',//variable pour le nombre maximal de fichier a la fois, valider dans le opendialog
+
+        init: function () {
+            this.on('error', function (file, response) {
+                var errorMessage = response.errorMessage;
+                $(file.previewElement).find('.dz-error-message').text(errorMessage);
+            });
+
+            this.on('error', function (file, response) {
+                var errorMessage = response.errorMessage;
+                $(file.previewElement).find('.dz-error-message').text(errorMessage);
+            });
+
+            this.on('success', function (file, response) {
+                var successMessage = response.successMessage;
+                $(file.previewElement).find('.dz-success-message').text(successMessage);
+            });
+        }
+    };
+</script>

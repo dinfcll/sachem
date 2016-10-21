@@ -1,0 +1,54 @@
+﻿@model sachem.Models.ProgrammeEtude
+
+@{
+    ViewBag.Title = "Supprimer un programme d'études";
+}
+
+<h2>ViewBag.Title</h2>
+
+<h3>@sachem.Models.Messages.Q_002(Model.NomProg)</h3>
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Code)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Code)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.NomProg)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NomProg)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Annee)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Annee)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Actif)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Actif)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm("Delete", "ProgrammesOfferts", FormMethod.Post, new { @class = "form-inline", role = "form" }))
+    {
+        <div class="form-actions no-color">
+            <input type="submit" value="Supprimer" class="btn btn-default" /> |
+            @Html.ActionLink("Retourner à la recherche des programmes d'étude", "Index")
+        </div>
+    }
+</div>

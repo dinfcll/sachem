@@ -9,62 +9,81 @@ namespace sachem.Controllers
 {
     public class ParametresController : Controller
     {
-
+        List<TypeUsagers> RolesAcces = new List<TypeUsagers>() { TypeUsagers.Responsable, TypeUsagers.Super };
         private readonly SACHEMEntities db = new SACHEMEntities();
-        // GET: Parametres
-        public ActionResult Index()
+
+        public ActionResult IndexModifier(int? id)
         {
-            return View();
+            return View("Edit");
         }
 
-        // GET: Parametres/Details/5
-        public ActionResult Details(int id)
+        
+        public ActionResult Edit()
         {
-            return View();
+            if (!SachemIdentite.ValiderRoleAcces(RolesAcces, Session))
+                return RedirectToAction("Error", "Home", null);
+
+            var contact = db.p_Contact.First();
+            return View(contact);
         }
 
-        // GET: Parametres/Create
-        public ActionResult Create()
+        [HttpGet]
+        public ActionResult EditCourrier()
         {
-            return View();
+            if (!SachemIdentite.ValiderRoleAcces(RolesAcces, Session))
+                return RedirectToAction("Error", "Home", null);
+            var courrier = db.Courriel.First();
+            ViewBag.id_TypeCourriel = new SelectList(db.p_TypeCourriel, "id_TypeCourriel", "TypeCourriel");
+            return View(courrier);
         }
 
-        // POST: Parametres/Create
         [HttpPost]
-        public ActionResult Create(FormCollection collection)
+        [ValidateAntiForgeryToken]
+        public ActionResult EditCourrier(Courriel courriel, p_TypeCourriel typeCourriel)
         {
-            try
+            ViewBag.id_TypeCourriel = new SelectList(db.p_TypeCourriel, "id_TypeCourriel", "TypeCourriel");
+            courriel.p_TypeCourriel = typeCourriel;
+            if (courriel.DateFin != null)
             {
-                // TODO: Add insert logic here
-
-                return RedirectToAction("Index");
+                if((courriel.DateDebut - courriel.DateFin.Value).TotalDays > 0)
+                {
+                    ModelState.AddModelError(string.Empty, Messages.C_005);
+                }
             }
-            catch
+
+            if (ModelState.IsValid)
             {
-                return View();
+                db.Entry(courriel).State = EntityState.Modified;
+                db.SaveChanges();
+                TempData["Success"] = Messages.I_032();
             }
-        }
-
-        // GET: Parametres/Edit/5
-        public ActionResult Edit(int id)
-        {
             return View();
         }
 
-        // POST: Parametres/Edit/5
-        [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
+        [HttpGet]
+        public ActionResult EditContact()
         {
-            try
-            {
-                // TODO: Add update logic here
+            if (!SachemIdentite.ValiderRoleAcces(RolesAcces, Session))
+                return RedirectToAction("Error", "Home", null);
+            var contact = db.p_Contact.First();
+            return View(contact);
+        }
 
-                return RedirectToAction("Index");
-            }
-            catch
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult EditContact([Bind(Include = "id_Contact,Nom,Prenom,Courriel,Telephone,Poste,Facebook,SiteWeb,Local")] p_Contact contact)
+        {
+            Valider(contact);
+
+            if (ModelState.IsValid)
             {
-                return View();
+                db.Entry(contact).State = EntityState.Modified;
+                db.SaveChanges();
+
+                TempData["Success"] = string.Format(Messages.I_003(contact.Nom));
+                return View(contact);
             }
+            return View(contact);
         }
 
         [NonAction]
@@ -97,6 +116,12 @@ namespace sachem.Controllers
             //        new SelectListItem {Text = item.id_Sess.ToString(), Value = sess.NomSession}
             //    );
             //}
+            if (!SachemIdentite.ValiderRoleAcces(RolesAcces, Session))
+                return RedirectToAction("Error", "Home", null);
+
+            var horaire = db.p_HoraireInscription.First();
+
+            List<SelectListItem> horaireList = new List<SelectListItem>();
 
             ListeSession(0);
             // return View(Tuple.Create(horaireList,horaire));
@@ -104,19 +129,20 @@ namespace sachem.Controllers
         }
 
 
-        //A VERIF
+        
         [HttpPost]
         public ActionResult EditHoraire([Bind(Prefix = "Item2")] p_HoraireInscription nouvelHoraire)
         {
             
             var session = db.Session.Find(nouvelHoraire.id_Sess);
-            var saison = db.p_Saison.Find(nouvelHoraire.Session.id_Saison);
-            ModelState.Clear();
+            var saison = db.p_Saison.Find(session.id_Saison);
+            //regarde l'année
             if (session.Annee != nouvelHoraire.DateFin.Year || session.Annee != nouvelHoraire.DateDebut.Year)
             {
                 ModelState.AddModelError(string.Empty, Messages.C_006);
-            }
+        }
 
+            //regarde si les dates sont bonnes
             if((nouvelHoraire.DateFin - nouvelHoraire.DateDebut).TotalDays < 1)
             {
                 ModelState.AddModelError(string.Empty, Messages.C_005);
@@ -137,7 +163,7 @@ namespace sachem.Controllers
                         if (new DateTime(1,6,1).Month > nouvelHoraire.DateDebut.Month || nouvelHoraire.DateFin.Month > new DateTime(1,8,1).Month)
                         {
                             ModelState.AddModelError(string.Empty, Messages.C_006);
-                        }   
+        }
                         break;
                     //si automne: de aout inclus jusqua decembre inclus (si mois du début >= 8 et mois fin <= 12)
                     //pas besoin de verif la date de fin car on est sur que c'est la bonne année et qu'elle est apres la date de début
@@ -161,25 +187,65 @@ namespace sachem.Controllers
         }
 
 
-        // GET: Parametres/Delete/5
-        public ActionResult Delete(int id)
+        [NonAction]
+        private void Valider([Bind(Include = "id_Contact,Nom,Prenom,Courriel,Telephone,Poste,Facebook,SiteWeb,Local")]p_Contact contact)
         {
-            return View();
+            if (db.p_Contact.Any(r => r.id_Contact == contact.id_Contact && r.Prenom != contact.Prenom && r.Nom != contact.Nom))
+                ModelState.AddModelError(string.Empty, Messages.I_002(contact.id_Contact.ToString()));
         }
 
-        // POST: Parametres/Delete/5
-        [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
+        public ActionResult IndexCollege()
         {
-            try
-            {
-                // TODO: Add delete logic here
+            var college = from tout in db.p_College
+                          orderby tout.College
+                          select tout;
+            return View(college);
+        }
+        [HttpGet]
+        public ActionResult EditCollege()
+        {
+            if (!SachemIdentite.ValiderRoleAcces(RolesAcces, Session))
+                return RedirectToAction("Error", "Home", null);
+            var college = from c in db.p_College select c;
+            return View(college);
+        }
 
-                return RedirectToAction("Index");
-            }
-            catch
+        [HttpPost]
+        public void EditCollege(string nomCollege, int? id)
+        {
+            
+            if (db.p_College.Any(r => r.id_College == id))
             {
-                return View();
+                var college = db.p_College.Find(id);
+                college.College = nomCollege;
+                db.Entry(college).State = EntityState.Modified;
+                db.SaveChanges();
+            }
+        }
+
+        public ActionResult AddCollege(string nomCollege)
+        {
+            if (!db.p_College.Any(p => p.College == nomCollege))
+            {
+                var college = new p_College
+                {
+                    College = nomCollege
+                };
+                db.p_College.Add(college);
+                db.SaveChanges();
+                TempData["Success"] = string.Format(Messages.I_044(nomCollege));
+            }
+            return RedirectToAction("IndexCollege");
+        }
+
+        [HttpPost]
+        public void DeleteCollege(int? id)
+        {
+            var college = db.p_College.Find(id);
+            if(college != null)
+            {
+                db.p_College.Remove(college);
+                db.SaveChanges();
             }
         }
     }
