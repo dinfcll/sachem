@@ -8,50 +8,56 @@ using System.Web.Mvc;
 
 namespace sachem.Classes_Sachem
 {
-    public class ValidationAccesSuper : ActionFilterAttribute
+    public abstract class ValidationAcces
     {
-        static readonly List<TypeUsagers> rolesAcces = new List<TypeUsagers>() { TypeUsagers.Responsable, TypeUsagers.Super };
-        public override void OnActionExecuting(ActionExecutingContext filterContext)
+        public const string pathErreurAuth = "/Home/Error";
+       
+        public class ValidationAccesSuper : ActionFilterAttribute
         {
-            var verif = SachemIdentite.ValiderRoleAcces(rolesAcces, filterContext.HttpContext.Session);
-            if (!verif)
-                filterContext.Result = new RedirectResult("/Home/Error");
+            
+            static readonly List<TypeUsagers> rolesAcces = new List<TypeUsagers>() { TypeUsagers.Responsable, TypeUsagers.Super };
+            public override void OnActionExecuting(ActionExecutingContext filterContext)
+            {
+                var verif = SachemIdentite.ValiderRoleAcces(rolesAcces, filterContext.HttpContext.Session);
+                if (!verif)
+                    filterContext.Result = new RedirectResult(pathErreurAuth);
+            }
+
         }
 
-    }
-
-    public class ValidationAccesEnseignant : ActionFilterAttribute
-    {
-        static readonly List<TypeUsagers> rolesAcces = new List<TypeUsagers>() { TypeUsagers.Enseignant, TypeUsagers.Responsable, TypeUsagers.Super };
-        public override void OnActionExecuting(ActionExecutingContext filterContext)
+        public class ValidationAccesEnseignant : ActionFilterAttribute
         {
-            var verif = SachemIdentite.ValiderRoleAcces(rolesAcces, filterContext.HttpContext.Session);
-            if (!verif)
-                filterContext.Result = new RedirectResult("/Home/Error");
+            static readonly List<TypeUsagers> rolesAcces = new List<TypeUsagers>() { TypeUsagers.Enseignant, TypeUsagers.Responsable, TypeUsagers.Super };
+            public override void OnActionExecuting(ActionExecutingContext filterContext)
+            {
+                var verif = SachemIdentite.ValiderRoleAcces(rolesAcces, filterContext.HttpContext.Session);
+                if (!verif)
+                    filterContext.Result = new RedirectResult(pathErreurAuth);
+            }
+
         }
 
-    }
-
-    public class ValidationAccesTuteur : ActionFilterAttribute
-    {
-        static readonly List<TypeUsagers> rolesAcces = new List<TypeUsagers>() { TypeUsagers.Responsable, TypeUsagers.Super, TypeUsagers.Enseignant, TypeUsagers.Tuteur };
-        public override void OnActionExecuting(ActionExecutingContext filterContext)
+        public class ValidationAccesTuteur : ActionFilterAttribute
         {
-            var verif = SachemIdentite.ValiderRoleAcces(rolesAcces, filterContext.HttpContext.Session);
-            if (!verif)
-                filterContext.Result = new RedirectResult("/Home/Error");
-        }
+            static readonly List<TypeUsagers> rolesAcces = new List<TypeUsagers>() { TypeUsagers.Responsable, TypeUsagers.Super, TypeUsagers.Enseignant, TypeUsagers.Tuteur };
+            public override void OnActionExecuting(ActionExecutingContext filterContext)
+            {
+                var verif = SachemIdentite.ValiderRoleAcces(rolesAcces, filterContext.HttpContext.Session);
+                if (!verif)
+                    filterContext.Result = new RedirectResult(pathErreurAuth);
+            }
 
-    }
-    public class ValidationAccesEtu : ActionFilterAttribute
-    {
-        static readonly List<TypeUsagers> rolesAcces = new List<TypeUsagers>() { TypeUsagers.Responsable, TypeUsagers.Super, TypeUsagers.Enseignant, TypeUsagers.Tuteur, TypeUsagers.Eleve };
-        public override void OnActionExecuting(ActionExecutingContext filterContext)
+        }
+        public class ValidationAccesEtu : ActionFilterAttribute
         {
-            var verif = SachemIdentite.ValiderRoleAcces(rolesAcces, filterContext.HttpContext.Session);
-            if (!verif)
-                filterContext.Result = new RedirectResult("/Home/Error");
-        }
+            static readonly List<TypeUsagers> rolesAcces = new List<TypeUsagers>() { TypeUsagers.Responsable, TypeUsagers.Super, TypeUsagers.Enseignant, TypeUsagers.Tuteur, TypeUsagers.Eleve };
+            public override void OnActionExecuting(ActionExecutingContext filterContext)
+            {
+                var verif = SachemIdentite.ValiderRoleAcces(rolesAcces, filterContext.HttpContext.Session);
+                if (!verif)
+                    filterContext.Result = new RedirectResult(pathErreurAuth);
+            }
 
+        }
     }
 }
