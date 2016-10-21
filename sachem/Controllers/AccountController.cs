@@ -251,7 +251,7 @@ namespace sachem.Controllers
             //Get le sexe du formulaire
             ViewBag.id_Sexe = new SelectList(db.p_Sexe, "id_Sexe", "Sexe");
 
-            var validation = fn_ConfirmeMdp(personne.MP, personne.ConfirmPassword); // validation mdp
+            var validation = ConfirmeMdp(personne.MP, personne.ConfirmPassword); 
 
             if (!validation)
                 return View(personne);
@@ -389,9 +389,8 @@ namespace sachem.Controllers
         public ActionResult ModifierPassword(Personne personne,string Modifier,string Annuler)
         {
             if(Annuler != null)//Verifier si c'est le bouton annuler qui a été cliqué
-            {
                 return RedirectToAction("Index", "Home");
-            }
+
             if (Modifier != null)//Si modifier mdp a été cliqué
             {
                 int idpersonne = SessionBag.Current.id_Pers;//Chercher l'id et le mot de passe de l'utilisateur en cours dans l'objet sessionbag
@@ -400,9 +399,7 @@ namespace sachem.Controllers
                 if (personne.AncienMotDePasse == null)
                     ModelState.AddModelError("AncienMotDePasse", Messages.U_001); //requis
 
-                var validation = fn_ConfirmeMdp(personne.MP, personne.ConfirmPassword); //valide mdp
-
-                if (!validation)
+                if (!ConfirmeMdp(personne.MP, personne.ConfirmPassword))
                     return View(personne);
 
                 if (personne.AncienMotDePasse == null || personne.MP == null || personne.ConfirmPassword == null) //Validation pour les champs requis
@@ -448,7 +445,7 @@ namespace sachem.Controllers
 
 
         #region Fonctions secondaires
-        private bool fn_ConfirmeMdp(string s1, string s2)
+        private bool ConfirmeMdp(string s1, string s2)
         {
             if (s1 == null || s2 == null)
             {
