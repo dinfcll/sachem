@@ -246,6 +246,7 @@
     <Compile Include="Models\Cours.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\PersEtuProg.cs" />
     <Compile Include="Models\p_CollegeMetadata.cs" />
     <Compile Include="Models\PersonneMetadata.cs" />
     <Compile Include="Models\p_TypeInscriptionMetadata.cs" />
@@ -508,7 +509,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>2302</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:2302/</IISUrl>
+          <IISUrl>http://localhost:23002/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

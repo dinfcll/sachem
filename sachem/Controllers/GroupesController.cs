@@ -234,12 +234,13 @@ namespace sachem.Controllers
             Groupe groupe = db.Groupe.Find(idg);
             IEnumerable<Personne> personnes = RechercherEleve();
 
-            db.Configuration.LazyLoadingEnabled = false;
+            //db.Configuration.LazyLoadingEnabled = false;
+            var lstEtu = db.Personne.Where(x => x.id_TypeUsag == 1).Join(db.EtuProgEtude, p => p.id_Pers, epe => epe.id_Etu, (p, epe) => new PersEtuProg(p,epe)).OrderBy(x=>x.p.Nom).ToList();
 
                 /*requête LINQ qui va chercher tous les étudiants répondant aux critères de recherche ainsi que leur programme d'étude actuel. */
-            var lstEtu = from q in
-                         (from p in personnes.Where(x => /*x.Actif == true &&  x.GroupeEtudiant.Any(y => y.id_Groupe == idg) && */ 
-                           x.EtuProgEtude.Any(y => y.id_Sess == groupe.id_Sess)).OrderBy(x => x.Nom)
+            /*var lstEtu = from q in
+                         (from p in personnes.Where(x => /*x.Actif == true &&  x.GroupeEtudiant.Any(y => y.id_Groupe == idg) &&  
+                           x.EtuProgEtude.Any(y => y.id_Sess == groupe.id_Sess)).OrderBy(x => x.Nom).Take(10)
                             select new
                             {
                                 Personne = p,
@@ -248,8 +249,8 @@ namespace sachem.Controllers
                             orderby q.Personne.Nom, q.Personne.Prenom
                             // le résultat de la requête sera une liste de PersonneProgEtu (déclaré plus haut),
                             // si l'objet n'est pas déclaré, la vue dynamique n'est pas capable d'évaluer correctement
-                            select new PersonneProgEtu { personne = q.Personne, progEtuActif = q.ProgEtu };
-            db.Configuration.LazyLoadingEnabled = true;
+                            select new PersonneProgEtu { personne = q.Personne, progEtuActif = q.ProgEtu };*/
+            //db.Configuration.LazyLoadingEnabled = true;
 
             var pageNumber = page ?? 1;
             ViewBag.page = pageNumber;
@@ -281,7 +282,7 @@ namespace sachem.Controllers
             if (ModelState.IsValid)
             {
 
-                if (db.GroupeEtudiant.Where(x => x.id_Etudiant == idp).FirstOrDefault() != null && noclick == 0)
+                if (db.GroupeEtudiant.Where(x => x.id_Etudiant == idp /*&& x.Groupe.id_Cours == g.id_Cours && x.Groupe.id_Sess == g.id_Sess*/).FirstOrDefault() != null && noclick == 0)
                 {
                     TempData["idGe"] = db.GroupeEtudiant.Where(x => x.id_Etudiant == idp).FirstOrDefault().id_GroupeEtudiant;
                     TempData["personne"] = p.id_Pers;
