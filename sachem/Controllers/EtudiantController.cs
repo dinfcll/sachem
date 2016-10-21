@@ -52,9 +52,9 @@ namespace sachem.Controllers
         // GET: Etudiant/Create
         public ActionResult Create()
         {
+            //   s.lSexe = new SelectList(db.p_Sexe, "id_Sexe", "Sexe");
 
-            ViewBag.id_Sexe = new SelectList(db.p_Sexe, "id_Sexe", "Sexe");
-            TempData["id_Sexe"] = new SelectList(db.p_Sexe, "id_Sexe", "Sexe");
+            ViewBag.id_Sexe = db.p_Sexe;
             ViewBag.id_TypeUsag = new SelectList(db.p_TypeUsag, "id_TypeUsag", "TypeUsag");
             ViewBag.id_Programme = new SelectList(db.ProgrammeEtude, "id_ProgEtu", "nomProg");
             ViewBag.id_Session = new SelectList(db.Session, "id_Sess", "NomSession");
@@ -68,8 +68,8 @@ namespace sachem.Controllers
         // plus de détails, voir  http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(Personne personne)
-        {//[Bind(Include = "id_Pers,id_Sexe,id_TypeUsag,Nom,Prenom,Matricule,MP,ConfirmPassword,Courriel,Telephone,DateNais")]
+        public ActionResult Create([Bind(Include = "id_Pers,id_Sexe,id_TypeUsag,Nom,Prenom,Matricule,MP,ConfirmPassword,Courriel,Telephone,DateNais")] Personne personne)
+        {
             ViewBag.id_Sexe = new SelectList(db.p_Sexe, "id_Sexe", "sexe");
             
             ViewBag.id_TypeUsag = new SelectList(db.p_TypeUsag, "id_TypeUsag", "TypeUsag");
@@ -77,8 +77,8 @@ namespace sachem.Controllers
             ViewBag.id_Session = new SelectList(db.Session, "id_Sess", "NomSession");
 
             PersonneEtuProgParent pepp = new PersonneEtuProgParent();
-            personne.id_Sexe = Int32.Parse(Request.Form["id_Sexe"]);
-            //ModelState["id_Sexe"].Value = personne.id_Sexe.Value;
+            //personne.id_Sexe = Int32.Parse(Request.Form["id_Sexe"]);
+
             personne.id_TypeUsag = 1;
             personne.Actif = true;
             personne.Telephone = FormatTelephone(personne.Telephone);
