@@ -11,7 +11,6 @@ using PagedList;
 using System.Security.Cryptography;// pour encripter mdp
 using System.Text;
 using System.Web.Services;
-using System.Data.Entity.Validation;
 
 namespace sachem.Controllers
 {
@@ -296,7 +295,8 @@ namespace sachem.Controllers
             Personne personne = db.Personne.Find(id_Pers);
             Inscription inscription = db.Inscription.Find(id_Inscription);
 
-            if (SachemIdentite.ObtenirTypeUsager(Session) == TypeUsagers.Tuteur || SachemIdentite.ObtenirTypeUsager(Session) == TypeUsagers.Eleve)
+            if (SachemIdentite.ObtenirTypeUsager(Session) == TypeUsagers.Tuteur ||
+                SachemIdentite.ObtenirTypeUsager(Session) == TypeUsagers.Eleve)
             {
                 var Courriel = Convert.ToString(model["item1.Personne.Courriel"]);
                 var Telephone = Convert.ToString(model["item1.Personne.Telephone"]);
@@ -325,16 +325,7 @@ namespace sachem.Controllers
             {
                 db.Entry(personne).State = EntityState.Modified;
                 db.Entry(inscription).State = EntityState.Modified;
-                try
-                {
-                    db.SaveChanges();
-                }
-                catch (DbEntityValidationException ex)
-                {
-                    string exd = ex.ToString();
-                }
-                    
-
+                db.SaveChanges();                
             }
             return View(Tuple.Create(inscription, vCoursSuivi.AsEnumerable(), vInscription.AsEnumerable()));
         }

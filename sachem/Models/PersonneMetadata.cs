@@ -13,7 +13,6 @@ namespace sachem.Models
     //on doit redéfinir la classe partielle même si on ajout rien. Placé immédiatement avant la classe de métadonnée associée
     public partial class Personne
     {
-        //[System.ComponentModel.DataAnnotations.Compare("MP", ErrorMessage = Messages.C_001)]
         [NotMappedAttribute]
         public string ConfirmPassword { get; set; }
 
@@ -25,10 +24,6 @@ namespace sachem.Models
 
         [NotMappedAttribute]
         public string AncienMotDePasse { get; set; }
-
-       // [NotMappedAttribute]
-       // public global::System.Int32 idTypeInsc { get ; set; }
-
     }
     public class PersonneMetadata
     {
@@ -52,8 +47,7 @@ namespace sachem.Models
         //la mise en commentaire le l'expression reguliere me permet de creer des comptes
         [RegularExpression(@"^[0-9]{4}-[0-9]{2}-[0-9]{2} [0-2][0-9]:[0-5][0-9]:[0-5][0-9]$|^[0-9]{4}\/[0-9]{2}\/[0-9]{2}$", ErrorMessage = Messages.U_007)]
         [DisplayFormat(DataFormatString = "{0:yyyy\\/MM\\/dd}", ApplyFormatInEditMode = true)]
-        public global::System.DateTime DateNais;
-        
+        public global::System.DateTime DateNais;       
 
         [Display(Name = "Courriel")]
         [EmailAddress(ErrorMessage = Messages.U_008)]
@@ -66,10 +60,7 @@ namespace sachem.Models
         [Display(Name = "Téléphone")]
         [DataType(DataType.PhoneNumber)]
         [RegularExpression(@"^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$", ErrorMessage = Messages.U_009)] //Vérifie le format du tel
-        //[DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:(###) ###-####}")]
         public global::System.String Telephone; //Ajout pour #Tel dans BD
-
-        
 
         [Display(Name = "Nom d'usager")]
         [StringLength(25)]

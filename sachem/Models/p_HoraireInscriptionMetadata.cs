@@ -27,12 +27,12 @@ namespace sachem.Models
         [Required(ErrorMessage = Messages.U_001)]
         [RegularExpression(@"^\d{4}[/](0?[1-9]|1[012])[/](0?[1-9]|[12][0-9]|3[01])$", ErrorMessage = Messages.U_007)]
         [Display(Name = "Date de début")]
-        public System.DateTime DateDebut;
+        public global::System.String DateDebut;
         
         [Display(Name = "Date de fin")]
         [Required(ErrorMessage = Messages.U_001)]
         [RegularExpression(@"^\d{4}[/](0?[1-9]|1[012])[/](0?[1-9]|[12][0-9]|3[01])$", ErrorMessage = Messages.U_007)]
-        public System.DateTime DateFin;
+        public global::System.String DateFin;
 
         public Session Session;
     }
