@@ -54,7 +54,6 @@ namespace sachem.Controllers
         [ValidationAccesEtudiant]
         public ActionResult Create()
         {
-
             ViewBag.id_Sexe = new SelectList(db.p_Sexe, "id_Sexe", "Sexe");
             ViewBag.id_TypeUsag = new SelectList(db.p_TypeUsag, "id_TypeUsag", "TypeUsag");
             return View();
