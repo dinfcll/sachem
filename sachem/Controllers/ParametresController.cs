@@ -63,8 +63,6 @@ namespace sachem.Controllers
         [ValidationAccesParametres]
         public ActionResult EditContact()
         {
-            if (!SachemIdentite.ValiderRoleAcces(RolesAcces, Session))
-                return RedirectToAction("Error", "Home", null);
             var contact = db.p_Contact.First();
             return View(contact);
         }
@@ -186,8 +184,6 @@ namespace sachem.Controllers
         [ValidationAccesParametres]
         public ActionResult EditCollege()
         {
-            if (!SachemIdentite.ValiderRoleAcces(RolesAcces, Session))
-                return RedirectToAction("Error", "Home", null);
             var college = from c in db.p_College select c;
             return View(college);
         }
