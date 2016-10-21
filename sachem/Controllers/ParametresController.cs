@@ -83,7 +83,7 @@ namespace sachem.Controllers
             return View(contact);
         }
 
-
+        
         //Méthode qui envoie a la view Edit horaire la liste de toutes les horaires d'inscription ainsi que l'horaire de la session courrante
         [ValidationAccesParametres]
         public ActionResult EditHoraire()
