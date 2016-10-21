@@ -68,20 +68,23 @@
                             {
                                 <li>@Html.ActionLink("Collège", "EditCollege", "Parametres")</li>
                                 <li>@Html.ActionLink("Contact", "EditContact", "Parametres")</li>
-                            }
                                 <li>@Html.ActionLink("Cours", "Index", "Cours")</li>
-                            @if (SachemIdentite.TypeListeAdmin.Contains(SachemIdentite.ObtenirTypeUsager(Session)))
-                            {
-                                    <li>@Html.ActionLink("Courriel de confirmation", "EditCourrier", "Parametres")</li>
-                                    <li>@Html.ActionLink("Enseignants", "Index", "Enseignant")</li>
-                            }
+                                <li>@Html.ActionLink("Courriel de confirmation", "EditCourrier", "Parametres")</li>
+                                <li>@Html.ActionLink("Enseignants", "Index", "Enseignant")</li>
+                                @if (SachemIdentite.TypeListeAdmin.Contains(SachemIdentite.ObtenirTypeUsager(Session)))
+                                {
                                     <li>@Html.ActionLink("Étudiants", "Index", "Etudiant")</li>
                                     <li>@Html.ActionLink("Groupes", "Index", "Groupes")</li>
-                                    <li>@Html.ActionLink("Horaire d'inscription", "EditHoraire", "Parametres")</li>
-                                    <li>@Html.ActionLink("Programmes offerts", "Index", "ProgrammesOfferts")</li>
-                                    <li>@Html.ActionLink("Importer données", "Index", "Importer")</li>
-
-                                 
+                                }
+                                <li>@Html.ActionLink("Horaire d'inscription", "EditHoraire", "Parametres")</li>
+                                <li>@Html.ActionLink("Programmes offerts", "Index", "ProgrammesOfferts")</li>
+                                <li>@Html.ActionLink("Importer données", "Index", "Importer")</li>
+                            }
+                            else
+                            {
+                                <li>@Html.ActionLink("Étudiants", "Index", "Etudiant")</li>
+                                <li>@Html.ActionLink("Groupes", "Index", "Groupes")</li>
+                            }  
                             </ul>
                         </li>
                     } 
