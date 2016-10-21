@@ -34,7 +34,7 @@ namespace sachem.Controllers
             //{
             //    Pers = (int)Session["id_Pers"];
             //}
-            var ResultReq = db.Cours.AsNoTracking().Where(c => c.Groupe.Any(g => (g.id_Enseignant == Pers || Pers == 0) && (g.id_Sess == session)));
+            var ResultReq = db.Cours.AsNoTracking().Where(c => c.Groupe.Any(g => (g.id_Enseignant == Pers || Pers == 0) && (g.id_Sess == session))).OrderBy(c => c.Nom);
            
             return ResultReq.AsEnumerable();
         }
@@ -50,7 +50,7 @@ namespace sachem.Controllers
             //    Pers = (int)Session["id_Pers"];
             //}
 
-            return db.Groupe.AsNoTracking().Where(p => (p.id_Enseignant == Pers || Pers == 0) && (p.id_Sess == session) && (p.id_Cours == cours));
+            return db.Groupe.AsNoTracking().Where(p => (p.id_Enseignant == Pers || Pers == 0) && (p.id_Sess == session) && (p.id_Cours == cours)).OrderBy(p => p.NoGroupe);
         }
 
 
