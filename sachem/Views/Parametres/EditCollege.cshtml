@@ -18,9 +18,7 @@
 <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
 <script type="text/javascript">
     function Modifier(id) {
-        alert();
         var nouveauNomCollege = document.getElementById("NomCollege").value;
-        alert(nouveauNomCollege);
         $.ajax({
             url: "/Parametres/EditCollege",
             data: { "nomCollege": nouveauNomCollege ,"id": id},
