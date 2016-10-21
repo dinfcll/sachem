@@ -5,14 +5,14 @@ using System.Net;
 using System.Web.Mvc;
 using sachem.Models;
 using PagedList;
-using System.Security.Cryptography;// pour encripter mdp
-using System.Text;
+using sachem.Classes_Sachem;
 using System.Data.Entity;
 
 namespace sachem.Controllers
 {
     public class EtudiantController : RechercheEtudiantController
     {    
+        [ValidationAccesEtudiant]
         public ActionResult Index(int? page)
         {
             noPage = (page ?? noPage);
@@ -47,6 +47,8 @@ namespace sachem.Controllers
             modif = modif.Insert(9,"-");
             return modif;
         }
+
+        [ValidationAccesEtudiant]
         // GET: Etudiant/Create
         public ActionResult Create()
         {
@@ -61,6 +63,7 @@ namespace sachem.Controllers
         // plus de détails, voir  http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [ValidationAccesEtudiant]
         public ActionResult Create([Bind(Include = "id_Pers,id_Sexe,id_TypeUsag,Nom,Prenom,Matricule,MP,ConfirmPassword,Courriel,Telephone,DateNais")] Personne personne,int? page)
         {
             personne.id_TypeUsag = 1;
@@ -71,8 +74,8 @@ namespace sachem.Controllers
             // Si les données sont valides, faire l'ajout
             if (ModelState.IsValid)
             {
-                personne.MP = encrypterChaine(personne.MP); // Encryption du mot de passe
-                personne.ConfirmPassword = encrypterChaine(personne.ConfirmPassword); // Encryption du mot de passe 
+                personne.MP = SachemIdentite.encrypterChaine(personne.MP);
+                personne.ConfirmPassword = SachemIdentite.encrypterChaine(personne.ConfirmPassword); // Encryption du mot de passe 
                 
                 db.Personne.Add(personne);
                 db.SaveChanges();
@@ -87,6 +90,7 @@ namespace sachem.Controllers
         }
 
         // GET: Etudiant/Edit/5
+        [ValidationAccesEtudiant]
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -106,7 +110,6 @@ namespace sachem.Controllers
             ViewBag.id_TypeUsag = new SelectList(db.p_TypeUsag, "id_TypeUsag", "TypeUsag", personne.id_TypeUsag);
             ViewBag.id_Programme = new SelectList(db.ProgrammeEtude, "id_ProgEtu", "nomProg");
             ViewBag.id_Session = new SelectList(db.Session, "id_Sess", "NomSession");
-            //return View(Tuple.Create(personne, Prog.AsEnumerable()));
             PersonneEtuProgParent epep = new PersonneEtuProgParent();
             epep.personne = personne;
             epep.epe = Prog.ToList();
@@ -121,6 +124,7 @@ namespace sachem.Controllers
         // plus de détails, voir  http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [ValidationAccesEtudiant]
         //Modification lorsqu'on clique sur le bouton modification / Enregistrement
         public ActionResult Edit([Bind(Include = "id_Pers,id_Sexe,id_TypeUsag,Nom,Prenom,NomUsager,Matricule7,MP,Courriel,Telephone,DateNais,Actif")] Personne personne)
         {
@@ -131,8 +135,7 @@ namespace sachem.Controllers
                           where d.id_Pers == p.id_Pers
                           select d).FirstOrDefault();
             p.id_Sexe = idSexe.id_Sexe;
-
-            //db.SaveChanges();
+            
             pepp.personne = p;
 
             //Mise à jour Viewbag
@@ -167,6 +170,7 @@ namespace sachem.Controllers
 
         // GET: Etudiant/Delete/5
         //exécuté lorsqu'un étudiant est supprimé
+        [ValidationAccesEtudiant]
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -185,21 +189,13 @@ namespace sachem.Controllers
         // POST: Etudiant/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [ValidationAccesEtudiant]
         public ActionResult DeleteConfirmed(int id,int? page)
         {
             var pageNumber = page ?? 1;
-            // Verifie si l'étudiant est relié a un groupe
-            /*if (db.Groupe.Any(a => a.Personne == id)) 
-            {
-                ModelState.AddModelError(string.Empty, Messages.I_014);
+            
+            Personne personne = db.Personne.Find(id);
 
-            }*/
-           
-            //if (ModelState.IsValid)
-            //{
-                //trouve la personne à supprimer
-                Personne personne = db.Personne.Find(id);
-            //suppression de la personne dans tout les tables qu'on la retrouve
             var etuProgEtu = db.EtuProgEtude.Where(x => x.id_Etu == personne.id_Pers);
             db.EtuProgEtude.RemoveRange(etuProgEtu);
             var groupeEtu = db.GroupeEtudiant.Where(y => y.id_Etudiant == personne.id_Pers);
@@ -219,6 +215,7 @@ namespace sachem.Controllers
             return RedirectToAction("Index");
         }
         //fonction qui supprime un programme d'étude à oartir de la page modifier
+        [ValidationAccesEtudiant]
         public ActionResult deleteProgEtu(int id)
         {
             var etuProgEtu = db.EtuProgEtude.Where(x => x.id_EtuProgEtude == id);
@@ -229,15 +226,7 @@ namespace sachem.Controllers
             //retourne à l'index
             return RedirectToAction("Index");
         }
-
-        //Méthode pour encrypter le de mot de passe.
-        public static string encrypterChaine(string mdp)
-        {
-            byte[] Buffer;
-            MD5CryptoServiceProvider provider = new MD5CryptoServiceProvider();
-            Buffer = Encoding.UTF8.GetBytes(mdp);
-            return BitConverter.ToString(provider.ComputeHash(Buffer)).Replace("-", "").ToLower();
-        }
+        
         //fonction de validation
         private void Valider([Bind(Include = "id_Pers,id_Sexe,id_TypeUsag,Nom,Prenom,NomUsager,MP,ConfirmPassword,Courriel,DateNais,Actif")] Personne personne)
         {
