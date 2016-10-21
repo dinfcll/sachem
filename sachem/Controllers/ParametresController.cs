@@ -87,25 +87,26 @@ namespace sachem.Controllers
         }
 
         [NonAction]
-        private IEnumerable<Session> ObtenirSession(int session = 0)
+        private void ListeSession(int session = 0)
         {
-            var lstSession = from s in db.Session
-                                where (db.p_HoraireInscription.Any(j => (j.id_Sess == s.id_Sess || session == 0)))
-                                orderby s.NomSession
-                                select s;
-            return lstSession.ToList();
-        }
+            var lSessions = db.Session.AsNoTracking().OrderBy(s => s.Annee).ThenBy(s => s.p_Saison.Saison).Where(s => s.p_Saison.id_Saison == s.id_Saison);
+            var slSession = new List<SelectListItem>();
 
-        [NonAction]
-        private void ListeSession(int session)
-        {
-            ViewBag.Session = new SelectList(ObtenirSession(session), "id_Sess", "NomSession", session);
+            slSession.AddRange(new SelectList(lSessions.OrderBy(i => i.id_Sess), "id_Sess", "NomSession", Session));
+            ViewBag.Session = slSession;
         }
 
         //trouver un moyen de faire fonctionner la vue pour qu'elle affiche bien [Été 2016] en dropdownlist
         // MODULO ???!?!?
         public ActionResult EditHoraire()
         {
+            if (!SachemIdentite.ValiderRoleAcces(RolesAcces, Session))
+                return RedirectToAction("Error", "Home", null);
+
+            var horaire = db.p_HoraireInscription.First();
+
+            List<SelectListItem> horaireList = new List<SelectListItem>();
+
             //var horaire = db.p_HoraireInscription.First();
             //List<SelectListItem> horaireList = new List<SelectListItem>();
             //foreach (var item in db.p_HoraireInscription)
@@ -116,12 +117,7 @@ namespace sachem.Controllers
             //        new SelectListItem {Text = item.id_Sess.ToString(), Value = sess.NomSession}
             //    );
             //}
-            if (!SachemIdentite.ValiderRoleAcces(RolesAcces, Session))
-                return RedirectToAction("Error", "Home", null);
 
-            var horaire = db.p_HoraireInscription.First();
-
-            List<SelectListItem> horaireList = new List<SelectListItem>();
 
             ListeSession(0);
             // return View(Tuple.Create(horaireList,horaire));
