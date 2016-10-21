@@ -251,7 +251,7 @@ namespace sachem.Controllers
             //Get le sexe du formulaire
             ViewBag.id_Sexe = new SelectList(db.p_Sexe, "id_Sexe", "Sexe");
 
-            var validation = ConfirmeMdp(personne.MP, personne.ConfirmPassword); // validation mdp
+            var validation = ConfirmeMdp(personne.MP, personne.ConfirmPassword); 
 
             if (!validation)
                 return View(personne);
