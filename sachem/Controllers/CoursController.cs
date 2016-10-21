@@ -1,4 +1,4 @@
-﻿using sachem.Classes_Sachem;
+﻿using static sachem.Classes_Sachem.ValidationAcces;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;

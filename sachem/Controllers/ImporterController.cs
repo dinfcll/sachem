@@ -1,12 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Configuration;
 using System.IO;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.WebPages;
 using sachem.Models;
-using sachem.Classes_Sachem;
+using static sachem.Classes_Sachem.ValidationAcces;
 
 namespace sachem.Controllers
 {

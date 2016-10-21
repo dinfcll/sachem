@@ -4,7 +4,7 @@ using System.Data.Entity;
 using System.Linq;
 using System.Web.Mvc;
 using sachem.Models;
-using sachem.Classes_Sachem;
+using static sachem.Classes_Sachem.ValidationAcces;
 
 namespace sachem.Controllers
 {
@@ -170,24 +170,16 @@ namespace sachem.Controllers
                 ModelState.AddModelError(string.Empty, Messages.I_002(contact.id_Contact.ToString()));
         }
 
-        public ActionResult IndexCollege()
-        {
-            var college = from tout in db.p_College
-                          orderby tout.College
-                          select tout;
-            return View(college);
-        }
-        
         [HttpGet]
         [ValidationAccesSuper]
         public ActionResult EditCollege()
         {
-            var college = from c in db.p_College select c;
+            var college = from c in db.p_College orderby c.College select c;
             return View(college);
         }
 
         [HttpPost]
-        public void EditCollege(string nomCollege, int? id)
+        public ActionResult EditCollege(string nomCollege, int? id)
         {
             
             if (db.p_College.Any(r => r.id_College == id))
@@ -197,6 +189,8 @@ namespace sachem.Controllers
                 db.Entry(college).State = EntityState.Modified;
                 db.SaveChanges();
             }
+            var collegeretour = from c in db.p_College orderby c.College select c;
+            return RedirectToAction("EditCollege");
         }
 
         [ValidationAccesSuper]
@@ -212,7 +206,7 @@ namespace sachem.Controllers
                 db.SaveChanges();
                 TempData["Success"] = string.Format(Messages.I_044(nomCollege));
             }
-            return RedirectToAction("IndexCollege");
+            return RedirectToAction("EditCollege");
         }
 
         [HttpPost]
