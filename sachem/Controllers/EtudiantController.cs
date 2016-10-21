@@ -5,6 +5,7 @@ using System.Net;
 using System.Web.Mvc;
 using sachem.Models;
 using PagedList;
+using sachem.Classes_Sachem;
 using System.Security.Cryptography;// pour encripter mdp
 using System.Text;
 using System.Data.Entity;
@@ -13,6 +14,7 @@ namespace sachem.Controllers
 {
     public class EtudiantController : RechercheEtudiantController
     {    
+        [ValidationAccesEtudiant]
         public ActionResult Index(int? page)
         {
             noPage = (page ?? noPage);
@@ -47,6 +49,8 @@ namespace sachem.Controllers
             modif = modif.Insert(9,"-");
             return modif;
         }
+
+        [ValidationAccesEtudiant]
         // GET: Etudiant/Create
         public ActionResult Create()
         {
@@ -61,6 +65,7 @@ namespace sachem.Controllers
         // plus de détails, voir  http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [ValidationAccesEtudiant]
         public ActionResult Create([Bind(Include = "id_Pers,id_Sexe,id_TypeUsag,Nom,Prenom,Matricule,MP,ConfirmPassword,Courriel,Telephone,DateNais")] Personne personne,int? page)
         {
             personne.id_TypeUsag = 1;
@@ -87,6 +92,7 @@ namespace sachem.Controllers
         }
 
         // GET: Etudiant/Edit/5
+        [ValidationAccesEtudiant]
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -121,6 +127,7 @@ namespace sachem.Controllers
         // plus de détails, voir  http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [ValidationAccesEtudiant]
         //Modification lorsqu'on clique sur le bouton modification / Enregistrement
         public ActionResult Edit([Bind(Include = "id_Pers,id_Sexe,id_TypeUsag,Nom,Prenom,NomUsager,Matricule7,MP,Courriel,Telephone,DateNais,Actif")] Personne personne)
         {
@@ -167,6 +174,7 @@ namespace sachem.Controllers
 
         // GET: Etudiant/Delete/5
         //exécuté lorsqu'un étudiant est supprimé
+        [ValidationAccesEtudiant]
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -185,6 +193,7 @@ namespace sachem.Controllers
         // POST: Etudiant/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [ValidationAccesEtudiant]
         public ActionResult DeleteConfirmed(int id,int? page)
         {
             var pageNumber = page ?? 1;
@@ -219,6 +228,7 @@ namespace sachem.Controllers
             return RedirectToAction("Index");
         }
         //fonction qui supprime un programme d'étude à oartir de la page modifier
+        [ValidationAccesEtudiant]
         public ActionResult deleteProgEtu(int id)
         {
             var etuProgEtu = db.EtuProgEtude.Where(x => x.id_EtuProgEtude == id);
