@@ -174,24 +174,17 @@ namespace sachem.Controllers
                 ModelState.AddModelError(string.Empty, Messages.I_002(contact.id_Contact.ToString()));
         }
 
-        public ActionResult IndexCollege()
-        {
-            var college = from tout in db.p_College
-                          orderby tout.College
-                          select tout;
-            return View(college);
-        }
         [HttpGet]
         public ActionResult EditCollege()
         {
             if (!SachemIdentite.ValiderRoleAcces(RolesAcces, Session))
                 return RedirectToAction("Error", "Home", null);
-            var college = from c in db.p_College select c;
+            var college = from c in db.p_College orderby c.College select c;
             return View(college);
         }
 
         [HttpPost]
-        public void EditCollege(string nomCollege, int? id)
+        public void ModifCollege(string nomCollege, int? id)
         {
             
             if (db.p_College.Any(r => r.id_College == id))

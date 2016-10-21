@@ -52,7 +52,7 @@
                     @Html.DisplayFor(modelItem => item.College)
                 </td>
                 <td>
-                @Ajax.ActionLink("Modifier", "EditCollege",null , new {nomCollege = "__NomCollege__", id = item.id_College}, new AjaxOptions
+                @Ajax.ActionLink("Modifier", "ModifCollege",null , new {nomCollege = "__NomCollege__", id = item.id_College}, new AjaxOptions
            {
                Confirm = @sachem.Models.Messages.Q_014(),
                HttpMethod = "Post",
