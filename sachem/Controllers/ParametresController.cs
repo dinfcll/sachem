@@ -173,14 +173,6 @@ namespace sachem.Controllers
             if (db.p_Contact.Any(r => r.id_Contact == contact.id_Contact && r.Prenom != contact.Prenom && r.Nom != contact.Nom))
                 ModelState.AddModelError(string.Empty, Messages.I_002(contact.id_Contact.ToString()));
         }
-
-        public ActionResult IndexCollege()
-        {
-            var college = from tout in db.p_College
-                          orderby tout.College
-                          select tout;
-            return View(college);
-        }
         [HttpGet]
         public ActionResult EditCollege()
         {
