@@ -84,6 +84,7 @@ namespace sachem.Controllers
         }
 
         [NonAction]
+        [ValidationAccesSuper]
         private void ListeSession(int session = 0)
         {
             var lSessions = db.Session.AsNoTracking().OrderByDescending(y => y.Annee).ThenByDescending(x => x.id_Saison);
@@ -94,6 +95,7 @@ namespace sachem.Controllers
         }
 
         [NonAction]
+        [ValidationAccesSuper]
         [AcceptVerbs("Get", "Post")]
         public JsonResult ActualiseDonnees(int session)
         {
@@ -123,7 +125,7 @@ namespace sachem.Controllers
 
         
         [HttpPost]
-        [ValidationAccesParametres]
+        [ValidationAccesSuper]
         public ActionResult EditHoraire([Bind(Include = "id_Sess, DateDebut, DateFin, HeureDebut, HeureFin")] p_HoraireInscription HI)
         {
             var id_Session = db.Session.AsNoTracking().OrderByDescending(y => y.Annee).ThenByDescending(x => x.id_Saison).FirstOrDefault();
@@ -188,6 +190,7 @@ namespace sachem.Controllers
 
 
         [NonAction]
+        [ValidationAccesSuper]
         private void Valider([Bind(Include = "id_Contact,Nom,Prenom,Courriel,Telephone,Poste,Facebook,SiteWeb,Local")]p_Contact contact)
         {
             if (db.p_Contact.Any(r => r.id_Contact == contact.id_Contact && r.Prenom != contact.Prenom && r.Nom != contact.Nom))
@@ -195,7 +198,7 @@ namespace sachem.Controllers
         }
 
 
-        [ValidationAccesParametres]
+        [ValidationAccesSuper]
         public ActionResult IndexCollege()
         {
             var college = from tout in db.p_College
@@ -213,6 +216,7 @@ namespace sachem.Controllers
         }
 
         [HttpPost]
+        [ValidationAccesSuper]
         public ActionResult EditCollege(string nomCollege, int? id)
         {
             
@@ -244,6 +248,7 @@ namespace sachem.Controllers
         }
 
         [HttpPost]
+        [ValidationAccesSuper]
         public void DeleteCollege(int? id)
         {
             var college = db.p_College.Find(id);
