@@ -97,7 +97,7 @@ namespace sachem.Controllers
         public ActionResult EditHoraire()
         {
             var lhoraire = db.p_HoraireInscription.FirstOrDefault();
-
+            ViewBag.idSessHoraire = lhoraire.id_Sess;
             if (lhoraire == null)
                 ListeSession(0);
             else

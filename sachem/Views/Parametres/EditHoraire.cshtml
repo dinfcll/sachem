@@ -27,40 +27,70 @@
         <div class="form-group">
             @Html.LabelFor(model => model.DateDebut, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.DateDebut, new { htmlAttributes = new { @class = "form-control", @placeholder = "AAAA/MM/JJ"} })
-                @Html.ValidationMessageFor(model => model.DateDebut, "", new { @class = "text-danger" })
+                @if (1 == ViewBag.idSessHoraire)
+                {
+                    @Html.EditorFor(model => model.DateDebut, new { htmlAttributes = new { @class = "form-control", @placeholder = "AAAA/MM/JJ" } })
+                    @Html.ValidationMessageFor(model => model.DateDebut, "", new { @class = "text-danger" })
+                }
+                else
+                {
+                    @Html.DisplayFor(model => model.DateDebut, new { htmlAttributes = new { @class = "form-control"} })
+                }
             </div>
         </div>
 
         <div class="form-group">
             @Html.LabelFor(model => model.DateFin, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.DateFin, new { htmlAttributes = new { @class = "form-control", @placeholder = "AAAA/MM/JJ"} })
-                @Html.ValidationMessageFor(model => model.DateFin, "", new { @class = "text-danger" })
+                @if (1 == ViewBag.idSessHoraire)
+                {
+                    @Html.EditorFor(model => model.DateFin, new { htmlAttributes = new { @class = "form-control", @placeholder = "AAAA/MM/JJ"} })
+                    @Html.ValidationMessageFor(model => model.DateFin, "", new { @class = "text-danger" })
+                }
+                else
+                {
+                    @Html.DisplayFor(model => model.DateFin, new { htmlAttributes = new { @class = "form-control" } })
+                }
             </div>
         </div>
 
         <div class="form-group">
             @Html.LabelFor(model => model.HeureDebut, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.HeureDebut, new { htmlAttributes = new { @class = "form-control" , @placeholder = "hh:mm" } })
-                @Html.ValidationMessageFor(model => model.HeureDebut, "", new { @class = "text-danger" })
+                @if (1 == ViewBag.idSessHoraire)
+                {
+                    @Html.EditorFor(model => model.HeureDebut, new { htmlAttributes = new { @class = "form-control" , @placeholder = "hh:mm" } })
+                    @Html.ValidationMessageFor(model => model.HeureDebut, "", new { @class = "text-danger" })
+                }
+                else
+                {
+                @Html.DisplayFor(model => model.HeureDebut, new { htmlAttributes = new { @class = "form-control" } })
+                }
             </div>
         </div>
 
         <div class="form-group">
             @Html.LabelFor(model => model.HeureFin, htmlAttributes: new { @class = "control-label col-md-2"})
             <div class="col-md-10">
-                @Html.EditorFor(model => model.HeureFin, new { htmlAttributes = new { @class = "form-control", @placeholder = "hh:mm" } })
-                @Html.ValidationMessageFor(model => model.HeureFin, "", new { @class = "text-danger" })
+                @if (1 == ViewBag.idSessHoraire)
+                {
+                    @Html.EditorFor(model => model.HeureFin, new { htmlAttributes = new { @class = "form-control", @placeholder = "hh:mm" } })
+                    @Html.ValidationMessageFor(model => model.HeureFin, "", new { @class = "text-danger" })
+                }
+                else
+                {
+                    @Html.DisplayFor(model => model.HeureFin, new { htmlAttributes = new { @class = "form-control" } })
+                }
             </div>
         </div>
-        
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Enregistrer" class="btn btn-default" />
+        @if (1 == ViewBag.idSessHoraire)
+        {
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Enregistrer" class="btn btn-default" />
+                </div>
             </div>
-        </div>
+        }
     </div>
 }
 
