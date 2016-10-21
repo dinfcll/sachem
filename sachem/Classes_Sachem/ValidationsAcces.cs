@@ -19,4 +19,16 @@ namespace sachem.Classes_Sachem
         }
 
     }
+
+    public class ValidationAccesEtudiant : ActionFilterAttribute
+    {
+        static readonly List<TypeUsagers> rolesAcces = new List<TypeUsagers>() { TypeUsagers.Enseignant, TypeUsagers.Responsable, TypeUsagers.Super };
+        public override void OnActionExecuting(ActionExecutingContext filterContext)
+        {
+            var verif = SachemIdentite.ValiderRoleAcces(rolesAcces, filterContext.HttpContext.Session);
+            if (!verif)
+                filterContext.Result = new RedirectResult("/Home/Error");
+        }
+
+    }
 }
