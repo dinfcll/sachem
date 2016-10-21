@@ -74,6 +74,8 @@ namespace sachem.Models
     {
         //public string nbPersonneGroupe;
         //public int nbPersonne;
+
+        public string nomsConcatenesProfs { get; set; }
     }
 
     public partial class PersonneProgEtu

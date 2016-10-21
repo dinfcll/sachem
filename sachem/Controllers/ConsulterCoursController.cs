@@ -35,6 +35,7 @@ namespace sachem.Controllers
         private IEnumerable<Groupe> AfficherCoursAssignes()
         {
             var idSess = 0;
+            List<Groupe> listeCours = new List<Groupe>();
 
             //Pour accéder à la valeur de cle envoyée en GET dans le formulaire
             //Request.QueryString["cle"]
@@ -66,15 +67,19 @@ namespace sachem.Controllers
             if (m_IdTypeUsage == 2) //enseignant
             {
                 ListeSession(idSess); //créer liste Session pour le dropdown
-                
-                var ens = from c in db.Groupe
-                          where (c.id_Sess == idSess && c.id_Enseignant == m_IdPers) || (idSess == 0 && c.id_Enseignant == m_IdPers)
-                          orderby c.NoGroupe
-                          select c;
+
+                var listeTout = (from c in db.Groupe
+                           where (c.id_Sess == idSess && c.id_Enseignant == m_IdPers) || (idSess == 0 && c.id_Enseignant == m_IdPers)
+                           orderby c.NoGroupe
+                           select c).GroupBy(c => c.Cours.Nom).SelectMany(cours => cours);
+
+                var listeIdUniques = (from c in listeTout select c.id_Cours).Distinct();
 
                 ViewBag.IsEnseignant = true;
 
-                return ens.ToList();
+                listeCours = trouverCoursUniques(listeTout, listeIdUniques, ViewBag.IsEnseignant);
+
+                return listeCours.ToList(); //retourne tous les cours à un enseignant
             }
             else //responsable
             {
@@ -82,15 +87,80 @@ namespace sachem.Controllers
                 ListeSession(idSess); //créer liste Session pour le dropdown
                 ListePersonne(m_IdPers); //créer liste Enseignants pour le dropdown
 
-                var resp = from c in db.Groupe
+                var resp = (from c in db.Groupe
                            where c.id_Sess == (idSess == 0 ? c.id_Sess : idSess) && c.id_Enseignant == (m_IdPers == 0 ? c.id_Enseignant : m_IdPers)
                            orderby c.NoGroupe
-                           select c;
+                           select c).GroupBy(c => c.Cours.Nom).SelectMany(cours => cours);
+
+                var listeIdUniques = (from c in resp select c.id_Cours).Distinct();
 
                 ViewBag.IsEnseignant = false;
 
-                return resp.ToList();
+                listeCours = trouverCoursUniques(resp, listeIdUniques, ViewBag.IsEnseignant);
+
+                return listeCours.ToList(); //retourne tous les cours
             }
+        }
+
+
+        [NonAction]
+        private List<Groupe> trouverCoursUniques(IQueryable<Groupe> _listeTout, IQueryable<int> _listeIdUniques, bool isEnseignant)
+        {
+            List<Groupe> listeCours = new List<Groupe>();
+            int i = 0;
+            int compteurPos = 0;
+            int idPrec = 0;
+            var tlid = _listeIdUniques.ToList();
+
+            
+            foreach(Groupe t in _listeTout)
+            {
+                foreach (var j in tlid)
+                {
+                    if (t.id_Cours == tlid[i] && t.id_Cours != idPrec) //si id unique et pas encore traité
+                    {
+                        idPrec = t.id_Cours;
+
+                        if (!isEnseignant)
+                        {
+                            t.nomsConcatenesProfs = trouverNomsProfs(_listeTout, t.id_Cours);
+                        }
+
+                        listeCours.Add(t);
+
+                        compteurPos = i;
+                    }
+
+                    i++;
+                }
+
+                i = 0;
+            }
+
+            return listeCours;
+
+        }
+
+        [NonAction]
+        private string trouverNomsProfs(IQueryable<Groupe> _listeTout, int idCours)
+        {
+            string nomsProfs = "";
+            List<string> listeNomsTemp = new List<string>();
+
+            var lNomsProfs = from c in _listeTout where c.id_Cours == idCours select c;
+
+            foreach (var n in lNomsProfs)
+            {
+                if (!listeNomsTemp.Contains(n.Personne.PrenomNom))
+                {
+                    nomsProfs += n.Personne.PrenomNom + ", ";
+                    listeNomsTemp.Add(n.Personne.PrenomNom);
+                }
+            }
+
+            nomsProfs = nomsProfs.Remove(nomsProfs.Length - 2, 2);
+
+            return nomsProfs;
         }
 
         [NonAction]
@@ -131,6 +201,9 @@ namespace sachem.Controllers
         // GET: ConsulterCours/Details/5
         public ActionResult Details(int? id)
         {
+            m_IdPers = SessionBag.Current.id_Pers;
+            m_IdTypeUsage = SessionBag.Current.id_TypeUsag; // 2 = enseignant, 3 = responsable
+
             if (!connexionValide(m_IdTypeUsage))
             {
                 return View("~/Views/Shared/Error.cshtml");
