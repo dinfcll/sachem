@@ -131,9 +131,8 @@ namespace sachem.Controllers
                           where d.id_Pers == p.id_Pers
                           select d).FirstOrDefault();
             p.id_Sexe = idSexe.id_Sexe;
-
-            //db.SaveChanges();
             pepp.personne = p;
+
 
             //Mise à jour Viewbag
             ViewBag.id_Sexe = new SelectList(db.p_Sexe, "id_Sexe", "Sexe", pepp.personne.id_Sexe);
@@ -220,17 +219,38 @@ namespace sachem.Controllers
             return RedirectToAction("Index");
         }
         //fonction qui supprime un programme d'étude à oartir de la page modifier
-        public ActionResult deleteProgEtu(int id)
+        public ActionResult deleteProgEtu(int id, int id2, int Valider = 0)
         {
-            TempData["Success"] = Messages.Q_002("");
+            Personne personne = db.Personne.Find(id);
+            var Prog = from d in db.EtuProgEtude
+                       where d.id_Etu == personne.id_Pers
+                       orderby d.ProgrammeEtude.Code
+                       select d;
+            ViewBag.id_Sexe = new SelectList(db.p_Sexe, "id_Sexe", "Sexe", personne.id_Sexe);
+            ViewBag.id_TypeUsag = new SelectList(db.p_TypeUsag, "id_TypeUsag", "TypeUsag", personne.id_TypeUsag);
+            ViewBag.id_Programme = new SelectList(db.ProgrammeEtude, "id_ProgEtu", "nomProg");
+            ViewBag.id_Session = new SelectList(db.Session, "id_Sess", "NomSession");
+            PersonneEtuProgParent epep = new PersonneEtuProgParent();
+            epep.personne = personne;
+            epep.epe = Prog.ToList();
+            TempData["Question"] = Messages.Q_002("");
             var etuProgEtu = db.EtuProgEtude.Where(x => x.id_EtuProgEtude == id);
-            db.EtuProgEtude.RemoveRange(etuProgEtu);
-            db.SaveChanges();
-            //faire apparaitre le message
-            TempData["Success"] = Messages.I_016("");
-            //retourne à l'index
-            return RedirectToAction("Index");
-        }
+            if (Valider != 0)
+            {
+                TempData["Question"] = null;
+            }
+            if (Valider == 1)
+            {
+                db.EtuProgEtude.RemoveRange(etuProgEtu);
+                db.SaveChanges();
+                //faire apparaitre le message
+                TempData["Success"] = Messages.I_016("");
+                return RedirectToAction("Index");
+            }
+            TempData["id_Pers"] = id2;
+            TempData["id_Prog"] = id;
+            return RedirectToAction("Edit", "Etudiant", new { id = id2 });
+         }
 
         //Méthode pour encrypter le de mot de passe.
         public static string encrypterChaine(string mdp)
