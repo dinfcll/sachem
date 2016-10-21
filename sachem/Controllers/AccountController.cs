@@ -74,7 +74,7 @@ namespace sachem.Controllers
             client.Timeout = 10000;
             client.DeliveryMethod = SmtpDeliveryMethod.Network;
             client.UseDefaultCredentials = false;
-            client.Credentials = new NetworkCredential("sachemcllmail@gmail.com", "sachemadmin#123"); //information de connexion au email d'envoi de message de SACHEM
+            client.Credentials = new NetworkCredential("sachemcllmail@gmail.com", System.Configuration.ConfigurationManager.AppSettings.Get("EmailSachemMDP")); //information de connexion au email d'envoi de message de SACHEM
             message.BodyEncoding = Encoding.UTF8;
             message.DeliveryNotificationOptions = DeliveryNotificationOptions.OnFailure;
             try//pour savoir si l'envoi à fonctionner
