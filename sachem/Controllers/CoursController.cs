@@ -1,4 +1,4 @@
-﻿using System;
+﻿using sachem.Classes_Sachem;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
@@ -14,7 +14,7 @@ namespace sachem.Controllers
     {
         private readonly SACHEMEntities db = new SACHEMEntities();
 
-        List<TypeUsagers> RolesAcces = new List<TypeUsagers>() { TypeUsagers.Responsable, TypeUsagers.Super };
+        
 
         //fonctions permettant d'initialiser les listes déroulantes
 
@@ -101,11 +101,9 @@ namespace sachem.Controllers
         }
 
         // GET: Cours
+        [ValidationAccesSuper]
         public ActionResult Index(int? page)
         {
-            if (!SachemIdentite.ValiderRoleAcces(RolesAcces, Session))
-                return RedirectToAction("Error", "Home", null);
-
             var pageNumber = page ?? 1;
 
             return View(Rechercher().ToPagedList(pageNumber, 20));
@@ -113,11 +111,9 @@ namespace sachem.Controllers
 
 
         // GET: Cours/Create
+        [ValidationAccesSuper]
         public ActionResult Create()
         {
-            if (!SachemIdentite.ValiderRoleAcces(RolesAcces, Session))
-                return RedirectToAction("Error", "Home", null);
-
             return View();
         }
 
@@ -145,11 +141,9 @@ namespace sachem.Controllers
         }
 
         // GET: Cours/Edit/5
+        [ValidationAccesSuper]
         public ActionResult Edit(int? id)
         {
-            if (!SachemIdentite.ValiderRoleAcces(RolesAcces, Session))
-                return RedirectToAction("Error", "Home", null);
-
             if (id == null)
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
@@ -187,12 +181,9 @@ namespace sachem.Controllers
         }
 
         // GET: Cours/Delete/5
+        [ValidationAccesSuper]
         public ActionResult Delete(int? id)
         {
-
-            if (!SachemIdentite.ValiderRoleAcces(RolesAcces, Session))
-                return RedirectToAction("Error", "Home", null);
-
             if (id == null)
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 

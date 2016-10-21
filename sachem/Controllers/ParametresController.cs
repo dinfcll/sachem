@@ -12,13 +12,13 @@ namespace sachem.Controllers
     {
         private readonly SACHEMEntities db = new SACHEMEntities();
 
-        [ValidationAccesParametres]
+        [ValidationAccesSuper]
         public ActionResult IndexModifier(int? id)
         {
             return View("Edit");
         }
 
-        [ValidationAccesParametres]
+        [ValidationAccesSuper]
         public ActionResult Edit()
         {
             var contact = db.p_Contact.First();
@@ -26,7 +26,7 @@ namespace sachem.Controllers
         }
 
         [HttpGet]
-        [ValidationAccesParametres]
+        [ValidationAccesSuper]
         public ActionResult EditCourrier()
         {
             var courrier = db.Courriel.First();
@@ -58,7 +58,7 @@ namespace sachem.Controllers
         }
 
         [HttpGet]
-        [ValidationAccesParametres]
+        [ValidationAccesSuper]
         public ActionResult EditContact()
         {
             var contact = db.p_Contact.First();
@@ -67,7 +67,7 @@ namespace sachem.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [ValidationAccesParametres]
+        [ValidationAccesSuper]
         public ActionResult EditContact([Bind(Include = "id_Contact,Nom,Prenom,Courriel,Telephone,Poste,Facebook,SiteWeb,Local")] p_Contact contact)
         {
             Valider(contact);
@@ -85,7 +85,7 @@ namespace sachem.Controllers
 
         
         //Méthode qui envoie a la view Edit horaire la liste de toutes les horaires d'inscription ainsi que l'horaire de la session courrante
-        [ValidationAccesParametres]
+        [ValidationAccesSuper]
         public ActionResult EditHoraire()
         {
             var horaire = db.p_HoraireInscription.First();
@@ -106,7 +106,7 @@ namespace sachem.Controllers
 
         
         [HttpPost]
-        [ValidationAccesParametres]
+        [ValidationAccesSuper]
         public ActionResult EditHoraire([Bind(Prefix = "Item2")] p_HoraireInscription nouvelHoraire)
         {
             
@@ -179,7 +179,7 @@ namespace sachem.Controllers
         }
         
         [HttpGet]
-        [ValidationAccesParametres]
+        [ValidationAccesSuper]
         public ActionResult EditCollege()
         {
             var college = from c in db.p_College select c;
@@ -199,7 +199,7 @@ namespace sachem.Controllers
             }
         }
 
-        [ValidationAccesParametres]
+        [ValidationAccesSuper]
         public ActionResult AddCollege(string nomCollege)
         {
             if (!db.p_College.Any(p => p.College == nomCollege))

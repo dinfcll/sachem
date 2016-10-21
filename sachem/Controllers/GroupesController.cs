@@ -28,7 +28,7 @@ namespace sachem.Controllers
         }
         
         // GET: Groupes
-        [ValidationAccesGroupe]
+        [ValidationAccesEnseignant]
         public ActionResult Index(int? page, int? id)
         {
             RegisterViewbags();
@@ -38,7 +38,7 @@ namespace sachem.Controllers
         }
 
         // GET: Groupes/Create
-        [ValidationAccesGroupe]
+        [ValidationAccesEnseignant]
         public ActionResult Create()
         {
             int? idPers = (Session["id_Pers"] == null ? -1 : (int)Session["id_Pers"]);
@@ -63,7 +63,7 @@ namespace sachem.Controllers
         }
 
         // GET: Groupes/Edit/5
-        [ValidationAccesGroupe]
+        [ValidationAccesEnseignant]
         public ActionResult Edit(int? id)
         {
             int idPers = (Session["id_Pers"] == null ? -1 : (int)Session["id_Pers"]);
@@ -100,7 +100,7 @@ namespace sachem.Controllers
             return CreateEdit(groupe);
         }
 
-        [ValidationAccesGroupe]
+        [ValidationAccesEnseignant]
         [NonAction]
         private ActionResult CreateEdit([Bind(Include = "id_Groupe,id_Cours,id_Sess,id_Enseignant,NoGroupe")] Groupe groupe, bool Ajouter = false)
         {
@@ -129,7 +129,7 @@ namespace sachem.Controllers
         }
 
         // GET: Groupes/Delete/5
-        [ValidationAccesGroupe]
+        [ValidationAccesEnseignant]
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -153,7 +153,7 @@ namespace sachem.Controllers
         // POST: Groupes/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        [ValidationAccesGroupe]
+        [ValidationAccesEnseignant]
         public ActionResult DeleteConfirmed(int id)
         {
             Groupe groupe = db.Groupe.Find(id);
@@ -225,7 +225,7 @@ namespace sachem.Controllers
             base.Dispose(disposing);
         }
 
-        [ValidationAccesGroupe]
+        [ValidationAccesEnseignant]
         public ActionResult AjouterEleve(int idg, int? page)
         {
             ViewBag.idg = idg;
@@ -256,7 +256,7 @@ namespace sachem.Controllers
         }
 
         [HttpGet]
-        [ValidationAccesGroupe]
+        [ValidationAccesEnseignant]
         public ActionResult AjouterEleveGET(int idg, int idp,int noclick = 0)
         {
             Groupe g = db.Groupe.Find(idg);
@@ -304,7 +304,7 @@ namespace sachem.Controllers
             return RedirectToAction("AjouterEleve", new { idg = idg, page = ViewBag.page });
         }
 
-        [ValidationAccesGroupe]
+        [ValidationAccesEnseignant]
         public ActionResult DeleteEleve(int? id)
         {
             if (id == null)
@@ -323,7 +323,7 @@ namespace sachem.Controllers
         // POST: Groupes/Delete/5
         [HttpPost, ActionName("DeleteEleve")]
         [ValidateAntiForgeryToken]
-        [ValidationAccesGroupe]
+        [ValidationAccesEnseignant]
         public ActionResult DeleteEleveConfirmed(int id)
         {
             GroupeEtudiant ge = db.GroupeEtudiant.Find(id);
@@ -335,7 +335,7 @@ namespace sachem.Controllers
             return RedirectToAction("Index");
         }
 
-        [ValidationAccesGroupe]
+        [ValidationAccesEnseignant]
         public ActionResult Deplacer(int? id)
         {
             if (id == null)
@@ -358,7 +358,7 @@ namespace sachem.Controllers
 
         [HttpPost, ActionName("Deplacer")]
         [ValidateAntiForgeryToken]
-        [ValidationAccesGroupe]
+        [ValidationAccesEnseignant]
         public ActionResult DeplacerConfirmed(int? id)
         {
             int idgretu, idg;

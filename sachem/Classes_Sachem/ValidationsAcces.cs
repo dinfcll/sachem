@@ -8,7 +8,7 @@ using System.Web.Mvc;
 
 namespace sachem.Classes_Sachem
 {
-    public class ValidationAccesParametres : ActionFilterAttribute
+    public class ValidationAccesSuper : ActionFilterAttribute
     {
         static readonly List<TypeUsagers> rolesAcces = new List<TypeUsagers>() { TypeUsagers.Responsable, TypeUsagers.Super };
         public override void OnActionExecuting(ActionExecutingContext filterContext)
@@ -20,19 +20,7 @@ namespace sachem.Classes_Sachem
 
     }
 
-    public class ValidationAccesEtudiant : ActionFilterAttribute
-    {
-        static readonly List<TypeUsagers> rolesAcces = new List<TypeUsagers>() { TypeUsagers.Enseignant, TypeUsagers.Responsable, TypeUsagers.Super };
-        public override void OnActionExecuting(ActionExecutingContext filterContext)
-        {
-            var verif = SachemIdentite.ValiderRoleAcces(rolesAcces, filterContext.HttpContext.Session);
-            if (!verif)
-                filterContext.Result = new RedirectResult("/Home/Error");
-        }
-
-    }
-
-    public class ValidationAccesGroupe : ActionFilterAttribute
+    public class ValidationAccesEnseignant : ActionFilterAttribute
     {
         static readonly List<TypeUsagers> rolesAcces = new List<TypeUsagers>() { TypeUsagers.Enseignant, TypeUsagers.Responsable, TypeUsagers.Super };
         public override void OnActionExecuting(ActionExecutingContext filterContext)
