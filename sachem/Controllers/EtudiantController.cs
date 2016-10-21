@@ -221,19 +221,18 @@ namespace sachem.Controllers
         //fonction qui supprime un programme d'étude à oartir de la page modifier
         public ActionResult deleteProgEtu(int id, int id2, int Valider = 0)
         {
-            Personne personne = db.Personne.Find(id);
+            Personne personne = db.Personne.Find(id2);
+            EtuProgEtude etuprog = db.EtuProgEtude.Find(id);
             var Prog = from d in db.EtuProgEtude
                        where d.id_Etu == personne.id_Pers
                        orderby d.ProgrammeEtude.Code
                        select d;
-            ViewBag.id_Sexe = new SelectList(db.p_Sexe, "id_Sexe", "Sexe", personne.id_Sexe);
-            ViewBag.id_TypeUsag = new SelectList(db.p_TypeUsag, "id_TypeUsag", "TypeUsag", personne.id_TypeUsag);
-            ViewBag.id_Programme = new SelectList(db.ProgrammeEtude, "id_ProgEtu", "nomProg");
-            ViewBag.id_Session = new SelectList(db.Session, "id_Sess", "NomSession");
+
             PersonneEtuProgParent epep = new PersonneEtuProgParent();
             epep.personne = personne;
             epep.epe = Prog.ToList();
-            TempData["Question"] = Messages.Q_002("");
+            
+            TempData["Question"] = Messages.Q_002(etuprog.ProgrammeEtude.CodeNomProgramme);
             var etuProgEtu = db.EtuProgEtude.Where(x => x.id_EtuProgEtude == id);
             if (Valider != 0)
             {
@@ -241,13 +240,13 @@ namespace sachem.Controllers
             }
             if (Valider == 1)
             {
+                TempData["Success"] = Messages.I_016(etuprog.ProgrammeEtude.CodeNomProgramme);
                 db.EtuProgEtude.RemoveRange(etuProgEtu);
                 db.SaveChanges();
-                //faire apparaitre le message
-                TempData["Success"] = Messages.I_016("");
+                //faire apparaitre le message                
                 return RedirectToAction("Index");
             }
-            TempData["id_Pers"] = id2;
+            TempData["id_Pers"] = id2;         
             TempData["id_Prog"] = id;
             return RedirectToAction("Edit", "Etudiant", new { id = id2 });
          }
