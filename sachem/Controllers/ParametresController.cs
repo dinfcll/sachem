@@ -4,34 +4,31 @@ using System.Data.Entity;
 using System.Linq;
 using System.Web.Mvc;
 using sachem.Models;
+using sachem.Classes_Sachem;
 
 namespace sachem.Controllers
 {
     public class ParametresController : Controller
     {
-        List<TypeUsagers> RolesAcces = new List<TypeUsagers>() { TypeUsagers.Responsable, TypeUsagers.Super };
         private readonly SACHEMEntities db = new SACHEMEntities();
 
+        [ValidationAccesParametres]
         public ActionResult IndexModifier(int? id)
         {
             return View("Edit");
         }
 
-        
+        [ValidationAccesParametres]
         public ActionResult Edit()
         {
-            if (!SachemIdentite.ValiderRoleAcces(RolesAcces, Session))
-                return RedirectToAction("Error", "Home", null);
-
             var contact = db.p_Contact.First();
             return View(contact);
         }
 
         [HttpGet]
+        [ValidationAccesParametres]
         public ActionResult EditCourrier()
         {
-            if (!SachemIdentite.ValiderRoleAcces(RolesAcces, Session))
-                return RedirectToAction("Error", "Home", null);
             var courrier = db.Courriel.First();
             ViewBag.id_TypeCourriel = new SelectList(db.p_TypeCourriel, "id_TypeCourriel", "TypeCourriel");
             return View(courrier);
@@ -61,16 +58,16 @@ namespace sachem.Controllers
         }
 
         [HttpGet]
+        [ValidationAccesParametres]
         public ActionResult EditContact()
         {
-            if (!SachemIdentite.ValiderRoleAcces(RolesAcces, Session))
-                return RedirectToAction("Error", "Home", null);
             var contact = db.p_Contact.First();
             return View(contact);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [ValidationAccesParametres]
         public ActionResult EditContact([Bind(Include = "id_Contact,Nom,Prenom,Courriel,Telephone,Poste,Facebook,SiteWeb,Local")] p_Contact contact)
         {
             Valider(contact);
@@ -86,13 +83,11 @@ namespace sachem.Controllers
             return View(contact);
         }
 
-        
+
         //Méthode qui envoie a la view Edit horaire la liste de toutes les horaires d'inscription ainsi que l'horaire de la session courrante
+        [ValidationAccesParametres]
         public ActionResult EditHoraire()
         {
-            if (!SachemIdentite.ValiderRoleAcces(RolesAcces, Session))
-                return RedirectToAction("Error", "Home", null);
-
             var horaire = db.p_HoraireInscription.First();
 
             List<SelectListItem> horaireList = new List<SelectListItem>();
@@ -111,6 +106,7 @@ namespace sachem.Controllers
 
         
         [HttpPost]
+        [ValidationAccesParametres]
         public ActionResult EditHoraire([Bind(Prefix = "Item2")] p_HoraireInscription nouvelHoraire)
         {
             
@@ -181,11 +177,11 @@ namespace sachem.Controllers
                           select tout;
             return View(college);
         }
+        
         [HttpGet]
+        [ValidationAccesParametres]
         public ActionResult EditCollege()
         {
-            if (!SachemIdentite.ValiderRoleAcces(RolesAcces, Session))
-                return RedirectToAction("Error", "Home", null);
             var college = from c in db.p_College select c;
             return View(college);
         }
@@ -203,6 +199,7 @@ namespace sachem.Controllers
             }
         }
 
+        [ValidationAccesParametres]
         public ActionResult AddCollege(string nomCollege)
         {
             if (!db.p_College.Any(p => p.College == nomCollege))
