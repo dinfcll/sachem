@@ -20,7 +20,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.id_Sess, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.DropDownList("id_Sess", null, null, htmlAttributes: new { @class = "form-search" })
+                @Html.DropDownList("id_Sess", null, null, htmlAttributes: new { @class = "form-search", @id="ddlSession" })
             </div>
         </div>
 
@@ -29,12 +29,12 @@
             <div class="col-md-10">
                 @if (1 == ViewBag.idSessHoraire)
                 {
-                    @Html.EditorFor(model => model.DateDebut, new { htmlAttributes = new { @class = "form-control", @placeholder = "AAAA/MM/JJ" } })
+                    @Html.EditorFor(model => model.DateDebut, new { htmlAttributes = new { @class = "form-control", @placeholder = "AAAA/MM/JJ", @id="DateDebut" } })
                     @Html.ValidationMessageFor(model => model.DateDebut, "", new { @class = "text-danger" })
                 }
                 else
                 {
-                    @Html.DisplayFor(model => model.DateDebut, new { htmlAttributes = new { @class = "form-control"} })
+                    @Html.DisplayFor(model => model.DateDebut, new { htmlAttributes = new { @class = "form-control", @id = "DateDebut" } })
                 }
             </div>
         </div>
@@ -44,12 +44,12 @@
             <div class="col-md-10">
                 @if (1 == ViewBag.idSessHoraire)
                 {
-                    @Html.EditorFor(model => model.DateFin, new { htmlAttributes = new { @class = "form-control", @placeholder = "AAAA/MM/JJ"} })
+                    @Html.EditorFor(model => model.DateFin, new { htmlAttributes = new { @class = "form-control", @placeholder = "AAAA/MM/JJ", @id = "DateFin" } })
                     @Html.ValidationMessageFor(model => model.DateFin, "", new { @class = "text-danger" })
                 }
                 else
                 {
-                    @Html.DisplayFor(model => model.DateFin, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.DisplayFor(model => model.DateFin, new { htmlAttributes = new { @class = "form-control", @id = "DateFin" } })
                 }
             </div>
         </div>
@@ -59,12 +59,12 @@
             <div class="col-md-10">
                 @if (1 == ViewBag.idSessHoraire)
                 {
-                    @Html.EditorFor(model => model.HeureDebut, new { htmlAttributes = new { @class = "form-control" , @placeholder = "hh:mm" } })
+                    @Html.EditorFor(model => model.HeureDebut, new { htmlAttributes = new { @class = "form-control" , @placeholder = "hh:mm", @id = "HeureDebut" } })
                     @Html.ValidationMessageFor(model => model.HeureDebut, "", new { @class = "text-danger" })
                 }
                 else
                 {
-                @Html.DisplayFor(model => model.HeureDebut, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.DisplayFor(model => model.HeureDebut, new { htmlAttributes = new { @class = "form-control", @id = "HeureDebut" } })
                 }
             </div>
         </div>
@@ -74,12 +74,12 @@
             <div class="col-md-10">
                 @if (1 == ViewBag.idSessHoraire)
                 {
-                    @Html.EditorFor(model => model.HeureFin, new { htmlAttributes = new { @class = "form-control", @placeholder = "hh:mm" } })
+                    @Html.EditorFor(model => model.HeureFin, new { htmlAttributes = new { @class = "form-control", @placeholder = "hh:mm", @id = "HeureFin" } })
                     @Html.ValidationMessageFor(model => model.HeureFin, "", new { @class = "text-danger" })
                 }
                 else
                 {
-                    @Html.DisplayFor(model => model.HeureFin, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.DisplayFor(model => model.HeureFin, new { htmlAttributes = new { @class = "form-control", @id = "HeureFin" } })
                 }
             </div>
         </div>
@@ -97,3 +97,31 @@
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
 }
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#ddlSession").change(function (){
+            var sessionNom = $("#ddlSession").val();
+
+            $.ajax({
+                type: 'POST',
+                url:
+                    @Html.Raw("\"/" + HttpContext.Current.Request.RequestContext.RouteData.Values["controller"].ToString() + "/ActualiseDonnees\""),
+                data:{
+                    session: sessionNom
+                },
+            
+                async:false,
+                cache:false,
+                dataType: "json",
+                success: function (donnees){
+                    $.each(donnees, function (i, item) {
+                        $("#DateDebut").text = item[1].session
+                        $("#DateFin").text = item[2].session;
+                        $("#HeureDebut").text = item[3].session;
+                        $("#HeureFin").text = item[4].session;
+                    });
+                }
+            });
+        });
+    });
+</script>

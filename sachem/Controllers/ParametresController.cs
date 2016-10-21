@@ -88,8 +88,20 @@ namespace sachem.Controllers
         [NonAction]
         private void ListeSession(int session = 0)
         {
-            var id_Session = new SelectList(db.Session.AsNoTracking().OrderByDescending(y => y.Annee).ThenByDescending(x => x.id_Saison), "id_Sess", "NomSession", Session);
-            ViewBag.id_Sess = id_Session.ToList();
+            var lSessions = db.Session.AsNoTracking().OrderByDescending(y => y.Annee).ThenByDescending(x => x.id_Saison);
+            var slSession = new List<SelectListItem>();
+            slSession.AddRange(new SelectList(lSessions, "id_Sess", "NomSession", session));
+
+            ViewBag.id_Sess = slSession;
+        }
+
+        [NonAction]
+        [AcceptVerbs("Get", "Post")]
+        public JsonResult ActualiseDonnees(int session)
+        {
+            //var a = ObtenirListeSuperviseur(session).Select(c => new { c.id_Pers, c.NomPrenom });
+            var a =  from x in db.p_HoraireInscription where x.id_Sess == session select x;
+            return Json(a.ToList(), JsonRequestBehavior.AllowGet);
         }
 
         //trouver un moyen de faire fonctionner la vue pour qu'elle affiche bien [Été 2016] en dropdownlist
