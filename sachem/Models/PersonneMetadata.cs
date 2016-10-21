@@ -26,6 +26,9 @@ namespace sachem.Models
         [NotMappedAttribute]
         public string AncienMotDePasse { get; set; }
 
+       // [NotMappedAttribute]
+       // public global::System.Int32 idTypeInsc { get ; set; }
+
     }
     public class PersonneMetadata
     {
@@ -66,6 +69,7 @@ namespace sachem.Models
         //[DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:(###) ###-####}")]
         public global::System.String Telephone; //Ajout pour #Tel dans BD
 
+        
 
         [Display(Name = "Nom d'usager")]
         [StringLength(25)]

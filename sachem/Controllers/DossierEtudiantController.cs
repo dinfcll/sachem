@@ -277,6 +277,7 @@ namespace sachem.Controllers
 
             ViewBag.idPers = vInscription.First().id_Pers;
             ViewBag.idTypeInsc = vInscription.First().id_TypeInscription;
+            TempData["idTypeInsc"] = vInscription.First().id_TypeInscription;
 
             return View(Tuple.Create(inscription, vCoursSuivi.AsEnumerable(), vInscription.AsEnumerable()));
         }
@@ -288,6 +289,7 @@ namespace sachem.Controllers
             if (!SachemIdentite.ValiderRoleAcces(RolesAccesDossier, Session))
                 return RedirectToAction("Error", "Home", null);
             var id_Pers = Convert.ToInt32(model["item1.Personne.id_Pers"]);
+            var id_TypeInsc = Convert.ToInt32(TempData["idTypeInsc"]);
             var id_Inscription = Convert.ToInt32(model["item1.id_Inscription"]);
 
             Personne personne = db.Personne.Find(id_Pers);
@@ -301,7 +303,7 @@ namespace sachem.Controllers
                 personne.Telephone = SachemIdentite.FormatTelephone(Telephone);
             }
 
-            if (SachemIdentite.ObtenirTypeUsager(Session) == TypeUsagers.Eleve || ViewBag.idTypeInsc == 1)
+            if (SachemIdentite.ObtenirTypeUsager(Session) == TypeUsagers.Eleve || id_TypeInsc == 1)
             {
                 var BonEchange = Convert.ToBoolean(model["Item1.BonEchange.value"] != "false");
                 inscription.BonEchange = BonEchange;

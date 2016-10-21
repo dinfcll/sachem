@@ -14,6 +14,7 @@
     <dl class="dl-horizontal">
         @Html.HiddenFor(model => model.Item1.Personne.id_Pers)
         @Html.HiddenFor(model => model.Item1.id_Inscription)
+       @*@Html.HiddenFor(model => model.Item1.Personne.idTypeInsc,  new { htmlAttributes = new { @Value = ViewBag.idTypeInsc } })*@
         <dt>
             @Html.DisplayNameFor(model => model.Item1.Personne.Matricule7)
         </dt>
@@ -63,18 +64,14 @@ else
 {
             @Html.EditorFor(model => model.Item1.Personne.Telephone, new { htmlAttributes = new { @class = "form-control", @placeholder = "(999) 999-9999", @maxlength = "14", @type="tel", @Value=String.Format("{0:(###) ###-####}", Convert.ToInt64(Model.Item1.Personne.Telephone)) } })
             
-           // @Html.HiddenFor(model => model.Item1.Personne.Telephone, new { htmlAttributes = new { @id = "telephone", @name="telephone", @value="" } })
-            //<input name="telephone" id="telephone" type="tel" value="@(String.Format("{0:(###) ###-####}", Convert.ToInt64(Model.Item1.Personne.Telephone)))" class="form-control" placeholder = "(999) 999-9999"/>
-            
             @Html.ValidationMessageFor(model => model.Item1.Personne.Telephone, "", new { @class = "text-danger" })
 }
 else
 {
-            //@Html.DisplayFor(model => model.Item1.Personne.Telephone)
             @(String.Format("{0:(###) ###-####}", Convert.ToInt64(Model.Item1.Personne.Telephone)))
 }
         </dd>
-@if (sachem.Models.SachemIdentite.ObtenirTypeUsager(Session) == sachem.Models.TypeUsagers.Eleve || ViewBag.idTypeInsc == 1)
+@if (sachem.Models.SachemIdentite.ObtenirTypeUsager(Session) == sachem.Models.TypeUsagers.Eleve || ViewBag.idTypeInsc==1)
 {
         <dt>
             @Html.DisplayNameFor(model => model.Item1.BonEchange)
