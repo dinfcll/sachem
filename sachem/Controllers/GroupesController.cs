@@ -119,6 +119,7 @@ namespace sachem.Controllers
                 TempData["idg"] = groupe.id_Groupe;
                 return RedirectToAction("Index");
             }
+           // if (SessionBag.Current.id_TypeUsag == 2)
             ViewBag.id_Cours = new SelectList(db.Cours, "id_Cours", "Code", groupe.id_Cours);
             ViewBag.id_Enseignant = new SelectList(db.Personne, "id_Pers", "Nom", groupe.id_Enseignant);
             ViewBag.id_Sess = new SelectList(db.Session, "id_Sess", "id_Sess", groupe.id_Sess);
@@ -440,9 +441,6 @@ namespace sachem.Controllers
         [NonAction]
         private void Valider([Bind(Include = "id_Groupe,id_Cours,id_Sess,id_Enseignant,NoGroupe")] Groupe groupe)
         {
-            if (groupe.NoGroupe.ToString().Length >4)
-                ModelState.AddModelError(string.Empty, Messages.U_005);
-
             if (db.Groupe.Any(r => r.NoGroupe == groupe.NoGroupe && r.id_Sess == groupe.id_Sess && r.id_Cours == groupe.id_Cours))
                 ModelState.AddModelError(string.Empty, Messages.I_021(groupe.NoGroupe));
         }
