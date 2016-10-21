@@ -101,12 +101,12 @@ namespace sachem.Controllers
             //retroune la liste de programme qui relié à l'élève
             var Prog = from d in db.EtuProgEtude
                        where d.id_Etu == personne.id_Pers
+                       orderby d.ProgrammeEtude.Code
                        select d;
             ViewBag.id_Sexe = new SelectList(db.p_Sexe, "id_Sexe", "Sexe", personne.id_Sexe);
             ViewBag.id_TypeUsag = new SelectList(db.p_TypeUsag, "id_TypeUsag", "TypeUsag", personne.id_TypeUsag);
             ViewBag.id_Programme = new SelectList(db.ProgrammeEtude, "id_ProgEtu", "nomProg");
             ViewBag.id_Session = new SelectList(db.Session, "id_Sess", "NomSession");
-            //return View(Tuple.Create(personne, Prog.AsEnumerable()));
             PersonneEtuProgParent epep = new PersonneEtuProgParent();
             epep.personne = personne;
             epep.epe = Prog.ToList();
@@ -154,6 +154,7 @@ namespace sachem.Controllers
             //Aller chercher Programme d'étude(nom)
             var Prog = from d in db.EtuProgEtude
                        where d.id_Etu == pepp.personne.id_Pers
+                       orderby d.ProgrammeEtude.Code
                        select d;
             pepp.epe = Prog.ToList();
 
@@ -221,6 +222,7 @@ namespace sachem.Controllers
         //fonction qui supprime un programme d'étude à oartir de la page modifier
         public ActionResult deleteProgEtu(int id)
         {
+            TempData["Success"] = Messages.Q_002("");
             var etuProgEtu = db.EtuProgEtude.Where(x => x.id_EtuProgEtude == id);
             db.EtuProgEtude.RemoveRange(etuProgEtu);
             db.SaveChanges();
