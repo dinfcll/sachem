@@ -19,8 +19,8 @@
 
         <tr>
             <td>
-                @Html.ActionLink("Oui", "deleteProgEtu", new { id = TempData["id_Prog"], id2 = TempData["id_Pers"], Valider = 1  }) |
-                @Html.ActionLink("Non", "deleteProgEtu", new { id = TempData["id_Prog"], id2 = TempData["id_Pers"], Valider = 2 } )
+                @Html.ActionLink("Oui", "deleteProgEtu", new { idProg = TempData["id_Prog"], idPers = TempData["id_Pers"], Valider = 1  }) |
+                @Html.ActionLink("Non", "deleteProgEtu", new { idProg = TempData["id_Prog"], idPers = TempData["id_Pers"], Valider = 2 } )
             </td>
         </tr>
 
@@ -71,7 +71,7 @@
 
                     <div style="margin-left:210px;">
                         @Html.DisplayFor(modelItem => item.ProgrammeEtude.CodeNomProgramme)
-                        @Html.ActionLink(" Supprimer", "deleteProgEtu", new { id = item.id_EtuProgEtude, id2 = item.Personne.id_Pers})
+                        @Html.ActionLink(" Supprimer", "deleteProgEtu", new { idProg = item.id_EtuProgEtude, idPers = item.Personne.id_Pers})
                     </div>
                 }
             </div>
