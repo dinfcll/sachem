@@ -4,7 +4,7 @@ using System.Data.Entity;
 using System.Linq;
 using System.Web.Mvc;
 using sachem.Models;
-using sachem.Classes_Sachem;
+using static sachem.Classes_Sachem.ValidationAcces;
 
 namespace sachem.Controllers
 {
@@ -12,22 +12,21 @@ namespace sachem.Controllers
     {
         private readonly SACHEMEntities db = new SACHEMEntities();
 
-        [ValidationAccesParametres]
+        [ValidationAccesSuper]
         public ActionResult IndexModifier(int? id)
         {
             return View("Edit");
         }
 
-        [ValidationAccesParametres]
+        [ValidationAccesSuper]
         public ActionResult Edit()
         {
             var contact = db.p_Contact.First();
             return View(contact);
         }
 
-        
         [HttpGet]
-        [ValidationAccesParametres]
+        [ValidationAccesSuper]
         public ActionResult EditCourrier()
         {
             var courrier = db.Courriel.First();
@@ -37,7 +36,6 @@ namespace sachem.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [ValidationAccesParametres]
         public ActionResult EditCourrier(Courriel courriel, p_TypeCourriel typeCourriel)
         {
             ViewBag.id_TypeCourriel = new SelectList(db.p_TypeCourriel, "id_TypeCourriel", "TypeCourriel");
@@ -58,9 +56,9 @@ namespace sachem.Controllers
             }
             return View();
         }
-        
+
         [HttpGet]
-        [ValidationAccesParametres]
+        [ValidationAccesSuper]
         public ActionResult EditContact()
         {
             var contact = db.p_Contact.First();
@@ -69,8 +67,8 @@ namespace sachem.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [ValidationAccesParametres]
-        public ActionResult Edit([Bind(Include = "id_Contact,Nom,Prenom,Courriel,Telephone,Poste,Facebook,SiteWeb,Local")] p_Contact contact)
+        [ValidationAccesSuper]
+        public ActionResult EditContact([Bind(Include = "id_Contact,Nom,Prenom,Courriel,Telephone,Poste,Facebook,SiteWeb,Local")] p_Contact contact)
         {
             Valider(contact);
 
@@ -87,7 +85,7 @@ namespace sachem.Controllers
 
         
         //Méthode qui envoie a la view Edit horaire la liste de toutes les horaires d'inscription ainsi que l'horaire de la session courrante
-        [ValidationAccesParametres]
+        [ValidationAccesSuper]
         public ActionResult EditHoraire()
         {
             var horaire = db.p_HoraireInscription.First();
@@ -106,10 +104,12 @@ namespace sachem.Controllers
         }
 
 
+        
         [HttpPost]
-        [ValidationAccesParametres]
+        [ValidationAccesSuper]
         public ActionResult EditHoraire([Bind(Prefix = "Item2")] p_HoraireInscription nouvelHoraire)
         {
+            
             var session = db.Session.Find(nouvelHoraire.id_Sess);
             var saison = db.p_Saison.Find(session.id_Saison);
             //regarde l'année
@@ -170,29 +170,18 @@ namespace sachem.Controllers
                 ModelState.AddModelError(string.Empty, Messages.I_002(contact.id_Contact.ToString()));
         }
 
-
-        [ValidationAccesParametres]
-        public ActionResult IndexCollege()
-        {
-            var college = from tout in db.p_College
-                          orderby tout.College
-                          select tout;
-            return View(college);
-        }
-
         [HttpGet]
-        [ValidationAccesParametres]
+        [ValidationAccesSuper]
         public ActionResult EditCollege()
         {
-            var college = from c in db.p_College select c;
+            var college = from c in db.p_College orderby c.College select c;
             return View(college);
         }
 
-        
         [HttpPost]
-        [ValidationAccesParametres]
-        public void EditCollege(string nomCollege, int? id)
+        public ActionResult EditCollege(string nomCollege, int? id)
         {
+            
             if (db.p_College.Any(r => r.id_College == id))
             {
                 var college = db.p_College.Find(id);
@@ -200,9 +189,11 @@ namespace sachem.Controllers
                 db.Entry(college).State = EntityState.Modified;
                 db.SaveChanges();
             }
+            var collegeretour = from c in db.p_College orderby c.College select c;
+            return RedirectToAction("EditCollege");
         }
 
-        [ValidationAccesParametres]
+        [ValidationAccesSuper]
         public ActionResult AddCollege(string nomCollege)
         {
             if (!db.p_College.Any(p => p.College == nomCollege))
@@ -215,11 +206,10 @@ namespace sachem.Controllers
                 db.SaveChanges();
                 TempData["Success"] = string.Format(Messages.I_044(nomCollege));
             }
-            return RedirectToAction("IndexCollege");
+            return RedirectToAction("EditCollege");
         }
 
         [HttpPost]
-        [ValidationAccesParametres]
         public void DeleteCollege(int? id)
         {
             var college = db.p_College.Find(id);

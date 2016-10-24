@@ -8,7 +8,6 @@ using System.Net;
 using System.Net.Mail;
 using System.Text;
 using System.Web;
-using System.Web.Security;
 
 namespace sachem.Controllers
 {
@@ -28,7 +27,7 @@ namespace sachem.Controllers
         [NonAction]
         private void CreerCookieConnexion(string NomUsager, string MotDePasse)
         {
-            string mdpEncrypte = Crypto.Encrypt(MotDePasse, "asdjh213498yashj2134987ash"); //Encrypte le mdp pour le cookie
+            string mdpEncrypte = Crypto.Encrypt(MotDePasse, System.Configuration.ConfigurationManager.AppSettings.Get("CryptoKey")); //Encrypte le mdp pour le cookie
             HttpCookie Maintenir = new HttpCookie("SACHEMConnexion");
             Maintenir.Values.Add("NomUsager", NomUsager); //On ajoute le nom utilisateur
             //met le mdp encrypté dans le cookie
@@ -75,7 +74,7 @@ namespace sachem.Controllers
             client.Timeout = 10000;
             client.DeliveryMethod = SmtpDeliveryMethod.Network;
             client.UseDefaultCredentials = false;
-            client.Credentials = new NetworkCredential("sachemcllmail@gmail.com", "sachemadmin#123"); //information de connexion au email d'envoi de message de SACHEM
+            client.Credentials = new NetworkCredential("sachemcllmail@gmail.com", System.Configuration.ConfigurationManager.AppSettings.Get("EmailSachemMDP")); //information de connexion au email d'envoi de message de SACHEM
             message.BodyEncoding = Encoding.UTF8;
             message.DeliveryNotificationOptions = DeliveryNotificationOptions.OnFailure;
             try//pour savoir si l'envoi à fonctionner
@@ -252,7 +251,7 @@ namespace sachem.Controllers
             //Get le sexe du formulaire
             ViewBag.id_Sexe = new SelectList(db.p_Sexe, "id_Sexe", "Sexe");
 
-            var validation = fn_ConfirmeMdp(personne.MP, personne.ConfirmPassword); // validation mdp
+            var validation = ConfirmeMdp(personne.MP, personne.ConfirmPassword); 
 
             if (!validation)
                 return View(personne);
@@ -390,9 +389,8 @@ namespace sachem.Controllers
         public ActionResult ModifierPassword(Personne personne,string Modifier,string Annuler)
         {
             if(Annuler != null)//Verifier si c'est le bouton annuler qui a été cliqué
-            {
                 return RedirectToAction("Index", "Home");
-            }
+
             if (Modifier != null)//Si modifier mdp a été cliqué
             {
                 int idpersonne = SessionBag.Current.id_Pers;//Chercher l'id et le mot de passe de l'utilisateur en cours dans l'objet sessionbag
@@ -401,9 +399,7 @@ namespace sachem.Controllers
                 if (personne.AncienMotDePasse == null)
                     ModelState.AddModelError("AncienMotDePasse", Messages.U_001); //requis
 
-                var validation = fn_ConfirmeMdp(personne.MP, personne.ConfirmPassword); //valide mdp
-
-                if (!validation)
+                if (!ConfirmeMdp(personne.MP, personne.ConfirmPassword))
                     return View(personne);
 
                 if (personne.AncienMotDePasse == null || personne.MP == null || personne.ConfirmPassword == null) //Validation pour les champs requis
@@ -449,7 +445,7 @@ namespace sachem.Controllers
 
 
         #region Fonctions secondaires
-        private bool fn_ConfirmeMdp(string s1, string s2)
+        private bool ConfirmeMdp(string s1, string s2)
         {
             if (s1 == null || s2 == null)
             {
