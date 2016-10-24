@@ -64,7 +64,7 @@
             @Html.DisplayNameFor(model => model.FirstOrDefault().p.p_Sexe.Sexe)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.FirstOrDefault().p.ProgEtu)
+            @Html.DisplayNameFor(model => model.FirstOrDefault().epe.ProgrammeEtude.CodeNomProgramme)
         </th>
         <th></th>
     </tr>
@@ -84,7 +84,7 @@
                 @Html.DisplayFor(modelItem => item.p.p_Sexe.Sexe)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.epe.ProgrammeEtude.NomProg)
+                @Html.DisplayFor(modelItem => item.epe.ProgrammeEtude.CodeNomProgramme)
             </td>
             <td>
                 @Html.ActionLink("Ajouter", "AjouterEleveGET", new { idg = ViewBag.idg, idp = item.p.id_Pers })

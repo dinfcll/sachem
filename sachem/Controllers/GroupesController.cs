@@ -235,7 +235,7 @@ namespace sachem.Controllers
             IEnumerable<Personne> personnes = RechercherEleve();
 
             //db.Configuration.LazyLoadingEnabled = false;
-            var lstEtu = db.Personne.Where(x => x.id_TypeUsag == 1).Join(db.EtuProgEtude, p => p.id_Pers, epe => epe.id_Etu, (p, epe) => new PersEtuProg(p,epe)).OrderBy(x=>x.p.Nom).ToList();
+            var lstEtu = personnes.Join(db.EtuProgEtude, p => p.id_Pers, epe => epe.id_Etu, (p, epe) => new PersEtuProg(p,epe)).OrderBy(x=>x.p.Nom);
 
                 /*requête LINQ qui va chercher tous les étudiants répondant aux critères de recherche ainsi que leur programme d'étude actuel.*/
             /*var lstEtu = from q in
