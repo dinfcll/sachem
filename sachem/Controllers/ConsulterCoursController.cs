@@ -65,7 +65,7 @@ namespace sachem.Controllers
                 else if (Request.Form["Session"] == null)
                     idSess = db.Session.Max(s => s.id_Sess);
             }
-
+            ViewBag.Sessionchoisie = idSess;
             if (m_IdTypeUsage == 2) //enseignant
             {
                 ListeSession(idSess); //créer liste Session pour le dropdown
@@ -201,14 +201,11 @@ namespace sachem.Controllers
         }
 
         // GET: ConsulterCours/Details/5
-        public ActionResult Details(int? idCours)
+        public ActionResult Details(int? idCours, int? idSess)
         {
             m_IdPers = SessionBag.Current.id_Pers;
             m_IdTypeUsage = SessionBag.Current.id_TypeUsag; // 2 = enseignant, 3 = responsable
             IOrderedQueryable<Groupe> gr;
-            int idSess = 0;
-            int.TryParse(Request.Form["Session"], out idSess);
-
 
             if (!connexionValide(m_IdTypeUsage))
             {
