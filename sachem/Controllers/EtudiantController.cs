@@ -64,12 +64,12 @@ namespace sachem.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [ValidationAccesEnseignant]
-        public ActionResult Create([Bind(Include = "id_Pers,id_Sexe,id_TypeUsag,Nom,Prenom,Matricule7,MP,ConfirmPassword,Courriel,Telephone,DateNais")] Personne personne,int? page)
+        public ActionResult Create([Bind(Include = "id_Pers,id_Sexe,id_TypeUsag,Nom,Prenom,Matricule,MP,ConfirmPassword,Courriel,Telephone,DateNais")] Personne personne,int? page)
         {
             personne.id_TypeUsag = 1;
             personne.Actif = true;
             personne.Telephone = FormatTelephone(personne.Telephone);
-            personne.Matricule = constanteAnnee + personne.Matricule7;//créer la matricule de longueur de 9.
+            personne.Matricule = constanteAnnee + personne.Matricule;//créer la matricule de longueur de 9.
             Valider(personne);
             // Si les données sont valides, faire l'ajout
             if (ModelState.IsValid)
