@@ -5,12 +5,9 @@
 
 @{
     ViewBag.Title = "Consulter cours";
-    string codeCoursCourant = "";
-    string codeCoursSuivant = "";
-    int i = 0;
 }
 
-<h2>Consulter cours</h2>
+<h2>@ViewBag.Title</h2>
     
 @using (Html.BeginForm("Index", "ConsulterCours", FormMethod.Post, new {@class = "form-inline", role = "form"}))
 {
@@ -31,7 +28,7 @@
                     @Html.DropDownList("Personne", "Tous")
                 </div>
             }
-            
+
             <div class="form-group">
                 <input type="submit" value="Rechercher" class="btn-toolbar"/>
             </div>
@@ -45,8 +42,6 @@
 
         @if (ViewBag.IsEnseignant) //si enseignant
         {
-            i = 0;
-
             <tr>
                 <th>
                     @Html.DisplayNameFor(model => model.Cours.Code)
@@ -59,19 +54,6 @@
 
             foreach (var item in Model)
             {
-                codeCoursCourant = Model.ElementAt(i).Cours.Code; //code du cours courant
-
-                if (i < Model.Count() - 1) //vérifier s'il y a un cours suivant
-                {
-                    codeCoursSuivant = Model.ElementAt(i + 1).Cours.Code; //code du cours suivant
-                }
-                else
-                {
-                    codeCoursSuivant = "";
-                }
-
-                if (!codeCoursCourant.Equals(codeCoursSuivant)) //si dernier cours
-                {
                     <tr>
                         <td>
                             @Html.DisplayFor(modelItem => item.Cours.Code)
@@ -83,16 +65,10 @@
                             @Html.ActionLink("Consulter", "Details", new { id = item.id_Cours })
                         </td>
                     </tr>
-
-                }
-
-                i++;
             }
         }
         else //si responsable
         {
-            i = 0;
-
             <tr>
                 <th>
                     @Html.DisplayNameFor(model => model.Cours.Code)
@@ -109,74 +85,25 @@
                 <th></th>
             </tr>
 
-            string prenomNomCol = "";
-            List<string> t_PrenomNom = new List<string>();
-
             foreach (var item in Model)
             {
-                codeCoursCourant = Model.ElementAt(i).Cours.Code; //code du cours courant
-
-                if (i < Model.Count() - 1) //vérifier s'il y a un cours suivant
-                {
-                    codeCoursSuivant = Model.ElementAt(i + 1).Cours.Code; //code du cours suivant
-                }
-                else
-                {
-                    codeCoursSuivant = "";
-                }
-
-
-                if (codeCoursCourant.Equals(codeCoursSuivant)) //vérifier s'il y a un cours suivant
-                {
-                    if (!t_PrenomNom.Contains(item.Personne.PrenomNom))
-                    {
-                        prenomNomCol += item.Personne.PrenomNom + ", ";
-
-                        //affichageNomPrenom = prenomNomCol;
-
-                        t_PrenomNom.Add(item.Personne.PrenomNom);
-                    }
-
-                }
-                else //si dernier cours
-                {
-                    if (!t_PrenomNom.Contains(item.Personne.PrenomNom))
-                    {
-                        prenomNomCol += item.Personne.PrenomNom;
-
-                        //affichageNomPrenom = prenomNomCol;
-
-                        t_PrenomNom.Add(item.Personne.PrenomNom);
-                    }
-                    else
-                    {
-                        prenomNomCol = prenomNomCol.Remove(prenomNomCol.Length - 2);
-                    }
-
-
-                    <tr>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Cours.Code)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Cours.Nom)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Cours.Actif)
-                        </td>
-                        <td>
-                            @prenomNomCol
-                        </td>
-                        <td>
-                            @Html.ActionLink("Consulter", "Details", new { id = item.id_Cours })
-                        </td>
-                    </tr>
-
-                    t_PrenomNom.Clear();
-                    prenomNomCol = "";
-                }
-
-                i++;
+                <tr>
+                    <td>
+                        @Html.DisplayFor(model => item.Cours.Code)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(model => item.Cours.Nom)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(model => item.Cours.Actif)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(model => item.nomsConcatenesProfs)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Consulter", "Details", new { id = item.id_Cours })
+                    </td>
+                </tr>
             }
         }
 
@@ -186,4 +113,6 @@ else
 {
     <div>Aucun résultat trouvé.</div>
 }
+
+
 
