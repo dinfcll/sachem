@@ -4,13 +4,9 @@ using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
-using System.Web;
 using System.Web.Mvc;
 using sachem.Models;
-using PagedList;
-using System.Security.Cryptography;// pour encripter mdp
-using System.Text;
-using System.Web.Services;
+using static sachem.Classes_Sachem.ValidationAcces;
 
 namespace sachem.Controllers
 {
@@ -20,8 +16,6 @@ namespace sachem.Controllers
         private SACHEMEntities db = new SACHEMEntities();
         protected int noPage = 1;
         private int? pageRecue = null;
-        List<TypeUsagers> RolesAcces = new List<TypeUsagers>() { TypeUsagers.Responsable, TypeUsagers.Super, TypeUsagers.Enseignant, TypeUsagers.Tuteur };
-        List<TypeUsagers> RolesAccesDossier = new List<TypeUsagers>() { TypeUsagers.Responsable, TypeUsagers.Super, TypeUsagers.Enseignant, TypeUsagers.Tuteur, TypeUsagers.Eleve };
 
         #region ObtentionRecherche
         [NonAction]
@@ -238,10 +232,9 @@ namespace sachem.Controllers
         }
         #endregion
         // GET: DossierEtudiant
+        [ValidationAccesTuteur]
         public ActionResult Index(int? page)
         {
-            if (!SachemIdentite.ValiderRoleAcces(RolesAcces, Session))
-                return RedirectToAction("Error", "Home", null);
             noPage = (page ?? noPage);
 
             //return View(Rechercher().ToPagedList(noPage, 20));
@@ -249,11 +242,9 @@ namespace sachem.Controllers
         }
 
         // GET: DossierEtudiant/Details/5
+        [ValidationAccesEtu]
         public ActionResult Details(int? id)
         {
-            if (!SachemIdentite.ValiderRoleAcces(RolesAccesDossier, Session))
-                return RedirectToAction("Error", "Home", null);
-
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -283,11 +274,9 @@ namespace sachem.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [ValidationAccesEtu]
         public ActionResult Details(FormCollection model)
         {
-            //A completer
-            if (!SachemIdentite.ValiderRoleAcces(RolesAccesDossier, Session))
-                return RedirectToAction("Error", "Home", null);
             var id_Pers = Convert.ToInt32(model["item1.Personne.id_Pers"]);
             var id_Inscription = Convert.ToInt32(model["item1.id_Inscription"]);
             var Courriel = Convert.ToString(model["item1.Personne.Courriel"]);
