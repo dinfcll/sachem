@@ -36,16 +36,13 @@ namespace sachem.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult EditCourrier(Courriel courriel, p_TypeCourriel typeCourriel)
+        public ActionResult EditCourrier(Courriel courriel)
         {
-            ViewBag.id_TypeCourriel = new SelectList(db.p_TypeCourriel, "id_TypeCourriel", "TypeCourriel");
-            courriel.p_TypeCourriel = typeCourriel;
+            courriel.id_TypeCourriel = 1;
             if (courriel.DateFin != null)
             {
                 if((courriel.DateDebut - courriel.DateFin.Value).TotalDays > 0)
-                {
                     ModelState.AddModelError(string.Empty, Messages.C_005);
-                }
             }
 
             if (ModelState.IsValid)

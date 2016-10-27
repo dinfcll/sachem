@@ -149,7 +149,6 @@ namespace sachem.Controllers
             {
                 //Encrypter le mdp et tester la connection
                 MP = SachemIdentite.encrypterChaine(MP);
-
                 //Vérifie si le mot de passe concorde 
                 if (PersonneBD.MP != MP)
                     ModelState.AddModelError(string.Empty, Messages.I_017()); //Erreur de connection
@@ -158,52 +157,46 @@ namespace sachem.Controllers
                     PersonneBD.MP = "";
                     return View(PersonneBD); //Retourne le formulaire rempli avec l'erreur
                 }
-
+                SessionBag.Current.id_TypeUsag = PersonneBD.id_TypeUsag;
                 //On va chercher le type d'inscription dans la BD pour le présent utilisateur (si c'est un étudiant, il faut donner le type soit tuteur ou élève)
-                var typeinscr = (from i in db.Inscription
-                                 where i.id_Pers == PersonneBD.id_Pers select i.id_TypeInscription).FirstOrDefault();
-
-                //On va chercher le id inscription pour identifier l'etudiant (eleve, tuteur) pour son dossier etudiant
-                var idinscr = (from i in db.Inscription
-                                 where i.id_Pers == PersonneBD.id_Pers
-                                 select i.id_Inscription).FirstOrDefault();
-
-                //conserver le typeinscrit
-                if (idinscr != 0)
-                    SessionBag.Current.id_Inscription = idinscr;
-                else
-                    SessionBag.Current.id_Inscription = 0;
-
-                //Si c'est un tuteur, on a type = 6
-                if (typeinscr > 1)
+                if (PersonneBD.id_TypeUsag == 1)
                 {
-                    SessionBag.Current.id_TypeUsag = 6;                    
+                    var typeinscr = (from i in db.Inscription
+                                     where i.id_Pers == PersonneBD.id_Pers
+                                     select i.id_TypeInscription).FirstOrDefault();
+                    var idinscr = (from i in db.Inscription
+                                   where i.id_Pers == PersonneBD.id_Pers
+                                   select i.id_Inscription).FirstOrDefault();
+
+                    if (idinscr != 0)
+                    {
+                        SessionBag.Current.id_Inscription = idinscr;
+                        if (typeinscr > 1)
+                            SessionBag.Current.id_TypeUsag = 6;
+
+                        if (typeinscr == 1)
+                            SessionBag.Current.id_TypeUsag = 5;
+                    }
+
                 }
                 else
                 {
-                    //sinon, c'est un élève aidé.
-                    if (typeinscr == 1)
+                    if (PersonneBD.id_TypeUsag == 2)
                     {
-                        SessionBag.Current.id_TypeUsag = 5; 
+                        //Enseignant
+                        //On va chercher les id des enseignants dans les jumelages pour verifier si l'enseignant connecte est affilie a un ou des jumelags lors de l'acces a Dossier Etudiant et ...
+                        var idSuperviseur = (from i in db.Jumelage
+                                             where i.id_Enseignant == PersonneBD.id_Pers
+                                             select i.id_Enseignant).FirstOrDefault();
+                        if (idSuperviseur != 0)
+                            SessionBag.Current.idSuperviseur = idSuperviseur;
+                        else
+                            SessionBag.Current.idSuperviseur = 0;
                     }
-                    //Si c'est pas un étudiant, on va chercher directement dans la BD pour voir le ID du type.
                     else
-                    {
-                        SessionBag.Current.id_TypeUsag = PersonneBD.id_TypeUsag; 
-                    }
+                        SessionBag.Current.id_Inscription = 0;
                 }
-
-                //Enseignant
-                //On va chercher les id des enseignants dans les jumelages pour verifier si l'enseignant connecte est affilie a un ou des jumelags lors de l'acces a Dossier Etudiant et ...
-                var idSuperviseur = (from i in db.Jumelage
-                                     where i.id_Enseignant == PersonneBD.id_Pers
-                                     select i.id_Enseignant).FirstOrDefault();
-                if (idSuperviseur != 0)
-                {
-                    SessionBag.Current.idSuperviseur = idSuperviseur;
-                }
-                else
-                    SessionBag.Current.idSuperviseur = 0;
+                   
 
                 //Si tout va bien, on rempli la session avec les informations de l'utilisateur!
                 SessionBag.Current.NomUsager = PersonneBD.NomUsager;
