@@ -60,6 +60,17 @@ namespace sachem.Models
             }
             return s;
         }
+        
+        public static string RemettreTel(string a)
+
+        {
+            string modif;
+            modif = a.Insert(0, "(");
+            modif = modif.Insert(4, ")");
+            modif = modif.Insert(5, " ");
+            modif = modif.Insert(9, "-");
+            return modif;
+        }
         //Permet de calculer un hash MD5 pour stocker/comparer les mots de passe sur une personne
         public static void encrypterMPPersonne(ref Personne personne)
         {
