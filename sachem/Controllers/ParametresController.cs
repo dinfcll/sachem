@@ -10,20 +10,8 @@ namespace sachem.Controllers
 {
     public class ParametresController : Controller
     {
+        private const int idCourriel = 1;
         private readonly SACHEMEntities db = new SACHEMEntities();
-
-        [ValidationAccesSuper]
-        public ActionResult IndexModifier(int? id)
-        {
-            return View("Edit");
-        }
-
-        [ValidationAccesSuper]
-        public ActionResult Edit()
-        {
-            var contact = db.p_Contact.First();
-            return View(contact);
-        }
 
         [HttpGet]
         [ValidationAccesSuper]
@@ -36,17 +24,14 @@ namespace sachem.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult EditCourrier(Courriel courriel, p_TypeCourriel typeCourriel)
+        public ActionResult EditCourrier(Courriel courriel)
         {
-            ViewBag.id_TypeCourriel = new SelectList(db.p_TypeCourriel, "id_TypeCourriel", "TypeCourriel");
-            courriel.p_TypeCourriel = typeCourriel;
+            courriel.id_TypeCourriel = idCourriel;
             if (courriel.DateFin != null)
             {
                 if((courriel.DateDebut - courriel.DateFin.Value).TotalDays > 0)
-                {
                     ModelState.AddModelError(string.Empty, Messages.C_005);
                 }
-            }
 
             if (ModelState.IsValid)
             {
@@ -74,10 +59,11 @@ namespace sachem.Controllers
 
             if (ModelState.IsValid)
             {
+                contact.Telephone = SachemIdentite.FormatTelephone(contact.Telephone);
                 db.Entry(contact).State = EntityState.Modified;
                 db.SaveChanges();
 
-                TempData["Success"] = string.Format(Messages.I_003(contact.Nom));
+                TempData["Success"] = string.Format(Messages.I_031());
                 return View(contact);
             }
             return View(contact);
@@ -113,6 +99,7 @@ namespace sachem.Controllers
         }
 
 
+        
         [HttpPost]
         [ValidationAccesSuper]
         public ActionResult EditHoraire([Bind(Include = "id_Sess, DateDebut, DateFin, HeureDebut, HeureFin")] p_HoraireInscription HI)
@@ -220,6 +207,7 @@ namespace sachem.Controllers
             return RedirectToAction("EditCollege");
         }
 
+        [HttpPost]
         [ValidationAccesSuper]
         public ActionResult AddCollege(string nomCollege)
         {
@@ -246,6 +234,13 @@ namespace sachem.Controllers
                 db.p_College.Remove(college);
                 db.SaveChanges();
             }
+        }
+
+        [NonAction]
+        private void Valider([Bind(Include = "id_Contact,Nom,Prenom,Courriel,Telephone,Poste,Facebook,SiteWeb,Local")]p_Contact contact)
+        {
+            if (!db.p_Contact.Any(r => r.id_Contact == contact.id_Contact))
+                ModelState.AddModelError(string.Empty," ");
         }
     }
 }

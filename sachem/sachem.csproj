@@ -438,10 +438,7 @@
     <Content Include="Views\DossierEtudiant\_CoursAnterieur.cshtml" />
     <Content Include="Views\DossierEtudiant\_RechercheEtudiantInscrit.cshtml" />
     <Content Include="Views\DossierEtudiant\_InscriptionSachem.cshtml" />
-    <Content Include="Views\ConsulterCours\Create.cshtml" />
-    <Content Include="Views\ConsulterCours\Delete.cshtml" />
     <Content Include="Views\ConsulterCours\Details.cshtml" />
-    <Content Include="Views\ConsulterCours\Edit.cshtml" />
     <Content Include="Views\ConsulterCours\Index.cshtml" />
     <Content Include="Views\Groupes\Create.cshtml" />
     <Content Include="Views\Groupes\Delete.cshtml" />

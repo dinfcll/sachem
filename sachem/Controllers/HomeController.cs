@@ -25,7 +25,7 @@ namespace sachem.Controllers
 
         public ActionResult Contact()
         {
-            ViewBag.Message = "Your contact page.";
+            ViewBag.Message = "Nous contacter.";
             var contact = db.p_Contact.First();
             return View(contact);
         }

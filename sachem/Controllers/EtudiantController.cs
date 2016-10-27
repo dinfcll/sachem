@@ -104,6 +104,7 @@ namespace sachem.Controllers
             //retroune la liste de programme qui relié à l'élève
             var Prog = from d in db.EtuProgEtude
                        where d.id_Etu == personne.id_Pers
+                       orderby d.ProgrammeEtude.Code
                        select d;
             ViewBag.id_Sexe = new SelectList(db.p_Sexe, "id_Sexe", "Sexe", personne.id_Sexe);
             ViewBag.id_TypeUsag = new SelectList(db.p_TypeUsag, "id_TypeUsag", "TypeUsag", personne.id_TypeUsag);
@@ -134,7 +135,6 @@ namespace sachem.Controllers
                           where d.id_Pers == p.id_Pers
                           select d).FirstOrDefault();
             p.id_Sexe = idSexe.id_Sexe;
-            
             pepp.personne = p;
 
             //Mise à jour Viewbag
@@ -144,6 +144,13 @@ namespace sachem.Controllers
             ViewBag.id_Session = new SelectList(db.Session, "id_Sess", "NomSession");
 
             var etuprog = new EtuProgEtude();
+            //Aller chercher Programme d'étude(nom)
+            var Prog = from d in db.EtuProgEtude
+                       where d.id_Etu == pepp.personne.id_Pers
+                       orderby d.ProgrammeEtude.Code
+                       select d;
+            pepp.epe = Prog.ToList();
+
             //Ajout du programme d'étude (Si l'étudiant rajoute les champs)
             if (Request.Form["id_Programme"] != "" && Request.Form["id_Session"] != "")
             {
@@ -152,13 +159,9 @@ namespace sachem.Controllers
                 etuprog.id_Etu = personne.id_Pers;
                 db.EtuProgEtude.Add(etuprog);
                 db.SaveChanges();
-            }
-            //Aller chercher Programme d'étude(nom)
-            var Prog = from d in db.EtuProgEtude
-                       where d.id_Etu == pepp.personne.id_Pers
-                       select d;
-            pepp.epe = Prog.ToList();
 
+                return View(pepp);
+            }
             if (ModelState.IsValid)
             {
                 db.Entry(pepp.personne).State = EntityState.Modified;
@@ -191,8 +194,7 @@ namespace sachem.Controllers
         [ValidationAccesEnseignant]
         public ActionResult DeleteConfirmed(int id,int? page)
         {
-            var pageNumber = page ?? 1;
-            
+            var pageNumber = page ?? 1;           
             Personne personne = db.Personne.Find(id);
 
             var etuProgEtu = db.EtuProgEtude.Where(x => x.id_Etu == personne.id_Pers);
@@ -214,18 +216,48 @@ namespace sachem.Controllers
             return RedirectToAction("Index");
         }
         //fonction qui supprime un programme d'étude à oartir de la page modifier
-        [ValidationAccesEnseignant]
-        public ActionResult deleteProgEtu(int id)
+        public ActionResult deleteProgEtu(int idProg, int idPers, int Valider = 0)
         {
-            var etuProgEtu = db.EtuProgEtude.Where(x => x.id_EtuProgEtude == id);
-            db.EtuProgEtude.RemoveRange(etuProgEtu);
-            db.SaveChanges();
-            //faire apparaitre le message
-            TempData["Success"] = Messages.I_016("");
-            //retourne à l'index
-            return RedirectToAction("Index");
-        }
-        
+            Personne personne = db.Personne.Find(idPers);
+            EtuProgEtude etuprog = db.EtuProgEtude.Find(idProg);
+            var Prog = from d in db.EtuProgEtude
+                       where d.id_Etu == personne.id_Pers
+                       orderby d.ProgrammeEtude.Code
+                       select d;
+            
+            TempData["Question"] = Messages.Q_002(etuprog.ProgrammeEtude.CodeNomProgramme);
+            var etuProgEtu = db.EtuProgEtude.Where(x => x.id_EtuProgEtude == idProg);
+            if (Valider != 0)
+            {
+                TempData["Question"] = null;
+            }
+            if (Valider == 1)
+            {
+                if (!db.CoursSuivi.Any(c => c.id_Pers == etuprog.id_Etu && c.id_Sess == etuprog.id_Sess))
+                {
+                    TempData["Success"] = Messages.I_016(etuprog.ProgrammeEtude.CodeNomProgramme);
+                    db.EtuProgEtude.RemoveRange(etuProgEtu);
+                    db.SaveChanges();
+                }
+                else
+                {
+                    if (Prog.Count() > 1)
+                    {
+                        TempData["Success"] = Messages.I_016(etuprog.ProgrammeEtude.CodeNomProgramme);
+                        db.EtuProgEtude.RemoveRange(etuProgEtu);
+                        db.SaveChanges();
+                    }
+                    else
+                        TempData["Echec"] = Messages.I_011(etuprog.ProgrammeEtude.CodeNomProgramme);
+                }
+                //faire apparaitre le message
+                return RedirectToAction("Edit", "Etudiant", new { id = idPers });
+            }
+            TempData["id_Pers"] = idPers;         
+            TempData["id_Prog"] = idProg;
+            return RedirectToAction("Edit", "Etudiant", new { id = idPers });
+         }
+
         //fonction de validation
         private void Valider([Bind(Include = "id_Pers,id_Sexe,id_TypeUsag,Nom,Prenom,NomUsager,MP,ConfirmPassword,Courriel,DateNais,Actif")] Personne personne)
         {

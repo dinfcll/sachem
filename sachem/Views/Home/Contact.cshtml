@@ -1,24 +1,30 @@
 ﻿@model sachem.Models.p_Contact
 @using System.Data;
 @{
-    ViewBag.Title = "Contact";
+    ViewBag.Title = "Nous contacter";
 }
-<h2>@ViewBag.Title.</h2>
-<h3>@ViewBag.Message</h3>
+<h2>@ViewBag.Title.</h2>       
 
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayFor(model => model.Telephone)
-        </th>
-        <th>
-            @Html.DisplayFor(model => model.Prenom)
-        </th>
-    </tr>
-</table>
+    <div class="form-horizontal">
 
+        <div class="form-group">
+             <b>Personne à contacter : </b> @Html.DisplayFor(model => model.Prenom) @Html.DisplayFor(model => model.Nom)
+        </div>
 
-<address>
-    <strong>Support:</strong>   <a href="mailto:Support@example.com">Support@example.com</a><br />
-    <strong>Marketing:</strong> <a href="mailto:Marketing@example.com">Marketing@example.com</a>
-</address>
+        <div class="form-group">
+             <b>Numéro de téléphone : </b>@Html.DisplayFor(model => model.Telephone)<br />
+             <b>Poste : </b>@Html.DisplayFor(model => model.Poste)
+        </div>
+
+        <div class="form-group">
+             <b>Page Facebook : </b><a href=@Model.Facebook target="_blank">@Html.DisplayFor(model => model.Facebook)</a>
+        </div>
+
+        <div class="form-group">
+            <b>Site web : </b><a href=@Model.SiteWeb target="_blank">@Html.DisplayFor(model => model.SiteWeb)</a>
+        </div>
+        <div class="form-group">
+            <b>Local : </b>@Html.DisplayFor(model => model.Poste)
+        </div>
+    </div>
+
