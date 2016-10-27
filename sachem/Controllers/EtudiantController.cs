@@ -6,11 +6,14 @@ using sachem.Models;
 using PagedList;
 using static sachem.Classes_Sachem.ValidationAcces;
 using System.Data.Entity;
+using System.Collections.Generic;
 
 namespace sachem.Controllers
 {
     public class EtudiantController : RechercheEtudiantController
-    {    
+    {
+        private SACHEMEntities db = new SACHEMEntities();
+
         [ValidationAccesEnseignant]
         public ActionResult Index(int? page)
         {
@@ -31,9 +34,15 @@ namespace sachem.Controllers
         // GET: Etudiant/Create
         public ActionResult Create()
         {
+            //   s.lSexe = new SelectList(db.p_Sexe, "id_Sexe", "Sexe");
 
-            ViewBag.id_Sexe = new SelectList(db.p_Sexe, "id_Sexe", "Sexe");
+            ViewBag.id_Sexe = db.p_Sexe;
+            ViewBag.Selected = 0;
             ViewBag.id_TypeUsag = new SelectList(db.p_TypeUsag, "id_TypeUsag", "TypeUsag");
+            ViewBag.id_Programme = new SelectList(db.ProgrammeEtude, "id_ProgEtu", "nomProg");
+            ViewBag.id_Session = new SelectList(db.Session, "id_Sess", "NomSession");
+
+            //return View();
             return View();
         }
 
@@ -45,27 +54,50 @@ namespace sachem.Controllers
         [ValidationAccesEnseignant]
         public ActionResult Create([Bind(Include = "id_Pers,id_Sexe,id_TypeUsag,Nom,Prenom,Matricule,MP,ConfirmPassword,Courriel,Telephone,DateNais")] Personne personne,int? page)
         {
+
+            PersonneEtuProgParent pepp = new PersonneEtuProgParent();
+            //personne.id_Sexe = Int32.Parse(Request.Form["id_Sexe"]);
+
             personne.id_TypeUsag = 1;
             personne.Actif = true;
             personne.Telephone = SachemIdentite.FormatTelephone(personne.Telephone);
 
-            Valider(personne);
+            pepp.personne = personne;
+            
+
+            var etuprog = new EtuProgEtude();
+
+
+            if (Request.Form["id_Programme"] != "" && Request.Form["id_Session"] != "")
+            {
+                etuprog.id_ProgEtu = Int32.Parse(Request.Form["id_Programme"]);
+                etuprog.id_Sess = Int32.Parse(Request.Form["id_Session"]);
+                var idEtu = db.Personne.AsNoTracking().OrderByDescending(p => p.id_Pers).FirstOrDefault();
+                etuprog.id_Etu = idEtu.id_Pers;
+            }
+
+            Valider(pepp.personne);
             // Si les données sont valides, faire l'ajout
             if (ModelState.IsValid)
             {
-                personne.MP = SachemIdentite.encrypterChaine(personne.MP);
-                personne.ConfirmPassword = SachemIdentite.encrypterChaine(personne.ConfirmPassword); // Encryption du mot de passe 
-                
-                db.Personne.Add(personne);
+                pepp.personne.MP = SachemIdentite.encrypterChaine(pepp.personne.MP); // Encryption du mot de passe
+                pepp.personne.ConfirmPassword = SachemIdentite.encrypterChaine(pepp.personne.ConfirmPassword); // Encryption du mot de passe   
+                db.Personne.Add(pepp.personne);
+                db.SaveChanges();
+                db.EtuProgEtude.Add(etuprog);
                 db.SaveChanges();
                 personne.Telephone = SachemIdentite.RemettreTel(personne.Telephone);
                 TempData["Success"] = Messages.I_010(personne.Matricule); // Message afficher sur la page d'index confirmant la création
                 return RedirectToAction("Index");
             }
+            ViewBag.id_Sexe = db.p_Sexe;
+            ViewBag.Selected = 0;
+            ViewBag.id_TypeUsag = new SelectList(db.p_TypeUsag, "id_TypeUsag", "TypeUsag");
+            ViewBag.id_Programme = new SelectList(db.ProgrammeEtude, "id_ProgEtu", "nomProg");
+            ViewBag.id_Session = new SelectList(db.Session, "id_Sess", "NomSession");
 
-            ViewBag.id_Sexe = new SelectList(db.p_Sexe, "id_Sexe", "Sexe", personne.id_Sexe);
-            ViewBag.id_TypeUsag = new SelectList(db.p_TypeUsag, "id_TypeUsag", "TypeUsag", personne.id_TypeUsag);
-            return View(personne);
+
+            return View(pepp);
         }
 
         // GET: Etudiant/Edit/5
@@ -86,7 +118,9 @@ namespace sachem.Controllers
                        where d.id_Etu == personne.id_Pers
                        orderby d.ProgrammeEtude.Code
                        select d;
-            ViewBag.id_Sexe = new SelectList(db.p_Sexe, "id_Sexe", "Sexe", personne.id_Sexe);
+
+            ViewBag.id_Sexe = db.p_Sexe;
+            ViewBag.Selected = personne.id_Sexe;
             ViewBag.id_TypeUsag = new SelectList(db.p_TypeUsag, "id_TypeUsag", "TypeUsag", personne.id_TypeUsag);
             ViewBag.id_Programme = new SelectList(db.ProgrammeEtude, "id_ProgEtu", "nomProg");
             ViewBag.id_Session = new SelectList(db.Session, "id_Sess", "NomSession");
@@ -96,9 +130,6 @@ namespace sachem.Controllers
             return View(epep);
         }
 
-        public void FillDropDownlist()
-        {  
-        }
         // POST: Etudiant/Edit/5
         // Afin de déjouer les attaques par sur-validation, activez les propriétés spécifiques que vous voulez lier. Pour 
         // plus de détails, voir  http://go.microsoft.com/fwlink/?LinkId=317598.
@@ -109,19 +140,8 @@ namespace sachem.Controllers
         public ActionResult Edit([Bind(Include = "id_Pers,id_Sexe,id_TypeUsag,Nom,Prenom,NomUsager,Matricule7,MP,Courriel,Telephone,DateNais,Actif")] Personne personne)
         {
             PersonneEtuProgParent pepp = new PersonneEtuProgParent();
-            Personne p = db.Personne.Find(personne.id_Pers);
-            p.id_TypeUsag = 1;
-            var idSexe = (from d in db.Personne
-                          where d.id_Pers == p.id_Pers
-                          select d).FirstOrDefault();
-            p.id_Sexe = idSexe.id_Sexe;
-            pepp.personne = p;
-
-            //Mise à jour Viewbag
-            ViewBag.id_Sexe = new SelectList(db.p_Sexe, "id_Sexe", "Sexe", pepp.personne.id_Sexe);
-            ViewBag.id_TypeUsag = new SelectList(db.p_TypeUsag, "id_TypeUsag", "TypeUsag", pepp.personne.id_TypeUsag);
-            ViewBag.id_Programme = new SelectList(db.ProgrammeEtude, "id_ProgEtu", "nomProg");
-            ViewBag.id_Session = new SelectList(db.Session, "id_Sess", "NomSession");
+            personne.id_TypeUsag = 1;
+            pepp.personne = personne;
 
             var etuprog = new EtuProgEtude();
             //Aller chercher Programme d'étude(nom)
@@ -139,14 +159,24 @@ namespace sachem.Controllers
                 etuprog.id_Etu = personne.id_Pers;
                 db.EtuProgEtude.Add(etuprog);
                 db.SaveChanges();
-
-                return View(pepp);
             }
             if (ModelState.IsValid)
             {
                 db.Entry(pepp.personne).State = EntityState.Modified;
                 db.SaveChanges();
+                TempData["Success"] = Messages.I_045(personne.NomPrenom);
+                //redirection à l'index après la suppression
+                return RedirectToAction("Index");
             }
+            //Mise à jour Viewbag
+
+            ViewBag.id_Sexe = db.p_Sexe;
+            ViewBag.Selected = pepp.personne.id_Sexe;
+            ViewBag.id_TypeUsag = new SelectList(db.p_TypeUsag, "id_TypeUsag", "TypeUsag", pepp.personne.id_TypeUsag);
+            ViewBag.id_Programme = new SelectList(db.ProgrammeEtude, "id_ProgEtu", "nomProg");
+            ViewBag.id_Session = new SelectList(db.Session, "id_Sess", "NomSession");
+
+
             return View(pepp);
         }
 
@@ -174,8 +204,8 @@ namespace sachem.Controllers
         [ValidationAccesEnseignant]
         public ActionResult DeleteConfirmed(int id,int? page)
         {
-            var pageNumber = page ?? 1;           
-            Personne personne = db.Personne.Find(id);
+            var pageNumber = page ?? 1;
+                Personne personne = db.Personne.Find(id);
 
             var etuProgEtu = db.EtuProgEtude.Where(x => x.id_Etu == personne.id_Pers);
             db.EtuProgEtude.RemoveRange(etuProgEtu);
@@ -222,21 +252,21 @@ namespace sachem.Controllers
                 else
                 {
                     if (Prog.Count() > 1)
-                    {
+        {
                         TempData["Success"] = Messages.I_016(etuprog.ProgrammeEtude.CodeNomProgramme);
-                        db.EtuProgEtude.RemoveRange(etuProgEtu);
-                        db.SaveChanges();
+            db.EtuProgEtude.RemoveRange(etuProgEtu);
+            db.SaveChanges();
                     }
                     else
                         TempData["Echec"] = Messages.I_011(etuprog.ProgrammeEtude.CodeNomProgramme);
                 }
-                //faire apparaitre le message
+            //faire apparaitre le message
                 return RedirectToAction("Edit", "Etudiant", new { id = idPers });
             }
             TempData["id_Pers"] = idPers;         
             TempData["id_Prog"] = idProg;
             return RedirectToAction("Edit", "Etudiant", new { id = idPers });
-         }
+        }
 
         //fonction de validation
         private void Valider([Bind(Include = "id_Pers,id_Sexe,id_TypeUsag,Nom,Prenom,NomUsager,MP,ConfirmPassword,Courriel,DateNais,Actif")] Personne personne)
