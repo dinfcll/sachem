@@ -17,67 +17,14 @@ namespace sachem.Controllers
         private const int ID_ENSEIGNANT = 2;
         private const int ID_RESP = 3;
         
-        [NonAction]
-        private void ListeEnseignant(int Enseignant = 0)
-        {
-            var lEnseignant = db.Personne.AsNoTracking().OrderBy(p => p.Nom ).ThenBy(p => p.Prenom);
-            var slEnseignant = new List<SelectListItem>();
-            slEnseignant.AddRange(new SelectList(lEnseignant, "id_Pers", "Nom", Enseignant));
-
-            ViewBag.Enseignant = slEnseignant;
-        }
-
-        private bool Cochee()
-        {
-            //Vérifier si la case est cocher ou non
-            return !string.IsNullOrEmpty(Request.Form["Actif"]);
-        }
-
-        //Fonction pour gérer la recherche, elle est utilisée dans la suppression et dans l'index
-        [NonAction]
-        private IEnumerable<Personne> Rechercher()
-        {
-            var enseignant = 0;
-            var actif = true;
-
-            // Verifier si la case a cocher est coché ou non
-            if (Cochee())
-                actif = Request.Form["Actif"].StartsWith("true");
-
-
-            ViewBag.Actif = actif;
-            // liste et pagination
-            ListeEnseignant(enseignant);
-
-            // Requete linq pour aller chercher les enseignants et responsables dans la BD
-            var Enseignant = from c in db.Personne
-                             where (c.id_TypeUsag == ID_ENSEIGNANT || c.id_TypeUsag == ID_RESP)
-                             && c.Actif == actif
-                             orderby c.Nom,c.Prenom
-                             select c;
-
-            return Enseignant.ToList();
-        }
-
         [ValidationAccesSuper]
         public ActionResult Index(int? page)
         {
-
             var pageNumber = page ?? 1;
-
             return View(Rechercher().ToPagedList(pageNumber, 20));
         }
 
-        [NonAction]
-        private void Valider([Bind(Include = "id_Pers,id_Sexe,id_TypeUsag,Nom,Prenom,NomUsager,MP,ConfirmPassword,Courriel,DateNais,Actif")] Personne personne)
-        {
-            if (db.Personne.Any(x => x.NomUsager == personne.NomUsager && x.id_Pers != personne.id_Pers))// Verifier si le nom d'usager existe ou s'il a entré son ancient nom
-                ModelState.AddModelError(string.Empty, Messages.I_013(personne.NomUsager));
-            if (personne.MP != personne.ConfirmPassword)
-                ModelState.AddModelError(string.Empty, Messages.C_001);
-        }
-
-        // GET: Enseignant/Create
+        [HttpGet]
         [ValidationAccesSuper]
         public ActionResult Create()
         {
@@ -85,9 +32,6 @@ namespace sachem.Controllers
             return View();
         }
 
-        // POST: Enseignant/Create
-        // Afin de déjouer les attaques par sur-validation, activez les propriétés spécifiques que vous voulez lier. Pour 
-        // plus de détails, voir  http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "id_Pers,id_Sexe,id_TypeUsag,Nom,Prenom,NomUsager,MP,ConfirmPassword,Courriel,DateNais,Actif")] Personne personne)
@@ -111,13 +55,12 @@ namespace sachem.Controllers
             RemplirDropList(personne);
             ViewBag.id_person = personne.id_Pers;
             return View(personne);
-
         }
-        // GET: Enseignant/Edit/5
+
+        [HttpGet]
         [ValidationAccesSuper]
         public ActionResult Edit(int? id)
         {
-
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -133,9 +76,6 @@ namespace sachem.Controllers
             return View(personne);
         }
 
-        // POST: Enseignant/Edit/5
-        // Afin de déjouer les attaques par sur-validation, activez les propriétés spécifiques que vous voulez lier. Pour 
-        // plus de détails, voir  http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "id_Pers, id_Sexe, id_TypeUsag, Nom, Prenom, NomUsager, MP, ConfirmPassword, Courriel, DateNais, Actif")] Personne personne)
@@ -158,13 +98,11 @@ namespace sachem.Controllers
                 db.SaveChanges();
                 TempData["Success"] = Messages.I_015(personne.NomUsager); // Message afficher sur la page d'index confirmant la modification
                 return RedirectToAction("Index");
-
             }
-
             return View(personne);
         }
 
-        // GET: Enseignant/Delete/5
+        [HttpGet]
         [ValidationAccesSuper]
         public ActionResult Delete(int? id)
         {
@@ -184,8 +122,7 @@ namespace sachem.Controllers
             }
             return View(personne);
         }
-
-        // POST: Enseignant/Delete/5
+        
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id,int? page)
@@ -220,6 +157,59 @@ namespace sachem.Controllers
             base.Dispose(disposing);
         }
 
+        [NonAction]
+        private void ListeEnseignant(int Enseignant = 0)
+        {
+            var lEnseignant = db.Personne.AsNoTracking().OrderBy(p => p.Nom).ThenBy(p => p.Prenom);
+            var slEnseignant = new List<SelectListItem>();
+            slEnseignant.AddRange(new SelectList(lEnseignant, "id_Pers", "Nom", Enseignant));
+
+            ViewBag.Enseignant = slEnseignant;
+        }
+
+        [NonAction]
+        private bool Cochee()
+        {
+            //Vérifier si la case est cocher ou non
+            return !string.IsNullOrEmpty(Request.Form["Actif"]);
+        }
+
+        //Fonction pour gérer la recherche, elle est utilisée dans la suppression et dans l'index
+        [NonAction]
+        private IEnumerable<Personne> Rechercher()
+        {
+            var enseignant = 0;
+            var actif = true;
+
+            // Verifier si la case a cocher est coché ou non
+            if (Cochee())
+                actif = Request.Form["Actif"].StartsWith("true");
+
+
+            ViewBag.Actif = actif;
+            // liste et pagination
+            ListeEnseignant(enseignant);
+
+            // Requete linq pour aller chercher les enseignants et responsables dans la BD
+            var Enseignant = from c in db.Personne
+                             where (c.id_TypeUsag == ID_ENSEIGNANT || c.id_TypeUsag == ID_RESP)
+                             && c.Actif == actif
+                             orderby c.Nom, c.Prenom
+                             select c;
+
+            return Enseignant.ToList();
+        }
+
+        [NonAction]
+        private void Valider([Bind(Include = "id_Pers,id_Sexe,id_TypeUsag,Nom,Prenom,NomUsager,MP,ConfirmPassword,Courriel,DateNais,Actif")] Personne personne)
+        {
+            if (db.Personne.Any(x => x.NomUsager == personne.NomUsager && x.id_Pers != personne.id_Pers))// Verifier si le nom d'usager existe ou s'il a entré son ancient nom
+                ModelState.AddModelError(string.Empty, Messages.I_013(personne.NomUsager));
+            if (personne.MP != personne.ConfirmPassword)
+                ModelState.AddModelError(string.Empty, Messages.C_001);
+        }
+
+        [NonAction]
         private void RemplirDropList()
         {
             // afficher les listes déroulantes contenant le type d'usager et le sexe
@@ -227,6 +217,8 @@ namespace sachem.Controllers
             // Permet d'afficher seulement Enseignant et Responsable du Sachem dans les valeurs possibles de la list déroulante.
             ViewBag.id_TypeUsag = new SelectList(db.p_TypeUsag.Where(x => x.id_TypeUsag == ID_ENSEIGNANT || x.id_TypeUsag == ID_RESP), "id_TypeUsag", "TypeUsag");
         }
+
+        [NonAction]
         private void RemplirDropList(Personne personne)
         {
             // affiche les sexes dans la dropList et sélectionne par défaut la valeur dans le paramètre personne.
