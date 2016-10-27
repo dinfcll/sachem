@@ -43,7 +43,7 @@ namespace sachem.Controllers
         }
 
         [HttpGet]
-       // [ValidationAccesSuper]
+        [ValidationAccesSuper]
         public ActionResult EditContact()
         {
             var contact = db.p_Contact.First();
