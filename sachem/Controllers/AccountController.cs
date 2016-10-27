@@ -22,7 +22,7 @@ namespace sachem.Controllers
 
         #region fn_CookieStuff
         //Pour l'encryption du cookie (MachineCode)
-        #pragma warning disable 0618
+#pragma warning disable 0618
 
         [NonAction]
         private void CreerCookieConnexion(string NomUsager, string MotDePasse)
@@ -130,25 +130,26 @@ namespace sachem.Controllers
             else
 
                 if (NomUsager == null)
-                    ModelState.AddModelError("NomUsager", Messages.U_001); //NomUsager/Matricule requis
-                else
+                ModelState.AddModelError("NomUsager", Messages.U_001); //NomUsager/Matricule requis
+            else
 
                     if (Regex.IsMatch(NomUsager, @"^\d+$") && NomUsager.Length == 7) //Vérifie que le matricule est 7 de long et est numérique
 
-                        if (!db.Personne.Any(x => x.Matricule.Substring(2) == NomUsager))
-                            ModelState.AddModelError(string.Empty, Messages.I_017());  //Erreur de connection
-                        else
-                            PersonneBD = db.Personne.AsNoTracking().Where(x => x.Matricule.Substring(2) == NomUsager).FirstOrDefault();
-                    else
+                if (!db.Personne.Any(x => x.Matricule.Substring(2) == NomUsager))
+                    ModelState.AddModelError(string.Empty, Messages.I_017());  //Erreur de connection
+                else
+                    PersonneBD = db.Personne.AsNoTracking().Where(x => x.Matricule.Substring(2) == NomUsager).FirstOrDefault();
+            else
 
                         if (!db.Personne.Any(x => x.NomUsager == NomUsager))
-                            ModelState.AddModelError(string.Empty, Messages.I_017());  //Erreur de connection
-                        else
-                            PersonneBD = db.Personne.AsNoTracking().Where(x => x.NomUsager == NomUsager).FirstOrDefault();
+                ModelState.AddModelError(string.Empty, Messages.I_017());  //Erreur de connection
+            else
+                PersonneBD = db.Personne.AsNoTracking().Where(x => x.NomUsager == NomUsager).FirstOrDefault();
             if (ModelState.IsValid)
             {
                 //Encrypter le mdp et tester la connection
                 MP = SachemIdentite.encrypterChaine(MP);
+
                 //Vérifie si le mot de passe concorde 
                 if (PersonneBD.MP != MP)
                     ModelState.AddModelError(string.Empty, Messages.I_017()); //Erreur de connection
@@ -157,46 +158,53 @@ namespace sachem.Controllers
                     PersonneBD.MP = "";
                     return View(PersonneBD); //Retourne le formulaire rempli avec l'erreur
                 }
-                SessionBag.Current.id_TypeUsag = PersonneBD.id_TypeUsag;
+
                 //On va chercher le type d'inscription dans la BD pour le présent utilisateur (si c'est un étudiant, il faut donner le type soit tuteur ou élève)
-                if (PersonneBD.id_TypeUsag == 1)
+                var typeinscr = (from i in db.Inscription
+                                 where i.id_Pers == PersonneBD.id_Pers
+                                 select i.id_TypeInscription).FirstOrDefault();
+
+                //On va chercher le id inscription pour identifier l'etudiant (eleve, tuteur) pour son dossier etudiant
+                var idinscr = (from i in db.Inscription
+                               where i.id_Pers == PersonneBD.id_Pers
+                               select i.id_Inscription).FirstOrDefault();
+
+                //conserver le typeinscrit
+                if (idinscr != 0)
+                    SessionBag.Current.id_Inscription = idinscr;
+                else
+                    SessionBag.Current.id_Inscription = 0;
+
+                //Si c'est un tuteur, on a type = 6
+                if (typeinscr > 1)
                 {
-                    var typeinscr = (from i in db.Inscription
-                                     where i.id_Pers == PersonneBD.id_Pers
-                                     select i.id_TypeInscription).FirstOrDefault();
-                    var idinscr = (from i in db.Inscription
-                                   where i.id_Pers == PersonneBD.id_Pers
-                                   select i.id_Inscription).FirstOrDefault();
-
-                    if (idinscr != 0)
-                    {
-                        SessionBag.Current.id_Inscription = idinscr;
-                        if (typeinscr > 1)
-                            SessionBag.Current.id_TypeUsag = 6;
-
-                        if (typeinscr == 1)
-                            SessionBag.Current.id_TypeUsag = 5;
-                    }
-
+                    SessionBag.Current.id_TypeUsag = 6;
                 }
                 else
                 {
-                    if (PersonneBD.id_TypeUsag == 2)
+                    //sinon, c'est un élève aidé.
+                    if (typeinscr == 1)
                     {
-                        //Enseignant
-                        //On va chercher les id des enseignants dans les jumelages pour verifier si l'enseignant connecte est affilie a un ou des jumelags lors de l'acces a Dossier Etudiant et ...
-                        var idSuperviseur = (from i in db.Jumelage
-                                             where i.id_Enseignant == PersonneBD.id_Pers
-                                             select i.id_Enseignant).FirstOrDefault();
-                        if (idSuperviseur != 0)
-                            SessionBag.Current.idSuperviseur = idSuperviseur;
-                        else
-                            SessionBag.Current.idSuperviseur = 0;
+                        SessionBag.Current.id_TypeUsag = 5;
                     }
+                    //Si c'est pas un étudiant, on va chercher directement dans la BD pour voir le ID du type.
                     else
-                        SessionBag.Current.id_Inscription = 0;
+                    {
+                        SessionBag.Current.id_TypeUsag = PersonneBD.id_TypeUsag;
+                    }
                 }
-                   
+
+                //Enseignant
+                //On va chercher les id des enseignants dans les jumelages pour verifier si l'enseignant connecte est affilie a un ou des jumelags lors de l'acces a Dossier Etudiant et ...
+                var idSuperviseur = (from i in db.Jumelage
+                                     where i.id_Enseignant == PersonneBD.id_Pers
+                                     select i.id_Enseignant).FirstOrDefault();
+                if (idSuperviseur != 0)
+                {
+                    SessionBag.Current.idSuperviseur = idSuperviseur;
+                }
+                else
+                    SessionBag.Current.idSuperviseur = 0;
 
                 //Si tout va bien, on rempli la session avec les informations de l'utilisateur!
                 SessionBag.Current.NomUsager = PersonneBD.NomUsager;
@@ -244,7 +252,7 @@ namespace sachem.Controllers
             //Get le sexe du formulaire
             ViewBag.id_Sexe = new SelectList(db.p_Sexe, "id_Sexe", "Sexe");
 
-            var validation = ConfirmeMdp(personne.MP, personne.ConfirmPassword); 
+            var validation = ConfirmeMdp(personne.MP, personne.ConfirmPassword);
 
             if (!validation)
                 return View(personne);
@@ -281,7 +289,7 @@ namespace sachem.Controllers
                     {
                         db.SaveChanges();//essai de sauvegarder
                     }
-                    catch(System.Data.Entity.Validation.DbEntityValidationException dbEx)
+                    catch (System.Data.Entity.Validation.DbEntityValidationException dbEx)
                     {
                         Exception raise = dbEx;
                         foreach (var validationErrors in dbEx.EntityValidationErrors)
@@ -300,7 +308,7 @@ namespace sachem.Controllers
                     #endregion
 
                     ViewBag.Success = Messages.I_026();
-                 
+
                     return View();
                 }
             }
@@ -353,12 +361,12 @@ namespace sachem.Controllers
                 }
                 else
                 {
-                    ModelState.AddModelError(string.Empty,"Problème lors de l'envoi du courriel, le port 587 est bloqué.");
+                    ModelState.AddModelError(string.Empty, "Problème lors de l'envoi du courriel, le port 587 est bloqué.");
                 }
             }
             else
             {
-                ModelState.AddModelError("Courriel",Messages.C_003);
+                ModelState.AddModelError("Courriel", Messages.C_003);
             }
             return View();
         }
@@ -379,9 +387,9 @@ namespace sachem.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public ActionResult ModifierPassword(Personne personne,string Modifier,string Annuler)
+        public ActionResult ModifierPassword(Personne personne, string Modifier, string Annuler)
         {
-            if(Annuler != null)//Verifier si c'est le bouton annuler qui a été cliqué
+            if (Annuler != null)//Verifier si c'est le bouton annuler qui a été cliqué
                 return RedirectToAction("Index", "Home");
 
             if (Modifier != null)//Si modifier mdp a été cliqué
