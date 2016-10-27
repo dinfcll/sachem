@@ -20,6 +20,8 @@ namespace sachem.Controllers
         // GET: ConsulterCours
         public ActionResult Index()
         {
+            ViewBag.IsSessToutes = true;
+
             if (!SachemIdentite.ValiderRoleAcces(RolesAcces, Session))
                 return RedirectToAction("Error", "Home", null);
 
@@ -199,11 +201,13 @@ namespace sachem.Controllers
         }
 
         // GET: ConsulterCours/Details/5
-        public ActionResult Details(int? id)
+        public ActionResult Details(int? idCours)
         {
             m_IdPers = SessionBag.Current.id_Pers;
             m_IdTypeUsage = SessionBag.Current.id_TypeUsag; // 2 = enseignant, 3 = responsable
             IOrderedQueryable<Groupe> gr;
+            int idSess = 0;
+            int.TryParse(Request.Form["Session"], out idSess);
 
 
             if (!connexionValide(m_IdTypeUsage))
@@ -212,7 +216,7 @@ namespace sachem.Controllers
             }
             else
             {
-                if (id == null)
+                if (idCours == null)
                 {
                     return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
                 }
@@ -221,19 +225,47 @@ namespace sachem.Controllers
                 {
                     ViewBag.IsEnseignant = true;
 
-                    gr = from g in db.Groupe //obtenir les groupes en lien avec le cours trouvé et le prof connexté
-                             where g.id_Cours == id && g.id_Enseignant == m_IdPers
+                    if (idSess == 0)
+                    {
+                        ViewBag.IsSessToutes = true;
+
+                        gr = from g in db.Groupe //obtenir les groupes en lien avec le cours trouvé et le prof connexté
+                             where g.id_Cours == idCours && g.id_Enseignant == m_IdPers
                              orderby g.NoGroupe
                              select g;
+                    }
+                    else
+                    {
+                        ViewBag.IsSessToutes = false;
+
+                        gr = from g in db.Groupe //obtenir les groupes en lien avec le cours trouvé et le prof connexté
+                             where g.id_Cours == idCours && g.id_Enseignant == m_IdPers && g.id_Sess == idSess
+                             orderby g.NoGroupe
+                             select g;
+                    }
                 }
                 else //responsable
                 {
                     ViewBag.IsEnseignant = false;
 
-                    gr = from g in db.Groupe
-                             where g.id_Cours == id
+                    if (idSess == 0)
+                    {
+                        ViewBag.IsSessToutes = true;
+
+                        gr = from g in db.Groupe
+                             where g.id_Cours == idCours
                              orderby g.NoGroupe
                              select g;
+                    }
+                    else
+                    {
+                        ViewBag.IsSessToutes = false;
+
+                        gr = from g in db.Groupe
+                             where g.id_Cours == idCours && g.id_Sess == idSess
+                             orderby g.NoGroupe
+                             select g;
+                    }
                 }
 
                 if (!gr.Any())

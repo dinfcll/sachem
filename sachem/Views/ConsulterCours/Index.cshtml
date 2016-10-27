@@ -3,6 +3,8 @@
 @using sachem.Models
 @model IEnumerable<sachem.Models.Groupe>
 
+@{string colSess = "<th>lolololol</th>"; }
+
 @{
     ViewBag.Title = "Consulter cours";
 }
@@ -38,11 +40,17 @@
 
 @if (Model.Any())
 {
+    if (ViewBag.IsSessToutes)
+    {
+        colSess = "<th>" + "allo" + "</th>";
+    }
+
     <table class="table">
 
         @if (ViewBag.IsEnseignant) //si enseignant
         {
             <tr>
+                @Html.Raw(colSess)
                 <th>
                     @Html.DisplayNameFor(model => model.Cours.Code)
                 </th>
@@ -52,9 +60,12 @@
                 <th></th>
             </tr>
 
+            
+
             foreach (var item in Model)
             {
                     <tr>
+
                         <td>
                             @Html.DisplayFor(modelItem => item.Cours.Code)
                         </td>
@@ -62,7 +73,7 @@
                             @Html.DisplayFor(modelItem => item.Cours.Nom)
                         </td>
                         <td>
-                            @Html.ActionLink("Consulter", "Details", new { id = item.id_Cours })
+                            @Html.ActionLink("Consulter", "Details", new { idCours = item.id_Cours })
                         </td>
                     </tr>
             }
