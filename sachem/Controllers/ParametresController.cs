@@ -23,6 +23,7 @@ namespace sachem.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [ValidationAccesSuper]
         public ActionResult EditCourrier(Courriel courriel, p_TypeCourriel typeCourriel)
         {
             ViewBag.id_TypeCourriel = new SelectList(db.p_TypeCourriel, "id_TypeCourriel", "TypeCourriel");
@@ -45,7 +46,7 @@ namespace sachem.Controllers
         }
 
         [HttpGet]
-        [ValidationAccesSuper]
+        //[ValidationAccesSuper]
         public ActionResult EditContact()
         {
             var contact = db.p_Contact.First();
@@ -54,12 +55,14 @@ namespace sachem.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [ValidationAccesSuper]
         public ActionResult EditContact([Bind(Include = "id_Contact,Nom,Prenom,Courriel,Telephone,Poste,Facebook,SiteWeb,Local")] p_Contact contact)
         {
             Valider(contact);
-
+            
             if (ModelState.IsValid)
             {
+                contact.Telephone = SachemIdentite.FormatTelephone(contact.Telephone);
                 db.Entry(contact).State = EntityState.Modified;
                 db.SaveChanges();
 
@@ -90,6 +93,7 @@ namespace sachem.Controllers
         }
 
         [HttpPost]
+        [ValidationAccesSuper]
         public ActionResult EditHoraire([Bind(Prefix = "Item2")] p_HoraireInscription nouvelHoraire)
         {
             
@@ -167,6 +171,7 @@ namespace sachem.Controllers
         }
 
         [HttpPost]
+        [ValidationAccesSuper]
         public ActionResult AddCollege(string nomCollege)
         {
             if (!db.p_College.Any(p => p.College == nomCollege))
@@ -183,6 +188,7 @@ namespace sachem.Controllers
         }
 
         [HttpPost]
+        [ValidationAccesSuper]
         public void DeleteCollege(int? id)
         {
             var college = db.p_College.Find(id);
@@ -196,8 +202,8 @@ namespace sachem.Controllers
         [NonAction]
         private void Valider([Bind(Include = "id_Contact,Nom,Prenom,Courriel,Telephone,Poste,Facebook,SiteWeb,Local")]p_Contact contact)
         {
-            if (db.p_Contact.Any(r => r.id_Contact == contact.id_Contact && r.Prenom != contact.Prenom && r.Nom != contact.Nom))
-                ModelState.AddModelError(string.Empty, Messages.I_002(contact.id_Contact.ToString()));
+            if (!db.p_Contact.Any(r => r.id_Contact == contact.id_Contact))
+                ModelState.AddModelError(string.Empty," ");
         }
     }
 }
