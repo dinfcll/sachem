@@ -33,7 +33,7 @@ namespace sachem.Controllers
         private IEnumerable<Groupe> AfficherCoursAssignes()
         {
             var idSess = 0;
-            List<Groupe> listeCours;
+            var listeCours = new List<Groupe>();
 
             //Pour accéder à la valeur de cle envoyée en GET dans le formulaire
             //Request.QueryString["cle"]
@@ -50,7 +50,6 @@ namespace sachem.Controllers
                 {
                     idSess = int.Parse(tanciennerech[0]);
                 }
-
             }
             else
             {
@@ -100,7 +99,6 @@ namespace sachem.Controllers
             }
         }
 
-
         [NonAction]
         private List<Groupe> TrouverCoursUniques(IQueryable<Groupe> listeTout, IQueryable<int> listeIdUniques, bool isEnseignant)
         {
@@ -108,18 +106,18 @@ namespace sachem.Controllers
             int idPrec = 0;
             var idUniques = listeIdUniques.ToList();
 
-            foreach(Groupe t in listeTout)
+            foreach(Groupe groupe in listeTout)
             {
-                foreach (var j in idUniques)
+                foreach (var id in idUniques)
                 {
-                    if (t.id_Cours == j && t.id_Cours != idPrec) //si id unique et pas encore traité
+                    if (groupe.id_Cours == id && groupe.id_Cours != idPrec) //si id unique et pas encore traité
                     {
-                        idPrec = t.id_Cours;
+                        idPrec = groupe.id_Cours;
                         if (!isEnseignant)
                         {
-                            t.nomsConcatenesProfs = trouverNomsProfs(listeTout, t.id_Cours);
+                            groupe.nomsConcatenesProfs = trouverNomsProfs(listeTout, groupe.id_Cours);
                         }
-                        listeCours.Add(t);
+                        listeCours.Add(groupe);
                     }
                 }
             }
