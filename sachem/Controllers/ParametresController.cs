@@ -10,6 +10,7 @@ namespace sachem.Controllers
 {
     public class ParametresController : Controller
     {
+        private const int idCourriel = 1;
         private readonly SACHEMEntities db = new SACHEMEntities();
 
         [ValidationAccesSuper]
@@ -38,7 +39,7 @@ namespace sachem.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult EditCourrier(Courriel courriel)
         {
-            courriel.id_TypeCourriel = 1;
+            courriel.id_TypeCourriel = idCourriel;
             if (courriel.DateFin != null)
             {
                 if((courriel.DateDebut - courriel.DateFin.Value).TotalDays > 0)
