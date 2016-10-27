@@ -8,14 +8,13 @@ using System.Net;
 using System.Net.Mail;
 using System.Text;
 using System.Web;
-using System.Web.Security;
 
 namespace sachem.Controllers
 {
     [Authorize]
     public class AccountController : Controller
     {
-        private readonly SACHEMEntities db = new SACHEMEntities();
+        private readonly SACHEMEntities db = new SACHEMEntities();//retirer le readonly de private
         public AccountController()
         {
 
@@ -28,7 +27,7 @@ namespace sachem.Controllers
         [NonAction]
         private void CreerCookieConnexion(string NomUsager, string MotDePasse)
         {
-            string mdpEncrypte = Crypto.Encrypt(MotDePasse, "asdjh213498yashj2134987ash"); //Encrypte le mdp pour le cookie
+            string mdpEncrypte = Crypto.Encrypt(MotDePasse, System.Configuration.ConfigurationManager.AppSettings.Get("CryptoKey")); //Encrypte le mdp pour le cookie
             HttpCookie Maintenir = new HttpCookie("SACHEMConnexion");
             Maintenir.Values.Add("NomUsager", NomUsager); //On ajoute le nom utilisateur
             //met le mdp encrypté dans le cookie
@@ -75,7 +74,7 @@ namespace sachem.Controllers
             client.Timeout = 10000;
             client.DeliveryMethod = SmtpDeliveryMethod.Network;
             client.UseDefaultCredentials = false;
-            client.Credentials = new NetworkCredential("sachemcllmail@gmail.com", "sachemadmin#123"); //information de connexion au email d'envoi de message de SACHEM
+            client.Credentials = new NetworkCredential("sachemcllmail@gmail.com", System.Configuration.ConfigurationManager.AppSettings.Get("EmailSachemMDP")); //information de connexion au email d'envoi de message de SACHEM
             message.BodyEncoding = Encoding.UTF8;
             message.DeliveryNotificationOptions = DeliveryNotificationOptions.OnFailure;
             try//pour savoir si l'envoi à fonctionner
@@ -124,6 +123,7 @@ namespace sachem.Controllers
         {
             string mdpPlain = MP;
             Personne PersonneBD = new Personne();
+
             //Validations des champs et de la connection
             if (mdpPlain == "")
                 ModelState.AddModelError("MP", Messages.U_001); //Mot de passe requis
@@ -163,20 +163,54 @@ namespace sachem.Controllers
                 var typeinscr = (from i in db.Inscription
                                  where i.id_Pers == PersonneBD.id_Pers select i.id_TypeInscription).FirstOrDefault();
 
+                //On va chercher le id inscription pour identifier l'etudiant (eleve, tuteur) pour son dossier etudiant
+                var idinscr = (from i in db.Inscription
+                                 where i.id_Pers == PersonneBD.id_Pers
+                                 select i.id_Inscription).FirstOrDefault();
+
+                //conserver le typeinscrit
+                if (idinscr != 0)
+                    SessionBag.Current.id_Inscription = idinscr;
+                else
+                    SessionBag.Current.id_Inscription = 0;
+
                 //Si c'est un tuteur, on a type = 6
                 if (typeinscr > 1)
-                    SessionBag.Current.id_TypeUsag = 6;
+                {
+                    SessionBag.Current.id_TypeUsag = 6;                    
+                }
                 else
+                {
+                    //sinon, c'est un élève aidé.
                     if (typeinscr == 1)
-                        SessionBag.Current.id_TypeUsag = 5; //sinon, c'est un élève aidé.
+                    {
+                        SessionBag.Current.id_TypeUsag = 5; 
+                    }
+                    //Si c'est pas un étudiant, on va chercher directement dans la BD pour voir le ID du type.
                     else
-                        SessionBag.Current.id_TypeUsag = PersonneBD.id_TypeUsag; //Si c'est pas un étudiant, on va chercher directement dans la BD pour voir le ID du type.
+                    {
+                        SessionBag.Current.id_TypeUsag = PersonneBD.id_TypeUsag; 
+                    }
+                }
+
+                //Enseignant
+                //On va chercher les id des enseignants dans les jumelages pour verifier si l'enseignant connecte est affilie a un ou des jumelags lors de l'acces a Dossier Etudiant et ...
+                var idSuperviseur = (from i in db.Jumelage
+                                     where i.id_Enseignant == PersonneBD.id_Pers
+                                     select i.id_Enseignant).FirstOrDefault();
+                if (idSuperviseur != 0)
+                {
+                    SessionBag.Current.idSuperviseur = idSuperviseur;
+                }
+                else
+                    SessionBag.Current.idSuperviseur = 0;
 
                 //Si tout va bien, on rempli la session avec les informations de l'utilisateur!
                 SessionBag.Current.NomUsager = PersonneBD.NomUsager;
                 SessionBag.Current.Matricule7 = PersonneBD.Matricule7;
                 SessionBag.Current.NomComplet = PersonneBD.PrenomNom;
                 SessionBag.Current.MP = PersonneBD.MP;
+
                 SessionBag.Current.id_Pers = PersonneBD.id_Pers;
                 if (SouvenirConnexion)
                     CreerCookieConnexion(NomUsager, mdpPlain);
@@ -217,11 +251,11 @@ namespace sachem.Controllers
             //Get le sexe du formulaire
             ViewBag.id_Sexe = new SelectList(db.p_Sexe, "id_Sexe", "Sexe");
 
-            if (personne.MP == null)
-            {
-                ModelState.AddModelError("MP", Messages.U_001); //requis
-                ModelState.AddModelError("ConfirmPassword", Messages.U_001); //requis
-            }
+            var validation = ConfirmeMdp(personne.MP, personne.ConfirmPassword); 
+
+            if (!validation)
+                return View(personne);
+
             if (personne.Matricule7 == null)
                 ModelState.AddModelError("Matricule7", Messages.U_001); //requis
             else if (personne.Matricule7.Length != 7 || !personne.Matricule.All(char.IsDigit)) //vérifie le matricule
@@ -248,7 +282,29 @@ namespace sachem.Controllers
                     SachemIdentite.encrypterMPPersonne(ref EtudiantBD);
 
                     db.Entry(EtudiantBD).State = EntityState.Modified;
-                    db.SaveChanges();
+
+                    #region try-catch pour une ligne de code db.SaveChanges() qui marche pas, throw raise sur la date invalide AAAA/MM/DD
+                    try
+                    {
+                        db.SaveChanges();//essai de sauvegarder
+                    }
+                    catch(System.Data.Entity.Validation.DbEntityValidationException dbEx)
+                    {
+                        Exception raise = dbEx;
+                        foreach (var validationErrors in dbEx.EntityValidationErrors)
+                        {
+                            foreach (var validationError in validationErrors.ValidationErrors)
+                            {
+                                string message = string.Format("{0}:{1}",
+                                    validationErrors.Entry.Entity.ToString(),
+                                    validationError.ErrorMessage);
+                                // lever exception
+                                raise = new InvalidOperationException(message, raise);
+                            }
+                        }
+                        throw raise;
+                    }
+                    #endregion
 
                     ViewBag.Success = Messages.I_026();
                  
@@ -333,9 +389,8 @@ namespace sachem.Controllers
         public ActionResult ModifierPassword(Personne personne,string Modifier,string Annuler)
         {
             if(Annuler != null)//Verifier si c'est le bouton annuler qui a été cliqué
-            {
                 return RedirectToAction("Index", "Home");
-            }
+
             if (Modifier != null)//Si modifier mdp a été cliqué
             {
                 int idpersonne = SessionBag.Current.id_Pers;//Chercher l'id et le mot de passe de l'utilisateur en cours dans l'objet sessionbag
@@ -344,13 +399,10 @@ namespace sachem.Controllers
                 if (personne.AncienMotDePasse == null)
                     ModelState.AddModelError("AncienMotDePasse", Messages.U_001); //requis
 
-                if (personne.MP == null)
-                    ModelState.AddModelError("MP", Messages.U_001); //requis
+                if (!ConfirmeMdp(personne.MP, personne.ConfirmPassword))
+                    return View(personne);
 
-                if (personne.ConfirmPassword == null)
-                    ModelState.AddModelError("ConfirmPassword", Messages.U_001); //requis
-
-                if (personne.AncienMotDePasse == null || personne.MP == null || personne.ConfirmPassword == null)//Validation pour les champs requis
+                if (personne.AncienMotDePasse == null || personne.MP == null || personne.ConfirmPassword == null) //Validation pour les champs requis
                     return View(personne);
 
                 if (SachemIdentite.encrypterChaine(personne.AncienMotDePasse) != ancienmdpbd)//Vérifier si le champ ancien mot de passe est le bon mot de passe
@@ -380,8 +432,8 @@ namespace sachem.Controllers
 
         //
         // GET: /Account/LogOff
-        [AllowAnonymous]
         [HttpGet]
+        [AllowAnonymous]
         public ActionResult LogOff()
         {
             //Supprime les données contenues dans la session et supprime le cookie puis retour à l'index.
@@ -391,5 +443,23 @@ namespace sachem.Controllers
 
         #endregion
 
+
+        #region Fonctions secondaires
+        private bool ConfirmeMdp(string s1, string s2)
+        {
+            if (s1 == null || s2 == null)
+            {
+                ModelState.AddModelError("MP", Messages.U_001);
+                ModelState.AddModelError("ConfirmPassword", Messages.U_001);
+                return false;
+            }
+            if (s1 != s2)
+            {
+                ModelState.AddModelError("ConfirmPassword", Messages.C_001);
+                return false;
+            }
+            return true;
+        }
+        #endregion
     }
 }

@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Web.Mvc.Html;
-using System.Runtime.InteropServices;
 
 namespace sachem.Models
 {
@@ -35,6 +33,7 @@ namespace sachem.Models
                 return age;
             }
         }
+
 
         public string ProgEtu { get; set; }
 
@@ -72,9 +71,6 @@ namespace sachem.Models
 
     public partial class Groupe
     {
-        //public string nbPersonneGroupe;
-        //public int nbPersonne;
-
         public string nomsConcatenesProfs { get; set; }
     }
 

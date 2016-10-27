@@ -218,13 +218,17 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
-    <Compile Include="Classes_Sachem\Crypt.cs" />
+    <Compile Include="Classes_Sachem\ValidationsAcces.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\ConsulterCoursController.cs" />
     <Compile Include="Controllers\CoursController.cs" />
+    <Compile Include="Classes_Sachem\Crypt.cs" />
+    <Compile Include="Controllers\CoursSuiviController.cs" />
+    <Compile Include="Controllers\DossierEtudiantController.cs" />
     <Compile Include="Controllers\EnseignantController.cs" />
-    <Compile Include="Controllers\GroupesController.cs" />
     <Compile Include="Controllers\EtudiantController.cs" />
+    <Compile Include="Controllers\FormattedDbEntityValidationException.cs" />
+    <Compile Include="Controllers\GroupesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ImporterController.cs" />
     <Compile Include="Controllers\ParametresController.cs" />
@@ -242,11 +246,15 @@
     <Compile Include="Models\Cours.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\p_CollegeMetadata.cs" />
+    <Compile Include="Models\PersonneMetadata.cs" />
+    <Compile Include="Models\p_TypeInscriptionMetadata.cs" />
     <Compile Include="Models\PTypeUsagMetadata.cs" />
     <Compile Include="Models\CoursMetadata.cs" />
     <Compile Include="Models\CoursSuivi.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\CoursSuiviMetadata.cs" />
     <Compile Include="Models\EtuProgEtude.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -260,6 +268,7 @@
     <Compile Include="Models\Inscription.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\InscriptionMetadata.cs" />
     <Compile Include="Models\Jumelage.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -284,7 +293,6 @@
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\PersonneEtuProgParent.cs" />
-    <Compile Include="Models\PersonneMetadata.cs" />
     <Compile Include="Models\ProgrammeEtude.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -378,6 +386,8 @@
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
@@ -418,7 +428,20 @@
     <Content Include="Views\Cours\_Cours.cshtml" />
     <Content Include="Views\Cours\_Footer.cshtml" />
     <Content Include="Views\Shared\_PageRecherche.cshtml" />
+    <Content Include="Views\CoursSuivi\Create.cshtml" />
+    <Content Include="Views\CoursSuivi\Delete.cshtml" />
+    <Content Include="Views\CoursSuivi\Edit.cshtml" />
+    <Content Include="Views\CoursSuivi\_CoursSuivi.cshtml" />
+    <Content Include="Views\CoursSuivi\_Footer.cshtml" />
+    <Content Include="Views\DossierEtudiant\Index.cshtml" />
+    <Content Include="Views\DossierEtudiant\Details.cshtml" />
+    <Content Include="Views\DossierEtudiant\_CoursAnterieur.cshtml" />
+    <Content Include="Views\DossierEtudiant\_RechercheEtudiantInscrit.cshtml" />
+    <Content Include="Views\DossierEtudiant\_InscriptionSachem.cshtml" />
+    <Content Include="Views\ConsulterCours\Create.cshtml" />
+    <Content Include="Views\ConsulterCours\Delete.cshtml" />
     <Content Include="Views\ConsulterCours\Details.cshtml" />
+    <Content Include="Views\ConsulterCours\Edit.cshtml" />
     <Content Include="Views\ConsulterCours\Index.cshtml" />
     <Content Include="Views\Groupes\Create.cshtml" />
     <Content Include="Views\Groupes\Delete.cshtml" />
@@ -433,10 +456,10 @@
     <Content Include="Views\Etudiant\Index.cshtml" />
     <Content Include="Views\Shared\_RechercheEtudiant.cshtml" />
     <Content Include="Views\Account\ModifierPassword.cshtml" />
-    <Content Include="Views\Parametres\Edit.cshtml" />
+    <Content Include="Views\Parametres\EditContact.cshtml" />
     <Content Include="Views\Parametres\EditCourrier.cshtml" />
     <Content Include="Views\Parametres\EditHoraire.cshtml" />
-    <Content Include="Views\Parametres\IndexCollege.cshtml" />
+    <Content Include="Views\Parametres\EditCollege.cshtml" />
     <Content Include="Views\ProgrammesOfferts\Create.cshtml" />
     <Content Include="Views\ProgrammesOfferts\Delete.cshtml" />
     <Content Include="Views\ProgrammesOfferts\Edit.cshtml" />
@@ -450,6 +473,7 @@
     <Content Include="Views\Enseignant\Edit.cshtml" />
     <Content Include="Views\Enseignant\Index.cshtml" />
     <Content Include="Views\Enseignant\_Enseignant.cshtml" />
+    <Content Include="Views\Etudiant\_Etudiant.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

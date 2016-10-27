@@ -90,10 +90,12 @@ namespace sachem.Models
         { return $"L'étudiant {Etudiant} a été enregistré."; }
 
         /// <summary>
-        /// Impossible de retirer le programme d'étude {0} des programmes suivis par l'étudiant."
+        /// Impossible d’enregistrer ce cours. Il existe déjà dans votre liste de cours suivi antérieurement.
         /// </summary>
-        /// <param name="Programme"></param>
+        /// <param name="Cours"></param>
         /// <returns></returns>
+        public static string I_036()
+        { return "Impossible d’enregistrer ce cours. Il existe déjà dans votre liste de cours suivi antérieurement"; }
         public static string I_011(string Programme)
         { return $"Impossible de retirer le programme d'étude {Programme} des programmes suivis par l'étudiant."; }
 
@@ -101,14 +103,14 @@ namespace sachem.Models
         /// Enseignant relié à un cour.
         /// </summary>
         /// <returns></returns>
-        public const string I_012 = "l'enseignant ne peut etre supprimer car il est relié à un cours";
+        public const string I_012 = "l'enseignant ne peut être supprimé car il est relié à un cours";
 
         /// <summary>
         /// Le nom d'utilisateur est déjà utilisé.
         /// </summary>
         /// <returns></returns>
         public static string I_013(string NomUsager)
-        { return $"Le nom d'utilisateur {NomUsager} est déjà pris."; }
+        { return $"Impossible d’enregistrer cet enseignant. Il existe déjà un enseignant ayant le nom d'usager {NomUsager}."; }
 
         /// <summary>
         /// l'étudiant ne peut être supprimé
@@ -122,7 +124,7 @@ namespace sachem.Models
         /// </summary>
         /// <returns></returns>
         public static string I_015(string NomUsager)
-        { return $"L'usager {NomUsager} à été modifié."; }
+        { return $"L'usager {NomUsager} a été modifié."; }
 
         /// <summary>
         /// Le programme d'étude {0} a été retiré de la liste des programmes suivis par l'étudiant.
@@ -253,7 +255,7 @@ namespace sachem.Models
         /// Enseignant présent dans un jumelage
         /// </summary>
         /// <returns></returns>
-        public const string I_033 = "l'enseignant ne peut être supprimer car il est encore présent dans un jumelage";
+        public const string I_033 = "L'enseignant ne peut être supprimé car il est encore présent dans un jumelage";
 
         /// <summary>
         /// Erreur lors du transfert de fichier.
@@ -300,6 +302,15 @@ namespace sachem.Models
         public static string I_041(string Matricule, int IdGroupe, string NomCours)
         { return $"L'étudiant {Matricule} ne peut pas être déplacé au groupe {IdGroupe} du cours {NomCours},car il y est déjà!"; }
 
+        /// <summary>
+        /// Le collège {0} à été ajouté"
+        /// </summary>
+        /// <param name="NomCollege"></param>
+        /// <returns></returns>
+        public static string I_044(string NomCollege)
+        {
+            return $"Le collège {NomCollege} à été ajouté";
+        }
         #endregion
 
         #region MessageContexte
@@ -341,6 +352,20 @@ namespace sachem.Models
         /// <returns></returns>
         public const string C_006 = "Les dates de début et de fin doivent faire partie de la session sélectionnée.";
 
+        /// <summary>
+        /// Un des deux champs {0}, {1} doit être complété.
+        /// </summary>
+        /// <param name="param1"></param>
+        /// <param name="param2"></param>
+        /// <returns></returns>
+        public static string C_009(string param1, string param2)
+        { return $"Un des deux champs {param1}, {param2} doit être complété."; }
+        /// <summary>
+        /// Résultat requis si réussi,
+        /// </summary>
+        public const string C_010 = "Le résultat est requis si le statut du cours est réussi.";
+
+
         #endregion
 
         #region MessageUnitaire
@@ -363,9 +388,9 @@ namespace sachem.Models
         public const string U_004 = "Longueur requise: 7 caractères";
 
         /// <summary>
-        /// Longueur requise: 6 caractères. (MDP)
+        /// Longueur requise: 4 caractères.
         /// </summary>
-        public const string U_005 = "Longueur requise: 6 caractères";
+        public const string U_005 = "Longueur requise: 4 caractères";
 
         /// <summary>
         /// Format : AAAA
@@ -401,6 +426,16 @@ namespace sachem.Models
         /// </summary>
         /// <returns></returns>
         public const string U_012 = "La date indiquée doit être entre l'année 1967 et celle en cours";
+        /// <summary>
+        /// Resultat 0 à 100
+        /// </summary>
+        public const string U_011 = "Le résultat doit être de 0 à 100.";
+
+        /// <summary>
+        /// "Longueur minimale: 6 caractères!"
+        /// </summary>
+        /// <returns></returns>
+        public const string U_013 = "Longueur minimale de 6 caractères.";
 
         #endregion
 
@@ -484,6 +519,14 @@ namespace sachem.Models
         { return $"Voulez-vous vraiment supprimer le cours {Etudiant} ?"; }
 
         /// <summary>
+        /// Voulez-vous vraiment supprimer le cours {0} de votre liste de cours suivis?
+        /// </summary>
+        /// <param name="Cours"></param>
+        /// <returns></returns>
+        public static string Q_013(string Cours)
+        { return $"Voulez-vous vraiment supprimer le cours {Cours} de votre liste de cours suivis?"; }
+
+        /// <summary>
         /// Un collège est en cours d'ajout ou de modification. Souhaitez-vous annuler cette opération?
         /// </summary>
         /// <returns></returns>
@@ -499,7 +542,9 @@ namespace sachem.Models
         public static string Q_015(string College)
         { return $"Voulez-vous vraiment supprimer le collège {College} ?"; }
 
-        
+       
+
+
         #endregion
 
     }

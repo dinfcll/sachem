@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Web;
 using System.Security.Cryptography;
 using System.Text;
@@ -18,9 +17,9 @@ namespace sachem.Models
     #region ClasseIdentitaireSachem
     public class SachemIdentite
     {
-        public static List<TypeUsagers> TypeListeAdmin = new List<TypeUsagers> { TypeUsagers.Enseignant, TypeUsagers.Responsable, TypeUsagers.Super }; //Enum des types ayant pouvoirs d'admin
-        //Pour l'encryption du cookie (MachineCode)
-        #pragma warning disable 0618 //Extrait du projet PAM: Pour l'encryption du cookie (MachineCode)
+        public static List<TypeUsagers> TypeListeAdmin = new List<TypeUsagers> { TypeUsagers.Responsable, TypeUsagers.Super }; //Enum des types ayant pouvoirs d'admin
+        public static List<TypeUsagers> TypeListeProf = new List<TypeUsagers> { TypeUsagers.Enseignant, TypeUsagers.Responsable, TypeUsagers.Super }; //Enum des types ayant pouvoirs d'admin                                                                                                                                                       
+#pragma warning disable 0618 //Extrait du projet PAM: Pour l'encryption du cookie (MachineCode)
 
         public static TypeUsagers ObtenirTypeUsager(HttpSessionStateBase Session)
         {

@@ -1,13 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Configuration;
 using System.IO;
-using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using System.Web.Mvc.Html;
 using System.Web.WebPages;
 using sachem.Models;
+using static sachem.Classes_Sachem.ValidationAcces;
 
 namespace sachem.Controllers
 {
@@ -19,13 +17,10 @@ namespace sachem.Controllers
         private int MAXFILESIZE =20; //la taille maximale du fichier en mb.
         private string FILEEXTENSION = ".csv"; //en minuscule seulement
 
-        List<TypeUsagers> RolesAcces = new List<TypeUsagers>() { TypeUsagers.Responsable};
-
         // GET: Importer
+        [ValidationAccesSuper]
         public ActionResult Index()
         {
-            if (!SachemIdentite.ValiderRoleAcces(RolesAcces, Session))
-                return RedirectToAction("Error", "Home", null);
             ViewBag.MAXFILES = MAXFILES;//transfere de la donnee maxfiles a la vue
             ViewBag.MAXFILESIZE = MAXFILESIZE;
             ViewBag.FILEEXTENSION = FILEEXTENSION;
@@ -67,7 +62,7 @@ namespace sachem.Controllers
             }
             catch (Exception ex)
             {
-                message = Messages.I_034(fName);//erreur interne-- rare
+                message = Messages.I_034(fName)+"\n"+ex.Message;//erreur interne-- rare
             }
 
             if (message.IsEmpty())

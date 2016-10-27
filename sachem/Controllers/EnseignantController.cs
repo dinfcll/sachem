@@ -1,26 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
-using System.Web;
-using System.Web.DynamicData;
 using System.Web.Mvc;
 using sachem.Models;
 using PagedList;
-using System.Security.Cryptography;
-using System.Text;
-using System.Data.Entity.Validation;
+using static sachem.Classes_Sachem.ValidationAcces;
 
 namespace sachem.Controllers
 {
     public class EnseignantController : Controller
     {
-        private SACHEMEntities db = new SACHEMEntities();
+        private readonly SACHEMEntities db = new SACHEMEntities();
 
-        List<TypeUsagers> RolesAcces = new List<TypeUsagers>() { TypeUsagers.Responsable, TypeUsagers.Super };
-
+        private const int ID_ENSEIGNANT = 2;
+        private const int ID_RESP = 3;
+        
         [NonAction]
         private void ListeEnseignant(int Enseignant = 0)
         {
@@ -31,6 +27,11 @@ namespace sachem.Controllers
             ViewBag.Enseignant = slEnseignant;
         }
 
+        private bool Cochee()
+        {
+            //Vérifier si la case est cocher ou non
+            return !string.IsNullOrEmpty(Request.Form["Actif"]);
+        }
 
         //Fonction pour gérer la recherche, elle est utilisée dans la suppression et dans l'index
         [NonAction]
@@ -40,8 +41,8 @@ namespace sachem.Controllers
             var actif = true;
 
             // Verifier si la case a cocher est coché ou non
-            if (!string.IsNullOrEmpty(Request.Form["Actif"]))
-                actif = Request.Form["Actif"].Contains("true");
+            if (Cochee())
+                actif = Request.Form["Actif"].StartsWith("true");
 
 
             ViewBag.Actif = actif;
@@ -50,19 +51,17 @@ namespace sachem.Controllers
 
             // Requete linq pour aller chercher les enseignants et responsables dans la BD
             var Enseignant = from c in db.Personne
-                        where (c.id_TypeUsag == 2 || c.id_TypeUsag == 3)
-                        && c.Actif == actif
-                        orderby c.Nom,c.Prenom
-                        select c;
+                             where (c.id_TypeUsag == ID_ENSEIGNANT || c.id_TypeUsag == ID_RESP)
+                             && c.Actif == actif
+                             orderby c.Nom,c.Prenom
+                             select c;
 
             return Enseignant.ToList();
         }
 
-     
+        [ValidationAccesSuper]
         public ActionResult Index(int? page)
         {
-            if (!SachemIdentite.ValiderRoleAcces(RolesAcces, Session))
-                return RedirectToAction("Error", "Home", null);
 
             var pageNumber = page ?? 1;
 
@@ -70,21 +69,19 @@ namespace sachem.Controllers
         }
 
         [NonAction]
-        private void Valider([Bind(Include = "id_Pers,id_Sexe,id_TypeUsag,Nom,Prenom,NomUsager,MP,ConfirmPasswordEdit,Courriel,DateNais,Actif")] Personne personne)
+        private void Valider([Bind(Include = "id_Pers,id_Sexe,id_TypeUsag,Nom,Prenom,NomUsager,MP,ConfirmPassword,Courriel,DateNais,Actif")] Personne personne)
         {
-            if (db.Personne.Any(x => x.NomUsager == personne.NomUsager && x.id_Pers != personne.id_Pers))// Verifier si le nom d'usager existe ou s'il a entré son ancien nom
+            if (db.Personne.Any(x => x.NomUsager == personne.NomUsager && x.id_Pers != personne.id_Pers))// Verifier si le nom d'usager existe ou s'il a entré son ancient nom
                 ModelState.AddModelError(string.Empty, Messages.I_013(personne.NomUsager));
+            if (personne.MP != personne.ConfirmPassword)
+                ModelState.AddModelError(string.Empty, Messages.C_001);
         }
 
         // GET: Enseignant/Create
+        [ValidationAccesSuper]
         public ActionResult Create()
         {
-            if (!SachemIdentite.ValiderRoleAcces(RolesAcces, Session))
-                return RedirectToAction("Error", "Home", null);
-
-            ViewBag.id_Sexe = new SelectList(db.p_Sexe, "id_Sexe", "Sexe");
-            // Permet d'afficher seulement Enseignant et Responsable du Sachem dans les valeurs possibles de la list déroulante.
-            ViewBag.id_TypeUsag = new SelectList(db.p_TypeUsag.Where(x => x.id_TypeUsag == 2 || x.id_TypeUsag == 3), "id_TypeUsag", "TypeUsag"); 
+            RemplirDropList();
             return View();
         }
 
@@ -97,7 +94,7 @@ namespace sachem.Controllers
         {
             Valider(personne);
             
-            if (ModelState.IsValid)                
+            if (ModelState.IsValid)
             {
                 if (personne.MP == null)
                     ModelState.AddModelError("MP",Messages.U_001);
@@ -110,18 +107,16 @@ namespace sachem.Controllers
                     return RedirectToAction("Index");
                 }
             }
-            // afficher les listes déroulantes contenant le type d'usager et le sexe
-            ViewBag.id_Sexe = new SelectList(db.p_Sexe, "id_Sexe", "Sexe", personne.id_Sexe);
-            ViewBag.id_TypeUsag = new SelectList(db.p_TypeUsag.Where(x => x.id_TypeUsag == 2 || x.id_TypeUsag == 3), "id_TypeUsag", "TypeUsag");
+
+            RemplirDropList(personne);
             ViewBag.id_person = personne.id_Pers;
             return View(personne);
 
         }
         // GET: Enseignant/Edit/5
+        [ValidationAccesSuper]
         public ActionResult Edit(int? id)
         {
-            if (!SachemIdentite.ValiderRoleAcces(RolesAcces, Session))
-                return RedirectToAction("Error", "Home", null);
 
             if (id == null)
             {
@@ -132,9 +127,7 @@ namespace sachem.Controllers
             {
                 return HttpNotFound();
             }
-            // afficher les listes déroulantes contenant le type d'usager et le sexe
-            ViewBag.id_Sexe = new SelectList(db.p_Sexe, "id_Sexe", "Sexe", personne.id_Sexe);
-            ViewBag.id_TypeUsag = new SelectList(db.p_TypeUsag.Where(x => x.id_TypeUsag == 2 || x.id_TypeUsag == 3), "id_TypeUsag", "TypeUsag", personne.id_TypeUsag);
+            RemplirDropList(personne);
             ViewBag.id_person = personne.id_Pers;
             personne.MP = "";
             return View(personne);
@@ -154,7 +147,7 @@ namespace sachem.Controllers
             else
             {         
                 var Enseignant = from c in db.Personne
-                               where (c.id_Pers == personne.id_Pers)
+                                 where (c.id_Pers == personne.id_Pers)
                                  select c.MP;
                 personne.MP = Enseignant.SingleOrDefault();
             }
@@ -167,18 +160,14 @@ namespace sachem.Controllers
                 return RedirectToAction("Index");
 
             }
-            // afficher les listes déroulantes contenant le type d'usager et le sexe
-            ViewBag.id_Sexe = new SelectList(db.p_Sexe, "id_Sexe", "Sexe", personne.id_Sexe);
-            ViewBag.id_TypeUsag = new SelectList(db.p_TypeUsag.Where(x => x.id_TypeUsag == 2|| x.id_TypeUsag == 3), "id_TypeUsag", "TypeUsag", personne.id_TypeUsag);
+
             return View(personne);
         }
 
         // GET: Enseignant/Delete/5
+        [ValidationAccesSuper]
         public ActionResult Delete(int? id)
         {
-            if (!SachemIdentite.ValiderRoleAcces(RolesAcces, Session))
-                return RedirectToAction("Error", "Home", null);
-
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -229,6 +218,21 @@ namespace sachem.Controllers
                 db.Dispose();
             }
             base.Dispose(disposing);
+        }
+
+        private void RemplirDropList()
+        {
+            // afficher les listes déroulantes contenant le type d'usager et le sexe
+            ViewBag.id_Sexe = new SelectList(db.p_Sexe, "id_Sexe", "Sexe");
+            // Permet d'afficher seulement Enseignant et Responsable du Sachem dans les valeurs possibles de la list déroulante.
+            ViewBag.id_TypeUsag = new SelectList(db.p_TypeUsag.Where(x => x.id_TypeUsag == ID_ENSEIGNANT || x.id_TypeUsag == ID_RESP), "id_TypeUsag", "TypeUsag");
+        }
+        private void RemplirDropList(Personne personne)
+        {
+            // affiche les sexes dans la dropList et sélectionne par défaut la valeur dans le paramètre personne.
+            ViewBag.id_Sexe = new SelectList(db.p_Sexe, "id_Sexe", "Sexe", personne.id_Sexe);
+            // affiche Enseignant et responsable dans la dropList et sélectionne par défaut la valeur dans le paramètre personne.
+            ViewBag.id_TypeUsag = new SelectList(db.p_TypeUsag.Where(x => x.id_TypeUsag == ID_ENSEIGNANT || x.id_TypeUsag == ID_RESP), "id_TypeUsag", "TypeUsag", personne.id_TypeUsag);
         }
     }
 }

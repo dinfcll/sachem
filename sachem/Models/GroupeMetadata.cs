@@ -11,7 +11,7 @@ namespace sachem.Models
     public partial class Groupe
     {
         // [Display(Name = "Nombre de personnes")]
-        [Display(Name = "Nombre de personnes")]
+        [Display(Name = "Nombre d'étudiants")]
         public string nbPersonneGroupe
         {
             get
@@ -33,6 +33,7 @@ namespace sachem.Models
         public int id_Groupe;
 
         [Display(Name = "Numéro de groupe")]
+        [MaxLength(4,ErrorMessage = Messages.U_005)]
         [Required(ErrorMessage = Messages.U_001)]
         public int NoGroupe;
 

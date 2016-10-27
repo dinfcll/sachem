@@ -6,44 +6,47 @@
     
 }
 <h2>Collège d'enseignement</h2>
+
+@Html.ValidationSummary(true, "", new { @class = "text-danger" })
+<p class="text-success">
+    @Html.ViewBag.Success
+    @TempData["Success"]
+</p>
+
 @Scripts.Render("~/bundles/jquery")
 
 <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
 <script type="text/javascript">
-    $(function() {
-        $('#edit')
-            .attr('href',
-                function() {
-                    return this.href.replace('__NomCollege__', $('#NomCollege').val());
-                });
+    function Modifier(id) {
+        var nouveauNomCollege = document.getElementById("NomCollege").value;
+        $.ajax({
+            url: "/Parametres/EditCollege",
+            data: { "nomCollege": nouveauNomCollege ,"id": id},
+            type: "POST"
     });
+    }
 </script>
 @using (Ajax.BeginForm("AddCollege", "Parametres", new AjaxOptions
 {
     HttpMethod = "Post",
-    OnSuccess = "window.location.reload()"
+    OnSuccess = "window.location.reload()",
+    Confirm = "Voulez-vous vraiment ajouter ce collège ?"
 }))
 {
-    <br />
     <div class="form-group">
-        <div class="form-group">
-           Collège : @Html.TextBox("NomCollege", null, new { @class = "form-control" , @size = 50})
-        </div>
-        <div class="form-group">
-            <input type="submit" value="Enregistrer" class="btn-toolbar" />
-        </div>
+        <p>
+            <div class="form-group">
+                Collège : @Html.TextBox("NomCollege")
+                <input type="submit" value="Enregistrer" class="btn-toolbar"/>
+            </div>
+        </p>
     </div>
-    <br />
 
     <table class="table">
         <tr>
             <th>
                 @Html.DisplayNameFor(model => model.id_College)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.College)
-            </th>
-            <th></th>
         </tr>
         @foreach (var item in Model)
         {
@@ -52,14 +55,7 @@
                     @Html.DisplayFor(modelItem => item.College)
                 </td>
                 <td>
-                @Ajax.ActionLink("Modifier", "EditCollege",null , new {nomCollege = "__NomCollege__", id = item.id_College}, new AjaxOptions
-           {
-               Confirm = @sachem.Models.Messages.Q_014(),
-               HttpMethod = "Post",
-               OnSuccess = "window.location.reload()",
-               InsertionMode = InsertionMode.Replace
-           },
-           new {id ="edit"})
+                @Html.ActionLink("Modifier", "EditCollege", null,new { onclick = "Modifier("+ item.id_College+");"})
 
                 |
 

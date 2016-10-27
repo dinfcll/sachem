@@ -1,42 +1,52 @@
 ﻿using System;
-//using System.Collections;
 using System.Collections.Generic;
-using System.Data;
 using System.Data.Entity;
-//using System.Data.Entity.Core.Mapping;
 using System.Linq;
 using System.Net;
-//using System.Web;
 using System.Web.Mvc;
 using PagedList;
 using sachem.Models;
+using static sachem.Classes_Sachem.ValidationAcces;
 
 namespace sachem.Controllers
 {
     public class GroupesController : Controller
     {
         private readonly SACHEMEntities db = new SACHEMEntities();
-        List<TypeUsagers> RolesAcces = new List<TypeUsagers>() { TypeUsagers.Enseignant, TypeUsagers.Responsable, TypeUsagers.Super };
+
+        [NonAction]
+        private void RegisterViewbags()
+        {
+            int? idPers = (Session["id_Pers"] == null ? -1 : (int)Session["id_Pers"]);
+            bool verif = SachemIdentite.ObtenirTypeUsager(Session) == TypeUsagers.Responsable;
+            int sess = db.Session.Max(s => s.id_Sess);
+            ViewBag.Sessions = new SelectList(db.Session.OrderByDescending(s => s.id_Sess), "id_Sess", "NomSession", sess);
+            var ens = from c in db.Personne where c.id_TypeUsag == 2 && (verif ? true : c.id_Pers == (idPers == -1 ? c.id_Pers : idPers)) && c.Actif == true orderby c.Nom, c.Prenom select c;
+            ViewBag.Enseignants = new SelectList(ens, "id_Pers", "NomPrenom");
+            ViewBag.Cours = new SelectList(db.Cours.Where(x => x.Actif == true).OrderBy(x => x.Code), "id_Cours", "CodeNom");
+        }
+        
         // GET: Groupes
+        [ValidationAccesEnseignant]
         public ActionResult Index(int? page, int? id)
         {
-            if (!SachemIdentite.ValiderRoleAcces(RolesAcces,Session)) return RedirectToAction("Error", "Home", null);
             RegisterViewbags();
             var pageNumber = page ?? 1;
+            ViewBag.Disabled = sDisabled();
             return View(Rechercher(id).ToPagedList(pageNumber, 20));
         }
 
-
         // GET: Groupes/Create
+        [ValidationAccesEnseignant]
         public ActionResult Create()
         {
-            if (!SachemIdentite.ValiderRoleAcces(RolesAcces, Session)) return RedirectToAction("Error", "Home", null);
             int? idPers = (Session["id_Pers"] == null ? -1 : (int)Session["id_Pers"]);
             bool verif = SachemIdentite.ObtenirTypeUsager(Session) == TypeUsagers.Responsable;
-            ViewBag.id_Cours = new SelectList(db.Cours, "id_Cours", "CodeNom");
-            var ens = from c in db.Personne where c.id_TypeUsag == 2 && (verif ? true : c.id_Pers == (idPers == -1 ? c.id_Pers : idPers)) select c;
+            ViewBag.id_Cours = new SelectList(db.Cours.Where(x => x.Actif == true).OrderBy(x => x.Code), "id_Cours", "CodeNom");
+            var ens = from c in db.Personne where c.id_TypeUsag == 2 && (verif ? true : c.id_Pers == (idPers == -1 ? c.id_Pers : idPers)) && c.Actif == true orderby c.Nom, c.Prenom select c;
             ViewBag.id_Enseignant = new SelectList(ens, "id_Pers", "NomPrenom");
-            ViewBag.id_Sess = new SelectList(db.Session, "id_Sess", "NomSession");
+            ViewBag.id_Sess = new SelectList(db.Session.OrderByDescending(s => s.id_Sess), "id_Sess", "NomSession");
+            ViewBag.Disabled = sDisabled();
             return View();
         }
 
@@ -47,13 +57,14 @@ namespace sachem.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "id_Groupe,id_Cours,id_Sess,id_Enseignant,NoGroupe")] Groupe groupe)
         {
+            ViewBag.Disabled = sDisabled();
             return CreateEdit(groupe, true);
         }
 
         // GET: Groupes/Edit/5
+        [ValidationAccesEnseignant]
         public ActionResult Edit(int? id)
         {
-            if (!SachemIdentite.ValiderRoleAcces(RolesAcces, Session)) return RedirectToAction("Error", "Home", null);
             int idPers = (Session["id_Pers"] == null ? -1 : (int)Session["id_Pers"]);
             bool verif = SachemIdentite.ObtenirTypeUsager(Session) == TypeUsagers.Responsable;
             if (id == null)
@@ -65,10 +76,16 @@ namespace sachem.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.id_Cours = new SelectList(db.Cours, "id_Cours", "CodeNom", groupe.id_Cours);
-            ViewBag.id_Enseignant = new SelectList(db.Personne.Where(x => x.id_TypeUsag == 2).Where(x => x.id_Pers == (idPers == -1 || verif ? x.id_Pers : idPers)), "id_Pers", "NomPrenom", groupe.id_Enseignant);
-            ViewBag.id_Sess = new SelectList(db.Session, "id_Sess", "NomSession", groupe.id_Sess);
+            ViewBag.id_Cours = new SelectList(db.Cours.Where(x => x.Actif == true).OrderBy(x => x.Code), "id_Cours", "CodeNom", groupe.id_Cours);
+            ViewBag.id_Enseignant = new SelectList(db.Personne.Where(x => x.id_TypeUsag == 2 && x.id_Pers == (idPers == -1 || verif ? x.id_Pers : idPers) && x.Actif == true).OrderBy(x=>x.Prenom).OrderBy(x=>x.Nom), "id_Pers", "NomPrenom", groupe.id_Enseignant);
+            ViewBag.id_Sess = new SelectList(db.Session.OrderByDescending(s => s.id_Sess), "id_Sess", "NomSession", groupe.id_Sess);
+            ViewBag.Disabled = sDisabled();
             return View(groupe);
+        }
+
+        private string sDisabled()
+        {
+            return (SachemIdentite.ObtenirTypeUsager(Session) == TypeUsagers.Enseignant ? "disabled" : "");
         }
 
         // POST: Groupes/Edit/5
@@ -78,14 +95,14 @@ namespace sachem.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "id_Groupe,id_Cours,id_Sess,id_Enseignant,NoGroupe")] Groupe groupe)
         {
+            ViewBag.Disabled = sDisabled();
             return CreateEdit(groupe);
         }
 
+        [ValidationAccesEnseignant]
         [NonAction]
         private ActionResult CreateEdit([Bind(Include = "id_Groupe,id_Cours,id_Sess,id_Enseignant,NoGroupe")] Groupe groupe, bool Ajouter = false)
         {
-            if (!SachemIdentite.ValiderRoleAcces(RolesAcces, Session)) return RedirectToAction("Error", "Home", null);
-
             Valider(groupe);
 
             if (ModelState.IsValid)
@@ -106,13 +123,14 @@ namespace sachem.Controllers
             ViewBag.id_Cours = new SelectList(db.Cours, "id_Cours", "Code", groupe.id_Cours);
             ViewBag.id_Enseignant = new SelectList(db.Personne, "id_Pers", "Nom", groupe.id_Enseignant);
             ViewBag.id_Sess = new SelectList(db.Session, "id_Sess", "id_Sess", groupe.id_Sess);
+            ViewBag.Disabled = sDisabled();
             return View(groupe);
         }
 
         // GET: Groupes/Delete/5
+        [ValidationAccesEnseignant]
         public ActionResult Delete(int? id)
         {
-            if (!SachemIdentite.ValiderRoleAcces(RolesAcces, Session)) return RedirectToAction("Error", "Home", null);
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -134,10 +152,9 @@ namespace sachem.Controllers
         // POST: Groupes/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [ValidationAccesEnseignant]
         public ActionResult DeleteConfirmed(int id)
         {
-            if (!SachemIdentite.ValiderRoleAcces(RolesAcces, Session)) return RedirectToAction("Error", "Home", null);
-
             Groupe groupe = db.Groupe.Find(id);
             GroupeEtudiant ge = db.GroupeEtudiant.Find(groupe.id_Groupe);
 
@@ -192,10 +209,7 @@ namespace sachem.Controllers
                               select d;
                 }
             }
-            /*foreach (var n in groupes)
-            {
-                n.nbPersonne = (from c in db.GroupeEtudiant where c.id_Groupe == n.id_Groupe select c).Count();
-            }*/
+
             
             return groupes.ToList();
         }
@@ -210,30 +224,11 @@ namespace sachem.Controllers
             base.Dispose(disposing);
         }
 
-        [NonAction]
-        private void RegisterViewbags()
-        {
-            int? idPers = (Session["id_Pers"] == null ? -1 : (int)Session["id_Pers"]);
-            bool verif = SachemIdentite.ObtenirTypeUsager(Session) == TypeUsagers.Responsable;
-            int sess = db.Session.Max(s => s.id_Sess);
-            //var last = from b in db.Session orderby b.id_Sess descending select b;
-            ViewBag.Sessions = new SelectList(db.Session, "id_Sess", "NomSession", sess);
-            var ens = from c in db.Personne where c.id_TypeUsag == 2 && (verif ? true : c.id_Pers == (idPers == -1 ? c.id_Pers : idPers))  select c;
-            ViewBag.Enseignants = new SelectList(ens, "id_Pers", "NomPrenom");
-            ViewBag.Cours = new SelectList(db.Cours, "id_Cours", "CodeNom");
-        }
-        [NonAction]
-        private void RegisterViewBagsSessCours(Groupe groupe)
-        {
-            ViewBag.id_Sess = new SelectList(db.Session, "id_Sess", "id_Sess", groupe.id_Sess);
-            ViewBag.id_Cours = new SelectList(db.Cours, "id_Cours", "Code", groupe.id_Cours);
-        }
+        [ValidationAccesEnseignant]
         public ActionResult AjouterEleve(int idg, int? page)
         {
-            if (!SachemIdentite.ValiderRoleAcces(RolesAcces, Session)) return RedirectToAction("Error", "Home", null);
             ViewBag.idg = idg;
             Groupe groupe = db.Groupe.Find(idg);
-            //IEnumerable < Personne > personnes = (from c in db.Personne where c.id_TypeUsag == 1 select c).ToList().OrderBy(x => x.NomPrenom).ThenBy(x => x.Matricule7);
             IEnumerable<Personne> personnes = RechercherEleve();
 
             db.Configuration.LazyLoadingEnabled = false;
@@ -260,12 +255,9 @@ namespace sachem.Controllers
         }
 
         [HttpGet]
-        //[ValidateAntiForgeryToken]
+        [ValidationAccesEnseignant]
         public ActionResult AjouterEleveGET(int idg, int idp,int noclick = 0)
         {
-
-            if (!SachemIdentite.ValiderRoleAcces(RolesAcces, Session)) return RedirectToAction("Error", "Home", null);
-
             Groupe g = db.Groupe.Find(idg);
             Personne p = db.Personne.Find(idp);
 
@@ -311,9 +303,9 @@ namespace sachem.Controllers
             return RedirectToAction("AjouterEleve", new { idg = idg, page = ViewBag.page });
         }
 
+        [ValidationAccesEnseignant]
         public ActionResult DeleteEleve(int? id)
         {
-            if (!SachemIdentite.ValiderRoleAcces(RolesAcces, Session)) return RedirectToAction("Error", "Home", null);
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -330,11 +322,9 @@ namespace sachem.Controllers
         // POST: Groupes/Delete/5
         [HttpPost, ActionName("DeleteEleve")]
         [ValidateAntiForgeryToken]
+        [ValidationAccesEnseignant]
         public ActionResult DeleteEleveConfirmed(int id)
         {
-            if (!SachemIdentite.ValiderRoleAcces(RolesAcces, Session)) return RedirectToAction("Error", "Home", null);
-
-
             GroupeEtudiant ge = db.GroupeEtudiant.Find(id);
 
             TempData["Success"] = string.Format(Messages.I_022(ge.Personne.Matricule7, ge.Groupe.NoGroupe));
@@ -344,9 +334,9 @@ namespace sachem.Controllers
             return RedirectToAction("Index");
         }
 
+        [ValidationAccesEnseignant]
         public ActionResult Deplacer(int? id)
         {
-            if (!SachemIdentite.ValiderRoleAcces(RolesAcces, Session)) return RedirectToAction("Error", "Home", null);
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -367,9 +357,9 @@ namespace sachem.Controllers
 
         [HttpPost, ActionName("Deplacer")]
         [ValidateAntiForgeryToken]
+        [ValidationAccesEnseignant]
         public ActionResult DeplacerConfirmed(int? id)
         {
-            if (!SachemIdentite.ValiderRoleAcces(RolesAcces, Session)) return RedirectToAction("Error", "Home", null);
             int idgretu, idg;
             if (!int.TryParse(Request.Form["idGroupeEtudiant"], out idgretu) || !int.TryParse(Request.Form["id_groupedepl"], out idg))
             {
@@ -391,8 +381,6 @@ namespace sachem.Controllers
                     TempData["Success"] = Messages.I_041(ge.Personne.Matricule7, g.NoGroupe, g.Cours.Nom);
 
                 }
-
-
              else 
             {
                 ge.Groupe = g;
@@ -418,12 +406,8 @@ namespace sachem.Controllers
             }
             else
             {
-                /*personnes = (from c in db.Personne where c.id_TypeUsag == 1 && 
-                                c.Nom == (!String.IsNullOrEmpty(Nom) ? Nom: c.Nom) &&
-                                c.Prenom == (!String.IsNullOrEmpty(Prenom) ? Prenom : c.Prenom)
-                                select c).ToList().Where(x => x.Matricule7 == (!String.IsNullOrEmpty(Matricule) ? Matricule : x.Matricule7));*/
-                personnes = db.Personne.Where(x => x.id_TypeUsag == 1).Where(c => c.Nom.Contains(!String.IsNullOrEmpty(Nom) ? Nom : c.Nom)).Where(c => c.Prenom.Contains(!String.IsNullOrEmpty(Prenom) ? Prenom : c.Prenom));
-                personnes = personnes.Where(x => x.Matricule7.Contains(!String.IsNullOrEmpty(Matricule) ? Matricule : x.Matricule7));
+                personnes = db.Personne.Where(x => x.id_TypeUsag == 1).Where(c => c.Nom.StartsWith(!String.IsNullOrEmpty(Nom) ? Nom : c.Nom)).Where(c => c.Prenom.StartsWith(!String.IsNullOrEmpty(Prenom) ? Prenom : c.Prenom));
+                personnes = personnes.Where(x => x.Matricule7.StartsWith(!String.IsNullOrEmpty(Matricule) ? Matricule : x.Matricule7));
             }
             return personnes;
         }
@@ -453,11 +437,7 @@ namespace sachem.Controllers
         [NonAction]
         private void Valider([Bind(Include = "id_Groupe,id_Cours,id_Sess,id_Enseignant,NoGroupe")] Groupe groupe)
         {
-
-            if (groupe.NoGroupe.ToString().Length >4)
-                ModelState.AddModelError(string.Empty, Messages.U_005);
-
-            if (db.Groupe.Any(r => r.NoGroupe == groupe.NoGroupe && r.id_Enseignant == groupe.id_Enseignant && r.id_Sess == groupe.id_Sess && r.id_Cours == groupe.id_Cours))
+            if (db.Groupe.Any(r => r.NoGroupe == groupe.NoGroupe && r.id_Sess == groupe.id_Sess && r.id_Cours == groupe.id_Cours))
                 ModelState.AddModelError(string.Empty, Messages.I_021(groupe.NoGroupe));
         }
 

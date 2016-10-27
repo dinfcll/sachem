@@ -203,6 +203,8 @@ namespace sachem.Controllers
         {
             m_IdPers = SessionBag.Current.id_Pers;
             m_IdTypeUsage = SessionBag.Current.id_TypeUsag; // 2 = enseignant, 3 = responsable
+            IOrderedQueryable<Groupe> gr;
+
 
             if (!connexionValide(m_IdTypeUsage))
             {
@@ -215,23 +217,28 @@ namespace sachem.Controllers
                     return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
                 }
 
-                var gr = from g in db.Groupe //obtenir les groupes en lien avec le cours trouvé et le prof connexté
-                         where g.id_Cours == id && g.id_Enseignant == m_IdPers
-                         orderby g.NoGroupe
-                         select g;
-
-                if (!gr.Any())
-                {
-                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-                }
-
                 if (m_IdTypeUsage == 2) //enseignant
                 {
                     ViewBag.IsEnseignant = true;
+
+                    gr = from g in db.Groupe //obtenir les groupes en lien avec le cours trouvé et le prof connexté
+                             where g.id_Cours == id && g.id_Enseignant == m_IdPers
+                             orderby g.NoGroupe
+                             select g;
                 }
                 else //responsable
                 {
                     ViewBag.IsEnseignant = false;
+
+                    gr = from g in db.Groupe
+                             where g.id_Cours == id
+                             orderby g.NoGroupe
+                             select g;
+                }
+
+                if (!gr.Any())
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
                 }
 
                 return View(gr.ToList()); //renvoyer la liste des groupes en lien avec le cours
