@@ -128,23 +128,27 @@ namespace sachem.Controllers
             if (mdpPlain == "")
                 ModelState.AddModelError("MP", Messages.U_001); //Mot de passe requis
             else
-
                 if (NomUsager == null)
-                ModelState.AddModelError("NomUsager", Messages.U_001); //NomUsager/Matricule requis
-            else
-
-                    if (Regex.IsMatch(NomUsager, @"^\d+$") && NomUsager.Length == 7) //Vérifie que le matricule est 7 de long et est numérique
-
-                if (!db.Personne.Any(x => x.Matricule.Substring(2) == NomUsager))
-                    ModelState.AddModelError(string.Empty, Messages.I_017());  //Erreur de connection
+                {
+                    ModelState.AddModelError("NomUsager", Messages.U_001); //NomUsager/Matricule requis
+                }
                 else
-                    PersonneBD = db.Personne.AsNoTracking().Where(x => x.Matricule.Substring(2) == NomUsager).FirstOrDefault();
-            else
-
+                    if (Regex.IsMatch(NomUsager, @"^\d+$") && NomUsager.Length == 7) //Vérifie que le matricule est 7 de long et est numérique
+                    {
+                        if (!db.Personne.Any(x => x.Matricule.Substring(2) == NomUsager))
+                        {
+                            ModelState.AddModelError(string.Empty, Messages.I_017());  //Erreur de connection
+                        }
+                        else
+                            PersonneBD = db.Personne.AsNoTracking().Where(x => x.Matricule.Substring(2) == NomUsager).FirstOrDefault();
+                    }
+                    else
                         if (!db.Personne.Any(x => x.NomUsager == NomUsager))
-                ModelState.AddModelError(string.Empty, Messages.I_017());  //Erreur de connection
-            else
-                PersonneBD = db.Personne.AsNoTracking().Where(x => x.NomUsager == NomUsager).FirstOrDefault();
+                        {
+                            ModelState.AddModelError(string.Empty, Messages.I_017());  //Erreur de connection
+                        }
+                        else
+                            PersonneBD = db.Personne.AsNoTracking().Where(x => x.NomUsager == NomUsager).FirstOrDefault();
             if (ModelState.IsValid)
             {
                 //Encrypter le mdp et tester la connection
