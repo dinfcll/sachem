@@ -69,18 +69,17 @@ namespace sachem.Controllers
             personne.id_TypeUsag = 1;
             personne.Actif = true;
             personne.Telephone = FormatTelephone(personne.Telephone);
-            personne.Matricule = constanteAnnee + personne.Matricule7;
+            personne.Matricule = constanteAnnee + personne.Matricule7;//créer la matricule de longueur de 9.
             Valider(personne);
             // Si les données sont valides, faire l'ajout
             if (ModelState.IsValid)
             {
                 personne.MP = SachemIdentite.encrypterChaine(personne.MP);
                 personne.ConfirmPassword = SachemIdentite.encrypterChaine(personne.ConfirmPassword); // Encryption du mot de passe 
-                
                 db.Personne.Add(personne);
                 db.SaveChanges();
                 personne.Telephone = RemettreTel(personne.Telephone);
-                TempData["Success"] = Messages.I_010(personne.Matricule); // Message afficher sur la page d'index confirmant la création
+                TempData["Success"] = Messages.I_010(personne.Matricule7); // Message afficher sur la page d'index confirmant la création
                 return RedirectToAction("Index");
             }
 
@@ -262,8 +261,12 @@ namespace sachem.Controllers
         //fonction de validation
         private void Valider([Bind(Include = "id_Pers,id_Sexe,id_TypeUsag,Nom,Prenom,NomUsager,MP,ConfirmPassword,Courriel,DateNais,Actif")] Personne personne)
         {
-            // Verifier si le matricule existe déja dans la BD
-            if (db.Personne.Any(x => x.Matricule == personne.Matricule))
+            
+            if (personne.Matricule7 == null)
+                ModelState.AddModelError("Matricule7", Messages.U_001); //requis
+            else if (personne.Matricule7.Length != 7 || !personne.Matricule.All(char.IsDigit)) //vérifie le matricule
+                ModelState.AddModelError("Matricule7", Messages.U_004); //longueur
+            else if (db.Personne.Any(x => x.Matricule == personne.Matricule))// Verifier si le matricule existe déja dans la BD
                 ModelState.AddModelError(string.Empty, Messages.I_004(personne.Matricule));
         }
         protected override void Dispose(bool disposing)
