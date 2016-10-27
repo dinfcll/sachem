@@ -239,7 +239,7 @@ namespace sachem.Controllers
             }
             TempData["id_Pers"] = idPers;         
             TempData["id_Prog"] = idProg;
-            return RedirectToAction("Edit", "Etudiant", new { idPers = idPers });
+            return RedirectToAction("Edit", "Etudiant", new { id = idPers });
          }
 
         //fonction de validation
