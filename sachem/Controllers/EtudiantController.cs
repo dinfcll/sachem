@@ -144,6 +144,13 @@ namespace sachem.Controllers
             ViewBag.id_Session = new SelectList(db.Session, "id_Sess", "NomSession");
 
             var etuprog = new EtuProgEtude();
+            //Aller chercher Programme d'étude(nom)
+            var Prog = from d in db.EtuProgEtude
+                       where d.id_Etu == pepp.personne.id_Pers
+                       orderby d.ProgrammeEtude.Code
+                       select d;
+            pepp.epe = Prog.ToList();
+
             //Ajout du programme d'étude (Si l'étudiant rajoute les champs)
             if (Request.Form["id_Programme"] != "" && Request.Form["id_Session"] != "")
             {
@@ -152,14 +159,9 @@ namespace sachem.Controllers
                 etuprog.id_Etu = personne.id_Pers;
                 db.EtuProgEtude.Add(etuprog);
                 db.SaveChanges();
-            }
-            //Aller chercher Programme d'étude(nom)
-            var Prog = from d in db.EtuProgEtude
-                       where d.id_Etu == pepp.personne.id_Pers
-                       orderby d.ProgrammeEtude.Code
-                       select d;
-            pepp.epe = Prog.ToList();
 
+                return View(pepp);
+            }
             if (ModelState.IsValid)
             {
                 db.Entry(pepp.personne).State = EntityState.Modified;
@@ -231,11 +233,25 @@ namespace sachem.Controllers
             }
             if (Valider == 1)
             {
-                TempData["Success"] = Messages.I_016(etuprog.ProgrammeEtude.CodeNomProgramme);
-                db.EtuProgEtude.RemoveRange(etuProgEtu);
-                db.SaveChanges();
+                if (!db.CoursSuivi.Any(c => c.id_Pers == etuprog.id_Etu && c.id_Sess == etuprog.id_Sess))
+                {
+                    TempData["Success"] = Messages.I_016(etuprog.ProgrammeEtude.CodeNomProgramme);
+                    db.EtuProgEtude.RemoveRange(etuProgEtu);
+                    db.SaveChanges();
+                }
+                else
+                {
+                    if (Prog.Count() > 1)
+                    {
+                        TempData["Success"] = Messages.I_016(etuprog.ProgrammeEtude.CodeNomProgramme);
+                        db.EtuProgEtude.RemoveRange(etuProgEtu);
+                        db.SaveChanges();
+                    }
+                    else
+                        TempData["Echec"] = Messages.I_011(etuprog.ProgrammeEtude.CodeNomProgramme);
+                }
                 //faire apparaitre le message
-                return RedirectToAction("Index");
+                return RedirectToAction("Edit", "Etudiant", new { id = idPers });
             }
             TempData["id_Pers"] = idPers;         
             TempData["id_Prog"] = idProg;
