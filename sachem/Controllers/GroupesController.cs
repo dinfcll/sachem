@@ -15,25 +15,45 @@ namespace sachem.Controllers
         private readonly SACHEMEntities db = new SACHEMEntities();
 
         [NonAction]
-        private void RegisterViewbags()
+        private IEnumerable<Object> ObtenirListeEnseignant(int session)
         {
-            int? idPers = (Session["id_Pers"] == null ? -1 : (int)Session["id_Pers"]);
-            bool verif = SachemIdentite.ObtenirTypeUsager(Session) == TypeUsagers.Responsable;
-            int sess = db.Session.Max(s => s.id_Sess);
-            ViewBag.Sessions = new SelectList(db.Session.OrderByDescending(s => s.id_Sess), "id_Sess", "NomSession", sess);
-            var ens = from c in db.Personne where c.id_TypeUsag == 2 && (verif ? true : c.id_Pers == (idPers == -1 ? c.id_Pers : idPers)) && c.Actif == true orderby c.Nom, c.Prenom select c;
-            ViewBag.Enseignants = new SelectList(ens, "id_Pers", "NomPrenom");
-            ViewBag.Cours = new SelectList(db.Cours.Where(x => x.Actif == true).OrderBy(x => x.Code), "id_Cours", "CodeNom");
+            var ens = db.Personne.AsNoTracking().Join(db.Groupe, p => p.id_Pers, g => g.id_Enseignant, (p, g) => new { Personne = p, Groupe = g })
+                         .Where(sel => sel.Personne.id_TypeUsag == 2 && (sel.Groupe.id_Sess == session || session == 0)).OrderBy(x => x.Personne.Prenom).ThenBy(x => x.Personne.Nom)
+                        .Select(e => new { e.Personne.id_Pers, NomPrenom = e.Personne.Nom + ", " + e.Personne.Prenom }).Distinct();
+            return ens.AsEnumerable();
         }
-        
+
+        [NonAction]
+        private IEnumerable<Object> ObtenirListeCours(int session,int enseignant)
+        {
+            var cours = db.Cours.Join(db.Groupe, c => c.id_Cours, g => g.id_Cours, (c, g) => new { Cours = c, Groupe = g })
+                        .Where(sel => (sel.Groupe.id_Sess == session || session == 0) && (sel.Groupe.id_Enseignant == enseignant || enseignant == 0))
+                        .OrderBy(x => x.Cours.Nom).ThenBy(x=>x.Cours.Code).Select(c=> new { c.Cours.id_Cours, CodeNom = c.Cours.Code + "-" + c.Cours.Nom }).Distinct();
+            return cours.AsEnumerable();
+        }
+
+        [AcceptVerbs("Get", "Post")]
+        public virtual JsonResult ActualiseCoursddl(int enseignant = 0 ,int session = 0)
+        {
+            var actucours = ObtenirListeCours(session, enseignant);
+            return Json(actucours.ToList(), JsonRequestBehavior.AllowGet);
+        }
+
+        [AcceptVerbs("Get", "Post")]
+        public virtual JsonResult ActualiseEnseignantddl(int session = 0)
+        {
+            var actuens = ObtenirListeEnseignant(session);
+            return Json(actuens.ToList(), JsonRequestBehavior.AllowGet);
+        }
+
         // GET: Groupes
         [ValidationAccesEnseignant]
-        public ActionResult Index(int? page, int? id)
+        public ActionResult Index(int? page /*int? id */)
         {
-            RegisterViewbags();
+            //RegisterViewbags();
             var pageNumber = page ?? 1;
             ViewBag.Disabled = sDisabled();
-            return View(Rechercher(id).ToPagedList(pageNumber, 20));
+            return View(Rechercher(/*id*/).ToPagedList(pageNumber, 20));
         }
 
         // GET: Groupes/Create
@@ -173,44 +193,61 @@ namespace sachem.Controllers
         }
 
         [NonAction]
-        private IEnumerable<Groupe> Rechercher(int? id)
+        private IEnumerable<Groupe> Rechercher()
         {
             IQueryable<Groupe> groupes;
             int idPers = (Session["id_Pers"] == null ? -1 : (int)Session["id_Pers"]);
             bool verif = SachemIdentite.ObtenirTypeUsager(Session) == TypeUsagers.Responsable;
             int idSess = 0, idEns = (SachemIdentite.ObtenirTypeUsager(Session) == TypeUsagers.Enseignant ? idPers : 0), idCours = 0;
-            if (id != null)
+
+            if (Request.RequestType == "GET" && Session["DernRechCours"] != null && (string)Session["DernRechCoursUrl"] == Request.Url?.LocalPath)
             {
-                groupes = from d in db.Groupe
-                          where d.id_Enseignant == id
-                          orderby d.Session.p_Saison.Saison, d.Session.Annee, d.Cours.Code, d.Cours.Nom, d.NoGroupe
-                          select d;
+                var anciennerech = (string)Session["DernRechCours"];
+                var tanciennerech = anciennerech.Split(';');
+
+                if (tanciennerech[0] != "")
+                {
+                    idSess = int.Parse(tanciennerech[0]);
+                }
+                if (tanciennerech[1] != "")
+                {
+                    idEns = int.Parse(tanciennerech[1]);
+                }
+                if (tanciennerech[2] != "")
+                {
+                    idCours = int.Parse(tanciennerech[2]);
+                }
+
             }
+
             else
             {
-                if (Request.RequestType == "POST")
-                {
+                if (!string.IsNullOrEmpty(Request.Form["Sessions"]))
                     int.TryParse(Request.Form["Sessions"], out idSess);
+                //si la variable est null c'est que la page est chargée pour la première fois, donc il faut assigner la session à la session en cours, la plus grande dans la base de données
+                else if (Request.Form["Sessions"] == null)
+                    idSess = db.Session.Max(s => s.id_Sess);
+                if(verif)
                     int.TryParse(Request.Form["Enseignants"], out idEns);
-                    int.TryParse(Request["Cours"], out idCours);
+                int.TryParse(Request["Cours"], out idCours);
 
-                    RegisterViewbags();
-
-                    groupes = from d in db.Groupe
-                              where d.id_Cours == (idCours == 0 ? d.id_Cours : idCours) && d.id_Enseignant == (idEns == 0 ? d.id_Enseignant : idEns) && d.id_Sess == (idSess == 0 ? d.id_Sess : idSess)
-                              orderby d.Session.p_Saison.Saison, d.Session.Annee, d.Cours.Code, d.Cours.Nom, d.NoGroupe
-                              select d;
-                }
-                else
-                {
-                    groupes = from d in db.Groupe
-                              where d.id_Enseignant == (idPers == -1 || verif ? d.id_Enseignant : idPers)
-                              orderby d.Session.p_Saison.Saison, d.Session.Annee, d.Cours.Code, d.Cours.Nom, d.NoGroupe
-                              select d;
-                }
             }
 
-            
+            groupes = from d in db.Groupe
+                        where d.id_Cours == (idCours == 0 ? d.id_Cours : idCours) && d.id_Enseignant == (idEns == 0 ? d.id_Enseignant : idEns) && d.id_Sess == (idSess == 0 ? d.id_Sess : idSess)
+                        orderby d.Session.p_Saison.Saison, d.Session.Annee, d.Cours.Code, d.Cours.Nom, d.NoGroupe
+                        select d;
+
+            //on enregistre la recherche
+            Session["DernRechCours"] = idSess + ";" + idEns + ";" + idCours;
+            Session["DernRechCoursUrl"] = Request.Url?.LocalPath;
+
+            ViewBag.Sessions = new SelectList(db.Session.OrderByDescending(s => s.id_Sess), "id_Sess", "NomSession", idSess);
+            ViewBag.Enseignants = new SelectList((verif ? ObtenirListeEnseignant(idSess): db.Personne.AsNoTracking().Where(e => e.id_TypeUsag == 2 && e.id_Pers == idPers)
+                                                    .Select(e => new { e.id_Pers, NomPrenom = e.Nom + ", " + e.Prenom }).AsEnumerable()), "id_Pers", "NomPrenom", idEns);
+            ViewBag.Cours = new SelectList(ObtenirListeCours(idSess,idEns), "id_Cours", "CodeNom", idCours);
+
+
             return groupes.ToList();
         }
 
@@ -410,28 +447,6 @@ namespace sachem.Controllers
                 personnes = personnes.Where(x => x.Matricule7.StartsWith(!String.IsNullOrEmpty(Matricule) ? Matricule : x.Matricule7));
             }
             return personnes;
-        }
-
-        public virtual JsonResult ActualiseEnseignant(int session = 0)
-        {
-            var a = db.Groupe.Where(x => (x.id_Sess == session || session == 0)).ToList();
-            List<Personne> ens = new List<Personne>();
-            foreach(var x in a)
-            {
-                ens.Add(x.Personne);
-            }
-            return Json(ens.AsEnumerable(), JsonRequestBehavior.AllowGet);
-        }
-
-        public virtual JsonResult ActualiseCours(int session = 0, int ens = 0)
-        {
-            var a = db.Groupe.Where(x => (x.id_Sess == session || session == 0)).Where(x => (x.id_Enseignant == ens || ens == 0));
-            List<Cours> cours = new List<Cours>();
-            foreach(var x in a)
-            {
-                cours.Add(x.Cours);
-            }
-            return Json(cours.AsEnumerable(), JsonRequestBehavior.AllowGet);
         }
  
         [NonAction]
