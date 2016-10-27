@@ -239,11 +239,11 @@ namespace sachem.Models
 
 
         ///<summary>
-        /// L’information de la section «Nous contacter » a été mise à jour.
+        /// L’information de la section « Nous contacter » a été mise à jour.
         /// </summary>
         /// <returns></returns>
         public static string I_031()
-        { return $"L’information de la section «Nous contacter » a été mise à jour."; }
+        { return $"L’information de la section « Nous contacter » a été mise à jour."; }
 
         /// <summary>
         /// Le courriel a été mis à jour
@@ -274,11 +274,11 @@ namespace sachem.Models
         { return $"Un fichier {Fichier} de même nom est déjà présent sur le serveur."; }
 
         /// <summary>
-        /// Impossible d’enregistrer ce cours. Il existe déjà dans votre liste de cours suivi antérieurement.
+        /// Impossible d’enregistrer ce cours. Il existe déjà dans votre liste de cours suivis antérieurement.
         /// </summary>
         /// <returns></returns>
         public static string I_036()
-        { return "Impossible d’enregistrer ce cours. Il existe déjà dans votre liste de cours suivi antérieurement."; }
+        { return "Impossible d’enregistrer ce cours. Il existe déjà dans votre liste de cours suivis antérieurement."; }
 
         /// <summary>
         /// Un responsable ne peut pas se supprimer lui-même
