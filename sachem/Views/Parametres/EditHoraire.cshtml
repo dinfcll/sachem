@@ -29,12 +29,12 @@
             <div class="col-md-10">
                 @if (1 == ViewBag.idSessHoraire)
                 {
-                    @Html.EditorFor(model => model.DateDebut, new { htmlAttributes = new { @class = "form-control", @placeholder = "AAAA/MM/JJ", @id="DateDebut" } })
+                    @Html.EditorFor(model => model.DateDebut, new { htmlAttributes = new { @class = "form-control", @placeholder = "AAAA/MM/JJ", @id="DateDebut"} })
                     @Html.ValidationMessageFor(model => model.DateDebut, "", new { @class = "text-danger" })
                 }
                 else
                 {
-                    @Html.DisplayFor(model => model.DateDebut, new { htmlAttributes = new { @class = "form-control", @id = "DateDebut" } })
+                    @Html.DisplayFor(model => model.DateDebut, new { htmlAttributes = new { @class = "form-control", @id = "DateDebut"} })
                 }
             </div>
         </div>
@@ -100,27 +100,19 @@
 <script type="text/javascript">
     $(document).ready(function () {
         $("#ddlSession").change(function (){
-            var sessionNom = $("#ddlSession").val();
+            var id = $(this).val();
 
             $.ajax({
-                type: 'POST',
-                url:
-                    @Html.Raw("\"/" + HttpContext.Current.Request.RequestContext.RouteData.Values["controller"].ToString() + "/ActualiseDonnees\""),
-                data:{
-                    session: sessionNom
-                },
-            
-                async:false,
-                cache:false,
-                dataType: "json",
-                success: function (donnees){
-                    $.each(donnees, function (i, item) {
-                        $("#DateDebut").text = item[1].session
-                        $("#DateFin").text = item[2].session;
-                        $("#HeureDebut").text = item[3].session;
-                        $("#HeureFin").text = item[4].session;
-                    });
-                }
+                type: 'GET',
+                dataType:"json",
+                url: @Html.Raw("\"/" + HttpContext.Current.Request.RequestContext.RouteData.Values["controller"].ToString() + "/EditHoraire\"" ),
+                data: { session : id},
+                //success: function (donnees) {
+                //    $("#DateDebut").text("ALLO");
+                //    $("#DateFin").text(donnees.DateFin);
+                //    $("#HeureDebut").text(donnees.HeureDebut);
+                //    $("#HeureFin").text(donnees.HeureFin);
+                //}
             });
         });
     });

@@ -94,29 +94,40 @@ namespace sachem.Controllers
             ViewBag.id_Sess = slSession;
         }
 
-        [NonAction]
-        [ValidationAccesSuper]
-        [AcceptVerbs("Get", "Post")]
-        public JsonResult ActualiseDonnees(int session)
-        {
-            //var a = ObtenirListeSuperviseur(session).Select(c => new { c.id_Pers, c.NomPrenom });
-            var a =  from x in db.p_HoraireInscription where x.id_Sess == session select x;
-            return Json(a.ToList(), JsonRequestBehavior.AllowGet);
-        }
+        //[ValidationAccesSuper]
+        //[HttpGet]
+        //public JsonResult ActualiseDonnees(int session = 0)
+        //{
+        //    var a = (from x in db.p_HoraireInscription where x.id_Sess == session select x).Select(d => new
+        //    {
+        //        DateDebut = d.DateDebut.ToString(),
+        //        DateFin = d.DateFin.ToString(),
+        //        HeureDebut = d.HeureDebut.ToString(),
+        //        HeureFin = d.HeureFin.ToString()
+        //    }).ToList();
+
+        //    return Json(a.ToList(), JsonRequestBehavior.AllowGet);
+        //}
 
         //trouver un moyen de faire fonctionner la vue pour qu'elle affiche bien [Été 2016] en dropdownlist
         // MODULO ???!?!?
-        
+
         //Méthode qui envoie a la view Edit horaire la liste de toutes les horaires d'inscription ainsi que l'horaire de la session courrante
         [ValidationAccesSuper]
-        public ActionResult EditHoraire()
+        public ActionResult EditHoraire(int session = 0)
         {
-            var lhoraire = db.p_HoraireInscription.FirstOrDefault();
-            ViewBag.idSessHoraire = lhoraire.id_Sess;
+            var lhoraire = db.p_HoraireInscription.Where(x => x.id_Sess ==session || session==0).FirstOrDefault();
+
             if (lhoraire == null)
+            {
                 ListeSession(0);
+                ViewBag.idSessHoraire = 0;
+            }
             else
+            {
                 ListeSession(lhoraire.id_Sess);
+                ViewBag.idSessHoraire = lhoraire.id_Sess;
+            }
 
             
             return View(lhoraire);
