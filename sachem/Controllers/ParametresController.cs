@@ -10,6 +10,7 @@ namespace sachem.Controllers
 {
     public class ParametresController : Controller
     {
+        private const int idCourriel = 1;
         private readonly SACHEMEntities db = new SACHEMEntities();
 
         [HttpGet]
@@ -23,18 +24,14 @@ namespace sachem.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [ValidationAccesSuper]
-        public ActionResult EditCourrier(Courriel courriel, p_TypeCourriel typeCourriel)
+        public ActionResult EditCourrier(Courriel courriel)
         {
-            ViewBag.id_TypeCourriel = new SelectList(db.p_TypeCourriel, "id_TypeCourriel", "TypeCourriel");
-            courriel.p_TypeCourriel = typeCourriel;
+            courriel.id_TypeCourriel = idCourriel;
             if (courriel.DateFin != null)
             {
                 if((courriel.DateDebut - courriel.DateFin.Value).TotalDays > 0)
-                {
                     ModelState.AddModelError(string.Empty, Messages.C_005);
                 }
-            }
 
             if (ModelState.IsValid)
             {
@@ -59,7 +56,7 @@ namespace sachem.Controllers
         public ActionResult EditContact([Bind(Include = "id_Contact,Nom,Prenom,Courriel,Telephone,Poste,Facebook,SiteWeb,Local")] p_Contact contact)
         {
             Valider(contact);
-            
+
             if (ModelState.IsValid)
             {
                 contact.Telephone = SachemIdentite.FormatTelephone(contact.Telephone);
@@ -103,7 +100,7 @@ namespace sachem.Controllers
             if (session.Annee != nouvelHoraire.DateFin.Year || session.Annee != nouvelHoraire.DateDebut.Year)
             {
                 ModelState.AddModelError(string.Empty, Messages.C_006);
-            }
+        }
             //regarde si les dates sont bonnes
             if((nouvelHoraire.DateFin - nouvelHoraire.DateDebut).TotalDays < 1)
             {
@@ -125,7 +122,7 @@ namespace sachem.Controllers
                         if (new DateTime(1,6,1).Month > nouvelHoraire.DateDebut.Month || nouvelHoraire.DateFin.Month > new DateTime(1,8,1).Month)
                         {
                             ModelState.AddModelError(string.Empty, Messages.C_006);
-                        }
+        }
                         break;
                     //si automne: de aout inclus jusqua decembre inclus (si mois du début >= 8 et mois fin <= 12)
                     //pas besoin de verif la date de fin car on est sur que c'est la bonne année et qu'elle est apres la date de début
@@ -136,7 +133,7 @@ namespace sachem.Controllers
                         }
                     break;
                 }
- 
+
             if (ModelState.IsValid)
             {
                 db.Entry(nouvelHoraire).State = EntityState.Modified;
