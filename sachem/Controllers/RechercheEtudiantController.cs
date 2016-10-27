@@ -142,11 +142,6 @@ namespace sachem.Controllers
                         ViewBag.Groupe = groupe;
                         champsRenseignes++;
                     }
-
-                }
-                if (tanciennerech[4] != "")
-                {
-                    noPage = Int32.Parse(tanciennerech[4]);
                 }
             }
             else
