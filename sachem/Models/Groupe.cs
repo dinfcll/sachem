@@ -25,7 +25,7 @@ namespace sachem.Models
         public int id_Sess { get; set; }
         public Nullable<int> id_Enseignant { get; set; }
         public int NoGroupe { get; set; }
-
+    
         public virtual Cours Cours { get; set; }
         public virtual Personne Personne { get; set; }
         public virtual Session Session { get; set; }
