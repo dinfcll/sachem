@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
@@ -13,54 +12,51 @@ namespace sachem.Controllers
         private SACHEMEntities db = new SACHEMEntities();
 
         [NonAction]
-        private void ListeCours(int Cours=0)
+        private void ListeCours(int cours = 0)
         {
             var lCours = db.Cours.AsNoTracking().OrderBy(c => c.Code);
             var slCours = new List<SelectListItem>();
-            slCours.AddRange(new SelectList(lCours, "id_Cours", "CodeNom", Cours));
+            slCours.AddRange(new SelectList(lCours, "id_Cours", "CodeNom", cours));
             ViewBag.id_Cours = slCours;
         }
 
         [NonAction]
-        private void ListeCollege(int College=0)
+        private void ListeCollege(int college = 0)
         {
             var lCollege = db.p_College.AsNoTracking().OrderBy(n => n.College);
             var slCollege = new List<SelectListItem>();
-            slCollege.AddRange(new SelectList(lCollege, "id_College", "College", College));
+            slCollege.AddRange(new SelectList(lCollege, "id_College", "College", college));
 
             ViewBag.id_College = slCollege;
         }
 
         [NonAction]
-        private void ListeStatut(int Statut = 0)
+        private void ListeStatut(int statut = 0)
         {
             var lStatut = db.p_StatutCours.AsNoTracking();
             var slStatut = new List<SelectListItem>();
-            slStatut.AddRange(new SelectList(lStatut, "id_Statut", "Statut", Statut));
+            slStatut.AddRange(new SelectList(lStatut, "id_Statut", "Statut", statut));
 
             ViewBag.id_Statut = slStatut;
         }
 
         [NonAction]
-        private void ListeSession(int Session=0)
+        private void ListeSession(int session = 0)
         {
             var lSessions = db.Session.AsNoTracking().OrderBy(s => s.Annee).ThenBy(s => s.p_Saison.Saison);
             var slSession = new List<SelectListItem>();
-            slSession.AddRange(new SelectList(lSessions, "id_Sess", "NomSession", Session));
+            slSession.AddRange(new SelectList(lSessions, "id_Sess", "NomSession", session));
 
             ViewBag.id_Sess = slSession;
         }
 
         //Validation des champs cours et collège
         [NonAction]
-        private void Valider([Bind(Include = "id_CoursReussi,id_Sess,id_Pers,id_College,id_Statut,id_Cours,resultat,autre_Cours,autre_College")] CoursSuivi coursSuivi, int i = 0)
+        private void Valider([Bind(Include = "id_CoursReussi,id_Sess,id_Pers,id_College,id_Statut,id_Cours,resultat,autre_Cours,autre_College")] CoursSuivi coursSuivi, bool verif = false)
         {
             //Validation seulement lors de l'ajout
-            if (i == 1)
-            {
-                if (db.CoursSuivi.Any(r => r.id_Cours == coursSuivi.id_Cours && r.id_Pers == coursSuivi.id_Pers && r.id_Sess == coursSuivi.id_Sess && r.id_College == coursSuivi.id_College))
-                    ModelState.AddModelError(string.Empty, Messages.I_036());
-            }
+            if (db.CoursSuivi.Any(r => r.id_Cours == coursSuivi.id_Cours && r.id_Pers == coursSuivi.id_Pers && r.id_Sess == coursSuivi.id_Sess && r.id_College == coursSuivi.id_College) && verif)
+                ModelState.AddModelError(string.Empty, Messages.I_036());
 
             if (coursSuivi.id_Cours == null && coursSuivi.autre_Cours == string.Empty || coursSuivi.id_Cours != null && coursSuivi.autre_Cours != string.Empty)
                 ModelState.AddModelError(string.Empty, Messages.C_009("Cours" , "Autre cours"));
@@ -80,7 +76,7 @@ namespace sachem.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            CoursSuivi cs = db.CoursSuivi.Where(r => r.id_Pers == id).FirstOrDefault();
+            CoursSuivi cs = db.CoursSuivi.FirstOrDefault(r => r.id_Pers == id);
 
             var vInscription = from d in db.Inscription
                                where d.id_Pers == id
@@ -109,9 +105,8 @@ namespace sachem.Controllers
             coursSuivi.id_Pers = (int)id;
             ViewBag.idPers = coursSuivi.id_Pers;
 
-            Valider(coursSuivi, 1);
+            Valider(coursSuivi, true);
             
-
             var vInscription = from d in db.Inscription
                                where d.id_Pers == coursSuivi.id_Pers
                                select d.id_Inscription;
@@ -131,7 +126,7 @@ namespace sachem.Controllers
         {
             if (id == null || id2 == null)
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            CoursSuivi cs = db.CoursSuivi.Where(r => r.id_Pers == id2 && r.id_CoursReussi == id).FirstOrDefault();
+            CoursSuivi cs = db.CoursSuivi.FirstOrDefault(r => r.id_Pers == id2 && r.id_CoursReussi == id);
 
             var vInscription = from d in db.Inscription
                                where d.id_Pers == cs.id_Pers
@@ -200,14 +195,14 @@ namespace sachem.Controllers
 
         //id étant id_CoursReussi et id2 étant id_Pers
         // GET: CoursSuivi/Delete/5
-        public ActionResult Delete(int? id, int? id2)
+        public ActionResult Delete(int? coursRéussi, int? personne)
         {            
-            if (id == null || id2 == null)
+            if (coursRéussi == null || personne == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            CoursSuivi cs = db.CoursSuivi.Where(r => r.id_Pers == id2 && r.id_CoursReussi == id).FirstOrDefault();
+            CoursSuivi cs = db.CoursSuivi.FirstOrDefault(r => r.id_Pers == personne && r.id_CoursReussi == coursRéussi);
 
             if (cs == null)
             {
