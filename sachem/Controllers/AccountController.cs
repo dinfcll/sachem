@@ -22,7 +22,7 @@ namespace sachem.Controllers
 
         #region fn_CookieStuff
         //Pour l'encryption du cookie (MachineCode)
-#pragma warning disable 0618
+        #pragma warning disable 0618
 
         [NonAction]
         private void CreerCookieConnexion(string NomUsager, string MotDePasse)
