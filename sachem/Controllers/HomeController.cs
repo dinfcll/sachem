@@ -27,6 +27,7 @@ namespace sachem.Controllers
         {
             ViewBag.Message = "Nous contacter.";
             var contact = db.p_Contact.First();
+            contact.Telephone = SachemIdentite.RemettreTel(contact.Telephone);
             return View(contact);
         }
 
