@@ -26,26 +26,6 @@ namespace sachem.Controllers
       
         // GET: Etudiant/Details/5
         //fonction pour formatter le numéro de téléphone avant de mettre dans la bd
-        public static string FormatTelephone(string s)
-        {
-            var charsToRemove = new string[] { ".", "-", "(", " ", ")" };
-            foreach (var c in charsToRemove)
-            {
-                s = s.Replace(c, string.Empty);
-            }
-            return s;
-        }
-        //fonction qui remet le numéro de téléphone dans le bon format
-        public static string RemettreTel(string a)
-
-        {
-            string modif;
-            modif = a.Insert(0, "(");
-            modif = modif.Insert(4, ")");
-            modif = modif.Insert(5, " ");
-            modif = modif.Insert(9,"-");
-            return modif;
-        }
 
         [ValidationAccesEnseignant]
         // GET: Etudiant/Create
@@ -67,7 +47,7 @@ namespace sachem.Controllers
         {
             personne.id_TypeUsag = 1;
             personne.Actif = true;
-            personne.Telephone = FormatTelephone(personne.Telephone);
+            personne.Telephone = SachemIdentite.FormatTelephone(personne.Telephone);
 
             Valider(personne);
             // Si les données sont valides, faire l'ajout
@@ -78,7 +58,7 @@ namespace sachem.Controllers
                 
                 db.Personne.Add(personne);
                 db.SaveChanges();
-                personne.Telephone = RemettreTel(personne.Telephone);
+                personne.Telephone = SachemIdentite.RemettreTel(personne.Telephone);
                 TempData["Success"] = Messages.I_010(personne.Matricule); // Message afficher sur la page d'index confirmant la création
                 return RedirectToAction("Index");
             }
@@ -104,6 +84,7 @@ namespace sachem.Controllers
             //retroune la liste de programme qui relié à l'élève
             var Prog = from d in db.EtuProgEtude
                        where d.id_Etu == personne.id_Pers
+                       orderby d.ProgrammeEtude.Code
                        select d;
             ViewBag.id_Sexe = new SelectList(db.p_Sexe, "id_Sexe", "Sexe", personne.id_Sexe);
             ViewBag.id_TypeUsag = new SelectList(db.p_TypeUsag, "id_TypeUsag", "TypeUsag", personne.id_TypeUsag);
@@ -134,7 +115,6 @@ namespace sachem.Controllers
                           where d.id_Pers == p.id_Pers
                           select d).FirstOrDefault();
             p.id_Sexe = idSexe.id_Sexe;
-            
             pepp.personne = p;
 
             //Mise à jour Viewbag
@@ -144,6 +124,13 @@ namespace sachem.Controllers
             ViewBag.id_Session = new SelectList(db.Session, "id_Sess", "NomSession");
 
             var etuprog = new EtuProgEtude();
+            //Aller chercher Programme d'étude(nom)
+            var Prog = from d in db.EtuProgEtude
+                       where d.id_Etu == pepp.personne.id_Pers
+                       orderby d.ProgrammeEtude.Code
+                       select d;
+            pepp.epe = Prog.ToList();
+
             //Ajout du programme d'étude (Si l'étudiant rajoute les champs)
             if (Request.Form["id_Programme"] != "" && Request.Form["id_Session"] != "")
             {
@@ -152,13 +139,9 @@ namespace sachem.Controllers
                 etuprog.id_Etu = personne.id_Pers;
                 db.EtuProgEtude.Add(etuprog);
                 db.SaveChanges();
-            }
-            //Aller chercher Programme d'étude(nom)
-            var Prog = from d in db.EtuProgEtude
-                       where d.id_Etu == pepp.personne.id_Pers
-                       select d;
-            pepp.epe = Prog.ToList();
 
+                return View(pepp);
+            }
             if (ModelState.IsValid)
             {
                 db.Entry(pepp.personne).State = EntityState.Modified;
@@ -192,7 +175,6 @@ namespace sachem.Controllers
         public ActionResult DeleteConfirmed(int id,int? page)
         {
             var pageNumber = page ?? 1;
-       
             Personne personne = db.Personne.Find(id);
             var inscription = db.Inscription.Where(x => x.id_Pers == personne.id_Pers).FirstOrDefault();
 
@@ -205,20 +187,20 @@ namespace sachem.Controllers
             }
             if (ModelState.IsValid)
             {
-                var etuProgEtu = db.EtuProgEtude.Where(x => x.id_Etu == personne.id_Pers);
-                db.EtuProgEtude.RemoveRange(etuProgEtu);
-                var groupeEtu = db.GroupeEtudiant.Where(y => y.id_Etudiant == personne.id_Pers);
-                db.GroupeEtudiant.RemoveRange(groupeEtu);
-                var Jumul = db.Jumelage.Where(z => z.id_InscEleve == personne.id_Pers);
-                db.Jumelage.RemoveRange(Jumul);
-                var Inscri = db.Inscription.Where(a => a.id_Pers == personne.id_Pers);
-                db.Inscription.RemoveRange(Inscri);
-                var CoursSuiv = db.CoursSuivi.Where(b => b.id_Pers == personne.id_Pers);
-                db.CoursSuivi.RemoveRange(CoursSuiv);
-                db.Personne.Remove(personne);
-                db.SaveChanges();
-                TempData["Success"] = Messages.I_028(personne.NomPrenom);
-                //redirection à l'index après la suppression
+            var etuProgEtu = db.EtuProgEtude.Where(x => x.id_Etu == personne.id_Pers);
+            db.EtuProgEtude.RemoveRange(etuProgEtu);
+            var groupeEtu = db.GroupeEtudiant.Where(y => y.id_Etudiant == personne.id_Pers);
+            db.GroupeEtudiant.RemoveRange(groupeEtu);
+            var Jumul = db.Jumelage.Where(z => z.id_InscEleve == personne.id_Pers);
+            db.Jumelage.RemoveRange(Jumul);
+            var Inscri = db.Inscription.Where(a => a.id_Pers == personne.id_Pers);
+            db.Inscription.RemoveRange(Inscri);
+            var CoursSuiv = db.CoursSuivi.Where(b => b.id_Pers == personne.id_Pers);
+            db.CoursSuivi.RemoveRange(CoursSuiv);
+            db.Personne.Remove(personne);
+            db.SaveChanges();
+            TempData["Success"] = Messages.I_028(personne.NomPrenom);
+            //redirection à l'index après la suppression
             }
             else { }
 
@@ -226,16 +208,46 @@ namespace sachem.Controllers
 
         }
         //fonction qui supprime un programme d'étude à oartir de la page modifier
-        [ValidationAccesEnseignant]
-        public ActionResult deleteProgEtu(int id)
+        public ActionResult deleteProgEtu(int idProg, int idPers, int Valider = 0)
         {
-            var etuProgEtu = db.EtuProgEtude.Where(x => x.id_EtuProgEtude == id);
+            Personne personne = db.Personne.Find(idPers);
+            EtuProgEtude etuprog = db.EtuProgEtude.Find(idProg);
+            var Prog = from d in db.EtuProgEtude
+                       where d.id_Etu == personne.id_Pers
+                       orderby d.ProgrammeEtude.Code
+                       select d;
+            
+            TempData["Question"] = Messages.Q_002(etuprog.ProgrammeEtude.CodeNomProgramme);
+            var etuProgEtu = db.EtuProgEtude.Where(x => x.id_EtuProgEtude == idProg);
+            if (Valider != 0)
+            {
+                TempData["Question"] = null;
+            }
+            if (Valider == 1)
+            {
+                if (!db.CoursSuivi.Any(c => c.id_Pers == etuprog.id_Etu && c.id_Sess == etuprog.id_Sess))
+                {
+                    TempData["Success"] = Messages.I_016(etuprog.ProgrammeEtude.CodeNomProgramme);
+                    db.EtuProgEtude.RemoveRange(etuProgEtu);
+                    db.SaveChanges();
+                }
+                else
+                {
+                    if (Prog.Count() > 1)
+        {
+                        TempData["Success"] = Messages.I_016(etuprog.ProgrammeEtude.CodeNomProgramme);
             db.EtuProgEtude.RemoveRange(etuProgEtu);
             db.SaveChanges();
+                    }
+                    else
+                        TempData["Echec"] = Messages.I_011(etuprog.ProgrammeEtude.CodeNomProgramme);
+                }
             //faire apparaitre le message
-            TempData["Success"] = Messages.I_016("");
-            //retourne à l'index
-            return RedirectToAction("Index");
+                return RedirectToAction("Edit", "Etudiant", new { id = idPers });
+            }
+            TempData["id_Pers"] = idPers;         
+            TempData["id_Prog"] = idProg;
+            return RedirectToAction("Edit", "Etudiant", new { id = idPers });
         }
         
         //fonction de validation

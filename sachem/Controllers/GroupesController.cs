@@ -349,9 +349,9 @@ namespace sachem.Controllers
             }
 
             if ( TempData["idgcible"] == null)
-                ViewBag.id_groupedepl = new SelectList(db.Groupe, "id_Groupe", "Cours.CodeNom");
+                ViewBag.id_groupedepl = new SelectList(db.Groupe, "id_Groupe", "CodeNomGroupe");
             else
-                ViewBag.id_groupedepl = new SelectList(db.Groupe, "id_Groupe", "Cours.CodeNom",TempData["idgcible"]);
+                ViewBag.id_groupedepl = new SelectList(db.Groupe, "id_Groupe", "CodeNomGroupe", TempData["idgcible"]);
             return View(ge);
         }
 
