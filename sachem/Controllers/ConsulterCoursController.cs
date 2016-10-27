@@ -70,7 +70,7 @@ namespace sachem.Controllers
 
                 var listeInfoEns = (from c in db.Groupe
                            where (c.id_Sess == idSess && c.id_Enseignant == m_IdPers) || (idSess == 0 && c.id_Enseignant == m_IdPers)
-                           orderby c.NoGroupe
+                           orderby c.Cours.Code ascending
                            select c).GroupBy(c => c.Cours.Nom).SelectMany(cours => cours);
 
                 var listeIdUniques = (from c in listeInfoEns select c.id_Cours).Distinct();
@@ -89,7 +89,7 @@ namespace sachem.Controllers
 
                 var listeInfoResp = (from c in db.Groupe
                            where c.id_Sess == (idSess == 0 ? c.id_Sess : idSess) && c.id_Enseignant == (m_IdPers == 0 ? c.id_Enseignant : m_IdPers)
-                           orderby c.NoGroupe
+                           orderby c.Cours.Code ascending
                            select c).GroupBy(c => c.Cours.Nom).SelectMany(cours => cours);
 
                 var listeIdUniques = (from c in listeInfoResp select c.id_Cours).Distinct();
@@ -98,7 +98,7 @@ namespace sachem.Controllers
 
                 listeCours = trouverCoursUniques(listeInfoResp, listeIdUniques, ViewBag.IsEnseignant);
 
-                return listeCours.ToList(); //retourne tous les cours
+                return listeCours.OrderBy(x => x.Cours.Code).ToList(); //retourne tous les cours
             }
         }
 
