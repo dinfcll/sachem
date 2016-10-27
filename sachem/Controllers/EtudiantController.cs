@@ -1,12 +1,10 @@
 ﻿using System;
-using System.Data;
 using System.Linq;
 using System.Net;
 using System.Web.Mvc;
 using sachem.Models;
 using PagedList;
-using System.Security.Cryptography;// pour encripter mdp
-using System.Text;
+using static sachem.Classes_Sachem.ValidationAcces;
 using System.Data.Entity;
 using System.Collections.Generic;
 
@@ -14,6 +12,7 @@ namespace sachem.Controllers
 {
     public class EtudiantController : RechercheEtudiantController
     {    
+        [ValidationAccesEnseignant]
         public ActionResult Index(int? page)
         {
             noPage = (page ?? noPage);
@@ -49,6 +48,7 @@ namespace sachem.Controllers
             return modif;
         }
 
+        [ValidationAccesEnseignant]
         // GET: Etudiant/Create
         public ActionResult Create()
         {
@@ -68,7 +68,8 @@ namespace sachem.Controllers
         // plus de détails, voir  http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "id_Pers,id_Sexe,id_TypeUsag,Nom,Prenom,Matricule,MP,ConfirmPassword,Courriel,Telephone,DateNais")] Personne personne)
+        [ValidationAccesEnseignant]
+        public ActionResult Create([Bind(Include = "id_Pers,id_Sexe,id_TypeUsag,Nom,Prenom,Matricule,MP,ConfirmPassword,Courriel,Telephone,DateNais")] Personne personne,int? page)
         {
             ViewBag.id_Sexe = new SelectList(db.p_Sexe, "id_Sexe", "sexe");
             
@@ -82,7 +83,7 @@ namespace sachem.Controllers
             personne.id_TypeUsag = 1;
             personne.Actif = true;
             personne.Telephone = FormatTelephone(personne.Telephone);
-           
+
             pepp.personne = personne;
             
 
@@ -115,6 +116,7 @@ namespace sachem.Controllers
         }
 
         // GET: Etudiant/Edit/5
+        [ValidationAccesEnseignant]
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -129,12 +131,12 @@ namespace sachem.Controllers
             //retroune la liste de programme qui relié à l'élève
             var Prog = from d in db.EtuProgEtude
                        where d.id_Etu == personne.id_Pers
+                       orderby d.ProgrammeEtude.Code
                        select d;
             ViewBag.id_Sexe = new SelectList(db.p_Sexe, "id_Sexe", "Sexe", personne.id_Sexe);
             ViewBag.id_TypeUsag = new SelectList(db.p_TypeUsag, "id_TypeUsag", "TypeUsag", personne.id_TypeUsag);
             ViewBag.id_Programme = new SelectList(db.ProgrammeEtude, "id_ProgEtu", "nomProg");
             ViewBag.id_Session = new SelectList(db.Session, "id_Sess", "NomSession");
-            //return View(Tuple.Create(personne, Prog.AsEnumerable()));
             PersonneEtuProgParent epep = new PersonneEtuProgParent();
             epep.personne = personne;
             epep.epe = Prog.ToList();
@@ -146,6 +148,7 @@ namespace sachem.Controllers
         // plus de détails, voir  http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [ValidationAccesEnseignant]
         //Modification lorsqu'on clique sur le bouton modification / Enregistrement
         public ActionResult Edit([Bind(Include = "id_Pers,id_Sexe,id_TypeUsag,Nom,Prenom,NomUsager,Matricule7,MP,Courriel,Telephone,DateNais,Actif")] Personne personne)
         {
@@ -156,8 +159,6 @@ namespace sachem.Controllers
                           where d.id_Pers == p.id_Pers
                           select d).FirstOrDefault();
             p.id_Sexe = idSexe.id_Sexe;
-
-            //db.SaveChanges();
             pepp.personne = p;
 
             //Mise à jour Viewbag
@@ -167,6 +168,13 @@ namespace sachem.Controllers
             ViewBag.id_Session = new SelectList(db.Session, "id_Sess", "NomSession");
 
             var etuprog = new EtuProgEtude();
+            //Aller chercher Programme d'étude(nom)
+            var Prog = from d in db.EtuProgEtude
+                       where d.id_Etu == pepp.personne.id_Pers
+                       orderby d.ProgrammeEtude.Code
+                       select d;
+            pepp.epe = Prog.ToList();
+
             //Ajout du programme d'étude (Si l'étudiant rajoute les champs)
             if (Request.Form["id_Programme"] != "" && Request.Form["id_Session"] != "")
             {
@@ -175,13 +183,9 @@ namespace sachem.Controllers
                 etuprog.id_Etu = personne.id_Pers;
                 db.EtuProgEtude.Add(etuprog);
                 db.SaveChanges();
-            }
-            //Aller chercher Programme d'étude(nom)
-            var Prog = from d in db.EtuProgEtude
-                       where d.id_Etu == pepp.personne.id_Pers
-                       select d;
-            pepp.epe = Prog.ToList();
 
+                return View(pepp);
+            }
             if (ModelState.IsValid)
             {
                 db.Entry(pepp).State = EntityState.Modified;
@@ -192,6 +196,7 @@ namespace sachem.Controllers
 
         // GET: Etudiant/Delete/5
         //exécuté lorsqu'un étudiant est supprimé
+        [ValidationAccesEnseignant]
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -210,21 +215,12 @@ namespace sachem.Controllers
         // POST: Etudiant/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [ValidationAccesEnseignant]
         public ActionResult DeleteConfirmed(int id,int? page)
         {
             var pageNumber = page ?? 1;
-            // Verifie si l'étudiant est relié a un groupe
-            /*if (db.Groupe.Any(a => a.Personne == id)) 
-            {
-                ModelState.AddModelError(string.Empty, Messages.I_014);
-
-            }*/
-           
-            //if (ModelState.IsValid)
-            //{
-                //trouve la personne à supprimer
                 Personne personne = db.Personne.Find(id);
-            //suppression de la personne dans tout les tables qu'on la retrouve
+
             var etuProgEtu = db.EtuProgEtude.Where(x => x.id_Etu == personne.id_Pers);
             db.EtuProgEtude.RemoveRange(etuProgEtu);
             var groupeEtu = db.GroupeEtudiant.Where(y => y.id_Etudiant == personne.id_Pers);
@@ -244,25 +240,48 @@ namespace sachem.Controllers
             return RedirectToAction("Index");
         }
         //fonction qui supprime un programme d'étude à oartir de la page modifier
-        public ActionResult deleteProgEtu(int id)
+        public ActionResult deleteProgEtu(int idProg, int idPers, int Valider = 0)
         {
-            var etuProgEtu = db.EtuProgEtude.Where(x => x.id_EtuProgEtude == id);
+            Personne personne = db.Personne.Find(idPers);
+            EtuProgEtude etuprog = db.EtuProgEtude.Find(idProg);
+            var Prog = from d in db.EtuProgEtude
+                       where d.id_Etu == personne.id_Pers
+                       orderby d.ProgrammeEtude.Code
+                       select d;
+            
+            TempData["Question"] = Messages.Q_002(etuprog.ProgrammeEtude.CodeNomProgramme);
+            var etuProgEtu = db.EtuProgEtude.Where(x => x.id_EtuProgEtude == idProg);
+            if (Valider != 0)
+            {
+                TempData["Question"] = null;
+            }
+            if (Valider == 1)
+            {
+                if (!db.CoursSuivi.Any(c => c.id_Pers == etuprog.id_Etu && c.id_Sess == etuprog.id_Sess))
+                {
+                    TempData["Success"] = Messages.I_016(etuprog.ProgrammeEtude.CodeNomProgramme);
+                    db.EtuProgEtude.RemoveRange(etuProgEtu);
+                    db.SaveChanges();
+                }
+                else
+                {
+                    if (Prog.Count() > 1)
+        {
+                        TempData["Success"] = Messages.I_016(etuprog.ProgrammeEtude.CodeNomProgramme);
             db.EtuProgEtude.RemoveRange(etuProgEtu);
             db.SaveChanges();
+                    }
+                    else
+                        TempData["Echec"] = Messages.I_011(etuprog.ProgrammeEtude.CodeNomProgramme);
+                }
             //faire apparaitre le message
-            TempData["Success"] = Messages.I_016("");
-            //retourne à l'index
-            return RedirectToAction("Index");
+                return RedirectToAction("Edit", "Etudiant", new { id = idPers });
+            }
+            TempData["id_Pers"] = idPers;         
+            TempData["id_Prog"] = idProg;
+            return RedirectToAction("Edit", "Etudiant", new { id = idPers });
         }
 
-        //Méthode pour encrypter le de mot de passe.
-        public static string encrypterChaine(string mdp)
-        {
-            byte[] Buffer;
-            MD5CryptoServiceProvider provider = new MD5CryptoServiceProvider();
-            Buffer = Encoding.UTF8.GetBytes(mdp);
-            return BitConverter.ToString(provider.ComputeHash(Buffer)).Replace("-", "").ToLower();
-        }
         //fonction de validation
         private void Valider([Bind(Include = "id_Pers,id_Sexe,id_TypeUsag,Nom,Prenom,NomUsager,MP,ConfirmPassword,Courriel,DateNais,Actif")] Personne personne)
         {

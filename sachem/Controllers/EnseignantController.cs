@@ -6,7 +6,7 @@ using System.Net;
 using System.Web.Mvc;
 using sachem.Models;
 using PagedList;
-
+using static sachem.Classes_Sachem.ValidationAcces;
 
 namespace sachem.Controllers
 {
@@ -16,9 +16,7 @@ namespace sachem.Controllers
 
         private const int ID_ENSEIGNANT = 2;
         private const int ID_RESP = 3;
-
-        List<TypeUsagers> RolesAcces = new List<TypeUsagers>() { TypeUsagers.Responsable, TypeUsagers.Super };
-
+        
         [NonAction]
         private void ListeEnseignant(int Enseignant = 0)
         {
@@ -61,11 +59,9 @@ namespace sachem.Controllers
             return Enseignant.ToList();
         }
 
-     
+        [ValidationAccesSuper]
         public ActionResult Index(int? page)
         {
-            if (!SachemIdentite.ValiderRoleAcces(RolesAcces, Session))
-                return RedirectToAction("Error", "Home", null);
 
             var pageNumber = page ?? 1;
 
@@ -82,11 +78,9 @@ namespace sachem.Controllers
         }
 
         // GET: Enseignant/Create
+        [ValidationAccesSuper]
         public ActionResult Create()
         {
-            if (!SachemIdentite.ValiderRoleAcces(RolesAcces, Session))
-                return RedirectToAction("Error", "Home", null);
-
             RemplirDropList();
             return View();
         }
@@ -120,10 +114,9 @@ namespace sachem.Controllers
 
         }
         // GET: Enseignant/Edit/5
+        [ValidationAccesSuper]
         public ActionResult Edit(int? id)
         {
-            if (!SachemIdentite.ValiderRoleAcces(RolesAcces, Session))
-                return RedirectToAction("Error", "Home", null);
 
             if (id == null)
             {
@@ -172,11 +165,9 @@ namespace sachem.Controllers
         }
 
         // GET: Enseignant/Delete/5
+        [ValidationAccesSuper]
         public ActionResult Delete(int? id)
         {
-            if (!SachemIdentite.ValiderRoleAcces(RolesAcces, Session))
-                return RedirectToAction("Error", "Home", null);
-
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
