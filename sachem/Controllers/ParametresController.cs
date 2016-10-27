@@ -12,7 +12,6 @@ namespace sachem.Controllers
     {
         private readonly SACHEMEntities db = new SACHEMEntities();
 
-        #region EditCourrier Modification du courrier
         [HttpGet]
         [ValidationAccesSuper]
         public ActionResult EditCourrier()
@@ -44,9 +43,7 @@ namespace sachem.Controllers
             }
             return View();
         }
-        #endregion
 
-        #region EditContact Modification des informations de la page contact
         [HttpGet]
         [ValidationAccesSuper]
         public ActionResult EditContact()
@@ -71,9 +68,6 @@ namespace sachem.Controllers
             }
             return View(contact);
         }
-        #endregion
-
-        #region EditHoraire Modification des horaires
 
         //Méthode qui envoie a la view Edit horaire la liste de toutes les horaires d'inscription ainsi que l'horaire de la session courrante
         [HttpGet]
@@ -149,9 +143,6 @@ namespace sachem.Controllers
             return RedirectToAction("EditHoraire");
         }
 
-        #endregion
-
-        #region EditCollege Modification des collèges
         [HttpGet]
         [ValidationAccesSuper]
         public ActionResult EditCollege()
@@ -201,15 +192,12 @@ namespace sachem.Controllers
                 db.SaveChanges();
             }
         }
-        #endregion
 
-        #region Autre
         [NonAction]
         private void Valider([Bind(Include = "id_Contact,Nom,Prenom,Courriel,Telephone,Poste,Facebook,SiteWeb,Local")]p_Contact contact)
         {
             if (db.p_Contact.Any(r => r.id_Contact == contact.id_Contact && r.Prenom != contact.Prenom && r.Nom != contact.Nom))
                 ModelState.AddModelError(string.Empty, Messages.I_002(contact.id_Contact.ToString()));
         }
-        #endregion
     }
 }
