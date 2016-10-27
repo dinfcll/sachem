@@ -122,11 +122,11 @@ namespace sachem.Controllers
         }
 
         // GET: CoursSuivi/Edit/5
-        public ActionResult Edit(int? id, int? id2)
+        public ActionResult Edit(int? coursReussi, int? personne)
         {
-            if (id == null || id2 == null)
+            if (coursReussi == null || personne == null)
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            CoursSuivi cs = db.CoursSuivi.FirstOrDefault(r => r.id_Pers == id2 && r.id_CoursReussi == id);
+            CoursSuivi cs = db.CoursSuivi.FirstOrDefault(r => r.id_Pers == personne && r.id_CoursReussi == coursReussi);
 
             var vInscription = from d in db.Inscription
                                where d.id_Pers == cs.id_Pers
@@ -195,14 +195,14 @@ namespace sachem.Controllers
 
         //id étant id_CoursReussi et id2 étant id_Pers
         // GET: CoursSuivi/Delete/5
-        public ActionResult Delete(int? coursRéussi, int? personne)
+        public ActionResult Delete(int? coursReussi, int? personne)
         {            
-            if (coursRéussi == null || personne == null)
+            if (coursReussi == null || personne == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            CoursSuivi cs = db.CoursSuivi.FirstOrDefault(r => r.id_Pers == personne && r.id_CoursReussi == coursRéussi);
+            CoursSuivi cs = db.CoursSuivi.FirstOrDefault(r => r.id_Pers == personne && r.id_CoursReussi == coursReussi);
 
             if (cs == null)
             {
