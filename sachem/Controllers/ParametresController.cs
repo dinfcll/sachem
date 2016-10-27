@@ -94,30 +94,11 @@ namespace sachem.Controllers
             ViewBag.id_Sess = slSession;
         }
 
-        //[ValidationAccesSuper]
-        //[HttpGet]
-        //public JsonResult ActualiseDonnees(int session = 0)
-        //{
-        //    var a = (from x in db.p_HoraireInscription where x.id_Sess == session select x).Select(d => new
-        //    {
-        //        DateDebut = d.DateDebut.ToString(),
-        //        DateFin = d.DateFin.ToString(),
-        //        HeureDebut = d.HeureDebut.ToString(),
-        //        HeureFin = d.HeureFin.ToString()
-        //    }).ToList();
-
-        //    return Json(a.ToList(), JsonRequestBehavior.AllowGet);
-        //}
-
-        //trouver un moyen de faire fonctionner la vue pour qu'elle affiche bien [Été 2016] en dropdownlist
-        // MODULO ???!?!?
-
         //Méthode qui envoie a la view Edit horaire la liste de toutes les horaires d'inscription ainsi que l'horaire de la session courrante
         [ValidationAccesSuper]
         public ActionResult EditHoraire(int session = 0)
         {
             var lhoraire = db.p_HoraireInscription.Where(x => x.id_Sess ==session || session==0).FirstOrDefault();
-
             if (lhoraire == null)
             {
                 ListeSession(0);
@@ -127,14 +108,11 @@ namespace sachem.Controllers
             {
                 ListeSession(lhoraire.id_Sess);
                 ViewBag.idSessHoraire = lhoraire.id_Sess;
-            }
-
-            
+            }            
             return View(lhoraire);
         }
 
 
-        
         [HttpPost]
         [ValidationAccesSuper]
         public ActionResult EditHoraire([Bind(Include = "id_Sess, DateDebut, DateFin, HeureDebut, HeureFin")] p_HoraireInscription HI)
