@@ -47,6 +47,7 @@ namespace sachem.Controllers
         public ActionResult EditContact()
         {
             var contact = db.p_Contact.First();
+            contact.Telephone = SachemIdentite.
             return View(contact);
         }
 
