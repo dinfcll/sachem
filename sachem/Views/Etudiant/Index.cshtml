@@ -1,5 +1,4 @@
-﻿@using sachem.Models
-@model PagedList.IPagedList<sachem.Models.PersonneProgEtu>
+﻿@model PagedList.IPagedList<sachem.Models.PersonneProgEtu>
 @{
     ViewBag.Title = "Étudiants";
 }
@@ -82,3 +81,4 @@
         }
 
     </table>
+@Html.Partial("_PageRecherche", Model)
