@@ -101,6 +101,12 @@ namespace sachem.Models
 
         [Display(Name = "Nom d'utilisateur")]
         public global::System.String NomUtilisateur;
+
+        [Display(Name = "Âge")]
+        public string Age;
+
+        [Display(Name = "Programme d'étude")]
+        public string ProgEtu;
     }
 
 }

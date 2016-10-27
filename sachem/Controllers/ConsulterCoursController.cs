@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data;
 using System.Linq;
 using System.Net;
 using System.Web.Mvc;
 using sachem.Models;
-
 namespace sachem.Controllers
 {
     public class ConsulterCoursController : Controller
@@ -15,7 +13,7 @@ namespace sachem.Controllers
 
         private readonly SACHEMEntities db = new SACHEMEntities();
 
-        List<TypeUsagers> RolesAcces = new List<TypeUsagers>() { TypeUsagers.Enseignant, TypeUsagers.Responsable, TypeUsagers.Super };
+        readonly List<TypeUsagers> RolesAcces = new List<TypeUsagers>() { TypeUsagers.Enseignant, TypeUsagers.Responsable, TypeUsagers.Super };
 
         // GET: ConsulterCours
         public ActionResult Index()
@@ -35,7 +33,7 @@ namespace sachem.Controllers
         private IEnumerable<Groupe> AfficherCoursAssignes()
         {
             var idSess = 0;
-            List<Groupe> listeCours = new List<Groupe>();
+            List<Groupe> listeCours;
 
             //Pour accéder à la valeur de cle envoyée en GET dans le formulaire
             //Request.QueryString["cle"]
@@ -77,7 +75,7 @@ namespace sachem.Controllers
 
                 ViewBag.IsEnseignant = true;
 
-                listeCours = trouverCoursUniques(listeInfoEns, listeIdUniques, ViewBag.IsEnseignant);
+                listeCours = TrouverCoursUniques(listeInfoEns, listeIdUniques, ViewBag.IsEnseignant);
 
                 return listeCours.ToList(); //retourne tous les cours à un enseignant
             }
@@ -96,7 +94,7 @@ namespace sachem.Controllers
 
                 ViewBag.IsEnseignant = false;
 
-                listeCours = trouverCoursUniques(listeInfoResp, listeIdUniques, ViewBag.IsEnseignant);
+                listeCours = TrouverCoursUniques(listeInfoResp, listeIdUniques, ViewBag.IsEnseignant);
 
                 return listeCours.ToList(); //retourne tous les cours
             }
@@ -104,50 +102,37 @@ namespace sachem.Controllers
 
 
         [NonAction]
-        private List<Groupe> trouverCoursUniques(IQueryable<Groupe> listeTout, IQueryable<int> _listeIdUniques, bool isEnseignant)
+        private List<Groupe> TrouverCoursUniques(IQueryable<Groupe> listeTout, IQueryable<int> listeIdUniques, bool isEnseignant)
         {
             List<Groupe> listeCours = new List<Groupe>();
-            int i = 0;
-            int compteurPos = 0;
             int idPrec = 0;
-            var tlid = _listeIdUniques.ToList();
+            var idUniques = listeIdUniques.ToList();
 
-            
             foreach(Groupe t in listeTout)
             {
-                foreach (var j in tlid)
+                foreach (var j in idUniques)
                 {
-                    if (t.id_Cours == tlid[i] && t.id_Cours != idPrec) //si id unique et pas encore traité
+                    if (t.id_Cours == j && t.id_Cours != idPrec) //si id unique et pas encore traité
                     {
                         idPrec = t.id_Cours;
-
                         if (!isEnseignant)
                         {
                             t.nomsConcatenesProfs = trouverNomsProfs(listeTout, t.id_Cours);
                         }
-
                         listeCours.Add(t);
-
-                        compteurPos = i;
                     }
-
-                    i++;
                 }
-
-                i = 0;
             }
-
             return listeCours;
-
         }
 
         [NonAction]
-        private string trouverNomsProfs(IQueryable<Groupe> _listeTout, int idCours)
+        private string trouverNomsProfs(IQueryable<Groupe> listeTout, int idCours)
         {
             string nomsProfs = "";
             List<string> listeNomsTemp = new List<string>();
 
-            var lNomsProfs = from c in _listeTout where c.id_Cours == idCours select c;
+            var lNomsProfs = from c in listeTout where c.id_Cours == idCours select c;
 
             foreach (var n in lNomsProfs)
             {
@@ -166,21 +151,20 @@ namespace sachem.Controllers
         [NonAction]
         private bool connexionValide(int idTypeUsager)
         {
-            bool valide = false;
-
             if (idTypeUsager == 2 || idTypeUsager == 3)
-                valide = true;
-
-            return valide;
+            {
+                return true;
+            }
+        return false;
         }
         
         //fonctions permettant d'initialiser les listes déroulantes
         [NonAction]
-        private void ListeSession(int _idSess = 0)
+        private void ListeSession(int idSess = 0)
         {
             var lSessions = db.Session.AsNoTracking().OrderBy(s => s.Annee).ThenBy(s => s.p_Saison.Saison);
             var slSession = new List<SelectListItem>();
-            slSession.AddRange(new SelectList(lSessions, "id_Sess", "NomSession", _idSess));
+            slSession.AddRange(new SelectList(lSessions, "id_Sess", "NomSession", idSess));
 
             ViewBag.Session = slSession;
         }
