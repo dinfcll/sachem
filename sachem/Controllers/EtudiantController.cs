@@ -29,27 +29,7 @@ namespace sachem.Controllers
       
         // GET: Etudiant/Details/5
         //fonction pour formatter le numéro de téléphone avant de mettre dans la bd
-        public static string FormatTelephone(string s)
-        {
-            var charsToRemove = new string[] { ".", "-", "(", " ", ")" };
-            foreach (var c in charsToRemove)
-            {
-                s = s.Replace(c, string.Empty);
-            }
-            return s;
-        }
-        //fonction qui remet le numéro de téléphone dans le bon format
-        public static string RemettreTel(string a)
-
-        {
-            string modif;
-            modif = a.Insert(0, "(");
-            modif = modif.Insert(4, ")");
-            modif = modif.Insert(5, " ");
-            modif = modif.Insert(9,"-");
-            return modif;
-        }
-
+      
         [ValidationAccesEnseignant]
         // GET: Etudiant/Create
         public ActionResult Create()
@@ -80,7 +60,7 @@ namespace sachem.Controllers
 
             personne.id_TypeUsag = 1;
             personne.Actif = true;
-            personne.Telephone = FormatTelephone(personne.Telephone);
+            personne.Telephone = SachemIdentite.FormatTelephone(personne.Telephone);
 
             pepp.personne = personne;
             
@@ -106,7 +86,7 @@ namespace sachem.Controllers
                 db.SaveChanges();
                 db.EtuProgEtude.Add(etuprog);
                 db.SaveChanges();
-                personne.Telephone = RemettreTel(personne.Telephone);
+                personne.Telephone = SachemIdentite.RemettreTel(personne.Telephone);
                 TempData["Success"] = Messages.I_010(personne.Matricule); // Message afficher sur la page d'index confirmant la création
                 return RedirectToAction("Index");
             }

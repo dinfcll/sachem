@@ -24,7 +24,7 @@ namespace sachem.Models
         public string NomUtilisateur { get; set; }
 
         [NotMappedAttribute]
-        public string AncienMotDePasse { get; set; }        
+        public string AncienMotDePasse { get; set; }
 
     }
     public class PersonneMetadata
@@ -100,7 +100,13 @@ namespace sachem.Models
         public int id_Sexe;
 
         [Display(Name = "Nom d'utilisateur")]
-        public string NomUtilisateur;
+        public global::System.String NomUtilisateur;
+
+        [Display(Name = "Âge")]
+        public string Age;
+
+        [Display(Name = "Programme d'étude")]
+        public string ProgEtu;
     }
 
 }

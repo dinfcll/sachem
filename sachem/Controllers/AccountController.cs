@@ -14,6 +14,7 @@ namespace sachem.Controllers
     [Authorize]
     public class AccountController : Controller
     {
+        private const int portCourriel = 587;
         private readonly SACHEMEntities db = new SACHEMEntities();//retirer le readonly de private
         public AccountController()
         {
@@ -68,7 +69,7 @@ namespace sachem.Controllers
             SmtpClient client = new SmtpClient();
             //Création du message envoyé par courriel
             MailMessage message = new MailMessage("sachemcllmail@gmail.com", Email, "Demande de réinitialisation de mot de passe", "Voici votre nouveau mot de passe: " + nouveaumdp + " .");
-            client.Port = 587;
+            client.Port = portCourriel;
             client.Host = "smtp.gmail.com";
             client.EnableSsl = true;
             client.Timeout = 10000;
@@ -128,21 +129,25 @@ namespace sachem.Controllers
             if (mdpPlain == "")
                 ModelState.AddModelError("MP", Messages.U_001); //Mot de passe requis
             else
-
                 if (NomUsager == null)
+                {
                     ModelState.AddModelError("NomUsager", Messages.U_001); //NomUsager/Matricule requis
+                }
                 else
-
                     if (Regex.IsMatch(NomUsager, @"^\d+$") && NomUsager.Length == 7) //Vérifie que le matricule est 7 de long et est numérique
-
+                    {
                         if (!db.Personne.Any(x => x.Matricule.Substring(2) == NomUsager))
+                        {
                             ModelState.AddModelError(string.Empty, Messages.I_017());  //Erreur de connection
+                        }
                         else
                             PersonneBD = db.Personne.AsNoTracking().Where(x => x.Matricule.Substring(2) == NomUsager).FirstOrDefault();
+                    }
                     else
-
                         if (!db.Personne.Any(x => x.NomUsager == NomUsager))
+                        {
                             ModelState.AddModelError(string.Empty, Messages.I_017());  //Erreur de connection
+                        }
                         else
                             PersonneBD = db.Personne.AsNoTracking().Where(x => x.NomUsager == NomUsager).FirstOrDefault();
             if (ModelState.IsValid)
@@ -161,12 +166,13 @@ namespace sachem.Controllers
 
                 //On va chercher le type d'inscription dans la BD pour le présent utilisateur (si c'est un étudiant, il faut donner le type soit tuteur ou élève)
                 var typeinscr = (from i in db.Inscription
-                                 where i.id_Pers == PersonneBD.id_Pers select i.id_TypeInscription).FirstOrDefault();
+                                 where i.id_Pers == PersonneBD.id_Pers
+                                 select i.id_TypeInscription).FirstOrDefault();
 
                 //On va chercher le id inscription pour identifier l'etudiant (eleve, tuteur) pour son dossier etudiant
                 var idinscr = (from i in db.Inscription
-                                 where i.id_Pers == PersonneBD.id_Pers
-                                 select i.id_Inscription).FirstOrDefault();
+                               where i.id_Pers == PersonneBD.id_Pers
+                               select i.id_Inscription).FirstOrDefault();
 
                 //conserver le typeinscrit
                 if (idinscr != 0)
@@ -177,19 +183,19 @@ namespace sachem.Controllers
                 //Si c'est un tuteur, on a type = 6
                 if (typeinscr > 1)
                 {
-                    SessionBag.Current.id_TypeUsag = 6;                    
+                    SessionBag.Current.id_TypeUsag = 6;
                 }
                 else
                 {
                     //sinon, c'est un élève aidé.
                     if (typeinscr == 1)
                     {
-                        SessionBag.Current.id_TypeUsag = 5; 
+                        SessionBag.Current.id_TypeUsag = 5;
                     }
                     //Si c'est pas un étudiant, on va chercher directement dans la BD pour voir le ID du type.
                     else
                     {
-                        SessionBag.Current.id_TypeUsag = PersonneBD.id_TypeUsag; 
+                        SessionBag.Current.id_TypeUsag = PersonneBD.id_TypeUsag;
                     }
                 }
 
@@ -251,7 +257,7 @@ namespace sachem.Controllers
             //Get le sexe du formulaire
             ViewBag.id_Sexe = new SelectList(db.p_Sexe, "id_Sexe", "Sexe");
 
-            var validation = ConfirmeMdp(personne.MP, personne.ConfirmPassword); 
+            var validation = ConfirmeMdp(personne.MP, personne.ConfirmPassword);
 
             if (!validation)
                 return View(personne);
@@ -288,7 +294,7 @@ namespace sachem.Controllers
                     {
                         db.SaveChanges();//essai de sauvegarder
                     }
-                    catch(System.Data.Entity.Validation.DbEntityValidationException dbEx)
+                    catch (System.Data.Entity.Validation.DbEntityValidationException dbEx)
                     {
                         Exception raise = dbEx;
                         foreach (var validationErrors in dbEx.EntityValidationErrors)
@@ -307,7 +313,7 @@ namespace sachem.Controllers
                     #endregion
 
                     ViewBag.Success = Messages.I_026();
-                 
+
                     return View();
                 }
             }
@@ -360,12 +366,12 @@ namespace sachem.Controllers
                 }
                 else
                 {
-                    ModelState.AddModelError(string.Empty,"Problème lors de l'envoi du courriel, le port 587 est bloqué.");
+                    ModelState.AddModelError(string.Empty, "Problème lors de l'envoi du courriel, le port" + portCourriel.ToString() + "est bloqué.");
                 }
             }
             else
             {
-                ModelState.AddModelError("Courriel",Messages.C_003);
+                ModelState.AddModelError("Courriel", Messages.C_003);
             }
             return View();
         }
@@ -386,9 +392,9 @@ namespace sachem.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public ActionResult ModifierPassword(Personne personne,string Modifier,string Annuler)
+        public ActionResult ModifierPassword(Personne personne, string Modifier, string Annuler)
         {
-            if(Annuler != null)//Verifier si c'est le bouton annuler qui a été cliqué
+            if (Annuler != null)//Verifier si c'est le bouton annuler qui a été cliqué
                 return RedirectToAction("Index", "Home");
 
             if (Modifier != null)//Si modifier mdp a été cliqué

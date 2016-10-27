@@ -10,20 +10,8 @@ namespace sachem.Controllers
 {
     public class ParametresController : Controller
     {
+        private const int idCourriel = 1;
         private readonly SACHEMEntities db = new SACHEMEntities();
-
-        [ValidationAccesSuper]
-        public ActionResult IndexModifier(int? id)
-        {
-            return View("Edit");
-        }
-
-        [ValidationAccesSuper]
-        public ActionResult Edit()
-        {
-            var contact = db.p_Contact.First();
-            return View(contact);
-        }
 
         [HttpGet]
         [ValidationAccesSuper]
@@ -36,17 +24,14 @@ namespace sachem.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult EditCourrier(Courriel courriel, p_TypeCourriel typeCourriel)
+        public ActionResult EditCourrier(Courriel courriel)
         {
-            ViewBag.id_TypeCourriel = new SelectList(db.p_TypeCourriel, "id_TypeCourriel", "TypeCourriel");
-            courriel.p_TypeCourriel = typeCourriel;
+            courriel.id_TypeCourriel = idCourriel;
             if (courriel.DateFin != null)
             {
                 if((courriel.DateDebut - courriel.DateFin.Value).TotalDays > 0)
-                {
                     ModelState.AddModelError(string.Empty, Messages.C_005);
                 }
-            }
 
             if (ModelState.IsValid)
             {
@@ -62,6 +47,7 @@ namespace sachem.Controllers
         public ActionResult EditContact()
         {
             var contact = db.p_Contact.First();
+            contact.Telephone = SachemIdentite.RemettreTel(contact.Telephone);
             return View(contact);
         }
 
@@ -70,104 +56,113 @@ namespace sachem.Controllers
         [ValidationAccesSuper]
         public ActionResult EditContact([Bind(Include = "id_Contact,Nom,Prenom,Courriel,Telephone,Poste,Facebook,SiteWeb,Local")] p_Contact contact)
         {
-            Valider(contact);
+            ValiderContact(contact);
 
             if (ModelState.IsValid)
             {
+                contact.Telephone = SachemIdentite.FormatTelephone(contact.Telephone);
                 db.Entry(contact).State = EntityState.Modified;
                 db.SaveChanges();
 
-                TempData["Success"] = string.Format(Messages.I_003(contact.Nom));
+                TempData["Success"] = string.Format(Messages.I_031());
                 return View(contact);
             }
             return View(contact);
         }
 
-        
+        [NonAction]
+        [ValidationAccesSuper]
+        private void ListeSession(int session = 0)
+        {
+            var lSessions = db.Session.AsNoTracking().OrderByDescending(y => y.Annee).ThenByDescending(x => x.id_Saison);
+            var slSession = new List<SelectListItem>();
+            slSession.AddRange(new SelectList(lSessions, "id_Sess", "NomSession", session));
+
+            ViewBag.id_Sess = slSession;
+        }
+
         //Méthode qui envoie a la view Edit horaire la liste de toutes les horaires d'inscription ainsi que l'horaire de la session courrante
         [ValidationAccesSuper]
-        public ActionResult EditHoraire()
+        public ActionResult EditHoraire(int session = 0)
         {
-            var horaire = db.p_HoraireInscription.First();
-
-            List<SelectListItem> horaireList = new List<SelectListItem>();
-
-            foreach (var item in db.p_HoraireInscription)
+            var lhoraire = db.p_HoraireInscription.Where(x => x.id_Sess ==session || session==0).FirstOrDefault();
+            if (lhoraire == null)
             {
-                var sess = db.Session.Find(item.id_Sess);
-                horaireList.Add
-                (
-                    new SelectListItem {Text = item.id_Sess.ToString(), Value = sess.NomSession}
-                );
+                ListeSession(0);
+                ViewBag.idSessHoraire = 0;
             }
-            return View(Tuple.Create(horaireList,horaire));
+            else
+            {
+                ListeSession(lhoraire.id_Sess);
+                ViewBag.idSessHoraire = lhoraire.id_Sess;
+            }            
+            return View(lhoraire);
         }
 
 
         
         [HttpPost]
         [ValidationAccesSuper]
-        public ActionResult EditHoraire([Bind(Prefix = "Item2")] p_HoraireInscription nouvelHoraire)
+        public ActionResult EditHoraire([Bind(Include = "id_Sess, DateDebut, DateFin, HeureDebut, HeureFin")] p_HoraireInscription HI)
         {
-            
-            var session = db.Session.Find(nouvelHoraire.id_Sess);
-            var saison = db.p_Saison.Find(session.id_Saison);
-            //regarde l'année
-            if (session.Annee != nouvelHoraire.DateFin.Year || session.Annee != nouvelHoraire.DateDebut.Year)
+            var id_Session = db.Session.AsNoTracking().OrderByDescending(y => y.Annee).ThenByDescending(x => x.id_Saison).FirstOrDefault();
+            Session session = db.Session.Find(HI.id_Sess);
+            if (id_Session.id_Sess == session.id_Sess)
             {
-                ModelState.AddModelError(string.Empty, Messages.C_006);
-        }
+                //regarde l'année
+                if (session.Annee != HI.DateDebut.Year || session.Annee != HI.DateFin.Year)
+                {
+                    ModelState.AddModelError(string.Empty, Messages.C_006);
+                }
 
-            //regarde si les dates sont bonnes
-            if((nouvelHoraire.DateFin - nouvelHoraire.DateDebut).TotalDays < 1)
-            {
-                ModelState.AddModelError(string.Empty, Messages.C_005);
-            }
-            //Regarder si cest les bon id (ps : ca lest pas)
-            switch (saison.id_Saison)
+                //regarde si les dates sont bonnes
+                if ((HI.DateFin - HI.DateDebut).TotalDays < 1)
+                {
+                    ModelState.AddModelError(string.Empty, Messages.C_005);
+                }
+                //Regarder si cest les bon id (ps : ca lest pas)
+                switch (session.p_Saison.id_Saison)
                 {
                     //Si hiver : de janvier inclus jusqua mai inclus (mois fin <= 5) pas besoin de verif la date de début
                     //car on est sur que c'est la bonne année et qu'elle est avant la date de fin
                     case 1:
-                        if (nouvelHoraire.DateFin.Month > new DateTime(1,5,1).Month)
+                        if (HI.DateFin.Month > new DateTime(1, 5, 1).Month)
                         {
                             ModelState.AddModelError(string.Empty, Messages.C_006);
                         }
                         break;
                     //Si ete : de juin inclus jusqua aout inclus (si mois du début >= 6 et mois fin <= 8)
                     case 2:
-                        if (new DateTime(1,6,1).Month > nouvelHoraire.DateDebut.Month || nouvelHoraire.DateFin.Month > new DateTime(1,8,1).Month)
+                        if (new DateTime(1, 6, 1).Month > HI.DateDebut.Month || HI.DateFin.Month > new DateTime(1, 8, 1).Month)
                         {
                             ModelState.AddModelError(string.Empty, Messages.C_006);
-        }
+                        }
                         break;
                     //si automne: de aout inclus jusqua decembre inclus (si mois du début >= 8 et mois fin <= 12)
                     //pas besoin de verif la date de fin car on est sur que c'est la bonne année et qu'elle est apres la date de début
                     case 3:
-                        if (new DateTime(1, 8, 1).Month > nouvelHoraire.DateDebut.Month)
+                        if (new DateTime(1, 8, 1).Month > HI.DateDebut.Month)
                         {
                             ModelState.AddModelError(string.Empty, Messages.C_006);
                         }
-                    break;
+                        break;
                 }
 
-            
-            if (ModelState.IsValid)
-            {
-                db.Entry(nouvelHoraire).State = EntityState.Modified;
-                db.SaveChanges();
-
-                return RedirectToAction("EditHoraire");
+                if (ModelState.IsValid)
+                {
+                    var SessionSurHI = db.p_HoraireInscription.AsNoTracking().OrderBy(x => x.id_Sess).FirstOrDefault();
+                    if (SessionSurHI.id_Sess != session.id_Sess)
+                    {
+                        db.Entry(HI).State = EntityState.Added;
+                    }
+                    else
+                    {
+                        db.Entry(HI).State = EntityState.Modified;
+                    }
+                    db.SaveChanges();
+                }
             }
             return RedirectToAction("EditHoraire");
-        }
-
-
-        [NonAction]
-        private void Valider([Bind(Include = "id_Contact,Nom,Prenom,Courriel,Telephone,Poste,Facebook,SiteWeb,Local")]p_Contact contact)
-        {
-            if (db.p_Contact.Any(r => r.id_Contact == contact.id_Contact && r.Prenom != contact.Prenom && r.Nom != contact.Nom))
-                ModelState.AddModelError(string.Empty, Messages.I_002(contact.id_Contact.ToString()));
         }
 
         [HttpGet]
@@ -179,6 +174,7 @@ namespace sachem.Controllers
         }
 
         [HttpPost]
+        [ValidationAccesSuper]
         public ActionResult EditCollege(string nomCollege, int? id)
         {
             
@@ -193,6 +189,7 @@ namespace sachem.Controllers
             return RedirectToAction("EditCollege");
         }
 
+        [HttpPost]
         [ValidationAccesSuper]
         public ActionResult AddCollege(string nomCollege)
         {
@@ -210,6 +207,7 @@ namespace sachem.Controllers
         }
 
         [HttpPost]
+        [ValidationAccesSuper]
         public void DeleteCollege(int? id)
         {
             var college = db.p_College.Find(id);
@@ -218,6 +216,13 @@ namespace sachem.Controllers
                 db.p_College.Remove(college);
                 db.SaveChanges();
             }
+        }
+
+        [NonAction]
+        private void ValiderContact([Bind(Include = "id_Contact,Nom,Prenom,Courriel,Telephone,Poste,Facebook,SiteWeb,Local")]p_Contact contact)
+        {
+            if (!db.p_Contact.Any(r => r.id_Contact == contact.id_Contact))
+                ModelState.AddModelError(string.Empty," ");
         }
     }
 }
