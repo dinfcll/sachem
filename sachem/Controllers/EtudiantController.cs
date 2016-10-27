@@ -10,7 +10,8 @@ using System.Data.Entity;
 namespace sachem.Controllers
 {
     public class EtudiantController : RechercheEtudiantController
-    {    
+    {
+        public const string constanteAnnee = "20";
         [ValidationAccesEnseignant]
         public ActionResult Index(int? page)
         {
@@ -63,12 +64,12 @@ namespace sachem.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [ValidationAccesEnseignant]
-        public ActionResult Create([Bind(Include = "id_Pers,id_Sexe,id_TypeUsag,Nom,Prenom,Matricule,MP,ConfirmPassword,Courriel,Telephone,DateNais")] Personne personne,int? page)
+        public ActionResult Create([Bind(Include = "id_Pers,id_Sexe,id_TypeUsag,Nom,Prenom,Matricule7,MP,ConfirmPassword,Courriel,Telephone,DateNais")] Personne personne,int? page)
         {
             personne.id_TypeUsag = 1;
             personne.Actif = true;
             personne.Telephone = FormatTelephone(personne.Telephone);
-
+            personne.Matricule = constanteAnnee + personne.Matricule7;
             Valider(personne);
             // Si les données sont valides, faire l'ajout
             if (ModelState.IsValid)
