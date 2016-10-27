@@ -5,6 +5,7 @@ using System.Linq;
 using System.Net;
 using System.Web.Mvc;
 using sachem.Models;
+using PagedList;
 
 namespace sachem.Controllers
 {
@@ -18,15 +19,17 @@ namespace sachem.Controllers
         List<TypeUsagers> RolesAcces = new List<TypeUsagers>() { TypeUsagers.Enseignant, TypeUsagers.Responsable, TypeUsagers.Super };
 
         // GET: ConsulterCours
-        public ActionResult Index()
+        public ActionResult Index(int? page)
         {
+            var noPage = (page ?? 1);
+
             if (!SachemIdentite.ValiderRoleAcces(RolesAcces, Session))
                 return RedirectToAction("Error", "Home", null);
 
             m_IdPers = SessionBag.Current.id_Pers;
             m_IdTypeUsage = SessionBag.Current.id_TypeUsag; // 2 = enseignant, 3 = responsable
 
-            return View(AfficherCoursAssignes());
+            return View(AfficherCoursAssignes().ToPagedList(noPage, 2));
 
         }
         
