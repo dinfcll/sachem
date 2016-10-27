@@ -68,16 +68,16 @@ namespace sachem.Controllers
             {
                 ListeSession(idSess); //créer liste Session pour le dropdown
 
-                var listeTout = (from c in db.Groupe
+                var listeInfoEns = (from c in db.Groupe
                            where (c.id_Sess == idSess && c.id_Enseignant == m_IdPers) || (idSess == 0 && c.id_Enseignant == m_IdPers)
                            orderby c.NoGroupe
                            select c).GroupBy(c => c.Cours.Nom).SelectMany(cours => cours);
 
-                var listeIdUniques = (from c in listeTout select c.id_Cours).Distinct();
+                var listeIdUniques = (from c in listeInfoEns select c.id_Cours).Distinct();
 
                 ViewBag.IsEnseignant = true;
 
-                listeCours = trouverCoursUniques(listeTout, listeIdUniques, ViewBag.IsEnseignant);
+                listeCours = trouverCoursUniques(listeInfoEns, listeIdUniques, ViewBag.IsEnseignant);
 
                 return listeCours.ToList(); //retourne tous les cours à un enseignant
             }
@@ -87,16 +87,16 @@ namespace sachem.Controllers
                 ListeSession(idSess); //créer liste Session pour le dropdown
                 ListePersonne(m_IdPers); //créer liste Enseignants pour le dropdown
 
-                var resp = (from c in db.Groupe
+                var listeInfoResp = (from c in db.Groupe
                            where c.id_Sess == (idSess == 0 ? c.id_Sess : idSess) && c.id_Enseignant == (m_IdPers == 0 ? c.id_Enseignant : m_IdPers)
                            orderby c.NoGroupe
                            select c).GroupBy(c => c.Cours.Nom).SelectMany(cours => cours);
 
-                var listeIdUniques = (from c in resp select c.id_Cours).Distinct();
+                var listeIdUniques = (from c in listeInfoResp select c.id_Cours).Distinct();
 
                 ViewBag.IsEnseignant = false;
 
-                listeCours = trouverCoursUniques(resp, listeIdUniques, ViewBag.IsEnseignant);
+                listeCours = trouverCoursUniques(listeInfoResp, listeIdUniques, ViewBag.IsEnseignant);
 
                 return listeCours.ToList(); //retourne tous les cours
             }
@@ -104,7 +104,7 @@ namespace sachem.Controllers
 
 
         [NonAction]
-        private List<Groupe> trouverCoursUniques(IQueryable<Groupe> _listeTout, IQueryable<int> _listeIdUniques, bool isEnseignant)
+        private List<Groupe> trouverCoursUniques(IQueryable<Groupe> listeTout, IQueryable<int> _listeIdUniques, bool isEnseignant)
         {
             List<Groupe> listeCours = new List<Groupe>();
             int i = 0;
@@ -113,7 +113,7 @@ namespace sachem.Controllers
             var tlid = _listeIdUniques.ToList();
 
             
-            foreach(Groupe t in _listeTout)
+            foreach(Groupe t in listeTout)
             {
                 foreach (var j in tlid)
                 {
@@ -123,7 +123,7 @@ namespace sachem.Controllers
 
                         if (!isEnseignant)
                         {
-                            t.nomsConcatenesProfs = trouverNomsProfs(_listeTout, t.id_Cours);
+                            t.nomsConcatenesProfs = trouverNomsProfs(listeTout, t.id_Cours);
                         }
 
                         listeCours.Add(t);
@@ -215,8 +215,8 @@ namespace sachem.Controllers
                     return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
                 }
 
-                var gr = from g in db.Groupe //obtenir les groupes en lien avec le cours trouvé
-                         where g.id_Cours == id
+                var gr = from g in db.Groupe //obtenir les groupes en lien avec le cours trouvé et le prof connexté
+                         where g.id_Cours == id && g.id_Enseignant == m_IdPers
                          orderby g.NoGroupe
                          select g;
 
