@@ -33,18 +33,21 @@
 
         <div class="form-group">
             @Html.LabelFor(model => model.Groupe.NoGroupe, "Groupe cible", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
+            <div>
                 @Html.DropDownList("id_groupedepl", null, htmlAttributes: new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.id_GroupeEtudiant, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <input type="hidden" display="none;" name="idGroupeEtudiant" value="@Model.id_GroupeEtudiant"> 
-        
 
-        <div class="form-actions no-color">
-            <input type="submit" value="Déplacer vers ce groupe" class="btn btn-default" /> |
-            @Html.ActionLink("Retour à la liste", "Edit", new { id = Model.Groupe.id_Groupe })
+       <div class="form-group">
+            <div class="col-md-offset-2">
+                <input type="submit" value="Déplacer vers ce groupe" class="btn btn-default" /> 
+            </div>
+       </div>
+        <div>
+            @Html.ActionLink("Retour à la modification du groupe", "Edit", new { id = Model.Groupe.id_Groupe })
         </div>
     }
 </div>
