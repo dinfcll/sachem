@@ -1,16 +1,18 @@
 ﻿@model sachem.Models.p_Contact
 
 @{
-    ViewBag.Title = "Edit";
+    ViewBag.Title = "Modification des informations de la page 'Nous contacter'";
 }
 
 <h2>Modifier les informations de la page Nous contacter</h2>
 
-@using (Html.BeginForm("Edit", "Parametres", FormMethod.Post))
+@using (Html.BeginForm("EditContact", "Parametres", FormMethod.Post))
 {
     @Html.AntiForgeryToken()
-    @Html.ViewBag.Success
-    @TempData["Success"]
+    <p class="text-success">
+        @Html.ViewBag.Success
+        @TempData["Success"]
+    </p>
 
     <div class="form-horizontal">
      
