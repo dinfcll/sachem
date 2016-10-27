@@ -303,6 +303,15 @@ namespace sachem.Models
         { return $"L'étudiant {Matricule} ne peut pas être déplacé au groupe {IdGroupe} du cours {NomCours},car il y est déjà!"; }
 
         /// <summary>
+        /// 'étudiant ne peut être supprimé s'il est jumelé"
+        /// </summary>
+        /// <param name="NomCollege"></param>
+        /// <returns></returns>
+        public static string I_043()
+        {
+            return $"L'étudiant ne peut être supprimé s'il est jumelé";
+        }
+        /// <summary>
         /// Le collège {0} à été ajouté"
         /// </summary>
         /// <param name="NomCollege"></param>
@@ -311,6 +320,7 @@ namespace sachem.Models
         {
             return $"Le collège {NomCollege} à été ajouté";
         }
+  
         #endregion
 
         #region MessageContexte

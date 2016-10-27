@@ -8,6 +8,8 @@
 
 <h3>Voulez-vous vraiment supprimer l'étudiant @Html.DisplayFor(model => model.PrenomNom) ?</h3>
 
+@Html.ValidationSummary(false, "", new { @class = "text-danger" })
+
 
 <div>
     <hr />
