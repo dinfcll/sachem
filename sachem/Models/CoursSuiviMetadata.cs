@@ -35,7 +35,7 @@ namespace sachem.Models
         public string id_Statut;
 
         [Display(Name = "Résultat")]
-        [DisplayFormat(DataFormatString = "{0:#\\%}", ApplyFormatInEditMode = true)]
+        //[DisplayFormat(DataFormatString = "{0:#\\%}", ApplyFormatInEditMode = true)]
         [Range(0, 100 , ErrorMessage = Messages.U_011)]
         public string resultat;
     }

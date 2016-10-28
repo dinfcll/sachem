@@ -4,9 +4,17 @@
     ViewBag.Title = "Supprimer un cours de mathématiques antérieur";
 }
 
-<h2>ViewBag.Title</h2>
+<h2>@ViewBag.Title</h2>
 
-<h4>@sachem.Models.Messages.Q_013(Model.Cours.CodeNom)</h4>
+@if (Model.autre_Cours == string.Empty || Model.autre_Cours == null)
+{
+    <h4>@sachem.Models.Messages.Q_013(Model.Cours.CodeNom)</h4>
+}
+else
+{
+    <h4>@sachem.Models.Messages.Q_013(Model.autre_Cours)</h4>
+}
+
 <div>
     <dl class="dl-horizontal">
         <dt>
