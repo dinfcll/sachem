@@ -78,7 +78,6 @@ namespace sachem.Controllers
             var lSessions = db.Session.AsNoTracking().OrderByDescending(y => y.Annee).ThenByDescending(x => x.id_Saison);
             var slSession = new List<SelectListItem>();
             slSession.AddRange(new SelectList(lSessions, "id_Sess", "NomSession", session));
-
             ViewBag.id_Sess = slSession;
         }
 
@@ -86,17 +85,13 @@ namespace sachem.Controllers
         [ValidationAccesSuper]
         public ActionResult EditHoraire(int session = 0)
         {
-            var lhoraire = db.p_HoraireInscription.Where(x => x.id_Sess ==session || session==0).FirstOrDefault();
-            if (lhoraire == null)
-            {
-                ListeSession(0);
-                ViewBag.idSessHoraire = 0;
-            }
-            else
-            {
-                ListeSession(lhoraire.id_Sess);
-                ViewBag.idSessHoraire = lhoraire.id_Sess;
-            }            
+            var idZero = db.Session.OrderByDescending(y => y.id_Sess).FirstOrDefault();
+            if (session == 0)
+                session = idZero.id_Sess;
+            ViewBag.idSess = session;
+            var lhoraire = db.p_HoraireInscription.OrderByDescending(y => y.id_Sess).Where(x => x.id_Sess ==session).FirstOrDefault();
+            ListeSession(session);
+            ViewBag.idSessStable = idZero.id_Sess;         
             return View(lhoraire);
         }
 
@@ -113,7 +108,7 @@ namespace sachem.Controllers
                 //regarde l'année
                 if (session.Annee != HI.DateDebut.Year || session.Annee != HI.DateFin.Year)
                 {
-                    ModelState.AddModelError(string.Empty, Messages.C_006);
+                    ModelState.AddModelError(string.Empty, Messages.C_006(session.Annee.ToString(),null));
                 }
 
                 //regarde si les dates sont bonnes
@@ -129,14 +124,14 @@ namespace sachem.Controllers
                     case 1:
                         if (HI.DateFin.Month > new DateTime(1, 5, 1).Month)
                         {
-                            ModelState.AddModelError(string.Empty, Messages.C_006);
+                            ModelState.AddModelError(string.Empty, Messages.C_006("d'hiver, janvier (01)"," à juin (06)"));
                         }
                         break;
                     //Si ete : de juin inclus jusqua aout inclus (si mois du début >= 6 et mois fin <= 8)
                     case 2:
                         if (new DateTime(1, 6, 1).Month > HI.DateDebut.Month || HI.DateFin.Month > new DateTime(1, 8, 1).Month)
                         {
-                            ModelState.AddModelError(string.Empty, Messages.C_006);
+                            ModelState.AddModelError(string.Empty, Messages.C_006("d'été, juin (06)", " à août (08)"));
                         }
                         break;
                     //si automne: de aout inclus jusqua decembre inclus (si mois du début >= 8 et mois fin <= 12)
@@ -144,15 +139,15 @@ namespace sachem.Controllers
                     case 3:
                         if (new DateTime(1, 8, 1).Month > HI.DateDebut.Month)
                         {
-                            ModelState.AddModelError(string.Empty, Messages.C_006);
+                            ModelState.AddModelError(string.Empty, Messages.C_006("d'hiver, août (08)", " à décembre (12)"));
                         }
                         break;
                 }
 
                 if (ModelState.IsValid)
                 {
-                    var SessionSurHI = db.p_HoraireInscription.AsNoTracking().OrderBy(x => x.id_Sess).FirstOrDefault();
-                    if (SessionSurHI.id_Sess != session.id_Sess)
+                    var SessionSurHI = db.p_HoraireInscription.AsNoTracking().Where(x => x.id_Sess == session.id_Sess).FirstOrDefault();
+                    if (SessionSurHI == null)
                     {
                         db.Entry(HI).State = EntityState.Added;
                     }
@@ -163,7 +158,11 @@ namespace sachem.Controllers
                     db.SaveChanges();
                 }
             }
-            return RedirectToAction("EditHoraire");
+            var idZero = db.Session.OrderByDescending(y => y.id_Sess).FirstOrDefault();
+            ViewBag.idSess = session.id_Sess;
+            ListeSession(session.id_Sess);
+            ViewBag.idSessStable = idZero.id_Sess;
+            return View(HI);
         }
 
         [HttpGet]

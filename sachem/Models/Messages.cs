@@ -369,7 +369,8 @@ namespace sachem.Models
         /// Les dates de début et de fin doivent faire partie de la session sélectionnée.
         /// </summary>
         /// <returns></returns>
-        public const string C_006 = "Les dates de début et de fin doivent faire partie de la session sélectionnée.";
+        public static string C_006 (string param1, string param2)
+        { return $"Les dates de début et de fin doivent faire partie de la session {param1}{param2}."; }
 
         /// <summary>
         /// Un des deux champs {0}, {1} doit être complété.
