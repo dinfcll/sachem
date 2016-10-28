@@ -115,11 +115,6 @@ namespace sachem.Controllers
                         superviseur = Int32.Parse(tanciennerech[3]);
                         ViewBag.Superviseur = superviseur;
                     }
-
-                }
-                if (tanciennerech[4] != "")
-                {
-                    noPage = Int32.Parse(tanciennerech[4]);
                 }
             }
             else//POST
@@ -238,7 +233,6 @@ namespace sachem.Controllers
             noPage = (page ?? noPage);
 
             return View(Rechercher().ToPagedList(noPage, 20));
-            //return View(Rechercher());
         }
 
         // GET: DossierEtudiant/Details/5
