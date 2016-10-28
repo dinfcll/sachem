@@ -56,12 +56,10 @@ namespace sachem.Controllers
         {
 
             PersonneEtuProgParent pepp = new PersonneEtuProgParent();
-            //personne.id_Sexe = Int32.Parse(Request.Form["id_Sexe"]);
 
             personne.id_TypeUsag = 1;
             personne.Actif = true;
             personne.Telephone = SachemIdentite.FormatTelephone(personne.Telephone);
-
             pepp.personne = personne;
             
 
@@ -70,8 +68,8 @@ namespace sachem.Controllers
 
             if (Request.Form["id_Programme"] != "" && Request.Form["id_Session"] != "")
             {
-                etuprog.id_ProgEtu = Int32.Parse(Request.Form["id_Programme"]);
-                etuprog.id_Sess = Int32.Parse(Request.Form["id_Session"]);
+                etuprog.id_ProgEtu = int.Parse(Request.Form["id_Programme"]);
+                etuprog.id_Sess = int.Parse(Request.Form["id_Session"]);
                 var idEtu = db.Personne.AsNoTracking().OrderByDescending(p => p.id_Pers).FirstOrDefault();
                 etuprog.id_Etu = idEtu.id_Pers;
             }
