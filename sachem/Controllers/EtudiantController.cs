@@ -34,15 +34,12 @@ namespace sachem.Controllers
         // GET: Etudiant/Create
         public ActionResult Create()
         {
-            //   s.lSexe = new SelectList(db.p_Sexe, "id_Sexe", "Sexe");
-
             ViewBag.id_Sexe = db.p_Sexe;
             ViewBag.Selected = 0;
             ViewBag.id_TypeUsag = new SelectList(db.p_TypeUsag, "id_TypeUsag", "TypeUsag");
             ViewBag.id_Programme = new SelectList(db.ProgrammeEtude, "id_ProgEtu", "nomProg");
             ViewBag.id_Session = new SelectList(db.Session, "id_Sess", "NomSession");
 
-            //return View();
             return View();
         }
 
@@ -163,7 +160,6 @@ namespace sachem.Controllers
                 db.Entry(pepp.personne).State = EntityState.Modified;
                 db.SaveChanges();
                 TempData["Success"] = Messages.I_045(personne.NomPrenom);
-                //redirection à l'index après la suppression
                 return RedirectToAction("Index");
             }
             //Mise à jour Viewbag
