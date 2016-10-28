@@ -18,11 +18,13 @@
 <script type="text/javascript">
     function Modifier(id) {
         var nouveauNomCollege = document.getElementById("NomCollege").value;
-        $.ajax({
-            url: "/Parametres/EditCollege",
-            data: { "nomCollege": nouveauNomCollege ,"id": id},
-            type: "POST"
-    });
+        if (confirm("Êtes-vous sûr de vouloir modifier ce collège d'enseignement ?")) {
+            $.ajax({
+                url: "/Parametres/EditCollege",
+                data: { "nomCollege": nouveauNomCollege, "id": id },
+                type: "POST"
+            });
+        }
     }
 </script>
 @using (Ajax.BeginForm("AddCollege", "Parametres", new AjaxOptions
