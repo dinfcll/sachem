@@ -230,24 +230,7 @@ namespace sachem.Controllers
             ViewBag.idg = idg;
             Groupe groupe = db.Groupe.Find(idg);
             IEnumerable<Personne> personnes = RechercherEleve();
-
-            db.Configuration.LazyLoadingEnabled = false;
-
-                /*requête LINQ qui va chercher tous les étudiants répondant aux critères de recherche ainsi que leur programme d'étude actuel. */
-            var lstEtu = from q in
-                         (from p in personnes.Where(x => /*x.Actif == true &&  x.GroupeEtudiant.Any(y => y.id_Groupe == idg) && */ 
-                           x.EtuProgEtude.Any(y => y.id_Sess == groupe.id_Sess)).OrderBy(x => x.Nom)
-                            select new
-                            {
-                                Personne = p,
-                                ProgEtu = (from pe in db.EtuProgEtude where p.id_Pers == pe.id_Etu && db.ProgrammeEtude.Any(y=> y.id_ProgEtu == pe.id_ProgEtu) orderby pe.id_Sess descending select pe).FirstOrDefault().ProgrammeEtude,
-                            }).AsEnumerable()
-                            orderby q.Personne.Nom, q.Personne.Prenom
-                            // le résultat de la requête sera une liste de PersonneProgEtu (déclaré plus haut),
-                            // si l'objet n'est pas déclaré, la vue dynamique n'est pas capable d'évaluer correctement
-                            select new PersonneProgEtu { personne = q.Personne, progEtuActif = q.ProgEtu };
-            db.Configuration.LazyLoadingEnabled = true;
-
+            var lstEtu = personnes.Join(db.EtuProgEtude, p => p.id_Pers, epe => epe.id_Etu, (p, epe) => new PersEtuProg(p,epe)).OrderBy(x=>x.p.Nom);
             var pageNumber = page ?? 1;
             ViewBag.page = pageNumber;
             TempData["idg"] = idg;
