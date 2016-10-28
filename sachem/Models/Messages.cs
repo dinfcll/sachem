@@ -62,7 +62,7 @@ namespace sachem.Models
         ///<param name="nomProgrammeEtude"></param>
         /// <returns></returns>
         public static string I_007(string nomProgrammeEtude)
-        { return $"Le programme d'études {nomProgrammeEtude} a été enregistré"; }
+        { return $"Le programme d'études {nomProgrammeEtude} a été enregistré."; }
 
         ///<summary>
         /// Le programme d'études {0} a été supprimé
@@ -70,7 +70,7 @@ namespace sachem.Models
         ///<param name="nomProgrammeEtude"></param>
         /// <returns></returns>
         public static  string I_008(string nomProgrammeEtude)
-        {  return $"Le programme d'études {nomProgrammeEtude} a été supprimer"; }
+        {  return $"Le programme d'études {nomProgrammeEtude} a été supprimé."; }
 
 
         /// <summary>
@@ -89,13 +89,6 @@ namespace sachem.Models
         public static string I_010(string Etudiant)
         { return $"L'étudiant {Etudiant} a été enregistré."; }
 
-        /// <summary>
-        /// Impossible d’enregistrer ce cours. Il existe déjà dans votre liste de cours suivi antérieurement.
-        /// </summary>
-        /// <param name="Cours"></param>
-        /// <returns></returns>
-        public static string I_036()
-        { return "Impossible d’enregistrer ce cours. Il existe déjà dans votre liste de cours suivi antérieurement"; }
         public static string I_011(string Programme)
         { return $"Impossible de retirer le programme d'étude {Programme} des programmes suivis par l'étudiant."; }
 
@@ -233,9 +226,9 @@ namespace sachem.Models
         /// l'enseignant {0} a été supprimer.
         /// </summary>
         /// <param name="NomUsager"></param>
-        /// <returns></returns>private string I_009(string cours)
+        /// <returns></returns>
         public static string I_029(string Enseignant)
-        { return $"L'Enseignant {Enseignant} a été supprimé."; }
+        { return $"L'enseignant {Enseignant} a été supprimé."; }
 
         /// <summary>
         /// L’horaire d’inscription au SACHEM a été mis à jour.
@@ -243,6 +236,14 @@ namespace sachem.Models
         /// <returns></returns>
         public static string I_030()
         { return $"L’horaire d’inscription au SACHEM a été mis à jour."; }
+
+
+        ///<summary>
+        /// L’information de la section « Nous contacter » a été mise à jour.
+        /// </summary>
+        /// <returns></returns>
+        public static string I_031()
+        { return $"L’information de la section « Nous contacter » a été mise à jour."; }
 
         /// <summary>
         /// Le courriel a été mis à jour
@@ -271,6 +272,13 @@ namespace sachem.Models
         /// <returns></returns>
         public static string I_035(string Fichier)
         { return $"Un fichier {Fichier} de même nom est déjà présent sur le serveur."; }
+
+        /// <summary>
+        /// Impossible d’enregistrer ce cours. Il existe déjà dans votre liste de cours suivis antérieurement.
+        /// </summary>
+        /// <returns></returns>
+        public static string I_036()
+        { return "Impossible d’enregistrer ce cours. Il existe déjà dans votre liste de cours suivis antérieurement."; }
 
         /// <summary>
         /// Un responsable ne peut pas se supprimer lui-même
@@ -311,6 +319,8 @@ namespace sachem.Models
         {
             return $"Le collège {NomCollege} à été ajouté";
         }
+        public static string I_045(string NomEtudiant)
+        { return $"L'étudiant {NomEtudiant} a été modifié."; }
         #endregion
 
         #region MessageContexte

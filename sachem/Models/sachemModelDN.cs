@@ -53,6 +53,7 @@ namespace sachem.Models
     //redéfinition de la classe partielle
     public partial class ProgrammeEtude
     {
+
         //concaténation du code et du nom de programme formatté
         public string CodeNomProgramme
         {
@@ -71,7 +72,8 @@ namespace sachem.Models
 
     public partial class Groupe
     {
-
+        public string CodeNomGroupe => $"{Cours.CodeNom} ({NoGroupe})";
+        public string nomsConcatenesProfs { get; set; }
     }
 
     public partial class PersonneProgEtu

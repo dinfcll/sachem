@@ -1043,7 +1043,7 @@
             <PropertyRef Name="id_Pers" />
           </Key>
           <Property Name="id_Pers" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="id_Sexe" Type="Int32" />
+          <Property Name="id_Sexe" Type="Int32" Nullable="true" />
           <Property Name="id_TypeUsag" Type="Int32" Nullable="false" />
           <Property Name="Nom" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
           <Property Name="Prenom" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
