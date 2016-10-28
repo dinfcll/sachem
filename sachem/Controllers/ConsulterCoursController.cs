@@ -29,7 +29,7 @@ namespace sachem.Controllers
             m_IdPers = SessionBag.Current.id_Pers;
             m_IdTypeUsage = SessionBag.Current.id_TypeUsag; // 2 = enseignant, 3 = responsable
 
-            return View(AfficherCoursAssignes().ToPagedList(noPage, 2));
+            return View(AfficherCoursAssignes().ToPagedList(noPage, 10));
 
         }
         
@@ -38,6 +38,7 @@ namespace sachem.Controllers
         private IEnumerable<Groupe> AfficherCoursAssignes()
         {
             var idSess = 0;
+            var idPersonne = 0;
             List<Groupe> listeCours = new List<Groupe>();
 
             //Pour accéder à la valeur de cle envoyée en GET dans le formulaire
@@ -46,7 +47,13 @@ namespace sachem.Controllers
             //Request.Form["cle"]
             //Cette méthode fonctionnera dans les 2 cas
             //Request["cle"]
-            if (Request.RequestType == "GET" && Session["DernRechCours"] != null && (string)Session["DernRechCoursUrl"] == Request.Url?.LocalPath)
+
+            string reqType = Request.RequestType;
+            //int dernRechCours = (int)Session["DernRechCours"];
+            string dernRechCoursUrl = (string)Session["DernRechCoursUrl"];
+            string localPath = Request.Url?.LocalPath;
+
+            if (reqType == "GET" && Session["DernRechCours"] != null && dernRechCoursUrl == localPath)
             {
                 var anciennerech = (string)Session["DernRechCours"];
                 var tanciennerech = anciennerech.Split(';');
@@ -55,17 +62,30 @@ namespace sachem.Controllers
                 {
                     idSess = int.Parse(tanciennerech[0]);
                 }
-
+                if (tanciennerech[1] != "")
+                {
+                    idPersonne = int.Parse(tanciennerech[1]);
+                }
             }
             else
             {
-                //La méthode String.IsNullOrEmpty permet à la fois de vérifier si la chaine est NULL (lors du premier affichage de la page ou vide, lorsque le paramètre n'est pas appliquée 
-                if (!string.IsNullOrEmpty(Request.Form["Session"]))
+                if (Session["DernRechCours"] != null)
+                {
+                    //chercher idSess
                     int.TryParse(Request.Form["Session"], out idSess);
-                //si la variable est null c'est que la page est chargée pour la première fois, donc il faut assigner la session à la session en cours, la plus grande dans la base de données
-                else if (Request.Form["Session"] == null)
+                    //chercher personne
+                    int.TryParse(Request.Form["Personne"], out idPersonne);
+                }
+                else if(Request.Form["Session"] == null || Request.Form["Personne"] == null)
+                {
                     idSess = db.Session.Max(s => s.id_Sess);
+                    idPersonne = 0;
+                }
             }
+
+            //on enregistre la recherche
+            Session["DernRechCours"] = idSess + ";" + idPersonne;
+            Session["DernRechCoursUrl"] = Request.Url?.LocalPath;
 
             if (m_IdTypeUsage == 2) //enseignant
             {
