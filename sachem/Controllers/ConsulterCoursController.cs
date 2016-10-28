@@ -173,7 +173,7 @@ namespace sachem.Controllers
         private void ListePersonne(int idPersonne)
         {
             var lPersonne = from p in db.Personne
-                            where (p.id_TypeUsag == 2 || p.id_TypeUsag == 3 ) && p.Actif == true
+                            where (p.id_TypeUsag == (int)TypeUsagers.Enseignant || p.id_TypeUsag == (int)TypeUsagers.Responsable) && p.Actif == true
                             orderby p.Nom,p.Prenom
                             select p;
             var slPersonne = new List<SelectListItem>();
