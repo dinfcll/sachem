@@ -56,20 +56,27 @@ namespace sachem.Controllers
             personne.Telephone = SachemIdentite.FormatTelephone(personne.Telephone);
             personne.Matricule = CONSTANTE20 + personne.Matricule;
             pepp.personne = personne;
-            
+
+            Valider(pepp.personne);
+            if(ConfirmeMdp(personne.MP, personne.ConfirmPassword) == false)
+            {
+                ViewBag.id_Sexe = db.p_Sexe;
+                ViewBag.Selected = 0;
+                ViewBag.id_TypeUsag = new SelectList(db.p_TypeUsag, "id_TypeUsag", "TypeUsag");
+                ViewBag.id_Programme = new SelectList(db.ProgrammeEtude, "id_ProgEtu", "nomProg");
+                ViewBag.id_Session = new SelectList(db.Session, "id_Sess", "NomSession");
+                return View(pepp);
+            }
 
             var etuprog = new EtuProgEtude();
-
-
             if (Request.Form["id_Programme"] != "" && Request.Form["id_Session"] != "")
             {
                 etuprog.id_ProgEtu = int.Parse(Request.Form["id_Programme"]);
                 etuprog.id_Sess = int.Parse(Request.Form["id_Session"]);
-                var idEtu = db.Personne.AsNoTracking().OrderByDescending(p => p.id_Pers).FirstOrDefault();
-                etuprog.id_Etu = idEtu.id_Pers;
+                etuprog.id_Etu = personne.id_Pers;
+                db.EtuProgEtude.Add(etuprog);
             }
 
-            Valider(pepp.personne);
             // Si les données sont valides, faire l'ajout
             if (ModelState.IsValid)
             {
@@ -77,19 +84,10 @@ namespace sachem.Controllers
                 pepp.personne.ConfirmPassword = SachemIdentite.encrypterChaine(pepp.personne.ConfirmPassword); // Encryption du mot de passe   
                 db.Personne.Add(pepp.personne);
                 db.SaveChanges();
-                db.EtuProgEtude.Add(etuprog);
-                db.SaveChanges();
                 personne.Telephone = SachemIdentite.RemettreTel(personne.Telephone);
                 TempData["Success"] = Messages.I_010(personne.Matricule7); // Message afficher sur la page d'index confirmant la création
                 return RedirectToAction("Index");
             }
-            ViewBag.id_Sexe = db.p_Sexe;
-            ViewBag.Selected = 0;
-            ViewBag.id_TypeUsag = new SelectList(db.p_TypeUsag, "id_TypeUsag", "TypeUsag");
-            ViewBag.id_Programme = new SelectList(db.ProgrammeEtude, "id_ProgEtu", "nomProg");
-            ViewBag.id_Session = new SelectList(db.Session, "id_Sess", "NomSession");
-
-
             return View(pepp);
         }
 
@@ -145,14 +143,16 @@ namespace sachem.Controllers
             pepp.epe = Prog.ToList();
 
             //Ajout du programme d'étude (Si l'étudiant rajoute les champs)
-            if (Request.Form["id_Programme"] != "" && Request.Form["id_Session"] != "")
-            {
-                etuprog.id_ProgEtu = Int32.Parse(Request.Form["id_Programme"]);
-                etuprog.id_Sess = Int32.Parse(Request.Form["id_Session"]);
-                etuprog.id_Etu = personne.id_Pers;
-                db.EtuProgEtude.Add(etuprog);
-                db.SaveChanges();
-            }
+
+      
+                if (Request.Form["id_Programme"] != "" && Request.Form["id_Session"] != ""&& ConfirmeMdp(personne.MP, personne.ConfirmPassword) == true)
+                  {
+                    etuprog.id_ProgEtu = Int32.Parse(Request.Form["id_Programme"]);
+                    etuprog.id_Sess = Int32.Parse(Request.Form["id_Session"]);
+                    etuprog.id_Etu = personne.id_Pers;
+                    db.EtuProgEtude.Add(etuprog);
+                    db.SaveChanges();
+                   }
             if (ModelState.IsValid)
             {
                 db.Entry(pepp.personne).State = EntityState.Modified;
@@ -300,6 +300,15 @@ namespace sachem.Controllers
             }
             base.Dispose(disposing);
         }
-
+        private bool ConfirmeMdp(string s1, string s2)
+        {
+            if (s1 != s2)
+            {
+                ModelState.AddModelError("ConfirmPassword", Messages.C_001);
+                TempData["Echec"] = Messages.C_001;
+                return false;
+            }
+            return true;
+        }
     }
 }
