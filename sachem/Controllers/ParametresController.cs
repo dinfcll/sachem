@@ -235,12 +235,5 @@ namespace sachem.Controllers
                 db.SaveChanges();
             }
         }
-
-        [NonAction]
-        private void Valider([Bind(Include = "id_Contact,Nom,Prenom,Courriel,Telephone,Poste,Facebook,SiteWeb,Local")]p_Contact contact)
-        {
-            if (!db.p_Contact.Any(r => r.id_Contact == contact.id_Contact))
-                ModelState.AddModelError(string.Empty," ");
-        }
     }
 }

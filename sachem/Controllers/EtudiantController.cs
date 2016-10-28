@@ -167,7 +167,6 @@ namespace sachem.Controllers
             
             return View(personne);
         }
-
         // POST: Etudiant/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
@@ -179,11 +178,18 @@ namespace sachem.Controllers
             var inscription = db.Inscription.Where(x => x.id_Pers == personne.id_Pers).FirstOrDefault();
 
             if (db.GroupeEtudiant.Any(x => x.id_Etudiant == personne.id_Pers))
+            {
                 ModelState.AddModelError(string.Empty, Messages.I_014());
+                TempData["Echec"] = Messages.I_014();
+            }
+             
             if (inscription != null)
             {
                 if (db.Jumelage.Any(x => x.id_InscEleve == inscription.id_Inscription))
+                {
                     ModelState.AddModelError(string.Empty, Messages.I_043());//changer erreur
+                    TempData["Echec"] = Messages.I_043();
+                }
             }
             if (ModelState.IsValid)
             {
@@ -200,12 +206,9 @@ namespace sachem.Controllers
             db.Personne.Remove(personne);
             db.SaveChanges();
             TempData["Success"] = Messages.I_028(personne.NomPrenom);
-            //redirection à l'index après la suppression
             }
-            else { }
-
+            //redirection à l'index après la suppression
             return RedirectToAction("Index");
-
         }
         //fonction qui supprime un programme d'étude à oartir de la page modifier
         public ActionResult deleteProgEtu(int idProg, int idPers, int Valider = 0)

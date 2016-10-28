@@ -110,7 +110,7 @@ namespace sachem.Models
         /// </summary>
         /// <returns></returns>
         public static string I_014()
-        { return "l'étudiant ne peut être supprimé"; }
+        { return "L'étudiant ne peut être supprimé, car il est associé à un groupe"; }
 
         /// <summary>
         /// Le nom d'utilisateur est déjà utilisé.
