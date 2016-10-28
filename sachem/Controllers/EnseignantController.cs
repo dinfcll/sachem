@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
@@ -41,13 +40,16 @@ namespace sachem.Controllers
             if (ModelState.IsValid)
             {
                 if (personne.MP == null)
-                    ModelState.AddModelError("MP",Messages.U_001);
+                {
+                    ModelState.AddModelError("MP", Messages.U_001);
+                }
                 else
                 {
                     SachemIdentite.encrypterMPPersonne(ref personne); // Encryption du mot de passe
                     db.Personne.Add(personne);
                     db.SaveChanges();
-                    TempData["Success"] = Messages.Q_004(personne.NomUsager, personne.id_Pers); // Message afficher sur la page d'index confirmant la création
+                    TempData["Success"] = Messages.Q_004(personne.NomUsager, personne.id_Pers);
+                        // Message afficher sur la page d'index confirmant la création
                     return RedirectToAction("Index");
                 }
             }
@@ -147,7 +149,6 @@ namespace sachem.Controllers
             return View("Index", Rechercher().ToPagedList(pageNumber, 20)); // retour à index avec les divisions par page
         }
 
-        [NonAction]
         protected override void Dispose(bool disposing)
         {
             if (disposing)
@@ -157,7 +158,6 @@ namespace sachem.Controllers
             base.Dispose(disposing);
         }
 
-        [NonAction]
         private void ListeEnseignant(int Enseignant = 0)
         {
             var lEnseignant = db.Personne.AsNoTracking().OrderBy(p => p.Nom).ThenBy(p => p.Prenom);
@@ -167,25 +167,20 @@ namespace sachem.Controllers
             ViewBag.Enseignant = slEnseignant;
         }
 
-        [NonAction]
-        private bool Cochee()
+        private bool SiEstCochee()
         {
-            //Vérifier si la case est cocher ou non
             return !string.IsNullOrEmpty(Request.Form["Actif"]);
         }
 
-        //Fonction pour gérer la recherche, elle est utilisée dans la suppression et dans l'index
-        [NonAction]
         private IEnumerable<Personne> Rechercher()
         {
             var enseignant = 0;
             var actif = true;
 
-            // Verifier si la case a cocher est coché ou non
-            if (Cochee())
+            if (SiEstCochee())
+            {
                 actif = Request.Form["Actif"].StartsWith("true");
-
-
+            }
             ViewBag.Actif = actif;
             // liste et pagination
             ListeEnseignant(enseignant);
@@ -200,16 +195,18 @@ namespace sachem.Controllers
             return Enseignant.ToList();
         }
 
-        [NonAction]
         private void Valider([Bind(Include = "id_Pers,id_Sexe,id_TypeUsag,Nom,Prenom,NomUsager,MP,ConfirmPassword,Courriel,DateNais,Actif")] Personne personne)
         {
-            if (db.Personne.Any(x => x.NomUsager == personne.NomUsager && x.id_Pers != personne.id_Pers))// Verifier si le nom d'usager existe ou s'il a entré son ancient nom
+            if (db.Personne.Any(x => x.NomUsager == personne.NomUsager && x.id_Pers != personne.id_Pers))
+            {
                 ModelState.AddModelError(string.Empty, Messages.I_013(personne.NomUsager));
+            }
             if (personne.MP != personne.ConfirmPassword)
+            {
                 ModelState.AddModelError(string.Empty, Messages.C_001);
+            }
         }
 
-        [NonAction]
         private void RemplirDropList()
         {
             // afficher les listes déroulantes contenant le type d'usager et le sexe
@@ -218,7 +215,6 @@ namespace sachem.Controllers
             ViewBag.id_TypeUsag = new SelectList(db.p_TypeUsag.Where(x => x.id_TypeUsag == ID_ENSEIGNANT || x.id_TypeUsag == ID_RESP), "id_TypeUsag", "TypeUsag");
         }
 
-        [NonAction]
         private void RemplirDropList(Personne personne)
         {
             // affiche les sexes dans la dropList et sélectionne par défaut la valeur dans le paramètre personne.
