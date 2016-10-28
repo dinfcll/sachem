@@ -328,7 +328,8 @@ namespace sachem.Models
         {
             return $"Le collège {NomCollege} à été ajouté";
         }
-  
+        public static string I_045(string NomEtudiant)
+        { return $"L'étudiant {NomEtudiant} a été modifié."; }
         #endregion
 
         #region MessageContexte
