@@ -54,20 +54,27 @@ namespace sachem.Controllers
             personne.Telephone = SachemIdentite.FormatTelephone(personne.Telephone);
             personne.Matricule = CONSTANTE20 + personne.Matricule;
             pepp.personne = personne;
-            
-
-            var etuprog = new EtuProgEtude();
-
-
-            if (Request.Form["id_Programme"] != "" && Request.Form["id_Session"] != "")
-            {
-                etuprog.id_ProgEtu = Int32.Parse(Request.Form["id_Programme"]);
-                etuprog.id_Sess = Int32.Parse(Request.Form["id_Session"]);
-                var idEtu = db.Personne.AsNoTracking().OrderByDescending(p => p.id_Pers).FirstOrDefault();
-                etuprog.id_Etu = idEtu.id_Pers;
-            }
 
             Valider(pepp.personne);
+            if(ConfirmeMdp(personne.MP, personne.ConfirmPassword) == false)
+            {
+                ViewBag.id_Sexe = db.p_Sexe;
+                ViewBag.Selected = 0;
+                ViewBag.id_TypeUsag = new SelectList(db.p_TypeUsag, "id_TypeUsag", "TypeUsag");
+                ViewBag.id_Programme = new SelectList(db.ProgrammeEtude, "id_ProgEtu", "nomProg");
+                ViewBag.id_Session = new SelectList(db.Session, "id_Sess", "NomSession");
+                return View(pepp);
+            }
+
+            var etuprog = new EtuProgEtude();
+            if (Request.Form["id_Programme"] != "" && Request.Form["id_Session"] != "")
+            {
+                etuprog.id_ProgEtu = int.Parse(Request.Form["id_Programme"]);
+                etuprog.id_Sess = int.Parse(Request.Form["id_Session"]);
+                etuprog.id_Etu = personne.id_Pers;
+                db.EtuProgEtude.Add(etuprog);
+            }
+
             // Si les données sont valides, faire l'ajout
             if (ModelState.IsValid)
             {
@@ -75,19 +82,10 @@ namespace sachem.Controllers
                 pepp.personne.ConfirmPassword = SachemIdentite.encrypterChaine(pepp.personne.ConfirmPassword); // Encryption du mot de passe   
                 db.Personne.Add(pepp.personne);
                 db.SaveChanges();
-                db.EtuProgEtude.Add(etuprog);
-                db.SaveChanges();
                 personne.Telephone = SachemIdentite.RemettreTel(personne.Telephone);
                 TempData["Success"] = Messages.I_010(personne.Matricule7); // Message afficher sur la page d'index confirmant la création
                 return RedirectToAction("Index");
             }
-            ViewBag.id_Sexe = db.p_Sexe;
-            ViewBag.Selected = 0;
-            ViewBag.id_TypeUsag = new SelectList(db.p_TypeUsag, "id_TypeUsag", "TypeUsag");
-            ViewBag.id_Programme = new SelectList(db.ProgrammeEtude, "id_ProgEtu", "nomProg");
-            ViewBag.id_Session = new SelectList(db.Session, "id_Sess", "NomSession");
-
-
             return View(pepp);
         }
 
@@ -143,20 +141,21 @@ namespace sachem.Controllers
             pepp.epe = Prog.ToList();
 
             //Ajout du programme d'étude (Si l'étudiant rajoute les champs)
-            if (Request.Form["id_Programme"] != "" && Request.Form["id_Session"] != "")
-            {
-                etuprog.id_ProgEtu = Int32.Parse(Request.Form["id_Programme"]);
-                etuprog.id_Sess = Int32.Parse(Request.Form["id_Session"]);
-                etuprog.id_Etu = personne.id_Pers;
-                db.EtuProgEtude.Add(etuprog);
-                db.SaveChanges();
-            }
+
+      
+                if (Request.Form["id_Programme"] != "" && Request.Form["id_Session"] != ""&& ConfirmeMdp(personne.MP, personne.ConfirmPassword) == true)
+                  {
+                    etuprog.id_ProgEtu = Int32.Parse(Request.Form["id_Programme"]);
+                    etuprog.id_Sess = Int32.Parse(Request.Form["id_Session"]);
+                    etuprog.id_Etu = personne.id_Pers;
+                    db.EtuProgEtude.Add(etuprog);
+                    db.SaveChanges();
+                   }
             if (ModelState.IsValid)
             {
                 db.Entry(pepp.personne).State = EntityState.Modified;
                 db.SaveChanges();
                 TempData["Success"] = Messages.I_045(personne.NomPrenom);
-                //redirection à l'index après la suppression
                 return RedirectToAction("Index");
             }
             //Mise à jour Viewbag
@@ -195,7 +194,7 @@ namespace sachem.Controllers
         public ActionResult DeleteConfirmed(int id,int? page)
         {
             var pageNumber = page ?? 1;
-                Personne personne = db.Personne.Find(id);
+            Personne personne = db.Personne.Find(id);
             var inscription = db.Inscription.Where(x => x.id_Pers == personne.id_Pers).FirstOrDefault();
 
             if (db.GroupeEtudiant.Any(x => x.id_Etudiant == personne.id_Pers))
@@ -214,19 +213,19 @@ namespace sachem.Controllers
             }
             if (ModelState.IsValid)
             {
-                var etuProgEtu = db.EtuProgEtude.Where(x => x.id_Etu == personne.id_Pers);
-                db.EtuProgEtude.RemoveRange(etuProgEtu);
-                var groupeEtu = db.GroupeEtudiant.Where(y => y.id_Etudiant == personne.id_Pers);
-                db.GroupeEtudiant.RemoveRange(groupeEtu);
-                var Jumul = db.Jumelage.Where(z => z.id_InscEleve == personne.id_Pers);
-                db.Jumelage.RemoveRange(Jumul);
-                var Inscri = db.Inscription.Where(a => a.id_Pers == personne.id_Pers);
-                db.Inscription.RemoveRange(Inscri);
-                var CoursSuiv = db.CoursSuivi.Where(b => b.id_Pers == personne.id_Pers);
-                db.CoursSuivi.RemoveRange(CoursSuiv);
-                db.Personne.Remove(personne);
-                db.SaveChanges();
-                TempData["Success"] = Messages.I_028(personne.NomPrenom);
+            var etuProgEtu = db.EtuProgEtude.Where(x => x.id_Etu == personne.id_Pers);
+            db.EtuProgEtude.RemoveRange(etuProgEtu);
+            var groupeEtu = db.GroupeEtudiant.Where(y => y.id_Etudiant == personne.id_Pers);
+            db.GroupeEtudiant.RemoveRange(groupeEtu);
+            var Jumul = db.Jumelage.Where(z => z.id_InscEleve == personne.id_Pers);
+            db.Jumelage.RemoveRange(Jumul);
+            var Inscri = db.Inscription.Where(a => a.id_Pers == personne.id_Pers);
+            db.Inscription.RemoveRange(Inscri);
+            var CoursSuiv = db.CoursSuivi.Where(b => b.id_Pers == personne.id_Pers);
+            db.CoursSuivi.RemoveRange(CoursSuiv);
+            db.Personne.Remove(personne);
+            db.SaveChanges();
+            TempData["Success"] = Messages.I_028(personne.NomPrenom);
             }
             return RedirectToAction("Index");
         }
@@ -265,14 +264,14 @@ namespace sachem.Controllers
                     else
                     {
                         TempData["Echec"] = Messages.I_011(etuprog.ProgrammeEtude.CodeNomProgramme);
-                    }
+                }
                 }
                 return RedirectToAction("Edit", "Etudiant", new { id = idPers });
             }
             TempData["id_Pers"] = idPers;         
             TempData["id_Prog"] = idProg;
             return RedirectToAction("Edit", "Etudiant", new { id = idPers });
-        }
+         }
 
         private void Valider([Bind(Include = "id_Pers,id_Sexe,id_TypeUsag,Nom,Prenom,NomUsager,MP,ConfirmPassword,Courriel,DateNais,Actif")] Personne personne)
         {
@@ -289,7 +288,7 @@ namespace sachem.Controllers
             {
                 ModelState.AddModelError(string.Empty, Messages.I_004(personne.Matricule));
 
-        }
+            }
         }
         protected override void Dispose(bool disposing)
         {
@@ -299,6 +298,15 @@ namespace sachem.Controllers
             }
             base.Dispose(disposing);
         }
-
+        private bool ConfirmeMdp(string s1, string s2)
+        {
+            if (s1 != s2)
+            {
+                ModelState.AddModelError("ConfirmPassword", Messages.C_001);
+                TempData["Echec"] = Messages.C_001;
+                return false;
+            }
+            return true;
+        }
     }
 }

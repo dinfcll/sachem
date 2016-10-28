@@ -56,7 +56,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.personne.ConfirmPassword, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.PasswordFor(model => model.personne.ConfirmPassword, new { @class = "form-control", placeholder = "Mot de passe"})
+                @Html.PasswordFor(model => model.personne.ConfirmPassword, new { @class = "form-control", placeholder = "Confirmation de mot de passe"})
                 @Html.ValidationMessageFor(model => model.personne.ConfirmPassword, "", new { @class = "text-danger" })
             </div>
         </div>
