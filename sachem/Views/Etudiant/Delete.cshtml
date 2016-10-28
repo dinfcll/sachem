@@ -1,12 +1,14 @@
 ﻿@model sachem.Models.Personne
 
 @{
-    ViewBag.Title = "Supprimer";
+    ViewBag.Title = "Supprimer étudiant";
 }
 
-<h2>Supprimer un étudiant</h2>
+<h2>@ViewBag.Title</h2>
 
 <h3>Voulez-vous vraiment supprimer l'étudiant @Html.DisplayFor(model => model.PrenomNom) ?</h3>
+
+@Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
 
 <div>

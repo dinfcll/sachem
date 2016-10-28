@@ -1,16 +1,16 @@
 ﻿@model Tuple<sachem.Models.Inscription, IEnumerable<sachem.Models.CoursSuivi>, IEnumerable<sachem.Models.Inscription>>
 
 @{
-    ViewBag.Title = "Details";
+    ViewBag.Title = "Dossier de l'étudiant";
 }
-<h2>Dossier de l'étudiant</h2>
+<h2>@ViewBag.Title</h2>
 
 @using (Html.BeginForm("Details", "DossierEtudiant", FormMethod.Post, new { @class = "form-inline", role = "form" }))
 {
     @Html.AntiForgeryToken()
 <div>
     <h4>Identification de l'étudiant</h4>
-    <hr /> @*Pas comme exemple mais beau*@
+    <hr />
     <dl class="dl-horizontal">
         @Html.HiddenFor(model => model.Item1.Personne.id_Pers)
         @Html.HiddenFor(model => model.Item1.id_Inscription)
@@ -61,12 +61,12 @@ else
         <dd>
 @if (sachem.Models.SachemIdentite.ObtenirTypeUsager(Session) == sachem.Models.TypeUsagers.Tuteur || sachem.Models.SachemIdentite.ObtenirTypeUsager(Session) == sachem.Models.TypeUsagers.Eleve)
 {
-            @Html.EditorFor(model => model.Item1.Personne.Telephone, new { htmlAttributes = new { @class = "form-control", @placeholder = "(999) 999-9999", @maxlength = "14" } })
+            @Html.EditorFor(model => model.Item1.Personne.Telephone, new { htmlAttributes = new { @class = "form-control", @placeholder = "(999) 999-9999", @maxlength = "14", @type = "tel", @Value = String.Format("{0:(###) ###-####}", Convert.ToInt64(Model.Item1.Personne.Telephone)) } })
             @Html.ValidationMessageFor(model => model.Item1.Personne.Telephone, "", new { @class = "text-danger" })
 }
 else
 {
-            @Html.DisplayFor(model => model.Item1.Personne.Telephone)
+            @(String.Format("{0:(###) ###-####}", Convert.ToInt64(Model.Item1.Personne.Telephone)))
 }
         </dd>
 @if (sachem.Models.SachemIdentite.ObtenirTypeUsager(Session) == sachem.Models.TypeUsagers.Eleve || ViewBag.idTypeInsc == 1)

@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Net;
 using System.Web.Mvc;
 using sachem.Models;
+using PagedList;
+
 namespace sachem.Controllers
 {
     public class ConsulterCoursController : Controller
@@ -13,18 +16,20 @@ namespace sachem.Controllers
 
         private readonly SACHEMEntities db = new SACHEMEntities();
 
-        readonly List<TypeUsagers> RolesAcces = new List<TypeUsagers>() { TypeUsagers.Enseignant, TypeUsagers.Responsable, TypeUsagers.Super };
+        List<TypeUsagers> RolesAcces = new List<TypeUsagers>() { TypeUsagers.Enseignant, TypeUsagers.Responsable, TypeUsagers.Super };
 
         // GET: ConsulterCours
-        public ActionResult Index()
+        public ActionResult Index(int? page)
         {
+            var noPage = (page ?? 1);
+
             if (!SachemIdentite.ValiderRoleAcces(RolesAcces, Session))
                 return RedirectToAction("Error", "Home", null);
 
             m_IdPers = SessionBag.Current.id_Pers;
             m_IdTypeUsage = SessionBag.Current.id_TypeUsag; // 2 = enseignant, 3 = responsable
 
-            return View(AfficherCoursAssignes());
+            return View(AfficherCoursAssignes().ToPagedList(noPage, 10));
 
         }
         
@@ -33,7 +38,8 @@ namespace sachem.Controllers
         private IEnumerable<Groupe> AfficherCoursAssignes()
         {
             var idSess = 0;
-            var listeCours = new List<Groupe>();
+            var idPersonne = 0;
+            List<Groupe> listeCours = new List<Groupe>();
 
             //Pour accéder à la valeur de cle envoyée en GET dans le formulaire
             //Request.QueryString["cle"]
@@ -41,7 +47,13 @@ namespace sachem.Controllers
             //Request.Form["cle"]
             //Cette méthode fonctionnera dans les 2 cas
             //Request["cle"]
-            if (Request.RequestType == "GET" && Session["DernRechCours"] != null && (string)Session["DernRechCoursUrl"] == Request.Url?.LocalPath)
+
+            string reqType = Request.RequestType;
+            //int dernRechCours = (int)Session["DernRechCours"];
+            string dernRechCoursUrl = (string)Session["DernRechCoursUrl"];
+            string localPath = Request.Url?.LocalPath;
+
+            if (reqType == "GET" && Session["DernRechCours"] != null && dernRechCoursUrl == localPath)
             {
                 var anciennerech = (string)Session["DernRechCours"];
                 var tanciennerech = anciennerech.Split(';');
@@ -50,16 +62,30 @@ namespace sachem.Controllers
                 {
                     idSess = int.Parse(tanciennerech[0]);
                 }
+                if (tanciennerech[1] != "")
+                {
+                    idPersonne = int.Parse(tanciennerech[1]);
+                }
             }
             else
             {
-                //La méthode String.IsNullOrEmpty permet à la fois de vérifier si la chaine est NULL (lors du premier affichage de la page ou vide, lorsque le paramètre n'est pas appliquée 
-                if (!string.IsNullOrEmpty(Request.Form["Session"]))
+                if (Session["DernRechCours"] != null)
+                {
+                    //chercher idSess
                     int.TryParse(Request.Form["Session"], out idSess);
-                //si la variable est null c'est que la page est chargée pour la première fois, donc il faut assigner la session à la session en cours, la plus grande dans la base de données
-                else if (Request.Form["Session"] == null)
+                    //chercher personne
+                    int.TryParse(Request.Form["Personne"], out idPersonne);
+                }
+                else if(Request.Form["Session"] == null || Request.Form["Personne"] == null)
+                {
                     idSess = db.Session.Max(s => s.id_Sess);
+                    idPersonne = 0;
+                }
             }
+
+            //on enregistre la recherche
+            Session["DernRechCours"] = idSess + ";" + idPersonne;
+            Session["DernRechCoursUrl"] = Request.Url?.LocalPath;
 
             if (m_IdTypeUsage == 2) //enseignant
             {
@@ -74,13 +100,12 @@ namespace sachem.Controllers
 
                 ViewBag.IsEnseignant = true;
 
-                listeCours = TrouverCoursUniques(listeInfoEns, listeIdUniques, ViewBag.IsEnseignant);
+                listeCours = trouverCoursUniques(listeInfoEns, listeIdUniques, ViewBag.IsEnseignant);
 
                 return listeCours.ToList(); //retourne tous les cours à un enseignant
             }
             else //responsable
             {
-                Int32.TryParse(Request.Form["Personne"], out m_IdPers); //seuls les responsables le voient
                 ListeSession(idSess); //créer liste Session pour le dropdown
                 ListePersonne(m_IdPers); //créer liste Enseignants pour le dropdown
 
@@ -93,44 +118,58 @@ namespace sachem.Controllers
 
                 ViewBag.IsEnseignant = false;
 
-                listeCours = TrouverCoursUniques(listeInfoResp, listeIdUniques, ViewBag.IsEnseignant);
+                listeCours = trouverCoursUniques(listeInfoResp, listeIdUniques, ViewBag.IsEnseignant);
 
                 return listeCours.ToList(); //retourne tous les cours
             }
         }
 
+
         [NonAction]
-        private List<Groupe> TrouverCoursUniques(IQueryable<Groupe> listeTout, IQueryable<int> listeIdUniques, bool isEnseignant)
+        private List<Groupe> trouverCoursUniques(IQueryable<Groupe> listeTout, IQueryable<int> _listeIdUniques, bool isEnseignant)
         {
             List<Groupe> listeCours = new List<Groupe>();
+            int i = 0;
+            int compteurPos = 0;
             int idPrec = 0;
-            var idUniques = listeIdUniques.ToList();
+            var tlid = _listeIdUniques.ToList();
 
-            foreach(Groupe groupe in listeTout)
+            
+            foreach(Groupe t in listeTout)
             {
-                foreach (var id in idUniques)
+                foreach (var j in tlid)
                 {
-                    if (groupe.id_Cours == id && groupe.id_Cours != idPrec) //si id unique et pas encore traité
+                    if (t.id_Cours == tlid[i] && t.id_Cours != idPrec) //si id unique et pas encore traité
                     {
-                        idPrec = groupe.id_Cours;
+                        idPrec = t.id_Cours;
+
                         if (!isEnseignant)
                         {
-                            groupe.nomsConcatenesProfs = trouverNomsProfs(listeTout, groupe.id_Cours);
+                            t.nomsConcatenesProfs = trouverNomsProfs(listeTout, t.id_Cours);
                         }
-                        listeCours.Add(groupe);
+
+                        listeCours.Add(t);
+
+                        compteurPos = i;
                     }
+
+                    i++;
                 }
+
+                i = 0;
             }
+
             return listeCours;
+
         }
 
         [NonAction]
-        private string trouverNomsProfs(IQueryable<Groupe> listeTout, int idCours)
+        private string trouverNomsProfs(IQueryable<Groupe> _listeTout, int idCours)
         {
             string nomsProfs = "";
             List<string> listeNomsTemp = new List<string>();
 
-            var lNomsProfs = from c in listeTout where c.id_Cours == idCours select c;
+            var lNomsProfs = from c in _listeTout where c.id_Cours == idCours select c;
 
             foreach (var n in lNomsProfs)
             {
@@ -149,33 +188,35 @@ namespace sachem.Controllers
         [NonAction]
         private bool connexionValide(int idTypeUsager)
         {
+            bool valide = false;
+
             if (idTypeUsager == 2 || idTypeUsager == 3)
-            {
-                return true;
-            }
-        return false;
+                valide = true;
+
+            return valide;
         }
         
         //fonctions permettant d'initialiser les listes déroulantes
         [NonAction]
-        private void ListeSession(int idSess = 0)
+        private void ListeSession(int _idSess = 0)
         {
             var lSessions = db.Session.AsNoTracking().OrderBy(s => s.Annee).ThenBy(s => s.p_Saison.Saison);
             var slSession = new List<SelectListItem>();
-            slSession.AddRange(new SelectList(lSessions, "id_Sess", "NomSession", idSess));
+            slSession.AddRange(new SelectList(lSessions, "id_Sess", "NomSession", _idSess));
 
             ViewBag.Session = slSession;
         }
 
         //fonctions permettant d'initialiser les listes déroulantes
         [NonAction]
-        private void ListePersonne(int idPersonne = 0)
+        private void ListePersonne(int idPersonne)
         {
             var lPersonne = from p in db.Personne
-                            where p.id_TypeUsag == 2
+                            where (p.id_TypeUsag == (int)TypeUsagers.Enseignant || p.id_TypeUsag == (int)TypeUsagers.Responsable) && p.Actif == true
+                            orderby p.Nom,p.Prenom
                             select p;
             var slPersonne = new List<SelectListItem>();
-            slPersonne.AddRange(new SelectList(lPersonne, "id_Pers", "PrenomNom", idPersonne));
+            slPersonne.AddRange(new SelectList(lPersonne, "id_Pers", "NomPrenom", idPersonne));
 
             ViewBag.Personne = slPersonne;
         }

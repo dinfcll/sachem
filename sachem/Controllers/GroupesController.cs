@@ -14,26 +14,48 @@ namespace sachem.Controllers
     {
         private readonly SACHEMEntities db = new SACHEMEntities();
 
-        [NonAction]
-        private void RegisterViewbags()
+        private IEnumerable<Object> ObtenirListeEnseignant(int session)
         {
-            int? idPers = (Session["id_Pers"] == null ? -1 : (int)Session["id_Pers"]);
-            bool verif = SachemIdentite.ObtenirTypeUsager(Session) == TypeUsagers.Responsable;
-            int sess = db.Session.Max(s => s.id_Sess);
-            ViewBag.Sessions = new SelectList(db.Session.OrderByDescending(s => s.id_Sess), "id_Sess", "NomSession", sess);
-            var ens = from c in db.Personne where c.id_TypeUsag == 2 && (verif ? true : c.id_Pers == (idPers == -1 ? c.id_Pers : idPers)) && c.Actif == true orderby c.Nom, c.Prenom select c;
-            ViewBag.Enseignants = new SelectList(ens, "id_Pers", "NomPrenom");
-            ViewBag.Cours = new SelectList(db.Cours.Where(x => x.Actif == true).OrderBy(x => x.Code), "id_Cours", "CodeNom");
+            var ens = db.Personne
+                .AsNoTracking()
+                .Join(db.Groupe, p => p.id_Pers, g => g.id_Enseignant, (p, g) => new { Personne = p, Groupe = g })
+                .Where(sel => sel.Personne.id_TypeUsag == 2 && (sel.Groupe.id_Sess == session || session == 0))
+                .OrderBy(x => x.Personne.Prenom).ThenBy(x => x.Personne.Nom)
+                .Select(e => new { e.Personne.id_Pers, NomPrenom = e.Personne.Nom + ", " + e.Personne.Prenom })
+                .Distinct();
+            return ens.AsEnumerable();
         }
-        
+
+        private IEnumerable<Object> ObtenirListeCours(int session,int enseignant)
+        {
+            var cours = db.Cours.Join(db.Groupe, c => c.id_Cours, g => g.id_Cours, (c, g) => new { Cours = c, Groupe = g })
+                        .Where(sel => (sel.Groupe.id_Sess == session || session == 0) && (sel.Groupe.id_Enseignant == enseignant || enseignant == 0))
+                        .OrderBy(x => x.Cours.Nom).ThenBy(x=>x.Cours.Code).Select(c=> new { c.Cours.id_Cours, CodeNom = c.Cours.Code + "-" + c.Cours.Nom })
+                        .Distinct();
+            return cours.AsEnumerable();
+        }
+
+        [AcceptVerbs("Get", "Post")]
+        public virtual JsonResult ActualiseCours(int enseignant = 0 ,int session = 0)
+        {
+            var actucours = ObtenirListeCours(session, enseignant);
+            return Json(actucours.ToList(), JsonRequestBehavior.AllowGet);
+        }
+
+        [AcceptVerbs("Get", "Post")]
+        public virtual JsonResult ActualiseEnseignant(int session = 0)
+        {
+            var actuens = ObtenirListeEnseignant(session);
+            return Json(actuens.ToList(), JsonRequestBehavior.AllowGet);
+        }
+
         // GET: Groupes
         [ValidationAccesEnseignant]
-        public ActionResult Index(int? page, int? id)
+        public ActionResult Index(int? page)
         {
-            RegisterViewbags();
             var pageNumber = page ?? 1;
             ViewBag.Disabled = sDisabled();
-            return View(Rechercher(id).ToPagedList(pageNumber, 20));
+            return View(Rechercher().ToPagedList(pageNumber, 20));
         }
 
         // GET: Groupes/Create
@@ -100,7 +122,6 @@ namespace sachem.Controllers
         }
 
         [ValidationAccesEnseignant]
-        [NonAction]
         private ActionResult CreateEdit([Bind(Include = "id_Groupe,id_Cours,id_Sess,id_Enseignant,NoGroupe")] Groupe groupe, bool Ajouter = false)
         {
             Valider(groupe);
@@ -172,51 +193,69 @@ namespace sachem.Controllers
             return RedirectToAction("Index");
         }
 
-        [NonAction]
-        private IEnumerable<Groupe> Rechercher(int? id)
+        private IEnumerable<Groupe> Rechercher()
         {
             IQueryable<Groupe> groupes;
             int idPers = (Session["id_Pers"] == null ? -1 : (int)Session["id_Pers"]);
             bool verif = SachemIdentite.ObtenirTypeUsager(Session) == TypeUsagers.Responsable;
             int idSess = 0, idEns = (SachemIdentite.ObtenirTypeUsager(Session) == TypeUsagers.Enseignant ? idPers : 0), idCours = 0;
-            if (id != null)
+
+            if (Request.RequestType == "GET" && Session["DernRechCours"] != null && Session["DernRechCoursUrl"].ToString() == Request.Url?.LocalPath)
             {
-                groupes = from d in db.Groupe
-                          where d.id_Enseignant == id
-                          orderby d.Session.p_Saison.Saison, d.Session.Annee, d.Cours.Code, d.Cours.Nom, d.NoGroupe
-                          select d;
+                var anciennerech = Session["DernRechCours"].ToString();
+                var tanciennerech = anciennerech.Split(';');
+
+                if (tanciennerech[0] != "")
+                {
+                    idSess = int.Parse(tanciennerech[0]);
+                }
+                if (tanciennerech[1] != "")
+                {
+                    idEns = int.Parse(tanciennerech[1]);
+                }
+                if (tanciennerech[2] != "")
+                {
+                    idCours = int.Parse(tanciennerech[2]);
+                }
+
             }
+
             else
             {
-                if (Request.RequestType == "POST")
+                if (!string.IsNullOrEmpty(Request.Form["Sessions"]))
                 {
                     int.TryParse(Request.Form["Sessions"], out idSess);
-                    int.TryParse(Request.Form["Enseignants"], out idEns);
-                    int.TryParse(Request["Cours"], out idCours);
-
-                    RegisterViewbags();
-
-                    groupes = from d in db.Groupe
-                              where d.id_Cours == (idCours == 0 ? d.id_Cours : idCours) && d.id_Enseignant == (idEns == 0 ? d.id_Enseignant : idEns) && d.id_Sess == (idSess == 0 ? d.id_Sess : idSess)
-                              orderby d.Session.p_Saison.Saison, d.Session.Annee, d.Cours.Code, d.Cours.Nom, d.NoGroupe
-                              select d;
                 }
-                else
+                else if (Request.Form["Sessions"] == null)
                 {
-                    groupes = from d in db.Groupe
-                              where d.id_Enseignant == (idPers == -1 || verif ? d.id_Enseignant : idPers)
-                              orderby d.Session.p_Saison.Saison, d.Session.Annee, d.Cours.Code, d.Cours.Nom, d.NoGroupe
-                              select d;
+                    idSess = db.Session.Max(s => s.id_Sess);
                 }
+                if (verif)
+                {
+                    int.TryParse(Request.Form["Enseignants"], out idEns);
+                }
+                int.TryParse(Request["Cours"], out idCours);
             }
+            groupes = from d in db.Groupe
+                        where d.id_Cours == (idCours == 0 ? d.id_Cours : idCours) && d.id_Enseignant == (idEns == 0 ? d.id_Enseignant : idEns) && d.id_Sess == (idSess == 0 ? d.id_Sess : idSess)
+                        orderby d.Session.p_Saison.Saison, d.Session.Annee, d.Cours.Code, d.Cours.Nom, d.NoGroupe
+                        select d;
 
-            
+            //on enregistre la recherche
+            Session["DernRechCours"] = idSess + ";" + idEns + ";" + idCours;
+            Session["DernRechCoursUrl"] = Request.Url?.LocalPath;
+
+            ViewBag.Sessions = new SelectList(db.Session.OrderByDescending(s => s.id_Sess), "id_Sess", "NomSession", idSess);
+            ViewBag.Enseignants = new SelectList((verif ? ObtenirListeEnseignant(idSess): db.Personne.AsNoTracking().Where(e => e.id_TypeUsag == 2 && e.id_Pers == idPers)
+                                                    .Select(e => new { e.id_Pers, NomPrenom = e.Nom + ", " + e.Prenom }).AsEnumerable()), "id_Pers", "NomPrenom", idEns);
+            ViewBag.Cours = new SelectList(ObtenirListeCours(idSess,idEns), "id_Cours", "CodeNom", idCours);
+
+
             return groupes.ToList();
         }
 
         protected override void Dispose(bool disposing)
         {
-
             if (disposing)
             {
                 db.Dispose();
@@ -230,24 +269,7 @@ namespace sachem.Controllers
             ViewBag.idg = idg;
             Groupe groupe = db.Groupe.Find(idg);
             IEnumerable<Personne> personnes = RechercherEleve();
-
-            db.Configuration.LazyLoadingEnabled = false;
-
-                /*requête LINQ qui va chercher tous les étudiants répondant aux critères de recherche ainsi que leur programme d'étude actuel. */
-            var lstEtu = from q in
-                         (from p in personnes.Where(x => /*x.Actif == true &&  x.GroupeEtudiant.Any(y => y.id_Groupe == idg) && */ 
-                           x.EtuProgEtude.Any(y => y.id_Sess == groupe.id_Sess)).OrderBy(x => x.Nom)
-                            select new
-                            {
-                                Personne = p,
-                                ProgEtu = (from pe in db.EtuProgEtude where p.id_Pers == pe.id_Etu && db.ProgrammeEtude.Any(y=> y.id_ProgEtu == pe.id_ProgEtu) orderby pe.id_Sess descending select pe).FirstOrDefault().ProgrammeEtude,
-                            }).AsEnumerable()
-                            orderby q.Personne.Nom, q.Personne.Prenom
-                            // le résultat de la requête sera une liste de PersonneProgEtu (déclaré plus haut),
-                            // si l'objet n'est pas déclaré, la vue dynamique n'est pas capable d'évaluer correctement
-                            select new PersonneProgEtu { personne = q.Personne, progEtuActif = q.ProgEtu };
-            db.Configuration.LazyLoadingEnabled = true;
-
+            var lstEtu = personnes.Join(db.EtuProgEtude, p => p.id_Pers, epe => epe.id_Etu, (p, epe) => new PersEtuProg(p,epe)).OrderBy(x=>x.p.Nom);
             var pageNumber = page ?? 1;
             ViewBag.page = pageNumber;
             TempData["idg"] = idg;
@@ -377,11 +399,10 @@ namespace sachem.Controllers
             GroupeEtudiant ge2 = g.GroupeEtudiant.Where(x => x.id_Etudiant == ge.id_Etudiant).ToList().FirstOrDefault();
 
             if ( ge2 != null && ge.Groupe.id_Sess == ge2.Groupe.id_Sess && ge.id_Etudiant == ge2.id_Etudiant)
-                {
-                    TempData["Success"] = Messages.I_041(ge.Personne.Matricule7, g.NoGroupe, g.Cours.Nom);
-
-                }
-             else 
+            {
+                TempData["Success"] = Messages.I_041(ge.Personne.Matricule7, g.NoGroupe, g.Cours.Nom);
+            }
+            else 
             {
                 ge.Groupe = g;
                 db.SaveChanges();
@@ -391,7 +412,6 @@ namespace sachem.Controllers
             return RedirectToAction("Index");
         }
 
-        [NonAction]
         private IEnumerable<Personne> RechercherEleve()
         {
             IEnumerable<Personne> personnes = null;
@@ -411,34 +431,13 @@ namespace sachem.Controllers
             }
             return personnes;
         }
-
-        public virtual JsonResult ActualiseEnseignant(int session = 0)
-        {
-            var a = db.Groupe.Where(x => (x.id_Sess == session || session == 0)).ToList();
-            List<Personne> ens = new List<Personne>();
-            foreach(var x in a)
-            {
-                ens.Add(x.Personne);
-            }
-            return Json(ens.AsEnumerable(), JsonRequestBehavior.AllowGet);
-        }
-
-        public virtual JsonResult ActualiseCours(int session = 0, int ens = 0)
-        {
-            var a = db.Groupe.Where(x => (x.id_Sess == session || session == 0)).Where(x => (x.id_Enseignant == ens || ens == 0));
-            List<Cours> cours = new List<Cours>();
-            foreach(var x in a)
-            {
-                cours.Add(x.Cours);
-            }
-            return Json(cours.AsEnumerable(), JsonRequestBehavior.AllowGet);
-        }
  
-        [NonAction]
         private void Valider([Bind(Include = "id_Groupe,id_Cours,id_Sess,id_Enseignant,NoGroupe")] Groupe groupe)
         {
             if (db.Groupe.Any(r => r.NoGroupe == groupe.NoGroupe && r.id_Sess == groupe.id_Sess && r.id_Cours == groupe.id_Cours))
-                ModelState.AddModelError(string.Empty, Messages.I_021(groupe.NoGroupe));
+            {
+                ModelState.AddModelError(string.Empty, Messages.I_021(groupe.NoGroupe)); 
+            }
         }
 
     }

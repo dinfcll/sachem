@@ -1,7 +1,7 @@
 ﻿@using System.Diagnostics.Eventing.Reader
 @using Microsoft.Ajax.Utilities
 @using sachem.Models
-@model IEnumerable<sachem.Models.Groupe>
+@model PagedList.IPagedList<sachem.Models.Groupe>
 
 @{
     ViewBag.Title = "Consulter cours";
@@ -38,19 +38,22 @@
 
 @if (Model.Any())
 {
+
     <table class="table">
 
         @if (ViewBag.IsEnseignant) //si enseignant
         {
             <tr>
                 <th>
-                    @Html.DisplayNameFor(model => model.Cours.Code)
+                    @Html.DisplayNameFor(model => model.FirstOrDefault().Cours.Code)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.Cours.Nom)
+                    @Html.DisplayNameFor(model => model.FirstOrDefault().Cours.Nom)
                 </th>
                 <th></th>
             </tr>
+
+            
 
             foreach (var item in Model)
             {
@@ -62,7 +65,7 @@
                             @Html.DisplayFor(modelItem => item.Cours.Nom)
                         </td>
                         <td>
-                            @Html.ActionLink("Consulter", "Details", new { id = item.id_Cours })
+                            @Html.ActionLink("Consulter", "Details", new { idCours = item.id_Cours, idSess = ViewBag.Sessionchoisie})
                         </td>
                     </tr>
             }
@@ -71,13 +74,13 @@
         {
             <tr>
                 <th>
-                    @Html.DisplayNameFor(model => model.Cours.Code)
+                    @Html.DisplayNameFor(model => model.FirstOrDefault().Cours.Code)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.Cours.Nom)
+                    @Html.DisplayNameFor(model => model.FirstOrDefault().Cours.Nom)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.Cours.Actif)
+                    @Html.DisplayNameFor(model => model.FirstOrDefault().Cours.Actif)
                 </th>
                 <th>
                     Enseignant
@@ -101,7 +104,7 @@
                         @Html.DisplayFor(model => item.nomsConcatenesProfs)
                     </td>
                     <td>
-                        @Html.ActionLink("Consulter", "Details", new { id = item.id_Cours })
+                        @Html.ActionLink("Consulter", "Details", new { idCours = item.id_Cours, idSess = ViewBag.Sessionchoisie })
                     </td>
                 </tr>
             }
@@ -114,5 +117,5 @@ else
     <div>Aucun résultat trouvé.</div>
 }
 
-
+@Html.Partial("_PageRecherche", Model)
 

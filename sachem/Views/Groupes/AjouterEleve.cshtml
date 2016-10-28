@@ -1,30 +1,33 @@
 ﻿@using PagedList.Mvc
-@model PagedList.IPagedList<sachem.Models.PersonneProgEtu>
+@model PagedList.IPagedList<sachem.Models.PersEtuProg>
 
 @{
     ViewBag.Title = "Ajouter des étudiants au groupe";
 }
 
-<h2>Ajouter des étudiants au groupe</h2>
+<h2>@ViewBag.Title</h2>
 
+@TempData["ErrorAjEl"]
+@TempData["Success"]
+
+@if ((string)TempData["ErrorDep"] != null)
+{
+    <div class="alert alert-danger">
+        @TempData["ErrorDep"]
+        <br />
+        @using (Html.BeginForm("Deplacer", "Groupes", null, FormMethod.Post, new { @class = "form-inline", role = "form" ,style="display:inline;"}))
+        {
+            @Html.AntiForgeryToken()
+            <input type="hidden" name="idGroupeEtudiant" value="@TempData["idGe"]" />
+            <input type="hidden" name="id_groupedepl" value="@ViewBag.idg" />
+            <button style="display:inline;padding:0px;margin:0px;" type="submit" class="btn btn-link" >(Oui) L'étudiant sera uniquement dans le groupe @ViewBag.idg</button>
+        }|
+        @Html.ActionLink("(Non) L'étudiant sera dans les deux groupes", "AjouterEleveGET", new { idg = @TempData["idg"], idp = @TempData["personne"], noclick = 1 })  |
+        @Html.ActionLink("Annuler", "AjouterEleve", new { idg = @TempData["idg"], page = ViewBag.page })
+    </div>
+}
 @using (Html.BeginForm("AjouterEleve", "Groupes", new { idg = ViewBag.idg }, FormMethod.Post, new { @class = "form-inline", role = "form" }))
 {
-
-    @TempData["ErrorAjEl"]
-    @TempData["Success"]
-
-    if ((string)TempData["ErrorDep"] != null)
-    {
-            @TempData["ErrorDep"]
-            <br />
-            <tr>
-                <td>
-                    @Html.ActionLink("Oui", "Deplacer", new { id = @TempData["idGe"] }) |
-                    @Html.ActionLink("Non", "AjouterEleveGET", new { idg = @TempData["idg"], idp = @TempData["personne"] ,noclick = 1})  |
-                    @Html.ActionLink("Annuler", "AjouterEleve", new { idg = @TempData["idg"], page = ViewBag.page})
-                </td>
-            </tr>
-     }
     <p>
         <h4>Recherche</h4>
     </p>
@@ -54,19 +57,19 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.FirstOrDefault().personne.Nom)
+            @Html.DisplayNameFor(model => model.FirstOrDefault().p.Nom)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.FirstOrDefault().personne.Matricule)
+            @Html.DisplayNameFor(model => model.FirstOrDefault().p.Matricule)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.FirstOrDefault().personne.Age)
+            @Html.DisplayNameFor(model => model.FirstOrDefault().p.Age)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.FirstOrDefault().personne.p_Sexe.Sexe)
+            @Html.DisplayNameFor(model => model.FirstOrDefault().p.p_Sexe.Sexe)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.FirstOrDefault().personne.ProgEtu)
+            @Html.DisplayNameFor(model => model.FirstOrDefault().epe.ProgrammeEtude.CodeNomProgramme)
         </th>
         <th></th>
     </tr>
@@ -74,23 +77,22 @@
     @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.personne.NomPrenom)
+                @Html.DisplayFor(modelItem => item.p.NomPrenom)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.personne.Matricule7)
+                @Html.DisplayFor(modelItem => item.p.Matricule7)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.personne.Age)
+                @Html.DisplayFor(modelItem => item.p.Age)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.personne.p_Sexe.Sexe)
+                @Html.DisplayFor(modelItem => item.p.p_Sexe.Sexe)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.progEtuActif.Code)-
-                @Html.DisplayFor(modelItem => item.progEtuActif.NomProg)
+                @Html.DisplayFor(modelItem => item.epe.ProgrammeEtude.CodeNomProgramme)
             </td>
             <td>
-                @Html.ActionLink("Ajouter", "AjouterEleveGET", new { idg = ViewBag.idg, idp = item.personne.id_Pers })
+                @Html.ActionLink("Ajouter", "AjouterEleveGET", new { idg = ViewBag.idg, idp = item.p.id_Pers })
             </td>
         </tr>
     }

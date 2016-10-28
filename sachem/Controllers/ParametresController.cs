@@ -4,6 +4,7 @@ using System.Data.Entity;
 using System.Linq;
 using System.Web.Mvc;
 using sachem.Models;
+using PagedList;
 using static sachem.Classes_Sachem.ValidationAcces;
 
 namespace sachem.Controllers
@@ -47,6 +48,7 @@ namespace sachem.Controllers
         public ActionResult EditContact()
         {
             var contact = db.p_Contact.First();
+            contact.Telephone = SachemIdentite.RemettreTel(contact.Telephone);
             return View(contact);
         }
 
@@ -55,7 +57,7 @@ namespace sachem.Controllers
         [ValidationAccesSuper]
         public ActionResult EditContact([Bind(Include = "id_Contact,Nom,Prenom,Courriel,Telephone,Poste,Facebook,SiteWeb,Local")] p_Contact contact)
         {
-            Valider(contact);
+            ValiderContact(contact);
 
             if (ModelState.IsValid)
             {
@@ -159,31 +161,15 @@ namespace sachem.Controllers
             return RedirectToAction("EditHoraire");
         }
 
-
-        [NonAction]
-        [ValidationAccesSuper]
-        private void Valider([Bind(Include = "id_Contact,Nom,Prenom,Courriel,Telephone,Poste,Facebook,SiteWeb,Local")]p_Contact contact)
-        {
-            if (db.p_Contact.Any(r => r.id_Contact == contact.id_Contact && r.Prenom != contact.Prenom && r.Nom != contact.Nom))
-                ModelState.AddModelError(string.Empty, Messages.I_002(contact.id_Contact.ToString()));
-        }
-
-
-        [ValidationAccesSuper]
-        public ActionResult IndexCollege()
-        {
-            var college = from tout in db.p_College
-                          orderby tout.College
-                          select tout;
-            return View(college);
-        }
-
         [HttpGet]
         [ValidationAccesSuper]
-        public ActionResult EditCollege()
+        public ActionResult EditCollege(int? page)
         {
             var college = from c in db.p_College orderby c.College select c;
-            return View(college);
+
+            var pageNumber = page ?? 1;
+
+            return View(college.ToPagedList(pageNumber, 20));
         }
 
         [HttpPost]
@@ -229,6 +215,13 @@ namespace sachem.Controllers
                 db.p_College.Remove(college);
                 db.SaveChanges();
             }
+        }
+
+        [NonAction]
+        private void ValiderContact([Bind(Include = "id_Contact,Nom,Prenom,Courriel,Telephone,Poste,Facebook,SiteWeb,Local")]p_Contact contact)
+        {
+            if (!db.p_Contact.Any(r => r.id_Contact == contact.id_Contact))
+                ModelState.AddModelError(string.Empty," ");
         }
     }
 }

@@ -4,12 +4,16 @@
     ViewBag.Title = "Groupes";
 }
 
-<h2>Groupes</h2>
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+
+<h2>@ViewBag.Title</h2>
 
 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
 @using (Html.BeginForm("Index", "Groupes", FormMethod.Post, new { @class = "form-inline", role = "form" }))
 {
+
+    @Html.Partial("_RechercheGroupe")
 
     @TempData["Success"]
 
@@ -39,19 +43,19 @@
             
             <div class="form-group">
                 Enseignant :
-                @{
-                    string s = "Toutes";
-                    if (sachem.Models.SachemIdentite.ObtenirTypeUsager(Session) == sachem.Models.TypeUsagers.Enseignant)
-                    {
-                        s = null;
-                    }
+                @if (ViewBag.Disabled != null && ViewBag.Disabled == "")
+                {
+                    @Html.DropDownList("Enseignants", "Tous")
                 }
-                @Html.DropDownList("Enseignants", s)
+                else
+                {
+                    @Html.DropDownList("Enseignants", null, htmlAttributes: new { @disabled = ViewBag.Disabled })
+                }
             </div>
             
             <div class="form-group">
                 Cours :
-                @Html.DropDownList("Cours", "Toutes")
+                @Html.DropDownList("Cours", "Tous")
             </div>
 
 

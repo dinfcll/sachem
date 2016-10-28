@@ -53,6 +53,7 @@ namespace sachem.Models
     //redéfinition de la classe partielle
     public partial class ProgrammeEtude
     {
+
         //concaténation du code et du nom de programme formatté
         public string CodeNomProgramme
         {
