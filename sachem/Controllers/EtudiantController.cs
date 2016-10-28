@@ -62,7 +62,7 @@ namespace sachem.Controllers
             personne.id_TypeUsag = 1;
             personne.Actif = true;
             personne.Telephone = SachemIdentite.FormatTelephone(personne.Telephone);
-
+            personne.Matricule = constanteAnnee + personne.Matricule;
             pepp.personne = personne;
             
 
