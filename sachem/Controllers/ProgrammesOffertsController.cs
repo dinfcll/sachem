@@ -114,7 +114,6 @@ namespace sachem.Controllers
         /*Fonction qui permet de supprimer un programme. Premièrement, elle regarde s'il y a un étudiant lié au programme d'études.
         Si oui, il est impossible de le supprimer. Sinon, le programme est supprimé*/
         [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id, int? page)
         {
             var pageNumber = page ?? 1;
