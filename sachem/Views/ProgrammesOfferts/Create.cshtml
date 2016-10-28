@@ -1,10 +1,10 @@
 ﻿@model sachem.Models.ProgrammeEtude
 
 @{
-    ViewBag.Title = "Créer un programme d'études";
+    ViewBag.Title = "Ajouter un programme d'études";
 }
 
-<h2>Ajouter un programme d'étude</h2>
+<h2>@ViewBag.Title</h2>
 
 @using (Html.BeginForm("Create", "ProgrammesOfferts", FormMethod.Post))
 {
