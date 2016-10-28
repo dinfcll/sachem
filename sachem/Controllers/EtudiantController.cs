@@ -14,7 +14,7 @@ namespace sachem.Controllers
     {    
         private SACHEMEntities db = new SACHEMEntities();
 
-        public const string CONSTANTEANNEE = "20";
+        public const string CONSTANTE20 = "20";
         [ValidationAccesEnseignant]
         public ActionResult Index(int? page)
         {
@@ -54,7 +54,7 @@ namespace sachem.Controllers
             personne.id_TypeUsag = 1;
             personne.Actif = true;
             personne.Telephone = SachemIdentite.FormatTelephone(personne.Telephone);
-            personne.Matricule = CONSTANTEANNEE + personne.Matricule;
+            personne.Matricule = CONSTANTE20 + personne.Matricule;
             pepp.personne = personne;
             
 
@@ -197,7 +197,7 @@ namespace sachem.Controllers
         [ValidationAccesEnseignant]
         public ActionResult DeleteConfirmed(int id,int? page)
         {
-            var pageNumber = page ?? 1;           
+            var pageNumber = page ?? 1;
             Personne personne = db.Personne.Find(id);
 
             var etuProgEtu = db.EtuProgEtude.Where(x => x.id_Etu == personne.id_Pers);
@@ -261,16 +261,21 @@ namespace sachem.Controllers
             return RedirectToAction("Edit", "Etudiant", new { id = idPers });
          }
 
-        //fonction de validation
         private void Valider([Bind(Include = "id_Pers,id_Sexe,id_TypeUsag,Nom,Prenom,NomUsager,MP,ConfirmPassword,Courriel,DateNais,Actif")] Personne personne)
         {
-            
+
             if (personne.Matricule7 == null)
+            {
                 ModelState.AddModelError("Matricule7", Messages.U_001); //requis
+            }
             else if (personne.Matricule7.Length != 7 || !personne.Matricule.All(char.IsDigit)) //vérifie le matricule
+            {
                 ModelState.AddModelError("Matricule7", Messages.U_004); //longueur
+            }
             else if (db.Personne.Any(x => x.Matricule == personne.Matricule))// Verifier si le matricule existe déja dans la BD
+            {
                 ModelState.AddModelError(string.Empty, Messages.I_004(personne.Matricule));
+            }
         }
         protected override void Dispose(bool disposing)
         {
