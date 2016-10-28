@@ -1,5 +1,5 @@
 ﻿@model sachem.Models.PersonneEtuProgParent
-
+@using sachem.Models
 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 <div class="form-group">
     @Html.LabelFor(model => model.personne.Nom, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -19,28 +19,28 @@
 <div class="form-group">
     @Html.LabelFor(model => model.personne.id_Sexe, htmlAttributes: new { @class = "control-label col-md-2" })
     <div class="col-md-10">
-        @Html.DropDownList("id_Sexe", null, htmlAttributes: new { @class = "form-control" })
+        @Html.DropDownListFor(model => model.personne.id_Sexe, new SelectList(ViewBag.id_Sexe, "id_Sexe", "Sexe", ViewBag.Selected),"Choisir", new { @class = "form-control" })
         @Html.ValidationMessageFor(model => model.personne.id_Sexe, "", new { @class = "text-danger" })
     </div>
 </div>
 <div class="form-group">
     @Html.LabelFor(model => model.personne.DateNais, "Date de naissance", htmlAttributes: new { @class = "control-label col-md-2" })
     <div class="col-md-10">
-        @Html.EditorFor(model => model.personne.DateNais, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.EditorFor(model => model.personne.DateNais, new { htmlAttributes = new { @class = "form-control", @placeholder = "AAAA/MM/JJ", @required = "required", @title = Messages.U_001 } })
         @Html.ValidationMessageFor(model => model.personne.DateNais, "", new { @class = "text-danger" })
     </div>
 </div>
 <div class="form-group">
     @Html.LabelFor(model => model.personne.Courriel, htmlAttributes: new { @class = "control-label col-md-2" })
     <div class="col-md-10">
-        @Html.EditorFor(model => model.personne.Courriel, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.EditorFor(model => model.personne.Courriel, new { htmlAttributes = new { @class = "form-control", @maxlength = "256" } })
         @Html.ValidationMessageFor(model => model.personne.Courriel, "", new { @class = "text-danger" })
     </div>
 </div>
 <div class="form-group">
     @Html.LabelFor(model => model.personne.Telephone, htmlAttributes: new { @class = "control-label col-md-2" })
     <div class="col-md-10">
-        @Html.EditorFor(model => model.personne.Telephone, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.EditorFor(model => model.personne.Telephone, new { htmlAttributes = new { @class = "form-control", @placeholder = "(999) 999-9999", @maxlength = "14", @required = "required", @title = Messages.U_001 } })
         @Html.ValidationMessageFor(model => model.personne.Telephone, "", new { @class = "text-danger" })
     </div>
 </div>

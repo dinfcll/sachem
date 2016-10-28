@@ -6,49 +6,13 @@
     ViewBag.Title = "Index";
 }
 
-<h2>Dossier de l'étudiant</h2>
+<h2>Dossier d'étudiant</h2>
 
-@*rechercher*@
 @using (Html.BeginForm("Index", "DossierEtudiant", FormMethod.Post, new { @class = "form-inline", role = "form" }))
 {
     @Html.Partial("_RechercheEtudiantInscrit")
-@*<div class="form-group">
-    <p>
-        <div class="form-group">
-            Session :
-            @Html.DropDownList("Session","Toutes")
-        </div>
-        <div class="form-group">
-            Type d'inscription :
-            @Html.DropDownList("Inscription")
-        </div>
-        <div class="form-group">
-            Superviseur :
-            @Html.DropDownList("Superviseur")
-        </div>
-    </p>
-    <p>
-        <div class="form-group">
-            Matricule :
-            @Html.Editor("Matricule")
-        </div>
-        <div class="form-group">
-            Prénom :
-            @Html.Editor("Prenom")
-        </div>
-        <div class="form-group">
-            Nom :
-            @Html.Editor("Nom")
-        </div>
-    </p>
-    <p>  
-        <div class="btn-default">
-            <input type="submit" value="Rechercher" class="btn-toolbar" />
-        </div>
-    </p>
-</div>*@
 }
-        @*fin rechercher*@
+
 
         <table class="table">
     <tr>
@@ -91,4 +55,4 @@
         </tr>
     }
 </table>
-@*@Html.Partial("_PageRecherche", Model)*@
+@Html.Partial("_PageRecherche", Model)

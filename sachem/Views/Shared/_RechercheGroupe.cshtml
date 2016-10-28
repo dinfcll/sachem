@@ -1,0 +1,93 @@
+﻿<script src="~/Scripts/jquery-1.10.2.js"></script>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#Sessions").change(function () {
+            var vSession = $("#Sessions").val();
+            if ($("#Enseignants").is(':disabled') == false)
+            {
+                $.ajax({
+                    type: 'POST',
+                    url:  @Html.Raw("\"/" + HttpContext.Current.Request.RequestContext.RouteData.Values["controller"].ToString() + "/ActualiseEnseignant\""),
+                    data: {
+                        session: vSession
+                    },
+                    datatype: "json",
+                    success: function (donnees) {
+
+                        $("#Enseignants").empty();
+                        $("#Enseignants").append($('<option>', {
+                            value: 0,
+                            text: 'Tous'
+                        }));
+
+                        $.each(donnees, function (i, item) {
+                            $("#Enseignants").append($('<option>', {
+                                value: item.id_Pers,
+                                text: item.NomPrenom
+                            }));
+                        });
+                    }
+                });
+            }
+
+             var vEnseignant = $("#Enseignants").val();
+
+            $.ajax({
+                type: 'POST',
+                url: "/Groupes/ActualiseCours",
+                data: {
+                    session: vSession,
+                    enseignant: vEnseignant
+                },
+                datatype: "json",
+                success: function (donnees) {
+
+                    $("#Cours").empty();
+                    $("#Cours").append($('<option>', {
+                        value: 0,
+                        text: "Tous"
+                    }));
+
+                    $.each(donnees, function (i, item) {
+                        $("#Cours").append($('<option>', {
+                            value: item.id_Cours,
+                            text: item.CodeNom
+                        }));
+                    });
+
+                }
+            }); 
+        });
+
+        $("#Enseignants").change(function(){
+            var vSession = $("#Sessions").val();
+            var vEnseignant = $("#Enseignants").val();
+
+            $.ajax({
+                type: 'POST',
+                url: "/Groupes/ActualiseCoursddl",
+                data: {
+                    session : vSession,
+                    enseignant: vEnseignant
+                },
+                datatype: "json",
+                success: function(donnees){
+
+                    $("#Cours").empty();
+                    $("#Cours").append($('<option>',{
+                        value: 0,
+                        text: "Tous"
+                    }));
+
+                    $.each(donnees,function(i,item){
+                        $("#Cours").append($('<option>', {
+                            value: item.id_Cours,
+                            text: item.CodeNom
+                        }));
+                    });
+                }
+            });
+        });
+    });
+</script>

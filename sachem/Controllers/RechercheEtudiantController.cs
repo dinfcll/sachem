@@ -30,10 +30,6 @@ namespace sachem.Controllers
         protected IEnumerable<Cours> ObtenirListeCours(int session)
         {
             int Pers = 0;
-            //if (SACHEMIdentite.ObtenirTypeUsager(Session) == TypeUsagers.Enseignant)
-            //{
-            //    Pers = (int)Session["id_Pers"];
-            //}
             var ResultReq = db.Cours.AsNoTracking().Where(c => c.Groupe.Any(g => (g.id_Enseignant == Pers || Pers == 0) && (g.id_Sess == session))).OrderBy(c => c.Nom);
            
             return ResultReq.AsEnumerable();
@@ -45,10 +41,6 @@ namespace sachem.Controllers
         {
 
             int Pers = 0;
-            //if (SACHEMIdentite.ObtenirTypeUsager(Session) == TypeUsagers.Enseignant)
-            //{
-            //    Pers = (int)Session["id_Pers"];
-            //}
 
             return db.Groupe.AsNoTracking().Where(p => (p.id_Enseignant == Pers || Pers == 0) && (p.id_Sess == session) && (p.id_Cours == cours)).OrderBy(p => p.NoGroupe);
         }
@@ -142,11 +134,6 @@ namespace sachem.Controllers
                         ViewBag.Groupe = groupe;
                         champsRenseignes++;
                     }
-
-                }
-                if (tanciennerech[4] != "")
-                {
-                    noPage = Int32.Parse(tanciennerech[4]);
                 }
             }
             else
@@ -265,16 +252,6 @@ namespace sachem.Controllers
 
                 db.Configuration.LazyLoadingEnabled = true;
             }
-
-            /*var personne = from c in db.Personne where c.Actif == true && c.id_TypeUsag == 1 select c;
-            foreach (var pers in personne)
-            {
-                var pidEtu = (from p in db.EtuProgEtude where pers.id_Pers == p.id_Etu orderby p.id_Sess descending select p).FirstOrDefault();
-                var pEtu = db.ProgrammeEtude.Find(pidEtu.id_ProgEtu);
-                pers.ProgEtu = pEtu.NomProg.ToString();
-
-            }*/
-
 
             return lstEtu;
         }

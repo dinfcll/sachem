@@ -72,14 +72,14 @@
         <div class="form-group">
             @Html.Label("Programme d'étude", htmlAttributes: new { @class = "control-label col-md-2" })
             <div style="margin-top:7px;">
-                @foreach (var item in Model.epe)
-                {
-
+        @foreach (var item in Model.epe)
+        {
+               
                     <div style="margin-left:210px;">
                         @Html.DisplayFor(modelItem => item.ProgrammeEtude.CodeNomProgramme)
                         @Html.ActionLink(" Supprimer", "deleteProgEtu", new { idProg = item.id_EtuProgEtude, idPers = item.Personne.id_Pers})
                     </div>
-                }
+        }
             </div>
         </div>
         <br><br />
@@ -104,9 +104,9 @@
         </div>
     </div>
 }
-            <div>
-                @Html.ActionLink("Retour à la recherche des étudiants", "Index")
-            </div>
-            @section Scripts {
-                @Scripts.Render("~/bundles/jqueryval")
-            }
+<div>
+    @Html.ActionLink("Retour à la recherche des étudiants", "Index")
+</div>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

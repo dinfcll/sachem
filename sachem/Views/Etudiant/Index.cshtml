@@ -1,5 +1,4 @@
-﻿@using sachem.Models
-@model PagedList.IPagedList<sachem.Models.PersonneProgEtu>
+﻿@model PagedList.IPagedList<sachem.Models.PersonneProgEtu>
 @{
     ViewBag.Title = "Étudiants";
 }
@@ -15,7 +14,7 @@
 </p>
 
 <p class="text-danger">
-    @TempData["Echec"]
+    @Html.Raw(@TempData["Echec"])
 </p>
 
 @using (Html.BeginForm("Index", "Etudiant", FormMethod.Post, new { @class = "form-inline", role = "form" }))
@@ -82,3 +81,4 @@
         }
 
     </table>
+@Html.Partial("_PageRecherche", Model)

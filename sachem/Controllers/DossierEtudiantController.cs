@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
 using System.Web.Mvc;
 using sachem.Models;
+using PagedList;
 using static sachem.Classes_Sachem.ValidationAcces;
 
 namespace sachem.Controllers
@@ -115,11 +115,6 @@ namespace sachem.Controllers
                         superviseur = Int32.Parse(tanciennerech[3]);
                         ViewBag.Superviseur = superviseur;
                     }
-
-                }
-                if (tanciennerech[4] != "")
-                {
-                    noPage = Int32.Parse(tanciennerech[4]);
                 }
             }
             else//POST
@@ -237,8 +232,7 @@ namespace sachem.Controllers
         {
             noPage = (page ?? noPage);
 
-            //return View(Rechercher().ToPagedList(noPage, 20));
-            return View(Rechercher());
+            return View(Rechercher().ToPagedList(noPage, 20));
         }
 
         // GET: DossierEtudiant/Details/5
@@ -278,16 +272,28 @@ namespace sachem.Controllers
         public ActionResult Details(FormCollection model)
         {
             var id_Pers = Convert.ToInt32(model["item1.Personne.id_Pers"]);
+            var id_TypeInsc = (from d in db.Inscription
+                               where d.id_Pers == id_Pers
+                               select d).First().id_TypeInscription;
             var id_Inscription = Convert.ToInt32(model["item1.id_Inscription"]);
-            var Courriel = Convert.ToString(model["item1.Personne.Courriel"]);
-            var Telephone = Convert.ToString(model["item1.Personne.Telephone"]);
-            var BonEchange = model["item1.BonEchange.Value"];
 
             Personne personne = db.Personne.Find(id_Pers);
-            personne.Courriel = Courriel;
-            personne.Telephone = SachemIdentite.FormatTelephone(Telephone);
-
             Inscription inscription = db.Inscription.Find(id_Inscription);
+
+            if (SachemIdentite.ObtenirTypeUsager(Session) == TypeUsagers.Tuteur ||
+                SachemIdentite.ObtenirTypeUsager(Session) == TypeUsagers.Eleve)
+            {
+                var Courriel = Convert.ToString(model["item1.Personne.Courriel"]);
+                var Telephone = Convert.ToString(model["item1.Personne.Telephone"]);
+                personne.Courriel = Courriel;
+                personne.Telephone = SachemIdentite.FormatTelephone(Telephone);
+            }
+
+            if (SachemIdentite.ObtenirTypeUsager(Session) == TypeUsagers.Eleve || id_TypeInsc == 1)
+            {
+                var BonEchange = Convert.ToBoolean(model["Item1.BonEchange.value"] != "false");
+                inscription.BonEchange = BonEchange;
+            }
 
             var vCoursSuivi = from d in db.CoursSuivi
                               where d.id_Pers == inscription.id_Pers
@@ -303,6 +309,7 @@ namespace sachem.Controllers
             if (ModelState.IsValid)
             {
                 db.Entry(personne).State = EntityState.Modified;
+                db.Entry(inscription).State = EntityState.Modified;
                 db.SaveChanges();
 
             }
