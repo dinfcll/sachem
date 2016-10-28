@@ -1,9 +1,9 @@
 ﻿@model Tuple<sachem.Models.Inscription, IEnumerable<sachem.Models.CoursSuivi>, IEnumerable<sachem.Models.Inscription>>
 
 @{
-    ViewBag.Title = "Details";
+    ViewBag.Title = "Dossier de l'étudiant";
 }
-<h2>Dossier de l'étudiant</h2>
+<h2>@ViewBag.Title</h2>
 
 @using (Html.BeginForm("Details", "DossierEtudiant", FormMethod.Post, new { @class = "form-inline", role = "form" }))
 {

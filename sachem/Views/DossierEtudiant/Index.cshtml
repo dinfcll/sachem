@@ -3,10 +3,10 @@
     @model PagedList.IPagedList<sachem.Models.Inscription>
 *@
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Dossier d'étudiant";
 }
 
-<h2>Dossier d'étudiant</h2>
+<h2>"ViewBag.Title</h2>
 
 @using (Html.BeginForm("Index", "DossierEtudiant", FormMethod.Post, new { @class = "form-inline", role = "form" }))
 {

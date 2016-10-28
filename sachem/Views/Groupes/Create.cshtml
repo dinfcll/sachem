@@ -1,10 +1,10 @@
 ﻿@model sachem.Models.Groupe
 
 @{
-    ViewBag.Title = "Ajouter un groupe";
+    ViewBag.Title = "Ajouter groupe";
 }
 
-<h2>Ajouter un groupe</h2>
+<h2>@ViewBag.Title</h2>
 
 
 @using (Html.BeginForm("Create", "Groupes", FormMethod.Post, new { @class = "", role = "form" })) 
