@@ -38,6 +38,7 @@
 
 @if (Model.Any())
 {
+
     <table class="table">
 
         @if (ViewBag.IsEnseignant) //si enseignant
@@ -52,6 +53,8 @@
                 <th></th>
             </tr>
 
+            
+
             foreach (var item in Model)
             {
                     <tr>
@@ -62,7 +65,7 @@
                             @Html.DisplayFor(modelItem => item.Cours.Nom)
                         </td>
                         <td>
-                            @Html.ActionLink("Consulter", "Details", new { id = item.id_Cours })
+                            @Html.ActionLink("Consulter", "Details", new { idCours = item.id_Cours, idSess = ViewBag.Sessionchoisie})
                         </td>
                     </tr>
             }
@@ -101,7 +104,7 @@
                         @Html.DisplayFor(model => item.nomsConcatenesProfs)
                     </td>
                     <td>
-                        @Html.ActionLink("Consulter", "Details", new { id = item.id_Cours })
+                        @Html.ActionLink("Consulter", "Details", new { idCours = item.id_Cours, idSess = ViewBag.Sessionchoisie })
                     </td>
                 </tr>
             }

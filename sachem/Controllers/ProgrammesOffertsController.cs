@@ -22,12 +22,6 @@ namespace sachem.Controllers
             return View("Index",Recherche(recherche).ToPagedList(numeroPage, 20));
         }
         
-        // GET: ProgrammesOfferts/Details/5
-        public ActionResult Details(int id)
-        {
-            return View();
-        }
-
         // GET: ProgrammesOfferts/Create
         [ValidationAccesSuper]
         public ActionResult Create()
@@ -40,7 +34,7 @@ namespace sachem.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "id_ProgEtu,Code,NomProg,Annee,Actif")] ProgrammeEtude programme)
         {
-                Valider(programme);
+            Valider(programme);
             if (ModelState.IsValid)
             {               
                 db.ProgrammeEtude.Add(programme);
@@ -58,19 +52,26 @@ namespace sachem.Controllers
         public ActionResult Edit(int? id)
         {
             if (id == null)
+            {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
 
             var programme = db.ProgrammeEtude.Find(id);
 
             if (programme == null)
+            {
                 return HttpNotFound();
+            }
 
             if (programme.NomProg.Any())
+            {
                 ViewBag.DisEns = "True";
-            
+            }
+
             return View(programme);
         }
-//POST:modifier un programme
+
+        //POST:modifier un programme
         //permet de modifier un programme et de l'enregistrer. vérification si le programme est bien et on l'enregistre par la suite.
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -96,12 +97,15 @@ namespace sachem.Controllers
         public ActionResult Delete(int? id)
         {
             if (id == null)
+            {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-
+            }
             var programme = db.ProgrammeEtude.Find(id);
 
             if (programme == null)
+            {
                 return HttpNotFound();
+            }
 
             return View(programme);
         }
@@ -133,8 +137,7 @@ namespace sachem.Controllers
         //Méthode qui permet de vérifier si le programme d'étude existe réellement, pour que l'on puisse le créer ou le modifier
         [NonAction]
         public void Valider([Bind(Include = "id_ProgEtu,Code,NomProg,Annee,Actif")]ProgrammeEtude programme)
-        {
-            
+        { 
             if (db.ProgrammeEtude.Any(c => c.Code == programme.Code && c.Actif && c.Annee == programme.Annee && c.id_ProgEtu != programme.id_ProgEtu))
             {
                 ModelState.AddModelError(String.Empty, Messages.I_006(programme.Code));
@@ -151,7 +154,7 @@ namespace sachem.Controllers
 
             if (!String.IsNullOrEmpty(recherche))
             {
-                programmesEtude = programmesEtude.Where(c => c.Code.Contains(recherche) || c.NomProg.Contains(recherche)) as IOrderedQueryable<ProgrammeEtude>;
+                programmesEtude = programmesEtude.Where(c => c.Code.StartsWith(recherche) || c.NomProg.StartsWith(recherche)) as IOrderedQueryable<ProgrammeEtude>;
             }
             return programmesEtude.ToList();
         }

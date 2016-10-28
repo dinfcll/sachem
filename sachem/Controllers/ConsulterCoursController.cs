@@ -18,6 +18,8 @@ namespace sachem.Controllers
         // GET: ConsulterCours
         public ActionResult Index()
         {
+            ViewBag.IsSessToutes = true;
+
             if (!SachemIdentite.ValiderRoleAcces(RolesAcces, Session))
                 return RedirectToAction("Error", "Home", null);
 
@@ -60,7 +62,7 @@ namespace sachem.Controllers
                 else if (Request.Form["Session"] == null)
                     idSess = db.Session.Max(s => s.id_Sess);
             }
-
+            ViewBag.Sessionchoisie = idSess;
             if (m_IdTypeUsage == 2) //enseignant
             {
                 ListeSession(idSess); //créer liste Session pour le dropdown
@@ -181,12 +183,11 @@ namespace sachem.Controllers
         }
 
         // GET: ConsulterCours/Details/5
-        public ActionResult Details(int? id)
+        public ActionResult Details(int? idCours, int? idSess)
         {
             m_IdPers = SessionBag.Current.id_Pers;
             m_IdTypeUsage = SessionBag.Current.id_TypeUsag; // 2 = enseignant, 3 = responsable
             IOrderedQueryable<Groupe> gr;
-
 
             if (!connexionValide(m_IdTypeUsage))
             {
@@ -194,7 +195,7 @@ namespace sachem.Controllers
             }
             else
             {
-                if (id == null)
+                if (idCours == null)
                 {
                     return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
                 }
@@ -203,19 +204,35 @@ namespace sachem.Controllers
                 {
                     ViewBag.IsEnseignant = true;
 
-                    gr = from g in db.Groupe //obtenir les groupes en lien avec le cours trouvé et le prof connexté
-                             where g.id_Cours == id && g.id_Enseignant == m_IdPers
-                             orderby g.NoGroupe
-                             select g;
+                    if (idSess == 0)
+                    {
+                        ViewBag.IsSessToutes = true;
+
+                        gr = obtenirGroupesEnseignant(idCours, m_IdPers);
+                    }
+                    else
+                    {
+                        ViewBag.IsSessToutes = false;
+
+                        gr = obtenirGroupesEnseignant(idCours, m_IdPers, idSess);
+                    }
                 }
                 else //responsable
                 {
                     ViewBag.IsEnseignant = false;
 
-                    gr = from g in db.Groupe
-                             where g.id_Cours == id
-                             orderby g.NoGroupe
-                             select g;
+                    if (idSess == 0)
+                    {
+                        ViewBag.IsSessToutes = true;
+
+                        gr = obtenirGroupesEnseignant(idCours);
+                    }
+                    else
+                    {
+                        ViewBag.IsSessToutes = false;
+
+                        gr = obtenirGroupesEnseignant(idCours, idSess);
+                    }
                 }
 
                 if (!gr.Any())
@@ -225,9 +242,52 @@ namespace sachem.Controllers
 
                 return View(gr.ToList()); //renvoyer la liste des groupes en lien avec le cours
             }
-        }       
-        
-       protected override void Dispose(bool disposing)
+        }
+
+
+        private IOrderedQueryable<Groupe> obtenirGroupesEnseignant(int? _idCours, int _m_IdPers)
+        {
+            IOrderedQueryable<Groupe>  gr = 
+                from g in db.Groupe 
+                where g.id_Cours == _idCours && g.id_Enseignant == _m_IdPers
+                orderby g.NoGroupe
+                select g;
+
+            return gr;
+        }
+
+        private IOrderedQueryable<Groupe> obtenirGroupesEnseignant(int? _idCours, int _idEnseignant, int? _idSess)
+        {
+            IOrderedQueryable<Groupe> gr =
+                from g in db.Groupe 
+                where g.id_Cours == _idCours && g.id_Enseignant == _idEnseignant && g.id_Sess == _idSess
+                orderby g.NoGroupe
+                select g;
+
+            return gr;
+        }
+        private IOrderedQueryable<Groupe> obtenirGroupesEnseignant(int? _idCours)
+        {
+            IOrderedQueryable<Groupe> gr =
+                from g in db.Groupe
+                where g.id_Cours == _idCours
+                orderby g.NoGroupe
+                select g;
+
+            return gr;
+        }
+        private IOrderedQueryable<Groupe> obtenirGroupesEnseignant(int? _idCours, int? _idSess)
+        {
+            IOrderedQueryable<Groupe> gr =
+                from g in db.Groupe
+                where g.id_Cours == _idCours && g.id_Sess == _idSess
+                orderby g.NoGroupe
+                select g;
+
+            return gr;
+        }
+
+        protected override void Dispose(bool disposing)
         {
             if (disposing)
             {
