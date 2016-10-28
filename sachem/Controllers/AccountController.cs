@@ -14,7 +14,7 @@ namespace sachem.Controllers
     [Authorize]
     public class AccountController : Controller
     {
-        private const int portCourriel = 587;
+        private const int PORTCOURRIEL = 587;
         private readonly SACHEMEntities db = new SACHEMEntities();//retirer le readonly de private
         public AccountController()
         {
@@ -69,7 +69,7 @@ namespace sachem.Controllers
             SmtpClient client = new SmtpClient();
             //Création du message envoyé par courriel
             MailMessage message = new MailMessage("sachemcllmail@gmail.com", Email, "Demande de réinitialisation de mot de passe", "Voici votre nouveau mot de passe: " + nouveaumdp + " .");
-            client.Port = portCourriel;
+            client.Port = PORTCOURRIEL;
             client.Host = "smtp.gmail.com";
             client.EnableSsl = true;
             client.Timeout = 10000;
@@ -366,7 +366,7 @@ namespace sachem.Controllers
                 }
                 else
                 {
-                    ModelState.AddModelError(string.Empty, "Problème lors de l'envoi du courriel, le port" + portCourriel.ToString() + "est bloqué.");
+                    ModelState.AddModelError(string.Empty, "Problème lors de l'envoi du courriel, le port" + PORTCOURRIEL.ToString() + "est bloqué.");
                 }
             }
             else

@@ -8,7 +8,6 @@ namespace sachem.Models
     public partial class ProgrammeEtude
     {
 
-
     }
 
     
@@ -30,6 +29,10 @@ namespace sachem.Models
         [VerificationDate(ErrorMessage = Messages.U_012)]
         [Display(Name = "Année")]
         public int Annee { get; set; }
+
+        [Display(Name = "Nom du programme d'étude")]
+        public string CodeNomProgramme;
+
     }
 
 }

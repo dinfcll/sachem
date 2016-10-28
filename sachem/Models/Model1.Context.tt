@@ -248,7 +248,8 @@ public class CodeStringGenerator
             AccessibilityAndVirtual(Accessibility.ForMethod(edmFunction)),
             _typeMapper.GetTypeName(_typeMapper.GetReturnType(edmFunction), modelNamespace),
             _code.Escape(edmFunction),
-            string.Join(", ", parameters.Select(p => TypeMapper.FixNamespaces(p.FunctionParameterType) + " " + p.FunctionParameterName).ToArray()));
+            string.Join
+			(", ", parameters.Select(p => TypeMapper.FixNamespaces(p.FunctionParameterType) + " " + p.FunctionParameterName).ToArray()));
     }
     
     public string ComposableCreateQuery(EdmFunction edmFunction, string modelNamespace)
