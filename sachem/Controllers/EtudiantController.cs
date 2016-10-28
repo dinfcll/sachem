@@ -14,6 +14,7 @@ namespace sachem.Controllers
     {
         private SACHEMEntities db = new SACHEMEntities();
 
+        public const string CONSTANTE20 = "20";
         [ValidationAccesEnseignant]
         public ActionResult Index(int? page)
         {
@@ -28,8 +29,6 @@ namespace sachem.Controllers
 
       
         // GET: Etudiant/Details/5
-        //fonction pour formatter le numéro de téléphone avant de mettre dans la bd
-      
         [ValidationAccesEnseignant]
         // GET: Etudiant/Create
         public ActionResult Create()
@@ -39,7 +38,6 @@ namespace sachem.Controllers
             ViewBag.id_TypeUsag = new SelectList(db.p_TypeUsag, "id_TypeUsag", "TypeUsag");
             ViewBag.id_Programme = new SelectList(db.ProgrammeEtude, "id_ProgEtu", "nomProg");
             ViewBag.id_Session = new SelectList(db.Session, "id_Sess", "NomSession");
-
             return View();
         }
 
@@ -51,12 +49,12 @@ namespace sachem.Controllers
         [ValidationAccesEnseignant]
         public ActionResult Create([Bind(Include = "id_Pers,id_Sexe,id_TypeUsag,Nom,Prenom,Matricule,MP,ConfirmPassword,Courriel,Telephone,DateNais")] Personne personne,int? page)
         {
-
             PersonneEtuProgParent pepp = new PersonneEtuProgParent();
 
             personne.id_TypeUsag = 1;
             personne.Actif = true;
             personne.Telephone = SachemIdentite.FormatTelephone(personne.Telephone);
+            personne.Matricule = CONSTANTE20 + personne.Matricule;
             pepp.personne = personne;
             
 
@@ -82,7 +80,7 @@ namespace sachem.Controllers
                 db.EtuProgEtude.Add(etuprog);
                 db.SaveChanges();
                 personne.Telephone = SachemIdentite.RemettreTel(personne.Telephone);
-                TempData["Success"] = Messages.I_010(personne.Matricule); // Message afficher sur la page d'index confirmant la création
+                TempData["Success"] = Messages.I_010(personne.Matricule7); // Message afficher sur la page d'index confirmant la création
                 return RedirectToAction("Index");
             }
             ViewBag.id_Sexe = db.p_Sexe;
@@ -262,12 +260,21 @@ namespace sachem.Controllers
             return RedirectToAction("Edit", "Etudiant", new { id = idPers });
         }
 
-        //fonction de validation
         private void Valider([Bind(Include = "id_Pers,id_Sexe,id_TypeUsag,Nom,Prenom,NomUsager,MP,ConfirmPassword,Courriel,DateNais,Actif")] Personne personne)
         {
-            // Verifier si le matricule existe déja dans la BD
-            if (db.Personne.Any(x => x.Matricule == personne.Matricule))
+
+            if (personne.Matricule7 == null)
+            {
+                ModelState.AddModelError("Matricule7", Messages.U_001); //requis
+            }
+            else if (personne.Matricule7.Length != 7 || !personne.Matricule.All(char.IsDigit)) //vérifie le matricule
+            {
+                ModelState.AddModelError("Matricule7", Messages.U_004); //longueur
+            }
+            else if (db.Personne.Any(x => x.Matricule == personne.Matricule))// Verifier si le matricule existe déja dans la BD
+            {
                 ModelState.AddModelError(string.Empty, Messages.I_004(personne.Matricule));
+        }
         }
         protected override void Dispose(bool disposing)
         {

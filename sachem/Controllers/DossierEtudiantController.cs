@@ -5,6 +5,7 @@ using System.Linq;
 using System.Net;
 using System.Web.Mvc;
 using sachem.Models;
+using PagedList;
 using static sachem.Classes_Sachem.ValidationAcces;
 
 namespace sachem.Controllers
@@ -114,11 +115,6 @@ namespace sachem.Controllers
                         superviseur = Int32.Parse(tanciennerech[3]);
                         ViewBag.Superviseur = superviseur;
                     }
-
-                }
-                if (tanciennerech[4] != "")
-                {
-                    noPage = Int32.Parse(tanciennerech[4]);
                 }
             }
             else//POST
@@ -236,8 +232,7 @@ namespace sachem.Controllers
         {
             noPage = (page ?? noPage);
 
-            //return View(Rechercher().ToPagedList(noPage, 20));
-            return View(Rechercher());
+            return View(Rechercher().ToPagedList(noPage, 20));
         }
 
         // GET: DossierEtudiant/Details/5
