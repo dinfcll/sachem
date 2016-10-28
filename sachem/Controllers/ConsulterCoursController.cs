@@ -226,19 +226,13 @@ namespace sachem.Controllers
                     {
                         ViewBag.IsSessToutes = true;
 
-                        gr = from g in db.Groupe //obtenir les groupes en lien avec le cours trouvé et le prof connexté
-                             where g.id_Cours == idCours && g.id_Enseignant == m_IdPers
-                             orderby g.NoGroupe
-                             select g;
+                        gr = obtenirGroupesEnseignant(idCours, m_IdPers);
                     }
                     else
                     {
                         ViewBag.IsSessToutes = false;
 
-                        gr = from g in db.Groupe //obtenir les groupes en lien avec le cours trouvé et le prof connexté
-                             where g.id_Cours == idCours && g.id_Enseignant == m_IdPers && g.id_Sess == idSess
-                             orderby g.NoGroupe
-                             select g;
+                        gr = obtenirGroupesEnseignant(idCours, m_IdPers, idSess);
                     }
                 }
                 else //responsable
@@ -249,19 +243,13 @@ namespace sachem.Controllers
                     {
                         ViewBag.IsSessToutes = true;
 
-                        gr = from g in db.Groupe
-                             where g.id_Cours == idCours
-                             orderby g.NoGroupe
-                             select g;
+                        gr = obtenirGroupesEnseignant(idCours);
                     }
                     else
                     {
                         ViewBag.IsSessToutes = false;
 
-                        gr = from g in db.Groupe
-                             where g.id_Cours == idCours && g.id_Sess == idSess
-                             orderby g.NoGroupe
-                             select g;
+                        gr = obtenirGroupesEnseignant(idCours, idSess);
                     }
                 }
 
@@ -272,9 +260,52 @@ namespace sachem.Controllers
 
                 return View(gr.ToList()); //renvoyer la liste des groupes en lien avec le cours
             }
-        }       
-        
-       protected override void Dispose(bool disposing)
+        }
+
+
+        private IOrderedQueryable<Groupe> obtenirGroupesEnseignant(int? _idCours, int _m_IdPers)
+        {
+            IOrderedQueryable<Groupe>  gr = 
+                from g in db.Groupe 
+                where g.id_Cours == _idCours && g.id_Enseignant == _m_IdPers
+                orderby g.NoGroupe
+                select g;
+
+            return gr;
+        }
+
+        private IOrderedQueryable<Groupe> obtenirGroupesEnseignant(int? _idCours, int _idEnseignant, int? _idSess)
+        {
+            IOrderedQueryable<Groupe> gr =
+                from g in db.Groupe 
+                where g.id_Cours == _idCours && g.id_Enseignant == _idEnseignant && g.id_Sess == _idSess
+                orderby g.NoGroupe
+                select g;
+
+            return gr;
+        }
+        private IOrderedQueryable<Groupe> obtenirGroupesEnseignant(int? _idCours)
+        {
+            IOrderedQueryable<Groupe> gr =
+                from g in db.Groupe
+                where g.id_Cours == _idCours
+                orderby g.NoGroupe
+                select g;
+
+            return gr;
+        }
+        private IOrderedQueryable<Groupe> obtenirGroupesEnseignant(int? _idCours, int? _idSess)
+        {
+            IOrderedQueryable<Groupe> gr =
+                from g in db.Groupe
+                where g.id_Cours == _idCours && g.id_Sess == _idSess
+                orderby g.NoGroupe
+                select g;
+
+            return gr;
+        }
+
+        protected override void Dispose(bool disposing)
         {
             if (disposing)
             {
