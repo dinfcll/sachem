@@ -97,15 +97,13 @@
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
 }
-
 <script type="text/javascript">
     $(document).ready(function () {
-        $("#ddlSession").change(function (){
+        $("#ddlSession").change(function () {
             var id = $(this).val();
 
-            window.location.href= "/Parametres/EditHoraire?session="+id;
+            window.location.href = "/Parametres/EditHoraire?session=" + id;
             console.log("text");
         });
-            });
-
+    });
 </script>
