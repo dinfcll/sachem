@@ -80,5 +80,12 @@
             </tr>
         }
 
+        @if (!Model.Any())
+        {
+            <tr>
+                <td colspan="6">Aucun étudiant ne répond à ces critères</td>
+            </tr>
+        }
+
     </table>
 @Html.Partial("_PageRecherche", Model)
