@@ -11,7 +11,7 @@ using System.Collections.Generic;
 namespace sachem.Controllers
 {
     public class EtudiantController : RechercheEtudiantController
-    {    
+    {
         private SACHEMEntities db = new SACHEMEntities();
 
         public const string CONSTANTE20 = "20";
