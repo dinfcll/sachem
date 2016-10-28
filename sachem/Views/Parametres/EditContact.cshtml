@@ -1,10 +1,10 @@
 ﻿@model sachem.Models.p_Contact
 
 @{
-    ViewBag.Title = "Modification des informations de la page 'Nous contacter'";
+    ViewBag.Title = "Modifier des informations de la page 'Nous contacter'";
 }
 
-<h2>Modifier les informations de la page Nous contacter</h2>
+<h2>@ViewBag.Title</h2>
 
 @using (Html.BeginForm("EditContact", "Parametres", FormMethod.Post))
 {
