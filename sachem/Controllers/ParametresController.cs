@@ -76,7 +76,6 @@ namespace sachem.Controllers
             var lSessions = db.Session.AsNoTracking().OrderByDescending(y => y.Annee).ThenByDescending(x => x.id_Saison);
             var slSession = new List<SelectListItem>();
             slSession.AddRange(new SelectList(lSessions, "id_Sess", "NomSession", session));
-
             ViewBag.id_Sess = slSession;
         }
 
@@ -84,17 +83,13 @@ namespace sachem.Controllers
         [ValidationAccesSuper]
         public ActionResult EditHoraire(int session = 0)
         {
-            var lhoraire = db.p_HoraireInscription.Where(x => x.id_Sess ==session || session==0).FirstOrDefault();
-            if (lhoraire == null)
-            {
-                ListeSession(0);
-                ViewBag.idSessHoraire = 0;
-            }
-            else
-            {
-                ListeSession(lhoraire.id_Sess);
-                ViewBag.idSessHoraire = lhoraire.id_Sess;
-            }            
+            var idZero = db.Session.OrderByDescending(y => y.id_Sess).FirstOrDefault();
+            if (session == 0)
+                session = idZero.id_Sess;
+            ViewBag.idSess = session;
+            var lhoraire = db.p_HoraireInscription.OrderByDescending(y => y.id_Sess).Where(x => x.id_Sess ==session).FirstOrDefault();
+            ListeSession(session);
+            ViewBag.idSessStable = idZero.id_Sess;         
             return View(lhoraire);
         }
 
@@ -234,13 +229,6 @@ namespace sachem.Controllers
                 db.p_College.Remove(college);
                 db.SaveChanges();
             }
-        }
-
-        [NonAction]
-        private void Valider([Bind(Include = "id_Contact,Nom,Prenom,Courriel,Telephone,Poste,Facebook,SiteWeb,Local")]p_Contact contact)
-        {
-            if (!db.p_Contact.Any(r => r.id_Contact == contact.id_Contact))
-                ModelState.AddModelError(string.Empty," ");
         }
     }
 }
