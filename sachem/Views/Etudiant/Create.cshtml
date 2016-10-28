@@ -1,5 +1,4 @@
-﻿@model sachem.Models.EtuProgEtude
-@using sachem.Models
+﻿@model sachem.Models.PersonneEtuProgParent
 @{
     ViewBag.Title = "Création";
 }
@@ -16,35 +15,35 @@
         <hr />
         @Html.Partial("_Etudiant")
         <div class="form-group">
-            @Html.LabelFor(model => model.Personne.Matricule, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.personne.Matricule, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Personne.Matricule, new { htmlAttributes = new { @class = "form-control",  @maxlength = "7" } })
-                @Html.ValidationMessageFor(model => model.Personne.Matricule, "", new { @class = "text-danger" })
+                @Html.EditorFor(model => model.personne.Matricule, new { htmlAttributes = new { @class = "form-control",  @maxlength = "7" } })
+                @Html.ValidationMessageFor(model => model.personne.Matricule, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.Personne.MP, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.personne.MP, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.PasswordFor(model => model.Personne.MP, new { @class = "form-control", placeholder = "Mot de passe" })
-                @Html.ValidationMessageFor(model => model.Personne.MP, "", new { @class = "text-danger" })
+                @Html.PasswordFor(model => model.personne.MP, new { @class = "form-control", placeholder = "Mot de passe" })
+                @Html.ValidationMessageFor(model => model.personne.MP, "", new { @class = "text-danger" })
             </div>
         </div>
         <div class="form-group">
-            @Html.LabelFor(model => model.Personne.ConfirmPassword, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.personne.ConfirmPassword, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.PasswordFor(model => model.Personne.ConfirmPassword, new { @class = "form-control", placeholder = "Mot de passe" })
-                @Html.ValidationMessageFor(model => model.Personne.ConfirmPassword, "", new { @class = "text-danger" })
+                @Html.PasswordFor(model => model.personne.ConfirmPassword, new { @class = "form-control", placeholder = "Mot de passe" })
+                @Html.ValidationMessageFor(model => model.personne.ConfirmPassword, "", new { @class = "text-danger" })
             </div>
         </div>
         <div class="form-group">
-            @Html.LabelFor(model => model.Personne.EtuProgEtude, "Programme d'étude", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.personne.EtuProgEtude, "Programme d'étude", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.DropDownList("id_Programme", null, "Choisir", htmlAttributes: new { @class = "form-control" })
             </div>
         </div>
         <div class="form-group">
-            @Html.LabelFor(model => model.Personne.EtuProgEtude, "Session", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.personne.EtuProgEtude, "Session", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.DropDownList("id_Session", null, "", htmlAttributes: new { @class = "form-control" })
             </div>
