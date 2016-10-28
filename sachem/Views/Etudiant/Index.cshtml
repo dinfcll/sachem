@@ -14,7 +14,7 @@
 </p>
 
 <p class="text-danger">
-    @TempData["Echec"]
+    @Html.Raw(@TempData["Echec"])
 </p>
 
 @using (Html.BeginForm("Index", "Etudiant", FormMethod.Post, new { @class = "form-inline", role = "form" }))
