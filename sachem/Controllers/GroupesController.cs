@@ -437,7 +437,7 @@ namespace sachem.Controllers
         {
             if (db.Groupe.Any(r => r.NoGroupe == groupe.NoGroupe && r.id_Sess == groupe.id_Sess && r.id_Cours == groupe.id_Cours))
             {
-                ModelState.AddModelError(string.Empty, Messages.I_021(groupe.NoGroupe));
+                ModelState.AddModelError(string.Empty, Messages.I_021(groupe.NoGroupe)); 
             }
         }
 
