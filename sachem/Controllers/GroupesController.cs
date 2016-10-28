@@ -14,33 +14,36 @@ namespace sachem.Controllers
     {
         private readonly SACHEMEntities db = new SACHEMEntities();
 
-        [NonAction]
         private IEnumerable<Object> ObtenirListeEnseignant(int session)
         {
-            var ens = db.Personne.AsNoTracking().Join(db.Groupe, p => p.id_Pers, g => g.id_Enseignant, (p, g) => new { Personne = p, Groupe = g })
-                        .Where(sel => sel.Personne.id_TypeUsag == 2 && (sel.Groupe.id_Sess == session || session == 0)).OrderBy(x => x.Personne.Prenom).ThenBy(x => x.Personne.Nom)
-                        .Select(e => new { e.Personne.id_Pers, NomPrenom = e.Personne.Nom + ", " + e.Personne.Prenom }).Distinct();
+            var ens = db.Personne
+                .AsNoTracking()
+                .Join(db.Groupe, p => p.id_Pers, g => g.id_Enseignant, (p, g) => new { Personne = p, Groupe = g })
+                .Where(sel => sel.Personne.id_TypeUsag == 2 && (sel.Groupe.id_Sess == session || session == 0))
+                .OrderBy(x => x.Personne.Prenom).ThenBy(x => x.Personne.Nom)
+                .Select(e => new { e.Personne.id_Pers, NomPrenom = e.Personne.Nom + ", " + e.Personne.Prenom })
+                .Distinct();
             return ens.AsEnumerable();
         }
 
-        [NonAction]
         private IEnumerable<Object> ObtenirListeCours(int session,int enseignant)
         {
             var cours = db.Cours.Join(db.Groupe, c => c.id_Cours, g => g.id_Cours, (c, g) => new { Cours = c, Groupe = g })
                         .Where(sel => (sel.Groupe.id_Sess == session || session == 0) && (sel.Groupe.id_Enseignant == enseignant || enseignant == 0))
-                        .OrderBy(x => x.Cours.Nom).ThenBy(x=>x.Cours.Code).Select(c=> new { c.Cours.id_Cours, CodeNom = c.Cours.Code + "-" + c.Cours.Nom }).Distinct();
+                        .OrderBy(x => x.Cours.Nom).ThenBy(x=>x.Cours.Code).Select(c=> new { c.Cours.id_Cours, CodeNom = c.Cours.Code + "-" + c.Cours.Nom })
+                        .Distinct();
             return cours.AsEnumerable();
         }
 
         [AcceptVerbs("Get", "Post")]
-        public virtual JsonResult ActualiseCoursddl(int enseignant = 0 ,int session = 0)
+        public virtual JsonResult ActualiseCours(int enseignant = 0 ,int session = 0)
         {
             var actucours = ObtenirListeCours(session, enseignant);
             return Json(actucours.ToList(), JsonRequestBehavior.AllowGet);
         }
 
         [AcceptVerbs("Get", "Post")]
-        public virtual JsonResult ActualiseEnseignantddl(int session = 0)
+        public virtual JsonResult ActualiseEnseignant(int session = 0)
         {
             var actuens = ObtenirListeEnseignant(session);
             return Json(actuens.ToList(), JsonRequestBehavior.AllowGet);
@@ -119,7 +122,6 @@ namespace sachem.Controllers
         }
 
         [ValidationAccesEnseignant]
-        [NonAction]
         private ActionResult CreateEdit([Bind(Include = "id_Groupe,id_Cours,id_Sess,id_Enseignant,NoGroupe")] Groupe groupe, bool Ajouter = false)
         {
             Valider(groupe);
@@ -191,7 +193,6 @@ namespace sachem.Controllers
             return RedirectToAction("Index");
         }
 
-        [NonAction]
         private IEnumerable<Groupe> Rechercher()
         {
             IQueryable<Groupe> groupes;
@@ -199,9 +200,9 @@ namespace sachem.Controllers
             bool verif = SachemIdentite.ObtenirTypeUsager(Session) == TypeUsagers.Responsable;
             int idSess = 0, idEns = (SachemIdentite.ObtenirTypeUsager(Session) == TypeUsagers.Enseignant ? idPers : 0), idCours = 0;
 
-            if (Request.RequestType == "GET" && Session["DernRechCours"] != null && (string)Session["DernRechCoursUrl"] == Request.Url?.LocalPath)
+            if (Request.RequestType == "GET" && Session["DernRechCours"] != null && Session["DernRechCoursUrl"].ToString() == Request.Url?.LocalPath)
             {
-                var anciennerech = (string)Session["DernRechCours"];
+                var anciennerech = Session["DernRechCours"].ToString();
                 var tanciennerech = anciennerech.Split(';');
 
                 if (tanciennerech[0] != "")
@@ -222,14 +223,18 @@ namespace sachem.Controllers
             else
             {
                 if (!string.IsNullOrEmpty(Request.Form["Sessions"]))
+                {
                     int.TryParse(Request.Form["Sessions"], out idSess);
-                //si la variable est null c'est que la page est chargée pour la première fois, donc il faut assigner la session à la session en cours, la plus grande dans la base de données
+                }
                 else if (Request.Form["Sessions"] == null)
+                {
                     idSess = db.Session.Max(s => s.id_Sess);
-                if(verif)
+                }
+                if (verif)
+                {
                     int.TryParse(Request.Form["Enseignants"], out idEns);
+                }
                 int.TryParse(Request["Cours"], out idCours);
-
             }
             groupes = from d in db.Groupe
                         where d.id_Cours == (idCours == 0 ? d.id_Cours : idCours) && d.id_Enseignant == (idEns == 0 ? d.id_Enseignant : idEns) && d.id_Sess == (idSess == 0 ? d.id_Sess : idSess)
@@ -394,11 +399,10 @@ namespace sachem.Controllers
             GroupeEtudiant ge2 = g.GroupeEtudiant.Where(x => x.id_Etudiant == ge.id_Etudiant).ToList().FirstOrDefault();
 
             if ( ge2 != null && ge.Groupe.id_Sess == ge2.Groupe.id_Sess && ge.id_Etudiant == ge2.id_Etudiant)
-                {
-                    TempData["Success"] = Messages.I_041(ge.Personne.Matricule7, g.NoGroupe, g.Cours.Nom);
-
-                }
-             else 
+            {
+                TempData["Success"] = Messages.I_041(ge.Personne.Matricule7, g.NoGroupe, g.Cours.Nom);
+            }
+            else 
             {
                 ge.Groupe = g;
                 db.SaveChanges();
@@ -408,7 +412,7 @@ namespace sachem.Controllers
             return RedirectToAction("Index");
         }
 
-        [NonAction]
+
         private IEnumerable<Personne> RechercherEleve()
         {
             IEnumerable<Personne> personnes = null;
@@ -429,11 +433,12 @@ namespace sachem.Controllers
             return personnes;
         }
  
-        [NonAction]
         private void Valider([Bind(Include = "id_Groupe,id_Cours,id_Sess,id_Enseignant,NoGroupe")] Groupe groupe)
         {
             if (db.Groupe.Any(r => r.NoGroupe == groupe.NoGroupe && r.id_Sess == groupe.id_Sess && r.id_Cours == groupe.id_Cours))
+            {
                 ModelState.AddModelError(string.Empty, Messages.I_021(groupe.NoGroupe));
+            }
         }
 
     }

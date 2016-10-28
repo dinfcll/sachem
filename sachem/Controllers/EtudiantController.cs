@@ -12,7 +12,7 @@ namespace sachem.Controllers
 {
     public class EtudiantController : RechercheEtudiantController
     {
-        private SACHEMEntities db = new SACHEMEntities();
+        private SACHEMEntities    db = new SACHEMEntities();
 
         [ValidationAccesEnseignant]
         public ActionResult Index(int? page)
