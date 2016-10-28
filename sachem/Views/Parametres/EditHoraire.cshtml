@@ -27,7 +27,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.DateDebut, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @if (1 == ViewBag.idSessHoraire)
+                @if (ViewBag.idSess == ViewBag.idSessStable)
                 {
                     @Html.EditorFor(model => model.DateDebut, new { htmlAttributes = new { @class = "form-control", @placeholder = "AAAA/MM/JJ", @id="DateDebut"} })
                     @Html.ValidationMessageFor(model => model.DateDebut, "", new { @class = "text-danger" })
@@ -42,7 +42,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.DateFin, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @if (1 == ViewBag.idSessHoraire)
+                @if (ViewBag.idSess == ViewBag.idSessStable)
                 {
                     @Html.EditorFor(model => model.DateFin, new { htmlAttributes = new { @class = "form-control", @placeholder = "AAAA/MM/JJ", @id = "DateFin" } })
                     @Html.ValidationMessageFor(model => model.DateFin, "", new { @class = "text-danger" })
@@ -57,7 +57,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.HeureDebut, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @if (1 == ViewBag.idSessHoraire)
+                @if (ViewBag.idSess == ViewBag.idSessStable)
                 {
                     @Html.EditorFor(model => model.HeureDebut, new { htmlAttributes = new { @class = "form-control" , @placeholder = "hh:mm", @id = "HeureDebut" } })
                     @Html.ValidationMessageFor(model => model.HeureDebut, "", new { @class = "text-danger" })
@@ -72,7 +72,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.HeureFin, htmlAttributes: new { @class = "control-label col-md-2"})
             <div class="col-md-10">
-                @if (1 == ViewBag.idSessHoraire)
+                @if (ViewBag.idSess == ViewBag.idSessStable)
                 {
                     @Html.EditorFor(model => model.HeureFin, new { htmlAttributes = new { @class = "form-control", @placeholder = "hh:mm", @id = "HeureFin" } })
                     @Html.ValidationMessageFor(model => model.HeureFin, "", new { @class = "text-danger" })
@@ -83,7 +83,7 @@
                 }
             </div>
         </div>
-        @if (1 == ViewBag.idSessHoraire)
+        @if (ViewBag.idSess == ViewBag.idSessStable)
         {
             <div class="form-group">
                 <div class="col-md-offset-2 col-md-10">
@@ -99,21 +99,11 @@
 }
 <script type="text/javascript">
     $(document).ready(function () {
-        $("#ddlSession").change(function (){
+        $("#ddlSession").change(function () {
             var id = $(this).val();
 
-            $.ajax({
-                type: 'GET',
-                dataType:"json",
-                url: @Html.Raw("\"/" + HttpContext.Current.Request.RequestContext.RouteData.Values["controller"].ToString() + "/EditHoraire\"" ),
-                data: { session : id},
-                //success: function (donnees) {
-                //    $("#DateDebut").text("ALLO");
-                //    $("#DateFin").text(donnees.DateFin);
-                //    $("#HeureDebut").text(donnees.HeureDebut);
-                //    $("#HeureFin").text(donnees.HeureFin);
-                //}
-            });
+            window.location.href = "/Parametres/EditHoraire?session=" + id;
+            console.log("text");
         });
     });
 </script>
