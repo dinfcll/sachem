@@ -4,6 +4,7 @@ using System.Data.Entity;
 using System.Linq;
 using System.Web.Mvc;
 using sachem.Models;
+using PagedList;
 using static sachem.Classes_Sachem.ValidationAcces;
 
 namespace sachem.Controllers
@@ -167,10 +168,13 @@ namespace sachem.Controllers
 
         [HttpGet]
         [ValidationAccesSuper]
-        public ActionResult EditCollege()
+        public ActionResult EditCollege(int? page)
         {
             var college = from c in db.p_College orderby c.College select c;
-            return View(college);
+
+            var pageNumber = page ?? 1;
+
+            return View(college.ToPagedList(pageNumber, 20));
         }
 
         [HttpPost]
