@@ -11,9 +11,10 @@ using System.Collections.Generic;
 namespace sachem.Controllers
 {
     public class EtudiantController : RechercheEtudiantController
-    {    
+    {
         private SACHEMEntities db = new SACHEMEntities();
 
+        public const string CONSTANTE20 = "20";
         [ValidationAccesEnseignant]
         public ActionResult Index(int? page)
         {
@@ -28,21 +29,15 @@ namespace sachem.Controllers
 
       
         // GET: Etudiant/Details/5
-        //fonction pour formatter le numéro de téléphone avant de mettre dans la bd
-      
         [ValidationAccesEnseignant]
         // GET: Etudiant/Create
         public ActionResult Create()
         {
-            //   s.lSexe = new SelectList(db.p_Sexe, "id_Sexe", "Sexe");
-
             ViewBag.id_Sexe = db.p_Sexe;
             ViewBag.Selected = 0;
             ViewBag.id_TypeUsag = new SelectList(db.p_TypeUsag, "id_TypeUsag", "TypeUsag");
             ViewBag.id_Programme = new SelectList(db.ProgrammeEtude, "id_ProgEtu", "nomProg");
             ViewBag.id_Session = new SelectList(db.Session, "id_Sess", "NomSession");
-
-            //return View();
             return View();
         }
 
@@ -54,14 +49,12 @@ namespace sachem.Controllers
         [ValidationAccesEnseignant]
         public ActionResult Create([Bind(Include = "id_Pers,id_Sexe,id_TypeUsag,Nom,Prenom,Matricule,MP,ConfirmPassword,Courriel,Telephone,DateNais")] Personne personne,int? page)
         {
-
             PersonneEtuProgParent pepp = new PersonneEtuProgParent();
-            //personne.id_Sexe = Int32.Parse(Request.Form["id_Sexe"]);
 
             personne.id_TypeUsag = 1;
             personne.Actif = true;
             personne.Telephone = SachemIdentite.FormatTelephone(personne.Telephone);
-
+            personne.Matricule = CONSTANTE20 + personne.Matricule;
             pepp.personne = personne;
             
 
@@ -87,7 +80,7 @@ namespace sachem.Controllers
                 db.EtuProgEtude.Add(etuprog);
                 db.SaveChanges();
                 personne.Telephone = SachemIdentite.RemettreTel(personne.Telephone);
-                TempData["Success"] = Messages.I_010(personne.Matricule); // Message afficher sur la page d'index confirmant la création
+                TempData["Success"] = Messages.I_010(personne.Matricule7); // Message afficher sur la page d'index confirmant la création
                 return RedirectToAction("Index");
             }
             ViewBag.id_Sexe = db.p_Sexe;
@@ -203,8 +196,8 @@ namespace sachem.Controllers
         [ValidationAccesEnseignant]
         public ActionResult DeleteConfirmed(int id,int? page)
         {
-            var pageNumber = page ?? 1;           
-            Personne personne = db.Personne.Find(id);
+            var pageNumber = page ?? 1;
+                Personne personne = db.Personne.Find(id);
             var inscription = db.Inscription.Where(x => x.id_Pers == personne.id_Pers).FirstOrDefault();
 
             if (db.GroupeEtudiant.Any(x => x.id_Etudiant == personne.id_Pers))
@@ -223,19 +216,19 @@ namespace sachem.Controllers
             }
             if (ModelState.IsValid)
             {
-                var etuProgEtu = db.EtuProgEtude.Where(x => x.id_Etu == personne.id_Pers);
-                db.EtuProgEtude.RemoveRange(etuProgEtu);
-                var groupeEtu = db.GroupeEtudiant.Where(y => y.id_Etudiant == personne.id_Pers);
-                db.GroupeEtudiant.RemoveRange(groupeEtu);
-                var Jumul = db.Jumelage.Where(z => z.id_InscEleve == personne.id_Pers);
-                db.Jumelage.RemoveRange(Jumul);
-                var Inscri = db.Inscription.Where(a => a.id_Pers == personne.id_Pers);
-                db.Inscription.RemoveRange(Inscri);
-                var CoursSuiv = db.CoursSuivi.Where(b => b.id_Pers == personne.id_Pers);
-                db.CoursSuivi.RemoveRange(CoursSuiv);
-                db.Personne.Remove(personne);
-                db.SaveChanges();
-                TempData["Success"] = Messages.I_028(personne.NomPrenom);
+            var etuProgEtu = db.EtuProgEtude.Where(x => x.id_Etu == personne.id_Pers);
+            db.EtuProgEtude.RemoveRange(etuProgEtu);
+            var groupeEtu = db.GroupeEtudiant.Where(y => y.id_Etudiant == personne.id_Pers);
+            db.GroupeEtudiant.RemoveRange(groupeEtu);
+            var Jumul = db.Jumelage.Where(z => z.id_InscEleve == personne.id_Pers);
+            db.Jumelage.RemoveRange(Jumul);
+            var Inscri = db.Inscription.Where(a => a.id_Pers == personne.id_Pers);
+            db.Inscription.RemoveRange(Inscri);
+            var CoursSuiv = db.CoursSuivi.Where(b => b.id_Pers == personne.id_Pers);
+            db.CoursSuivi.RemoveRange(CoursSuiv);
+            db.Personne.Remove(personne);
+            db.SaveChanges();
+            TempData["Success"] = Messages.I_028(personne.NomPrenom);
             }
             return RedirectToAction("Index");
         }
@@ -266,10 +259,10 @@ namespace sachem.Controllers
                 else
                 {
                     if (Prog.Count() > 1)
-                    {
+        {
                         TempData["Success"] = Messages.I_016(etuprog.ProgrammeEtude.CodeNomProgramme);
-                        db.EtuProgEtude.RemoveRange(etuProgEtu);
-                        db.SaveChanges();
+            db.EtuProgEtude.RemoveRange(etuProgEtu);
+            db.SaveChanges();
                     }
                     else
                         TempData["Echec"] = Messages.I_011(etuprog.ProgrammeEtude.CodeNomProgramme);
@@ -279,15 +272,24 @@ namespace sachem.Controllers
             TempData["id_Pers"] = idPers;         
             TempData["id_Prog"] = idProg;
             return RedirectToAction("Edit", "Etudiant", new { id = idPers });
-         }
+        }
 
-        //fonction de validation
         private void Valider([Bind(Include = "id_Pers,id_Sexe,id_TypeUsag,Nom,Prenom,NomUsager,MP,ConfirmPassword,Courriel,DateNais,Actif")] Personne personne)
         {
-            // Verifier si le matricule existe déja dans la BD
-            if (db.Personne.Any(x => x.Matricule == personne.Matricule))
+
+            if (personne.Matricule7 == null)
+            {
+                ModelState.AddModelError("Matricule7", Messages.U_001); //requis
+            }
+            else if (personne.Matricule7.Length != 7 || !personne.Matricule.All(char.IsDigit)) //vérifie le matricule
+            {
+                ModelState.AddModelError("Matricule7", Messages.U_004); //longueur
+            }
+            else if (db.Personne.Any(x => x.Matricule == personne.Matricule))// Verifier si le matricule existe déja dans la BD
+            {
                 ModelState.AddModelError(string.Empty, Messages.I_004(personne.Matricule));
 
+        }
         }
         protected override void Dispose(bool disposing)
         {
