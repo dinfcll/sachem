@@ -14,7 +14,7 @@ namespace sachem.Controllers
     {    
         private SACHEMEntities db = new SACHEMEntities();
 
-        public const string constanteAnnee = "20";
+        public const string CONSTANTEANNEE = "20";
         [ValidationAccesEnseignant]
         public ActionResult Index(int? page)
         {
@@ -29,21 +29,15 @@ namespace sachem.Controllers
 
       
         // GET: Etudiant/Details/5
-        //fonction pour formatter le numéro de téléphone avant de mettre dans la bd
-
         [ValidationAccesEnseignant]
         // GET: Etudiant/Create
         public ActionResult Create()
         {
-            //   s.lSexe = new SelectList(db.p_Sexe, "id_Sexe", "Sexe");
-
             ViewBag.id_Sexe = db.p_Sexe;
             ViewBag.Selected = 0;
             ViewBag.id_TypeUsag = new SelectList(db.p_TypeUsag, "id_TypeUsag", "TypeUsag");
             ViewBag.id_Programme = new SelectList(db.ProgrammeEtude, "id_ProgEtu", "nomProg");
             ViewBag.id_Session = new SelectList(db.Session, "id_Sess", "NomSession");
-
-            //return View();
             return View();
         }
 
@@ -55,14 +49,12 @@ namespace sachem.Controllers
         [ValidationAccesEnseignant]
         public ActionResult Create([Bind(Include = "id_Pers,id_Sexe,id_TypeUsag,Nom,Prenom,Matricule,MP,ConfirmPassword,Courriel,Telephone,DateNais")] Personne personne,int? page)
         {
-
             PersonneEtuProgParent pepp = new PersonneEtuProgParent();
-            //personne.id_Sexe = Int32.Parse(Request.Form["id_Sexe"]);
 
             personne.id_TypeUsag = 1;
             personne.Actif = true;
             personne.Telephone = SachemIdentite.FormatTelephone(personne.Telephone);
-            personne.Matricule = constanteAnnee + personne.Matricule;
+            personne.Matricule = CONSTANTEANNEE + personne.Matricule;
             pepp.personne = personne;
             
 
