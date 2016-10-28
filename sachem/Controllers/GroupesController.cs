@@ -412,7 +412,6 @@ namespace sachem.Controllers
             return RedirectToAction("Index");
         }
 
-
         private IEnumerable<Personne> RechercherEleve()
         {
             IEnumerable<Personne> personnes = null;
