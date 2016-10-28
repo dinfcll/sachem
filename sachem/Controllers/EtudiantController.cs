@@ -88,7 +88,7 @@ namespace sachem.Controllers
                 db.EtuProgEtude.Add(etuprog);
                 db.SaveChanges();
                 personne.Telephone = SachemIdentite.RemettreTel(personne.Telephone);
-                TempData["Success"] = Messages.I_010(personne.Matricule); // Message afficher sur la page d'index confirmant la création
+                TempData["Success"] = Messages.I_010(personne.Matricule7); // Message afficher sur la page d'index confirmant la création
                 return RedirectToAction("Index");
             }
             ViewBag.id_Sexe = db.p_Sexe;
