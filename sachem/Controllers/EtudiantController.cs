@@ -16,15 +16,13 @@ namespace sachem.Controllers
 
         public const string CONSTANTE20 = "20";
         [ValidationAccesEnseignant]
-        public ActionResult Index(int? page)
-        {
-            noPage = (page ?? noPage);
-           
+        public ActionResult Index(int page)
+        {           
             var personne = from c in db.Personne   
                            where c.Actif == true && c.id_TypeUsag == 1
                            select c;
 
-            return View(Rechercher().ToPagedList(noPage, 20));
+            return View(Rechercher().ToPagedList(page, 20));
         }
 
       
