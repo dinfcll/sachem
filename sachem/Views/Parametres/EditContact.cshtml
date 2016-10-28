@@ -1,16 +1,18 @@
 ﻿@model sachem.Models.p_Contact
 
 @{
-    ViewBag.Title = "Edit";
+    ViewBag.Title = "Modification des informations de la page 'Nous contacter'";
 }
 
 <h2>Modifier les informations de la page Nous contacter</h2>
 
-@using (Html.BeginForm("Edit", "Parametres", FormMethod.Post))
+@using (Html.BeginForm("EditContact", "Parametres", FormMethod.Post))
 {
     @Html.AntiForgeryToken()
-    @Html.ViewBag.Success
-    @TempData["Success"]
+    <p class="text-success">
+        @Html.ViewBag.Success
+        @TempData["Success"]
+    </p>
 
     <div class="form-horizontal">
      
@@ -21,7 +23,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.Nom, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Nom, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.Nom, new { htmlAttributes = new { @class = "form-control" , maxlength = 30} })
                 @Html.ValidationMessageFor(model => model.Nom, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -29,7 +31,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.Prenom, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Prenom, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.Prenom, new { htmlAttributes = new { @class = "form-control", maxlength = 30 } })
                 @Html.ValidationMessageFor(model => model.Prenom, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -37,7 +39,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.Courriel, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Courriel, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.Courriel, new { htmlAttributes = new { @class = "form-control", maxlength = 256 } })
                 @Html.ValidationMessageFor(model => model.Courriel, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -61,7 +63,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.Facebook, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Facebook, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.Facebook, new { htmlAttributes = new { @class = "form-control", maxlength = 100 } })
                 @Html.ValidationMessageFor(model => model.Facebook, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -69,7 +71,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.SiteWeb, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.SiteWeb, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.SiteWeb, new { htmlAttributes = new { @class = "form-control", maxlength = 100 } })
                 @Html.ValidationMessageFor(model => model.SiteWeb, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -77,7 +79,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.Local, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Local, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.Local, new { htmlAttributes = new { @class = "form-control", maxlength = 5 } })
                 @Html.ValidationMessageFor(model => model.Local, "", new { @class = "text-danger" })
             </div>
         </div>

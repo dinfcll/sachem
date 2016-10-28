@@ -72,7 +72,8 @@ namespace sachem.Models
 
     public partial class Groupe
     {
-
+        public string CodeNomGroupe => $"{Cours.CodeNom} ({NoGroupe})";
+        public string nomsConcatenesProfs { get; set; }
     }
 
     public partial class PersonneProgEtu
