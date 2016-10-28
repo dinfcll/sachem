@@ -86,10 +86,10 @@
 @if (sachem.Models.SachemIdentite.ObtenirTypeUsager(Session) == sachem.Models.TypeUsagers.Eleve || sachem.Models.SachemIdentite.ObtenirTypeUsager(Session) == sachem.Models.TypeUsagers.Tuteur)
 {
                 <td>
-                    @Html.ActionLink("Modifier", "Edit", "CoursSuivi", new { id = item.id_CoursReussi, id2 = item.id_Pers }, null)
+                    @Html.ActionLink("Modifier", "Edit", "CoursSuivi", new { coursReussi = item.id_CoursReussi, personne = item.id_Pers }, null)
                 </td>
                 <td>
-                    @Html.ActionLink("Supprimer", "Delete", "CoursSuivi", new { id = item.id_CoursReussi, id2 = item.id_Pers }, null)
+                    @Html.ActionLink("Supprimer", "Delete", "CoursSuivi", new { coursReussi = item.id_CoursReussi, personne = item.id_Pers }, null)
                 </td>
 }
             </tr>
