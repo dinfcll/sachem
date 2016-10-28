@@ -11,7 +11,7 @@ using System.Collections.Generic;
 namespace sachem.Controllers
 {
     public class EtudiantController : RechercheEtudiantController
-    {
+    {    
         private SACHEMEntities db = new SACHEMEntities();
 
         public const string CONSTANTE20 = "20";
@@ -189,7 +189,6 @@ namespace sachem.Controllers
             
             return View(personne);
         }
-
         // POST: Etudiant/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
@@ -197,8 +196,25 @@ namespace sachem.Controllers
         public ActionResult DeleteConfirmed(int id,int? page)
         {
             var pageNumber = page ?? 1;
-                Personne personne = db.Personne.Find(id);
+            Personne personne = db.Personne.Find(id);
+            var inscription = db.Inscription.Where(x => x.id_Pers == personne.id_Pers).FirstOrDefault();
 
+            if (db.GroupeEtudiant.Any(x => x.id_Etudiant == personne.id_Pers))
+            {
+                ModelState.AddModelError(string.Empty, Messages.I_014());
+                TempData["Echec"] = Messages.I_014();
+            }
+             
+            if (inscription != null)
+            {
+                if (db.Jumelage.Any(x => x.id_InscEleve == inscription.id_Inscription))
+                {
+                    ModelState.AddModelError(string.Empty, Messages.I_043());
+                    TempData["Echec"] = Messages.I_043();
+                }
+            }
+            if (ModelState.IsValid)
+            {
             var etuProgEtu = db.EtuProgEtude.Where(x => x.id_Etu == personne.id_Pers);
             db.EtuProgEtude.RemoveRange(etuProgEtu);
             var groupeEtu = db.GroupeEtudiant.Where(y => y.id_Etudiant == personne.id_Pers);
@@ -209,12 +225,10 @@ namespace sachem.Controllers
             db.Inscription.RemoveRange(Inscri);
             var CoursSuiv = db.CoursSuivi.Where(b => b.id_Pers == personne.id_Pers);
             db.CoursSuivi.RemoveRange(CoursSuiv);
-
-            //suppresion et sauvegarde dans la bd
             db.Personne.Remove(personne);
             db.SaveChanges();
             TempData["Success"] = Messages.I_028(personne.NomPrenom);
-            //redirection à l'index après la suppression
+            }
             return RedirectToAction("Index");
         }
         //fonction qui supprime un programme d'étude à oartir de la page modifier
@@ -244,21 +258,22 @@ namespace sachem.Controllers
                 else
                 {
                     if (Prog.Count() > 1)
-        {
+                    {
                         TempData["Success"] = Messages.I_016(etuprog.ProgrammeEtude.CodeNomProgramme);
-            db.EtuProgEtude.RemoveRange(etuProgEtu);
-            db.SaveChanges();
+                        db.EtuProgEtude.RemoveRange(etuProgEtu);
+                        db.SaveChanges();
                     }
                     else
+                    {
                         TempData["Echec"] = Messages.I_011(etuprog.ProgrammeEtude.CodeNomProgramme);
                 }
-            //faire apparaitre le message
+                }
                 return RedirectToAction("Edit", "Etudiant", new { id = idPers });
             }
             TempData["id_Pers"] = idPers;         
             TempData["id_Prog"] = idProg;
             return RedirectToAction("Edit", "Etudiant", new { id = idPers });
-        }
+         }
 
         private void Valider([Bind(Include = "id_Pers,id_Sexe,id_TypeUsag,Nom,Prenom,NomUsager,MP,ConfirmPassword,Courriel,DateNais,Actif")] Personne personne)
         {
@@ -274,7 +289,8 @@ namespace sachem.Controllers
             else if (db.Personne.Any(x => x.Matricule == personne.Matricule))// Verifier si le matricule existe déja dans la BD
             {
                 ModelState.AddModelError(string.Empty, Messages.I_004(personne.Matricule));
-        }
+
+            }
         }
         protected override void Dispose(bool disposing)
         {
