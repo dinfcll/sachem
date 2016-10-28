@@ -8,8 +8,7 @@
             $.ajax({
                 type: 'POST',
                 url:
-                    @Html.Raw("\"/" + HttpContext.Current.Request.RequestContext.RouteData.Values["controller"].ToString() + "/ActualiseCoursddl\"")
-,
+                    @Html.Raw("\"/" + HttpContext.Current.Request.RequestContext.RouteData.Values["controller"].ToString() + "/ActualiseCoursddl\""),
                 data: {
                     session: vSession
                 },

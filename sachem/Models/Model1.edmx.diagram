@@ -54,7 +54,6 @@
         <AssociationConnector Association="SACHEMModel.FK_Session_p_Saison" />
         <AssociationConnector Association="SACHEMModel.FK_Personne_p_Sexe" />
         <AssociationConnector Association="SACHEMModel.FK_Personne_p_TypeUsag" />
-        <EntityTypeShape EntityType="SACHEMModel.sysdiagrams" Width="1.5" PointX="13.625" PointY="11.625" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
