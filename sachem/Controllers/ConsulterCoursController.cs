@@ -80,7 +80,6 @@ namespace sachem.Controllers
             }
             else //responsable
             {
-                Int32.TryParse(Request.Form["Personne"], out m_IdPers); //seuls les responsables le voient
                 ListeSession(idSess); //créer liste Session pour le dropdown
                 ListePersonne(m_IdPers); //créer liste Enseignants pour le dropdown
 
@@ -169,13 +168,14 @@ namespace sachem.Controllers
 
         //fonctions permettant d'initialiser les listes déroulantes
         [NonAction]
-        private void ListePersonne(int idPersonne = 0)
+        private void ListePersonne(int idPersonne)
         {
             var lPersonne = from p in db.Personne
-                            where p.id_TypeUsag == 2
+                            where (p.id_TypeUsag == 2 || p.id_TypeUsag == 3 ) && p.Actif == true
+                            orderby p.Nom,p.Prenom
                             select p;
             var slPersonne = new List<SelectListItem>();
-            slPersonne.AddRange(new SelectList(lPersonne, "id_Pers", "PrenomNom", idPersonne));
+            slPersonne.AddRange(new SelectList(lPersonne, "id_Pers", "NomPrenom", idPersonne));
 
             ViewBag.Personne = slPersonne;
         }
