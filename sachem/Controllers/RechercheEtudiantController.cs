@@ -236,7 +236,7 @@ namespace sachem.Controllers
                 }
                 else
                 {
-                    //recherche sur le matricule
+                    //recherche sur le matricu
                     lstEtu = from q in
                             (from p in db.Personne.Where(x => x.Matricule.Substring(2).StartsWith(matricule)).OrderBy(x => x.Nom).OrderBy(x => x.Nom)
                              select new
