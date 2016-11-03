@@ -60,7 +60,10 @@
                 @Html.DisplayFor(modelItem => item.Personne.p_Sexe.Sexe)
             </td>
             <td>
-                @Html.ActionLink("Déplacer", "Deplacer", new { id = item.id_GroupeEtudiant }) |
+                @if (ViewBag.Disabled != null && ViewBag.Disabled == "")
+                {
+                    @Html.ActionLink("Déplacer", "Deplacer", new { id = item.id_GroupeEtudiant }) <span> | </span>
+                }
                 @Html.ActionLink("Supprimer", "DeleteEleve", new { id = item.id_GroupeEtudiant })
             </td>
         </tr>
