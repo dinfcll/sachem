@@ -70,7 +70,7 @@
             }
         </dd>
     </dl>
-        @if (sachem.Models.SachemIdentite.ObtenirTypeUsager(Session) >= sachem.Models.TypeUsagers.Enseignant)
+        @if (sachem.Models.SachemIdentite.TypeListeProf.Contains(sachem.Models.SachemIdentite.ObtenirTypeUsager(Session)))
         {
             <hr />
         }
@@ -80,11 +80,29 @@
         <dt>
             @Html.DisplayNameFor(model => model.Item1.BonEchange)
         </dt>
-
+@if (sachem.Models.SachemIdentite.TypeListeProf.Contains(sachem.Models.SachemIdentite.ObtenirTypeUsager(Session)))
+{
         <dd>
+
             @Html.CheckBoxFor(model => model.Item1.BonEchange.Value)
             Acheté
         </dd>
+}
+else
+{
+    if (Model.Item1.BonEchange.Value == true)
+    {
+        <dd>
+            Acheté
+        </dd>
+    }
+    else
+    {
+        <dd>
+            Pas acheté
+        </dd>
+    }
+}
     </dl>
 }
     <input type="submit" value="Modifier" class="btn btn-default"/>       
