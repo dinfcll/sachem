@@ -53,9 +53,7 @@ namespace sachem.Controllers
                     return RedirectToAction("Index");
                 }
             }
-
             RemplirDropList(personne);
-            ViewBag.id_person = personne.id_Pers;
             return View(personne);
         }
 
@@ -73,8 +71,8 @@ namespace sachem.Controllers
                 return HttpNotFound();
             }
             RemplirDropList(personne);
-            ViewBag.id_person = personne.id_Pers;
             personne.MP = "";
+
             return View(personne);
         }
 
@@ -210,7 +208,7 @@ namespace sachem.Controllers
         private void RemplirDropList()
         {
             // afficher les listes déroulantes contenant le type d'usager et le sexe
-            ViewBag.id_Sexe = new SelectList(db.p_Sexe, "id_Sexe", "Sexe");
+            ViewBag.liste_sexe = new SelectList(db.p_Sexe, "id_Sexe", "Sexe");
             // Permet d'afficher seulement Enseignant et Responsable du Sachem dans les valeurs possibles de la list déroulante.
             ViewBag.id_TypeUsag = new SelectList(db.p_TypeUsag.Where(x => x.id_TypeUsag == ID_ENSEIGNANT || x.id_TypeUsag == ID_RESP), "id_TypeUsag", "TypeUsag");
         }
@@ -218,7 +216,7 @@ namespace sachem.Controllers
         private void RemplirDropList(Personne personne)
         {
             // affiche les sexes dans la dropList et sélectionne par défaut la valeur dans le paramètre personne.
-            ViewBag.id_Sexe = new SelectList(db.p_Sexe, "id_Sexe", "Sexe", personne.id_Sexe);
+            ViewBag.liste_sexe = new SelectList(db.p_Sexe, "id_Sexe", "Sexe", personne.id_Sexe);
             // affiche Enseignant et responsable dans la dropList et sélectionne par défaut la valeur dans le paramètre personne.
             ViewBag.id_TypeUsag = new SelectList(db.p_TypeUsag.Where(x => x.id_TypeUsag == ID_ENSEIGNANT || x.id_TypeUsag == ID_RESP), "id_TypeUsag", "TypeUsag", personne.id_TypeUsag);
         }
