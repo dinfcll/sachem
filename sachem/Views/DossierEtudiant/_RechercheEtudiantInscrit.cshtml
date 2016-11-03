@@ -46,7 +46,7 @@
 </script>
 <h4>Recherche</h4>
 
-<table class="tsearch">
+<table class="table-condensed">
     <tr>
         <td>
             Session :
@@ -93,12 +93,12 @@ else
         <td>
             Prénom :
         </td><td>
-            @Html.Editor("Prenom")
+            @Html.Editor("Prenom", new { htmlAttributes = new { @class = "form-control"} })
         </td>
         <td>
             Nom :
         </td><td>
-            @Html.Editor("Nom")
+            @Html.Editor("Nom", new { htmlAttributes = new { @class = "form-control"} })
         </td>
     </tr>
     <tr>
