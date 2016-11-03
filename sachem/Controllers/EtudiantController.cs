@@ -36,7 +36,7 @@ namespace sachem.Controllers
             ViewBag.id_Sexe = db.p_Sexe;
             ViewBag.Selected = 0;
             ViewBag.id_TypeUsag = new SelectList(db.p_TypeUsag, "id_TypeUsag", "TypeUsag");
-            ViewBag.id_Programme = new SelectList(db.ProgrammeEtude, "id_ProgEtu", "nomProg");
+            ViewBag.id_Programme = new SelectList(db.ProgrammeEtude.Where(x => x.Actif == true), "id_ProgEtu", "CodeNomProgramme");
             ViewBag.id_Session = new SelectList(db.Session, "id_Sess", "NomSession");
             return View();
         }
@@ -63,7 +63,7 @@ namespace sachem.Controllers
                 ViewBag.id_Sexe = db.p_Sexe;
                 ViewBag.Selected = 0;
                 ViewBag.id_TypeUsag = new SelectList(db.p_TypeUsag, "id_TypeUsag", "TypeUsag");
-                ViewBag.id_Programme = new SelectList(db.ProgrammeEtude, "id_ProgEtu", "nomProg");
+                ViewBag.id_Programme = new SelectList(db.ProgrammeEtude.Where(x => x.Actif == true), "id_ProgEtu", "CodeNomProgramme");
                 ViewBag.id_Session = new SelectList(db.Session, "id_Sess", "NomSession");
                 return View(pepp);
             }
@@ -113,7 +113,7 @@ namespace sachem.Controllers
             ViewBag.id_Sexe = db.p_Sexe;
             ViewBag.Selected = personne.id_Sexe;
             ViewBag.id_TypeUsag = new SelectList(db.p_TypeUsag, "id_TypeUsag", "TypeUsag", personne.id_TypeUsag);
-            ViewBag.id_Programme = new SelectList(db.ProgrammeEtude, "id_ProgEtu", "nomProg");
+            ViewBag.id_Programme = new SelectList(db.ProgrammeEtude.Where(x=> x.Actif==true), "id_ProgEtu", "CodeNomProgramme");
             ViewBag.id_Session = new SelectList(db.Session, "id_Sess", "NomSession");
             PersonneEtuProgParent epep = new PersonneEtuProgParent();
             epep.personne = personne;
@@ -165,7 +165,7 @@ namespace sachem.Controllers
             ViewBag.id_Sexe = db.p_Sexe;
             ViewBag.Selected = pepp.personne.id_Sexe;
             ViewBag.id_TypeUsag = new SelectList(db.p_TypeUsag, "id_TypeUsag", "TypeUsag", pepp.personne.id_TypeUsag);
-            ViewBag.id_Programme = new SelectList(db.ProgrammeEtude, "id_ProgEtu", "nomProg");
+            ViewBag.id_Programme = new SelectList(db.ProgrammeEtude.Where(x => x.Actif == true), "id_ProgEtu", "CodeNomProgramme");
             ViewBag.id_Session = new SelectList(db.Session, "id_Sess", "NomSession");
 
 
