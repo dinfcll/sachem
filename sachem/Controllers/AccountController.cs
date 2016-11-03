@@ -312,12 +312,13 @@ namespace sachem.Controllers
                     }
                     #endregion
 
-                    ViewBag.Success = Messages.I_026();
+                    
                     SessionBag.Current.NomUsager = EtudiantBD.NomUsager;
                     SessionBag.Current.Matricule7 = EtudiantBD.Matricule7;
                     SessionBag.Current.NomComplet = EtudiantBD.PrenomNom;
                     SessionBag.Current.MP = EtudiantBD.MP;
                     SessionBag.Current.id_TypeUsag = 1;
+                    TempData["Success"] = Messages.I_026();
                     return RedirectToAction("Index", "Home");
                 }
             }
