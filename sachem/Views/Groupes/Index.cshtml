@@ -31,39 +31,28 @@
 
     }
 
-    <p>
-        <h4>Recherche</h4>
-    </p>
-    <div class="form-group">
-        <p>
-            <div class="form-group">
-                Session :
-                @Html.DropDownList("Sessions", "Toutes")
-            </div>
-            
-            <div class="form-group">
-                Enseignant :
+   <h4>Recherche</h4>
+
+    <table>
+        <tr>
+            <td>Session :</td>
+            <td>@Html.DropDownList("Sessions", null, "Toutes", htmlAttributes: new { @class = "form-search" })</td>
+            <td>Enseignant :</td>
+            <td>
                 @if (ViewBag.Disabled != null && ViewBag.Disabled == "")
-                {
-                    @Html.DropDownList("Enseignants", "Tous")
+                    {
+                    @Html.DropDownList("Enseignants", null, "Tous", htmlAttributes: new { @class = "form-search" })
                 }
                 else
                 {
-                    @Html.DropDownList("Enseignants", null, htmlAttributes: new { @disabled = ViewBag.Disabled })
+                    @Html.DropDownList("Enseignants", null, htmlAttributes: new { @disabled = ViewBag.Disabled, @class = "form-search" })
                 }
-            </div>
-            
-            <div class="form-group">
-                Cours :
-                @Html.DropDownList("Cours", "Tous")
-            </div>
-
-
-            <div class="form-group">
-                <input type="submit" value="Rechercher" class="btn-toolbar" />
-            </div>
-        </p>
-    </div>
+            </td>
+            <td>Cours :</td>
+            <td>@Html.DropDownList("Cours", null, "Tous", htmlAttributes: new { @class = "form-search" })</td>
+            <td><input type="submit" value="Rechercher" class="form-search" /></td>
+        </tr>
+    </table>
 }
 
 <p>
