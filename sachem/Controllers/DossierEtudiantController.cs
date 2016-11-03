@@ -289,7 +289,7 @@ namespace sachem.Controllers
                 personne.Telephone = SachemIdentite.FormatTelephone(Telephone);
             }
 
-            if (SachemIdentite.ObtenirTypeUsager(Session) == TypeUsagers.Eleve || id_TypeInsc == 1)
+            if (SachemIdentite.TypeListeProf.Contains(SachemIdentite.ObtenirTypeUsager(Session)))
             {
                 var BonEchange = Convert.ToBoolean(model["Item1.BonEchange.value"] != "false");
                 inscription.BonEchange = BonEchange;
