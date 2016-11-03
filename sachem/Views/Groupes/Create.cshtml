@@ -7,7 +7,7 @@
 <h2>@ViewBag.Title</h2>
 
 
-@using (Html.BeginForm("Create", "Groupes", FormMethod.Post, new { @class = "", role = "form" })) 
+@using (Html.BeginForm("Create", "Groupes", FormMethod.Post, new { @class = "", role = "form" }))
 {
     @Html.AntiForgeryToken()
     
@@ -16,8 +16,6 @@
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         @Html.Partial("_Groupes")
-        
-
     </div>
 }
 
