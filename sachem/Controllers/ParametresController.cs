@@ -225,7 +225,6 @@ namespace sachem.Controllers
                 ModelState.AddModelError(string.Empty," ");
         }
 
-        
         private IEnumerable<p_College> Recherche(string recherche)
         {
             var college = from c in db.p_College
