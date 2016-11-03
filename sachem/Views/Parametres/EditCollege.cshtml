@@ -20,13 +20,22 @@
         var nouveauNomCollege = document.getElementById("NomCollege").value;
         if (confirm("Êtes-vous sûr de vouloir modifier ce collège d'enseignement ?")) {
             $.ajax({
-                url: "/Parametres/EditCollege",
+                url: "/Parametres/ModifCollege",
                 data: { "nomCollege": nouveauNomCollege, "id": id },
                 type: "POST"
             });
         }
     }
 </script>
+<p>
+    @using (Html.BeginForm("EditCollege", "Parametres",FormMethod.Get, new { @class = "form-inline", role = "form" }))
+    {
+    <p>
+        Nom de collège @Html.TextBox("Recherche")
+        <input type="submit" value="Rechercher" />
+    </p>
+    }
+</p>
 @using (Ajax.BeginForm("AddCollege", "Parametres", new AjaxOptions
 {
     HttpMethod = "Post",
