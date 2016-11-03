@@ -313,8 +313,12 @@ namespace sachem.Controllers
                     #endregion
 
                     ViewBag.Success = Messages.I_026();
-
-                    return View();
+                    SessionBag.Current.NomUsager = EtudiantBD.NomUsager;
+                    SessionBag.Current.Matricule7 = EtudiantBD.Matricule7;
+                    SessionBag.Current.NomComplet = EtudiantBD.PrenomNom;
+                    SessionBag.Current.MP = EtudiantBD.MP;
+                    SessionBag.Current.id_TypeUsag = 1;
+                    return RedirectToAction("Index", "Home");
                 }
             }
             // Si nous sommes arrivés là, un échec s’est produit. Réafficher le formulaire
