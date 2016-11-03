@@ -33,7 +33,7 @@
 
    <h4>Recherche</h4>
 
-    <table>
+    <table class="table-condensed">
         <tr>
             <td>Session :</td>
             <td>@Html.DropDownList("Sessions", null, "Toutes", htmlAttributes: new { @class = "form-search" })</td>
@@ -55,9 +55,12 @@
     </table>
 }
 
-<p>
-    @Html.ActionLink("Ajouter un groupe", "Create")
-</p>
+<table class="table-condensed">
+    <tr>
+        <td>@Html.ActionLink("Ajouter un groupe", "Create")</td>
+    </tr>
+</table>
+    
 <table class="table">
     <tr>
         <th>
