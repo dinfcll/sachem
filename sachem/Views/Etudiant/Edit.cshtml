@@ -42,13 +42,15 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal">&times;</button>
-                        <h4 class="modal-title">Modal Header</h4>
+                        <h4 class="modal-title">Suppression Programme d'étude</h4>
                     </div>
                     <div class="modal-body">
-                        <p>Some text in the modal.</p>
+                        <p>Voulez-vous vraiment supprimer le programme d'étude?</p>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <input type="button" value="oui" class="btn btn-default" data-dismiss="modal" onclick="location.href='<%: Url.Action(" deleteProgEtu", "Etudiant" ) %>'" />
+            
+                        <button type="button" class="btn btn-default" data-dismiss="modal">non</button>
                     </div>
                 </div>
             </div>
@@ -102,7 +104,7 @@
 
                             <tr>
                                 <td>@Html.DisplayFor(modelItem => item.ProgrammeEtude.CodeNomProgramme)</td>
-                                <td><button type="button" class="btn btn-info btn-sm right" data-toggle="modal" data-target="#myModal">Open Modal</button></td>
+                                <td><button type="button" class="btn btn-info btn-sm right" data-toggle="modal" data-target="#myModal">Supprimer</button></td>
                             </tr>
                                 @*@Html.ActionLink(" Supprimer", "myModal", new { idProg = item.id_EtuProgEtude, idPers = item.Personne.id_Pers})*@
                         }
