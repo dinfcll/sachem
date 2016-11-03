@@ -205,7 +205,7 @@ namespace sachem.Models
         /// </summary>
         /// <returns></returns>
         public static string I_026()
-        { return $"Le compte a été créé. Vous pouvez maintenant vous connecter."; }
+        { return $"Le compte a été créé. Vous pouvez maintenant vous inscrire au Sachem."; }
 
         /// <summary>
         /// Aucun étudiant ne correspond aux données saisies. Vous devez être inscrit à un cours offert par le département de mathématiques.
