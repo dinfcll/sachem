@@ -183,14 +183,14 @@ namespace sachem.Controllers
                 //Si c'est un tuteur, on a type = 6
                 if (typeinscr > 1)
                 {
-                    SessionBag.Current.id_TypeUsag = 6;
+                    SessionBag.Current.id_TypeUsag = TypeUsagers.Tuteur;
                 }
                 else
                 {
                     //sinon, c'est un élève aidé.
                     if (typeinscr == 1)
                     {
-                        SessionBag.Current.id_TypeUsag = 5;
+                        SessionBag.Current.id_TypeUsag = TypeUsagers.Eleve;
                     }
                     //Si c'est pas un étudiant, on va chercher directement dans la BD pour voir le ID du type.
                     else
@@ -310,7 +310,7 @@ namespace sachem.Controllers
 
 
                     AjoutInfoConnection(EtudiantBD);
-                    SessionBag.Current.id_TypeUsag = 1;
+                    SessionBag.Current.id_TypeUsag = TypeUsagers.Etudiant;
                     TempData["Success"] = Messages.I_026();
                     return RedirectToAction("Index", "Home");
                 }
