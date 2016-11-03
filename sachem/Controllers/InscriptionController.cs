@@ -13,11 +13,15 @@ namespace sachem.Controllers
     {
         private readonly SACHEMEntities db = new SACHEMEntities();
 
-        [ValidationAcces.ValidationAccesInscription]
+        //[ValidationAcces.ValidationAccesInscription]
         // GET: Inscription
         public ActionResult Index()
         {
-            ViewBag.id_TypeCourriel = new SelectList(db.p_TypeCourriel, "id_TypeCourriel", "TypeCourriel");
+            ViewBag.TypeInscription = new SelectList(db.p_TypeInscription, "id_TypeInscription", "TypeInscription");
+            /*var inscription = from c in db.Inscription
+                              select c;
+            var liste = Tuple.Create(inscription, "string");*/
+            //return View(liste);
             return View();
         }
 
