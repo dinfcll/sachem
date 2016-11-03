@@ -232,6 +232,7 @@
     <Compile Include="Controllers\GroupesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ImporterController.cs" />
+    <Compile Include="Controllers\InscriptionController.cs" />
     <Compile Include="Controllers\ParametresController.cs" />
     <Compile Include="Controllers\PersonnesController.cs" />
     <Compile Include="Controllers\ProgrammesOffertsController.cs" />
@@ -471,6 +472,7 @@
     <Content Include="Views\Enseignant\_Enseignant.cshtml" />
     <Content Include="Views\Etudiant\_Etudiant.cshtml" />
     <Content Include="Views\Shared\_RechercheGroupe.cshtml" />
+    <Content Include="Views\Inscription\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
