@@ -7,6 +7,8 @@
 
 <h2>@ViewBag.Title</h2>
 
+
+
 @using (Html.BeginForm())
 {
 
@@ -29,8 +31,29 @@
                 @Html.ActionLink("Non", "deleteProgEtu", new { idProg = TempData["id_Prog"], idPers = TempData["id_Pers"], Valider = 2 } )
             </td>
         </tr>
-
     }
+
+    <div class="container">
+        <!-- Modal -->
+        <div class="modal fade" id="myModal" role="dialog">
+            <div class="modal-dialog">
+
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Modal Header</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p>Some text in the modal.</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     @Html.AntiForgeryToken()
 
     <div class="form-horizontal">
@@ -72,15 +95,20 @@
         <div class="form-group">
             @Html.Label("Programme d'étude", htmlAttributes: new { @class = "control-label col-md-2" })
             <div style="margin-top:7px;">
-        @foreach (var item in Model.epe)
-        {
-               
-                    <div style="margin-left:210px;">
-                        @Html.DisplayFor(modelItem => item.ProgrammeEtude.CodeNomProgramme)
-                        @Html.ActionLink(" Supprimer", "deleteProgEtu", new { idProg = item.id_EtuProgEtude, idPers = item.Personne.id_Pers})
+                <div style="margin-left:210px;">
+                    <table>
+                        @foreach (var item in Model.epe)
+                        {
+
+                            <tr>
+                                <td>@Html.DisplayFor(modelItem => item.ProgrammeEtude.CodeNomProgramme)</td>
+                                <td><button type="button" class="btn btn-info btn-sm right" data-toggle="modal" data-target="#myModal">Open Modal</button></td>
+                            </tr>
+                                @*@Html.ActionLink(" Supprimer", "myModal", new { idProg = item.id_EtuProgEtude, idPers = item.Personne.id_Pers})*@
+                        }
+                        </table>
                     </div>
-        }
-            </div>
+                </div>
         </div>
         <br><br />
         <h4>Ajouter un programme d'étude</h4>
