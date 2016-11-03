@@ -1,8 +1,37 @@
 ﻿@model sachem.Models.Inscription
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Inscription au service de Sachem";
 }
 
-<h2>Index</h2>
+<h2>@ViewBag.Title</h2>
 
+@using (Html.BeginForm("Index", "Inscription", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.p_TypeInscription, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DropDownList("p_TypeInscription", null, "Choisir", htmlAttributes: new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.p_TypeInscription, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.p_TypeInscription, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DropDownList("p_TypeInscription", null, "Choisir", htmlAttributes: new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.p_TypeInscription, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <h3>Identification</h3>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Personne, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Personne, new { htmlAttributes = new { @class = "form-control", PlaceHolder = "AAAA/MM/JJ", @required = "required", @title = "Requis" } })
+            @Html.ValidationMessageFor(model => model.Personne, "", new { @class = "text-danger" })
+        </div>
+    </div>
+}
