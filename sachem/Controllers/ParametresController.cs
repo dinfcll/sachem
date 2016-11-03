@@ -167,18 +167,16 @@ namespace sachem.Controllers
 
         [HttpGet]
         [ValidationAccesSuper]
-        public ActionResult EditCollege(int? page)
+        public ActionResult EditCollege(string recherche, int? page)
         {
-            var college = from c in db.p_College orderby c.College select c;
-
             var pageNumber = page ?? 1;
-
-            return View(college.ToPagedList(pageNumber, 20));
+            ViewBag.Recherche = recherche;
+            return View(Recherche(recherche).ToPagedList(pageNumber, 20));
         }
 
         [HttpPost]
         [ValidationAccesSuper]
-        public ActionResult EditCollege(string nomCollege, int? id)
+        public ActionResult ModifCollege(string nomCollege, int? id)
         {
             
             if (db.p_College.Any(r => r.id_College == id))
@@ -221,11 +219,24 @@ namespace sachem.Controllers
             }
         }
 
-        [NonAction]
         private void ValiderContact([Bind(Include = "id_Contact,Nom,Prenom,Courriel,Telephone,Poste,Facebook,SiteWeb,Local")]p_Contact contact)
         {
             if (!db.p_Contact.Any(r => r.id_Contact == contact.id_Contact))
                 ModelState.AddModelError(string.Empty," ");
+        }
+
+        
+        private IEnumerable<p_College> Recherche(string recherche)
+        {
+            var college = from c in db.p_College
+                          orderby c.College
+                          select c;
+
+            if (!String.IsNullOrEmpty(recherche))
+            {
+                college = college.Where(c => c.College.Contains(recherche)) as IOrderedQueryable<p_College>;
+            }
+            return college.ToList();
         }
     }
 }
