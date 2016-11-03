@@ -219,7 +219,14 @@ namespace sachem.Controllers
                 else
                     SupprimerCookieConnexion();
                 //On retourne à l'accueil en attendant de voir la suite.
-                return RedirectToAction("Index", "Home");
+                if (SessionBag.Current.id_TypeUsag == TypeUsagers.Eleve)
+                {
+                    return RedirectToAction("Details", "DossierEtudiant", new { id = SessionBag.Current.id_Inscription });
+                }
+                else
+                {
+                    return RedirectToAction("Index", "Home");
+                }
             }
             return View(PersonneBD);
         }
