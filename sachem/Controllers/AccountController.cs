@@ -183,14 +183,14 @@ namespace sachem.Controllers
                 //Si c'est un tuteur, on a type = 6
                 if (typeinscr > 1)
                 {
-                    SessionBag.Current.id_TypeUsag = 6;
+                    SessionBag.Current.id_TypeUsag = TypeUsagers.Tuteur;
                 }
                 else
                 {
                     //sinon, c'est un élève aidé.
                     if (typeinscr == 1)
                     {
-                        SessionBag.Current.id_TypeUsag = 5;
+                        SessionBag.Current.id_TypeUsag = TypeUsagers.Eleve;
                     }
                     //Si c'est pas un étudiant, on va chercher directement dans la BD pour voir le ID du type.
                     else
@@ -212,11 +212,7 @@ namespace sachem.Controllers
                     SessionBag.Current.idSuperviseur = 0;
 
                 //Si tout va bien, on rempli la session avec les informations de l'utilisateur!
-                SessionBag.Current.NomUsager = PersonneBD.NomUsager;
-                SessionBag.Current.Matricule7 = PersonneBD.Matricule7;
-                SessionBag.Current.NomComplet = PersonneBD.PrenomNom;
-                SessionBag.Current.MP = PersonneBD.MP;
-
+                AjoutInfoConnection(PersonneBD);
                 SessionBag.Current.id_Pers = PersonneBD.id_Pers;
                 if (SouvenirConnexion)
                     CreerCookieConnexion(NomUsager, mdpPlain);
@@ -312,9 +308,11 @@ namespace sachem.Controllers
                     }
                     #endregion
 
-                    ViewBag.Success = Messages.I_026();
 
-                    return View();
+                    AjoutInfoConnection(EtudiantBD);
+                    SessionBag.Current.id_TypeUsag = TypeUsagers.Etudiant;
+                    TempData["Success"] = Messages.I_026();
+                    return RedirectToAction("Index", "Home");
                 }
             }
             // Si nous sommes arrivés là, un échec s’est produit. Réafficher le formulaire
@@ -465,6 +463,13 @@ namespace sachem.Controllers
                 return false;
             }
             return true;
+        }
+        private void AjoutInfoConnection(Personne personne)
+        {
+            SessionBag.Current.NomUsager = personne.NomUsager;
+            SessionBag.Current.Matricule7 = personne.Matricule7;
+            SessionBag.Current.NomComplet = personne.PrenomNom;
+            SessionBag.Current.MP = personne.MP;
         }
         #endregion
     }
