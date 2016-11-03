@@ -119,3 +119,41 @@ else
 
 @Html.Partial("_PageRecherche", Model)
 
+
+<script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        RefreshDropdownPersonne = function () {
+            $("#Personne").clear();
+            
+            $("#Personne").
+        }
+
+
+        $("#Session").change(function () {
+            var idSession = $(this).val();
+
+            alert($(this).val());
+
+            $.ajax({
+                url: "/ConsulterCours/ListePersonne",
+                data: { "idSession": idSession },
+                type: "POST",
+                success: function() {
+
+                    RefreshDropdownPersonne();
+                },
+                error: function (er){
+                    alert(er["responseText"]);
+                }
+
+            });
+        })
+    });
+
+
+
+
+    
+</script>

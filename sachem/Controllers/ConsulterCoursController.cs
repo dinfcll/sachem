@@ -21,6 +21,8 @@ namespace sachem.Controllers
         // GET: ConsulterCours
         public ActionResult Index(int? page)
         {
+            db.Configuration.LazyLoadingEnabled = true;
+
             var noPage = (page ?? 1);
 
             if (!SachemIdentite.ValiderRoleAcces(RolesAcces, Session))
@@ -87,6 +89,8 @@ namespace sachem.Controllers
             Session["DernRechCours"] = idSess + ";" + idPersonne;
             Session["DernRechCoursUrl"] = Request.Url?.LocalPath;
 
+            ViewBag.Sessionchoisie = idSess;
+
             if (m_IdTypeUsage == 2) //enseignant
             {
                 ListeSession(idSess); //créer liste Session pour le dropdown
@@ -107,10 +111,10 @@ namespace sachem.Controllers
             else //responsable
             {
                 ListeSession(idSess); //créer liste Session pour le dropdown
-                ListePersonne(m_IdPers); //créer liste Enseignants pour le dropdown
+                ListePersonne(idSess); //créer liste Enseignants pour le dropdown
 
                 var listeInfoResp = (from c in db.Groupe
-                           where c.id_Sess == (idSess == 0 ? c.id_Sess : idSess) && c.id_Enseignant == (m_IdPers == 0 ? c.id_Enseignant : m_IdPers)
+                           where c.id_Sess == (idSess == 0 ? c.id_Sess : idSess) && c.id_Enseignant == (idPersonne == 0 ? c.id_Enseignant : idPersonne)
                            orderby c.NoGroupe
                            select c).GroupBy(c => c.Cours.Nom).SelectMany(cours => cours);
 
@@ -208,26 +212,30 @@ namespace sachem.Controllers
         }
 
         //fonctions permettant d'initialiser les listes déroulantes
-        [NonAction]
-        private void ListePersonne(int idPersonne)
+        [HttpPost]
+        public void ListePersonne(int idSession)
         {
-            var lPersonne = from p in db.Personne
-                            where (p.id_TypeUsag == (int)TypeUsagers.Enseignant || p.id_TypeUsag == (int)TypeUsagers.Responsable) && p.Actif == true
+            var lPersonne = (from p in db.Personne
+                            join c in db.Groupe on p.id_Pers equals c.id_Enseignant
+                            where (p.id_TypeUsag == (int)TypeUsagers.Enseignant || 
+                                   p.id_TypeUsag == (int)TypeUsagers.Responsable) && p.Actif == true && c.id_Sess == (idSession == 0 ? c.id_Sess : idSession)
                             orderby p.Nom,p.Prenom
-                            select p;
+                            select p).Distinct();
+
             var slPersonne = new List<SelectListItem>();
-            slPersonne.AddRange(new SelectList(lPersonne, "id_Pers", "NomPrenom", idPersonne));
+            slPersonne.AddRange(new SelectList(lPersonne, "id_Pers", "NomPrenom"));
 
             ViewBag.Personne = slPersonne;
         }
 
         // GET: ConsulterCours/Details/5
-        public ActionResult Details(int? id)
+        public ActionResult Details(int? idCours, int? idSess)
         {
             m_IdPers = SessionBag.Current.id_Pers;
             m_IdTypeUsage = SessionBag.Current.id_TypeUsag; // 2 = enseignant, 3 = responsable
             IOrderedQueryable<Groupe> gr;
 
+            ViewBag.Sessionchoisie = idSess;
 
             if (!connexionValide(m_IdTypeUsage))
             {
@@ -235,7 +243,7 @@ namespace sachem.Controllers
             }
             else
             {
-                if (id == null)
+                if (idCours == null)
                 {
                     return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
                 }
@@ -245,7 +253,7 @@ namespace sachem.Controllers
                     ViewBag.IsEnseignant = true;
 
                     gr = from g in db.Groupe //obtenir les groupes en lien avec le cours trouvé et le prof connexté
-                             where g.id_Cours == id && g.id_Enseignant == m_IdPers
+                             where g.id_Cours == idCours && g.id_Enseignant == m_IdPers
                              orderby g.NoGroupe
                              select g;
                 }
@@ -254,8 +262,8 @@ namespace sachem.Controllers
                     ViewBag.IsEnseignant = false;
 
                     gr = from g in db.Groupe
-                             where g.id_Cours == id
-                             orderby g.NoGroupe
+                             where g.id_Cours == idCours
+                         orderby g.NoGroupe
                              select g;
                 }
 
