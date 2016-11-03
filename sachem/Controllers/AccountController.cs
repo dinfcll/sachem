@@ -212,11 +212,7 @@ namespace sachem.Controllers
                     SessionBag.Current.idSuperviseur = 0;
 
                 //Si tout va bien, on rempli la session avec les informations de l'utilisateur!
-                SessionBag.Current.NomUsager = PersonneBD.NomUsager;
-                SessionBag.Current.Matricule7 = PersonneBD.Matricule7;
-                SessionBag.Current.NomComplet = PersonneBD.PrenomNom;
-                SessionBag.Current.MP = PersonneBD.MP;
-
+                AjoutInfoConnection(PersonneBD);
                 SessionBag.Current.id_Pers = PersonneBD.id_Pers;
                 if (SouvenirConnexion)
                     CreerCookieConnexion(NomUsager, mdpPlain);
@@ -312,11 +308,8 @@ namespace sachem.Controllers
                     }
                     #endregion
 
-                    
-                    SessionBag.Current.NomUsager = EtudiantBD.NomUsager;
-                    SessionBag.Current.Matricule7 = EtudiantBD.Matricule7;
-                    SessionBag.Current.NomComplet = EtudiantBD.PrenomNom;
-                    SessionBag.Current.MP = EtudiantBD.MP;
+
+                    AjoutInfoConnection(EtudiantBD);
                     SessionBag.Current.id_TypeUsag = 1;
                     TempData["Success"] = Messages.I_026();
                     return RedirectToAction("Index", "Home");
@@ -470,6 +463,13 @@ namespace sachem.Controllers
                 return false;
             }
             return true;
+        }
+        private void AjoutInfoConnection(Personne personne)
+        {
+            SessionBag.Current.NomUsager = personne.NomUsager;
+            SessionBag.Current.Matricule7 = personne.Matricule7;
+            SessionBag.Current.NomComplet = personne.PrenomNom;
+            SessionBag.Current.MP = personne.MP;
         }
         #endregion
     }
