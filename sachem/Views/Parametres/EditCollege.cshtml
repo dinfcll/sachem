@@ -27,30 +27,30 @@
         }
     }
 </script>
-<p>
-    @using (Html.BeginForm("EditCollege", "Parametres",FormMethod.Get, new { @class = "form-inline", role = "form" }))
+
+
+<table class="table-condensed">
+    @using (Html.BeginForm("EditCollege", "Parametres", FormMethod.Get, new { @class = "form-inline", role = "form" }))
     {
-    <p>
-        Nom de collège @Html.TextBox("Recherche")
-        <input type="submit" value="Rechercher" />
-    </p>
+        <tr>
+            <td>Nom de collège :</td>
+            <td>@Html.Editor("Recherche", new { htmlAttributes = new { @class = "form-control" } })</td>
+            <td><input type="submit" value="Rechercher" class="form-search"/></td>
+        </tr>
     }
-</p>
-@using (Ajax.BeginForm("AddCollege", "Parametres", new AjaxOptions
-{
-    HttpMethod = "Post",
-    OnSuccess = "window.location.reload()",
-    Confirm = "Voulez-vous vraiment ajouter ce collège ?"
-}))
-{
-    <div class="form-group">
-        <p>
-            <div class="form-group">
-                Collège : @Html.TextBox("NomCollege")
-                <input type="submit" value="Ajouter" class="btn-toolbar"/>
-            </div>
-        </p>
-    </div>
+    @using (Ajax.BeginForm("AddCollege", "Parametres", new AjaxOptions { HttpMethod = "Post", OnSuccess = "window.location.reload()", Confirm = "Voulez-vous vraiment ajouter ce collège ?" }))
+    {
+        <tr>
+            <td>Collège :</td>
+            <td>@Html.Editor("NomCollege", new { htmlAttributes = new { @class = "form-control" } })</td>
+            <td><input type="submit" value="Ajouter" class="form-search" /></td>
+        </tr>
+    }
+</table>
+
+
+
+    
 
     <table class="table">
         <tr>
