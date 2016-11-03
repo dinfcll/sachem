@@ -63,7 +63,6 @@
         @Html.Partial("_Etudiant")
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         @Html.HiddenFor(model => model.personne.id_Pers)
-
         <div class="form-group">
             @Html.LabelFor(model => model.personne.Matricule, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
