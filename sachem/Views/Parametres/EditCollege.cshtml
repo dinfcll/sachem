@@ -48,38 +48,33 @@
     }
 </table>
 
-
-
-    
-
-    <table class="table">
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.First().id_College)
+        </th>
+    </tr>
+    @foreach (var item in Model)
+    {
         <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.First().id_College)
-            </th>
+            <td>
+                @Html.DisplayFor(modelItem => item.College)
+            </td>
+            <td>
+            @Html.ActionLink("Modifier", "EditCollege", null, new { onclick = "Modifier(" + item.id_College + ");" })
+
+            |
+
+                @Ajax.ActionLink("Supprimer", "DeleteCollege", new { id = item.id_College }, new AjaxOptions
+            {
+                Confirm = @sachem.Models.Messages.Q_015(item.College),
+                HttpMethod = "Post",
+                OnSuccess = "window.location.reload()",
+                InsertionMode = InsertionMode.Replace
+            })
         </tr>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.College)
-                </td>
-                <td>
-                @Html.ActionLink("Modifier", "EditCollege", null, new { onclick = "Modifier(" + item.id_College + ");" })
-
-                |
-
-                    @Ajax.ActionLink("Supprimer", "DeleteCollege", new { id = item.id_College }, new AjaxOptions
-               {
-                   Confirm = @sachem.Models.Messages.Q_015(item.College),
-                   HttpMethod = "Post",
-                   OnSuccess = "window.location.reload()",
-                   InsertionMode = InsertionMode.Replace
-               })
-            </tr>
-        }
-    </table>
-}
+    }
+</table>
 @* Ajout de la fonction PagedList modifier.*@
 @if (Model.PageCount > 0)
 {
