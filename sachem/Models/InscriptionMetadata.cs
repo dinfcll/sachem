@@ -21,5 +21,9 @@ namespace sachem.Models
         [RegularExpression(@"^[0-9]{4}-[0-9]{2}-[0-9]{2} [0-2][0-9]:[0-5][0-9]:[0-5][0-9]$|^[0-9]{4}\/[0-9]{2}\/[0-9]{2}$", ErrorMessage = Messages.U_007)]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy\\/MM\\/dd}")]
         public global::System.DateTime DateInscription;
+
+        [Display(Name = "Type d\'inscription")]
+        [Required(ErrorMessage = Messages.U_001)]
+        public string id_TypeInscription;
     }
 }
