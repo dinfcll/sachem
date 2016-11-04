@@ -112,28 +112,23 @@
 
     <h4>Recherche</h4>
 
-    <div class="form-group">
+    <table class="table-condensed">
         @*Les critères de recherches de la page, ceux-ci sont choisi par l'utilisateur et possèdent une valeur par défaut*@
-        Matricule :
-        @Html.Editor("Matricule")
-    </div>
-    <div class="form-group">
-        &nbsp;<b><u>ou</u></b>&nbsp;
-    </div>
-    <div class="form-group">
-        @*Les critères de recherches de la page, ceux-ci sont choisi par l'utilisateur et possèdent une valeur par défaut*@
-        Session :
-        @Html.DropDownList("SelectSession", null, "Choisir")
-    </div>
-    <div class="form-group">
-        Cours :
-        @Html.DropDownList("SelectCours", "Choisir")
-    </div>
-    <div class="form-group">
-        Groupe :
-        @Html.DropDownList("SelectGroupe", "Choisir")
-    </div>
-
-    @*Il n'existe pas de HtmlHelper pour créer un bouton submit, il faut donc le creer manuellement*@
-    <input type="submit" value="Rechercher" class="btn-toolbar" />
-</div>
+        <tr>
+            <td>Matricule :</td>
+            <td>@Html.Editor("Matricule", new { htmlAttributes = new { @class = "form-control", @maxlength = "7" } })</td>
+            <td><b><u>ou</u></b></td>
+            <td>Session :</td>
+            <td>@Html.DropDownList("SelectSession", null, "Choisir", htmlAttributes: new { @class = "form-search" })</td>
+            <td>Cours :</td>
+            <td>@Html.DropDownList("SelectCours", null, "Choisir", htmlAttributes: new { @class = "form-search" })</td>
+            <td>Groupe :</td>
+            <td>@Html.DropDownList("SelectGroupe", null, "Choisir", htmlAttributes: new { @class = "form-search" })</td>
+            <td><input type="submit" value="Rechercher" class="form-search" /></td>
+        </tr>
+    </table>
+    <table class="table-condensed">
+        <tr>
+            
+        </tr>
+    </table>
