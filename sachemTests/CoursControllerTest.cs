@@ -10,6 +10,8 @@ namespace sachemTests
         public void ReferenceTest()
         {
             var controller = new CoursController();
+
+            controller.Edit(null);
         }
     }
 }
