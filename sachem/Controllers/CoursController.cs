@@ -14,10 +14,6 @@ namespace sachem.Controllers
     {
         private readonly SACHEMEntities db = new SACHEMEntities();
 
-        
-
-        //fonctions permettant d'initialiser les listes déroulantes
-
         [NonAction]
         private void ListeSession(int Session = 0)
         {
@@ -29,7 +25,6 @@ namespace sachem.Controllers
             ViewBag.Session = slSession;
         }
 
-        //méthode gérant les validations de contexte de l'ajout et de la modification 
         [NonAction]
         private void Valider([Bind(Include = "id_Cours,Code,Nom,Actif")] Cours cours)
         {
@@ -37,21 +32,12 @@ namespace sachem.Controllers
                 ModelState.AddModelError(string.Empty, Messages.I_002(cours.Code));
         }
 
-        //Fonction pour gérer la recherche, elle est utilisée dans la suppression et dans l'index
         [NonAction]
         private IEnumerable<Cours> Rechercher()
         {
             var sess = 0;
             var actif = true;
 
-            
-
-            //Pour accéder à la valeur de cle envoyée en GET dans le formulaire
-            //Request.QueryString["cle"]
-            //Pour accéder à la valeur cle envoyée en POST dans le formulaire
-            //Request.Form["cle"]
-            //Cette méthode fonctionnera dans les 2 cas
-            //Request["cle"]
             if (Request.RequestType == "GET" && Session["DernRechCours"] != null && (string)Session["DernRechCoursUrl"] == Request.Url?.LocalPath)
             {
                 var anciennerech = (string)Session["DernRechCours"];
@@ -69,16 +55,11 @@ namespace sachem.Controllers
             }
             else
             {
-                //La méthode String.IsNullOrEmpty permet à la fois de vérifier si la chaine est NULL (lors du premier affichage de la page ou vide, lorsque le paramètre n'est pas appliquée 
                 if (!string.IsNullOrEmpty(Request.Form["Session"]))
-                    //sess = Convert.ToInt32(Request.Form["Session"]);
-                    int.TryParse(Request.Form["Session"], out sess); // MODIF: Loic turgeon et Cristian Zubieta
-                //si la variable est null c'est que la page est chargée pour la première fois, donc il faut assigner la session à la session en cours, la plus grande dans la base de données
+                    int.TryParse(Request.Form["Session"], out sess);
                 else if (Request.Form["Session"] == null)
                     sess = db.Session.Max(s => s.id_Sess);
 
-                //la méthode Html.checkbox crée automatiquement un champ hidden du même nom que la case à cocher, lorsque la case n'est pas cochée une seule valeur sera soumise, par contre lorsqu'elle est cochée
-                //2 valeurs sont soumises, il faut alors vérifier que l'une des valeurs est à true pour vérifier si elle est cochée
                 if (!string.IsNullOrEmpty(Request.Form["Actif"]))
                     actif = Request.Form["Actif"].Contains("true");
             }
@@ -93,14 +74,12 @@ namespace sachem.Controllers
                         orderby c.Code
                         select c;
 
-            //on enregistre la recherche
             Session["DernRechCours"] = sess + ";" + actif;
             Session["DernRechCoursUrl"] = Request.Url?.LocalPath;
 
             return cours.ToList();
         }
 
-        // GET: Cours
         [ValidationAccesSuper]
         public ActionResult Index(int? page)
         {
@@ -109,17 +88,12 @@ namespace sachem.Controllers
             return View(Rechercher().ToPagedList(pageNumber, 20));
         }
 
-
-        // GET: Cours/Create
         [ValidationAccesSuper]
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: Cours/Create
-        // Afin de déjouer les attaques par sur-validation, activez les propriétés spécifiques que vous voulez lier. Pour 
-        // plus de détails, voir  http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "id_Cours,Code,Nom,Actif")] Cours cours, int? page)
@@ -140,7 +114,6 @@ namespace sachem.Controllers
 
         }
 
-        // GET: Cours/Edit/5
         [ValidationAccesSuper]
         public ActionResult Edit(int? id)
         {
@@ -159,9 +132,6 @@ namespace sachem.Controllers
 
         }
 
-        // POST: Cours/Edit/5
-        // Afin de déjouer les attaques par sur-validation, activez les propriétés spécifiques que vous voulez lier. Pour 
-        // plus de détails, voir  http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "id_Cours,Code,Nom,Actif")] Cours cours, int? page)
@@ -180,7 +150,6 @@ namespace sachem.Controllers
             return View(cours);
         }
 
-        // GET: Cours/Delete/5
         [ValidationAccesSuper]
         public ActionResult Delete(int? id)
         {
@@ -195,7 +164,6 @@ namespace sachem.Controllers
             return View(cours);
         }
 
-        // POST: Cours/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id, int? page)
@@ -214,7 +182,6 @@ namespace sachem.Controllers
                 ViewBag.Success = string.Format(Messages.I_009(cours.Nom));
             }
 
-            //plutôt que de faire un RedirectToAction qui aurait comme effet de remmettre à true ModelState.IsValid
             return View("Index", Rechercher().ToPagedList(pageNumber, 20));
         }
 
