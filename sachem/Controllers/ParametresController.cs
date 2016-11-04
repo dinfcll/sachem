@@ -253,13 +253,10 @@ namespace sachem.Controllers
                 {
                     if (element.College.ToLower().StartsWith(nomCollege[Indice].ToLower()))
                     {
-                        if (char.IsLetter(element.College.First()))
-                        {
-                            element.College = element.College.Remove(0, nomCollege[Indice].Length + 1);
-                            element.College = element.College + " (" + nomCollege[Indice] + ")";
-                            element.College = char.ToUpper(element.College.First()) + element.College.Substring(1);
-                            Formater = true;
-                        }
+                        element.College = element.College.Remove(0, nomCollege[Indice].Length + 1);
+                        element.College = element.College + " (" + nomCollege[Indice] + ")";
+                        element.College = char.ToUpper(element.College.First()) + element.College.Substring(1);
+                        Formater = true;
                     }
                     Indice++;
                 }
