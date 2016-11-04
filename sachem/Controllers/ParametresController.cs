@@ -178,9 +178,8 @@ namespace sachem.Controllers
 
         [HttpPost]
         [ValidationAccesSuper]
-        public ActionResult ModifCollege(string nomCollege, int? id)
+        public void ModifCollege(string nomCollege, int? id)
         {
-
             if (db.p_College.Any(r => r.id_College == id))
             {
                 var college = db.p_College.Find(id);
@@ -188,7 +187,6 @@ namespace sachem.Controllers
                 db.Entry(college).State = EntityState.Modified;
                 db.SaveChanges();
             }
-            return RedirectToAction("EditCollege");
         }
 
         [HttpPost]
@@ -255,14 +253,17 @@ namespace sachem.Controllers
                 {
                     if (element.College.ToLower().StartsWith(nomCollege[Indice].ToLower()))
                     {
-                        element.College = element.College.Remove(0, nomCollege[Indice].Length + 1);
-                        element.College = element.College + " (" + nomCollege[Indice] + ")";
-                        element.College = char.ToUpper(element.College.First()) + element.College.Substring(1);
-                        Formater = true;
-                        collegeFormater.Add(element);
+                        if (char.IsLetter(element.College.First()))
+                        {
+                            element.College = element.College.Remove(0, nomCollege[Indice].Length + 1);
+                            element.College = element.College + " (" + nomCollege[Indice] + ")";
+                            element.College = char.ToUpper(element.College.First()) + element.College.Substring(1);
+                            Formater = true;
+                        }
                     }
                     Indice++;
                 }
+                collegeFormater.Add(element);
             }
             return collegeFormater.OrderBy(x => x.College).ToList();
         }

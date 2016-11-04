@@ -72,3 +72,11 @@ textarea {
     padding: 5px;
 
 }
+#modalModification {
+margin: 15% auto;
+outline: none;
+}
+#btnModifier{
+width:40%;
+height:50%;
+}

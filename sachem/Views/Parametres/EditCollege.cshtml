@@ -15,16 +15,32 @@
 @Scripts.Render("~/bundles/jquery")
 
 <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 <script type="text/javascript">
-    function Modifier(id) {
-        var nouveauNomCollege = document.getElementById("NomCollege").value;
-        if (confirm("Êtes-vous sûr de vouloir modifier ce collège d'enseignement ?")) {
-            $.ajax({
-                url: "/Parametres/ModifCollege",
-                data: { "nomCollege": nouveauNomCollege, "id": id },
-                type: "POST"
-            });
+    function AppelModal(id) {
+        var modal = document.getElementById('modalModification');
+        var span = document.getElementById('spanFermeture');
+        var boutonModif = document.getElementById('btnModifier');
+        modal.style.display = 'block';
+        boutonModif.onclick = function () {
+            var nomCollege = document.getElementById("txtNomCollege").value;
+            Modifier(id, nomCollege);
         }
+
+        span.onclick = function () {
+            modal.style.display = 'none';
+        }
+    }
+    function Modifier(id, nouveauNomCollege) {
+        $.ajax({
+            url: "/Parametres/ModifCollege",
+            data: { "nomCollege": nouveauNomCollege, "id": id },
+            type: "POST",
+            success: function(){
+                window.location.reload(true);
+            }
+        });
     }
 </script>
 
@@ -61,8 +77,8 @@
                 @Html.DisplayFor(modelItem => item.College)
             </td>
             <td>
-            @Html.ActionLink("Modifier", "EditCollege", null, new { onclick = "Modifier(" + item.id_College + ");" })
-
+       
+                <a onclick="AppelModal(@item.id_College);" href="#">Modifier</a>
             |
 
                 @Ajax.ActionLink("Supprimer", "DeleteCollege", new { id = item.id_College }, new AjaxOptions
@@ -75,6 +91,15 @@
         </tr>
     }
 </table>
+<div id="modalModification" class="modal">
+    <div class="modal-content">
+        Nouveau nom de collège : <input type="text" id="txtNomCollege" />
+        <span id="spanFermeture" class="close">x</span>
+        <button id="btnModifier" class="form-search">Modifier</button>
+    </div>
+    
+</div>
+
 @* Ajout de la fonction PagedList modifier.*@
 @if (Model.PageCount > 0)
 {
