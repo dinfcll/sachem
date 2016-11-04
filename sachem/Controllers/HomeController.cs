@@ -11,10 +11,6 @@ namespace sachem.Controllers
     public class HomeController : Controller
     {
         private readonly SACHEMEntities db = new SACHEMEntities();
-        public ActionResult Index()
-        {
-            return View();
-        }
 
         public ActionResult About()
         {

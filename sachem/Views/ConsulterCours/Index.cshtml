@@ -11,111 +11,95 @@
     
 @using (Html.BeginForm("Index", "ConsulterCours", FormMethod.Post, new {@class = "form-inline", role = "form"}))
 {
-    <p>
-        <h4>Recherche</h4>
-    </p>
+    <h4>Recherche</h4>
 
-    <div class="form-group">
-        <p>
-            <div class="form-group">
-                Session :
-                @Html.DropDownList("Session", "Toutes")
-            </div>
+    <table class="table-condensed">
+        <tr>
+            <td>Session :</td>
+            <td>@Html.DropDownList("Session", null, "Toutes", htmlAttributes: new { @class = "form-search" })</td>
+            <td>Enseignant :</td>
+            <td>
             @if (!ViewBag.IsEnseignant)
             {
-                <div class="form-group">
-                    Enseignant :
-                    @Html.DropDownList("Personne", "Tous")
-                </div>
+                @Html.DropDownList("Personne", null, "Tous", htmlAttributes: new { @class = "form-search" })
             }
-
-            <div class="form-group">
-                <input type="submit" value="Rechercher" class="btn-toolbar"/>
-            </div>
-        </p>
-    </div>
+            </td>
+            <td><input type="submit" value="Rechercher" class="form-search" /></td>
+        </tr>
+    </table>
 }
 
-@if (Model.Any())
-{
 
-    <table class="table">
-
+<table class="table">
+    <tr>
         @if (ViewBag.IsEnseignant) //si enseignant
         {
-            <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.FirstOrDefault().Cours.Code)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.FirstOrDefault().Cours.Nom)
-                </th>
-                <th></th>
-            </tr>
-
-            
-
-            foreach (var item in Model)
-            {
-                    <tr>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Cours.Code)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Cours.Nom)
-                        </td>
-                        <td>
-                            @Html.ActionLink("Consulter", "Details", new { idCours = item.id_Cours, idSess = ViewBag.Sessionchoisie})
-                        </td>
-                    </tr>
-            }
+            <th>
+                @Html.DisplayNameFor(model => model.FirstOrDefault().Cours.Code)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FirstOrDefault().Cours.Nom)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FirstOrDefault().Cours.Actif)
+            </th>
         }
         else //si responsable
         {
-            <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.FirstOrDefault().Cours.Code)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.FirstOrDefault().Cours.Nom)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.FirstOrDefault().Cours.Actif)
-                </th>
-                <th>
-                    Enseignant
-                </th>
-                <th></th>
-            </tr>
+            <th>
+                @Html.DisplayNameFor(model => model.FirstOrDefault().Cours.Code)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FirstOrDefault().Cours.Nom)
+            </th>
+            <th></th>
+        }
+    </tr>
 
-            foreach (var item in Model)
-            {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(model => item.Cours.Code)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(model => item.Cours.Nom)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(model => item.Cours.Actif)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(model => item.nomsConcatenesProfs)
-                    </td>
-                    <td>
-                        @Html.ActionLink("Consulter", "Details", new { idCours = item.id_Cours, idSess = ViewBag.Sessionchoisie })
-                    </td>
-                </tr>
-            }
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Cours.Code)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Cours.Nom)
+                </td>
+                <td>
+                    @Html.ActionLink("Consulter", "Details", new { idCours = item.id_Cours, idSess = ViewBag.Sessionchoisie })
+                </td>
+            </tr>
         }
 
-    </table>
-}
-else
-{
-    <div>Aucun résultat trouvé.</div>
-}
 
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(model => item.Cours.Code)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => item.Cours.Nom)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => item.Cours.Actif)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => item.nomsConcatenesProfs)
+                </td>
+                <td>
+                    @Html.ActionLink("Consulter", "Details", new { idCours = item.id_Cours, idSess = ViewBag.Sessionchoisie })
+                </td>
+            </tr>
+        }
+
+
+    @if (!Model.Any())
+    {
+        <tr>
+            <td colspan="6">Aucun cours ne répond à ces critères</td>
+        </tr>
+    }
+</table>
 @Html.Partial("_PageRecherche", Model)
 

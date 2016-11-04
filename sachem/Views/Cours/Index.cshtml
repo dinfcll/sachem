@@ -14,26 +14,16 @@
 
 @using (Html.BeginForm("Index", "Cours", FormMethod.Post, new { @class = "form-inline", role = "form" }))
 {
-    <p>
-        <h4>Recherche</h4>
-    </p>
-    <div class="form-group">
-        <p>
-            <div class="form-group">
-                Session :
-                @Html.DropDownList("Session", "Toutes")
-            </div>
-
-            <div class="form-group">
-                Actif :
-                @Html.CheckBox("Actif", (bool)ViewBag.Actif)
-            </div>
-
-            <div class="form-group">
-                <input type="submit" value="Rechercher" class="btn-toolbar" />
-            </div>
-        </p>
-    </div>
+    <h4>Recherche</h4>
+    <table class="table-condensed">
+        <tr>
+            <td>Session :</td>
+            <td>@Html.DropDownList("Session", null, "Toutes", htmlAttributes: new { @class = "form-search" })</td>
+            <td>Actif :</td>
+            <td>@Html.CheckBox("Actif", (bool)ViewBag.Actif)</td>
+            <td><input type="submit" value="Rechercher" class="form-search" /></td>
+        </tr>
+    </table>
 }
 
 <p>
