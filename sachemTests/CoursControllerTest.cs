@@ -1,4 +1,6 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using System.Net;
+using System.Web.Mvc;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using sachem.Controllers;
 
 namespace sachemTests
@@ -11,7 +13,10 @@ namespace sachemTests
         {
             var controller = new CoursController();
 
-            controller.Edit(null);
+            var result = controller.Edit(null);
+
+            Assert.AreEqual(typeof(HttpStatusCodeResult), result.GetType());
+            Assert.AreEqual((int)HttpStatusCode.BadRequest, ((HttpStatusCodeResult)result).StatusCode);
         }
     }
 }
