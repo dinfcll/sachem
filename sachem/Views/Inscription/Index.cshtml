@@ -4,6 +4,7 @@
 
 @{
     ViewBag.Title = "Inscription au service de Sachem";
+    int dernierId = 0;
 }
 
 <h2>@ViewBag.Title</h2>
@@ -22,7 +23,7 @@
 
     <h3>Disponibilité</h3>
     <p> 
-        -Indiquez vos heures de disponibilité par un x dans les cases appropriées.<br />
+        -Indiquez vos heures de disponibilité en cochant les cases appropriées.<br />
         -Formez des blocs d'au moins deux heures consécutives.(les rencontres dureront 1h30/semaine) <br />
         -Inscrivez plusieurs choix pour faciliter le jumelage.
     </p>
@@ -39,14 +40,20 @@
                     <TH>Vendredi</TH>
 
                 </TR>
-                <TR>
-                    <TD>8h - 9h</TD>
-                    <TD>cellule1</TD>
-                    <TD>cellule1</TD>
-                    <TD>cellule1</TD>
-                    <TD>cellule1</TD>
-                    <TD>cellule1</TD>
-                </TR>
+                @for (var heure = 8; heure < 18;)
+                {
+                    <TR>
+                        <TD>@(heure)h - @(++heure)h</TD>
+
+
+                        @for (var jour = 1; jour < 6; jour++)
+                        {
+                            <TD> @Html.CheckBox((heure.ToString()), false, htmlAttributes: new { @class = "control-label col-md-2", @id = @jour + dernierId })</TD>
+                            if (jour == 5)
+                            { dernierId += jour; }
+                        }
+                    </TR>
+                }
             </table>
         </CENTER> 
     </div>

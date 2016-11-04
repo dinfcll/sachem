@@ -25,6 +25,37 @@ namespace sachem.Controllers
             return View();
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Index(int pa)
+        {
+            ViewBag.TypeInscription = new SelectList(db.p_TypeInscription, "id_TypeInscription", "TypeInscription");
+
+            return View();
+        }
+
+        /*private string NoAJour(int id)
+        {
+            switch (id % 5)
+            {
+                case 0:
+                    return "Vendredi";
+                    break;
+                case 1:
+
+                    break;
+                case 2:
+                    break;
+                case 3:
+                    break;
+                case 4:
+                    break;
+                default:
+
+                    break;
+
+            }
+        }*/
         // GET: Inscription/Delete/5
         //NOTE: Penser à Wiper les inscriptions à chaque fin de session. Constante?
         public ActionResult Delete(int id)
