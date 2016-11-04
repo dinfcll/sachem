@@ -213,7 +213,7 @@ namespace sachem.Controllers
 
         //fonctions permettant d'initialiser les listes déroulantes
         [HttpPost]
-        public void ListePersonne(int idSession)
+        public JsonResult ListePersonne(int idSession)
         {
             var lPersonne = (from p in db.Personne
                             join c in db.Groupe on p.id_Pers equals c.id_Enseignant
@@ -226,6 +226,8 @@ namespace sachem.Controllers
             slPersonne.AddRange(new SelectList(lPersonne, "id_Pers", "NomPrenom"));
 
             ViewBag.Personne = slPersonne;
+
+            return Json(slPersonne.ToList(), JsonRequestBehavior.AllowGet);
         }
 
         // GET: ConsulterCours/Details/5

@@ -124,30 +124,27 @@ else
 <script type="text/javascript">
 
     $(document).ready(function () {
-        RefreshDropdownPersonne = function () {
-            $("#Personne").clear();
-            
-            $("#Personne").
-        }
-
-
         $("#Session").change(function () {
             var idSession = $(this).val();
 
-            alert($(this).val());
+            if (idSession == '')
+                idSession = 0;
 
             $.ajax({
                 url: "/ConsulterCours/ListePersonne",
                 data: { "idSession": idSession },
                 type: "POST",
-                success: function() {
+                dataType: "json",
+                success: function(donnees) 
+                {
+                    $("#Personne").empty();
 
-                    RefreshDropdownPersonne();
-                },
-                error: function (er){
-                    alert(er["responseText"]);
+                    $("#Personne").append('<option value ="">Tous</option>')
+
+                    $.each(donnees, function (index, valeur) {
+                        $("#Personne").append('<option value ="' + valeur.Value + '">' + valeur.Text + '</option>');
+                    });
                 }
-
             });
         })
     });
