@@ -4,10 +4,33 @@
 
 @{
     ViewBag.Title = "Inscription au service de Sachem";
+
     int dernierId = 0;
 }
+<script>
+    $(function() {
+        $("#button").click(function () {
+            alert("Hey");
+            var bob = $("#TabDisp").serialize();
+            alert(bob);
+            $.ajax({
+                type: "POST",
+                url: "/Inscription/Index",
+                data: $("#TabDisp").serialize(),
+                success: function (data) {
+                    alert("success");
+                }
+            });
+        });
+
+    });
+</script>
+
 
 <h2>@ViewBag.Title</h2>
+<p class="text-success">
+    @Html.Raw(@TempData["Success"])
+</p>
 
 @using (Html.BeginForm("Index", "Inscription", FormMethod.Post))
 {
@@ -27,34 +50,36 @@
         -Formez des blocs d'au moins deux heures consécutives.(les rencontres dureront 1h30/semaine) <br />
         -Inscrivez plusieurs choix pour faciliter le jumelage.
     </p>
-
-    <div>
-        <CENTER>
-            <table style="width:100%" border = 1>
-                <TR>
-                    <TH>Heures</TH>
-                    <TH>Lundi</TH>
-                    <TH>Mardi</TH>
-                    <TH>Mercredi</TH>
-                    <TH>Jeudi</TH>
-                    <TH>Vendredi</TH>
-
-                </TR>
-                @for (var heure = 8; heure < 18;)
-                {
+    <form method="post" id="TabDisp">
+        <div>
+            <CENTER>
+                <table style="width:100%" border=1>
                     <TR>
-                        <TD>@(heure)h - @(++heure)h</TD>
+                        <TH>Heures</TH>
+                        <TH>Lundi</TH>
+                        <TH>Mardi</TH>
+                        <TH>Mercredi</TH>
+                        <TH>Jeudi</TH>
+                        <TH>Vendredi</TH>
 
-
-                        @for (var jour = 1; jour < 6; jour++)
-                        {
-                            <TD> @Html.CheckBox((heure.ToString()), false, htmlAttributes: new { @class = "control-label col-md-2", @id = @jour + dernierId })</TD>
-                            if (jour == 5)
-                            { dernierId += jour; }
-                        }
                     </TR>
-                }
-            </table>
-        </CENTER> 
-    </div>
+                    @for (var heure = 8; heure < 18;)
+                    {
+                        <TR>
+                            <TD>@(heure)h - @(++heure)h</TD>
+
+
+                            @for (var jour = 1; jour < 6; jour++)
+                            {
+                                <TD> @Html.CheckBox((heure.ToString()), false, htmlAttributes: new { @class = "control-label col-md-2", @id = @jour + dernierId })</TD>
+                                if (jour == 5)
+                                { dernierId += jour; }
+                            }
+                        </TR>
+                    }
+                </table>
+            </CENTER>
+            <input type="submit" value="Enregister et poursuivre" class="btn btn-default" id="button" />
+        </div>
+    </form>
 }

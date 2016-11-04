@@ -27,11 +27,10 @@ namespace sachem.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Index(int pa)
+        public ActionResult Index(string test)
         {
             ViewBag.TypeInscription = new SelectList(db.p_TypeInscription, "id_TypeInscription", "TypeInscription");
-
-            return View();
+            return View(test);
         }
 
         /*private string NoAJour(int id)
