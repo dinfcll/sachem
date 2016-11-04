@@ -14,22 +14,17 @@
 
 @Scripts.Render("~/bundles/jquery")
 
-<script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
 <script type="text/javascript">
     function AppelModal(id) {
         var modal = document.getElementById('modalModification');
-        var span = document.getElementById('spanFermeture');
         var boutonModif = document.getElementById('btnModifier');
         modal.style.display = 'block';
         boutonModif.onclick = function () {
             var nomCollege = document.getElementById("txtNomCollege").value;
             Modifier(id, nomCollege);
-        }
-
-        span.onclick = function () {
-            modal.style.display = 'none';
         }
     }
     function Modifier(id, nouveauNomCollege) {
@@ -78,7 +73,7 @@
             </td>
             <td>
        
-                <a onclick="AppelModal(@item.id_College);" href="#">Modifier</a>
+                <a onclick="AppelModal(@item.id_College);" href="#" data-toggle="modal" data-target="#modalModification">Modifier</a>
             |
 
                 @Ajax.ActionLink("Supprimer", "DeleteCollege", new { id = item.id_College }, new AjaxOptions
@@ -91,13 +86,26 @@
         </tr>
     }
 </table>
-<div id="modalModification" class="modal">
-    <div class="modal-content">
-        Nouveau nom de collège : <input type="text" id="txtNomCollege" />
-        <span id="spanFermeture" class="close">x</span>
-        <button id="btnModifier" class="form-search">Modifier</button>
+
+<div class="container">
+    <div class="modal fade" id="modalModification" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Modification du nom de collège d'enseignement</h4>
+                </div>
+                <div class="modal-body">
+                    <p>Nouveau nom de collège d'enseignement</p>
+                    Nouveau nom de collège : <input type="text" id="txtNomCollege" class="form-control" /><br />
+                </div>
+                <div class="modal-footer">
+                    <button id="btnModifier" type="button" data-dismiss="modal" class="btn btn-primary">Modifier</button>
+                    <button type="button" data-dismiss="modal" class="btn">Annuler</button>
+                </div>
+            </div>
+        </div>
     </div>
-    
 </div>
 
 @* Ajout de la fonction PagedList modifier.*@
