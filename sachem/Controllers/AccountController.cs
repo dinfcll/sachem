@@ -225,7 +225,21 @@ namespace sachem.Controllers
                 }
                 else
                 {
-                    return RedirectToAction("Index", "Home");
+                    if(SachemIdentite.TypeListeProf.Contains(SachemIdentite.ObtenirTypeUsager(Session)) || SachemIdentite.ObtenirTypeUsager(Session) == TypeUsagers.Tuteur)
+                    {
+                        if (SachemIdentite.ObtenirTypeUsager(Session) == TypeUsagers.Super)
+                        {
+                            return RedirectToAction("Index", "Enseignant");
+                        }
+                        else
+                        {
+                            return RedirectToAction("Index", "DossierEtudiant");
+                        }
+                    }
+                    else
+                    {
+                        return RedirectToAction("Contact", "Home");//à changer
+                    }
                 }
             }
             return View(PersonneBD);
@@ -449,7 +463,7 @@ namespace sachem.Controllers
         {
             //Supprime les données contenues dans la session et supprime le cookie puis retour à l'index.
             Session.Clear();
-            return RedirectToAction("Index", "Home", null);
+            return RedirectToAction("Login", "Account", null);
         }
 
         #endregion
