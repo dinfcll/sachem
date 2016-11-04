@@ -6,18 +6,22 @@
 <h2>@ViewBag.Title</h2>
 
 
-@using (Html.BeginForm()) 
+@using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
 
-    <h3>Informations spécifiques</h3>
+    <h3>Disponibilité</h3>
     <div class="row rowPadTop">
         <div class="col-md-6">Êtes-vous prêt à faire deux rencontres consécutives (3h)</div>
         <div class="col-md-6">
-            <input id="Q3" name="Q3radio"  type="radio" />oui
-            <input id="Q1" name="Q3radio"  type="radio" style="margin-left:30px;"/>non
-        </div>   
-        <div class="clearfix rowPadTop">
+            <input id="Q3" name="Q3radio" type="radio" />oui
+            <input id="Q1" name="Q3radio" type="radio" style="margin-left:30px;" />non
+        </div>
+    </div>
+
+    <h3>Informations spécifiques</h3>
+    <div class="row rowPadTop">
+        <div class="clearfix">
             <div class="col-md-2">1er choix</div>
             <div class="col-md-10"><select style="width:300px;"></select></div>
         </div>
@@ -26,23 +30,108 @@
             <div class="col-md-10"><select style="width:300px"></select></div>
         </div>
         <div class="clearfix rowPadTop">
-                <div class="col-md-2">3e choix</div>
-                <div class="col-md-10"><select style="width:300px"></select></div>
+            <div class="col-md-2">3e choix</div>
+            <div class="col-md-10"><select style="width:300px"></select></div>
         </div>
     </div>
-    
-    <!--Insérer vue partielle-->
-    <div>
 
+    <br />
 
+    <p>
+        Indiquez tous les cours de mathématiques de niveau collérgial que vous avez suivis et réussis
+        ainsi que le cégep où ces cours on eu lieu :
+    </p>
+
+    <!--
+    <div class="row rowPadTop">
+        <div class="col-md-10">
+            <div class="clearfix">
+                <div class="col-md-2">Cours </div>
+                <div class="col-md-4"><select style="width:300px;"></select></div>
+                <div class="col-md-6">Résultat <input type="text" /></div>
+            </div>
+            <div class="clearfix rowPadTop">
+                <div class="col-md-2">Autre: </div>
+                <div class="col-md-4"><input type="text" /></div>
+            </div>
+            <div class="clearfix rowPadTop">
+                <div class="col-md-2">Collège </div>
+                <div class="col-md-4"><select style="width:300px;"></select></div>
+            </div>
+            <div class="clearfix rowPadTop">
+                <div class="col-md-2">Autre: </div>
+                <div class="col-md-4"><input type="text" /></div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <button type="button">Supprimer!</button>
+        </div>
     </div>
-    
-}
+    -->
 
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
 
-@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
-}
+
+    <table class="table">
+        <tr>
+            <td>
+                Cours <br />
+                Autre: <br />
+                Collège <br />
+                Autre: <br />
+            </td>
+            <td>
+                <select style="width:300px;"></select> <br />
+                <input type="text" />: <br />
+                <select style="width:300px;"></select> <br />
+                <input type="text" />: <br />
+            </td>
+            <td>
+                Résultat <input type="text" />
+            </td>
+            <td>
+                <button type="button">Supprimer!</button>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Cours <br />
+                Autre: <br />
+                Collège <br />
+                Autre: <br />
+            </td>
+            <td>
+                <select style="width:300px;"></select> <br />
+                <input type="text" />: <br />
+                <select style="width:300px;"></select> <br />
+                <input type="text" />: <br />
+            </td>
+            <td>
+                Résultat <input type="text" />
+            </td>
+            <td>
+                <button type="button">Supprimer!</button>
+            </td>
+        </tr>
+    </table>
+
+    <button type="button">Ajouter un cours</button><br/><br />
+    <button type="button">Enregistrer et poursuivre</button>
+    <button type="button">Enregistrer un brouillon</button>
+    <button type="button">Annuler</button>
+
+
+            <!--Insérer vue partielle-->
+            <div>
+
+
+            </div>
+
+            }
+
+            <div>
+                @Html.ActionLink("Back to List", "Index")
+            </div>
+
+            @section Scripts {
+                @Scripts.Render("~/bundles/jqueryval")
+            }
