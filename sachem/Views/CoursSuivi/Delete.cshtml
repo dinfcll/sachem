@@ -21,7 +21,14 @@ else
             @Html.DisplayNameFor(model => model.id_Cours)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.Cours.CodeNom)
+            @if (Model.autre_Cours == string.Empty || Model.autre_Cours == null)
+            {
+                @Html.DisplayFor(modelItem => Model.Cours.CodeNom)
+            }
+            else
+            {
+                @Html.DisplayFor(modelItem => Model.autre_Cours)
+            }
         </dd>
         <dt>
             @Html.DisplayNameFor(model => model.id_Sess)
