@@ -1,0 +1,48 @@
+﻿@model sachem.Models.Cours
+@{
+    ViewBag.Title = "Inscription au service Sachem - Tuteur de cours";
+}
+
+<h2>@ViewBag.Title</h2>
+
+
+@using (Html.BeginForm()) 
+{
+    @Html.AntiForgeryToken()
+
+    <h3>Informations spécifiques</h3>
+    <div class="row rowPadTop">
+        <div class="col-md-6">Êtes-vous prêt à faire deux rencontres consécutives (3h)</div>
+        <div class="col-md-6">
+            <input id="Q3" name="Q3radio"  type="radio" />oui
+            <input id="Q1" name="Q3radio"  type="radio" style="margin-left:30px;"/>non
+        </div>   
+        <div class="clearfix rowPadTop">
+            <div class="col-md-2">1er choix</div>
+            <div class="col-md-10"><select style="width:300px;"></select></div>
+        </div>
+        <div class="clearfix rowPadTop">
+            <div class="col-md-2">2e choix</div>
+            <div class="col-md-10"><select style="width:300px"></select></div>
+        </div>
+        <div class="clearfix rowPadTop">
+                <div class="col-md-2">3e choix</div>
+                <div class="col-md-10"><select style="width:300px"></select></div>
+        </div>
+    </div>
+    
+    <!--Insérer vue partielle-->
+    <div>
+
+
+    </div>
+    
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

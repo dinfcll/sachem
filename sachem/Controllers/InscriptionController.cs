@@ -78,5 +78,11 @@ namespace sachem.Controllers
                 return View();
             }
         }
+        public ActionResult Tuteur()
+        {
+            
+
+            return View();
+        }
     }
 }

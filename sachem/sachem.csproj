@@ -475,6 +475,7 @@
     <Content Include="Views\Shared\_RechercheGroupe.cshtml" />
     <Content Include="Views\Inscription\Index.cshtml" />
     <Content Include="Views\Inscription\_Boutons.cshtml" />
+    <Content Include="Views\Inscription\Tuteur.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
