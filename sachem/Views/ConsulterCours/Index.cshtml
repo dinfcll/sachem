@@ -32,7 +32,7 @@
 
 <table class="table">
     <tr>
-        @if (ViewBag.IsEnseignant == true) //si enseignant
+        @if (ViewBag.IsEnseignant) //si enseignant
         {
             <th>
                 @Html.DisplayNameFor(model => model.FirstOrDefault().Cours.Code)
