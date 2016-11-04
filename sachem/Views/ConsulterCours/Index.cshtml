@@ -103,3 +103,40 @@
 </table>
 @Html.Partial("_PageRecherche", Model)
 
+
+<script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        $("#Session").change(function () {
+            var idSession = $(this).val();
+
+            if (idSession == '')
+            {
+                idSession = 0;
+            }
+
+            $.ajax({
+                url: "/ConsulterCours/ListePersonne",
+                data: { "idSession": idSession },
+                type: "POST",
+                dataType: "json",
+                success: function(donnees) 
+                {
+                    $("#Personne").empty();
+
+                    $("#Personne").append('<option value ="">Tous</option>')
+
+                    $.each(donnees, function (index, valeur) {
+                        $("#Personne").append('<option value ="' + valeur.Value + '">' + valeur.Text + '</option>');
+                    });
+                }
+            });
+        })
+    });
+
+
+
+
+    
+</script>
