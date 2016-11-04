@@ -157,6 +157,9 @@ namespace sachem.Controllers
                 ListeSession();
             else
                 ListeSession(cs.id_Sess.Value);
+
+            ViewBag.resultat = cs.resultat;
+
             return View(cs);
         }
 
