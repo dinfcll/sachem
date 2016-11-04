@@ -5,13 +5,12 @@
     ViewBag.Title = "Modifier étudiant";
 }
 
+@Html.Partial("_DeleteProgEtu");
 <h2>@ViewBag.Title</h2>
-
-
-
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 @using (Html.BeginForm())
 {
-
     <p class="text-success">
         @Html.Raw(@TempData["Success"])
     </p>
@@ -27,8 +26,8 @@
 
         <tr>
             <td>
-                @Html.ActionLink("Oui", "deleteProgEtu", new { idProg = TempData["id_Prog"], idPers = TempData["id_Pers"], Valider = 1  }) |
-                @Html.ActionLink("Non", "deleteProgEtu", new { idProg = TempData["id_Prog"], idPers = TempData["id_Pers"], Valider = 2 } )
+                @Html.ActionLink("Oui", "deleteProgEtu", new { idProg = TempData["id_Prog"], idPers = TempData["id_Pers"], Valider = 1 }) |
+                @Html.ActionLink("Non", "deleteProgEtu", new { idProg = TempData["id_Prog"], idPers = TempData["id_Pers"], Valider = 2 })
             </td>
         </tr>
     }
@@ -48,9 +47,8 @@
                         <p>Voulez-vous vraiment supprimer le programme d'étude?</p>
                     </div>
                     <div class="modal-footer">
-                        <input type="button" value="oui" class="btn btn-default" data-dismiss="modal" onclick="location.href='<%: Url.Action(" deleteProgEtu", "Etudiant" ) %>'" />
-            
-                        <button type="button" class="btn btn-default" data-dismiss="modal">non</button>
+                        <button id="btnDeleteEtuProg" type="button" data-dismiss="modal" class="btn btn-primary">Delete</button>
+                        <button type="button" data-dismiss="modal" class="btn">Cancel</button>
                     </div>
                 </div>
             </div>
@@ -73,14 +71,14 @@
         <div class="form-group">
             @Html.LabelFor(model => model.personne.MP, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.PasswordFor(model => model.personne.MP, new { @class = "form-control", placeholder = "Mot de passe" ,@Value=""})
+                @Html.PasswordFor(model => model.personne.MP, new { @class = "form-control", placeholder = "Mot de passe", @Value = "" })
                 @Html.ValidationMessageFor(model => model.personne.MP, "", new { @class = "text-danger" })
             </div>
         </div>
         <div class="form-group">
             @Html.LabelFor(model => model.personne.ConfirmPassword, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.PasswordFor(model => model.personne.ConfirmPassword, new { @class = "form-control", placeholder = "Confirmation de mot de passe"})
+                @Html.PasswordFor(model => model.personne.ConfirmPassword, new { @class = "form-control", placeholder = "Confirmation de mot de passe" })
                 @Html.ValidationMessageFor(model => model.personne.ConfirmPassword, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -97,17 +95,18 @@
             @Html.Label("Programme d'étude", htmlAttributes: new { @class = "control-label col-md-2" })
             <div style="margin-top:7px;">
                 <div style="margin-left:210px;">
-                    <table>
+                    <table id="progetuTable">
                         @foreach (var item in Model.epe)
                         {
 
                             <tr>
                                 <td>@Html.DisplayFor(modelItem => item.ProgrammeEtude.CodeNomProgramme)</td>
-                                <td><button type="button" class="btn btn-info btn-sm right" data-toggle="modal" data-target="#myModal">Supprimer</button></td>
+                                <td><button id="@item.id_EtuProgEtude" type="button" class="btn btn-info btn-sm" data-toggle="modal" name="SuppProg" data-target="#myModal">Supprimer</button></td>
                             </tr>
                                 @*@Html.ActionLink(" Supprimer", "myModal", new { idProg = item.id_EtuProgEtude, idPers = item.Personne.id_Pers})*@
                         }
                         </table>
+                        
                     </div>
                 </div>
         </div>
@@ -136,6 +135,4 @@
 <div>
     @Html.ActionLink("Retour à la recherche des étudiants", "Index")
 </div>
-@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
-}
+<span id="IDPE" hidden style="visibility: hidden;font-size:0px;">0</span>

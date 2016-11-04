@@ -120,6 +120,32 @@ namespace sachem.Controllers
             epep.epe = Prog.ToList();
             return View(epep);
         }
+        [HttpPost]
+        [AcceptVerbs("Get", "Post")]
+        public virtual JsonResult ActualisePEtu(int idProg, int idPers, int Valider = 0)
+        {
+            Personne personne = db.Personne.Find(idPers);
+            EtuProgEtude etuprog = db.EtuProgEtude.Find(idProg);
+            etuprog.Personne = null;
+            etuprog.ProgrammeEtude = null;
+            etuprog.Session = null;
+            db.EtuProgEtude.Remove(etuprog);
+            db.SaveChanges();
+            var Prog = ObtenirProgEtu(idPers, Valider);
+            return Json(Prog.ToList(), JsonRequestBehavior.AllowGet);
+        }
+
+        private IEnumerable<Object> ObtenirProgEtu(int idPers, int Valider)
+        {
+            var ens = db.EtuProgEtude
+                .AsNoTracking()
+                //.Join(db.Groupe, p => p.id_Pers, g => g.id_Enseignant, (p, g) => new { Personne = p, Groupe = g })
+                .Where(sel => sel.id_Etu == idPers)
+                //.OrderBy(x => x.Personne.Prenom).ThenBy(x => x.Personne.Nom)
+                .Select(e => new { NomProg = e.ProgrammeEtude.NomProg, e.id_Etu, e.id_EtuProgEtude })
+                .Distinct();
+            return ens.AsEnumerable();
+        }
 
         // POST: Etudiant/Edit/5
         // Afin de déjouer les attaques par sur-validation, activez les propriétés spécifiques que vous voulez lier. Pour 
