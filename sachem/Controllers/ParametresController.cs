@@ -11,7 +11,7 @@ namespace sachem.Controllers
 {
     public class ParametresController : Controller
     {
-        private const int idCourriel = 1;
+        private const int ID_COURRIEL = 1;
         private readonly SACHEMEntities db = new SACHEMEntities();
 
         [HttpGet]
@@ -27,12 +27,12 @@ namespace sachem.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult EditCourrier(Courriel courriel)
         {
-            courriel.id_TypeCourriel = idCourriel;
+            courriel.id_TypeCourriel = ID_COURRIEL;
             if (courriel.DateFin != null)
             {
-                if((courriel.DateDebut - courriel.DateFin.Value).TotalDays > 0)
+                if ((courriel.DateDebut - courriel.DateFin.Value).TotalDays > 0)
                     ModelState.AddModelError(string.Empty, Messages.C_005);
-                }
+            }
 
             if (ModelState.IsValid)
             {
@@ -87,16 +87,18 @@ namespace sachem.Controllers
         {
             var idZero = db.Session.OrderByDescending(y => y.id_Sess).FirstOrDefault();
             if (session == 0)
+            {
                 session = idZero.id_Sess;
+            }
             ViewBag.idSess = session;
-            var lhoraire = db.p_HoraireInscription.OrderByDescending(y => y.id_Sess).Where(x => x.id_Sess ==session).FirstOrDefault();
+            var lhoraire = db.p_HoraireInscription.OrderByDescending(y => y.id_Sess).Where(x => x.id_Sess == session).FirstOrDefault();
             ListeSession(session);
-            ViewBag.idSessStable = idZero.id_Sess;         
+            ViewBag.idSessStable = idZero.id_Sess;
             return View(lhoraire);
         }
 
 
-        
+
         [HttpPost]
         [ValidationAccesSuper]
         public ActionResult EditHoraire([Bind(Include = "id_Sess, DateDebut, DateFin, HeureDebut, HeureFin")] p_HoraireInscription HI)
@@ -108,7 +110,7 @@ namespace sachem.Controllers
                 //regarde l'année
                 if (session.Annee != HI.DateDebut.Year || session.Annee != HI.DateFin.Year)
                 {
-                    ModelState.AddModelError(string.Empty, Messages.C_006(session.Annee.ToString(),null));
+                    ModelState.AddModelError(string.Empty, Messages.C_006(session.Annee.ToString(), null));
                 }
 
                 //regarde si les dates sont bonnes
@@ -124,7 +126,7 @@ namespace sachem.Controllers
                     case 1:
                         if (HI.DateFin.Month > new DateTime(1, 5, 1).Month)
                         {
-                            ModelState.AddModelError(string.Empty, Messages.C_006("d'hiver, janvier (01)"," à juin (06)"));
+                            ModelState.AddModelError(string.Empty, Messages.C_006("d'hiver, janvier (01)", " à juin (06)"));
                         }
                         break;
                     //Si ete : de juin inclus jusqua aout inclus (si mois du début >= 6 et mois fin <= 8)
@@ -146,7 +148,7 @@ namespace sachem.Controllers
 
                 if (ModelState.IsValid)
                 {
-                    var SessionSurHI = db.p_HoraireInscription.AsNoTracking().Where(x => x.id_Sess == session.id_Sess).FirstOrDefault();
+                    var SessionSurHI = db.p_HoraireInscription.AsNoTracking().FirstOrDefault(x => x.id_Sess == session.id_Sess);
                     if (SessionSurHI == null)
                     {
                         db.Entry(HI).State = EntityState.Added;
@@ -178,7 +180,7 @@ namespace sachem.Controllers
         [ValidationAccesSuper]
         public ActionResult ModifCollege(string nomCollege, int? id)
         {
-            
+
             if (db.p_College.Any(r => r.id_College == id))
             {
                 var college = db.p_College.Find(id);
@@ -186,7 +188,6 @@ namespace sachem.Controllers
                 db.Entry(college).State = EntityState.Modified;
                 db.SaveChanges();
             }
-            var collegeretour = from c in db.p_College orderby c.College select c;
             return RedirectToAction("EditCollege");
         }
 
@@ -212,7 +213,7 @@ namespace sachem.Controllers
         public void DeleteCollege(int? id)
         {
             var college = db.p_College.Find(id);
-            if(college != null)
+            if (college != null)
             {
                 db.p_College.Remove(college);
                 db.SaveChanges();
@@ -222,20 +223,48 @@ namespace sachem.Controllers
         private void ValiderContact([Bind(Include = "id_Contact,Nom,Prenom,Courriel,Telephone,Poste,Facebook,SiteWeb,Local")]p_Contact contact)
         {
             if (!db.p_Contact.Any(r => r.id_Contact == contact.id_Contact))
-                ModelState.AddModelError(string.Empty," ");
+                ModelState.AddModelError(string.Empty, " ");
         }
 
         private IEnumerable<p_College> Recherche(string recherche)
         {
             var college = from c in db.p_College
-                          orderby c.College
                           select c;
+
+            var collegeFormater = Formatage(college);
 
             if (!String.IsNullOrEmpty(recherche))
             {
-                college = college.Where(c => c.College.Contains(recherche)) as IOrderedQueryable<p_College>;
+                collegeFormater = collegeFormater.FindAll(c => c.College.Contains(recherche));
             }
-            return college.ToList();
+            return collegeFormater;
+        }
+
+        private List<p_College> Formatage(IQueryable<p_College> college)
+        {
+            string[] nomCollege = { "Collège de", "Collège", "Cégep de", "Cégep" };
+
+            int Indice;
+            var collegeFormater = new List<p_College>();
+            bool Formater;
+            foreach(var element in college)
+            {
+                Indice = 0;
+                Formater = false;
+                while(Indice < 4 && !Formater)
+                {
+                    if (element.College.ToLower().StartsWith(nomCollege[Indice].ToLower()))
+                    {
+                        element.College = element.College.Remove(0, nomCollege[Indice].Length + 1);
+                        element.College = element.College + " (" + nomCollege[Indice] + ")";
+                        element.College = char.ToUpper(element.College.First()) + element.College.Substring(1);
+                        Formater = true;
+                        collegeFormater.Add(element);
+                    }
+                    Indice++;
+                }
+            }
+            return collegeFormater.OrderBy(x => x.College).ToList();
         }
     }
 }
