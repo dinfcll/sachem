@@ -237,7 +237,14 @@ namespace sachem.Controllers
             m_IdTypeUsage = SessionBag.Current.id_TypeUsag; // 2 = enseignant, 3 = responsable
             IOrderedQueryable<Groupe> gr;
 
-            ViewBag.Sessionchoisie = idSess;
+            if (idSess == 0)
+            {
+                ViewBag.IsSessToutes = true;
+            }
+            else
+            {
+                ViewBag.IsSessToutes = false;
+            }
 
             if (!connexionValide(m_IdTypeUsage))
             {
@@ -255,18 +262,18 @@ namespace sachem.Controllers
                     ViewBag.IsEnseignant = true;
 
                     gr = from g in db.Groupe //obtenir les groupes en lien avec le cours trouvé et le prof connexté
-                             where g.id_Cours == idCours && g.id_Enseignant == m_IdPers
-                             orderby g.NoGroupe
-                             select g;
+                         where g.id_Cours == idCours && g.id_Enseignant == m_IdPers
+                         orderby g.NoGroupe
+                         select g;
                 }
                 else //responsable
                 {
                     ViewBag.IsEnseignant = false;
 
                     gr = from g in db.Groupe
-                             where g.id_Cours == idCours
+                         where g.id_Cours == idCours
                          orderby g.NoGroupe
-                             select g;
+                         select g;
                 }
 
                 if (!gr.Any())

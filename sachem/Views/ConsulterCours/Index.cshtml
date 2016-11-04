@@ -128,7 +128,9 @@ else
             var idSession = $(this).val();
 
             if (idSession == '')
+            {
                 idSession = 0;
+            }
 
             $.ajax({
                 url: "/ConsulterCours/ListePersonne",
