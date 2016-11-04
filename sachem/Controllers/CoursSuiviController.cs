@@ -84,7 +84,7 @@ namespace sachem.Controllers
 
             ViewBag.id_insc = vInscription.First();
             ViewBag.idPers = id;
-            ViewBag.Resultat = 1;
+            ViewBag.Resultat = "Create";
 
             ListeCours();
             ListeCollege();
@@ -159,7 +159,7 @@ namespace sachem.Controllers
             else
                 ListeSession(cs.id_Sess.Value);
 
-            ViewBag.Resultat = 0;
+            ViewBag.Resultat = "Edit";
 
             return View(cs);
         }
