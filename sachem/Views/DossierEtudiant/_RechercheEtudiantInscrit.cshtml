@@ -80,7 +80,14 @@ else
             Superviseur :
         </td>
             <td>
-                @Html.DropDownList("Superviseur", null, "Tous", htmlAttributes: new { @class = "form-search" })
+                @if (SachemIdentite.ObtenirTypeUsager(Session) == TypeUsagers.Enseignant)
+                {
+                    @Html.DropDownList("Superviseur", null, "Tous", htmlAttributes: new { @class = "form-search", disabled="disabled"})
+                }
+                else
+                {
+                    @Html.DropDownList("Superviseur", null, "Tous", htmlAttributes: new { @class = "form-search" })
+                }
             </td>
 }
     </tr>
