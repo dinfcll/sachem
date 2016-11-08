@@ -18,15 +18,36 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
 <script type="text/javascript">
-    function AppelModal(id) {
+    function ModifModal(id) {
         var modal = document.getElementById('modalModification');
         var boutonModif = document.getElementById('btnModifier');
         modal.style.display = 'block';
-        boutonModif.onclick = function () {
+        boutonModif.onclick = function() {
             var nomCollege = document.getElementById("txtNomCollege").value;
             Modifier(id, nomCollege);
         }
     }
+
+    function SuppressionModal(id) {
+        var modal = document.getElementById('modalSuppression');
+        var boutonSuppression = document.getElementById('btnSuppression');
+        modal.style.display = 'block';
+        boutonSuppression.onclick = function() {
+            Suppression(id);
+        }
+    }
+
+    function Suppression(id) {
+        $.ajax({
+            url: "/Parametres/DeleteCollege",
+            data: { "id": id },
+            type: "POST",
+            success: function() {
+                window.location.reload(true);
+            }
+        });
+    }
+
     function Modifier(id, nouveauNomCollege) {
         $.ajax({
             url: "/Parametres/ModifCollege",
@@ -73,16 +94,10 @@
             </td>
             <td>
        
-                <a onclick="AppelModal(@item.id_College);" href="#" data-toggle="modal" data-target="#modalModification">Modifier</a>
-            |
-
-                @Ajax.ActionLink("Supprimer", "DeleteCollege", new { id = item.id_College }, new AjaxOptions
-            {
-                Confirm = @sachem.Models.Messages.Q_015(item.College),
-                HttpMethod = "Post",
-                OnSuccess = "window.location.reload()",
-                InsertionMode = InsertionMode.Replace
-            })
+                <a onclick="ModifModal(@item.id_College);" href="#" data-toggle="modal" data-target="#modalModification">Modifier</a>
+                |
+                <a onclick="SuppressionModal(@item.id_College);" href="#" data-toggle="modal" data-target="#modalSuppression">Supprimer</a>
+            </td>    
         </tr>
     }
 </table>
@@ -93,7 +108,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">Modification du nom de collège d'enseignement</h4>
+                    <h4 class="modal-title">Modification du nom de collège d'enseignement.</h4>
                 </div>
                 <div class="modal-body">
                     <p>Nouveau nom de collège d'enseignement :</p> <input type="text" id="txtNomCollege" class="form-control" /><br />
@@ -106,6 +121,27 @@
         </div>
     </div>
 </div>
+
+<div class="container">
+    <div class="modal fade" id="modalSuppression" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Suppression d'un collège d'enseignement.</h4>
+                </div>
+                <div class="modal-body">
+                    <p>Voulez-vous vraiment supprimer ce collège d'enseignement ?</p>
+                </div>
+                <div class="modal-footer">
+                    <button id="btnSuppression" type="button" data-dismiss="modal" class="btn btn-primary">Supprimer</button>
+                    <button type="button" data-dismiss="modal" class="btn">Annuler</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 @* Ajout de la fonction PagedList modifier.*@
 @if (Model.PageCount > 0)
