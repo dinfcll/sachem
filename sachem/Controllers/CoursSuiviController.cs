@@ -84,6 +84,7 @@ namespace sachem.Controllers
 
             ViewBag.id_insc = vInscription.First();
             ViewBag.idPers = id;
+            ViewBag.Resultat = "Create";
 
             ListeCours();
             ListeCollege();
@@ -157,6 +158,9 @@ namespace sachem.Controllers
                 ListeSession();
             else
                 ListeSession(cs.id_Sess.Value);
+
+            ViewBag.Resultat = "Edit";
+
             return View(cs);
         }
 
@@ -193,7 +197,6 @@ namespace sachem.Controllers
             return View(coursSuivi);
         }
 
-        //id étant id_CoursReussi et id2 étant id_Pers
         // GET: CoursSuivi/Delete/5
         public ActionResult Delete(int? coursReussi, int? personne)
         {            
