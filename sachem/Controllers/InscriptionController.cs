@@ -26,11 +26,15 @@ namespace sachem.Controllers
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Index(string test)
+        public ActionResult Index(Horaire horaire)
         {
             ViewBag.TypeInscription = new SelectList(db.p_TypeInscription, "id_TypeInscription", "TypeInscription");
-            return View(test);
+            var test = horaire;
+            if (horaire != null)
+            {
+                return Json("Success");
+            }
+            return View();
         }
 
         /*private string NoAJour(int id)

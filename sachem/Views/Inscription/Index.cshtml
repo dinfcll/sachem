@@ -4,26 +4,31 @@
 
 @{
     ViewBag.Title = "Inscription au service de Sachem";
-
-    int dernierId = 0;
 }
 <script>
-    $(function() {
-        $("#button").click(function () {
-            alert("Hey");
-            var bob = $("#TabDisp").serialize();
-            alert(bob);
+        function myFunction() {
+            var url = $(this).attr('action');
+            var HoraireArray = [];
+            $('[name="horaireCheckbox"]:checked').each(function () {
+                HoraireArray.push(($(this).val()));
+            });
+            alert(HoraireArray);
+            //var bob = $("#TabDisp").serialize();
             $.ajax({
                 type: "POST",
                 url: "/Inscription/Index",
-                data: $("#TabDisp").serialize(),
+                //data: $("#TabDisp").serialize(),
+                data: { model: JSON.stringify(HoraireArray) },
+                contentType: 'application/json; charset=utf-8',
                 success: function (data) {
                     alert("success");
+                },
+                error: function (data) {
+                    alert("erreur");
                 }
             });
-        });
-
-    });
+        };
+   
 </script>
 
 
@@ -32,8 +37,7 @@
     @Html.Raw(@TempData["Success"])
 </p>
 
-@using (Html.BeginForm("Index", "Inscription", FormMethod.Post))
-{
+
     @Html.AntiForgeryToken()
 
     <div class="form-group">
@@ -50,36 +54,36 @@
         -Formez des blocs d'au moins deux heures consécutives.(les rencontres dureront 1h30/semaine) <br />
         -Inscrivez plusieurs choix pour faciliter le jumelage.
     </p>
-    <form method="post" id="TabDisp">
+    <form method="post" id="TabDisp" onsubmit="myFunction()">
         <div>
+            @{string[] jour = new string[5] { "Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi" };}
             <CENTER>
-                <table style="width:100%" border=1>
-                    <TR>
-                        <TH>Heures</TH>
-                        <TH>Lundi</TH>
-                        <TH>Mardi</TH>
-                        <TH>Mercredi</TH>
-                        <TH>Jeudi</TH>
-                        <TH>Vendredi</TH>
-
-                    </TR>
-                    @for (var heure = 8; heure < 18;)
-                    {
+                    <table style="width:100%" border=1>
                         <TR>
-                            <TD>@(heure)h - @(++heure)h</TD>
+                            <TH>Heures</TH>
+                            <TH>@jour[0]</TH>
+                            <TH>@jour[1]</TH>
+                            <TH>@jour[2]</TH>
+                            <TH>@jour[3]</TH>
+                            <TH>@jour[4]</TH>
 
-
-                            @for (var jour = 1; jour < 6; jour++)
-                            {
-                                <TD> @Html.CheckBox((heure.ToString()), false, htmlAttributes: new { @class = "control-label col-md-2", @id = @jour + dernierId })</TD>
-                                if (jour == 5)
-                                { dernierId += jour; }
-                            }
                         </TR>
-                    }
-                </table>
+                        @for (var heure = 8; heure < 18;)
+                        {
+                            int heureCheckbox = heure;
+                            <TR>
+                                <TD>@(heure)h - @(++heure)h</TD>
+
+
+                                @for (var j = 0; j < 5; j++)
+                                {
+                                    <TD> @Html.CheckBox("horaireCheckbox", false, htmlAttributes: new { @class = "control-label col-md-2", @id = jour[j] + heureCheckbox.ToString(), @value = jour[j] + heureCheckbox.ToString() })</TD>
+                                }
+                            </TR>
+                        }
+
+                    </table>
             </CENTER>
-            <input type="submit" value="Enregister et poursuivre" class="btn btn-default" id="button" />
+            <input type="submit" value="Enregistrer et poursuivre" />
         </div>
     </form>
-}

@@ -250,6 +250,7 @@
     </Compile>
     <Compile Include="Models\DataAccess\BdRepository.cs" />
     <Compile Include="Models\DataAccess\IDataRepository.cs" />
+    <Compile Include="Models\HoraireDisp.cs" />
     <Compile Include="Models\PersEtuProg.cs" />
     <Compile Include="Models\p_CollegeMetadata.cs" />
     <Compile Include="Models\PersonneMetadata.cs" />
