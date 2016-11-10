@@ -81,6 +81,25 @@ textarea {
 /* Inscription */
 
 /*Tuteur de cours*/
-.rowPadTop {
-    padding-top:10px;
+
+.rowCourseReussisPadTop {
+    padding:10px 10px 10px 10px;
+}
+
+.ins-row {
+    padding-top:5px;
+}
+
+.ins-text-box {
+    height:30px;
+}
+
+ins-select {
+    height:30px;
+}
+.ins-btnAjouter {
+    margin-top:20px;
+}
+.hIns {
+    font-weight:bold;
 }

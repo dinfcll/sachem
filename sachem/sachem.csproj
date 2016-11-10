@@ -476,6 +476,8 @@
     <Content Include="Views\Inscription\Index.cshtml" />
     <Content Include="Views\Inscription\_Boutons.cshtml" />
     <Content Include="Views\Inscription\Tuteur.cshtml" />
+    <Content Include="Views\Shared\_CoursReussis.cshtml" />
+    <Content Include="Views\Inscription\TBenevole.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
