@@ -14,8 +14,7 @@
 
 @Scripts.Render("~/bundles/jquery")
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
 <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
 <script type="text/javascript">
     function ModifModal(id) {
@@ -100,6 +99,13 @@
             </td>    
         </tr>
     }
+    
+    @if (!Model.Any())
+    {
+        <tr>
+            <td colspan="6">Aucun collège d'enseignement ne répond à ces critères</td>
+        </tr>
+    }
 </table>
 
 <div class="container">
@@ -141,6 +147,7 @@
         </div>
     </div>
 </div>
+
 
 
 @* Ajout de la fonction PagedList modifier.*@
