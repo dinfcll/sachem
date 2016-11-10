@@ -141,9 +141,9 @@ namespace sachem.Controllers
                 TempData["idg"] = groupe.id_Groupe;
                 return RedirectToAction("Index");
             }
-            ViewBag.id_Cours = new SelectList(db.Cours, "id_Cours", "Code", groupe.id_Cours);
-            ViewBag.id_Enseignant = new SelectList(db.Personne, "id_Pers", "Nom", groupe.id_Enseignant);
-            ViewBag.id_Sess = new SelectList(db.Session, "id_Sess", "id_Sess", groupe.id_Sess);
+            ViewBag.id_Cours = new SelectList(db.Cours, "id_Cours", "CodeNom", groupe.id_Cours);
+            ViewBag.id_Enseignant = new SelectList(db.Personne, "id_Pers", "NomPrenom", groupe.id_Enseignant);
+            ViewBag.id_Sess = new SelectList(db.Session, "id_Sess", "NomSession", groupe.id_Sess);
             ViewBag.Disabled = sDisabled();
             return View(groupe);
         }
