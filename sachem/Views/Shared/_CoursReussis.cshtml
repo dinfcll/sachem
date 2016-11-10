@@ -5,7 +5,7 @@
     <div class="col-md-6"><h5 class="hIns">Êtes-vous prêt à faire deux rencontres consécutives (3h)</h5></div>
     <div class="col-md-6">
         <div style="float:right">
-            <input id="Q3" name="Q3radio" type="radio" />oui
+            <input id="Q3" name="Q3radio" type="radio" checked/>oui
             <input id="Q1" name="Q3radio" type="radio" style="margin-left:30px;" />non
         </div>
     </div>
@@ -41,61 +41,76 @@
     </h5>
 </p>
 
-<div class="clearfix rowCourseReussisPadTop" style="background-color:aliceblue">
-    <div class="col-md-9">
-        <div class="row ins-row">
-            <div class="col-md-2">
-                Cours
+<div id="espaceCours">
+    <div class="clearfix rowCourseReussisPadTop" style="background-color:aliceblue">
+        <div class="col-md-9">
+            <div class="row ins-row">
+                <div class="col-md-2">
+                    Cours
+                </div>
+                <div class="col-md-6">
+                    @Html.DropDownList("lstCours", null, htmlAttributes: new { @class = "form-search ins-select" })
+                </div>
+                <div class="col-md-4">
+                    <input type="text" class="form-control text-box single-line ins-text-box"placeholder="Résultat"/>
+                </div>
             </div>
-            <div class="col-md-6">
-                @Html.DropDownList("lstCours", null, htmlAttributes: new { @class = "form-search ins-select" })
+            <div class="row ins-row">
+                <div class="col-md-2">
+                    Autre:
+                </div>
+                <div class="col-md-6">
+                    <input type="text" class="form-control text-box single-line ins-text-box"/>
+                </div>
             </div>
-            <div class="col-md-4">
-                <input type="text" class="form-control text-box single-line ins-text-box"placeholder="Résultat"/>
+            <div class="row ins-row">
+                <div class="col-md-2">
+                    Collège
+                </div>
+                <div class="col-md-6">
+                    @Html.DropDownList("lstCollege", null, htmlAttributes: new { @class = "form-search ins-select" })
+                </div>
+            </div>
+            <div class="row ins-row">
+                <div class="col-md-2">
+                    Autre:
+                </div>
+                <div class="col-md-6">
+                    <input type="text" class="form-control text-box single-line ins-text-box" />
+                </div>
             </div>
         </div>
-        <div class="row ins-row">
-            <div class="col-md-2">
-                Autre:
-            </div>
-            <div class="col-md-6">
-                <input type="text" class="form-control text-box single-line ins-text-box"/>
-            </div>
+        <div class="col-md-3">
+            <input type="button" value="Supprimer" style="float:right" class="btn btn-default"/>
         </div>
-        <div class="row ins-row">
-            <div class="col-md-2">
-                Collège
-            </div>
-            <div class="col-md-6">
-                @Html.DropDownList("lstCollege", null, htmlAttributes: new { @class = "form-search ins-select" })
-            </div>
-        </div>
-        <div class="row ins-row">
-            <div class="col-md-2">
-                Autre:
-            </div>
-            <div class="col-md-6">
-                <input type="text" class="form-control text-box single-line ins-text-box" />
-            </div>
-        </div>
-    </div>
-    <div class="col-md-3">
-        <input type="button" value="Supprimer" style="float:right" class="btn btn-default"/>
     </div>
 </div>
 
 <div style="padding-bottom:10px">
-    <input type="button" value="Ajouter un cours" class="btn btn-default ins-btnAjouter" /><br /><br />
+    <input type="button" value="Ajouter un cours" class="btn btn-default ins-btnAjouter" id="btnAjouterCours" /><br /><br />
     <input type="button" value="Enregistrer et poursuivre" class="btn btn-default" />
     <input type="button" value="Enregistrer un brouillon" class="btn btn-default" />
     <input type="button" value="Annuler" class="btn btn-default" />
 </div>
 
-<!--<script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+
+<script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
 <script type="text/javascript">
 
     $(document).ready(function () {
-        $("#Session").change(function () {
+
+        var htmlLigneCours = "";
+
+        $("#btnAjouterCours").click(function(){
+            $("#espaceCours").add($("#test1").html());
+
+            //var ligneCours = "";
+        });
+
+
+
+
+        /*$("#Session").change(function () {
             var idSession = $(this).val();
 
             if (idSession == '')
@@ -119,9 +134,16 @@
                     });
                 }
             });
-        })
+        })*/
+
+
+
+
     });
-</script>-->
+</script>
+
+
+
 
 
 
