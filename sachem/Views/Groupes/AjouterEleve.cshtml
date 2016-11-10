@@ -7,107 +7,114 @@
 
 <h2>@ViewBag.Title</h2>
 
-@TempData["ErrorAjEl"]
 @TempData["Success"]
 
-@if ((string)TempData["ErrorDep"] != null)
+@if ((string)TempData["ErrorAjEl"] != null)
 {
     <div class="alert alert-danger">
-        @TempData["ErrorDep"]
-        <br />
-        @using (Html.BeginForm("Deplacer", "Groupes", null, FormMethod.Post, new { @class = "form-inline", role = "form" ,style="display:inline;"}))
-        {
-            @Html.AntiForgeryToken()
-            <input type="hidden" name="idGroupeEtudiant" value="@TempData["idGe"]" />
-            <input type="hidden" name="id_groupedepl" value="@ViewBag.idg" />
-            <button style="display:inline;padding:0px;margin:0px;" type="submit" class="btn btn-link" >(Oui) L'étudiant sera uniquement dans le groupe @ViewBag.idg</button>
-        }|
-        @Html.ActionLink("(Non) L'étudiant sera dans les deux groupes", "AjouterEleveGET", new { idg = @TempData["idg"], idp = @TempData["personne"], noclick = 1 })  |
-        @Html.ActionLink("Annuler", "AjouterEleve", new { idg = @TempData["idg"], page = ViewBag.page })
+        @TempData["ErrorAjEl"]
     </div>
-}
-@using (Html.BeginForm("AjouterEleve", "Groupes", new { idg = ViewBag.idg }, FormMethod.Post, new { @class = "form-inline", role = "form" }))
-{
-    <p>
-        <h4>Recherche</h4>
-    </p>
-    <div class="form-group">
+
+}   
+    @if ((string)TempData["ErrorDep"] != null)
+    {
+        <div class="alert alert-danger">
+            @TempData["ErrorDep"]
+            <br />
+            @using (Html.BeginForm("Deplacer", "Groupes", null, FormMethod.Post, new { @class = "form-inline", role = "form", style = "display:inline;" }))
+            {
+                @Html.AntiForgeryToken()
+                <input type="hidden" name="idGroupeEtudiant" value="@TempData["idGe"]" />
+                <input type="hidden" name="id_groupedepl" value="@ViewBag.idg" />
+                <button style="display:inline;padding:0px;margin:0px;" type="submit" class="btn btn-link">(Oui) L'étudiant sera uniquement dans le groupe @ViewBag.idg</button>
+            }|
+            @Html.ActionLink("(Non) L'étudiant sera dans les deux groupes", "AjouterEleveGET", new { idg = @TempData["idg"], idp = @TempData["personne"], noclick = 1 })  |
+            @Html.ActionLink("Annuler", "AjouterEleve", new { idg = @TempData["idg"], page = ViewBag.page })
+        </div>
+    }
+    @using (Html.BeginForm("AjouterEleve", "Groupes", new { idg = ViewBag.idg }, FormMethod.Post, new { @class = "form-inline", role = "form" }))
+    {
         <p>
-            <div class="form-group">
-                Matricule :
-                @Html.TextBox("Matricule")
-            </div>
-
-            <div class="form-group">
-                Nom :
-                @Html.TextBox("Nom")
-            </div>
-
-            <div class="form-group">
-                Prénom :
-                @Html.TextBox("Prenom")
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Rechercher" class="btn-toolbar" />
-            </div>
+            <h4>Recherche</h4>
         </p>
-    </div>
-}
+        <div class="form-group">
+            <p>
+                <div class="form-group">
+                    Matricule :
+                    @Html.TextBox("Matricule")
+                </div>
 
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.FirstOrDefault().p.Nom)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.FirstOrDefault().p.Matricule)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.FirstOrDefault().p.Age)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.FirstOrDefault().p.p_Sexe.Sexe)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.FirstOrDefault().epe.ProgrammeEtude.CodeNomProgramme)
-        </th>
-        <th></th>
-    </tr>
+                <div class="form-group">
+                    Nom :
+                    @Html.TextBox("Nom")
+                </div>
 
-    @foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.p.NomPrenom)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.p.Matricule7)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.p.Age)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.p.p_Sexe.Sexe)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.epe.ProgrammeEtude.CodeNomProgramme)
-            </td>
-            <td>
-                @Html.ActionLink("Ajouter", "AjouterEleveGET", new { idg = ViewBag.idg, idp = item.p.id_Pers })
-            </td>
-        </tr>
+                <div class="form-group">
+                    Prénom :
+                    @Html.TextBox("Prenom")
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Rechercher" class="btn-toolbar" />
+                </div>
+            </p>
+        </div>
     }
 
-</table>
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.FirstOrDefault().p.Nom)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FirstOrDefault().p.Matricule)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FirstOrDefault().p.Age)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FirstOrDefault().p.p_Sexe.Sexe)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FirstOrDefault().epe.ProgrammeEtude.CodeNomProgramme)
+            </th>
+            <th></th>
+        </tr>
 
-@if (Model.PageCount > 0)
-{
-    <div>
-        Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) sur @Model.PageCount
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.p.NomPrenom)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.p.Matricule7)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.p.Age)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.p.p_Sexe.Sexe)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.epe.ProgrammeEtude.CodeNomProgramme)
+                </td>
+                <td>
+                    @Html.ActionLink("Ajouter", "AjouterEleveGET", new { idg = ViewBag.idg, idp = item.p.id_Pers })
+                </td>
+            </tr>
+        }
+
+    </table>
+
+    @if (Model.PageCount > 0)
+    {
         <div>
-            @Html.PagedListPager(Model, page => Url.Action("AjouterEleve", new { idg=ViewBag.idg, page }))
+            Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) sur @Model.PageCount
+            <div>
+                @Html.PagedListPager(Model, page => Url.Action("AjouterEleve", new { idg = ViewBag.idg, page }))
+            </div>
         </div>
+    }
+    <div>
+        @Html.ActionLink("Retour à la modification des groupes", "Edit", new { id = ViewBag.idg })
     </div>
-}
-<div>
-    @Html.ActionLink("Retour à la modification des groupes", "Edit", new { id = ViewBag.idg })
-</div>
