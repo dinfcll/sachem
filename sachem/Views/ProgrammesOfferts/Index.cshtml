@@ -67,11 +67,15 @@
             </td>
         </tr>
     }
+
+    @if (!Model.Any())
+    {
+        <tr>
+            <td colspan="6">Aucun programme d'étude ne répond à ces critères</td>
+        </tr>
+    }
 </table>
-@if (!Model.Any())
-{
-    <b>Aucun résultat trouvé</b><br/>
-}
+
 @if (pagedlist.PageCount > 0)
 {
     <div>
