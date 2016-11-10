@@ -46,7 +46,7 @@
 </script>
 <h4>Recherche</h4>
 
-<table class="tsearch">
+<table class="table-condensed">
     <tr>
         <td>
             Session :
@@ -80,7 +80,14 @@ else
             Superviseur :
         </td>
             <td>
-                @Html.DropDownList("Superviseur", null, "Tous", htmlAttributes: new { @class = "form-search" })
+                @if (SachemIdentite.ObtenirTypeUsager(Session) == TypeUsagers.Enseignant)
+                {
+                    @Html.DropDownList("Superviseur", null, "Tous", htmlAttributes: new { @class = "form-search", disabled="disabled"})
+                }
+                else
+                {
+                    @Html.DropDownList("Superviseur", null, "Tous", htmlAttributes: new { @class = "form-search" })
+                }
             </td>
 }
     </tr>
@@ -93,12 +100,12 @@ else
         <td>
             Prénom :
         </td><td>
-            @Html.Editor("Prenom")
+            @Html.Editor("Prenom", new { htmlAttributes = new { @class = "form-control"} })
         </td>
         <td>
             Nom :
         </td><td>
-            @Html.Editor("Nom")
+            @Html.Editor("Nom", new { htmlAttributes = new { @class = "form-control"} })
         </td>
     </tr>
     <tr>

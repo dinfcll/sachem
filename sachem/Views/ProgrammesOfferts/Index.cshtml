@@ -18,13 +18,17 @@
 <p>
     @using (Html.BeginForm("Index", "ProgrammesOfferts", FormMethod.Post, new { @class = "form-inline", role = "form" }))
     {
-    <p>
-        Code ou nom de programme @Html.TextBox("Recherche")
-        <input type="submit" value="Rechercher" />
-    </p>
+        <table class="table-condensed">
+            <tr>
+                <td>Code ou nom de programme</td>
+                <td>@Html.Editor("Recherche", new { htmlAttributes = new { @class = "form-control" } })</td>
+                <td><input type="submit" value="Rechercher" class="form-search" /></td>
+            </tr>
+        </table>
     }
+</p>
     @Html.ActionLink("Ajouter un programme d'étude", "Create")
-    </p>
+    
 <table class="table">
     <tr>
         <th>
@@ -63,11 +67,15 @@
             </td>
         </tr>
     }
+
+    @if (!Model.Any())
+    {
+        <tr>
+            <td colspan="6">Aucun programme d'étude ne répond à ces critères</td>
+        </tr>
+    }
 </table>
-@if (!Model.Any())
-{
-    <b>Aucun résultat trouvé</b><br/>
-}
+
 @if (pagedlist.PageCount > 0)
 {
     <div>

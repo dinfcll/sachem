@@ -96,7 +96,7 @@ namespace sachem.Models
         /// Enseignant relié à un cour.
         /// </summary>
         /// <returns></returns>
-        public const string I_012 = "l'enseignant ne peut être supprimé car il est relié à un cours";
+        public const string I_012 = "L'enseignant ne peut être supprimé car il est relié à un cours";
 
         /// <summary>
         /// Le nom d'utilisateur est déjà utilisé.
@@ -205,7 +205,7 @@ namespace sachem.Models
         /// </summary>
         /// <returns></returns>
         public static string I_026()
-        { return $"Le compte a été créé. Vous pouvez maintenant vous connecter."; }
+        { return $"Le compte a été créé. Vous pouvez maintenant vous inscrire au Sachem."; }
 
         /// <summary>
         /// Aucun étudiant ne correspond aux données saisies. Vous devez être inscrit à un cours offert par le département de mathématiques.
@@ -492,7 +492,7 @@ namespace sachem.Models
         /// <returns></returns>public string Q_043(string NomUsager, int id_Enseignant)
         public static MvcHtmlString Q_004(string NomUsager, int id_Enseignant)
         {
-            return MvcHtmlString.Create($"L'enseignant {NomUsager} a été créé. Souhaitez-vous <a href=\"Sachem/Groupes/{id_Enseignant}\">y associer un groupe?</a>"); // Note: Changé vers quel page le lien pointe.
+            return MvcHtmlString.Create($"L'enseignant {NomUsager} a été créé. Souhaitez-vous <a href=\"/Groupes/Create?idEns={id_Enseignant}\">y associer un groupe?</a>"); // Note: Changé vers quel page le lien pointe.
         }
 
         /// <summary>

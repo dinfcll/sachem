@@ -73,7 +73,7 @@ namespace sachem.Models
 
         //Extrait du PAM partiellement
         [Display(Name = "Matricule")]
-        [StringLength(7)]
+        [StringLength(7, ErrorMessage = Messages.U_004)]
         public string Matricule7;
 
         [DataType(DataType.Password)]

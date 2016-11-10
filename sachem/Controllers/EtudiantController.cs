@@ -36,7 +36,7 @@ namespace sachem.Controllers
             ViewBag.id_Sexe = db.p_Sexe;
             ViewBag.Selected = 0;
             ViewBag.id_TypeUsag = new SelectList(db.p_TypeUsag, "id_TypeUsag", "TypeUsag");
-            ViewBag.id_Programme = new SelectList(db.ProgrammeEtude, "id_ProgEtu", "nomProg");
+            ViewBag.id_Programme = new SelectList(db.ProgrammeEtude.Where(x => x.Actif == true), "id_ProgEtu", "CodeNomProgramme");
             ViewBag.id_Session = new SelectList(db.Session, "id_Sess", "NomSession");
             return View();
         }
@@ -57,14 +57,15 @@ namespace sachem.Controllers
             personne.Matricule = CONSTANTE20 + personne.Matricule;
             pepp.personne = personne;
 
+            ViewBag.id_Sexe = db.p_Sexe;
+            ViewBag.Selected = 0;
+            ViewBag.id_TypeUsag = new SelectList(db.p_TypeUsag, "id_TypeUsag", "TypeUsag");
+            ViewBag.id_Programme = new SelectList(db.ProgrammeEtude.Where(x => x.Actif == true), "id_ProgEtu", "CodeNomProgramme");
+            ViewBag.id_Session = new SelectList(db.Session, "id_Sess", "NomSession");
+
             Valider(pepp.personne);
             if(ConfirmeMdp(personne.MP, personne.ConfirmPassword) == false)
-            {
-                ViewBag.id_Sexe = db.p_Sexe;
-                ViewBag.Selected = 0;
-                ViewBag.id_TypeUsag = new SelectList(db.p_TypeUsag, "id_TypeUsag", "TypeUsag");
-                ViewBag.id_Programme = new SelectList(db.ProgrammeEtude, "id_ProgEtu", "nomProg");
-                ViewBag.id_Session = new SelectList(db.Session, "id_Sess", "NomSession");
+            {                
                 return View(pepp);
             }
 
@@ -88,6 +89,7 @@ namespace sachem.Controllers
                 TempData["Success"] = Messages.I_010(personne.Matricule7); // Message afficher sur la page d'index confirmant la création
                 return RedirectToAction("Index");
             }
+
             return View(pepp);
         }
 
@@ -99,11 +101,14 @@ namespace sachem.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Personne personne = db.Personne.Find(id);
-            personne.Telephone = SachemIdentite.RemettreTel(personne.Telephone);
+            Personne personne = db.Personne.Find(id);         
             if (personne == null)
             {
                 return HttpNotFound();
+            }
+            if (personne.Telephone != null)
+            {
+                personne.Telephone = SachemIdentite.RemettreTel(personne.Telephone);
             }
             //retroune la liste de programme qui relié à l'élève
             var Prog = from d in db.EtuProgEtude
@@ -114,7 +119,7 @@ namespace sachem.Controllers
             ViewBag.id_Sexe = db.p_Sexe;
             ViewBag.Selected = personne.id_Sexe;
             ViewBag.id_TypeUsag = new SelectList(db.p_TypeUsag, "id_TypeUsag", "TypeUsag", personne.id_TypeUsag);
-            ViewBag.id_Programme = new SelectList(db.ProgrammeEtude, "id_ProgEtu", "nomProg");
+            ViewBag.id_Programme = new SelectList(db.ProgrammeEtude.Where(x=> x.Actif==true), "id_ProgEtu", "CodeNomProgramme");
             ViewBag.id_Session = new SelectList(db.Session, "id_Sess", "NomSession");
             PersonneEtuProgParent epep = new PersonneEtuProgParent();
             epep.personne = personne;
@@ -193,7 +198,7 @@ namespace sachem.Controllers
             ViewBag.id_Sexe = db.p_Sexe;
             ViewBag.Selected = pepp.personne.id_Sexe;
             ViewBag.id_TypeUsag = new SelectList(db.p_TypeUsag, "id_TypeUsag", "TypeUsag", pepp.personne.id_TypeUsag);
-            ViewBag.id_Programme = new SelectList(db.ProgrammeEtude, "id_ProgEtu", "nomProg");
+            ViewBag.id_Programme = new SelectList(db.ProgrammeEtude.Where(x => x.Actif == true), "id_ProgEtu", "CodeNomProgramme");
             ViewBag.id_Session = new SelectList(db.Session, "id_Sess", "NomSession");
 
 

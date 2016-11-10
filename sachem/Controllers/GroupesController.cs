@@ -60,13 +60,13 @@ namespace sachem.Controllers
 
         // GET: Groupes/Create
         [ValidationAccesEnseignant]
-        public ActionResult Create()
+        public ActionResult Create(int? idEns)
         {
             int? idPers = (Session["id_Pers"] == null ? -1 : (int)Session["id_Pers"]);
             bool verif = SachemIdentite.ObtenirTypeUsager(Session) == TypeUsagers.Responsable;
             ViewBag.id_Cours = new SelectList(db.Cours.Where(x => x.Actif == true).OrderBy(x => x.Code), "id_Cours", "CodeNom");
             var ens = from c in db.Personne where c.id_TypeUsag == 2 && (verif ? true : c.id_Pers == (idPers == -1 ? c.id_Pers : idPers)) && c.Actif == true orderby c.Nom, c.Prenom select c;
-            ViewBag.id_Enseignant = new SelectList(ens, "id_Pers", "NomPrenom");
+            ViewBag.id_Enseignant = new SelectList(ens, "id_Pers", "NomPrenom", (idEns != null ? idEns : null));
             ViewBag.id_Sess = new SelectList(db.Session.OrderByDescending(s => s.id_Sess), "id_Sess", "NomSession");
             ViewBag.Disabled = sDisabled();
             return View();

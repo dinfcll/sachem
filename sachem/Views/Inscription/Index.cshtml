@@ -1,0 +1,60 @@
+﻿@model sachem.Models.Inscription
+  @*@model Tuple<sachem.Models.Inscription,string>*@  
+
+
+@{
+    ViewBag.Title = "Inscription au service de Sachem";
+    int dernierId = 0;
+}
+
+<h2>@ViewBag.Title</h2>
+
+@using (Html.BeginForm("Index", "Inscription", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.id_TypeInscription, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DropDownList("TypeInscription", null, "Choisir", htmlAttributes: new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.id_TypeInscription, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <h3>Disponibilité</h3>
+    <p> 
+        -Indiquez vos heures de disponibilité en cochant les cases appropriées.<br />
+        -Formez des blocs d'au moins deux heures consécutives.(les rencontres dureront 1h30/semaine) <br />
+        -Inscrivez plusieurs choix pour faciliter le jumelage.
+    </p>
+
+    <div>
+        <CENTER>
+            <table style="width:100%" border = 1>
+                <TR>
+                    <TH>Heures</TH>
+                    <TH>Lundi</TH>
+                    <TH>Mardi</TH>
+                    <TH>Mercredi</TH>
+                    <TH>Jeudi</TH>
+                    <TH>Vendredi</TH>
+
+                </TR>
+                @for (var heure = 8; heure < 18;)
+                {
+                    <TR>
+                        <TD>@(heure)h - @(++heure)h</TD>
+
+
+                        @for (var jour = 1; jour < 6; jour++)
+                        {
+                            <TD> @Html.CheckBox((heure.ToString()), false, htmlAttributes: new { @class = "control-label col-md-2", @id = @jour + dernierId })</TD>
+                            if (jour == 5)
+                            { dernierId += jour; }
+                        }
+                    </TR>
+                }
+            </table>
+        </CENTER> 
+    </div>
+}

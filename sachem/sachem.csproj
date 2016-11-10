@@ -232,6 +232,7 @@
     <Compile Include="Controllers\GroupesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ImporterController.cs" />
+    <Compile Include="Controllers\InscriptionController.cs" />
     <Compile Include="Controllers\ParametresController.cs" />
     <Compile Include="Controllers\PersonnesController.cs" />
     <Compile Include="Controllers\ProgrammesOffertsController.cs" />
@@ -247,6 +248,8 @@
     <Compile Include="Models\Cours.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\DataAccess\BdRepository.cs" />
+    <Compile Include="Models\DataAccess\IDataRepository.cs" />
     <Compile Include="Models\PersEtuProg.cs" />
     <Compile Include="Models\p_CollegeMetadata.cs" />
     <Compile Include="Models\PersonneMetadata.cs" />
@@ -350,13 +353,13 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\PagedList.css" />
     <Content Include="favicon.ico" />
-    <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
     <Content Include="Images\Alert.jpg" />
     <Content Include="Images\logo-cegep.png" />
     <Content Include="Images\logo-cegepBLANC.jpg" />
     <Content Include="Images\MontageMenu.jpg" />
+	<Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Models\Model1.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>Model1.edmx</DependentUpon>
@@ -408,7 +411,6 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Home\Contact.cshtml" />
-    <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Account\ForgotPassword.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Views\Account\Register.cshtml" />
@@ -471,6 +473,8 @@
     <Content Include="Views\Enseignant\_Enseignant.cshtml" />
     <Content Include="Views\Etudiant\_Etudiant.cshtml" />
     <Content Include="Views\Shared\_RechercheGroupe.cshtml" />
+    <Content Include="Views\Inscription\Index.cshtml" />
+    <Content Include="Views\Inscription\_Boutons.cshtml" />
     <Content Include="Views\Etudiant\_DeleteProgEtu.cshtml" />
   </ItemGroup>
   <ItemGroup>
