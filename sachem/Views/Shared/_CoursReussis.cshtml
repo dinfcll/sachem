@@ -1,45 +1,32 @@
 ﻿@using Microsoft.AspNet.Identity
 @using sachem.Models
-<!--<table class="table">
-    <tr>
-        <td>
-            Cours <br />
-            Autre: <br />
-            Collège <br />
-            Autre: <br />
-        </td>
-        <td>
-            <select style="width:300px;" class="form-search"></select> <br />
-            <input type="text" class="form-control text-box single-line" />: <br />
-            <select style="width:300px;" class="form-search"></select> <br />
-            <input type="text" class="form-control text-box single-line" />: <br />
-        </td>
-        <td>
-            Résultat <input type="text" class="form-control text-box single-line" style="width:75%" />
-        </td>
-        <td>
-            <input type="button" value="Supprimer" class="btn btn-default" />
-        </td>
-    </tr>
-</table>-->
 
+<div class="row rowCourseReussisPadTop">
+    <div class="col-md-6"><h5 class="hIns">Êtes-vous prêt à faire deux rencontres consécutives (3h)</h5></div>
+    <div class="col-md-6">
+        <div style="float:right">
+            <input id="Q3" name="Q3radio" type="radio" />oui
+            <input id="Q1" name="Q3radio" type="radio" style="margin-left:30px;" />non
+        </div>
+    </div>
+</div>
 <h3 style="background-color:aliceblue">Informations spécifiques</h3>
 <h5 class="hIns">Les cours dans lesquels vous aimeriez donner de l'aide sont:</h5>
 <div class="clearfix rowCourseReussisPadTop">
     <div class="col-md-9">
         <div class="row ins-row">
-            <div class="col-md-2">1er choix</div>
-            <div class="col-md-6"><select style="width:300px;" class="form-search ins-select"></select></div>
+            <div class="col-md-2">1er choix</div>            
+            <div class="col-md-6">@Html.DropDownList("lstCours", null, htmlAttributes: new { @class = "form-search ins-select" })</div>
             <div class="col-md-4"></div>
             </div>
         <div class="row ins-row">
             <div class="col-md-2">2e choix</div>
-            <div class="col-md-6"><select style="width:300px" class="form-search ins-select"></select></div>
+            <div class="col-md-6">@Html.DropDownList("lstCours", null, htmlAttributes: new { @class = "form-search ins-select" })</div>
             <div class="col-md-4"></div>
         </div>
         <div class="row ins-row">
             <div class="col-md-2">3e choix</div>
-            <div class="col-md-6"><select style="width:300px" class="form-search ins-select"></select></div>
+            <div class="col-md-6">@Html.DropDownList("lstCours", null, htmlAttributes: new { @class = "form-search ins-select" })</div>
             <div class="col-md-4"></div>
         </div>
     </div>
@@ -61,7 +48,7 @@
                 Cours
             </div>
             <div class="col-md-6">
-                <select style="width:300px;" class="form-search ins-select"></select>
+                @Html.DropDownList("lstCours", null, htmlAttributes: new { @class = "form-search ins-select" })
             </div>
             <div class="col-md-4">
                 <input type="text" class="form-control text-box single-line ins-text-box"placeholder="Résultat"/>
@@ -80,7 +67,7 @@
                 Collège
             </div>
             <div class="col-md-6">
-                <select style="width:300px;" class="form-search ins-select"></select>
+                @Html.DropDownList("lstCollege", null, htmlAttributes: new { @class = "form-search ins-select" })
             </div>
         </div>
         <div class="row ins-row">
@@ -104,6 +91,37 @@
     <input type="button" value="Annuler" class="btn btn-default" />
 </div>
 
+<!--<script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        $("#Session").change(function () {
+            var idSession = $(this).val();
+
+            if (idSession == '')
+            {
+                idSession = 0;
+            }
+
+            $.ajax({
+                url: "/ConsulterCours/ListePersonne",
+                data: { "idSession": idSession },
+                type: "POST",
+                dataType: "json",
+                success: function(donnees)
+                {
+                    $("#Personne").empty();
+
+                    $("#Personne").append('<option value ="">Tous</option>')
+
+                    $.each(donnees, function (index, valeur) {
+                        $("#Personne").append('<option value ="' + valeur.Value + '">' + valeur.Text + '</option>');
+                    });
+                }
+            });
+        })
+    });
+</script>-->
 
 
 

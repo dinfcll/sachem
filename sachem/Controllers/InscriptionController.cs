@@ -80,15 +80,31 @@ namespace sachem.Controllers
         }
         public ActionResult Tuteur()
         {
-            
-
+            listeCours();
+            listeCollege();
             return View();
         }
         public ActionResult TBenevole()
         {
-
-
+            listeCours();
+            listeCollege();
             return View();
+        }
+        [HttpPost]
+        public void listeCours()
+        {
+            var lstCrs = from c in db.Cours orderby c.Nom select c;
+            var slCrs = new List<SelectListItem>();
+            slCrs.AddRange(new SelectList(lstCrs, "id_Cours","Nom"));
+            ViewBag.lstCours = slCrs;
+        }
+        [HttpPost]
+        public void listeCollege()
+        {
+            var lstCol = from c in db.p_College orderby c.College select c;
+            var slCol = new List<SelectListItem>();
+            slCol.AddRange(new SelectList(lstCol, "id_College", "College"));
+            ViewBag.lstCollege = slCol;
         }
     }
 }
