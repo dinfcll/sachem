@@ -100,6 +100,7 @@ namespace sachem.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Personne personne = db.Personne.Find(id);
+            personne.Telephone = SachemIdentite.RemettreTel(personne.Telephone);
             if (personne == null)
             {
                 return HttpNotFound();
@@ -158,6 +159,7 @@ namespace sachem.Controllers
         {
             PersonneEtuProgParent pepp = new PersonneEtuProgParent();
             personne.id_TypeUsag = 1;
+            personne.Telephone = SachemIdentite.FormatTelephone(personne.Telephone);
             pepp.personne = personne;
 
             var etuprog = new EtuProgEtude();
