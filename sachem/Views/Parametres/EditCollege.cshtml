@@ -99,6 +99,13 @@
             </td>    
         </tr>
     }
+    
+    @if (!Model.Any())
+    {
+        <tr>
+            <td colspan="6">Aucun résultat trouvé</td>
+        </tr>
+    }
 </table>
 
 <div class="container">
@@ -140,6 +147,7 @@
         </div>
     </div>
 </div>
+
 
 
 @* Ajout de la fonction PagedList modifier.*@
