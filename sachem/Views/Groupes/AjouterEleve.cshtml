@@ -7,20 +7,26 @@
 
 <h2>@ViewBag.Title</h2>
 
-@TempData["ErrorAjEl"]
 @TempData["Success"]
 
+@if ((string)TempData["ErrorAjoutEleve"] != null)
+{
+    <div class="alert alert-danger">
+        @TempData["ErrorAjoutEleve"]
+    </div>
+
+}   
 @if ((string)TempData["ErrorDep"] != null)
 {
     <div class="alert alert-danger">
         @TempData["ErrorDep"]
         <br />
-        @using (Html.BeginForm("Deplacer", "Groupes", null, FormMethod.Post, new { @class = "form-inline", role = "form" ,style="display:inline;"}))
+        @using (Html.BeginForm("Deplacer", "Groupes", null, FormMethod.Post, new { @class = "form-inline", role = "form", style = "display:inline;" }))
         {
             @Html.AntiForgeryToken()
             <input type="hidden" name="idGroupeEtudiant" value="@TempData["idGe"]" />
             <input type="hidden" name="id_groupedepl" value="@ViewBag.idg" />
-            <button style="display:inline;padding:0px;margin:0px;" type="submit" class="btn btn-link" >(Oui) L'étudiant sera uniquement dans le groupe @ViewBag.idg</button>
+            <button style="display:inline;padding:0px;margin:0px;" type="submit" class="btn btn-link">(Oui) L'étudiant sera uniquement dans le groupe @ViewBag.idg</button>
         }|
         @Html.ActionLink("(Non) L'étudiant sera dans les deux groupes", "AjouterEleveGET", new { idg = @TempData["idg"], idp = @TempData["personne"], noclick = 1 })  |
         @Html.ActionLink("Annuler", "AjouterEleve", new { idg = @TempData["idg"], page = ViewBag.page })
@@ -63,7 +69,8 @@
         <th></th>
     </tr>
 
-    @foreach (var item in Model) {
+    @foreach (var item in Model)
+    {
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.p.NomPrenom)
@@ -93,7 +100,7 @@
     <div>
         Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) sur @Model.PageCount
         <div>
-            @Html.PagedListPager(Model, page => Url.Action("AjouterEleve", new { idg=ViewBag.idg, page }))
+            @Html.PagedListPager(Model, page => Url.Action("AjouterEleve", new { idg = ViewBag.idg, page }))
         </div>
     </div>
 }
