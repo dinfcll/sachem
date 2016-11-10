@@ -92,6 +92,7 @@ namespace sachem.Controllers
                 personne.MP = Enseignant.SingleOrDefault();
             }
             Valider(personne);
+            RemplirDropList(personne);
             if (ModelState.IsValid)
             {
                 db.Entry(personne).State = EntityState.Modified;
