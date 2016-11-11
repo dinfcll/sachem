@@ -6,10 +6,10 @@
                 Cours
             </div>
             <div class="col-md-6">
-                @Html.DropDownList("lstCours", null, htmlAttributes: new { @class = "form-search ins-selectcours" })
+                @Html.DropDownList("lstCours4", null, htmlAttributes: new { @class = "form-search ins-selectcours valLignecours" })
             </div>
             <div class="col-md-4">
-                <input type="text" class="form-control text-box single-line ins-text-box" placeholder="Résultat" />
+                <input type="text" class="form-control text-box single-line ins-text-box valLignecours" placeholder="Résultat" />
             </div>
         </div>
         <div class="row ins-row">
@@ -17,7 +17,7 @@
                 Autre:
             </div>
             <div class="col-md-6">
-                <input type="text" class="form-control text-box single-line ins-text-box" />
+                <input id ="autreCours" type="text" class="form-control text-box single-line ins-text-box valLignecours" />
             </div>
         </div>
         <div class="row ins-row">
@@ -25,7 +25,7 @@
                 Collège
             </div>
             <div class="col-md-6">
-                @Html.DropDownList("lstCollege", null, htmlAttributes: new { @class = "form-search ins-selectcollege" })
+                @Html.DropDownList("lstCollege", null, htmlAttributes: new { @class = "form-search ins-selectcollege valLignecours" })
             </div>
         </div>
         <div class="row ins-row">
@@ -33,7 +33,7 @@
                 Autre:
             </div>
             <div class="col-md-6">
-                <input type="text" class="form-control text-box single-line ins-text-box" />
+                <input id ="autreCollege" type="text" class="form-control text-box single-line ins-text-box valLignecours" />
             </div>
         </div>
     </div>

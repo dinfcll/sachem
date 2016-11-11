@@ -96,7 +96,10 @@ namespace sachem.Controllers
             var lstCrs = from c in db.Cours orderby c.Nom select c;
             var slCrs = new List<SelectListItem>();
             slCrs.AddRange(new SelectList(lstCrs, "id_Cours","CodeNom"));
-            ViewBag.lstCours = slCrs;
+            ViewBag.lstCours1 = slCrs;
+            ViewBag.lstCours2 = slCrs;
+            ViewBag.lstCours3 = slCrs;
+            ViewBag.lstCours4 = slCrs;
         }
         [HttpPost]
         public void listeCollege()
@@ -113,6 +116,13 @@ namespace sachem.Controllers
             listeCours();
             listeCollege();
             return PartialView("_LigneCoursReussi");
+        }
+        [HttpPost]
+        public void Poursuivre()
+        {
+
+
+
         }
     }
 }
