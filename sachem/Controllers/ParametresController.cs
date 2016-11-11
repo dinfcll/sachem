@@ -233,7 +233,7 @@ namespace sachem.Controllers
 
             if (!String.IsNullOrEmpty(recherche))
             {
-                collegeFormater = collegeFormater.FindAll(c => c.College.Contains(recherche));
+                collegeFormater = collegeFormater.FindAll(c => c.College.ToLower().Contains(recherche.ToLower()));
             }
             return collegeFormater;
         }
