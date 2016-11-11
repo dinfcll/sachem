@@ -154,9 +154,6 @@ namespace sachem.Controllers
                     TempData["Echec"] = Messages.I_011(etuprog.ProgrammeEtude.CodeNomProgramme);
                 }
             }
-            etuprog.Personne = null;
-            etuprog.ProgrammeEtude = null;
-            etuprog.Session = null;
             var Prog = ObtenirProgEtu(idPers, Valider);
             return Json(Prog.ToList(), JsonRequestBehavior.AllowGet);
         }
