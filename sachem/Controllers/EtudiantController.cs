@@ -87,10 +87,8 @@ namespace sachem.Controllers
                 TempData["Success"] = Messages.I_010(personne.Matricule7); // Message afficher sur la page d'index confirmant la création
                 return RedirectToAction("Index");
             }
-
             return View(pepp);
         }
-
         // GET: Etudiant/Edit/5
         [ValidationAccesEnseignant]
         public ActionResult Edit(int? id)
@@ -131,11 +129,31 @@ namespace sachem.Controllers
         {
             Personne personne = db.Personne.Find(idPers);
             EtuProgEtude etuprog = db.EtuProgEtude.Find(idProg);
-            etuprog.Personne = null;
-            etuprog.ProgrammeEtude = null;
-            etuprog.Session = null;
-            db.EtuProgEtude.Remove(etuprog);
-            db.SaveChanges();
+            var Programme = from d in db.EtuProgEtude
+                       where d.id_Etu == personne.id_Pers
+                       orderby d.ProgrammeEtude.Code
+                       select d;
+
+            var etuProgEtu = db.EtuProgEtude.Where(x => x.id_EtuProgEtude == idProg);
+            if (!db.CoursSuivi.Any(c => c.id_Pers == etuprog.id_Etu && c.id_Sess == etuprog.id_Sess))
+            {
+                TempData["Success"] = Messages.I_016(etuprog.ProgrammeEtude.CodeNomProgramme);
+                db.EtuProgEtude.RemoveRange(etuProgEtu);
+                db.SaveChanges();
+            }
+            else
+            {
+                if (Programme.Count() > 1)
+                {
+                    TempData["Success"] = Messages.I_016(etuprog.ProgrammeEtude.CodeNomProgramme);
+                    db.EtuProgEtude.RemoveRange(etuProgEtu);
+                    db.SaveChanges();
+                }
+                else
+                {
+                    TempData["Echec"] = Messages.I_011(etuprog.ProgrammeEtude.CodeNomProgramme);
+                }
+            }
             var Prog = ObtenirProgEtu(idPers, Valider);
             return Json(Prog.ToList(), JsonRequestBehavior.AllowGet);
         }
@@ -145,7 +163,7 @@ namespace sachem.Controllers
             var ens = db.EtuProgEtude
                 .AsNoTracking()
                 .Where(sel => sel.id_Etu == idPers)
-                .Select(e => new { NomProg = e.ProgrammeEtude.NomProg, e.id_Etu, e.id_EtuProgEtude })
+                .Select(e => new { NomProg = e.ProgrammeEtude.NomProg, e.id_Etu, e.id_EtuProgEtude, e.ProgrammeEtude.Code })
                 .Distinct();
             return ens.AsEnumerable();
         }
@@ -173,7 +191,6 @@ namespace sachem.Controllers
             pepp.epe = Prog.ToList();
 
             //Ajout du programme d'étude (Si l'étudiant rajoute les champs)
-      
                 if (Request.Form["id_Programme"] != "" && Request.Form["id_Session"] != ""&& ConfirmeMdp(personne.MP, personne.ConfirmPassword) == true)
                   {
                     etuprog.id_ProgEtu = Int32.Parse(Request.Form["id_Programme"]);
@@ -190,7 +207,6 @@ namespace sachem.Controllers
                 return RedirectToAction("Index");
             }
             //Mise à jour Viewbag
-
             ViewBag.id_Sexe = db.p_Sexe;
             ViewBag.Selected = pepp.personne.id_Sexe;
             ViewBag.id_TypeUsag = new SelectList(db.p_TypeUsag, "id_TypeUsag", "TypeUsag", pepp.personne.id_TypeUsag);
