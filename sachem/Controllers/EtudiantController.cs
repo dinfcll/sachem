@@ -25,9 +25,7 @@ namespace sachem.Controllers
             noPage = page ?? noPage;
 
             return View(Rechercher().ToPagedList(noPage, 20));
-        }
-
-      
+        }   
         // GET: Etudiant/Details/5
         [ValidationAccesEnseignant]
         // GET: Etudiant/Create
@@ -106,10 +104,11 @@ namespace sachem.Controllers
             {
                 return HttpNotFound();
             }
-            if (personne.Telephone != null)
-            {
-                personne.Telephone = SachemIdentite.RemettreTel(personne.Telephone);
-            }
+            else
+                if (personne.Telephone != null)
+                {
+                    personne.Telephone = SachemIdentite.RemettreTel(personne.Telephone);
+                }
             //retroune la liste de programme qui relié à l'élève
             var Prog = from d in db.EtuProgEtude
                        where d.id_Etu == personne.id_Pers
@@ -145,9 +144,7 @@ namespace sachem.Controllers
         {
             var ens = db.EtuProgEtude
                 .AsNoTracking()
-                //.Join(db.Groupe, p => p.id_Pers, g => g.id_Enseignant, (p, g) => new { Personne = p, Groupe = g })
                 .Where(sel => sel.id_Etu == idPers)
-                //.OrderBy(x => x.Personne.Prenom).ThenBy(x => x.Personne.Nom)
                 .Select(e => new { NomProg = e.ProgrammeEtude.NomProg, e.id_Etu, e.id_EtuProgEtude })
                 .Distinct();
             return ens.AsEnumerable();
