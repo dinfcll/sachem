@@ -112,6 +112,11 @@ namespace sachem.Controllers
                 {
                     ModelState.AddModelError(string.Empty, Messages.C_006(session.Annee.ToString(), null));
                 }
+                //regarde si l'heure d'ouverture est avant
+                if(HI.HeureDebut > HI.HeureFin)
+                {
+                    ModelState.AddModelError(string.Empty, Messages.C_011);
+                }
 
                 //regarde si les dates sont bonnes
                 if ((HI.DateFin - HI.DateDebut).TotalDays < 1)
