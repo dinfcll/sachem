@@ -95,7 +95,7 @@ namespace sachem.Controllers
         {
             var lstCrs = from c in db.Cours orderby c.Nom select c;
             var slCrs = new List<SelectListItem>();
-            slCrs.AddRange(new SelectList(lstCrs, "id_Cours","Nom"));
+            slCrs.AddRange(new SelectList(lstCrs, "id_Cours","CodeNom"));
             ViewBag.lstCours = slCrs;
         }
         [HttpPost]

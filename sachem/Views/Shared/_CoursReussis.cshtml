@@ -16,17 +16,17 @@
     <div class="col-md-9">
         <div class="row ins-row">
             <div class="col-md-2">1er choix</div>            
-            <div class="col-md-6">@Html.DropDownList("lstCours", null, htmlAttributes: new { @class = "form-search ins-select" })</div>
+            <div class="col-md-6">@Html.DropDownList("lstCours", null, htmlAttributes: new { @class = "form-search ins-selectcours"})</div>
             <div class="col-md-4"></div>
             </div>
         <div class="row ins-row">
             <div class="col-md-2">2e choix</div>
-            <div class="col-md-6">@Html.DropDownList("lstCours", null, htmlAttributes: new { @class = "form-search ins-select" })</div>
+            <div class="col-md-6">@Html.DropDownList("lstCours", null, htmlAttributes: new { @class = "form-search ins-selectcours" })</div>
             <div class="col-md-4"></div>
         </div>
         <div class="row ins-row">
             <div class="col-md-2">3e choix</div>
-            <div class="col-md-6">@Html.DropDownList("lstCours", null, htmlAttributes: new { @class = "form-search ins-select" })</div>
+            <div class="col-md-6">@Html.DropDownList("lstCours", null, htmlAttributes: new { @class = "form-search ins-selectcours" })</div>
             <div class="col-md-4"></div>
         </div>
     </div>
@@ -47,9 +47,9 @@
 
 <div style="padding-bottom:10px">
     <input type="button" value="Ajouter un cours" class="btn btn-default ins-btnAjouter" id="btnAjouterCours" /><br /><br />
-    <input type="button" value="Enregistrer et poursuivre" class="btn btn-default" />
-    <input type="button" value="Enregistrer un brouillon" class="btn btn-default" />
-    <input type="button" value="Annuler" class="btn btn-default" />
+    <input type="button" value="Enregistrer et poursuivre" class="btn btn-default" id="btnPoursuivre" />
+    <input type="button" value="Enregistrer un brouillon" class="btn btn-default" id="btnBrouillon" />
+    <input type="button" value="Annuler" class="btn btn-default" id="btnAnnuler" />
 </div>
 
 
@@ -57,9 +57,15 @@
 <script type="text/javascript">
 
     $(document).ready(function () {
-        
-        supprimerLigneCours = function (btnClique) {
-            alert();
+
+        activationInput = function ()
+        {
+            $(".btnSupprimerCours").click(function () {
+                $(this).parent().parent().remove();
+            });
+            $(".ins-selectcours").change(function () {
+                var test = $(this).val();                
+            });
         }
 
         ajouterLigneCours = function () {
@@ -68,10 +74,7 @@
                 type: "POST",
                 success: function (donnees) {
                     $("#espaceCours").append(donnees);
-
-                    $(".btnSupprimerCours").click(function () {
-                        $(this).parent().parent().remove();
-                    });
+                    activationInput();
                 },
                 error: function (XMLHttpRequest, textStatus, errorThrown) {
                     $("#espaceCours").append(errorThrown);
@@ -80,18 +83,11 @@
         }
 
         ajouterLigneCours();
-
         $("#btnAjouterCours").click(function () {
             ajouterLigneCours();
         });
-        
-        
-
+        $("#btnAnnuler").click(function () {
+            window.location.href = '@Url.Action("Index", "Inscription")';
+        });
     });
 </script>
-
-
-
-
-
-

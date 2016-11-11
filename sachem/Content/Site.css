@@ -94,7 +94,10 @@ textarea {
     height:30px;
 }
 
-ins-select {
+.ins-selectcours {
+    height:30px;
+}
+.ins-selectcollege {
     height:30px;
 }
 .ins-btnAjouter {
