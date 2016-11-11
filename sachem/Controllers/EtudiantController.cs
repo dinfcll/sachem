@@ -87,10 +87,8 @@ namespace sachem.Controllers
                 TempData["Success"] = Messages.I_010(personne.Matricule7); // Message afficher sur la page d'index confirmant la création
                 return RedirectToAction("Index");
             }
-
             return View(pepp);
         }
-
         // GET: Etudiant/Edit/5
         [ValidationAccesEnseignant]
         public ActionResult Edit(int? id)
@@ -196,7 +194,6 @@ namespace sachem.Controllers
             pepp.epe = Prog.ToList();
 
             //Ajout du programme d'étude (Si l'étudiant rajoute les champs)
-      
                 if (Request.Form["id_Programme"] != "" && Request.Form["id_Session"] != ""&& ConfirmeMdp(personne.MP, personne.ConfirmPassword) == true)
                   {
                     etuprog.id_ProgEtu = Int32.Parse(Request.Form["id_Programme"]);
@@ -213,7 +210,6 @@ namespace sachem.Controllers
                 return RedirectToAction("Index");
             }
             //Mise à jour Viewbag
-
             ViewBag.id_Sexe = db.p_Sexe;
             ViewBag.Selected = pepp.personne.id_Sexe;
             ViewBag.id_TypeUsag = new SelectList(db.p_TypeUsag, "id_TypeUsag", "TypeUsag", pepp.personne.id_TypeUsag);
