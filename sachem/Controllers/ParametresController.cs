@@ -191,9 +191,10 @@ namespace sachem.Controllers
 
         [HttpPost]
         [ValidationAccesSuper]
-        public ActionResult AddCollege(string nomCollege)
+        public void AddCollege(string nomCollege)
         {
-            if (!db.p_College.Any(p => p.College == nomCollege))
+            ValiderCollege(nomCollege);
+            if (ModelState.IsValid)
             {
                 var college = new p_College
                 {
@@ -203,7 +204,6 @@ namespace sachem.Controllers
                 db.SaveChanges();
                 TempData["Success"] = string.Format(Messages.I_044(nomCollege));
             }
-            return RedirectToAction("EditCollege");
         }
 
         [HttpPost]
@@ -217,7 +217,13 @@ namespace sachem.Controllers
                 db.SaveChanges();
             }
         }
-
+        private void ValiderCollege(string college)
+        {
+            if (db.p_College.Any(p => p.College == college))
+            {
+                ModelState.AddModelError(string.Empty,"Ce collège d'enseignement existe déjà");
+            }
+        }
         private void ValiderContact([Bind(Include = "id_Contact,Nom,Prenom,Courriel,Telephone,Poste,Facebook,SiteWeb,Local")]p_Contact contact)
         {
             if (!db.p_Contact.Any(r => r.id_Contact == contact.id_Contact))
