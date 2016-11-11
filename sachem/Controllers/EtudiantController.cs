@@ -168,7 +168,7 @@ namespace sachem.Controllers
             var ens = db.EtuProgEtude
                 .AsNoTracking()
                 .Where(sel => sel.id_Etu == idPers)
-                .Select(e => new { NomProg = e.ProgrammeEtude.NomProg, e.id_Etu, e.id_EtuProgEtude })
+                .Select(e => new { NomProg = e.ProgrammeEtude.NomProg, e.id_Etu, e.id_EtuProgEtude, e.ProgrammeEtude.Code })
                 .Distinct();
             return ens.AsEnumerable();
         }

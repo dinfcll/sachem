@@ -16,12 +16,12 @@
                 success: function (donnees) {
                     $("#progetuTable").html("");
                     $.each(donnees, function (i, item) {
-                        var c = "<td>"+item.NomProg+"</td>";
+                        var c = "<td>"+item.Code + "-" + item.NomProg+"</td>";
                         var s = "<td><button id=\""+item.id_EtuProgEtude+"\" type=\"button\" class=\"btn btn-info btn-sm\" data-toggle=\"modal\" name=\"SuppProg\" data-target=\"#myModal\">Supprimer</button></td>";
                         var j = $("#progetuTable").html();
                         $("#progetuTable").html(j+"<tr>"+c+s+"</tr>");
-                        window.location.reload();
                     });
+                    window.location.reload();
                 }});
         });
     })
