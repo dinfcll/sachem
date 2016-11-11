@@ -84,7 +84,6 @@
 <table class="table-condensed">
     @using (Html.BeginForm("EditCollege", "Parametres", FormMethod.Get, new { @class = "form-inline", role = "form" }))
     {
-
         <tr>
             <td>Nom de collège :</td>
             <td>@Html.Editor("Recherche", new { htmlAttributes = new { @class = "form-control" } })</td>
@@ -108,20 +107,19 @@
                     @Html.DisplayFor(modelItem => item.College)
                 </td>
                 <td>
-
-                <a onclick="ModifModal(@item.id_College);" href="#" data-toggle="modal" data-target="#modalModification">Modifier</a>
-                |
-                <a onclick="SuppressionModal(@item.id_College);" href="#" data-toggle="modal" data-target="#modalSuppression">Supprimer</a>
-            </td>    
-        </tr>
-    }
+                    <a onclick="ModifModal(@item.id_College);" href="#" data-toggle="modal" data-target="#modalModification">Modifier</a>
+                    |
+                    <a onclick="SuppressionModal(@item.id_College);" href="#" data-toggle="modal" data-target="#modalSuppression">Supprimer</a>
+                </td>    
+             </tr>
+        }
 
     @if (!Model.Any())
     {
         <tr>
             <td colspan="6">Aucun collège d'enseignement ne répond à ces critères</td>
-            </tr>
-        }
+        </tr>
+    }
     </table>
 
 <div class="container">
