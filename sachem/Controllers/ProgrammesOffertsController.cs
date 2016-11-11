@@ -137,9 +137,17 @@ namespace sachem.Controllers
         [NonAction]
         public void Valider([Bind(Include = "id_ProgEtu,Code,NomProg,Annee,Actif")]ProgrammeEtude programme)
         { 
-            if (db.ProgrammeEtude.Any(c => c.Code == programme.Code && c.Actif && c.Annee == programme.Annee && c.id_ProgEtu != programme.id_ProgEtu))
+            if (db.ProgrammeEtude.Any(c => c.Code == programme.Code && c.Actif && programme.Actif && c.id_ProgEtu != programme.id_ProgEtu))
             {
                 ModelState.AddModelError(String.Empty, Messages.I_006(programme.Code));
+            }
+            var programmeBd = db.ProgrammeEtude.Find(programme.id_ProgEtu);
+            if (programmeBd.Actif == true && programme.Actif == false)
+            {
+                if (db.EtuProgEtude.Any(c => c.id_ProgEtu == programme.id_ProgEtu))
+                {
+                    ModelState.AddModelError(String.Empty, "Impossible de mettre le programme inactif s'il est encore relié à des étudiants");
+                }
             }
         }
 

@@ -492,7 +492,7 @@ namespace sachem.Models
         /// <returns></returns>public string Q_043(string NomUsager, int id_Enseignant)
         public static MvcHtmlString Q_004(string NomUsager, int id_Enseignant)
         {
-            return MvcHtmlString.Create($"L'enseignant {NomUsager} a été créé. Souhaitez-vous <a href=\"Sachem/Groupes/Create?idEns={id_Enseignant}\">y associer un groupe?</a>"); // Note: Changé vers quel page le lien pointe.
+            return MvcHtmlString.Create($"L'enseignant {NomUsager} a été créé. Souhaitez-vous <a href=\"/Groupes/Create?idEns={id_Enseignant}\">y associer un groupe?</a>"); // Note: Changé vers quel page le lien pointe.
         }
 
         /// <summary>

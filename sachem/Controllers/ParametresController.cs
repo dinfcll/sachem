@@ -32,7 +32,7 @@ namespace sachem.Controllers
             {
                 if ((courriel.DateDebut - courriel.DateFin.Value).TotalDays > 0)
                     ModelState.AddModelError(string.Empty, Messages.C_005);
-            }
+                }
 
             if (ModelState.IsValid)
             {
@@ -93,12 +93,12 @@ namespace sachem.Controllers
             ViewBag.idSess = session;
             var lhoraire = db.p_HoraireInscription.OrderByDescending(y => y.id_Sess).Where(x => x.id_Sess == session).FirstOrDefault();
             ListeSession(session);
-            ViewBag.idSessStable = idZero.id_Sess;
+            ViewBag.idSessStable = idZero.id_Sess;         
             return View(lhoraire);
         }
 
 
-
+        
         [HttpPost]
         [ValidationAccesSuper]
         public ActionResult EditHoraire([Bind(Include = "id_Sess, DateDebut, DateFin, HeureDebut, HeureFin")] p_HoraireInscription HI)
@@ -112,7 +112,6 @@ namespace sachem.Controllers
                 {
                     ModelState.AddModelError(string.Empty, Messages.C_006(session.Annee.ToString(), null));
                 }
-
                 //regarde si les dates sont bonnes
                 if ((HI.DateFin - HI.DateDebut).TotalDays < 1)
                 {
@@ -178,9 +177,8 @@ namespace sachem.Controllers
 
         [HttpPost]
         [ValidationAccesSuper]
-        public ActionResult ModifCollege(string nomCollege, int? id)
+        public void ModifCollege(string nomCollege, int? id)
         {
-
             if (db.p_College.Any(r => r.id_College == id))
             {
                 var college = db.p_College.Find(id);
@@ -188,14 +186,14 @@ namespace sachem.Controllers
                 db.Entry(college).State = EntityState.Modified;
                 db.SaveChanges();
             }
-            return RedirectToAction("EditCollege");
         }
 
         [HttpPost]
         [ValidationAccesSuper]
-        public ActionResult AddCollege(string nomCollege)
+        public void AddCollege(string nomCollege)
         {
-            if (!db.p_College.Any(p => p.College == nomCollege))
+            ValiderCollege(nomCollege);
+            if (ModelState.IsValid)
             {
                 var college = new p_College
                 {
@@ -205,7 +203,6 @@ namespace sachem.Controllers
                 db.SaveChanges();
                 TempData["Success"] = string.Format(Messages.I_044(nomCollege));
             }
-            return RedirectToAction("EditCollege");
         }
 
         [HttpPost]
@@ -219,7 +216,13 @@ namespace sachem.Controllers
                 db.SaveChanges();
             }
         }
-
+        private void ValiderCollege(string college)
+        {
+            if (db.p_College.Any(p => p.College == college))
+            {
+                ModelState.AddModelError(string.Empty,"Ce collège d'enseignement existe déjà");
+            }
+        }
         private void ValiderContact([Bind(Include = "id_Contact,Nom,Prenom,Courriel,Telephone,Poste,Facebook,SiteWeb,Local")]p_Contact contact)
         {
             if (!db.p_Contact.Any(r => r.id_Contact == contact.id_Contact))
@@ -235,7 +238,7 @@ namespace sachem.Controllers
 
             if (!String.IsNullOrEmpty(recherche))
             {
-                collegeFormater = collegeFormater.FindAll(c => c.College.Contains(recherche));
+                collegeFormater = collegeFormater.FindAll(c => c.College.ToLower().Contains(recherche.ToLower()));
             }
             return collegeFormater;
         }
@@ -259,10 +262,10 @@ namespace sachem.Controllers
                         element.College = element.College + " (" + nomCollege[Indice] + ")";
                         element.College = char.ToUpper(element.College.First()) + element.College.Substring(1);
                         Formater = true;
-                        collegeFormater.Add(element);
                     }
                     Indice++;
                 }
+                collegeFormater.Add(element);
             }
             return collegeFormater.OrderBy(x => x.College).ToList();
         }

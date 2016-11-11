@@ -24,6 +24,12 @@
                         text: 'Choisir'
                     }));
 
+                    $("#SelectGroupe").empty();
+                    $('#SelectGroupe').append($('<option>', {
+                        value: 0,
+                        text: 'Choisir'
+                    }));
+
                     $.each(donnees, function (i, item) {
                         $('#SelectCours').append($('<option>', {
                             value: item.id_Cours,
