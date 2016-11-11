@@ -475,12 +475,13 @@
     <Content Include="Views\Shared\_RechercheGroupe.cshtml" />
     <Content Include="Views\Inscription\Index.cshtml" />
     <Content Include="Views\Inscription\_Boutons.cshtml" />
+    <Content Include="Views\Etudiant\_DeleteProgEtu.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
   </ItemGroup>
   <ItemGroup>
-	<Content Include="fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="packages.config" />

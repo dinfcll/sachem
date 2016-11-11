@@ -97,7 +97,12 @@ namespace sachem.Controllers
         [AllowAnonymous]
         public ActionResult Login(string returnUrl)
         {
-            //Si le cookie de connexion existe on prérempli les infos de connexion avec les infos du cookie.
+
+            if(SachemIdentite.ObtenirTypeUsager(Session) != TypeUsagers.Aucun)
+            {
+                return RedirectToAction("Index","DossierEtudiant",null);
+            }
+
             if (CookieConnexionExiste())
             {
                 Personne PersonneCookie = new Personne();

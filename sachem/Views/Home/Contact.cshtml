@@ -11,7 +11,11 @@
         </div>
 
         <div class="form-group">
-             <b>Numéro de téléphone : </b>@Html.DisplayFor(model => model.Telephone) #@Html.DisplayFor(model => model.Poste)
+             <b>Numéro de téléphone : </b>@Html.DisplayFor(model => model.Telephone) 
+            @if(Model.Poste !=null)
+            {
+                <span>#</span>@Html.DisplayFor(model => model.Poste)
+            }
         </div>
         <div class="form-group">
             <b>Local : </b>@Html.DisplayFor(model => model.Local)

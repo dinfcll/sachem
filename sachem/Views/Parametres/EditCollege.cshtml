@@ -47,15 +47,15 @@
     }
 
     function Suppression(id) {
-        $.ajax({
+            $.ajax({
             url: "/Parametres/DeleteCollege",
             data: { "id": id },
             type: "POST",
             success: function() {
                 window.location.reload(true);
             }
-        });
-    }
+            });
+        }
 
     function Modifier(id, nouveauNomCollege) {
         $.ajax({
@@ -64,7 +64,7 @@
             type: "POST",
             success: function(){
                 window.location.reload(true);
-            }
+    }
         });
     }
 
@@ -94,35 +94,35 @@
 </table>
 <a onclick="AjoutModal();" href="#" data-toggle="modal" data-target="#modalAjout">Ajouter un collège d'enseignement</a><br /><br />
 
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.First().id_College)
-        </th>
-        <th></th>
-    </tr>
-    @foreach (var item in Model)
-    {
+    <table class="table">
         <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.College)
-            </td>
-            <td>
-       
+            <th>
+                @Html.DisplayNameFor(model => model.First().id_College)
+            </th>
+        <th></th>
+        </tr>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.College)
+                </td>
+                <td>
+
                 <a onclick="ModifModal(@item.id_College);" href="#" data-toggle="modal" data-target="#modalModification">Modifier</a>
                 |
                 <a onclick="SuppressionModal(@item.id_College);" href="#" data-toggle="modal" data-target="#modalSuppression">Supprimer</a>
             </td>    
         </tr>
     }
-    
+
     @if (!Model.Any())
     {
         <tr>
             <td colspan="6">Aucun collège d'enseignement ne répond à ces critères</td>
-        </tr>
-    }
-</table>
+            </tr>
+        }
+    </table>
 
 <div class="container">
     <div class="modal fade" id="modalModification" role="dialog">

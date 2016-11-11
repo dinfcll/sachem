@@ -5,11 +5,11 @@
     ViewBag.Title = "Modifier étudiant";
 }
 
+@Html.Partial("_DeleteProgEtu");
 <h2>@ViewBag.Title</h2>
 
 @using (Html.BeginForm())
 {
-
     <p class="text-success">
         @Html.Raw(@TempData["Success"])
     </p>
@@ -22,14 +22,12 @@
     {
         @TempData["Question"]
         <br />
-
         <tr>
             <td>
-                @Html.ActionLink("Oui", "deleteProgEtu", new { idProg = TempData["id_Prog"], idPers = TempData["id_Pers"], Valider = 1  }) |
-                @Html.ActionLink("Non", "deleteProgEtu", new { idProg = TempData["id_Prog"], idPers = TempData["id_Pers"], Valider = 2 } )
+                @Html.ActionLink("Oui", "deleteProgEtu", new { idProg = TempData["id_Prog"], idPers = TempData["id_Pers"], Valider = 1 }) |
+                @Html.ActionLink("Non", "deleteProgEtu", new { idProg = TempData["id_Prog"], idPers = TempData["id_Pers"], Valider = 2 })
             </td>
         </tr>
-
     }
     @Html.AntiForgeryToken()
 
@@ -38,7 +36,6 @@
         @Html.Partial("_Etudiant")
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         @Html.HiddenFor(model => model.personne.id_Pers)
-
         <div class="form-group">
             @Html.LabelFor(model => model.personne.Matricule, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
@@ -49,14 +46,14 @@
         <div class="form-group">
             @Html.LabelFor(model => model.personne.MP, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.PasswordFor(model => model.personne.MP, new { @class = "form-control", placeholder = "Mot de passe" ,@Value=""})
+                @Html.PasswordFor(model => model.personne.MP, new { @class = "form-control", placeholder = "Mot de passe", @Value = "" })
                 @Html.ValidationMessageFor(model => model.personne.MP, "", new { @class = "text-danger" })
             </div>
         </div>
         <div class="form-group">
             @Html.LabelFor(model => model.personne.ConfirmPassword, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.PasswordFor(model => model.personne.ConfirmPassword, new { @class = "form-control", placeholder = "Confirmation de mot de passe"})
+                @Html.PasswordFor(model => model.personne.ConfirmPassword, new { @class = "form-control", placeholder = "Confirmation de mot de passe" })
                 @Html.ValidationMessageFor(model => model.personne.ConfirmPassword, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -72,15 +69,39 @@
         <div class="form-group">
             @Html.Label("Programme d'étude", htmlAttributes: new { @class = "control-label col-md-2" })
             <div style="margin-top:7px;">
-        @foreach (var item in Model.epe)
-        {
-               
-                    <div style="margin-left:210px;">
-                        @Html.DisplayFor(modelItem => item.ProgrammeEtude.CodeNomProgramme)
-                        @Html.ActionLink(" Supprimer", "deleteProgEtu", new { idProg = item.id_EtuProgEtude, idPers = item.Personne.id_Pers})
+                <div style="margin-left:210px;">
+                    <table id="progetuTable">
+                        @foreach (var item in Model.epe)
+                        {
+                            <tr>
+                                <td>@Html.DisplayFor(modelItem => item.ProgrammeEtude.CodeNomProgramme)</td>
+                                <td><button id="@item.id_EtuProgEtude" type="button" class="btn btn-info btn-sm" data-toggle="modal" name="SuppProg" data-target="#myModal">Supprimer</button></td>
+                            </tr>
+                            <div class="container">
+                                <!-- Modal -->
+                                <div class="modal fade" id="myModal" role="dialog">
+                                    <div class="modal-dialog">
+                                        <!-- Modal content-->
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                <h4 class="modal-title">Suppression Programme d'étude</h4>
+                                            </div>
+                                            <div class="modal-body">
+                                                <p>@sachem.Models.Messages.Q_002(item.ProgrammeEtude.NomProg)</p>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button id="btnDeleteEtuProg" type="button" data-dismiss="modal" class="btn btn-primary">Supprimer</button>
+                                                <button type="button" data-dismiss="modal" class="btn">Annuler</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                        </table>
                     </div>
-        }
-            </div>
+                </div>
         </div>
         <br><br />
         <h4>Ajouter un programme d'étude</h4>
@@ -89,14 +110,12 @@
             @Html.Label("Programme d'étude", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.DropDownList("id_Programme", null, "Choisir", htmlAttributes: new { @class = "form-control" })
-                @*@Html.ValidationMessageFor(model => model.personne, "", new { @class = "text-danger" })*@
             </div>
         </div>
         <div class="form-group">
             @Html.Label("Session", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.DropDownList("id_Session", null, "Choisir", htmlAttributes: new { @class = "form-control" })
-                @*@Html.ValidationMessageFor(model => model.personne.id_TypeUsag, "", new { @class = "text-danger" })*@
             </div>
         </div>
         <div class="col-md-offset-2 col-md-10">
@@ -107,6 +126,4 @@
 <div>
     @Html.ActionLink("Retour à la recherche des étudiants", "Index")
 </div>
-@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
-}
+<span id="IDPE" hidden style="visibility: hidden;font-size:0px;">0</span>

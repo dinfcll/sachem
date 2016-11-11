@@ -112,7 +112,6 @@ namespace sachem.Controllers
                 {
                     ModelState.AddModelError(string.Empty, Messages.C_006(session.Annee.ToString(), null));
                 }
-
                 //regarde si les dates sont bonnes
                 if ((HI.DateFin - HI.DateDebut).TotalDays < 1)
                 {
@@ -239,7 +238,7 @@ namespace sachem.Controllers
 
             if (!String.IsNullOrEmpty(recherche))
             {
-                collegeFormater = collegeFormater.FindAll(c => c.College.Contains(recherche));
+                collegeFormater = collegeFormater.FindAll(c => c.College.ToLower().Contains(recherche.ToLower()));
             }
             return collegeFormater;
         }
