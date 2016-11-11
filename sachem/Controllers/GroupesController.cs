@@ -14,7 +14,7 @@ namespace sachem.Controllers
     {
         private readonly SACHEMEntities db = new SACHEMEntities();
 
-        private IEnumerable<Object> ObtenirListeEnseignant(int session, int? id)
+        private IEnumerable<Object> ObtenirListeEnseignant(int session)
         {
                 var ens = db.Personne
                     .AsNoTracking()
@@ -45,7 +45,7 @@ namespace sachem.Controllers
         [AcceptVerbs("Get", "Post")]
         public virtual JsonResult ActualiseEnseignant(int session = 0)
         {
-            var actuens = ObtenirListeEnseignant(session,null);
+            var actuens = ObtenirListeEnseignant(session);
             return Json(actuens.ToList(), JsonRequestBehavior.AllowGet);
         }
 
@@ -252,7 +252,7 @@ namespace sachem.Controllers
             Session["DernRechCoursUrl"] = Request.Url?.LocalPath;
 
             ViewBag.Sessions = new SelectList(db.Session.OrderByDescending(s => s.id_Sess), "id_Sess", "NomSession", idSess);
-            ViewBag.Enseignants = new SelectList((verif ? ObtenirListeEnseignant(idSess,id): db.Personne.AsNoTracking().Where(e => e.id_TypeUsag == 2 && e.id_Pers == idPers)
+            ViewBag.Enseignants = new SelectList((verif ? ObtenirListeEnseignant(idSess): db.Personne.AsNoTracking().Where(e => e.id_TypeUsag == 2 && e.id_Pers == idPers)
                                                     .Select(e => new { e.id_Pers, NomPrenom = e.Nom + ", " + e.Prenom }).AsEnumerable()), "id_Pers", "NomPrenom", idEns);
             ViewBag.Cours = new SelectList(ObtenirListeCours(idSess,idEns), "id_Cours", "CodeNom", idCours);
 
