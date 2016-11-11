@@ -311,7 +311,7 @@ namespace sachem.Models
         { return $"L'étudiant {Matricule} ne peut pas être déplacé au groupe {IdGroupe} du cours {NomCours},car il y est déjà!"; }
 
         /// <summary>
-        /// 'étudiant ne peut être supprimé s'il est jumelé
+        /// L'étudiant ne peut être supprimé s'il est jumelé
         /// </summary>
         /// <param name="NomCollege"></param>
         /// <returns></returns>
