@@ -131,11 +131,34 @@ namespace sachem.Controllers
         {
             Personne personne = db.Personne.Find(idPers);
             EtuProgEtude etuprog = db.EtuProgEtude.Find(idProg);
+            var Programme = from d in db.EtuProgEtude
+                       where d.id_Etu == personne.id_Pers
+                       orderby d.ProgrammeEtude.Code
+                       select d;
+
+            var etuProgEtu = db.EtuProgEtude.Where(x => x.id_EtuProgEtude == idProg);
+            if (!db.CoursSuivi.Any(c => c.id_Pers == etuprog.id_Etu && c.id_Sess == etuprog.id_Sess))
+            {
+                TempData["Success"] = Messages.I_016(etuprog.ProgrammeEtude.CodeNomProgramme);
+                db.EtuProgEtude.RemoveRange(etuProgEtu);
+                db.SaveChanges();
+            }
+            else
+            {
+                if (Programme.Count() > 1)
+                {
+                    TempData["Success"] = Messages.I_016(etuprog.ProgrammeEtude.CodeNomProgramme);
+                    db.EtuProgEtude.RemoveRange(etuProgEtu);
+                    db.SaveChanges();
+                }
+                else
+                {
+                    TempData["Echec"] = Messages.I_011(etuprog.ProgrammeEtude.CodeNomProgramme);
+                }
+            }
             etuprog.Personne = null;
             etuprog.ProgrammeEtude = null;
             etuprog.Session = null;
-            db.EtuProgEtude.Remove(etuprog);
-            db.SaveChanges();
             var Prog = ObtenirProgEtu(idPers, Valider);
             return Json(Prog.ToList(), JsonRequestBehavior.AllowGet);
         }

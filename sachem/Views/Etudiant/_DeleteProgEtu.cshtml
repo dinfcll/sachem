@@ -20,10 +20,9 @@
                         var s = "<td><button id=\""+item.id_EtuProgEtude+"\" type=\"button\" class=\"btn btn-info btn-sm\" data-toggle=\"modal\" name=\"SuppProg\" data-target=\"#myModal\">Supprimer</button></td>";
                         var j = $("#progetuTable").html();
                         $("#progetuTable").html(j+"<tr>"+c+s+"</tr>");
+                        window.location.reload();
                     });
                 }});
         });
     })
-
-
 </script>
