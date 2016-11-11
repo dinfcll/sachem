@@ -1,12 +1,11 @@
 ﻿@using PagedList.Mvc;
 @model PagedList.IPagedList<sachem.Models.p_College>
 @{
-    ViewBag.Title = "Collèges d'enseignement";
-    
+    ViewBag.Title = "Collèges d'enseignement";    
 }
 <h2>@ViewBag.Title</h2>
 
-@Html.ValidationSummary(true,"", new { @class = "text-danger" })
+@Html.ValidationSummary(true, "", new { @class = "text-danger" })
 <p class="text-success">
     @Html.ViewBag.Success
     @TempData["Success"]
@@ -182,8 +181,6 @@
     </div>
 </div>
 
-
-@* Ajout de la fonction PagedList modifier.*@
 @if (Model.PageCount > 0)
 {
     <div>

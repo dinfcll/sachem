@@ -185,6 +185,7 @@ namespace sachem.Controllers
                 college.College = nomCollege;
                 db.Entry(college).State = EntityState.Modified;
                 db.SaveChanges();
+                TempData["Success"] = string.Format(Messages.I_046());
             }
         }
 
@@ -214,6 +215,7 @@ namespace sachem.Controllers
             {
                 db.p_College.Remove(college);
                 db.SaveChanges();
+                TempData["Success"] = string.Format(Messages.I_047(college.College));
             }
         }
         private void ValiderCollege(string college)
