@@ -141,6 +141,14 @@ namespace sachem.Controllers
             {
                 ModelState.AddModelError(String.Empty, Messages.I_006(programme.Code));
             }
+            var programmeBd = db.ProgrammeEtude.Find(programme.id_ProgEtu);
+            if (programmeBd.Actif == true && programme.Actif == false)
+            {
+                if (db.EtuProgEtude.Any(c => c.id_ProgEtu == programme.id_ProgEtu))
+                {
+                    ModelState.AddModelError(String.Empty, "Impossible de mettre le programme inactif s'il est encore relié à des étudiants");
+                }
+            }
         }
 
         //Méthode qui permet de faire la recherche, soit sur le nom de programme ou sur le code.
