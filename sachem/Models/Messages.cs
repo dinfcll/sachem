@@ -385,12 +385,6 @@ namespace sachem.Models
         /// </summary>
         public const string C_010 = "Le résultat est requis si le statut du cours est réussi.";
 
-        ///<summary>
-        /// Cet usager n'existe pas ou le mot de passe est invalide.
-        /// </summary>
-        /// <returns></returns>
-        public const string C_011 = "l'heure d'ouverture doit être avant celle de fermeture";
-
 
         #endregion
 
