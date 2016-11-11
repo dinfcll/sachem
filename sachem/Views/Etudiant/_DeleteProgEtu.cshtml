@@ -4,10 +4,6 @@
         $("#progetuTable").on('click',"button[name = 'SuppProg']", function() {
             $("#IDPE").text(this.id);
         })
-        /*$("button[name = 'SuppProg']").click(function(){
-            alert("rentrer");
-            $("#IDPE").text(this.id);
-        });*/
         $("#btnDeleteEtuProg").click(function() {
             var idProgEtu = $("#IDPE").text();
             $.ajax({type: 'POST',

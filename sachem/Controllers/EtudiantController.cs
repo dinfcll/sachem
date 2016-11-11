@@ -56,7 +56,7 @@ namespace sachem.Controllers
             personne.Telephone = SachemIdentite.FormatTelephone(personne.Telephone);
             personne.Matricule = CONSTANTE20 + personne.Matricule;
             pepp.personne = personne;
-
+    
             ViewBag.id_Sexe = db.p_Sexe;
             ViewBag.Selected = 0;
             ViewBag.id_TypeUsag = new SelectList(db.p_TypeUsag, "id_TypeUsag", "TypeUsag");
@@ -176,7 +176,6 @@ namespace sachem.Controllers
             pepp.epe = Prog.ToList();
 
             //Ajout du programme d'étude (Si l'étudiant rajoute les champs)
-
       
                 if (Request.Form["id_Programme"] != "" && Request.Form["id_Session"] != ""&& ConfirmeMdp(personne.MP, personne.ConfirmPassword) == true)
                   {
@@ -200,8 +199,6 @@ namespace sachem.Controllers
             ViewBag.id_TypeUsag = new SelectList(db.p_TypeUsag, "id_TypeUsag", "TypeUsag", pepp.personne.id_TypeUsag);
             ViewBag.id_Programme = new SelectList(db.ProgrammeEtude.Where(x => x.Actif == true), "id_ProgEtu", "CodeNomProgramme");
             ViewBag.id_Session = new SelectList(db.Session, "id_Sess", "NomSession");
-
-
             return View(pepp);
         }
 
