@@ -106,5 +106,13 @@ namespace sachem.Controllers
             slCol.AddRange(new SelectList(lstCol, "id_College", "College"));
             ViewBag.lstCollege = slCol;
         }
+
+        [HttpPost]
+        public ActionResult getLigneCours()
+        {
+            listeCours();
+            listeCollege();
+            return PartialView("_LigneCoursReussi");
+        }
     }
 }

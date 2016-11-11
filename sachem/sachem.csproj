@@ -359,7 +359,7 @@
     <Content Include="Images\logo-cegep.png" />
     <Content Include="Images\logo-cegepBLANC.jpg" />
     <Content Include="Images\MontageMenu.jpg" />
-	<Content Include="fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Models\Model1.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>Model1.edmx</DependentUpon>
@@ -478,12 +478,13 @@
     <Content Include="Views\Inscription\Tuteur.cshtml" />
     <Content Include="Views\Shared\_CoursReussis.cshtml" />
     <Content Include="Views\Inscription\TBenevole.cshtml" />
+    <Content Include="Views\Shared\_LigneCoursReussi.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
   </ItemGroup>
   <ItemGroup>
-	<Content Include="fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="packages.config" />

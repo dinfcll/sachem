@@ -1,0 +1,43 @@
+﻿
+<div class="clearfix rowCourseReussisPadTop">
+    <div class="col-md-9">
+        <div class="row ins-row">
+            <div class="col-md-2">
+                Cours
+            </div>
+            <div class="col-md-6">
+                @Html.DropDownList("lstCours", null, htmlAttributes: new { @class = "form-search ins-select" })
+            </div>
+            <div class="col-md-4">
+                <input type="text" class="form-control text-box single-line ins-text-box" placeholder="Résultat" />
+            </div>
+        </div>
+        <div class="row ins-row">
+            <div class="col-md-2">
+                Autre:
+            </div>
+            <div class="col-md-6">
+                <input type="text" class="form-control text-box single-line ins-text-box" />
+            </div>
+        </div>
+        <div class="row ins-row">
+            <div class="col-md-2">
+                Collège
+            </div>
+            <div class="col-md-6">
+                @Html.DropDownList("lstCollege", null, htmlAttributes: new { @class = "form-search ins-select" })
+            </div>
+        </div>
+        <div class="row ins-row">
+            <div class="col-md-2">
+                Autre:
+            </div>
+            <div class="col-md-6">
+                <input type="text" class="form-control text-box single-line ins-text-box" />
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <input type="button" value="Supprimer" style="float:right" class="btn btn-default btnSupprimerCours" />
+    </div>
+</div>

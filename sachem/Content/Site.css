@@ -81,9 +81,9 @@ textarea {
 /* Inscription */
 
 /*Tuteur de cours*/
-
 .rowCourseReussisPadTop {
     padding:10px 10px 10px 10px;
+    border-bottom: 1px solid #eeeeee;
 }
 
 .ins-row {
@@ -102,4 +102,8 @@ ins-select {
 }
 .hIns {
     font-weight:bold;
+}
+
+.pageItemPadding {
+    padding:10px 10px 10px 10px;
 }
