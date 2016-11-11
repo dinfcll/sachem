@@ -79,7 +79,6 @@ namespace sachem.Controllers
         {
             Valider(programme);
 
-
             if (ModelState.IsValid)
             {
                 db.Entry(programme).State = EntityState.Modified;
@@ -147,7 +146,7 @@ namespace sachem.Controllers
             {
                 if (db.EtuProgEtude.Any(c => c.id_ProgEtu == programme.id_ProgEtu))
                 {
-                    ModelState.AddModelError(String.Empty, "Impossible de mettre le programme inactif si il est encore relié à des étudiants");
+                    ModelState.AddModelError(String.Empty, "Impossible de mettre le programme inactif s'il est encore relié à des étudiants");
                 }
             }
         }
