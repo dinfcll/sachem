@@ -150,7 +150,6 @@ namespace sachem.Controllers
                     ModelState.AddModelError(String.Empty, "Impossible de mettre le programme inactif si il est encore relié à des étudiants");
                 }
             }
-
         }
 
         //Méthode qui permet de faire la recherche, soit sur le nom de programme ou sur le code.
