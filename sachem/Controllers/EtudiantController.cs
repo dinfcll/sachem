@@ -25,9 +25,7 @@ namespace sachem.Controllers
             noPage = page ?? noPage;
 
             return View(Rechercher().ToPagedList(noPage, 20));
-        }
-
-      
+        }   
         // GET: Etudiant/Details/5
         [ValidationAccesEnseignant]
         // GET: Etudiant/Create
@@ -56,7 +54,7 @@ namespace sachem.Controllers
             personne.Telephone = SachemIdentite.FormatTelephone(personne.Telephone);
             personne.Matricule = CONSTANTE20 + personne.Matricule;
             pepp.personne = personne;
-
+    
             ViewBag.id_Sexe = db.p_Sexe;
             ViewBag.Selected = 0;
             ViewBag.id_TypeUsag = new SelectList(db.p_TypeUsag, "id_TypeUsag", "TypeUsag");
@@ -101,11 +99,16 @@ namespace sachem.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Personne personne = db.Personne.Find(id);
+            Personne personne = db.Personne.Find(id);         
             if (personne == null)
             {
                 return HttpNotFound();
             }
+            else
+                if (personne.Telephone != null)
+                {
+                    personne.Telephone = SachemIdentite.RemettreTel(personne.Telephone);
+                }
             //retroune la liste de programme qui relié à l'élève
             var Prog = from d in db.EtuProgEtude
                        where d.id_Etu == personne.id_Pers
@@ -122,6 +125,30 @@ namespace sachem.Controllers
             epep.epe = Prog.ToList();
             return View(epep);
         }
+        [HttpPost]
+        [AcceptVerbs("Get", "Post")]
+        public virtual JsonResult ActualisePEtu(int idProg, int idPers, int Valider = 0)
+        {
+            Personne personne = db.Personne.Find(idPers);
+            EtuProgEtude etuprog = db.EtuProgEtude.Find(idProg);
+            etuprog.Personne = null;
+            etuprog.ProgrammeEtude = null;
+            etuprog.Session = null;
+            db.EtuProgEtude.Remove(etuprog);
+            db.SaveChanges();
+            var Prog = ObtenirProgEtu(idPers, Valider);
+            return Json(Prog.ToList(), JsonRequestBehavior.AllowGet);
+        }
+
+        private IEnumerable<Object> ObtenirProgEtu(int idPers, int Valider)
+        {
+            var ens = db.EtuProgEtude
+                .AsNoTracking()
+                .Where(sel => sel.id_Etu == idPers)
+                .Select(e => new { NomProg = e.ProgrammeEtude.NomProg, e.id_Etu, e.id_EtuProgEtude })
+                .Distinct();
+            return ens.AsEnumerable();
+        }
 
         // POST: Etudiant/Edit/5
         // Afin de déjouer les attaques par sur-validation, activez les propriétés spécifiques que vous voulez lier. Pour 
@@ -134,6 +161,7 @@ namespace sachem.Controllers
         {
             PersonneEtuProgParent pepp = new PersonneEtuProgParent();
             personne.id_TypeUsag = 1;
+            personne.Telephone = SachemIdentite.FormatTelephone(personne.Telephone);
             pepp.personne = personne;
 
             var etuprog = new EtuProgEtude();
@@ -145,7 +173,6 @@ namespace sachem.Controllers
             pepp.epe = Prog.ToList();
 
             //Ajout du programme d'étude (Si l'étudiant rajoute les champs)
-
       
                 if (Request.Form["id_Programme"] != "" && Request.Form["id_Session"] != ""&& ConfirmeMdp(personne.MP, personne.ConfirmPassword) == true)
                   {
@@ -169,8 +196,6 @@ namespace sachem.Controllers
             ViewBag.id_TypeUsag = new SelectList(db.p_TypeUsag, "id_TypeUsag", "TypeUsag", pepp.personne.id_TypeUsag);
             ViewBag.id_Programme = new SelectList(db.ProgrammeEtude.Where(x => x.Actif == true), "id_ProgEtu", "CodeNomProgramme");
             ViewBag.id_Session = new SelectList(db.Session, "id_Sess", "NomSession");
-
-
             return View(pepp);
         }
 

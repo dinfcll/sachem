@@ -16,6 +16,7 @@
 
 
 <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <script type="text/javascript">
     function ModifModal(id) {
         var modal = document.getElementById('modalModification');
@@ -37,15 +38,15 @@
     }
 
     function Suppression(id) {
-        $.ajax({
+            $.ajax({
             url: "/Parametres/DeleteCollege",
             data: { "id": id },
             type: "POST",
             success: function() {
                 window.location.reload(true);
             }
-        });
-    }
+            });
+        }
 
     function Modifier(id, nouveauNomCollege) {
         $.ajax({
@@ -54,7 +55,7 @@
             type: "POST",
             success: function(){
                 window.location.reload(true);
-            }
+    }
         });
     }
 </script>
@@ -62,7 +63,7 @@
 
 <table class="table-condensed">
     @using (Html.BeginForm("EditCollege", "Parametres", FormMethod.Get, new { @class = "form-inline", role = "form" }))
-    {
+{
         <tr>
             <td>Nom de collège :</td>
             <td>@Html.Editor("Recherche", new { htmlAttributes = new { @class = "form-control" } })</td>
@@ -70,7 +71,7 @@
         </tr>
     }
     @using (Ajax.BeginForm("AddCollege", "Parametres", new AjaxOptions { HttpMethod = "Post", OnSuccess = "window.location.reload()", Confirm = "Voulez-vous vraiment ajouter ce collège ?" }))
-    {
+{
         <tr>
             <td>Collège :</td>
             <td>@Html.Editor("NomCollege", new { htmlAttributes = new { @class = "form-control" } })</td>
@@ -79,35 +80,35 @@
     }
 </table>
 
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.First().id_College)
-        </th>
-        <th></th>
-    </tr>
-    @foreach (var item in Model)
-    {
+    <table class="table">
         <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.College)
-            </td>
-            <td>
-       
+            <th>
+                @Html.DisplayNameFor(model => model.First().id_College)
+            </th>
+        <th></th>
+        </tr>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.College)
+                </td>
+                <td>
+
                 <a onclick="ModifModal(@item.id_College);" href="#" data-toggle="modal" data-target="#modalModification">Modifier</a>
                 |
                 <a onclick="SuppressionModal(@item.id_College);" href="#" data-toggle="modal" data-target="#modalSuppression">Supprimer</a>
             </td>    
         </tr>
     }
-    
+
     @if (!Model.Any())
-    {
+               {
         <tr>
             <td colspan="6">Aucun collège d'enseignement ne répond à ces critères</td>
-        </tr>
-    }
-</table>
+            </tr>
+        }
+    </table>
 
 <div class="container">
     <div class="modal fade" id="modalModification" role="dialog">
