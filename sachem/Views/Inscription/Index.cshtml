@@ -1,33 +1,37 @@
 ﻿@model sachem.Models.Inscription
-  @*@model Tuple<sachem.Models.Inscription,string>*@  
 
 
 @{
     ViewBag.Title = "Inscription au service de Sachem";
 }
 <script>
-        function myFunction() {
-            var url = $(this).attr('action');
-            var HoraireArray = [];
-            $('[name="horaireCheckbox"]:checked').each(function () {
-                HoraireArray.push(($(this).val()));
-            });
-            alert(HoraireArray);
-            //var bob = $("#TabDisp").serialize();
-            $.ajax({
-                type: "POST",
-                url: "/Inscription/Index",
-                //data: $("#TabDisp").serialize(),
-                data: { model: JSON.stringify(HoraireArray) },
-                contentType: 'application/json; charset=utf-8',
-                success: function (data) {
-                    alert("success");
-                },
-                error: function (data) {
-                    alert("erreur");
+    function myFunction(e) {
+        var HoraireArray = [];
+        $('[name="horaireCheckbox"]:checked').each(function () {
+            HoraireArray.push(($(this).val()));
+        });
+        var postData = { values: HoraireArray };
+        if (postData.length < 2) {
+            alert("Utilisez au moins une plage horaire de 2!");
+            return;
+        }
+        $.ajax({
+            url: "/Inscription/Index",
+            data: postData,
+            type: "POST",
+            traditional: true,
+            dataType: 'json',
+            success: function (data) {
+                if (!data.success)
+                {
+                    alert(data.message);
                 }
-            });
-        };
+            }
+            
+        });
+        return false;
+    }
+
    
 </script>
 
@@ -36,7 +40,6 @@
 <p class="text-success">
     @Html.Raw(@TempData["Success"])
 </p>
-
 
     @Html.AntiForgeryToken()
 
@@ -54,7 +57,7 @@
         -Formez des blocs d'au moins deux heures consécutives.(les rencontres dureront 1h30/semaine) <br />
         -Inscrivez plusieurs choix pour faciliter le jumelage.
     </p>
-    <form method="post" id="TabDisp" onsubmit="myFunction()">
+    <form method="post" id="TabDisp">
         <div>
             @{string[] jour = new string[5] { "Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi" };}
             <CENTER>
@@ -77,13 +80,13 @@
 
                                 @for (var j = 0; j < 5; j++)
                                 {
-                                    <TD> @Html.CheckBox("horaireCheckbox", false, htmlAttributes: new { @class = "control-label col-md-2", @id = jour[j] + heureCheckbox.ToString(), @value = jour[j] + heureCheckbox.ToString() })</TD>
+                                   <TD align="center"> @Html.CheckBox("horaireCheckbox", false, htmlAttributes: new { @class = "control-label col-md-2", @id = jour[j] + heureCheckbox.ToString(), @value = jour[j] + "-" + heureCheckbox.ToString() })</TD>
                                 }
                             </TR>
                         }
 
                     </table>
             </CENTER>
-            <input type="submit" value="Enregistrer et poursuivre" />
+            <input type="button" value="Enregistrer et poursuivre" onclick="myFunction()"/>
         </div>
     </form>
