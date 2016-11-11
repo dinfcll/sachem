@@ -6,7 +6,7 @@
 }
 <h2>@ViewBag.Title</h2>
 
-@Html.ValidationSummary(true, "", new { @class = "text-danger" })
+@Html.ValidationSummary(true,"", new { @class = "text-danger" })
 <p class="text-success">
     @Html.ViewBag.Success
     @TempData["Success"]
@@ -16,14 +16,13 @@
 
 
 <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <script type="text/javascript">
     function ModifModal(id) {
         var modal = document.getElementById('modalModification');
         var boutonModif = document.getElementById('btnModifier');
         modal.style.display = 'block';
         boutonModif.onclick = function() {
-            var nomCollege = document.getElementById("txtNomCollege").value;
+            var nomCollege = document.getElementById("txtNomCollegeModif").value;
             Modifier(id, nomCollege);
         }
     }
@@ -34,6 +33,16 @@
         modal.style.display = 'block';
         boutonSuppression.onclick = function() {
             Suppression(id);
+        }
+    }
+
+    function AjoutModal(){
+        var modal = document.getElementById('modalAjout');
+        var boutonAjout = document.getElementById('btnAjout');
+        modal.style.display = 'block';
+        boutonAjout.onclick = function () {
+            var nomCollege = document.getElementById("txtNomCollegeAjout").value;
+            Ajout(nomCollege)
         }
     }
 
@@ -58,27 +67,31 @@
     }
         });
     }
+
+    function Ajout(nomCollege) {
+        $.ajax({
+            url: "/Parametres/AddCollege",
+            data: { "nomCollege" : nomCollege},
+            type: "POST",
+            success: function () {
+                window.location.reload(true);
+            }
+        });
+    }
 </script>
 
 
 <table class="table-condensed">
     @using (Html.BeginForm("EditCollege", "Parametres", FormMethod.Get, new { @class = "form-inline", role = "form" }))
-{
+    {
         <tr>
             <td>Nom de collège :</td>
             <td>@Html.Editor("Recherche", new { htmlAttributes = new { @class = "form-control" } })</td>
             <td><input type="submit" value="Rechercher" class="form-search"/></td>
         </tr>
     }
-    @using (Ajax.BeginForm("AddCollege", "Parametres", new AjaxOptions { HttpMethod = "Post", OnSuccess = "window.location.reload()", Confirm = "Voulez-vous vraiment ajouter ce collège ?" }))
-{
-        <tr>
-            <td>Collège :</td>
-            <td>@Html.Editor("NomCollege", new { htmlAttributes = new { @class = "form-control" } })</td>
-            <td><input type="submit" value="Ajouter" class="form-search" /></td>
-        </tr>
-    }
 </table>
+<a onclick="AjoutModal();" href="#" data-toggle="modal" data-target="#modalAjout">Ajouter un collège d'enseignement</a><br /><br />
 
     <table class="table">
         <tr>
@@ -94,20 +107,19 @@
                     @Html.DisplayFor(modelItem => item.College)
                 </td>
                 <td>
-
-                <a onclick="ModifModal(@item.id_College);" href="#" data-toggle="modal" data-target="#modalModification">Modifier</a>
-                |
-                <a onclick="SuppressionModal(@item.id_College);" href="#" data-toggle="modal" data-target="#modalSuppression">Supprimer</a>
-            </td>    
-        </tr>
-    }
+                    <a onclick="ModifModal(@item.id_College);" href="#" data-toggle="modal" data-target="#modalModification">Modifier</a>
+                    |
+                    <a onclick="SuppressionModal(@item.id_College);" href="#" data-toggle="modal" data-target="#modalSuppression">Supprimer</a>
+                </td>    
+             </tr>
+        }
 
     @if (!Model.Any())
-               {
+    {
         <tr>
             <td colspan="6">Aucun collège d'enseignement ne répond à ces critères</td>
-            </tr>
-        }
+        </tr>
+    }
     </table>
 
 <div class="container">
@@ -119,7 +131,7 @@
                     <h4 class="modal-title">Modification du nom de collège d'enseignement.</h4>
                 </div>
                 <div class="modal-body">
-                    <p>Nouveau nom de collège d'enseignement :</p> <input type="text" id="txtNomCollege" class="form-control" /><br />
+                    <p>Nouveau nom de collège d'enseignement :</p> <input type="text" id="txtNomCollegeModif" class="form-control" /><br />
                 </div>
                 <div class="modal-footer">
                     <button id="btnModifier" type="button" data-dismiss="modal" class="btn btn-primary">Modifier</button>
@@ -150,6 +162,25 @@
     </div>
 </div>
 
+<div class="container">
+    <div class="modal fade" id="modalAjout" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Ajout d'un collège d'enseignement.</h4>
+                </div>
+                <div class="modal-body">
+                    <p>Nom du collège d'enseignement à ajouter : </p> <input type="text" id="txtNomCollegeAjout" class="form-control" /><br />
+                </div>
+                <div class="modal-footer">
+                    <button id="btnAjout" type="button" data-dismiss="modal" class="btn btn-primary">Ajouter</button>
+                    <button type="button" data-dismiss="modal" class="btn">Annuler</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 
 @* Ajout de la fonction PagedList modifier.*@
