@@ -16,6 +16,4 @@ Par l'entremise du site, l'enseignant doit livrer des documents (devoirs ou intr
 
 
 # Captures
-<img heigth="100" width="120" src="https://git.dinf.cll.qc.ca/lainessej/sachem/uploads/95b7a5e0607519d675b55dbb57844558/Inscription_1.PNG"/>
-<img heigth="100" width="120" src="https://git.dinf.cll.qc.ca/lainessej/sachem/uploads/72f685881b3f055fea8f958903fb0ab4/MAJ_jumelage_-_d%C3%A9tail_-_jumelage_possible.PNG"/>
-<img heigth="100" width="120" src="https://git.dinf.cll.qc.ca/lainessej/sachem/uploads/39d0284b0e52e0551d1baf6bbfbd6da0/rapport_initial_B.PNG"/>
+<img heigth="100" width="120" src="https://git.dinf.cll.qc.ca/lainessej/sachem/uploads/95b7a5e0607519d675b55dbb57844558/Inscription_1.PNG"/><img heigth="100" width="120" src="https://git.dinf.cll.qc.ca/lainessej/sachem/uploads/72f685881b3f055fea8f958903fb0ab4/MAJ_jumelage_-_d%C3%A9tail_-_jumelage_possible.PNG"/><img heigth="100" width="120" src="https://git.dinf.cll.qc.ca/lainessej/sachem/uploads/39d0284b0e52e0551d1baf6bbfbd6da0/rapport_initial_B.PNG"/>
