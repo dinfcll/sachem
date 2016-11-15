@@ -63,5 +63,15 @@ namespace sachem.Models.DataAccess
         {
             db.Dispose();
         }
+
+        public void AddInscription(Inscription inscription)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Inscription FindInscription(int id)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -19,7 +19,11 @@ namespace sachem.Models.DataAccess
 
         void AddCours(Cours cours);
 
+        void AddInscription(Inscription inscription);
+
         Cours FindCours(int id);
+
+        Inscription FindInscription(int id);
 
         void DeclareModified(Cours cours);
 

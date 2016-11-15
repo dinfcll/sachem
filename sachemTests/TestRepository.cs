@@ -12,6 +12,7 @@ namespace sachemTests
     internal class TestRepository : IDataRepository
     {
         private readonly List<Cours> listeCours = new List<Cours>();
+        private readonly List<Inscription> listeInscription = new List<Inscription>();
 
         public IEnumerable GetSessions()
         {
@@ -38,6 +39,11 @@ namespace sachemTests
             throw new NotImplementedException();
         }
 
+        public IEnumerable<Inscription> AllInscriptions()
+        {
+            throw new NotImplementedException();
+        }
+
         public void AddCours(Cours cours)
         {
             listeCours.Add(cours);
@@ -46,6 +52,16 @@ namespace sachemTests
         public Cours FindCours(int id)
         {
             return listeCours.Find(x => x.id_Cours == id);
+        }
+
+        public void AddInscription(Inscription inscription)
+        {
+            listeInscription.Add(inscription);
+        }
+
+        public Inscription FindInscription(int id)
+        {
+            return listeInscription.Find(x => x.id_Inscription == id);
         }
 
         public void DeclareModified(Cours cours)

@@ -7,6 +7,7 @@ using System.Web.Mvc;
 using sachem.Models;
 using PagedList;
 using static sachem.Classes_Sachem.ValidationAcces;
+using sachem.Models.DataAccess;
 
 namespace sachem.Controllers
 {
@@ -16,6 +17,18 @@ namespace sachem.Controllers
         private SACHEMEntities db = new SACHEMEntities();
         protected int noPage = 1;
         private int? pageRecue = null;
+
+        private readonly IDataRepository dataRepository;
+
+        public DossierEtudiantController()
+        {
+            dataRepository = new BdRepository();
+        }
+
+        public DossierEtudiantController(IDataRepository dataRepository)
+        {
+            this.dataRepository = dataRepository;
+        }
 
         #region ObtentionRecherche
         [NonAction]
@@ -243,7 +256,8 @@ namespace sachem.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-             Inscription inscription = db.Inscription.Find(id);
+            //Inscription inscription = db.Inscription.Find(id);
+            var inscription = dataRepository.FindInscription(id.Value);
 
 
             if (inscription == null)
