@@ -11,7 +11,7 @@ L'étudiant doit définir quel type de compte il désire créer: étudiant aidé
 ## Le jumelage
 Les jumelages seront créés une fois la période d'inscription terminée. Ils seront créés de façon automatique selon la compatibilité des plages de disponibilités des étudiants.
 
-# Le site SACHEM sert à quoi après le jumelage des étudiants?
+# La fonction du site après le jumelage
 Par l'entremise du site, l'enseignant doit livrer des documents (devoirs ou intructions) au tuteur d'un jumelage, pour être compléter avec son étudiant aidé. Le tuteur doit compléter son cahier de suivi hebdomadaire pour indiquer la progression de l'étudiant aidé. L'enseignant peut annoter ce cahier de suivi pour le retourner au tuteur par la suite.
 
 # Captures
