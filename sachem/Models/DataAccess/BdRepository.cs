@@ -66,12 +66,13 @@ namespace sachem.Models.DataAccess
 
         public void AddInscription(Inscription inscription)
         {
-            throw new NotImplementedException();
+            db.Inscription.Add(inscription);
+            db.SaveChanges();
         }
 
         public Inscription FindInscription(int id)
         {
-            throw new NotImplementedException();
+            return db.Inscription.Find(id);
         }
     }
 }

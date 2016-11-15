@@ -4,7 +4,6 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using sachem.Controllers;
 using System.Collections.Generic;
 using sachem.Models;
-using PagedList;
 
 namespace sachemTests
 {
@@ -32,17 +31,6 @@ namespace sachemTests
             var result = dossierEtuController.Details(id);
 
             Assert.AreEqual(typeof(HttpNotFoundResult), result.GetType());
-        }
-
-        [TestMethod]
-        public void Index()
-        {
-            int? page = 0;
-            var dossierEtuController = new DossierEtudiantController(new TestRepository());
-
-            var resultat = dossierEtuController.Index(page);
-
-            Assert.AreEqual(typeof(string), resultat.GetType());
         }
     }
 }

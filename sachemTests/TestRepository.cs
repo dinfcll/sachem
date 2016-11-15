@@ -13,6 +13,7 @@ namespace sachemTests
     {
         private readonly List<Cours> listeCours = new List<Cours>();
         private readonly List<Inscription> listeInscription = new List<Inscription>();
+        private readonly List<Personne> listeSuperviseur = new List<Personne>();
 
         public IEnumerable GetSessions()
         {
