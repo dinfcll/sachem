@@ -6,12 +6,14 @@ using System.Linq.Expressions;
 
 using sachem.Models;
 using sachem.Models.DataAccess;
+using System.Linq;
 
 namespace sachemTests
 {
     internal class TestRepository : IDataRepository
     {
         private readonly List<Cours> listeCours = new List<Cours>();
+        private readonly List<CoursSuivi> listeCoursSuivi = new List<CoursSuivi>();
 
         public IEnumerable GetSessions()
         {
@@ -59,6 +61,56 @@ namespace sachemTests
         }
 
         public void Dispose()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void AddCoursSuivi(CoursSuivi coursSuivi)
+        {
+            listeCoursSuivi.Add(coursSuivi);
+        }
+
+        public IEnumerable GetCours()
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable GetCollege()
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable GetStatut()
+        {
+            throw new NotImplementedException();
+        }
+
+        public IQueryable<int> GetSpecificInscription(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public CoursSuivi FindCoursSuivi(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Personne FindPersonne(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void ModifyCoursSuivi(CoursSuivi coursSuivi)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void RemoveCoursSuivi(CoursSuivi coursSuivi)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool AnyCoursSuiviWhere(Expression<Func<CoursSuivi, bool>> condition)
         {
             throw new NotImplementedException();
         }
