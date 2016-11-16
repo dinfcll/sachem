@@ -32,11 +32,5 @@ namespace sachemTests
 
             Assert.AreEqual(typeof(HttpNotFoundResult), result.GetType());
         }
-
-        [TestMethod]
-        public void NumeroTelephoneVide_DoitRetourner_Vide()
-        {
-            
-        } 
     }
 }
