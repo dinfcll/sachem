@@ -67,23 +67,6 @@
     }
 
 </table>
-
-@if (Request.UrlReferrer != null)
-{
-    <div>
-        @if(Request.UrlReferrer.ToString().Contains("ConsulterCours/Details")) // Si on arrive du controller "ConsulterCours"
-        { 
-            @Html.ActionLink("Retour à la recherche des cours enseignés","Details","ConsulterCours", new { id = Model.Cours.id_Cours},null)
-        }
-        else // Sinon
-        { 
-            @Html.ActionLink("Retour à la recherche des groupes", "Index")
-        }
-        
-    </div>
-}
-
-
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
 }

@@ -22,10 +22,7 @@
     @Html.Partial("_RechercheEtudiant")
 }
 <br/>
-
-    <p>
-        @Html.ActionLink("Ajouter un étudiant", "Create")
-    </p>
+        @Html.ActionLink("Ajouter un étudiant", "Create", null, null, new { @class = "btn btn-default" })<br />
     <table class="table">
         <tr>
             <th>
