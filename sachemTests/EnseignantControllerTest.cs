@@ -28,16 +28,25 @@ namespace sachemTests
         };
 
         [TestMethod]
-        public void AjoutEnseignant()
+        public void AjoutEnseignantRemplisFonctionne()
         {
             var testRepository = new TestRepositoryEnseignant();
             var EnsController = new EnseignantController(testRepository);
             EnsController.Create(enseignant);
+            var rechercheEnsaignant = testRepository.FindEnseignant(enseignant.id_Pers);
+            Assert.IsNotNull(rechercheEnsaignant);
 
         }
         [TestMethod]
-        public void EditEnseignantExistant()
+        public void SupprimerEnseignantQuiExisteFonctionne()
         {
+            var testRepository = new TestRepositoryEnseignant();
+            var EnsController = new EnseignantController(testRepository);
+            EnsController.Create(enseignant);
+            enseignant.Nom = "patate";
+            EnsController.Edit(enseignant);
+            var rechercheEnseignant = testRepository.FindEnseignant(enseignant.id_Pers);
+            Assert.AreEqual("patate", rechercheEnseignant.Nom);
         }
     }
 }

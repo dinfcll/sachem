@@ -196,7 +196,7 @@ namespace sachem.Controllers
 
         private void Valider(Personne personne)
         {
-            if (dataRepository.AnyEnseignantWhere(x => x.NomUsager == personne.NomUsager && x.id_Pers != personne.id_Pers))
+            if (dataRepository.AnyEnseignantWhere(x => x.NomUsager == personne.NomUsager && x.id_Pers != personne.id_Pers,personne))
             {
                 ModelState.AddModelError(string.Empty, Messages.I_013(personne.NomUsager));
             }

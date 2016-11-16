@@ -17,7 +17,7 @@ namespace sachem.Models.DataAccess
         {
             return db.Personne.AsNoTracking().OrderBy(p => p.Nom).ThenBy(p => p.Prenom);
         }
-        public bool AnyEnseignantWhere(Expression<Func<Personne, bool>> condition)
+        public bool AnyEnseignantWhere(Expression<Func<Personne, bool>> condition,Personne personne)
         {
             return db.Personne.Any(condition);
         }

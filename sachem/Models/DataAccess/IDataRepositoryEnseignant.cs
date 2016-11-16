@@ -8,7 +8,7 @@ namespace sachem.Models.DataAccess
 {
     public interface IDataRepositoryEnseignant
     {
-        bool AnyEnseignantWhere(Expression<Func<Personne, bool>> condition);
+        bool AnyEnseignantWhere(Expression<Func<Personne, bool>> condition, Personne personne);
 
         bool AnyGroupeWhere(Expression<Func<Groupe, bool>> condition);
 
