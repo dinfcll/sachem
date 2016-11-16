@@ -12,7 +12,7 @@ Les jumelages seront créés une fois la période d'inscription terminée. Ils s
 
 
 # La fonction du site après le jumelage
-Par l'entremise du site, l'enseignant doit livrer des documents (devoirs ou intructions) au tuteur d'un jumelage, pour être compléter avec son étudiant aidé. Le tuteur doit compléter son cahier de suivi hebdomadaire pour indiquer la progression de l'étudiant aidé. L'enseignant peut annoter ce cahier de suivi pour le retourner au tuteur par la suite.
+Par l'entremise du site, l'enseignant doit livrer des documents (devoirs ou instructions) au tuteur d'un jumelage, pour être complétés avec son étudiant aidé. Le tuteur doit compléter son cahier de suivi hebdomadairement pour indiquer la progression de l'étudiant aidé. L'enseignant peut annoter ce cahier de suivi et le retourner au tuteur par la suite.
 
 
 # Captures
