@@ -14,11 +14,22 @@ namespace sachemTests
     {
         private readonly List<Personne> listeEnseignant = new List<Personne>();
 
-        public bool AnyGroupeWhere(Expression<Func<Groupe, bool>> condition)
+        public void AddEnseignant(Personne enseignant)
+        {
+            listeEnseignant.Add(enseignant);
+        }
+
+        public IEnumerable<Personne> AllEnseignant()
         {
             throw new NotImplementedException();
         }
-        public bool AnyjumelageWhere(Expression<Func<Jumelage, bool>> condition)
+
+        public IEnumerable<Personne> AllEnseignantOrdered()
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<Personne> AllEnseignantResponsable(bool Actif, int id_resp, int id_ens)
         {
             throw new NotImplementedException();
         }
@@ -28,27 +39,17 @@ namespace sachemTests
             throw new NotImplementedException();
         }
 
-        public IEnumerable<Personne> AllEnseignant()
+        public bool AnyGroupeWhere(Expression<Func<Groupe, bool>> condition)
         {
             throw new NotImplementedException();
         }
 
-        public void AddEnseignant(Personne enseignant)
-        {
-            listeEnseignant.Add(enseignant);
-        }
-
-        public Personne FindEnseignant(int id)
-        {
-            return listeEnseignant.Find(x => x.id_Pers == id);
-        }
-
-        public void DeclareModified(Personne cours)
+        public bool AnyjumelageWhere(Expression<Func<Jumelage, bool>> condition)
         {
             throw new NotImplementedException();
         }
 
-        public void RemoveEnseignant(Personne cours)
+        public void DeclareModified(Personne enseignant)
         {
             throw new NotImplementedException();
         }
@@ -56,6 +57,11 @@ namespace sachemTests
         public void Dispose()
         {
             throw new NotImplementedException();
+        }
+
+        public Personne FindEnseignant(int id)
+        {
+            return listeEnseignant.Find(x => x.id_Pers == id);
         }
 
         public SelectList liste_sexe()
@@ -78,12 +84,7 @@ namespace sachemTests
             throw new NotImplementedException();
         }
 
-        public IEnumerable<Personne> AllEnseignantOrdered()
-        {
-            throw new NotImplementedException();
-        }
-
-        public IEnumerable<Personne> AllEnseignantResponsable(bool Actif, int id_resp, int id_ens)
+        public void RemoveEnseignant(int id)
         {
             throw new NotImplementedException();
         }

@@ -64,8 +64,8 @@ namespace sachem.Models.DataAccess
 
         public void RemoveEnseignant(int id)
         {
-            
-            db.Personne.Remove(enseignant);
+            var SuppPersonne = db.Personne.Where(x => x.id_Pers == id); // rechercher l'enseignant
+            db.Personne.RemoveRange(SuppPersonne); // retirer toute les occurences de l'enseignant  
             db.SaveChanges();
             var lEnseignant = db.Personne.AsNoTracking().OrderBy(p => p.Nom).ThenBy(p => p.Prenom);
         }

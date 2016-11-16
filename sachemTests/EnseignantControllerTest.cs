@@ -30,7 +30,10 @@ namespace sachemTests
         [TestMethod]
         public void AjoutEnseignant()
         {
-           
+            var testRepository = new TestRepositoryEnseignant();
+            var EnsController = new EnseignantController(testRepository);
+            EnsController.Create(enseignant);
+
         }
         [TestMethod]
         public void EditEnseignantExistant()
