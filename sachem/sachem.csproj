@@ -248,7 +248,9 @@
     <Compile Include="Models\Cours.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\DataAccess\BdRepositoryEnseignant.cs" />
     <Compile Include="Models\DataAccess\BdRepository.cs" />
+    <Compile Include="Models\DataAccess\IDataRepositoryEnseignant.cs" />
     <Compile Include="Models\DataAccess\IDataRepository.cs" />
     <Compile Include="Models\PersEtuProg.cs" />
     <Compile Include="Models\p_CollegeMetadata.cs" />
@@ -359,7 +361,7 @@
     <Content Include="Images\logo-cegep.png" />
     <Content Include="Images\logo-cegepBLANC.jpg" />
     <Content Include="Images\MontageMenu.jpg" />
-	<Content Include="fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Models\Model1.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>Model1.edmx</DependentUpon>
@@ -480,7 +482,7 @@
     <Folder Include="App_Data\" />
   </ItemGroup>
   <ItemGroup>
-	<Content Include="fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="packages.config" />
