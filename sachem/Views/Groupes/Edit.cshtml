@@ -21,9 +21,7 @@
     </div>
 }
 
-<p>
-    @Html.ActionLink("Ajouter des étudiants au groupe", "AjouterEleve", "Groupes", new { idg = Model.id_Groupe },null)
-</p>
+<div style="margin-top:5px;margin-bottom:10px;">@Html.ActionLink("Ajouter un étudiants au groupe", "AjouterEleve", "Groupes", new { idg = Model.id_Groupe }, new { @class = "btn btn-default" })</div>
 <table class="table">
     <tr>
         <th>
