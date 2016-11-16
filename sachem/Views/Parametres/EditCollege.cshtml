@@ -18,11 +18,15 @@
 <script type="text/javascript">
     function ModifModal(id) {
         var modal = document.getElementById('modalModification');
+        var nom = document.getElementById('nomActuelCollege_'+id).innerText
+        document.getElementById('txtNomCollegeModif').value = nom;
         var boutonModif = document.getElementById('btnModifier');
         modal.style.display = 'block';
         boutonModif.onclick = function() {
             var nomCollege = document.getElementById("txtNomCollegeModif").value;
-            Modifier(id, nomCollege);
+            if(nomCollege!=""){
+                Modifier(id, nomCollege);
+            }
         }
     }
 
@@ -41,7 +45,9 @@
         modal.style.display = 'block';
         boutonAjout.onclick = function () {
             var nomCollege = document.getElementById("txtNomCollegeAjout").value;
-            Ajout(nomCollege)
+            if(nomCollege!=""){
+                Ajout(nomCollege)
+            }            
         }
     }
 
@@ -102,8 +108,8 @@
         @foreach (var item in Model)
         {
             <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.College)
+                <td id = "nomActuelCollege_@item.id_College">
+                    @Html.DisplayFor(modelItem => item.College )
                 </td>
                 <td>
                     <a onclick="ModifModal(@item.id_College);" href="#" data-toggle="modal" data-target="#modalModification">Modifier</a>
