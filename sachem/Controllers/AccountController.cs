@@ -419,7 +419,7 @@ namespace sachem.Controllers
         public ActionResult ModifierPassword(Personne personne, string Modifier, string Annuler)
         {
             if (Annuler != null)//Verifier si c'est le bouton annuler qui a été cliqué
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Index", "DossierEtudiant");
 
             if (Modifier != null)//Si modifier mdp a été cliqué
             {
