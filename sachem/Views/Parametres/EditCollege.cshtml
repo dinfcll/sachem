@@ -1,8 +1,7 @@
 ﻿@using PagedList.Mvc;
 @model PagedList.IPagedList<sachem.Models.p_College>
 @{
-    ViewBag.Title = "Collèges d'enseignement";
-    
+    ViewBag.Title = "Collèges d'enseignement";    
 }
 <h2>@ViewBag.Title</h2>
 
@@ -22,7 +21,7 @@
         var boutonModif = document.getElementById('btnModifier');
         modal.style.display = 'block';
         boutonModif.onclick = function() {
-            var nomCollege = document.getElementById("txtNomCollege").value;
+            var nomCollege = document.getElementById("txtNomCollegeModif").value;
             Modifier(id, nomCollege);
         }
     }
@@ -36,16 +35,26 @@
         }
     }
 
+    function AjoutModal(){
+        var modal = document.getElementById('modalAjout');
+        var boutonAjout = document.getElementById('btnAjout');
+        modal.style.display = 'block';
+        boutonAjout.onclick = function () {
+            var nomCollege = document.getElementById("txtNomCollegeAjout").value;
+            Ajout(nomCollege)
+        }
+    }
+
     function Suppression(id) {
-        $.ajax({
+            $.ajax({
             url: "/Parametres/DeleteCollege",
             data: { "id": id },
             type: "POST",
             success: function() {
                 window.location.reload(true);
             }
-        });
-    }
+            });
+        }
 
     function Modifier(id, nouveauNomCollege) {
         $.ajax({
@@ -53,6 +62,17 @@
             data: { "nomCollege": nouveauNomCollege, "id": id },
             type: "POST",
             success: function(){
+                window.location.reload(true);
+    }
+        });
+    }
+
+    function Ajout(nomCollege) {
+        $.ajax({
+            url: "/Parametres/AddCollege",
+            data: { "nomCollege" : nomCollege},
+            type: "POST",
+            success: function () {
                 window.location.reload(true);
             }
         });
@@ -69,45 +89,37 @@
             <td><input type="submit" value="Rechercher" class="form-search"/></td>
         </tr>
     }
-    @using (Ajax.BeginForm("AddCollege", "Parametres", new AjaxOptions { HttpMethod = "Post", OnSuccess = "window.location.reload()", Confirm = "Voulez-vous vraiment ajouter ce collège ?" }))
-    {
-        <tr>
-            <td>Collège :</td>
-            <td>@Html.Editor("NomCollege", new { htmlAttributes = new { @class = "form-control" } })</td>
-            <td><input type="submit" value="Ajouter" class="form-search" /></td>
-        </tr>
-    }
 </table>
+<a onclick="AjoutModal();" href="#" data-toggle="modal" data-target="#modalAjout">Ajouter un collège d'enseignement</a><br /><br />
 
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.First().id_College)
-        </th>
-        <th></th>
-    </tr>
-    @foreach (var item in Model)
-    {
+    <table class="table">
         <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.College)
-            </td>
-            <td>
-       
-                <a onclick="ModifModal(@item.id_College);" href="#" data-toggle="modal" data-target="#modalModification">Modifier</a>
-                |
-                <a onclick="SuppressionModal(@item.id_College);" href="#" data-toggle="modal" data-target="#modalSuppression">Supprimer</a>
-            </td>    
+            <th>
+                @Html.DisplayNameFor(model => model.First().id_College)
+            </th>
+        <th></th>
         </tr>
-    }
-    
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.College)
+                </td>
+                <td>
+                    <a onclick="ModifModal(@item.id_College);" href="#" data-toggle="modal" data-target="#modalModification">Modifier</a>
+                    |
+                    <a onclick="SuppressionModal(@item.id_College);" href="#" data-toggle="modal" data-target="#modalSuppression">Supprimer</a>
+                </td>    
+             </tr>
+        }
+
     @if (!Model.Any())
     {
         <tr>
             <td colspan="6">Aucun collège d'enseignement ne répond à ces critères</td>
         </tr>
     }
-</table>
+    </table>
 
 <div class="container">
     <div class="modal fade" id="modalModification" role="dialog">
@@ -118,7 +130,7 @@
                     <h4 class="modal-title">Modification du nom de collège d'enseignement.</h4>
                 </div>
                 <div class="modal-body">
-                    <p>Nouveau nom de collège d'enseignement :</p> <input type="text" id="txtNomCollege" class="form-control" /><br />
+                    <p>Nouveau nom de collège d'enseignement :</p> <input type="text" id="txtNomCollegeModif" class="form-control" /><br />
                 </div>
                 <div class="modal-footer">
                     <button id="btnModifier" type="button" data-dismiss="modal" class="btn btn-primary">Modifier</button>
@@ -149,9 +161,26 @@
     </div>
 </div>
 
+<div class="container">
+    <div class="modal fade" id="modalAjout" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Ajout d'un collège d'enseignement.</h4>
+                </div>
+                <div class="modal-body">
+                    <p>Nom du collège d'enseignement à ajouter : </p> <input type="text" id="txtNomCollegeAjout" class="form-control" /><br />
+                </div>
+                <div class="modal-footer">
+                    <button id="btnAjout" type="button" data-dismiss="modal" class="btn btn-primary">Ajouter</button>
+                    <button type="button" data-dismiss="modal" class="btn">Annuler</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
-
-@* Ajout de la fonction PagedList modifier.*@
 @if (Model.PageCount > 0)
 {
     <div>

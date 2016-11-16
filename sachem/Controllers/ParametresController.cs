@@ -112,7 +112,6 @@ namespace sachem.Controllers
                 {
                     ModelState.AddModelError(string.Empty, Messages.C_006(session.Annee.ToString(), null));
                 }
-
                 //regarde si les dates sont bonnes
                 if ((HI.DateFin - HI.DateDebut).TotalDays < 1)
                 {
@@ -186,14 +185,16 @@ namespace sachem.Controllers
                 college.College = nomCollege;
                 db.Entry(college).State = EntityState.Modified;
                 db.SaveChanges();
+                TempData["Success"] = string.Format(Messages.I_046());
             }
         }
 
         [HttpPost]
         [ValidationAccesSuper]
-        public ActionResult AddCollege(string nomCollege)
+        public void AddCollege(string nomCollege)
         {
-            if (!db.p_College.Any(p => p.College == nomCollege))
+            ValiderCollege(nomCollege);
+            if (ModelState.IsValid)
             {
                 var college = new p_College
                 {
@@ -203,7 +204,6 @@ namespace sachem.Controllers
                 db.SaveChanges();
                 TempData["Success"] = string.Format(Messages.I_044(nomCollege));
             }
-            return RedirectToAction("EditCollege");
         }
 
         [HttpPost]
@@ -215,9 +215,16 @@ namespace sachem.Controllers
             {
                 db.p_College.Remove(college);
                 db.SaveChanges();
+                TempData["Success"] = string.Format(Messages.I_047(college.College));
             }
         }
-
+        private void ValiderCollege(string college)
+        {
+            if (db.p_College.Any(p => p.College == college))
+            {
+                ModelState.AddModelError(string.Empty,"Ce collège d'enseignement existe déjà");
+            }
+        }
         private void ValiderContact([Bind(Include = "id_Contact,Nom,Prenom,Courriel,Telephone,Poste,Facebook,SiteWeb,Local")]p_Contact contact)
         {
             if (!db.p_Contact.Any(r => r.id_Contact == contact.id_Contact))
@@ -233,7 +240,7 @@ namespace sachem.Controllers
 
             if (!String.IsNullOrEmpty(recherche))
             {
-                collegeFormater = collegeFormater.FindAll(c => c.College.Contains(recherche));
+                collegeFormater = collegeFormater.FindAll(c => c.College.ToLower().Contains(recherche.ToLower()));
             }
             return collegeFormater;
         }

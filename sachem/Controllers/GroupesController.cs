@@ -16,13 +16,13 @@ namespace sachem.Controllers
 
         private IEnumerable<Object> ObtenirListeEnseignant(int session)
         {
-            var ens = db.Personne
-                .AsNoTracking()
-                .Join(db.Groupe, p => p.id_Pers, g => g.id_Enseignant, (p, g) => new { Personne = p, Groupe = g })
-                .Where(sel => sel.Personne.id_TypeUsag == 2 && (sel.Groupe.id_Sess == session || session == 0))
-                .OrderBy(x => x.Personne.Prenom).ThenBy(x => x.Personne.Nom)
-                .Select(e => new { e.Personne.id_Pers, NomPrenom = e.Personne.Nom + ", " + e.Personne.Prenom })
-                .Distinct();
+                var ens = db.Personne
+                    .AsNoTracking()
+                    .Join(db.Groupe, p => p.id_Pers, g => g.id_Enseignant, (p, g) => new { Personne = p, Groupe = g })
+                    .Where(sel => sel.Personne.id_TypeUsag == 2 && (sel.Groupe.id_Sess == session || session == 0))
+                    .OrderBy(x => x.Personne.Prenom).ThenBy(x => x.Personne.Nom)
+                    .Select(e => new { e.Personne.id_Pers, NomPrenom = e.Personne.Nom + ", " + e.Personne.Prenom })
+                    .Distinct();
             return ens.AsEnumerable();
         }
 
@@ -51,11 +51,11 @@ namespace sachem.Controllers
 
         // GET: Groupes
         [ValidationAccesEnseignant]
-        public ActionResult Index(int? page)
+        public ActionResult Index(int? id,int? page)
         {
             var pageNumber = page ?? 1;
             ViewBag.Disabled = sDisabled();
-            return View(Rechercher().ToPagedList(pageNumber, 20));
+            return View(Rechercher(id).ToPagedList(pageNumber, 20));
         }
 
         // GET: Groupes/Create
@@ -193,7 +193,7 @@ namespace sachem.Controllers
             return RedirectToAction("Index");
         }
 
-        private IEnumerable<Groupe> Rechercher()
+        private IEnumerable<Groupe> Rechercher(int? id)
         {
             IQueryable<Groupe> groupes;
             int idPers = (Session["id_Pers"] == null ? -1 : (int)Session["id_Pers"]);
@@ -230,9 +230,16 @@ namespace sachem.Controllers
                 {
                     idSess = db.Session.Max(s => s.id_Sess);
                 }
-                if (verif)
+                if (Request.UrlReferrer != null)
                 {
-                    int.TryParse(Request.Form["Enseignants"], out idEns);
+                    if (Request.UrlReferrer.AbsolutePath.Contains("/Enseignant/Edit/"))
+                    {
+                        idEns = (int)id;
+                    }
+                    else if (Request.UrlReferrer.AbsolutePath.Contains("/Groupes/Index"))
+                    {
+                        int.TryParse(Request.Form["Enseignants"], out idEns);
+                    }
                 }
                 int.TryParse(Request["Cours"], out idCours);
             }
@@ -240,7 +247,6 @@ namespace sachem.Controllers
                         where d.id_Cours == (idCours == 0 ? d.id_Cours : idCours) && d.id_Enseignant == (idEns == 0 ? d.id_Enseignant : idEns) && d.id_Sess == (idSess == 0 ? d.id_Sess : idSess)
                         orderby d.Session.p_Saison.Saison, d.Session.Annee, d.Cours.Code, d.Cours.Nom, d.NoGroupe
                         select d;
-
             //on enregistre la recherche
             Session["DernRechCours"] = idSess + ";" + idEns + ";" + idCours;
             Session["DernRechCoursUrl"] = Request.Url?.LocalPath;
