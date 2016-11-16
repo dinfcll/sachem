@@ -32,6 +32,7 @@
                 </div>
                 <div class="form-group">
                     <div class="col-md-offset-2 col-md-10">
+                        @Html.ActionLink("Mot de passe oublié?", "ForgotPassword")
                         <div class="checkbox">
                             @Html.CheckBoxFor(m => m.SouvenirConnexion)
                             @Html.LabelFor(m => m.SouvenirConnexion)
@@ -41,15 +42,9 @@
                 <div class="form-group">
                     <div class="col-md-offset-2 col-md-10">
                         <input type="submit" value="Connexion" class="btn btn-default"/>
+                        @Html.ActionLink("S'inscrire au SACHEM", "Register", null, null, new { @class = "btn btn-default", @style="background-color:#eee;color:black;" })
                     </div>
                 </div>
-                <p>
-                    @Html.ActionLink("S'inscrire comme nouvel utilisateur", "Register")
-                </p>
-                <br/>
-                <p>
-                    @Html.ActionLink("Mot de passe oublié?", "ForgotPassword")
-                </p>
             }
            
 @section Scripts {
