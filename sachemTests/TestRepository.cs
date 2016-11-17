@@ -146,11 +146,6 @@ namespace sachemTests
             throw new NotImplementedException();
         }
 
-        public Personne FindPersonne(int id)
-        {
-            throw new NotImplementedException();
-        }
-
         public void ModifyCoursSuivi(CoursSuivi coursSuivi)
         {
             throw new NotImplementedException();

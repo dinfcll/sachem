@@ -89,9 +89,6 @@ namespace sachem.Controllers
             }
             CoursSuivi cs = dataRepository.FindCoursSuivi((int)id);
 
-            var vInscription = dataRepository.GetSpecificInscription((int)id);
-
-            ViewBag.id_insc = vInscription.First();
             ViewBag.idPers = id;
             ViewBag.Resultat = "Create";
 
@@ -121,15 +118,11 @@ namespace sachem.Controllers
             ViewBag.idPers = coursSuivi.id_Pers;
 
             Valider(coursSuivi, true);
-            
-            var vInscription = dataRepository.GetSpecificInscription((int)id);
-
-            ViewBag.id_insc = vInscription.First();
 
             if (ModelState.IsValid)
             {
                 dataRepository.AddCoursSuivi(coursSuivi);
-                return RedirectToAction("Details", "DossierEtudiant", new { id = vInscription.First() });
+                return RedirectToAction("Details", "DossierEtudiant", new { id = SessionBag.Current.id_Inscription });
             }
             return View(coursSuivi);
         }
@@ -140,11 +133,6 @@ namespace sachem.Controllers
             if (coursReussi == null || personne == null)
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             CoursSuivi cs = dataRepository.FindCoursSuivi((int)coursReussi);
-
-            var vInscription = dataRepository.GetSpecificInscription(cs.id_Pers);
-
-            ViewBag.id_insc = vInscription.First();
-
 
             if (cs == null)
                 return HttpNotFound();
@@ -194,12 +182,10 @@ namespace sachem.Controllers
 
             Valider(coursSuivi);
 
-            var vInscription = dataRepository.GetSpecificInscription(coursSuivi.id_Pers);
-
             if (ModelState.IsValid)
             {
                 dataRepository.ModifyCoursSuivi(coursSuivi);
-                return RedirectToAction("Details", "DossierEtudiant", new { id = vInscription.First() });
+                return RedirectToAction("Details", "DossierEtudiant", new { id = SessionBag.Current.id_Inscription });
             }
             return View(coursSuivi);
         }
@@ -233,10 +219,8 @@ namespace sachem.Controllers
         {
             CoursSuivi coursSuivi = dataRepository.FindCoursSuivi(id);
 
-            var vInscription = dataRepository.GetSpecificInscription(coursSuivi.id_Pers);
-
             dataRepository.RemoveCoursSuivi(coursSuivi);
-            return RedirectToAction("Details", "DossierEtudiant", new { id = vInscription.First() });
+            return RedirectToAction("Details", "DossierEtudiant", new { id = SessionBag.Current.id_Inscription });
         }
 
         protected override void Dispose(bool disposing)
