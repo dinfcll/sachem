@@ -106,6 +106,43 @@ namespace sachem.Models.DataAccess
             db.SaveChanges();
         }
 
+        public IQueryable<Personne> IndexPersonne()
+        {
+            return db.Personne.Include(p => p.p_Sexe).Include(p => p.p_TypeUsag);
+        }
+
+        public Personne FindPersonne(int id)
+        {
+            return db.Personne.Find(id);
+        }
+
+        public IEnumerable<p_Sexe> AllSexe()
+        {
+            return db.p_Sexe;
+        }
+
+        public IEnumerable<p_TypeUsag> AllTypeUsag()
+        {
+            return db.p_TypeUsag;
+        }
+
+        public void DeclareModifiedPers(Personne pers)
+        {
+            db.Entry(pers).State = EntityState.Modified;
+            db.SaveChanges();
+        }
+
+        public void AddPersonne(Personne pers)
+        {
+            db.Personne.Add(pers);
+            db.SaveChanges();
+        }
+
+        public void RemovePersonne(Personne pers)
+        {
+            db.Personne.Remove(pers);
+            db.SaveChanges();
+        }
         public void RemoveCoursSuivi(CoursSuivi coursSuivi)
         {
             db.CoursSuivi.Remove(coursSuivi);
