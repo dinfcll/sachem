@@ -45,18 +45,16 @@
             if (ViewBag.IsSessToutes)
             {
             <tr>
-                <th>
+                <th class="col-sm-2">
                     @Html.DisplayNameFor(model => model.Session)
                 </th>
-                <th>
+                <th class="col-sm-4">
                     @Html.DisplayNameFor(model => model.NoGroupe)
                 </th>
-                <th>
+                <th class="col-sm-4">
                     Nombre d'étudiants
-
-                    <!--@Html.DisplayNameFor(model => model.GroupeEtudiant.Count)-->
                 </th>
-                <th></th>
+                <th class="col-sm-2"></th>
             </tr>
 
                 foreach (var item in Model)
@@ -80,13 +78,13 @@
             else
             {
                 <tr>
-                    <th>
+                    <th class="col-sm-5">
                         @Html.DisplayNameFor(model => model.NoGroupe)
                     </th>
-                    <th>
+                    <th class="col-sm-5">
                         Nombre d'étudiants
                     </th>
-                    <th></th>
+                    <th class="col-sm-2"></th>
                 </tr>
 
                 foreach (var item in Model)
@@ -111,19 +109,19 @@
             if (ViewBag.IsSessToutes)
             {
             <tr>
-                <th>
+                <th class="col-sm-1">
                     @Html.DisplayNameFor(model => model.Session)
                 </th>
-                <th>
+                <th class="col-sm-2">
                     @Html.DisplayNameFor(model => model.NoGroupe)
                 </th>
-                <th>
+                <th class="col-sm-5">
                     Enseignant
                 </th>
-                <th>
+                <th class="col-sm-2">
                     Nombre d'étudiants
                 </th>
-                <th></th>
+                <th class="col-sm-2"></th>
             </tr>
 
                 foreach (var item in Model)
@@ -150,16 +148,16 @@
             else
             {
                 <tr>
-                    <th>
+                    <th class="col-sm-2">
                         @Html.DisplayNameFor(model => model.NoGroupe)
                     </th>
-                    <th>
+                    <th class="col-sm-6">
                         Enseignant
                     </th>
-                    <th>
+                    <th class="col-sm-2">
                         Nombre d'étudiants
                     </th>
-                    <th></th>
+                    <th class="col-sm-2"></th>
                 </tr>
 
                 foreach (var item in Model)
