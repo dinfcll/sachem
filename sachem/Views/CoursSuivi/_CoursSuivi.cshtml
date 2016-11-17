@@ -1,4 +1,5 @@
 ﻿@model sachem.Models.CoursSuivi
+@using sachem.Models
 
 
 @Html.HiddenFor(model => model.id_Pers)
@@ -74,6 +75,6 @@
 <div class="form-group">
     <div class="col-md-offset-2 col-md-10">
         <input type="submit" value="Enregistrer" class="btn btn-default new { id = ViewBag.idPers }" />
-        @Html.ActionLink("Annuler", "Details", "DossierEtudiant", new { id = ViewBag.id_insc }, new { @class = "btn btn-default" })
+        @Html.ActionLink("Annuler", "Details", "DossierEtudiant", new { id = SessionBag.Current.id_Inscription }, new { @class = "btn btn-default" })
     </div>
 </div>

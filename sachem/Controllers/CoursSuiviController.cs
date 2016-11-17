@@ -55,8 +55,16 @@ namespace sachem.Controllers
         private void Valider([Bind(Include = "id_CoursReussi,id_Sess,id_Pers,id_College,id_Statut,id_Cours,resultat,autre_Cours,autre_College")] CoursSuivi coursSuivi, bool verif = false)
         {
             //Validation seulement lors de l'ajout
-            if (db.CoursSuivi.Any(r => r.id_Cours == coursSuivi.id_Cours && r.id_Pers == coursSuivi.id_Pers && r.id_Sess == coursSuivi.id_Sess && r.id_College == coursSuivi.id_College) && verif)
-                ModelState.AddModelError(string.Empty, Messages.I_036());
+            if (coursSuivi.id_Cours != null)
+            {
+                if (db.CoursSuivi.Any(r => r.id_Cours == coursSuivi.id_Cours && r.id_Pers == coursSuivi.id_Pers && r.id_Sess == coursSuivi.id_Sess) && verif)
+                    ModelState.AddModelError(string.Empty, Messages.I_036());
+            }
+            else
+            {
+                if(db.CoursSuivi.Any(r => r.autre_Cours == coursSuivi.autre_Cours && r.id_Pers == coursSuivi.id_Pers && r.id_Sess == coursSuivi.id_Sess) && verif)
+                    ModelState.AddModelError(string.Empty, Messages.I_036());
+            }
 
             if (coursSuivi.id_Cours == null && coursSuivi.autre_Cours == string.Empty || coursSuivi.id_Cours != null && coursSuivi.autre_Cours != string.Empty)
                 ModelState.AddModelError(string.Empty, Messages.C_009("Cours" , "Autre cours"));
@@ -78,14 +86,9 @@ namespace sachem.Controllers
             }
             CoursSuivi cs = db.CoursSuivi.FirstOrDefault(r => r.id_Pers == id);
 
-            var vInscription = from d in db.Inscription
-                               where d.id_Pers == id
-                               select d.id_Inscription;
-
-            ViewBag.id_insc = vInscription.First();
             ViewBag.idPers = id;
             ViewBag.Resultat = "Create";
-
+        
             ListeCours();
             ListeCollege();
             ListeStatut();
@@ -107,17 +110,12 @@ namespace sachem.Controllers
             ViewBag.idPers = coursSuivi.id_Pers;
 
             Valider(coursSuivi, true);
-            
-            var vInscription = from d in db.Inscription
-                               where d.id_Pers == coursSuivi.id_Pers
-                               select d.id_Inscription;
-            ViewBag.id_insc = vInscription.First();
 
             if (ModelState.IsValid)
             {
                 db.CoursSuivi.Add(coursSuivi);
                 db.SaveChanges();
-                return RedirectToAction("Details", "DossierEtudiant", new { id = vInscription.First() });
+                return RedirectToAction("Details", "DossierEtudiant", new { id = SessionBag.Current.id_Inscription });
             }
             return View(coursSuivi);
         }
@@ -128,12 +126,6 @@ namespace sachem.Controllers
             if (coursReussi == null || personne == null)
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             CoursSuivi cs = db.CoursSuivi.FirstOrDefault(r => r.id_Pers == personne && r.id_CoursReussi == coursReussi);
-
-            var vInscription = from d in db.Inscription
-                               where d.id_Pers == cs.id_Pers
-                               select d.id_Inscription;
-
-            ViewBag.id_insc = vInscription.First();
 
 
             if (cs == null)
@@ -184,15 +176,11 @@ namespace sachem.Controllers
 
             Valider(coursSuivi);
 
-            var vInscription = from d in db.Inscription
-                              where d.id_Pers == coursSuivi.id_Pers
-                              select d.id_Inscription;
-
             if (ModelState.IsValid)
             {
                 db.Entry(coursSuivi).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Details", "DossierEtudiant", new { id = vInscription.First() });
+                return RedirectToAction("Details", "DossierEtudiant", new { id = SessionBag.Current.id_Inscription });
             }
             return View(coursSuivi);
         }
@@ -212,29 +200,24 @@ namespace sachem.Controllers
                 return HttpNotFound();
             }
 
-            var vInscription = from d in db.Inscription
-                               where d.id_Pers == cs.id_Pers
-                               select d.id_Inscription;
-
-            ViewBag.id_insc = vInscription.First();
-
             return View(cs);
         }
 
         // POST: CoursSuivi/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
+        public ActionResult DeleteConfirmed(int? id_CoursReussi)
         {
-            CoursSuivi coursSuivi = db.CoursSuivi.Find(id);
+            if (id_CoursReussi == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
 
-            var vInscription = from d in db.Inscription
-                               where d.id_Pers == coursSuivi.id_Pers
-                               select d.id_Inscription;
+            CoursSuivi coursSuivi = db.CoursSuivi.Find(id_CoursReussi);
 
             db.CoursSuivi.Remove(coursSuivi);
             db.SaveChanges();
-            return RedirectToAction("Details", "DossierEtudiant", new { id = vInscription.First() });
+            return RedirectToAction("Details", "DossierEtudiant", new { id = SessionBag.Current.id_Inscription });
         }
 
         protected override void Dispose(bool disposing)
