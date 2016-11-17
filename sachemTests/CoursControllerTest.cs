@@ -83,5 +83,12 @@ namespace sachemTests
 
             Assert.AreEqual(typeof(HttpNotFoundResult), result.GetType());
         }
+        [TestMethod]
+        public void RechercherCoursNull()
+        {
+            var repo = new TestRepository();
+            var result = repo.FindCours(-1);
+            Assert.AreEqual(null, result);
+        }
     }
 }

@@ -59,16 +59,16 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="SACHEMTestGuillaumeP.cs" />
+    <Compile Include="CoursSuiviControllerTest.cs" />
+    <Compile Include="EtudiantControllerTest.cs" />
+    <Compile Include="AccountControllerTest.cs" />
+    <Compile Include="GroupeControllerTest.cs" />
+    <Compile Include="PersonneControllerTest.cs" />
     <Compile Include="CoursControllerTest.cs" />
-    <Compile Include="Examen2TestLoicTurgeon.cs" />
     <Compile Include="EnseignantControllerTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TestRepository.cs" />
-    <Compile Include="avTestUnit.cs" />
-    <Compile Include="TestsCristianZubieta.cs" />
     <Compile Include="DossierEtuControllerTest.cs" />
-    <Compile Include="TestRepositoryEnseignant.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\sachem\sachem.csproj">

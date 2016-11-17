@@ -8,7 +8,7 @@ using sachem.Models;
 namespace sachemTests
 {
     [TestClass]
-    public class avTestUnit
+    public class CoursSuiviControllerTest
     {
         [TestMethod]
         public void DeleteNonExistingCoursSuivi()
@@ -20,7 +20,6 @@ namespace sachemTests
             Assert.AreEqual(typeof(HttpStatusCodeResult), result.GetType());
             Assert.AreEqual((int)HttpStatusCode.BadRequest, ((HttpStatusCodeResult)result).StatusCode);
         }
-
         [TestMethod]
         public void AddCoursSuiviToNonExistingPersonne()
         {
