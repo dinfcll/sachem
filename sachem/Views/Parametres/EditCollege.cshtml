@@ -18,11 +18,15 @@
 <script type="text/javascript">
     function ModifModal(id) {
         var modal = document.getElementById('modalModification');
+        var nom = document.getElementById('nomActuelCollege_'+id).innerText
+        document.getElementById('txtNomCollegeModif').value = nom;
         var boutonModif = document.getElementById('btnModifier');
         modal.style.display = 'block';
         boutonModif.onclick = function() {
             var nomCollege = document.getElementById("txtNomCollegeModif").value;
-            Modifier(id, nomCollege);
+            if(nomCollege!=""){
+                Modifier(id, nomCollege);
+            }
         }
     }
 
@@ -41,7 +45,9 @@
         modal.style.display = 'block';
         boutonAjout.onclick = function () {
             var nomCollege = document.getElementById("txtNomCollegeAjout").value;
-            Ajout(nomCollege)
+            if(nomCollege!=""){
+                Ajout(nomCollege)
+            }            
         }
     }
 
@@ -90,20 +96,20 @@
         </tr>
     }
 </table>
-<a onclick="AjoutModal();" href="#" data-toggle="modal" data-target="#modalAjout">Ajouter un collège d'enseignement</a><br /><br />
+<a onclick="AjoutModal();" href="#" data-toggle="modal" data-target="#modalAjout" class="btn btn-default" style="margin-top:5px;margin-bottom:15px;">Ajouter un collège d'enseignement</a>
 
     <table class="table">
         <tr>
-            <th>
+            <th class="col-sm-10">
                 @Html.DisplayNameFor(model => model.First().id_College)
             </th>
-        <th></th>
+        <th class="col-sm-2"></th>
         </tr>
         @foreach (var item in Model)
         {
             <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.College)
+                <td id = "nomActuelCollege_@item.id_College">
+                    @Html.DisplayFor(modelItem => item.College )
                 </td>
                 <td>
                     <a onclick="ModifModal(@item.id_College);" href="#" data-toggle="modal" data-target="#modalModification">Modifier</a>

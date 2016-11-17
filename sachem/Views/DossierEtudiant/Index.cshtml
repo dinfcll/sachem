@@ -16,16 +16,16 @@
 
         <table class="table">
     <tr>
-        <th>
+        <th class="col-sm-6">
             @Html.DisplayNameFor(model => model.First().Personne.NomPrenom)
         </th>
-        <th>
+        <th class="col-sm-1">
             @Html.DisplayNameFor(model => model.First().Personne.Matricule7)
         </th>
-        <th>
+        <th class="col-sm-3">
             @Html.DisplayNameFor(model => model.First().p_TypeInscription.TypeInscription)
         </th>
-        <th></th>
+        <th class="col-sm-2"></th>
     </tr>
 
     @foreach (var item in Model)

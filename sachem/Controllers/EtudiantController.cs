@@ -123,6 +123,7 @@ namespace sachem.Controllers
             epep.epe = Prog.ToList();
             return View(epep);
         }
+
         [HttpPost]
         [AcceptVerbs("Get", "Post")]
         public virtual JsonResult ActualisePEtu(int idProg, int idPers, int Valider = 0)
