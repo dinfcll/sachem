@@ -10,6 +10,17 @@ namespace sachemTests
     [TestClass]
     public class SACHEMTestGuillaumeP
     {
+        private Personne pers = new Personne
+        {
+            Actif = true,
+            Nom = "Heure",
+            Prenom = "Taist",
+            NomUsager = "heuret",
+            MP = "test123",
+            Courriel = "test@123.Huston",
+            Telephone = "9999999999",
+            DateNais = new System.DateTime(1111, 11, 11)
+        };
         [TestMethod]
         public void RetourFormatTelephonneEnDixChiffres()
         {
@@ -31,6 +42,14 @@ namespace sachemTests
             string stringSecreteAHasherEnMD5 = "SomeVeryImportantStringToHide";
             var retour = SachemIdentite.encrypterChaine(stringSecreteAHasherEnMD5);
             Assert.AreEqual("d1112b3d4ed431b10e30c838121d3a22", retour);
+        }
+        [TestMethod]
+        public void testEncryptionMPPersonne()
+        {
+            string test123Encryptee = "cc03e747a6afbbcbf8be7668acfebee5";
+
+            SachemIdentite.encrypterMPPersonne(ref pers);
+            Assert.AreEqual(test123Encryptee, pers.MP);
         }
     }
 }
