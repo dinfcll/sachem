@@ -10,9 +10,19 @@ namespace sachem.Models.DataAccess
     {
         IEnumerable GetSessions();
 
+        IEnumerable GetCours();
+
+        IEnumerable GetCollege();
+
+        IEnumerable GetStatut();
+
+        System.Linq.IQueryable<int> GetSpecificInscription(int id);
+
         bool AnyCoursWhere(Expression<Func<Cours, bool>> condition);
 
         bool AnyGroupeWhere(Expression<Func<Groupe, bool>> condition);
+
+        bool AnyCoursSuiviWhere(Expression<Func<CoursSuivi, bool>> condition);
 
         int SessionEnCours();
 
@@ -20,13 +30,21 @@ namespace sachem.Models.DataAccess
 
         void AddCours(Cours cours);
 
+        void AddCoursSuivi(CoursSuivi coursSuivi);
+
         void AddInscription(Inscription inscription);
 
         Cours FindCours(int id);
 
+        CoursSuivi FindCoursSuivi(int id);
+
+        Personne FindPersonne(int id);
+
         Inscription FindInscription(int id);
 
         void DeclareModified(Cours cours);
+
+        void ModifyCoursSuivi(CoursSuivi coursSuivi);
 
         void RemoveCours(Cours cours);
 
@@ -43,6 +61,11 @@ namespace sachem.Models.DataAccess
         void AddPersonne(Personne pers);
 
         void RemovePersonne(Personne pers);
+        void RemoveCoursSuivi(CoursSuivi coursSuivi);
+
         void Dispose();
+
+        
+
     }
 }
