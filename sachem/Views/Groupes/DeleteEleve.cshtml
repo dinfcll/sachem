@@ -10,30 +10,26 @@
 <div>
     <h4>Groupe</h4>
     <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Personne.NomPrenom)
-        </dt>
-
-        <dd>
+    
+    <div class="form-group">
+        @Html.LabelFor(model => model.Personne.Nom, null, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div>
             @Html.DisplayFor(model => model.Personne.NomPrenom)
-        </dd>
+        </div>
+    </div>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Groupe.NoGroupe)
-        </dt>
-
-        <dd>
+    <div class="form-group">
+        @Html.LabelFor(model => model.Groupe.NoGroupe, null, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div>
             @Html.DisplayFor(model => model.Groupe.NoGroupe)
-        </dd>
-
-    </dl>
+        </div>
+    </div>
 
     @using (Html.BeginForm("DeleteEleve", "Groupes"))
     {
         @Html.AntiForgeryToken()
 
-        <div class="form-actions no-color">
+        <div class="form-group col-md-offset-2">
             <input type="submit" value="Supprimer" class="btn btn-default" /> |
             @Html.ActionLink("Retour à la liste", "Edit",new { id = Model.Groupe.id_Groupe})
         </div>
