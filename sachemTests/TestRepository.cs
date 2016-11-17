@@ -25,7 +25,8 @@ namespace sachemTests
 
         public bool AnyCoursWhere(Expression<Func<Cours, bool>> condition)
         {
-            throw new NotImplementedException();
+            IQueryable<Cours> NouvelleListe = listeCours.AsQueryable<Cours>();
+            return NouvelleListe.Any<Cours>(condition);
         }
 
         public bool AnyGroupeWhere(Expression<Func<Groupe, bool>> condition)
