@@ -386,7 +386,8 @@ namespace sachem.Controllers
                     SachemIdentite.encrypterMPPersonne(ref utilisateur);//l'Encrypte
                     db.Entry(utilisateur).State = EntityState.Modified;
                     db.SaveChanges();//L'enregistre
-                    ViewBag.Success = Messages.I_019();
+                    TempData["Success"] = Messages.I_019();
+                    return RedirectToAction("Login", "Account");
                 }
                 else
                 {

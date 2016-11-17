@@ -9,6 +9,7 @@
 
 <p class="text-success">
     @Html.ViewBag.Success
+    @Html.Raw(@TempData["Success"])
 </p>
 
             @using (Html.BeginForm("Login", "Account", FormMethod.Post, new {@class = "form-horizontal", role = "form"}))

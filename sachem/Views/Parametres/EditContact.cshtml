@@ -23,7 +23,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.Nom, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Nom, new { htmlAttributes = new { @class = "form-control" , maxlength = 30} })
+                @Html.EditorFor(model => model.Nom, new { htmlAttributes = new { @class = "form-control" , @maxlength = 30, @required=true} })
                 @Html.ValidationMessageFor(model => model.Nom, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -31,7 +31,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.Prenom, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Prenom, new { htmlAttributes = new { @class = "form-control", maxlength = 30 } })
+                @Html.EditorFor(model => model.Prenom, new { htmlAttributes = new { @class = "form-control", @maxlength = 30, @required = true } })
                 @Html.ValidationMessageFor(model => model.Prenom, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -39,7 +39,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.Courriel, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Courriel, new { htmlAttributes = new { @class = "form-control", maxlength = 256 } })
+                @Html.EditorFor(model => model.Courriel, new { htmlAttributes = new { @class = "form-control", @maxlength = 256, @required = true } })
                 @Html.ValidationMessageFor(model => model.Courriel, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -47,7 +47,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.Telephone, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Telephone, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.Telephone, new { htmlAttributes = new { @class = "form-control", @maxlength= 10, @required = true } })
                 @Html.ValidationMessageFor(model => model.Telephone, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -63,7 +63,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.Facebook, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Facebook, new { htmlAttributes = new { @class = "form-control", maxlength = 100 } })
+                @Html.EditorFor(model => model.Facebook, new { htmlAttributes = new { @class = "form-control", @maxlength = 100 } })
                 @Html.ValidationMessageFor(model => model.Facebook, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -71,7 +71,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.SiteWeb, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.SiteWeb, new { htmlAttributes = new { @class = "form-control", maxlength = 100 } })
+                @Html.EditorFor(model => model.SiteWeb, new { htmlAttributes = new { @class = "form-control", @maxlength = 100 } })
                 @Html.ValidationMessageFor(model => model.SiteWeb, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -79,7 +79,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.Local, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Local, new { htmlAttributes = new { @class = "form-control", maxlength = 5 } })
+                @Html.EditorFor(model => model.Local, new { htmlAttributes = new { @class = "form-control", @maxlength = 5, @required = true } })
                 @Html.ValidationMessageFor(model => model.Local, "", new { @class = "text-danger" })
             </div>
         </div>
