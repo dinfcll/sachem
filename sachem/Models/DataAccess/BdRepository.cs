@@ -153,5 +153,16 @@ namespace sachem.Models.DataAccess
         {
             db.Dispose();
         }
+
+        public void AddInscription(Inscription inscription)
+        {
+            db.Inscription.Add(inscription);
+            db.SaveChanges();
+        }
+
+        public Inscription FindInscription(int id)
+        {
+            return db.Inscription.Find(id);
+        }
     }
 }

@@ -32,11 +32,15 @@ namespace sachem.Models.DataAccess
 
         void AddCoursSuivi(CoursSuivi coursSuivi);
 
+        void AddInscription(Inscription inscription);
+
         Cours FindCours(int id);
 
         CoursSuivi FindCoursSuivi(int id);
 
         Personne FindPersonne(int id);
+
+        Inscription FindInscription(int id);
 
         void DeclareModified(Cours cours);
 
