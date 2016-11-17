@@ -83,7 +83,10 @@
             }
             else
             {
-                @(String.Format("{0:(###) ###-####}", Convert.ToInt64(Model.Item1.Personne.Telephone)))
+                if (!Model.Item1.Personne.Telephone.IsEmpty())
+                {
+                    @(String.Format("{0:(###) ###-####}", Convert.ToInt64(Model.Item1.Personne.Telephone)))
+                }
             }
         </dd>
     </dl>
