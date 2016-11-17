@@ -45,5 +45,43 @@ namespace sachemTests
             Assert.AreEqual(typeof(Cours), result.Model.GetType());
             Assert.AreEqual(NO_COURS, ((Cours)result.Model).id_Cours);
         }
+
+        [TestMethod]
+        public void SupprimerUnObjetNull()
+        {
+            var coursController = new CoursController();
+
+            var result = coursController.Delete(null);
+
+            Assert.AreEqual(typeof(HttpStatusCodeResult), result.GetType());
+            Assert.AreEqual((int)HttpStatusCode.BadRequest, ((HttpStatusCodeResult)result).StatusCode);
+        }
+
+        [TestMethod]
+        public void VerifierSiAjouterUnCoursPourEnsuiteLeSupprimerRedirigeALaBonneVue()
+        {
+            const int ID_COURS = 69;
+            var testRepository = new TestRepository();
+
+            testRepository.AddCours(new Cours { Actif = true, Code = "Test", Groupe = new List<Groupe>(), id_Cours = ID_COURS, Nom = "Patate Cosmique" });
+            var coursController = new CoursController(testRepository);
+
+            coursController.Create(testRepository.FindCours(ID_COURS), 0);
+            var resultSuppression = coursController.Delete(ID_COURS) as ViewResult;
+
+
+            Assert.AreEqual("Delete", resultSuppression.ViewName);
+        }
+
+
+        [TestMethod]
+        public void DeleteNonExistingCoursReturnsNotFound()
+        {
+            var coursController = new CoursController(new TestRepository());
+
+            var result = coursController.Delete(100000);
+
+            Assert.AreEqual(typeof(HttpNotFoundResult), result.GetType());
+        }
     }
 }
