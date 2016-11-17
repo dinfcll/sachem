@@ -3,6 +3,10 @@
 @{
     ViewBag.Title = "Dossier de l'étudiant";
 }
+<style>#btn-input-field { height: 34px; width:34px; } #input-field { float: left;width: 245px; } #btn-input-field-icon{margin-left:-6px;font-size:150%;}</style>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet">
+
 <h2>@ViewBag.Title</h2>
 
 @using (Html.BeginForm("Details", "DossierEtudiant", FormMethod.Post, new { @class = "form-inline", role = "form" }))
@@ -46,7 +50,11 @@
             @if (sachem.Models.SachemIdentite.ObtenirTypeUsager(Session) == sachem.Models.TypeUsagers.Tuteur
                 || sachem.Models.SachemIdentite.ObtenirTypeUsager(Session) == sachem.Models.TypeUsagers.Eleve)
             {
-                @Html.EditorFor(model => model.Item1.Personne.Courriel, new { htmlAttributes = new { @class = "form-control", @maxlength = "256" } })
+                @Html.EditorFor(model => model.Item1.Personne.Courriel, new { htmlAttributes = new {
+               @class = "form-control", @required="required", @id="input-field", @maxlength = "256" } })
+                <button type="submit" id="btn-input-field" class="btn btn-default">
+                    <i class="material-icons" id="btn-input-field-icon">build</i>
+                </button>
                 @Html.ValidationMessageFor(model => model.Item1.Personne.Courriel, "", new { @class = "text-danger" })
             }
             else
@@ -60,10 +68,17 @@
         </dt>
 
         <dd>
-            @if (sachem.Models.SachemIdentite.ObtenirTypeUsager(Session) == sachem.Models.TypeUsagers.Tuteur 
-                || sachem.Models.SachemIdentite.ObtenirTypeUsager(Session) == sachem.Models.TypeUsagers.Eleve)
+            @if (sachem.Models.SachemIdentite.ObtenirTypeUsager(Session) == sachem.Models.TypeUsagers.Tuteur
+                    || sachem.Models.SachemIdentite.ObtenirTypeUsager(Session) == sachem.Models.TypeUsagers.Eleve)
             {
-                @Html.EditorFor(model => model.Item1.Personne.Telephone, new { htmlAttributes = new { @class = "form-control", @placeholder = "(999) 999-9999", @maxlength = "14", @type = "tel", @Value = String.Format("{0:(###) ###-####}", Convert.ToInt64(Model.Item1.Personne.Telephone)) } })
+                    @Html.EditorFor(model => model.Item1.Personne.Telephone, new { htmlAttributes = new {
+                   @class = "form-control", @id="input-field", @required="required",
+                   @placeholder = "(999) 999-9999", @minlength="10", @maxlength = "14",
+                   @type = "tel", @Value = String.Format("{0:(###) ###-####}", Convert.ToInt64(Model.Item1.Personne.Telephone))}
+                    })
+                    <button type="submit" id="btn-input-field" class="btn btn-default">
+                        <i class="material-icons" id="btn-input-field-icon">build</i>
+                    </button>
                 @Html.ValidationMessageFor(model => model.Item1.Personne.Telephone, "", new { @class = "text-danger" })
             }
             else
@@ -72,10 +87,7 @@
             }
         </dd>
     </dl>
-        @if (sachem.Models.SachemIdentite.TypeListeProf.Contains(sachem.Models.SachemIdentite.ObtenirTypeUsager(Session)))
-        {
-            <hr />
-        }
+
 @if (sachem.Models.SachemIdentite.ObtenirTypeUsager(Session) == sachem.Models.TypeUsagers.Eleve || ViewBag.idTypeInsc == 1)
 {
     <dl class="dl-horizontal">
@@ -85,7 +97,6 @@
 @if (sachem.Models.SachemIdentite.TypeListeProf.Contains(sachem.Models.SachemIdentite.ObtenirTypeUsager(Session)))
 {
         <dd>
-
             @Html.CheckBoxFor(model => model.Item1.BonEchange.Value)
             Acheté
         </dd>
@@ -107,8 +118,8 @@ else
 }
     </dl>
 }
-    <input type="submit" value="Modifier" class="btn btn-default"/>       
-
+        
+    <div style="margin-top:10px;">@Html.ActionLink("Retourner à la recherche", "Index", null, null)</div>
 
     @Html.Partial("_CoursAnterieur", Model.Item2)
 

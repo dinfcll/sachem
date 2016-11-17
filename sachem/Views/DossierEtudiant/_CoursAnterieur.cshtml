@@ -14,30 +14,28 @@
             </th>
 @if (sachem.Models.SachemIdentite.ObtenirTypeUsager(Session) == sachem.Models.TypeUsagers.Eleve || ViewBag.idTypeInsc == 1)
 {
-            <th>
+            <th class="col-sm-1">
                 @Html.DisplayNameFor(model => model.First().Session.NomSession)
             </th>
 }
 @if ((sachem.Models.SachemIdentite.ObtenirTypeUsager(Session) == sachem.Models.TypeUsagers.Tuteur && ViewBag.idTypeInsc != 1) || ViewBag.idTypeInsc != 1)
 {
-            <th>
+            <th class="col-sm-3">
                 @Html.DisplayNameFor(model => model.First().p_College.College)
             </th>
 }
-            <th>
+            <th class="col-sm-2">
                 @Html.DisplayNameFor(model => model.First().resultat)
             </th>
 @if (sachem.Models.SachemIdentite.ObtenirTypeUsager(Session) == sachem.Models.TypeUsagers.Eleve || ViewBag.idTypeInsc == 1)
 {
-            <th>
+            <th class="col-sm-1">
                 @Html.DisplayNameFor(model => model.First().p_StatutCours.Statut)
             </th>
 }
 @if (sachem.Models.SachemIdentite.ObtenirTypeUsager(Session) == sachem.Models.TypeUsagers.Eleve || sachem.Models.SachemIdentite.ObtenirTypeUsager(Session) == sachem.Models.TypeUsagers.Tuteur)
 {
-            <th>
-            </th>
-            <th>
+            <th class="col-sm-2">
             </th>
 }
         </tr>
@@ -86,9 +84,7 @@
 @if (sachem.Models.SachemIdentite.ObtenirTypeUsager(Session) == sachem.Models.TypeUsagers.Eleve || sachem.Models.SachemIdentite.ObtenirTypeUsager(Session) == sachem.Models.TypeUsagers.Tuteur)
 {
                 <td>
-                    @Html.ActionLink("Modifier", "Edit", "CoursSuivi", new { coursReussi = item.id_CoursReussi, personne = item.id_Pers }, null)
-                </td>
-                <td>
+                    @Html.ActionLink("Modifier", "Edit", "CoursSuivi", new { coursReussi = item.id_CoursReussi, personne = item.id_Pers }, null) | 
                     @Html.ActionLink("Supprimer", "Delete", "CoursSuivi", new { coursReussi = item.id_CoursReussi, personne = item.id_Pers }, null)
                 </td>
 }
