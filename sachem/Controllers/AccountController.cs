@@ -243,7 +243,7 @@ namespace sachem.Controllers
                     }
                     else
                     {
-                        return RedirectToAction("Index", "Inscription");
+                        return RedirectToAction("Index", "Login");
                     }
                 }
             }
@@ -338,7 +338,7 @@ namespace sachem.Controllers
                     AjoutInfoConnection(EtudiantBD);
                     SessionBag.Current.id_TypeUsag = TypeUsagers.Etudiant;
                     TempData["Success"] = Messages.I_026();
-                    return RedirectToAction("Index", "Inscription");
+                    return RedirectToAction("Login", "Account");
                 }
             }
             // Si nous sommes arrivés là, un échec s’est produit. Réafficher le formulaire
