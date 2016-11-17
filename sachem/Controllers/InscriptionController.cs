@@ -54,7 +54,7 @@ namespace sachem.Controllers
             }
             else
             {
-                return this.Json(new { success = false, message = "Veuilmez remplir le formulaire de disponibilités." });
+                return this.Json(new { success = false, message = "Veuillez remplir le formulaire de disponibilités." });
             }
         }
 
