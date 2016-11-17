@@ -243,7 +243,7 @@ namespace sachem.Controllers
                     }
                     else
                     {
-                        return RedirectToAction("Index", "Login");
+                        return RedirectToAction("Index", "Inscription");
                     }
                 }
             }
