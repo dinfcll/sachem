@@ -81,10 +81,10 @@ namespace sachemTests
                 id_Pers = id_PersonneCree,id_TypeUsag = 1,Matricule = "201639488"});
             var personneController = new PersonnesController(testrepository);
 
-            var result = personneController.Delete(id_PersonneCree) as ViewResult; 
+            var resultat = personneController.Delete(id_PersonneCree) as ViewResult; 
 
-            Assert.AreEqual(typeof(Personne), result.Model.GetType());
-            Assert.AreEqual(id_PersonneCree, ((Personne)result.Model).id_Pers);
+            Assert.AreEqual(typeof(Personne), resultat.Model.GetType());
+            Assert.AreEqual(id_PersonneCree, ((Personne)resultat.Model).id_Pers);
 
         }
     }
