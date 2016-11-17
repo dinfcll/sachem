@@ -3,11 +3,13 @@
 @{
     ViewBag.Title = "Connexion au SACHEM";
 }
+<style>#btn-forgottenpswd { font-size:120%;font-weight: bolder;height:34px; } #input-pswd { float:left;width:245px; }</style>
 
 <h2>@ViewBag.Title.</h2>
 
 <p class="text-success">
     @Html.ViewBag.Success
+    @Html.Raw(@TempData["Success"])
 </p>
 
             @using (Html.BeginForm("Login", "Account", FormMethod.Post, new {@class = "form-horizontal", role = "form"}))
@@ -26,7 +28,8 @@
                 <div class="form-group">
                     @Html.LabelFor(model => model.MP, htmlAttributes: new {@class = "control-label col-md-2"})
                     <div class="col-md-10">
-                        @Html.EditorFor(model => model.MP, new {htmlAttributes = new {@class = "form-control", @type = "password"}})
+                        <div>@Html.EditorFor(model => model.MP, new {htmlAttributes = new {@class = "form-control", @type = "password", @id="input-pswd"}})
+                        @Html.ActionLink("?", "ForgotPassword", null, new { @class = "btn btn-default", @id= "btn-forgottenpswd" })</div>
                         @Html.ValidationMessageFor(model => model.MP, "", new {@class = "text-danger"})
                     </div>
                 </div>
@@ -40,16 +43,10 @@
                 </div>
                 <div class="form-group">
                     <div class="col-md-offset-2 col-md-10">
-                        <input type="submit" value="Connexion" class="btn btn-default"/>
+                        <input type="submit" value="Connexion" class="btn btn-default" style="width:100%;"/>
+                        <div style="margin-top:15px;margin-left:5px;">Vous n'avez pas de compte? @Html.ActionLink("Inscrivez-vous", "Register")</div>
                     </div>
                 </div>
-                <p>
-                    @Html.ActionLink("S'inscrire comme nouvel utilisateur", "Register")
-                </p>
-                <br/>
-                <p>
-                    @Html.ActionLink("Mot de passe oublié?", "ForgotPassword")
-                </p>
             }
            
 @section Scripts {
