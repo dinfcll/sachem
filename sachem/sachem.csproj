@@ -248,7 +248,9 @@
     <Compile Include="Models\Cours.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\DataAccess\BdRepositoryEnseignant.cs" />
     <Compile Include="Models\DataAccess\BdRepository.cs" />
+    <Compile Include="Models\DataAccess\IDataRepositoryEnseignant.cs" />
     <Compile Include="Models\DataAccess\IDataRepository.cs" />
     <Compile Include="Models\PersEtuProg.cs" />
     <Compile Include="Models\p_CollegeMetadata.cs" />
@@ -492,6 +494,7 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+    <Service Include="{C0C07587-41A7-46C8-8FBD-3F9C8EBE2DDC}" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
