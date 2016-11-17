@@ -111,11 +111,6 @@ namespace sachem.Models.DataAccess
             return db.Personne.Include(p => p.p_Sexe).Include(p => p.p_TypeUsag);
         }
 
-        public Personne FindPersonne(int id)
-        {
-            return db.Personne.Find(id);
-        }
-
         public IEnumerable<p_Sexe> AllSexe()
         {
             return db.p_Sexe;

@@ -46,8 +46,6 @@ namespace sachem.Models.DataAccess
 
         IQueryable<Personne> IndexPersonne();
 
-        Personne FindPersonne(int id);
-
         IEnumerable<p_Sexe> AllSexe();
 
         IEnumerable<p_TypeUsag> AllTypeUsag();
