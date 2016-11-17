@@ -360,6 +360,7 @@
     <Content Include="Images\logo-cegepBLANC.jpg" />
     <Content Include="Images\MontageMenu.jpg" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="maConnexionString.config" />
     <Content Include="Models\Model1.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>Model1.edmx</DependentUpon>
@@ -384,7 +385,6 @@
     <Content Include="Models\Model1.edmx.diagram">
       <DependentUpon>Model1.edmx</DependentUpon>
     </Content>
-    <Content Include="maConnexionString.config" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
