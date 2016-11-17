@@ -14,7 +14,7 @@ namespace sachemTests
         public void RetourFormatTelephonneEnDixChiffres()
         {
             string NoTelephone = "(418)831-2390";
-            var retour =  SACHEMIdentite.FormatTelephone(NoTelephone);
+            var retour = SachemIdentite.FormatTelephone(NoTelephone);
             Assert.AreEqual("4188312390", retour);
         }
         [TestMethod]
