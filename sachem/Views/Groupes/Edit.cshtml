@@ -26,19 +26,19 @@
 </p>
 <table class="table">
     <tr>
-        <th>
+        <th class="col-sm-7">
             @Html.DisplayNameFor(model => model.Personne.Nom)
         </th>
-        <th>
+        <th class="col-sm-1">
             @Html.DisplayNameFor(model => model.Personne.Matricule)
         </th>
-        <th>
+        <th class="col-sm-1">
             @Html.DisplayNameFor(model => model.Personne.Age)
         </th>
-        <th>
+        <th class="col-sm-1">
             @Html.DisplayNameFor(model => model.Personne.p_Sexe.Sexe)
         </th>
-        <th></th>
+        <th class="col-sm-2"></th>
     </tr>
 
     @foreach (var item in Model.GroupeEtudiant.OrderBy(x => x.Personne.NomPrenom).ThenBy(x => x.Personne.Matricule7))

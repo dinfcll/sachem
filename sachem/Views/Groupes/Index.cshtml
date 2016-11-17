@@ -63,22 +63,22 @@
     
 <table class="table">
     <tr>
-        <th>
+        <th class="col-sm-1">
             @Html.DisplayNameFor(model => model.FirstOrDefault().Session.NomSession)
         </th>
-        <th>
+        <th class="col-sm-5">
             @Html.DisplayNameFor(model => model.FirstOrDefault().Cours.CodeNom)
         </th>
-        <th>
+        <th class="col-sm-1">
             @Html.DisplayNameFor(model => model.FirstOrDefault().NoGroupe)
         </th>
-        <th>
+        <th class="col-sm-2">
             @Html.DisplayNameFor(model => model.FirstOrDefault().Personne.NomPrenom)
         </th>
-        <th>
+        <th class="col-sm-1">
             @Html.DisplayNameFor(model => model.FirstOrDefault().nbPersonneGroupe)
         </th>
-        <th></th>
+        <th class="col-sm-2"></th>
     </tr>
 
 @foreach (var item in Model) {
