@@ -25,5 +25,12 @@ namespace sachemTests
             Assert.AreEqual(typeof(HttpStatusCodeResult), resultat.GetType());
             Assert.AreEqual((int)HttpStatusCode.BadRequest, ((HttpStatusCodeResult)resultat).StatusCode);
         }
+        [TestMethod]
+         public void EncryptionChaineShouldReturnMD5Hash()
+        {
+            string stringSecreteAHasherEnMD5 = "SomeVeryImportantStringToHide";
+            var retour = SachemIdentite.encrypterChaine(stringSecreteAHasherEnMD5);
+            Assert.AreEqual("d1112b3d4ed431b10e30c838121d3a22", retour);
+        }
     }
 }
