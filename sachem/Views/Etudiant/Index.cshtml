@@ -51,21 +51,21 @@
         @foreach (var item in Model)
         {
             <tr>
-                <td>
+                <td class="col-sm-3">
                     @Html.DisplayFor(modelItem => item.personne.NomPrenom)
                 </td>
-                <td>
+                <td class="col-sm-1">
                     @Html.DisplayFor(modelItem => item.personne.Matricule7)
                 </td>
 
-                <td>
+                <td class="col-sm-1">
                     @Html.DisplayFor(modelItem => item.personne.p_Sexe.Sexe)
                 </td>
-                <td>
+                <td class="col-sm-1">
                     @Html.DisplayFor(modelItem => item.personne.DateNais)
                 
                 </td>
-                <td>
+                <td class="col-sm-4">
                     @Html.DisplayFor(modelItem => item.progEtuActif.NomProg)
                     @*@Html.DisplayFor(modelItem =>item.DateNais)*@
                     @*@foreach (Personne personne in @Model)
@@ -73,7 +73,7 @@
                        @Html.DisplayFor(modelItem => item.Matricule7)
                     }*@
                 </td>
-                <td>
+                <td class="col-sm-2">
                     @Html.ActionLink("Modifier", "Edit", new { id = item.personne.id_Pers }) |
                     @Html.ActionLink("Supprimer", "Delete", new { id = item.personne.id_Pers })
                 </td>
