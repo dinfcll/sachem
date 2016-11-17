@@ -96,10 +96,15 @@ namespace sachem.Controllers
             var lstCrs = from c in db.Cours orderby c.Nom select c;
             var slCrs = new List<SelectListItem>();
             slCrs.AddRange(new SelectList(lstCrs, "id_Cours","CodeNom"));
-            ViewBag.lstCours1 = slCrs;
-            ViewBag.lstCours2 = slCrs;
-            ViewBag.lstCours3 = slCrs;
-            ViewBag.lstCours4 = slCrs;
+            var sltemp = new List<SelectListItem>(slCrs);
+            ViewBag.lstCours1 = sltemp;
+            ViewBag.lstCours4 = sltemp;
+            slCrs.RemoveAt(0);
+            sltemp = new List<SelectListItem>(slCrs);
+            ViewBag.lstCours2 = sltemp;
+            slCrs.RemoveAt(0);
+            sltemp = new List<SelectListItem>(slCrs);
+            ViewBag.lstCours3 = sltemp;
         }
         [HttpPost]
         public void listeCollege()
