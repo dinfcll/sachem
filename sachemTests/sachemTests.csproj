@@ -58,6 +58,7 @@
     <Compile Include="Examen2TestLoicTurgeon.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TestRepository.cs" />
+    <Compile Include="avTestUnit.cs" />
     <Compile Include="TestsCristianZubieta.cs" />
   </ItemGroup>
   <ItemGroup>
