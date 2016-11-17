@@ -72,5 +72,16 @@ namespace sachemTests
 
             Assert.AreEqual("Delete", resultSuppression.ViewName);
         }
+
+
+        [TestMethod]
+        public void DeleteNonExistingCoursReturnsNotFound()
+        {
+            var coursController = new CoursController(new TestRepository());
+
+            var result = coursController.Delete(100000);
+
+            Assert.AreEqual(typeof(HttpNotFoundResult), result.GetType());
+        }
     }
 }
