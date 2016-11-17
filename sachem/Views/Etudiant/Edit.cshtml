@@ -117,12 +117,13 @@
                 @Html.DropDownList("id_Session", null, "Choisir", htmlAttributes: new { @class = "form-control" })
             </div>
         </div>
-        <div class="col-md-offset-2 col-md-10">
-            <input type="submit" value="Enregistrer" class="btn btn-default" />
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10 ">
+                <input type="submit" value="Enregistrer" class="btn btn-default" />
+                @Html.ActionLink("Annuler", "Index", null, null, new { @class = "btn btn-default" })
+            </div>
         </div>
     </div>
 }
-<div>
-    @Html.ActionLink("Retour à la recherche des étudiants", "Index")
-</div>
+
 <span id="IDPE" hidden style="visibility: hidden;font-size:0px;">0</span>

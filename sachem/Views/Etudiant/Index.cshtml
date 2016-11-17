@@ -21,11 +21,7 @@
 {
     @Html.Partial("_RechercheEtudiant")
 }
-<br/>
-
-    <p>
-        @Html.ActionLink("Ajouter un étudiant", "Create")
-    </p>
+<div style="margin-top:5px;margin-bottom:10px;">@Html.ActionLink("Ajouter un étudiant", "Create", null, null, new { @class = "btn btn-default" })</div>
     <table class="table">
         <tr>
             <th class="col-sm-3">
@@ -45,7 +41,6 @@
             </th>
             <th class="col-sm-2"></th>
         </tr>
-        <BR>
 
         @foreach (var item in Model)
         {

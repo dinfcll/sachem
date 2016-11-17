@@ -46,8 +46,8 @@
     @using (Html.BeginForm("Delete", "ProgrammesOfferts", FormMethod.Post, new { @class = "form-inline", role = "form" }))
     {
         <div class="form-actions no-color">
-            <input type="submit" value="Supprimer" class="btn btn-default" /> |
-            @Html.ActionLink("Retourner à la recherche des programmes d'étude", "Index")
+            <input type="submit" value="Supprimer" class="btn btn-default" />
+            @Html.ActionLink("Annuler", "Index", null, null, new { @class = "btn btn-default" })
         </div>
     }
 </div>
