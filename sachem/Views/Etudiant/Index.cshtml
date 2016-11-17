@@ -28,44 +28,43 @@
     </p>
     <table class="table">
         <tr>
-            <th>
+            <th class="col-sm-3">
                 @Html.DisplayName("Nom")
             </th>
-            <th>
+            <th class="col-sm-1">
                 @Html.DisplayName("Matricule")
             </th>
-            <th>
+            <th class="col-sm-1">
                 @Html.DisplayName("Sexe")
             </th>
-            <th>
+            <th class="col-sm-1">
                 @Html.DisplayName("Date de naissance")
             </th>
-            <th>
+            <th class="col-sm-4">
                 @Html.DisplayName("Programme d'études")
             </th>
-
-            <th></th>
+            <th class="col-sm-2"></th>
         </tr>
         <BR>
 
         @foreach (var item in Model)
         {
             <tr>
-                <td class="col-sm-3">
+                <td>
                     @Html.DisplayFor(modelItem => item.personne.NomPrenom)
                 </td>
-                <td class="col-sm-1">
+                <td>
                     @Html.DisplayFor(modelItem => item.personne.Matricule7)
                 </td>
 
-                <td class="col-sm-1">
+                <td>
                     @Html.DisplayFor(modelItem => item.personne.p_Sexe.Sexe)
                 </td>
-                <td class="col-sm-1">
+                <td>
                     @Html.DisplayFor(modelItem => item.personne.DateNais)
                 
                 </td>
-                <td class="col-sm-4">
+                <td>
                     @Html.DisplayFor(modelItem => item.progEtuActif.NomProg)
                     @*@Html.DisplayFor(modelItem =>item.DateNais)*@
                     @*@foreach (Personne personne in @Model)
@@ -73,7 +72,7 @@
                        @Html.DisplayFor(modelItem => item.Matricule7)
                     }*@
                 </td>
-                <td class="col-sm-2">
+                <td>
                     @Html.ActionLink("Modifier", "Edit", new { id = item.personne.id_Pers }) |
                     @Html.ActionLink("Supprimer", "Delete", new { id = item.personne.id_Pers })
                 </td>
