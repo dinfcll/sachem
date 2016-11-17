@@ -7,17 +7,28 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using sachem.Models;
+using sachem.Models.DataAccess;
 
 namespace sachem.Controllers
 {
     public class PersonnesController : Controller
     {
-        private SACHEMEntities db = new SACHEMEntities();
+        private readonly IDataRepository dataRepository;
+
+        public PersonnesController()
+        {
+            dataRepository = new BdRepository();
+        }
+
+        public PersonnesController(IDataRepository dataRepository)
+        {
+            this.dataRepository = dataRepository;
+        }
 
         // GET: Personnes
         public ActionResult Index()
         {
-            var personne = db.Personne.Include(p => p.p_Sexe).Include(p => p.p_TypeUsag);
+            var personne = dataRepository.IndexPersonne();
             return View(personne.ToList());
         }
 
@@ -28,7 +39,7 @@ namespace sachem.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Personne personne = db.Personne.Find(id);
+            Personne personne = dataRepository.FindPersonne(id.Value);
             if (personne == null)
             {
                 return HttpNotFound();
@@ -39,8 +50,8 @@ namespace sachem.Controllers
         // GET: Personnes/Create
         public ActionResult Create()
         {
-            ViewBag.id_Sexe = new SelectList(db.p_Sexe, "id_Sexe", "Sexe");
-            ViewBag.id_TypeUsag = new SelectList(db.p_TypeUsag, "id_TypeUsag", "TypeUsag");
+            ViewBag.id_Sexe = new SelectList(dataRepository.AllSexe(), "id_Sexe", "Sexe");
+            ViewBag.id_TypeUsag = new SelectList(dataRepository.AllTypeUsag(), "id_TypeUsag", "TypeUsag");
             return View();
         }
 
@@ -53,13 +64,12 @@ namespace sachem.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Personne.Add(personne);
-                db.SaveChanges();
+                dataRepository.AddPersonne(personne);
                 return RedirectToAction("Index");
             }
 
-            ViewBag.id_Sexe = new SelectList(db.p_Sexe, "id_Sexe", "Sexe", personne.id_Sexe);
-            ViewBag.id_TypeUsag = new SelectList(db.p_TypeUsag, "id_TypeUsag", "TypeUsag", personne.id_TypeUsag);
+            ViewBag.id_Sexe = new SelectList(dataRepository.AllSexe(), "id_Sexe", "Sexe", personne.id_Sexe);
+            ViewBag.id_TypeUsag = new SelectList(dataRepository.AllTypeUsag(), "id_TypeUsag", "TypeUsag", personne.id_TypeUsag);
             return View(personne);
         }
 
@@ -70,13 +80,13 @@ namespace sachem.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Personne personne = db.Personne.Find(id);
+            Personne personne = dataRepository.FindPersonne(id.Value);
             if (personne == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.id_Sexe = new SelectList(db.p_Sexe, "id_Sexe", "Sexe", personne.id_Sexe);
-            ViewBag.id_TypeUsag = new SelectList(db.p_TypeUsag, "id_TypeUsag", "TypeUsag", personne.id_TypeUsag);
+            ViewBag.id_Sexe = new SelectList(dataRepository.AllSexe(), "id_Sexe", "Sexe", personne.id_Sexe);
+            ViewBag.id_TypeUsag = new SelectList(dataRepository.AllTypeUsag(), "id_TypeUsag", "TypeUsag", personne.id_TypeUsag);
             return View(personne);
         }
 
@@ -89,12 +99,11 @@ namespace sachem.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(personne).State = EntityState.Modified;
-                db.SaveChanges();
+                dataRepository.DeclareModifiedPers(personne);
                 return RedirectToAction("Index");
             }
-            ViewBag.id_Sexe = new SelectList(db.p_Sexe, "id_Sexe", "Sexe", personne.id_Sexe);
-            ViewBag.id_TypeUsag = new SelectList(db.p_TypeUsag, "id_TypeUsag", "TypeUsag", personne.id_TypeUsag);
+            ViewBag.id_Sexe = new SelectList(dataRepository.AllSexe(), "id_Sexe", "Sexe", personne.id_Sexe);
+            ViewBag.id_TypeUsag = new SelectList(dataRepository.AllTypeUsag(), "id_TypeUsag", "TypeUsag", personne.id_TypeUsag);
             return View(personne);
         }
 
@@ -105,7 +114,7 @@ namespace sachem.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Personne personne = db.Personne.Find(id);
+            Personne personne = dataRepository.FindPersonne(id.Value);
             if (personne == null)
             {
                 return HttpNotFound();
@@ -118,9 +127,8 @@ namespace sachem.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Personne personne = db.Personne.Find(id);
-            db.Personne.Remove(personne);
-            db.SaveChanges();
+            Personne personne = dataRepository.FindPersonne(id);
+            dataRepository.RemovePersonne(personne);
             return RedirectToAction("Index");
         }
 
@@ -128,7 +136,7 @@ namespace sachem.Controllers
         {
             if (disposing)
             {
-                db.Dispose();
+                dataRepository.Dispose();
             }
             base.Dispose(disposing);
         }
