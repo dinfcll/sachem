@@ -118,8 +118,8 @@ else
 }
     </dl>
 }
-        
-    <div style="margin-top:10px;">@Html.ActionLink("Retourner à la recherche", "Index", null, null)</div>
+     @if (sachem.Models.SachemIdentite.ObtenirTypeUsager(Session) != sachem.Models.TypeUsagers.Eleve)
+     {     <div style="margin-top:10px;">@Html.ActionLink("Retourner à la recherche", "Index", "DossierEtudiant", null)</div> }
 
     @Html.Partial("_CoursAnterieur", Model.Item2)
 
