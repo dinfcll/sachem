@@ -25,24 +25,22 @@
             <input type="submit" value="Rechercher" class="form-search  " />
     </div>
 }
-    <p>
-        @Html.ActionLink("Ajouter un enseignant", "Create")
-    </p>
+<div style="margin-top:10px;margin-bottom:10px;">@Html.ActionLink("Ajouter un enseignant", "Create", null, null, new { @class = "btn btn-default" })</div>
     <table class="table">
         <tr>
-            <th>
+            <th class="col-sm-5">
                 @Html.DisplayNameFor(model => model.First().Nom)
             </th>
-            <th>
+            <th class="col-sm-2">
                 @Html.DisplayNameFor(model => model.First().NomUsager)
             </th>
-            <th>
+            <th class="col-sm-2">
                 @Html.DisplayNameFor(model => model.First().p_TypeUsag.TypeUsag)
             </th>
-            <th>
+            <th class="col-sm-1">
                 @Html.DisplayNameFor(model => model.First().Actif)
             </th>
-            <th></th>
+            <th class="col-sm-2"></th>
         </tr>
 
         @foreach (var item in Model)
