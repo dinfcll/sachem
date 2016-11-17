@@ -60,7 +60,7 @@
         </dt>
 
         <dd>
-            @if (sachem.Models.SachemIdentite.ObtenirTypeUsager(Session) == sachem.Models.TypeUsagers.Tuteur 
+            @if (sachem.Models.SachemIdentite.ObtenirTypeUsager(Session) == sachem.Models.TypeUsagers.Tuteur
                 || sachem.Models.SachemIdentite.ObtenirTypeUsager(Session) == sachem.Models.TypeUsagers.Eleve)
             {
                 @Html.EditorFor(model => model.Item1.Personne.Telephone, new { htmlAttributes = new { @class = "form-control", @placeholder = "(999) 999-9999", @maxlength = "14", @type = "tel", @Value = String.Format("{0:(###) ###-####}", Convert.ToInt64(Model.Item1.Personne.Telephone)) } })
@@ -68,7 +68,10 @@
             }
             else
             {
-                @(String.Format("{0:(###) ###-####}", Convert.ToInt64(Model.Item1.Personne.Telephone)))
+                if (!Model.Item1.Personne.Telephone.IsEmpty())
+                {
+                    @(String.Format("{0:(###) ###-####}", Convert.ToInt64(Model.Item1.Personne.Telephone)))
+                }
             }
         </dd>
     </dl>
