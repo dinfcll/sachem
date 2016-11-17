@@ -455,7 +455,7 @@ namespace sachem.Models
         /// Format : HH:MM
         /// </summary>
         /// <returns></returns>
-        public const string U_010 = "Format : HH:MM";
+        public const string U_010 = "Format : HH:MM:SS";
 
         /// <summary>
         /// "La date indiquée doit être entre l'année 1967 et celle en cours"
