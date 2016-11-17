@@ -63,6 +63,7 @@ else
 
         <div class="form-actions no-color">
             <input type="submit" value="Supprimer" class="btn btn-default" />
+            @Html.ActionLink("Annuler", "Details", "DossierEtudiant", new { id = ViewBag.id_insc }, new { @class = "btn btn-default" })
             @Html.Partial("_Footer", Model)
         </div>
     }
