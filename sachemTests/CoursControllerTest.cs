@@ -34,7 +34,7 @@ namespace sachemTests
         [TestMethod]
         public void EditExistingCours()
         {
-            const int NO_COURS = 44;
+            const int NO_COURS = 45;
             var testRepository = new TestRepository();
             testRepository.AddCours(new Cours { Actif = true, Code = "ABC", Groupe = new List<Groupe>(),
                 id_Cours = NO_COURS, Nom = "Josée Lainesse" });
