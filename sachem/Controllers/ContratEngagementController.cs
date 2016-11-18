@@ -14,6 +14,9 @@ namespace sachem.Controllers
         // GET: ContratEngagement
         public ActionResult Index()
         {
+            //TODO : envoyer la personne dans la view aussi pour ne pas a avoir a aller le chercher une deuxieme fois
+            //TODO envoyer le bon message dans la table Formulaire
+            //TODO mettre la question dans la table Question
             int idDeLaPersonneConnectee = SessionBag.Current.id_Pers;
             Personne personneConnectee = db.Personne.Find(idDeLaPersonneConnectee);
             Inscription inscriptionDeLaPersonneConnectee = db.Inscription.First(c => c.id_Pers == idDeLaPersonneConnectee);
