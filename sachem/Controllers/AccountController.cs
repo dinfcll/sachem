@@ -444,6 +444,7 @@ namespace sachem.Controllers
                 {
                     Personne utilisateur = db.Personne.AsNoTracking().Where(x => x.id_Pers == idpersonne).FirstOrDefault();
                     utilisateur.MP = personne.MP;//Change le mot de passe
+                    utilisateur.ConfirmPassword = personne.ConfirmPassword;
                     SachemIdentite.encrypterMPPersonne(ref utilisateur);//l'Encrypte
                     SessionBag.Current.MP = utilisateur.MP;//Modifier le mot de passe dans le sessionbag
                     SupprimerCookieConnexion(); //Supprime le cookie
