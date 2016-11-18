@@ -175,7 +175,7 @@ namespace sachem.Controllers
         [ValidateAntiForgeryToken]
         [ValidationAccesEnseignant]
         //Modification lorsqu'on clique sur le bouton modification / Enregistrement
-        public ActionResult Edit([Bind(Include = "id_Pers,id_Sexe,id_TypeUsag,Nom,Prenom,NomUsager,Matricule7,MP,Courriel,Telephone,DateNais,Actif")] Personne personne)
+        public ActionResult Edit([Bind(Include = "id_Pers,id_Sexe,id_TypeUsag,Nom,Prenom,NomUsager,Matricule7,MP,ConfirmPassword,Courriel,Telephone,DateNais,Actif")] Personne personne)
         {
             PersonneEtuProgParent pepp = new PersonneEtuProgParent();
             personne.id_TypeUsag = 1;
@@ -199,8 +199,14 @@ namespace sachem.Controllers
                     db.EtuProgEtude.Add(etuprog);
                     db.SaveChanges();
                    }
+            if (ConfirmeMdp(personne.MP, personne.ConfirmPassword) == false)
+            {
+                return View(pepp);
+            }
             if (ModelState.IsValid)
             {
+                pepp.personne.MP = SachemIdentite.encrypterChaine(pepp.personne.MP); // Encryption du mot de passe
+                pepp.personne.ConfirmPassword = SachemIdentite.encrypterChaine(pepp.personne.ConfirmPassword); // Encryption du mot de passe   
                 db.Entry(pepp.personne).State = EntityState.Modified;
                 db.SaveChanges();
                 TempData["Success"] = Messages.I_045(personne.NomPrenom);
