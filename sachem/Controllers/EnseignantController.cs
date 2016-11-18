@@ -90,7 +90,8 @@ namespace sachem.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "id_Pers, id_Sexe, id_TypeUsag, Nom, Prenom, NomUsager, MP, ConfirmPassword, Courriel, DateNais, Actif")] Personne personne)
         {
-            if(personne.AncienMotDePasse != null)
+            Valider(personne);
+            if (personne.MP != null && personne.ConfirmPassword != null)
             {
                 SachemIdentite.encrypterMPPersonne(ref personne); // Appel de la méthode qui encrypte le mot de passe
             }
@@ -99,13 +100,17 @@ namespace sachem.Controllers
                 var Enseignant = dataRepository.FindEnseignant(personne.id_Pers);        
                 personne.MP = Enseignant.MP;
             }
-            Valider(personne);
             RemplirDropList(personne);
             if (ModelState.IsValid)
             {
                 dataRepository.DeclareModified(personne);
                 TempData["Success"] = Messages.I_015(personne.NomUsager); // Message afficher sur la page d'index confirmant la modification
                 return RedirectToAction("Index");
+            }
+            else
+            {
+                personne.MP = null;
+                personne.ConfirmPassword = null;
             }
             return View(personne);
         }

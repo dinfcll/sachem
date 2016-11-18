@@ -1,16 +1,43 @@
 ﻿@model sachem.Models.Inscription
-  @*@model Tuple<sachem.Models.Inscription,string>*@  
 
 
 @{
     ViewBag.Title = "Inscription au service de Sachem";
-    int dernierId = 0;
 }
+<script>
+    function suivant(e) {
+        var HoraireArray = [];
+        $('[name="horaireCheckbox"]:checked').each(function () {
+            HoraireArray.push(($(this).val()));
+        });
+        var postData = { values: HoraireArray };
+        if (postData.length < 2) {
+            alert("Utilisez au moins une plage horaire de 2!");
+            return;
+        }
+        $.ajax({
+            url: "/Inscription/Index",
+            data: postData,
+            type: "POST",
+            traditional: true,
+            dataType: 'json',
+            success: function (data) {
+                alert(data.message);
+            }
+            
+        });
+        return false;
+    }
+
+   
+</script>
+
 
 <h2>@ViewBag.Title</h2>
+<p class="text-success">
+    @Html.Raw(@TempData["Success"])
+</p>
 
-@using (Html.BeginForm("Index", "Inscription", FormMethod.Post))
-{
     @Html.AntiForgeryToken()
 
     <div class="form-group">
@@ -27,34 +54,38 @@
         -Formez des blocs d'au moins deux heures consécutives.(les rencontres dureront 1h30/semaine) <br />
         -Inscrivez plusieurs choix pour faciliter le jumelage.
     </p>
+    <form method="post" id="TabDisp">
+        <div>
+            @{string[] jour = new string[5] { "Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi" };}
+            <CENTER>
+                    <table style="width:100%" border=1>
+                        <TR>
+                            <TH>Heures</TH>
+                            <TH>@jour[0]</TH>
+                            <TH>@jour[1]</TH>
+                            <TH>@jour[2]</TH>
+                            <TH>@jour[3]</TH>
+                            <TH>@jour[4]</TH>
 
-    <div>
-        <CENTER>
-            <table style="width:100%" border = 1>
-                <TR>
-                    <TH>Heures</TH>
-                    <TH>Lundi</TH>
-                    <TH>Mardi</TH>
-                    <TH>Mercredi</TH>
-                    <TH>Jeudi</TH>
-                    <TH>Vendredi</TH>
-
-                </TR>
-                @for (var heure = 8; heure < 18;)
-                {
-                    <TR>
-                        <TD>@(heure)h - @(++heure)h</TD>
-
-
-                        @for (var jour = 1; jour < 6; jour++)
+                        </TR>
+                        @for (var heure = 8; heure < 18;)
                         {
-                            <TD> @Html.CheckBox((heure.ToString()), false, htmlAttributes: new { @class = "control-label col-md-2", @id = @jour + dernierId })</TD>
-                            if (jour == 5)
-                            { dernierId += jour; }
+                            int heureCheckbox = heure;
+                            <TR>
+                                <TD>@(heure)h - @(++heure)h</TD>
+
+
+                                @for (var j = 0; j < 5; j++)
+                                {
+                                   <TD align="center"> @Html.CheckBox("horaireCheckbox", false, htmlAttributes: new { @class = "control-label col-md-2", @id = jour[j] + heureCheckbox.ToString(), @value = jour[j] + "-" + heureCheckbox.ToString() })</TD>
+                                }
+                            </TR>
                         }
-                    </TR>
-                }
-            </table>
-        </CENTER> 
-    </div>
-}
+
+                    </table>
+            </CENTER>
+            <br />
+            <br />
+            @Html.Partial("_Boutons")
+        </div>
+    </form>
