@@ -6,9 +6,12 @@
 <h2>@ViewBag.Title</h2>
 
 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
 <p class="text-success">
-    @Html.ViewBag.Success
     @TempData["Success"]
+</p>
+<p class="text-danger">
+    @TempData["Erreur"]
 </p>
 
 @Scripts.Render("~/bundles/jquery")
@@ -57,7 +60,7 @@
             data: { "id": id },
             type: "POST",
             success: function() {
-                window.location.reload(true);
+                location.reload(true);
             }
             });
         }
@@ -68,7 +71,7 @@
             data: { "nomCollege": nouveauNomCollege, "id": id },
             type: "POST",
             success: function(){
-                window.location.reload(true);
+                location.reload(true);
     }
         });
     }
@@ -79,7 +82,10 @@
             data: { "nomCollege" : nomCollege},
             type: "POST",
             success: function () {
-                window.location.reload(true);
+                location.reload(true);
+            },
+            error: function(){
+                location.reload(true);
             }
         });
     }

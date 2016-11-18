@@ -217,6 +217,10 @@ namespace sachem.Controllers
                 db.SaveChanges();
                 TempData["Success"] = string.Format(Messages.I_044(nomCollege));
             }
+            else
+            {
+                TempData["Erreur"] = "Ce collège d'enseignement existe déjà";
+            }
         }
 
         [HttpPost]
