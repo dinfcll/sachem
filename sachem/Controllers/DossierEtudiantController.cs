@@ -7,17 +7,29 @@ using System.Web.Mvc;
 using sachem.Models;
 using PagedList;
 using static sachem.Classes_Sachem.ValidationAcces;
+using sachem.Models.DataAccess;
 
 namespace sachem.Controllers
 {
-
     public class DossierEtudiantController : Controller
     {
         private SACHEMEntities db = new SACHEMEntities();
         protected int noPage = 1;
         private int? pageRecue = null;
 
-        #region ObtentionRecherche
+        private readonly IDataRepository dataRepository;
+
+        public DossierEtudiantController()
+        {
+            dataRepository = new BdRepository();
+        }
+
+        public DossierEtudiantController(IDataRepository dataRepository)
+        {
+            this.dataRepository = dataRepository;
+        }
+
+
         [NonAction]
         //liste des sessions disponibles en ordre d'année
         private void ListeSession(int Session = 0)
@@ -60,7 +72,7 @@ namespace sachem.Controllers
             ViewBag.Superviseur = new SelectList(ObtenirListeSuperviseur(session), "id_Pers", "NomPrenom", superviseur);
         }
 
-        #region Fonction Ajax
+
         /// <summary>
         /// Actualise le dropdownlist des groupes selon l'élément sélectionné dans les dropdownlist Session et Cours
         /// </summary>
@@ -72,8 +84,7 @@ namespace sachem.Controllers
             var a = ObtenirListeSuperviseur(session).Select(c => new { c.id_Pers, c.NomPrenom });
             return Json(a.ToList(), JsonRequestBehavior.AllowGet);
         }
-        #endregion
-        #region Fonction Recherche IEnumerable<Inscription> List
+
         //Fonction pour gérer la recherche, elle est utilisée dans la suppression et dans l'index
         [NonAction]
         protected IEnumerable<Inscription> Rechercher()
@@ -85,8 +96,7 @@ namespace sachem.Controllers
             int session = 0;
             int typeinscription = SessionBag.Current.id_Inscription; //si different de 0, il indiquera a la dropdownlist de type inscription que c'est un tuteur et que la list doit etre grise sur son 'eleve aide'
             int superviseur = SessionBag.Current.idSuperviseur; //si different de 0, il indiquera a la dropdownlist de superviseur de mettre le nom de l'enseignant par defaut, si l'enseignant n'est pas superviseur d'un jumelage = 0 = tous.
-            //region recuperation de donnees en GET pour initialiser les drop down listes
-            #region recuperer donnees form
+
             if (Request.RequestType == "GET" && Session["DernRechEtu"] != null && (string)Session["DernRechEtuUrl"] == Request.Url?.LocalPath)
             {//GET
                 var anciennerech = (string)Session["DernRechEtu"];
@@ -190,10 +200,6 @@ namespace sachem.Controllers
 
             }
 
-
-
-            #endregion
-            #region traitement donnees resultatReq
             ListeSession(session);
             ListeTypeInscription(typeinscription);
             ListeSuperviseur(session, superviseur);
@@ -214,9 +220,8 @@ namespace sachem.Controllers
                                     select p;
                            
             return lstEtu.ToList();
-            #endregion
         }
-        #endregion
+
 
         [NonAction]
         protected IEnumerable<Inscription> Rechercher(int? Page)
@@ -224,7 +229,7 @@ namespace sachem.Controllers
             pageRecue = Page;
             return Rechercher();
         }
-        #endregion
+
         // GET: DossierEtudiant
         [ValidationAccesTuteur]
         public ActionResult Index(int? page)
@@ -243,7 +248,8 @@ namespace sachem.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-             Inscription inscription = db.Inscription.Find(id);
+            //Inscription inscription = db.Inscription.Find(id);
+            var inscription = dataRepository.FindInscription(id.Value);
 
 
             if (inscription == null)
