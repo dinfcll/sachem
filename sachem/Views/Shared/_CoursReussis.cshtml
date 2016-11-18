@@ -11,22 +11,23 @@
     </div>
 </div>
 <h3 style="background-color:aliceblue">Informations spécifiques</h3>
+<h5 id="erreur" style="color:red;"></h5>
 <h5 class="hIns">Les cours dans lesquels vous aimeriez donner de l'aide sont:</h5>
 <div class="clearfix pageItemPadding">
     <div class="col-md-9">
         <div class="row ins-row">
             <div class="col-md-2">1er choix</div>            
-            <div class="col-md-6">@Html.DropDownList("lstCours1", null, htmlAttributes: new { @class = "form-search ins-selectcours"})</div>
+            <div class="col-md-6">@Html.DropDownList("lstCours", null, htmlAttributes: new { @class = "form-search ins-selectcours validecours"})</div>
             <div class="col-md-4"></div>
             </div>
         <div class="row ins-row">
             <div class="col-md-2">2e choix</div>
-            <div class="col-md-6">@Html.DropDownList("lstCours2", null, htmlAttributes: new { @class = "form-search ins-selectcours" })</div>
+            <div class="col-md-6">@Html.DropDownList("lstCours", null, htmlAttributes: new { @class = "form-search ins-selectcours validecours" })</div>
             <div class="col-md-4"></div>
         </div>
         <div class="row ins-row">
             <div class="col-md-2">3e choix</div>
-            <div class="col-md-6">@Html.DropDownList("lstCours3", null, htmlAttributes: new { @class = "form-search ins-selectcours" })</div>
+            <div class="col-md-6">@Html.DropDownList("lstCours", null, htmlAttributes: new { @class = "form-search ins-selectcours validecours" })</div>
             <div class="col-md-4"></div>
         </div>
     </div>
@@ -90,11 +91,37 @@
             window.location.href = '@Url.Action("Index", "Inscription")';
         });
         $("#btnPoursuivre").click(function () {
-            alert("allo");
-            $(".valLignecours").each(function (index, element) {
-                alert("allo");
-
+            var lstIDCours = [];
+            $(".validecours").each(function (index, element) {
+                if (lstIDCours.indexOf($(this).val()) == -1) {
+                    lstIDCours.push($(this).val());
+                }
             });
+
+            if (lstIDCours.length != 3) {
+                $.ajax({
+                    url: "/Inscription/ErreurCours",
+                    type: "POST",
+                    data: {}
+                });
+
+                $.ajax({
+                    url: "/Inscription/ErreurCours",
+                    type: "POST",
+                    success: function (retour) {
+                        $("#erreur").html(retour);
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        alert("error");
+                    }
+                });
+            }
+            else
+            {
+                $(".valLignecours").each(function (index, element) {
+                    alert("test");
+                });
+            }
             /*$.ajax({
                 url: "/Inscription/Poursuivre",
                 type: "POST",

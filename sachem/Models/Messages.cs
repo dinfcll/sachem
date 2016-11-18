@@ -330,6 +330,8 @@ namespace sachem.Models
         }
         public static string I_045(string NomEtudiant)
         { return $"L'étudiant {NomEtudiant} a été modifié."; }
+        public static string I_046()
+        { return $"Un cours ne peut être choisi qu'une seule fois."; }
         #endregion
 
         #region MessageContexte
