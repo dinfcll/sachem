@@ -74,7 +74,7 @@ namespace sachem.Models
         //Permet de calculer un hash MD5 pour stocker/comparer les mots de passe sur une personne
         public static void encrypterMPPersonne(ref Personne personne)
         {
-            personne.ConfirmPassword = encrypterChaine(personne.MP);
+            personne.ConfirmPassword = encrypterChaine(personne.ConfirmPassword);
             personne.MP = encrypterChaine(personne.MP);
         }
 
