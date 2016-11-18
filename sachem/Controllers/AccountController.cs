@@ -449,7 +449,6 @@ namespace sachem.Controllers
                 ViewBag.Success = Messages.I_018();
                 return View(personne);
             }
-            return View();
         }
         #endregion
 
