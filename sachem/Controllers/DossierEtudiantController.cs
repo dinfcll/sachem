@@ -264,59 +264,8 @@ namespace sachem.Controllers
 
             return View(Tuple.Create(inscription, vCoursSuivi.AsEnumerable(), vInscription.AsEnumerable()));
         }
-
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //[ValidationAccesEtu]
-        //public ActionResult Details(FormCollection model)
-        //{
-        //    var id_Pers = Convert.ToInt32(model["item1.Personne.id_Pers"]);
-        //    var id_TypeInsc = (from d in db.Inscription
-        //                       where d.id_Pers == id_Pers
-        //                       select d).First().id_TypeInscription;
-        //    var id_Inscription = Convert.ToInt32(model["item1.id_Inscription"]);
-
-        //    Personne personne = db.Personne.Find(id_Pers);
-        //    Inscription inscription = db.Inscription.Find(id_Inscription);
-
-        //    if (SachemIdentite.ObtenirTypeUsager(Session) == TypeUsagers.Tuteur ||
-        //        SachemIdentite.ObtenirTypeUsager(Session) == TypeUsagers.Eleve)
-        //    {
-        //        var Courriel = Convert.ToString(model["item1.Personne.Courriel"]);
-        //        var Telephone = Convert.ToString(model["item1.Personne.Telephone"]);
-        //        personne.Courriel = Courriel;
-        //        personne.Telephone = SachemIdentite.FormatTelephone(Telephone);
-        //    }
-
-        //    if (SachemIdentite.TypeListeProf.Contains(SachemIdentite.ObtenirTypeUsager(Session)))
-        //    {
-        //        var BonEchange = Convert.ToBoolean(model["Item1.BonEchange.value"] != "false");
-        //        inscription.BonEchange = BonEchange;
-        //    }
-
-        //    var vCoursSuivi = from d in db.CoursSuivi
-        //                      where d.id_Pers == inscription.id_Pers
-        //                      select d;
-
-        //    var vInscription = from d in db.Inscription
-        //                       where d.id_Pers == inscription.id_Pers
-        //                       select d;
-
-        //    ViewBag.idPers = vInscription.First().id_Pers;
-        //    ViewBag.idTypeInsc = vInscription.First().id_TypeInscription;
-
-        //    if (ModelState.IsValid)
-        //    {
-        //        db.Entry(personne).State = EntityState.Modified;
-        //        db.Entry(inscription).State = EntityState.Modified;
-        //        db.SaveChanges();
-
-        //    }
-        //    return View(Tuple.Create(inscription, vCoursSuivi.AsEnumerable(), vInscription.AsEnumerable()));
-        //}
-
-
-  
+        [HttpPost]
+        [ValidationAccesTuteur]
         public ActionResult ModifBon(string bon, string insc, string pers)
         {
             var id_Pers = Convert.ToInt32(pers);
@@ -350,7 +299,8 @@ namespace sachem.Controllers
             return View(Tuple.Create(inscription, vCoursSuivi.AsEnumerable(), vInscription.AsEnumerable()));
         }
 
-
+        [HttpPost]
+        [ValidationAccesEtu]
         public ActionResult ModifEmail(string email, string insc, string pers)
         {
             var id_Pers = Convert.ToInt32(pers);
@@ -385,6 +335,7 @@ namespace sachem.Controllers
         }
 
         [HttpPost]
+        [ValidationAccesEtu]
         public ActionResult ModifTel(string tel, string insc, string pers)
         {
             var id_Pers = Convert.ToInt32(pers);
