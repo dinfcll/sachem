@@ -17,13 +17,11 @@
         <tr>
             <td>Session :</td>
             <td>@Html.DropDownList("Session", null, "Toutes", htmlAttributes: new { @class = "form-search" })</td>
-            <td>Enseignant :</td>
-            <td>
-                @if (!ViewBag.IsEnseignant)
+            @if (!ViewBag.IsEnseignant)
                 {
-                    @Html.DropDownList("Personne", null, "Tous", htmlAttributes: new { @class = "form-search" })
+                <td> Enseignant : </td>
+                <td> @Html.DropDownList("Personne", null, "Tous", htmlAttributes: new { @class = "form-search" })</td>
                 }
-            </td>
             <td><input type="submit" value="Rechercher" class="form-search" /></td>
         </tr>
     </table>
