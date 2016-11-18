@@ -66,8 +66,16 @@ namespace sachem.Controllers
         private void Valider([Bind(Include = "id_CoursReussi,id_Sess,id_Pers,id_College,id_Statut,id_Cours,resultat,autre_Cours,autre_College")] CoursSuivi coursSuivi, bool verif = false)
         {
             //Validation seulement lors de l'ajout
-            if (dataRepository.AnyCoursSuiviWhere(r => r.id_Cours == coursSuivi.id_Cours && r.id_Pers == coursSuivi.id_Pers && r.id_Sess == coursSuivi.id_Sess && r.id_College == coursSuivi.id_College) && verif)
-                ModelState.AddModelError(string.Empty, Messages.I_036());
+            if (coursSuivi.id_Cours != null)
+            {
+                if (db.CoursSuivi.Any(r => r.id_Cours == coursSuivi.id_Cours && r.id_Pers == coursSuivi.id_Pers && r.id_Sess == coursSuivi.id_Sess) && verif)
+                    ModelState.AddModelError(string.Empty, Messages.I_036());
+            }
+            else
+            {
+                if(db.CoursSuivi.Any(r => r.autre_Cours == coursSuivi.autre_Cours && r.id_Pers == coursSuivi.id_Pers && r.id_Sess == coursSuivi.id_Sess) && verif)
+                    ModelState.AddModelError(string.Empty, Messages.I_036());
+            }
 
             if (coursSuivi.id_Cours == null && coursSuivi.autre_Cours == string.Empty || coursSuivi.id_Cours != null && coursSuivi.autre_Cours != string.Empty)
                 ModelState.AddModelError(string.Empty, Messages.C_009("Cours" , "Autre cours"));
