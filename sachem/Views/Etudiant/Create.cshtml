@@ -1,4 +1,5 @@
 ﻿@model sachem.Models.PersonneEtuProgParent
+@using sachem.Models
 @{
     ViewBag.Title = "Ajouter étudiant";
 }
@@ -21,7 +22,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.personne.Matricule7, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.personne.Matricule7, new { htmlAttributes = new { @class = "form-control",  @maxlength = "7" , @Value = String.Empty} })
+                @Html.EditorFor(model => model.personne.Matricule7, new { htmlAttributes = new { @class = "form-control",@required = "required",minlength=7,maxlength=7, @title = "Le matricule doit contenir 7 caractères", @Value = String.Empty} })
                 @Html.ValidationMessageFor(model => model.personne.Matricule7, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -29,7 +30,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.personne.MP, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.PasswordFor(model => model.personne.MP, new { @class = "form-control", @minlength = "6", placeholder = "Mot de passe", @Value = String.Empty})
+                @Html.PasswordFor(model => model.personne.MP, new { @class = "form-control", @minlength = "6", placeholder = "Mot de passe", @title = "Le mot de passe doit contenir un minimum de 6 caractères", @Value = String.Empty})
                 @Html.ValidationMessageFor(model => model.personne.MP, "", new { @class = "text-danger" })
             </div>
         </div>

@@ -135,22 +135,21 @@ namespace sachem.Controllers
 
         //Méthode qui permet de vérifier si le programme d'étude existe réellement, pour que l'on puisse le créer ou le modifier
         [NonAction]
-        public void Valider([Bind(Include = "id_ProgEtu,Code,NomProg,Annee,Actif")]ProgrammeEtude programme)
+        public void Valider(ProgrammeEtude programme)
         { 
             if (db.ProgrammeEtude.Any(c => c.Code == programme.Code && c.Actif && programme.Actif && c.id_ProgEtu != programme.id_ProgEtu))
             {
                 ModelState.AddModelError(String.Empty, Messages.I_006(programme.Code));
             }
-            var programmeBd = db.ProgrammeEtude.Find(programme.id_ProgEtu);
-            if (programmeBd.Actif == true && programme.Actif == false)
-            {
+            if(db.ProgrammeEtude.Any(c => c.id_ProgEtu == programme.id_ProgEtu && c.Actif) && programme.Actif == false)
+            { 
                 if (db.EtuProgEtude.Any(c => c.id_ProgEtu == programme.id_ProgEtu))
                 {
                     ModelState.AddModelError(String.Empty, "Impossible de mettre le programme inactif s'il est encore relié à des étudiants");
                 }
             }
         }
-
+         
         //Méthode qui permet de faire la recherche, soit sur le nom de programme ou sur le code.
         [NonAction]
         private IEnumerable<ProgrammeEtude> Recherche(string recherche)

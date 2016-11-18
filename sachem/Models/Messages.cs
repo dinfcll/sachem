@@ -455,7 +455,7 @@ namespace sachem.Models
         /// Format : HH:MM
         /// </summary>
         /// <returns></returns>
-        public const string U_010 = "Format : HH:MM";
+        public const string U_010 = "Format : HH:MM:SS";
 
         /// <summary>
         /// "La date indiquée doit être entre l'année 1967 et celle en cours"
@@ -525,7 +525,7 @@ namespace sachem.Models
         /// <param name="NoGroupe"></param>
         /// <returns></returns>private string Q_007(string NoGroupe)
         public static string Q_007(int NoGroupe)
-        { return $"Des étudiants sont rattachés au groupe {NoGroupe} Souhaitez-vous le supprimer définitivement?"; }
+        { return $"Des étudiants sont rattachés au groupe {NoGroupe}. Souhaitez-vous le supprimer définitivement?"; }
 
         /// <summary>
         /// Le groupe {0} a été créé. Souhaitez-vous y associer des étudiants?
