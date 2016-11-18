@@ -482,6 +482,7 @@
     <Content Include="Views\Inscription\Index.cshtml" />
     <Content Include="Views\Inscription\_Boutons.cshtml" />
     <Content Include="Views\Etudiant\_DeleteProgEtu.cshtml" />
+    <Content Include="Views\ContratEngagement\Index.cshtml" />
     <Content Include="Views\Shared\Ferme.cshtml" />
     <Content Include="Views\ContratEngagement\Index.cshtml" />
   </ItemGroup>
