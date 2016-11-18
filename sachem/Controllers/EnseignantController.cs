@@ -13,15 +13,15 @@ namespace sachem.Controllers
 {
     public class EnseignantController : Controller
     {
-        private readonly IDataRepositoryEnseignant dataRepository;
+        private readonly IDataRepository dataRepository;
         private const int ID_ENSEIGNANT = 2;
         private const int ID_RESP = 3;
 
         public EnseignantController()
         {
-            dataRepository = new BdRepositoryEnseignant();
+            dataRepository = new BdRepository();
         }
-        public EnseignantController(IDataRepositoryEnseignant dataRepository)
+        public EnseignantController(IDataRepository dataRepository)
         {
             this.dataRepository = dataRepository;
         }

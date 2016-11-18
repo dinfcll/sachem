@@ -30,7 +30,7 @@ namespace sachemTests
         [TestMethod]
         public void AjoutEnseignantRemplisFonctionne()
         {
-            var testRepository = new TestRepositoryEnseignant();
+            var testRepository = new TestRepository();
             var EnsController = new EnseignantController(testRepository);
             EnsController.Create(enseignant);
             var rechercheEnsaignant = testRepository.FindEnseignant(enseignant.id_Pers);
@@ -40,7 +40,7 @@ namespace sachemTests
         [TestMethod]
         public void SupprimerEnseignantQuiExisteFonctionne()
         {
-            var testRepository = new TestRepositoryEnseignant();
+            var testRepository = new TestRepository();
             var EnsController = new EnseignantController(testRepository);
             EnsController.Create(enseignant);
             enseignant.Nom = "patate";

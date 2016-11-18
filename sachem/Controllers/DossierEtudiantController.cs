@@ -11,7 +11,6 @@ using sachem.Models.DataAccess;
 
 namespace sachem.Controllers
 {
-
     public class DossierEtudiantController : Controller
     {
         private SACHEMEntities db = new SACHEMEntities();
