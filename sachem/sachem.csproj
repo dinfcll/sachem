@@ -219,6 +219,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
+    <Compile Include="Classes_Sachem\Comparateur.cs" />
     <Compile Include="Classes_Sachem\ValidationsAcces.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\ConsulterCoursController.cs" />
@@ -248,9 +249,7 @@
     <Compile Include="Models\Cours.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\DataAccess\BdRepositoryEnseignant.cs" />
     <Compile Include="Models\DataAccess\BdRepository.cs" />
-    <Compile Include="Models\DataAccess\IDataRepositoryEnseignant.cs" />
     <Compile Include="Models\DataAccess\IDataRepository.cs" />
     <Compile Include="Models\PersEtuProg.cs" />
     <Compile Include="Models\p_CollegeMetadata.cs" />
@@ -362,6 +361,9 @@
     <Content Include="Images\logo-cegepBLANC.jpg" />
     <Content Include="Images\MontageMenu.jpg" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="maConnexionString.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Models\Model1.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>Model1.edmx</DependentUpon>
@@ -413,7 +415,6 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Account\ForgotPassword.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
@@ -480,6 +481,7 @@
     <Content Include="Views\Inscription\Index.cshtml" />
     <Content Include="Views\Inscription\_Boutons.cshtml" />
     <Content Include="Views\Etudiant\_DeleteProgEtu.cshtml" />
+    <Content Include="Views\Shared\Ferme.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
