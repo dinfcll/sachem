@@ -14,7 +14,7 @@ namespace sachem.Controllers
     {
         private readonly SACHEMEntities db = new SACHEMEntities();
         private readonly string msg_Erreur_Consecutif = "Erreur: vous devez avoir une plage horaire contenant 2 heures consécutives.";
-        [ValidationAcces.ValidationAccesInscription]
+        //[ValidationAcces.ValidationAccesInscription]
         // GET: Inscription
         public ActionResult Index()
         {
