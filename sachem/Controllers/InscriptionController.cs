@@ -13,7 +13,9 @@ namespace sachem.Controllers
     public class InscriptionController : Controller
     {
         private readonly SACHEMEntities db = new SACHEMEntities();
-        private readonly string msg_Erreur_Consecutif = "Erreur: vous devez avoir une plage horaire contenant 2 heures consécutives.";
+        private const string MSG_ERREUR_CONSECUTIF = "Erreur: vous devez avoir une plage horaire contenant 2 heures consécutives.";
+        private const string MSG_ERREUR_LENGTH = "Cochez au moins 2 heures.";
+        private const string MSG_ERREUR_REMPLIR = "Veuillez remplir le formulaire de disponibilités.";
         //[ValidationAcces.ValidationAccesInscription]
         // GET: Inscription
         public ActionResult Index()
@@ -29,9 +31,9 @@ namespace sachem.Controllers
             if (values != null)
             {
                 int longueurTab = values.Length;
-                if (longueurTab % 2 != 0)
+                if (longueurTab < 2)
                 {
-                    return this.Json(new { success = false, message = "Utilisez un nombre pair d'heures." });
+                    return this.Json(new { success = false, message = MSG_ERREUR_LENGTH });
                 }
                 int[] heures = new int[longueurTab];
                 string[] splitValue1, splitValue2;
@@ -42,15 +44,17 @@ namespace sachem.Controllers
                     splitValue2 = values[i + 1].Split('-');
                     if (!(int.Parse(splitValue1[1]) +1 == int.Parse(splitValue2[1])))
                     {
-                        return this.Json(new { success = false, message = "Utilisez au moins deux heures consécutives!" });
+                        return this.Json(new { success = false, message = MSG_ERREUR_CONSECUTIF });
                     }
                 }
+
+
                 return this.Json(new { success = true, message = values });
 
             }
             else
             {
-                return this.Json(new { success = false, message = "Veuillez remplir le formulaire de disponibilités." });
+                return this.Json(new { success = false, message = MSG_ERREUR_REMPLIR });
             }
         }
 
