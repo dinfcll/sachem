@@ -44,10 +44,6 @@ namespace sachem.Controllers
                     {
                         return this.Json(new { success = false, message = "Utilisez au moins deux heures consécutives!" });
                     }
-                    else
-                    {
-
-                    }
                 }
 
                 return this.Json(new { success = true, message = values });
