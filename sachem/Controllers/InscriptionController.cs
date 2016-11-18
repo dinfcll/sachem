@@ -13,7 +13,7 @@ namespace sachem.Controllers
     public class InscriptionController : Controller
     {
         private readonly SACHEMEntities db = new SACHEMEntities();
-        private const string MSG_ERREUR_CONSECUTIF = "Erreur: vous devez avoir une plage horaire contenant 2 heures consécutives.";
+        private const string MSG_ERREUR_CONSECUTIF = "Erreur: vous devez avoir une plage horaire contenant des heures consécutives.";
         private const string MSG_ERREUR_LENGTH = "Cochez au moins 2 heures.";
         private const string MSG_ERREUR_REMPLIR = "Veuillez remplir le formulaire de disponibilités.";
         //[ValidationAcces.ValidationAccesInscription]
@@ -42,7 +42,7 @@ namespace sachem.Controllers
                 {
                     splitValue1 = values[i].Split('-');
                     splitValue2 = values[i + 1].Split('-');
-                    if (!(int.Parse(splitValue1[1]) +1 == int.Parse(splitValue2[1])))
+                    if (!(int.Parse(splitValue1[1]) +1 == int.Parse(splitValue2[1])) && (splitValue1[0] != splitValue2[0]))
                     {
                         return this.Json(new { success = false, message = MSG_ERREUR_CONSECUTIF });
                     }
