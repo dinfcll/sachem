@@ -199,9 +199,15 @@ namespace sachem.Controllers
                     db.EtuProgEtude.Add(etuprog);
                     db.SaveChanges();
                    }
+
             if (ConfirmeMdp(personne.MP, personne.ConfirmPassword) == false)
             {
                 ModelState.AddModelError(string.Empty, "Le mot de passe et la confirmation de mot de passe doivent être identique.");
+            }
+            else
+            if (personne.MP.Length < 6)
+            {
+                ModelState.AddModelError(string.Empty, "Le mot de passe est trop court");
             }
 
             if (ModelState.IsValid)
