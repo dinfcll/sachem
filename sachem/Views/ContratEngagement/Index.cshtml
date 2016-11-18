@@ -2,11 +2,12 @@
 
 @{
     ViewBag.Title = "Contrat d'engagement";
+    var TypeUsager = SachemIdentite.ObtenirTypeUsager(Session);
 }
 
 <h2>@ViewBag.Title</h2>
 
-<span><b>Dans le but d'assurer l'efficacité du service de tutorat offert au Sachem, vous vous engagez à:</b></span><br />
+<h3>Dans le but d'assurer l'efficacité du service de tutorat offert au Sachem, vous vous engagez à:</h3><br />
 <div class="form-group">
     <ul>
         <li><b>Respecter</b> l'horaire prévu et à aviser votre partenaire dans le cas d'un retard prévisible ou d'une absence. Le tuteur a la responsabilité de compléter un billet d'absence.</li>
@@ -17,4 +18,26 @@
         <li><b>Aviser</b> la sécretaire du Sachem si vous décidez d'interrompre vos rencontres de tutorat, et ce, le plus tôt possible.</li>
     </ul>
 </div>
+@using (Html.BeginForm("Index", "ContratEngagement", FormMethod.Post, new { @class = "form-inline", role = "form" }))
+{
+    @Html.CheckBox("confirmationSignatureContrat", new { htmlAttributes = new { @class = "form-control" } })
+    if (TypeUsager == TypeUsagers.Etudiant || TypeUsager == TypeUsagers.Eleve)
+    {
+        <span>Je m'engage à travailler sérieusement au Sachem, à être ponctuel et respectueux. De plus, je m'engage à fournir des questions à mon tuteur<span style="text-decoration: underline">48 heures à l'avance</span> afin que celui-ci puisse se préparer adéquatement.</span> 
+    }
+    else if (TypeUsager == TypeUsagers.Tuteur)
+    {
+        <span>Je m'engage à bien préparer mes rencontres, à être ponctuel et respectueux.</span>
+    }
 
+<h3 style="background-color: aliceblue; text-align: center;height: 32px">Confirmation</h3>
+    <table class="table-condensed">
+        <tr>
+            <td>Mot de passe </td>
+            <td>@Html.Editor("motDePasse", new { htmlAttributes = new { @class = "form-control", @type = "password" } })
+            <td><input type="submit" value="Enregistrer" class="btn btn-default" /></td>
+            <td><input type="button" value="Annuler" class="btn btn-default" /></td>
+        </tr>
+
+    </table>
+}
