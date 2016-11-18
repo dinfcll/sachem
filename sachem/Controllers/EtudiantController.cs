@@ -201,8 +201,9 @@ namespace sachem.Controllers
                    }
             if (ConfirmeMdp(personne.MP, personne.ConfirmPassword) == false)
             {
-                return View(pepp);
+                ModelState.AddModelError(string.Empty, "Le mot de passe et la confirmation de mot de passe doivent être identique.");
             }
+
             if (ModelState.IsValid)
             {
                 pepp.personne.MP = SachemIdentite.encrypterChaine(pepp.personne.MP); // Encryption du mot de passe

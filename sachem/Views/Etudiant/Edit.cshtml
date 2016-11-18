@@ -33,7 +33,7 @@
     <div class="form-horizontal">
         <hr />
         @Html.Partial("_Etudiant")
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @*@Html.ValidationSummary(true, "", new { @class = "text-danger" })*@
         @Html.HiddenFor(model => model.personne.id_Pers)
         <div class="form-group">
             @Html.LabelFor(model => model.personne.Matricule, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -45,14 +45,14 @@
         <div class="form-group">
             @Html.LabelFor(model => model.personne.MP, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.PasswordFor(model => model.personne.MP, new { @class = "form-control", placeholder = "Mot de passe", @Value = "" })
+                @Html.PasswordFor(model => model.personne.MP, new { @class = "form-control", placeholder = "Mot de passe", @Value = "",  @minlength = "6", @title = "Longueur minimale de 6 charactère." })
                 @Html.ValidationMessageFor(model => model.personne.MP, "", new { @class = "text-danger" })
             </div>
         </div>
         <div class="form-group">
             @Html.LabelFor(model => model.personne.ConfirmPassword, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.PasswordFor(model => model.personne.ConfirmPassword, new { @class = "form-control", placeholder = "Confirmation de mot de passe" })
+                @Html.PasswordFor(model => model.personne.ConfirmPassword, new { htmlAttributes = new { @class = "form-control", @Value = "" , @minlength = "6", @title = "Longueur minimale de 6 charactère." } })
                 @Html.ValidationMessageFor(model => model.personne.ConfirmPassword, "", new { @class = "text-danger" })
             </div>
         </div>
