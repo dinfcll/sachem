@@ -194,11 +194,19 @@ namespace sachem.Controllers
         {
             if (db.p_College.Any(r => r.id_College == id))
             {
-                var college = db.p_College.Find(id);
-                college.College = nomCollege;
-                db.Entry(college).State = EntityState.Modified;
-                db.SaveChanges();
-                TempData["Success"] = string.Format(Messages.I_046());
+                ValiderCollege(nomCollege);
+                if (ModelState.IsValid)
+                {
+                    var college = db.p_College.Find(id);
+                    college.College = nomCollege;
+                    db.Entry(college).State = EntityState.Modified;
+                    db.SaveChanges();
+                    TempData["Success"] = string.Format(Messages.I_046());
+                }
+                else
+                {
+                   TempData["Erreur"] = "Ce collège d'enseignement existe déjà";
+                }
             }
         }
 
