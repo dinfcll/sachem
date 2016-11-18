@@ -58,6 +58,19 @@ namespace sachem.Controllers
         public ActionResult EditContact([Bind(Include = "id_Contact,Nom,Prenom,Courriel,Telephone,Poste,Facebook,SiteWeb,Local")] p_Contact contact)
         {
             ValiderContact(contact);
+            string site = contact.SiteWeb;
+            string facebook = contact.Facebook;
+               
+            if (!site.StartsWith("https://") || site.StartsWith("http://"))
+            {
+                site = "https://" + site;
+            }
+            if (!facebook.StartsWith("https://") || facebook.StartsWith("http://"))
+            {
+                facebook = "https://" + facebook;
+            }
+            contact.Facebook = facebook;
+            contact.SiteWeb = site;
 
             if (ModelState.IsValid)
             {

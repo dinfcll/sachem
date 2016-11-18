@@ -80,18 +80,19 @@ namespace sachem.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "id_Pers, id_Sexe, id_TypeUsag, Nom, Prenom, NomUsager, MP, ConfirmPassword, Courriel, DateNais, Actif")] Personne personne)
         {
-            if(personne.AncienMotDePasse != null)
+            Valider(personne);
+            if (personne.MP != null && personne.ConfirmPassword != null)
             {
                 SachemIdentite.encrypterMPPersonne(ref personne); // Appel de la méthode qui encrypte le mot de passe
             }
             else
             {         
-                var Enseignant = from c in db.Personne
+                var mdp = from c in db.Personne
                                  where (c.id_Pers == personne.id_Pers)
                                  select c.MP;
-                personne.MP = Enseignant.SingleOrDefault();
+                personne.MP = mdp.SingleOrDefault();
+                personne.ConfirmPassword = personne.MP;
             }
-            Valider(personne);
             RemplirDropList(personne);
             if (ModelState.IsValid)
             {
@@ -99,6 +100,11 @@ namespace sachem.Controllers
                 db.SaveChanges();
                 TempData["Success"] = Messages.I_015(personne.NomUsager); // Message afficher sur la page d'index confirmant la modification
                 return RedirectToAction("Index");
+            }
+            else
+            {
+                personne.MP = null;
+                personne.ConfirmPassword = null;
             }
             return View(personne);
         }
