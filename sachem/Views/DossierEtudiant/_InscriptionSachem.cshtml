@@ -5,27 +5,17 @@
         <h4>Demande d'inscription au Sachem</h4>
         <table class="table">
             <tr>
-                <th>
+                <th class="col-sm-2">
                     @Html.DisplayNameFor(model => model.DateInscription)
                 </th>
-                <th>
+                <th class="col-sm-3">
                     @Html.DisplayNameFor(model => model.p_TypeInscription.TypeInscription)
                 </th>
-                <th>
+                <th class="col-sm-3">
                     @Html.DisplayNameFor(model => model.p_StatutInscription.Statut)
                 </th>
                 <th>
                 </th>
-@if (sachem.Models.SachemIdentite.ObtenirTypeUsager(Session) == sachem.Models.TypeUsagers.Eleve || sachem.Models.SachemIdentite.ObtenirTypeUsager(Session) == sachem.Models.TypeUsagers.Tuteur)
-{
-                <th>
-                </th>
-}
-@if (sachem.Models.SachemIdentite.ObtenirTypeUsager(Session) == sachem.Models.TypeUsagers.Eleve || ViewBag.idTypeInsc == 1)
-{
-                <th>
-                </th>
-}
             </tr>
 
             @foreach (var item in Model)
@@ -41,20 +31,21 @@
                         @Html.DisplayFor(modelItem => item.p_StatutInscription.Statut)
                     </td>
                     <td>
-                        Consulter@*Sprint4*@
+                        @Html.ActionLink("Consulter", null, null, null) @*Sprint4*@
+
+                        @if (sachem.Models.SachemIdentite.ObtenirTypeUsager(Session) == sachem.Models.TypeUsagers.Eleve || sachem.Models.SachemIdentite.ObtenirTypeUsager(Session) == sachem.Models.TypeUsagers.Tuteur)
+                        {
+
+                            <span> | </span>@Html.ActionLink("Modifier", null, null, null)@*Sprint3*@
+
+                        }
+                        @if (sachem.Models.SachemIdentite.ObtenirTypeUsager(Session) == sachem.Models.TypeUsagers.Eleve || ViewBag.idTypeInsc == 1)
+                        {
+
+                            <span> | </span>@Html.ActionLink("Modifier informations personnelles", null, null, null)@*Sprint3*@
+
+                        }
                     </td>
-@if (sachem.Models.SachemIdentite.ObtenirTypeUsager(Session) == sachem.Models.TypeUsagers.Eleve || sachem.Models.SachemIdentite.ObtenirTypeUsager(Session) == sachem.Models.TypeUsagers.Tuteur)
-{
-                    <td>
-                        Modifier@*Sprint3*@
-                    </td>
-}
-@if (sachem.Models.SachemIdentite.ObtenirTypeUsager(Session) == sachem.Models.TypeUsagers.Eleve || ViewBag.idTypeInsc == 1)
-{
-                    <td>
-                        Modifier informations personelles@*Sprint3*@
-                    </td>
-}
                 </tr>
             }
             @if (!Model.Any())

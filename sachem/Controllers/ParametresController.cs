@@ -58,6 +58,19 @@ namespace sachem.Controllers
         public ActionResult EditContact([Bind(Include = "id_Contact,Nom,Prenom,Courriel,Telephone,Poste,Facebook,SiteWeb,Local")] p_Contact contact)
         {
             ValiderContact(contact);
+            string site = contact.SiteWeb;
+            string facebook = contact.Facebook;
+               
+            if (!site.StartsWith("https://") || site.StartsWith("http://"))
+            {
+                site = "https://" + site;
+            }
+            if (!facebook.StartsWith("https://") || facebook.StartsWith("http://"))
+            {
+                facebook = "https://" + facebook;
+            }
+            contact.Facebook = facebook;
+            contact.SiteWeb = site;
 
             if (ModelState.IsValid)
             {
@@ -181,10 +194,19 @@ namespace sachem.Controllers
         {
             if (db.p_College.Any(r => r.id_College == id))
             {
-                var college = db.p_College.Find(id);
-                college.College = nomCollege;
-                db.Entry(college).State = EntityState.Modified;
-                db.SaveChanges();
+                ValiderCollege(nomCollege);
+                if (ModelState.IsValid)
+                {
+                    var college = db.p_College.Find(id);
+                    college.College = nomCollege;
+                    db.Entry(college).State = EntityState.Modified;
+                    db.SaveChanges();
+                    TempData["Success"] = string.Format(Messages.I_046());
+                }
+                else
+                {
+                   TempData["Erreur"] = "Ce collège d'enseignement existe déjà";
+                }
             }
         }
 
@@ -203,6 +225,10 @@ namespace sachem.Controllers
                 db.SaveChanges();
                 TempData["Success"] = string.Format(Messages.I_044(nomCollege));
             }
+            else
+            {
+                TempData["Erreur"] = "Ce collège d'enseignement existe déjà";
+            }
         }
 
         [HttpPost]
@@ -214,6 +240,7 @@ namespace sachem.Controllers
             {
                 db.p_College.Remove(college);
                 db.SaveChanges();
+                TempData["Success"] = string.Format(Messages.I_047(college.College));
             }
         }
         private void ValiderCollege(string college)

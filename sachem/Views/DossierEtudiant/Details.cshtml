@@ -3,7 +3,12 @@
 @{
     ViewBag.Title = "Dossier de l'étudiant";
 }
+<style>#btn-input-field-tel { height: 34px; width:34px; } #btn-input-field-email { height: 34px; width:34px; } #input-field-tel { float: left;width: 245px; } #input-field-email { float: left;width: 245px; } #btn-input-field-icon{margin-left:-6px;font-size:150%;}</style>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet">
+
 <h2>@ViewBag.Title</h2>
+
 
 @using (Html.BeginForm("Details", "DossierEtudiant", FormMethod.Post, new { @class = "form-inline", role = "form" }))
 {
@@ -12,8 +17,8 @@
     <h4>Identification de l'étudiant</h4>
     <hr />
     <dl class="dl-horizontal">
-        @Html.HiddenFor(model => model.Item1.Personne.id_Pers)
-        @Html.HiddenFor(model => model.Item1.id_Inscription)
+        @Html.HiddenFor(model => model.Item1.Personne.id_Pers, new { @id = "hidden-id-pers" })
+        @Html.HiddenFor(model => model.Item1.id_Inscription, new { @id = "hidden-id-insc" })
         <dt>
             @Html.DisplayNameFor(model => model.Item1.Personne.Matricule7)
         </dt>
@@ -44,9 +49,22 @@
 
         <dd>
             @if (sachem.Models.SachemIdentite.ObtenirTypeUsager(Session) == sachem.Models.TypeUsagers.Tuteur
-                || sachem.Models.SachemIdentite.ObtenirTypeUsager(Session) == sachem.Models.TypeUsagers.Eleve)
+        || sachem.Models.SachemIdentite.ObtenirTypeUsager(Session) == sachem.Models.TypeUsagers.Eleve)
             {
-                @Html.EditorFor(model => model.Item1.Personne.Courriel, new { htmlAttributes = new { @class = "form-control", @maxlength = "256" } })
+                @Html.EditorFor(model => model.Item1.Personne.Courriel, new
+           {
+               htmlAttributes = new
+               {
+                   @class = "form-control",
+                   @required = "required",
+                   @id = "input-field-email",
+                   @maxlength = "256",
+                   @type="email"
+               }
+           })
+                <button type="button" id="btn-input-field-email" class="btn btn-default">
+                    <i class="material-icons" id="btn-input-field-icon">build</i>
+                </button>
                 @Html.ValidationMessageFor(model => model.Item1.Personne.Courriel, "", new { @class = "text-danger" })
             }
             else
@@ -60,22 +78,58 @@
         </dt>
 
         <dd>
-            @if (sachem.Models.SachemIdentite.ObtenirTypeUsager(Session) == sachem.Models.TypeUsagers.Tuteur 
-                || sachem.Models.SachemIdentite.ObtenirTypeUsager(Session) == sachem.Models.TypeUsagers.Eleve)
+            @if (sachem.Models.SachemIdentite.ObtenirTypeUsager(Session) == sachem.Models.TypeUsagers.Tuteur
+                    || sachem.Models.SachemIdentite.ObtenirTypeUsager(Session) == sachem.Models.TypeUsagers.Eleve)
             {
-                @Html.EditorFor(model => model.Item1.Personne.Telephone, new { htmlAttributes = new { @class = "form-control", @placeholder = "(999) 999-9999", @maxlength = "14", @type = "tel", @Value = String.Format("{0:(###) ###-####}", Convert.ToInt64(Model.Item1.Personne.Telephone)) } })
+
+                if (Model.Item1.Personne.Telephone == "" || Model.Item1.Personne.Telephone == null)
+                {
+                    @Html.EditorFor(model => model.Item1.Personne.Telephone, new
+               {
+                   htmlAttributes = new
+                   {
+                       @class = "form-control",
+                       @id = "input-field-tel",
+                       @required = "required",
+                       @placeholder = "(999) 999-9999",
+                       @minlength = "10",
+                       @maxlength = "14",
+                       @type = "tel",
+                       @Value = Model.Item1.Personne.Telephone
+                   }
+               })
+                }
+                else
+                {
+                    @Html.EditorFor(model => model.Item1.Personne.Telephone, new{
+                   htmlAttributes = new
+                   {
+                       @class = "form-control",
+                       @id = "input-field-tel",
+                       @required = "required",
+                       @placeholder = "(999) 999-9999",
+                       @minlength = "10",
+                       @maxlength = "14",
+                       @type = "tel",
+                       @Value = String.Format("{0:(###) ###-####}", Convert.ToInt64(Model.Item1.Personne.Telephone))
+                   }})
+                }
+
+                    <button type="button" id="btn-input-field-tel" class="btn btn-default">
+                        <i class="material-icons" id="btn-input-field-icon">build</i>
+                    </button>
                 @Html.ValidationMessageFor(model => model.Item1.Personne.Telephone, "", new { @class = "text-danger" })
             }
             else
             {
-                @(String.Format("{0:(###) ###-####}", Convert.ToInt64(Model.Item1.Personne.Telephone)))
+                if (!Model.Item1.Personne.Telephone.IsEmpty())
+                {
+                    @(String.Format("{0:(###) ###-####}", Convert.ToInt64(Model.Item1.Personne.Telephone)))
+                }
             }
         </dd>
     </dl>
-        @if (sachem.Models.SachemIdentite.TypeListeProf.Contains(sachem.Models.SachemIdentite.ObtenirTypeUsager(Session)))
-        {
-            <hr />
-        }
+
 @if (sachem.Models.SachemIdentite.ObtenirTypeUsager(Session) == sachem.Models.TypeUsagers.Eleve || ViewBag.idTypeInsc == 1)
 {
     <dl class="dl-horizontal">
@@ -85,8 +139,7 @@
 @if (sachem.Models.SachemIdentite.TypeListeProf.Contains(sachem.Models.SachemIdentite.ObtenirTypeUsager(Session)))
 {
         <dd>
-
-            @Html.CheckBoxFor(model => model.Item1.BonEchange.Value)
+            @Html.CheckBoxFor(model => model.Item1.BonEchange.Value, new { @id = "check-bon-echange" })
             Acheté
         </dd>
 }
@@ -106,12 +159,72 @@ else
     }
 }
     </dl>
+    <input type="submit" id="submit" class="hide" />
 }
-    <input type="submit" value="Modifier" class="btn btn-default"/>       
-
+     @if (sachem.Models.SachemIdentite.ObtenirTypeUsager(Session) != sachem.Models.TypeUsagers.Eleve)
+     {     <div style="margin-top:10px;">@Html.ActionLink("Retourner à la recherche", "Index", "DossierEtudiant", null)</div> }
 
     @Html.Partial("_CoursAnterieur", Model.Item2)
 
     @Html.Partial("_InscriptionSachem", Model.Item3)
 </div>
 }
+@Scripts.Render("~/bundles/jquery")
+<script src="~/scripts/jquery-1.10.2.min.js"></script>
+<script type="text/javascript">
+        $('#btn-input-field-tel').click(function () {
+            var insc = document.getElementById("hidden-id-insc");
+            var pers = document.getElementById("hidden-id-pers");
+            var tel = document.getElementById("input-field-tel");
+            var pattern10 = new RegExp(/^\d{10}$/);
+            var pattern14 = new RegExp(/^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/);
+            if (pattern10.test(tel.value)||pattern14.test(tel.value)) {
+                $.ajax({
+                    url: "/DossierEtudiant/ModifTel",
+                    dataType:'json',
+                    data: { "tel": tel.value, "insc": insc.value, "pers": pers.value },
+                    type: "POST",
+                    success: function () {
+                        window.location.reload(true);
+                    }
+                });
+            }
+            else
+            {
+                //validation error
+            }
+        });
+        $('#btn-input-field-email').click(function () {
+            var insc = document.getElementById("hidden-id-insc");
+            var pers = document.getElementById("hidden-id-pers");
+            var email = document.getElementById("input-field-email");
+            var pattern = new RegExp(/^(("[\w-\s]+")|([\w-]+(?:\.[\w-]+)*)|("[\w-\s]+")([\w-]+(?:\.[\w-]+)*))(@@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$)|(@@\[?((25[0-5]\.|2[0-4][0-9]\.|1[0-9]{2}\.|[0-9]{1,2}\.))((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\.){2}(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\]?$)/i);
+            if (pattern.test(email.value)) {
+                $('#submit').trigger('click');
+                $.ajax({
+                    url: "/DossierEtudiant/ModifEmail",
+                    data: { "email": email.value, "insc": insc.value, "pers": pers.value },
+                    type: "POST",
+                    success: function () {
+                        window.location.reload(true);
+                    }
+                });
+            }
+            else{
+                //validation error
+            }
+        });
+        $('#check-bon-echange').click(function () {
+            var insc = document.getElementById("hidden-id-insc");
+            var pers = document.getElementById("hidden-id-pers");
+            var bon = $(this).prop("checked");
+            $.ajax({
+                url: "/DossierEtudiant/ModifBon",
+                data: { "bon": bon, "insc": insc.value, "pers": pers.value },
+                type: "POST",
+                success: function () {
+                    window.location.reload(true);
+                }
+            });
+        });
+</script>

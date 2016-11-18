@@ -11,7 +11,7 @@
     
 @using (Html.BeginForm("Index", "ConsulterCours", FormMethod.Post, new {@class = "form-inline", role = "form"}))
 {
-        <h4>Recherche</h4>
+    <h4>Recherche</h4>
 
     <table class="table-condensed">
         <tr>
@@ -19,65 +19,82 @@
             <td>@Html.DropDownList("Session", null, "Toutes", htmlAttributes: new { @class = "form-search" })</td>
             <td>Enseignant :</td>
             <td>
-            @if (!ViewBag.IsEnseignant)
-            {
+                @if (!ViewBag.IsEnseignant)
+                {
                     @Html.DropDownList("Personne", null, "Tous", htmlAttributes: new { @class = "form-search" })
-            }
+                }
             </td>
             <td><input type="submit" value="Rechercher" class="form-search" /></td>
         </tr>
     </table>
+    <br/>
 }
-    <table class="table">
+<table class="table">
         @if(ViewBag.IsEnseignant) //si enseignant
-        {
-            <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.FirstOrDefault().Cours.Code)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.FirstOrDefault().Cours.Nom)
-                </th>
-                <th></th>
-        }
-            </tr>
+         {
+             <tr>
+                 <th class="col-sm-1">
+                     @Html.DisplayNameFor(model => model.FirstOrDefault().Cours.Code)
+                 </th>
+                 <th class="col-sm-9">
+                     @Html.DisplayNameFor(model => model.FirstOrDefault().Cours.Nom)
+                 </th>
+                 <th class="col-sm-2"></th>
+             </tr>
 
              foreach (var item in Model)
-            {
-                    <tr>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Cours.Code)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Cours.Nom)
-                        </td>
-                        <td>
+             {
+                 <tr>
+                     <td>
+                         @Html.DisplayFor(modelItem => item.Cours.Code)
+                     </td>
+                     <td>
+                         @Html.DisplayFor(modelItem => item.Cours.Nom)
+                     </td>
+                     <td>
                          @Html.ActionLink("Consulter", "Details", new {idCours = item.id_Cours, idSess = ViewBag.Sessionchoisie})
-                        </td>
-                    </tr>
-            }
-
+                     </td>
+                 </tr>
+             }
+         }
+         else //si responsable
+         {
+             <tr>
+                 <th class="col-sm-1">
+                     @Html.DisplayNameFor(model => model.FirstOrDefault().Cours.Code)
+                 </th>
+                 <th class="col-sm-5">
+                     @Html.DisplayNameFor(model => model.FirstOrDefault().Cours.Nom)
+                 </th>
+                 <th class="col-sm-1">
+                     @Html.DisplayNameFor(model => model.FirstOrDefault().Cours.Actif)
+                 </th>
+                 <th class="col-sm-4">
+                     Enseignant
+                 </th>
+                 <th class="col-sm-1"></th>
+             </tr>
 
         @foreach (var item in Model)
-            {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(model => item.Cours.Code)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(model => item.Cours.Nom)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(model => item.Cours.Actif)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(model => item.nomsConcatenesProfs)
-                    </td>
-                    <td>
+             {
+                 <tr>
+                     <td>
+                         @Html.DisplayFor(model => item.Cours.Code)
+                     </td>
+                     <td>
+                         @Html.DisplayFor(model => item.Cours.Nom)
+                     </td>
+                     <td>
+                         @Html.DisplayFor(model => item.Cours.Actif)
+                     </td>
+                     <td>
+                         @Html.DisplayFor(model => item.nomsConcatenesProfs)
+                     </td>
+                     <td>
                          @Html.ActionLink("Consulter", "Details", new {idCours = item.id_Cours, idSess = ViewBag.Sessionchoisie})
-                    </td>
-                </tr>
-            }
+                     </td>
+                 </tr>
+             }
          }
     @if (!Model.Any())
     {
@@ -107,7 +124,7 @@
                 type: "POST",
                 dataType: "json",
                 success: function(donnees) 
-{
+                {
                     $("#Personne").empty();
 
                     $("#Personne").append('<option value ="">Tous</option>')
@@ -115,7 +132,7 @@
                     $.each(donnees, function (index, valeur) {
                         $("#Personne").append('<option value ="' + valeur.Value + '">' + valeur.Text + '</option>');
                     });
-}
+                }
             });
         })
     });
@@ -123,5 +140,5 @@
 
 
 
-
+    
 </script>

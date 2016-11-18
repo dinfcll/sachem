@@ -1,4 +1,5 @@
 ﻿@model sachem.Models.CoursSuivi
+@using sachem.Models
 
 @{
     ViewBag.Title = "Supprimer un cours de mathématiques antérieur";
@@ -15,7 +16,10 @@ else
     <h4>@sachem.Models.Messages.Q_013(Model.autre_Cours)</h4>
 }
 
+@Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
 <div>
+    <hr />
     <dl class="dl-horizontal">
         <dt>
             @Html.DisplayNameFor(model => model.id_Cours)
@@ -63,6 +67,8 @@ else
 
         <div class="form-actions no-color">
             <input type="submit" value="Supprimer" class="btn btn-default" />
+            @Html.HiddenFor(m => m.id_CoursReussi)
+            @Html.ActionLink("Annuler", "Details", "DossierEtudiant", new { id = SessionBag.Current.id_Inscription }, new { @class = "btn btn-default" })
             @Html.Partial("_Footer", Model)
         </div>
     }

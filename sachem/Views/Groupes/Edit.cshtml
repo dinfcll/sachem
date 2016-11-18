@@ -21,24 +21,22 @@
     </div>
 }
 
-<p>
-    @Html.ActionLink("Ajouter des étudiants au groupe", "AjouterEleve", "Groupes", new { idg = Model.id_Groupe },null)
-</p>
+<div style="margin-top:5px;margin-bottom:10px;">@Html.ActionLink("Ajouter un étudiant au groupe", "AjouterEleve", "Groupes", new { idg = Model.id_Groupe }, new { @class = "btn btn-default" })</div>
 <table class="table">
     <tr>
-        <th>
+        <th class="col-sm-7">
             @Html.DisplayNameFor(model => model.Personne.Nom)
         </th>
-        <th>
+        <th class="col-sm-1">
             @Html.DisplayNameFor(model => model.Personne.Matricule)
         </th>
-        <th>
+        <th class="col-sm-1">
             @Html.DisplayNameFor(model => model.Personne.Age)
         </th>
-        <th>
+        <th class="col-sm-1">
             @Html.DisplayNameFor(model => model.Personne.p_Sexe.Sexe)
         </th>
-        <th></th>
+        <th class="col-sm-2"></th>
     </tr>
 
     @foreach (var item in Model.GroupeEtudiant.OrderBy(x => x.Personne.NomPrenom).ThenBy(x => x.Personne.Matricule7))
@@ -67,23 +65,6 @@
     }
 
 </table>
-
-@if (Request.UrlReferrer != null)
-{
-    <div>
-        @if(Request.UrlReferrer.ToString().Contains("ConsulterCours/Details")) // Si on arrive du controller "ConsulterCours"
-        { 
-            @Html.ActionLink("Retour à la recherche des cours enseignés","Details","ConsulterCours", new { id = Model.Cours.id_Cours},null)
-        }
-        else // Sinon
-        { 
-            @Html.ActionLink("Retour à la recherche des groupes", "Index")
-        }
-        
-    </div>
-}
-
-
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
 }

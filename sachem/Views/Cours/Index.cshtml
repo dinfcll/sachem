@@ -26,23 +26,21 @@
     </table>
 }
 
-<p>
-    @Html.ActionLink("Ajouter un cours", "Create")
-</p>
+<div style="margin-top:5px;margin-bottom:10px;">@Html.ActionLink("Ajouter un cours", "Create", null, null, new { @class = "btn btn-default" })</div>
 
 <table class="table">
     <tr>
-        <th>
+        <th class="col-sm-1">
             @Html.DisplayNameFor(model => model.First().Code)
         </th>
-        <th>
+        <th class="col-sm-8">
             @Html.DisplayNameFor(model => model.First().Nom)
         </th>
-        <th>
+        <th class="col-sm-1">
             @Html.DisplayNameFor(model => model.First().Actif)
         </th>
 
-        <th></th>
+        <th class="col-sm-2"></th>
     </tr>
 
     @foreach (var item in Model)

@@ -238,7 +238,10 @@ namespace sachem.Controllers
                     }
                     else if (Request.UrlReferrer.AbsolutePath.Contains("/Groupes/Index"))
                     {
-                        int.TryParse(Request.Form["Enseignants"], out idEns);
+                        if (sDisabled() != "disabled")
+                        {
+                            int.TryParse(Request.Form["Enseignants"], out idEns);
+                        }
                     }
                 }
                 int.TryParse(Request["Cours"], out idCours);

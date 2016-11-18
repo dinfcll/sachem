@@ -34,8 +34,8 @@
         @Html.AntiForgeryToken()
 
         <div class="form-actions no-color">
-            <input type="submit" value="Supprimer" class="btn btn-default" /> |
-            @Html.ActionLink("Retour à la liste", "Edit",new { id = Model.Groupe.id_Groupe})
+            <input type="submit" value="Supprimer" class="btn btn-default" />
+            @Html.ActionLink("Annuler", "Edit", null, new { id = Model.Groupe.id_Groupe }, new { @class = "btn btn-default" })
         </div>
     }
 </div>
