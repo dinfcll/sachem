@@ -25,7 +25,7 @@ namespace sachem.Controllers
         }
 
         [HttpPost]
-        public ActionResult Index(string[] values)
+        public ActionResult Index(string typeInscription, string[] values )
         {
             ViewBag.TypeInscription = new SelectList(db.p_TypeInscription, "id_TypeInscription", "TypeInscription");
             if (values != null)
