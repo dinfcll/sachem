@@ -212,6 +212,4 @@ _Pvt_Extensions/
 ModelManifest.xml
 /sachem/Fichiers/Fichier_a_traiter
 
-Web.config
-Web.Debug.config
-Web.Release.config
+maConnexionString.config
