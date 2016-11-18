@@ -223,7 +223,6 @@ namespace sachem.Controllers
             return lstEtu.ToList();
         }
 
-
         [NonAction]
         protected IEnumerable<Inscription> Rechercher(int? Page)
         {
