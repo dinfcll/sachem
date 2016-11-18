@@ -29,14 +29,14 @@ namespace sachem.Controllers
             if (values != null)
             {
                 int longueurTab = values.Length;
-                if (longueurTab < 2)
+                if (longueurTab % 2 != 0)
                 {
-                    return this.Json(new { success = false, message = "Utilisez au moins 2 heures." });
+                    return this.Json(new { success = false, message = "Utilisez un nombre pair d'heures." });
                 }
                 int[] heures = new int[longueurTab];
                 string[] splitValue1, splitValue2;
                 Array.Sort(values, new AlphanumComparatorFast());
-                for (int i = 0; i < values.Length - 1; i++)
+                for (int i = 0; i < values.Length - 1; i+=2)
                 {
                     splitValue1 = values[i].Split('-');
                     splitValue2 = values[i + 1].Split('-');
@@ -50,7 +50,7 @@ namespace sachem.Controllers
                     }
                 }
 
-                return this.Json(new { success = true, message = string.Empty });
+                return this.Json(new { success = true, message = values });
             }
             else
             {
