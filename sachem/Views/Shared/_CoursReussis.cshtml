@@ -59,6 +59,49 @@
 
     $(document).ready(function () {
 
+        listeCoursInteresse = function ()
+        {
+            var aideCours = [];
+            $(".validecours").each(function () {
+                if (aideCours.indexOf($(this).val()) == -1) {
+                    aideCours.push($(this).val());
+                }
+            });
+
+            return aideCours;
+        }
+        afficherErreur = function ()
+        {
+            $.ajax({
+                url: "/Inscription/ErreurCours",
+                type: "POST",
+                success: function (retour) {
+                    $("#erreur").html(retour);
+                }
+            });
+        }
+        listeCoursReussis = function () {
+            var infoCourCollegeNote = [];
+
+            $(".InfoCourCollege").each(function (i) {
+                infoCourCollegeNote.push([]);
+                $($(this).find(".valLignecours")).each(function (j) {
+                    infoCourCollegeNote[i][j] = $(this).val();
+                });
+            });
+
+            return infoCourCollegeNote;
+        }
+
+        validerCoursReussis = function (listeCoursReussis)
+        {
+            //RESTE À VÉRIFIER LES DOUBLONS ET LES RÉSULTATS EN INT OU DOUBLE
+            foreach(obj in listeCoursReussis)
+            {
+            }
+
+        }
+
         activationInput = function ()
         {
             $(".btnSupprimerCours").click(function () {
@@ -91,44 +134,17 @@
             window.location.href = '@Url.Action("Index", "Inscription")';
         });
         $("#btnPoursuivre").click(function () {
-            var AideCours = [];
-            $(".validecours").each(function () {
-                if (AideCours.indexOf($(this).val()) == -1) {
-                    AideCours.push($(this).val());
-                }
-            });
+            var coursInteresse = listeCoursInteresse();
 
-            if (AideCours.length != 3) {
-                $.ajax({
-                    url: "/Inscription/ErreurCours",
-                    type: "POST",
-                    success: function (retour) {
-                        $("#erreur").html(retour);
-                    },
-                    error: function (XMLHttpRequest, textStatus, errorThrown) {
-                        alert("error");
-                    }
-                });
+            if (coursInteresse.length != 3) {
+                afficherErreur();
             }
             else
             {
-                var lstElement = [];
-                var InfoCourCollegeNote = [];
-                var i = 0;
-                $(".InfoCourCollege").each(function (bertrand) {
-                    alert(bertrand);
-                    InfoCourCollegeNote.push([]);
-                    $(".valLignecours").each(function(){
-                        lstElement.push($(this).val());
-                    })
-                });
-                
+                var coursReussis = listeCoursReussis();
+
+                var coursReussisValides = validerCoursReussis(coursReussis); 
             }
-            /*$.ajax({
-                url: "/Inscription/Poursuivre",
-                type: "POST",
-                data: {}
-            });*/
         });
     });
 </script>
