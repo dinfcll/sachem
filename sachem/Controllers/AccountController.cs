@@ -338,7 +338,7 @@ namespace sachem.Controllers
                     AjoutInfoConnection(EtudiantBD);
                     SessionBag.Current.id_TypeUsag = TypeUsagers.Etudiant;
                     TempData["Success"] = Messages.I_026();
-                    return RedirectToAction("Login", "Account");
+                    return RedirectToAction("Index", "Inscription");
                 }
             }
             // Si nous sommes arrivés là, un échec s’est produit. Réafficher le formulaire
@@ -386,8 +386,7 @@ namespace sachem.Controllers
                     SachemIdentite.encrypterMPPersonne(ref utilisateur);//l'Encrypte
                     db.Entry(utilisateur).State = EntityState.Modified;
                     db.SaveChanges();//L'enregistre
-                    TempData["Success"] = Messages.I_019();
-                    return RedirectToAction("Login", "Account");
+                    ViewBag.Success = Messages.I_019();
                 }
                 else
                 {
@@ -417,36 +416,42 @@ namespace sachem.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public ActionResult ModifierPassword(Personne personne, string Modifier)
+        public ActionResult ModifierPassword(Personne personne, string Modifier, string Annuler)
         {
-            int idpersonne = SessionBag.Current.id_Pers;//Chercher l'id et le mot de passe de l'utilisateur en cours dans l'objet sessionbag
-            string ancienmdpbd = SessionBag.Current.MP;
+            if (Annuler != null)//Verifier si c'est le bouton annuler qui a été cliqué
+                return RedirectToAction("Index", "Home");
 
-            if (personne.AncienMotDePasse == null)
-                ModelState.AddModelError("AncienMotDePasse", Messages.U_001); //requis
-
-            if (!ConfirmeMdp(personne.MP, personne.ConfirmPassword))
-                return View(personne);
-
-            if (personne.AncienMotDePasse == null || personne.MP == null || personne.ConfirmPassword == null) //Validation pour les champs requis
-                return View(personne);
-
-            if (SachemIdentite.encrypterChaine(personne.AncienMotDePasse) != ancienmdpbd)//Vérifier si le champ ancien mot de passe est le bon mot de passe
+            if (Modifier != null)//Si modifier mdp a été cliqué
             {
-                ModelState.AddModelError("AncienMotDePasse", Messages.C_002);
-                return View(personne);
-            }
-            else
-            {
-                Personne utilisateur = db.Personne.AsNoTracking().Where(x => x.id_Pers == idpersonne).FirstOrDefault();
-                utilisateur.MP = personne.MP;//Change le mot de passe
-                SachemIdentite.encrypterMPPersonne(ref utilisateur);//l'Encrypte
-                SessionBag.Current.MP = utilisateur.MP;//Modifier le mot de passe dans le sessionbag
-                SupprimerCookieConnexion(); //Supprime le cookie
-                db.Entry(utilisateur).State = EntityState.Modified;
-                db.SaveChanges();//L'enregistre
-                ViewBag.Success = Messages.I_018();
-                return View(personne);
+                int idpersonne = SessionBag.Current.id_Pers;//Chercher l'id et le mot de passe de l'utilisateur en cours dans l'objet sessionbag
+                string ancienmdpbd = SessionBag.Current.MP;
+
+                if (personne.AncienMotDePasse == null)
+                    ModelState.AddModelError("AncienMotDePasse", Messages.U_001); //requis
+
+                if (!ConfirmeMdp(personne.MP, personne.ConfirmPassword))
+                    return View(personne);
+
+                if (personne.AncienMotDePasse == null || personne.MP == null || personne.ConfirmPassword == null) //Validation pour les champs requis
+                    return View(personne);
+
+                if (SachemIdentite.encrypterChaine(personne.AncienMotDePasse) != ancienmdpbd)//Vérifier si le champ ancien mot de passe est le bon mot de passe
+                {
+                    ModelState.AddModelError("AncienMotDePasse", Messages.C_002);
+                    return View(personne);
+                }
+                else
+                {
+                    Personne utilisateur = db.Personne.AsNoTracking().Where(x => x.id_Pers == idpersonne).FirstOrDefault();
+                    utilisateur.MP = personne.MP;//Change le mot de passe
+                    SachemIdentite.encrypterMPPersonne(ref utilisateur);//l'Encrypte
+                    SessionBag.Current.MP = utilisateur.MP;//Modifier le mot de passe dans le sessionbag
+                    SupprimerCookieConnexion(); //Supprime le cookie
+                    db.Entry(utilisateur).State = EntityState.Modified;
+                    db.SaveChanges();//L'enregistre
+                    ViewBag.Success = Messages.I_018();
+                    return View(personne);
+                }
             }
             return View();
         }

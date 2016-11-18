@@ -25,7 +25,7 @@ namespace sachem.Controllers
             noPage = page ?? noPage;
 
             return View(Rechercher().ToPagedList(noPage, 20));
-        }   
+        }
         // GET: Etudiant/Details/5
         [ValidationAccesEnseignant]
         // GET: Etudiant/Create
@@ -54,12 +54,12 @@ namespace sachem.Controllers
             personne.Telephone = SachemIdentite.FormatTelephone(personne.Telephone);
             personne.Matricule = CONSTANTE20 + personne.Matricule;
             pepp.personne = personne;
-    
-            ViewBag.id_Sexe = db.p_Sexe;
-            ViewBag.Selected = 0;
-            ViewBag.id_TypeUsag = new SelectList(db.p_TypeUsag, "id_TypeUsag", "TypeUsag");
+
+                ViewBag.id_Sexe = db.p_Sexe;
+                ViewBag.Selected = 0;
+                ViewBag.id_TypeUsag = new SelectList(db.p_TypeUsag, "id_TypeUsag", "TypeUsag");
             ViewBag.id_Programme = new SelectList(db.ProgrammeEtude.Where(x => x.Actif == true), "id_ProgEtu", "CodeNomProgramme");
-            ViewBag.id_Session = new SelectList(db.Session, "id_Sess", "NomSession");
+                ViewBag.id_Session = new SelectList(db.Session, "id_Sess", "NomSession");
 
             Valider(pepp.personne);
             if(ConfirmeMdp(personne.MP, personne.ConfirmPassword) == false)
@@ -97,7 +97,7 @@ namespace sachem.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Personne personne = db.Personne.Find(id);         
+            Personne personne = db.Personne.Find(id);
             if (personne == null)
             {
                 return HttpNotFound();

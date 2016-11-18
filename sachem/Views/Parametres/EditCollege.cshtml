@@ -1,7 +1,7 @@
 ﻿@using PagedList.Mvc;
 @model PagedList.IPagedList<sachem.Models.p_College>
 @{
-    ViewBag.Title = "Collèges d'enseignement";    
+    ViewBag.Title = "Collèges d'enseignement";
 }
 <h2>@ViewBag.Title</h2>
 
@@ -28,9 +28,9 @@
         boutonModif.onclick = function() {
             var nomCollege = document.getElementById("txtNomCollegeModif").value;
             if(nomCollege!=""){
-                Modifier(id, nomCollege);
-            }
+            Modifier(id, nomCollege);
         }
+    }
     }
 
     function SuppressionModal(id) {
@@ -49,9 +49,9 @@
         boutonAjout.onclick = function () {
             var nomCollege = document.getElementById("txtNomCollegeAjout").value;
             if(nomCollege!=""){
-                Ajout(nomCollege)
-            }            
+            Ajout(nomCollege)
         }
+    }
     }
 
     function Suppression(id) {
