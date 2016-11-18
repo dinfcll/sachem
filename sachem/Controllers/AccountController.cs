@@ -307,6 +307,7 @@ namespace sachem.Controllers
                     EtudiantBD.Courriel = personne.Courriel;
                     EtudiantBD.Telephone = SachemIdentite.FormatTelephone(personne.Telephone);
                     EtudiantBD.MP = personne.MP;
+                    EtudiantBD.ConfirmPassword = personne.ConfirmPassword;
                     SachemIdentite.encrypterMPPersonne(ref EtudiantBD);
 
                     db.Entry(EtudiantBD).State = EntityState.Modified;
