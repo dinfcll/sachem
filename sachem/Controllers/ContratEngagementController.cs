@@ -14,7 +14,10 @@ namespace sachem.Controllers
         // GET: ContratEngagement
         public ActionResult Index()
         {
-            return View();
+            int idDeLaPersonneConnectee = SessionBag.Current.id_Pers;
+            Personne personneConnectee = db.Personne.Find(idDeLaPersonneConnectee);
+            Inscription inscriptionDeLaPersonneConnectee = db.Inscription.First(c => c.id_Pers == idDeLaPersonneConnectee);
+            return View(inscriptionDeLaPersonneConnectee);
         }
 
         [HttpPost]
