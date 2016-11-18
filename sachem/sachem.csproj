@@ -484,6 +484,8 @@
     <Content Include="Views\Etudiant\_DeleteProgEtu.cshtml" />
     <Content Include="Views\Shared\Ferme.cshtml" />
     <Content Include="Views\ContratEngagement\Index.cshtml" />
+    <Content Include="Views\ContratEngagement\Index.cshtml" />
+    <Content Include="Views\Shared\Ferme.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
