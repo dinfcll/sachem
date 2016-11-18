@@ -11,7 +11,7 @@ namespace sachem.Controllers
     public class CoursSuiviController : Controller
     {
         private readonly IDataRepository dataRepository;
-
+        private readonly SACHEMEntities db = new SACHEMEntities();
         public CoursSuiviController()
         {
             dataRepository = new BdRepository();
