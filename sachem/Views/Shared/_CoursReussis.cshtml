@@ -102,12 +102,6 @@
                 $.ajax({
                     url: "/Inscription/ErreurCours",
                     type: "POST",
-                    data: {}
-                });
-
-                $.ajax({
-                    url: "/Inscription/ErreurCours",
-                    type: "POST",
                     success: function (retour) {
                         $("#erreur").html(retour);
                     },
@@ -118,10 +112,15 @@
             }
             else
             {
+                var lstElement = [];
                 var InfoCourCollegeNote = [];
-                alert("ok");
-                $(".InfoCourCollege").each(function (index, element) {                    
-                    alert($(this).val());
+                var i = 0;
+                $(".InfoCourCollege").each(function (bertrand) {
+                    alert(bertrand);
+                    InfoCourCollegeNote.push([]);
+                    $(".valLignecours").each(function(){
+                        lstElement.push($(this).val());
+                    })
                 });
                 
             }
