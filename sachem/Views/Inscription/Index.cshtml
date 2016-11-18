@@ -5,7 +5,7 @@
     ViewBag.Title = "Inscription au service de Sachem";
 }
 <script>
-    function myFunction(e) {
+    function suivant(e) {
         var HoraireArray = [];
         $('[name="horaireCheckbox"]:checked').each(function () {
             HoraireArray.push(($(this).val()));
@@ -84,6 +84,8 @@
 
                     </table>
             </CENTER>
-            <input type="button" value="Enregistrer et poursuivre" onclick="myFunction()"/>
+            <br />
+            <br />
+            @Html.Partial("_Boutons")
         </div>
     </form>
