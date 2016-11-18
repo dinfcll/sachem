@@ -223,7 +223,6 @@ namespace sachem.Controllers
             return lstEtu.ToList();
         }
 
-
         [NonAction]
         protected IEnumerable<Inscription> Rechercher(int? Page)
         {
@@ -236,7 +235,7 @@ namespace sachem.Controllers
         public ActionResult Index(int? page)
         {
             noPage = (page ?? noPage);
-
+            
             return View(Rechercher().ToPagedList(noPage, 20));
         }
 
@@ -251,7 +250,7 @@ namespace sachem.Controllers
 
             //Inscription inscription = db.Inscription.Find(id);
             var inscription = dataRepository.FindInscription(id.Value);
-
+            
 
             if (inscription == null)
             {
@@ -321,7 +320,6 @@ namespace sachem.Controllers
             }
             return View(Tuple.Create(inscription, vCoursSuivi.AsEnumerable(), vInscription.AsEnumerable()));
         }
-
 
         protected override void Dispose(bool disposing)
         {
