@@ -68,12 +68,12 @@ namespace sachem.Controllers
             //Validation seulement lors de l'ajout
             if (coursSuivi.id_Cours != null)
             {
-                if (db.CoursSuivi.Any(r => r.id_Cours == coursSuivi.id_Cours && r.id_Pers == coursSuivi.id_Pers && r.id_Sess == coursSuivi.id_Sess) && verif)
+                if (dataRepository.AnyCoursSuiviWhere(r => r.id_Cours == coursSuivi.id_Cours && r.id_Pers == coursSuivi.id_Pers && r.id_Sess == coursSuivi.id_Sess) && verif)
                     ModelState.AddModelError(string.Empty, Messages.I_036());
             }
             else
             {
-                if(db.CoursSuivi.Any(r => r.autre_Cours == coursSuivi.autre_Cours && r.id_Pers == coursSuivi.id_Pers && r.id_Sess == coursSuivi.id_Sess) && verif)
+                if(dataRepository.AnyCoursSuiviWhere(r => r.autre_Cours == coursSuivi.autre_Cours && r.id_Pers == coursSuivi.id_Pers && r.id_Sess == coursSuivi.id_Sess) && verif)
                     ModelState.AddModelError(string.Empty, Messages.I_036());
             }
 
