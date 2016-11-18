@@ -84,21 +84,21 @@
         }
 
         ajouterLigneCours();
-        $("#btnAjouterCours").click(function () {
+        $("#btnAjouterCours").click(function (){
             ajouterLigneCours();
         });
         $("#btnAnnuler").click(function () {
             window.location.href = '@Url.Action("Index", "Inscription")';
         });
         $("#btnPoursuivre").click(function () {
-            var lstIDCours = [];
-            $(".validecours").each(function (index, element) {
-                if (lstIDCours.indexOf($(this).val()) == -1) {
-                    lstIDCours.push($(this).val());
+            var AideCours = [];
+            $(".validecours").each(function () {
+                if (AideCours.indexOf($(this).val()) == -1) {
+                    AideCours.push($(this).val());
                 }
             });
 
-            if (lstIDCours.length != 3) {
+            if (AideCours.length != 3) {
                 $.ajax({
                     url: "/Inscription/ErreurCours",
                     type: "POST",
@@ -118,9 +118,12 @@
             }
             else
             {
-                $(".valLignecours").each(function (index, element) {
-                    alert("test");
+                var InfoCourCollegeNote = [];
+                alert("ok");
+                $(".InfoCourCollege").each(function (index, element) {                    
+                    alert($(this).val());
                 });
+                
             }
             /*$.ajax({
                 url: "/Inscription/Poursuivre",
