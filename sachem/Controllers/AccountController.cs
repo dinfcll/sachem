@@ -455,6 +455,7 @@ namespace sachem.Controllers
                     return View(personne);
                 }
             }
+            return View(personne);
         }
         #endregion
 
