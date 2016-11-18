@@ -35,16 +35,26 @@ namespace sachem.Controllers
                 {
                     return this.Json(new { success = false, message = MSG_ERREUR_LENGTH });
                 }
-                int[] heures = new int[longueurTab];
-                string[] splitValue1, splitValue2;
+                int heure1, heure2, heure3;
+                string[] splitValue1, splitValue2, splitValue3;
+                string jour1, jour2, jour3;
                 Array.Sort(values, new AlphanumComparatorFast());
-                for (int i = 0; i < values.Length - 1; i+=2)
+                for (int i = 0; i < values.Length - 2; i+=2)
                 {
                     splitValue1 = values[i].Split('-');
                     splitValue2 = values[i + 1].Split('-');
-                    if (!(int.Parse(splitValue1[1]) +1 == int.Parse(splitValue2[1])) && (splitValue1[0] != splitValue2[0]))
+                    splitValue3 = values[i + 2].Split('-');
+                    heure1 = int.Parse(splitValue1[1]);
+                    heure2 = int.Parse(splitValue2[1]);
+                    heure3 = int.Parse(splitValue3[1]);
+                    jour1 = splitValue1[0];
+                    jour2 = splitValue2[0];
+                    jour3 = splitValue3[0];
+
+                    if (!((heure1 + 1) == heure2) || (jour1 != jour2))
                     {
-                        return this.Json(new { success = false, message = MSG_ERREUR_CONSECUTIF });
+                        if(!(heure2 + 1 == heure3 && jour2 == jour3))
+                            return this.Json(new { success = false, message = MSG_ERREUR_CONSECUTIF });
                     }
                 }
 
