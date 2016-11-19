@@ -19,9 +19,13 @@ namespace sachem.Controllers
         //liste des sessions disponibles en ordre d'année
         private void ListeSession(int Session = 0)
         {
+            SelectListItem toute = new SelectListItem();
+            toute.Text = "Toutes";
+            toute.Value = "0";
             var lSessions = db.Session.AsNoTracking().OrderBy(s => s.Annee).ThenBy(s => s.p_Saison.Saison);
             var slSession = new List<SelectListItem>();
             slSession.AddRange(new SelectList(lSessions, "id_Sess", "NomSession", Session));
+            slSession.Insert(0,toute);
             ViewBag.SelectSession = slSession;
 
         }
@@ -29,20 +33,14 @@ namespace sachem.Controllers
         [NonAction]
         protected IEnumerable<Cours> ObtenirListeCours(int session)
         {
-            int Pers = 0;
-            var ResultReq = db.Cours.AsNoTracking().Where(c => c.Groupe.Any(g => (g.id_Enseignant == Pers || Pers == 0) && (g.id_Sess == session))).OrderBy(c => c.Nom);
-           
-            return ResultReq.AsEnumerable();
+            return db.Cours.AsNoTracking().Where(c => c.Groupe.Any(g => (g.id_Sess == session || session == 0))).OrderBy(c => c.Nom).AsEnumerable();
         }
 
         //fonctions permettant d'obtenir la liste des groupe. Appelé pour l'initialisation et la maj de la liste déroulante Groupe
         [NonAction]
         private IEnumerable<Groupe> ObtenirListeGroupe(int cours, int session)
         {
-
-            int Pers = 0;
-
-            return db.Groupe.AsNoTracking().Where(p => (p.id_Enseignant == Pers || Pers == 0) && (p.id_Sess == session) && (p.id_Cours == cours)).OrderBy(p => p.NoGroupe);
+            return db.Groupe.AsNoTracking().Where(p => (p.id_Sess == session || session == 0) && (p.id_Cours == cours || cours == 0)).OrderBy(p => p.NoGroupe);
         }
 
 
@@ -199,10 +197,10 @@ namespace sachem.Controllers
             }
 
             //si un des champs de recherche est absent
-            if (champsRenseignes != 3 && champsRenseignes != 0)
-            {
-                ModelState.AddModelError(string.Empty, Messages.I_039());
-            }
+            //if (champsRenseignes != 3 && champsRenseignes != 0)
+            //{
+            //    ModelState.AddModelError(string.Empty, Messages.I_039());
+            //}
 
             ListeSession(session);
             ListeCours(cours, session);
@@ -219,11 +217,13 @@ namespace sachem.Controllers
                     */
                 db.Configuration.LazyLoadingEnabled = false;
 
-                if (matricule == "") //recherche avec les trois champs. Pas besoin de préciser le cours étant donné que le id_Groupe est associé à un id_Cours
+                if (matricule == "")
                 {
                     /*requête LINQ qui va chercher tous les étudiants répondant aux critères de recherche ainsi que leur programme d'étude actuel. */
                     lstEtu = from q in
-                            (from p in db.Personne.Where(x => x.Actif == true && x.GroupeEtudiant.Any(y => y.id_Groupe == groupe) && x.EtuProgEtude.Any(y => y.id_Sess == session)).OrderBy(x => x.Nom)
+                            (from p in db.Personne.Where(x => x.Actif == true && x.GroupeEtudiant.Any(y => y.id_Groupe == groupe || groupe == 0) 
+                             && x.GroupeEtudiant.Any(z => z.Groupe.id_Cours == cours || cours == 0)
+                             && x.EtuProgEtude.Any(y => y.id_Sess == session || session == 0)).OrderBy(x => x.Nom) 
                              select new
                              {
                                  Personne = p,
