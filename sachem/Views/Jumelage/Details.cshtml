@@ -1,0 +1,90 @@
+﻿@model sachem.Models.Jumelage
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Jumelage</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.DateDebut)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DateDebut)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DateFin)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DateFin)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.HeureDebut)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.HeureDebut)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.HeureFin)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.HeureFin)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Inscription.NoteSup)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Inscription.NoteSup)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Inscription1.NoteSup)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Inscription1.NoteSup)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.p_Jour.Jour)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.p_Jour.Jour)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Personne.Nom)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Personne.Nom)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Session.id_Sess)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Session.id_Sess)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.id_Jumelage }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

@@ -1,0 +1,81 @@
+﻿@model IEnumerable<sachem.Models.Jumelage>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.DateDebut)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DateFin)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.HeureDebut)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.HeureFin)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Inscription.NoteSup)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Inscription1.NoteSup)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.p_Jour.Jour)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Personne.Nom)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Session.id_Sess)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.DateDebut)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DateFin)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.HeureDebut)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.HeureFin)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Inscription.NoteSup)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Inscription1.NoteSup)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.p_Jour.Jour)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Personne.Nom)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Session.id_Sess)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.id_Jumelage }) |
+            @Html.ActionLink("Details", "Details", new { id=item.id_Jumelage }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.id_Jumelage })
+        </td>
+    </tr>
+}
+
+</table>

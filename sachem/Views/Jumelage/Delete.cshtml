@@ -1,0 +1,96 @@
+﻿@model sachem.Models.Jumelage
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>Jumelage</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.DateDebut)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DateDebut)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DateFin)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DateFin)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.HeureDebut)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.HeureDebut)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.HeureFin)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.HeureFin)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Inscription.NoteSup)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Inscription.NoteSup)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Inscription1.NoteSup)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Inscription1.NoteSup)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.p_Jour.Jour)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.p_Jour.Jour)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Personne.Nom)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Personne.Nom)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Session.id_Sess)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Session.id_Sess)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>
