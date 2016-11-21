@@ -1,10 +1,14 @@
 ﻿@model sachem.Models.Inscription
 
-
+<style>
+.checkzonegood{background-color:white;width:100%; border-left:5px solid white; border-right:5px solid white; height:25px;background-size:100%; -webkit-appearance: none; -moz-appearance:none;}
+.checkzonegood:checked{background-color:green;width:100%; border-left:5px solid white; border-right:5px solid white; height:25px;background-size:100%; -webkit-appearance: none; -moz-appearance:none;}
+.checkzonewrong{background-color:white;width:100%; border-left:5px solid white; border-right:5px solid white; height:25px;background-size:100%; -webkit-appearance: none; -moz-appearance:none;}
+.checkzonewrong:checked{background-color:red;width:100%; border-left:5px solid white; border-right:5px solid white; height:25px;background-size:100%; -webkit-appearance: none; -moz-appearance:none;}</style>
 @{
     ViewBag.Title = "Inscription au service de Sachem";
 }
-<script>
+<script>  
     function suivant(e) {
         var HoraireArray = [];
         $('[name="horaireCheckbox"]:checked').each(function () {
@@ -47,45 +51,45 @@
             @Html.ValidationMessageFor(model => model.id_TypeInscription, "", new { @class = "text-danger" })
         </div>
     </div>
-
+<div class="container">
     <h3>Disponibilité</h3>
-    <p> 
-        -Indiquez vos heures de disponibilité en cochant les cases appropriées.<br />
-        -Formez des blocs d'au moins deux heures consécutives.(les rencontres dureront 1h30/semaine) <br />
-        -Inscrivez plusieurs choix pour faciliter le jumelage.
-    </p>
+    <ul>
+        <li>Indiquez vos heures de disponibilité en cochant les cases appropriées.</li>
+        <li>Formez des blocs d'au moins deux heures consécutives.(les rencontres dureront 1h30/semaine)</li>
+        <li>Inscrivez plusieurs choix pour faciliter le jumelage.</li>
+    </ul>
     <form method="post" id="TabDisp">
-        <div>
-            @{string[] jour = new string[5] { "Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi" };}
-            <CENTER>
-                    <table style="width:100%" border=1>
-                        <TR>
-                            <TH>Heures</TH>
-                            <TH>@jour[0]</TH>
-                            <TH>@jour[1]</TH>
-                            <TH>@jour[2]</TH>
-                            <TH>@jour[3]</TH>
-                            <TH>@jour[4]</TH>
 
-                        </TR>
-                        @for (var heure = 8; heure < 18;)
-                        {
-                            int heureCheckbox = heure;
-                            <TR>
-                                <TD>@(heure)h - @(++heure)h</TD>
+        @{string[] jour = new string[5] { "Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi" };}
+        <table class="table-bordered col-sm-12">
+            <TR>
+                <TH class="col-sm-2 text-center" style="height:30px;">Heures</TH>
+                <TH class="col-sm-2 text-center">@jour[0]</TH>
+                <TH class="col-sm-2 text-center">@jour[1]</TH>
+                <TH class="col-sm-2 text-center">@jour[2]</TH>
+                <TH class="col-sm-2 text-center">@jour[3]</TH>
+                <TH class="col-sm-2 text-center">@jour[4]</TH>
+
+            </TR>
+            @for (var heure = 8; heure < 18;)
+            {
+                int heureCheckbox = heure;
+                <TR>
+                    <TD class="text-center">@(heure)h - @(++heure)h</TD>
 
 
-                                @for (var j = 0; j < 5; j++)
-                                {
-                                   <TD align="center"> @Html.CheckBox("horaireCheckbox", false, htmlAttributes: new { @class = "control-label col-md-2", @id = jour[j] + heureCheckbox.ToString(), @value = jour[j] + "-" + heureCheckbox.ToString() })</TD>
-                                }
-                            </TR>
-                        }
+                    @for (var j = 0; j < 5; j++)
+                    {
+                        <td class="text-center"> @Html.CheckBox("horaireCheckbox", false, htmlAttributes: new { @class = "control-label col-md-2 checkzonegood", @id = jour[j] + heureCheckbox.ToString(), @value = jour[j] + "-" + heureCheckbox.ToString() })</td>
+                    }
+                </TR>
+            }
 
-                    </table>
-            </CENTER>
-            <br />
-            <br />
-            @Html.Partial("_Boutons")
-        </div>
+        </table>
+
+        <br />
+        @Html.Partial("_Boutons")
     </form>
+</div>
+
+    
