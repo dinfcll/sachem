@@ -30,13 +30,18 @@ namespace sachem.Controllers
         [NonAction]
         protected IEnumerable<Cours> ObtenirListeCours(int session)
         {
-            return db.Cours.AsNoTracking().Where(c => c.Groupe.Any(g => (g.id_Sess == session || session == 0))).OrderBy(c => c.Nom).AsEnumerable();
+            return db.Cours.AsNoTracking()
+                .Where(c => c.Groupe.Any(g => (g.id_Sess == session || session == 0)))
+                .OrderBy(c => c.Nom)
+                .AsEnumerable();
         }
 
         [NonAction]
         private IEnumerable<Groupe> ObtenirListeGroupe(int cours, int session)
         {
-            return db.Groupe.AsNoTracking().Where(p => (p.id_Sess == session || session == 0) && (p.id_Cours == cours || cours == 0)).OrderBy(p => p.NoGroupe);
+            return db.Groupe.AsNoTracking()
+                .Where(p => (p.id_Sess == session || session == 0) && (p.id_Cours == cours || cours == 0))
+                .OrderBy(p => p.NoGroupe);
         }
 
         [NonAction]
