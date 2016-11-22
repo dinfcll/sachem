@@ -484,6 +484,7 @@
     <Content Include="Views\Jumelage\Details.cshtml" />
     <Content Include="Views\Jumelage\Edit.cshtml" />
     <Content Include="Views\Jumelage\Index.cshtml" />
+    <Content Include="Views\Jumelage\_RechercheEtudiantInscrit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
