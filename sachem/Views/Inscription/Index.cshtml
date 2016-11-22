@@ -1,10 +1,9 @@
 ﻿@model sachem.Models.Inscription
 
 <style>
-.checkzonegood{background-color:white;width:100%; border-left:5px solid white; border-right:5px solid white; height:25px;background-size:100%; -webkit-appearance: none; -moz-appearance:none;}
-.checkzonegood:checked{background-color:green;width:100%; border-left:5px solid white; border-right:5px solid white; height:25px;background-size:100%; -webkit-appearance: none; -moz-appearance:none;}
-.checkzonewrong{background-color:white;width:100%; border-left:5px solid white; border-right:5px solid white; height:25px;background-size:100%; -webkit-appearance: none; -moz-appearance:none;}
-.checkzonewrong:checked{background-color:red;width:100%; border-left:5px solid white; border-right:5px solid white; height:25px;background-size:100%; -webkit-appearance: none; -moz-appearance:none;}</style>
+.checkzone{width:100%;top:-1px;height:25px;background-size:100%; -webkit-appearance: none; -moz-appearance:none;}
+.checkzone:checked{width:100%; background-image:url('../../Images/x.png');background-position:center;background-repeat:no-repeat;background-size:30px 25px;height:25px; -webkit-appearance: none; -moz-appearance:none;}
+</style>
 @{
     ViewBag.Title = "Inscription au service de Sachem";
 }
@@ -36,53 +35,66 @@
    
 </script>
 
-
-<h2>@ViewBag.Title</h2>
-<p class="text-success">
-    @Html.Raw(@TempData["Success"])
-</p>
+<div class="container">
+    <h2>@ViewBag.Title</h2>
+    <p class="text-success">
+        @Html.Raw(@TempData["Success"])
+    </p>
 
     @Html.AntiForgeryToken()
 
-    <div class="form-group">
+    <div class="form-groug">
         @Html.LabelFor(model => model.id_TypeInscription, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
             @Html.DropDownList("TypeInscription", null, "Choisir", htmlAttributes: new { @class = "form-control" })
             @Html.ValidationMessageFor(model => model.id_TypeInscription, "", new { @class = "text-danger" })
         </div>
     </div>
-<div class="container">
-    <h3>Disponibilité</h3>
+        @*<h3 class="page-header">Identification</h3>
+    <div class="form-groug">
+        @Html.LabelFor(model => model.Personne.Telephone, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Personne.Telephone, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Personne.Telephone, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-groug">
+        @Html.LabelFor(model => model.Personne.Courriel, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Personne.Courriel, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Personne.Courriel, "", new { @class = "text-danger" })
+        </div>
+    </div>*@
+
+    <h3 class="page-header">Disponibilité</h3>
     <ul>
-        <li>Indiquez vos heures de disponibilité en cochant les cases appropriées.</li>
+        <li>Indiquez vos heures de disponibilité en cliquant dans les cases appropriées.</li>
         <li>Formez des blocs d'au moins deux heures consécutives.(les rencontres dureront 1h30/semaine)</li>
         <li>Inscrivez plusieurs choix pour faciliter le jumelage.</li>
     </ul>
     <form method="post" id="TabDisp">
 
         @{string[] jour = new string[5] { "Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi" };}
-        <table class="table-bordered col-sm-12">
-            <TR>
-                <TH class="col-sm-2 text-center" style="height:30px;">Heures</TH>
-                <TH class="col-sm-2 text-center">@jour[0]</TH>
-                <TH class="col-sm-2 text-center">@jour[1]</TH>
-                <TH class="col-sm-2 text-center">@jour[2]</TH>
-                <TH class="col-sm-2 text-center">@jour[3]</TH>
-                <TH class="col-sm-2 text-center">@jour[4]</TH>
+        <table class="table-bordered table-striped col-sm-12">
+            <tr>
+                <th class="col-sm-2 text-center" style="height:30px;font-weight:bold;color:white;background-color:#666;">Heures</th>
+                @foreach (string j in jour)
+                {
+                    <th class="col-sm-2 text-center" style="height:30px;font-weight:bold;color:white;background-color:#666;">@j</th>
+                }
 
-            </TR>
+            </tr>
             @for (var heure = 8; heure < 18;)
             {
                 int heureCheckbox = heure;
-                <TR>
-                    <TD class="text-center">@(heure)h - @(++heure)h</TD>
-
-
+                <tr>
+                    <td class="text-center">@(heure)h - @(++heure)h</td>
                     @for (var j = 0; j < 5; j++)
                     {
-                        <td class="text-center"> @Html.CheckBox("horaireCheckbox", false, htmlAttributes: new { @class = "control-label col-md-2 checkzonegood", @id = jour[j] + heureCheckbox.ToString(), @value = jour[j] + "-" + heureCheckbox.ToString() })</td>
+                        <td class="text-center"> @Html.CheckBox("horaireCheckbox", false, htmlAttributes: new { @class = "control-label col-md-2 checkzone", @id = jour[j] + heureCheckbox.ToString(), @value = jour[j] + "-" + heureCheckbox.ToString() })</td>
                     }
-                </TR>
+                </tr>
             }
 
         </table>
@@ -92,4 +104,7 @@
     </form>
 </div>
 
-    
+
+
+
+
