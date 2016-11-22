@@ -7,7 +7,7 @@
 @{
     ViewBag.Title = "Inscription au service de Sachem";
 }
-<script>  
+<script>
     function suivant(e) {
         var HoraireArray = [];
         $('[name="horaireCheckbox"]:checked').each(function () {
@@ -26,13 +26,10 @@
             dataType: 'json',
             success: function (data) {
                 alert(data.message);
-            }
-            
+            }           
         });
         return false;
-    }
-
-   
+    }  
 </script>
 
 <div class="container">
@@ -103,8 +100,3 @@
         @Html.Partial("_Boutons")
     </form>
 </div>
-
-
-
-
-
