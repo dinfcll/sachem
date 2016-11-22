@@ -33,7 +33,7 @@ namespace sachem.Controllers
                 {
                     return this.Json(new { success = false, message = "Utilisez un nombre pair d'heures." });
                 }
-                double[] heures = new double[longueurTab];
+                int[] heures = new int[longueurTab];
                 string[] splitValue1, splitValue2;
                 Array.Sort(values, new AlphanumComparatorFast());
                 for (int i = 0; i < values.Length - 1; i+=2)
