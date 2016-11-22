@@ -67,12 +67,12 @@ namespace sachem.Models
         [StringLength(25)]
         public string NomUsager;
 
-        [Display(Name = "Matricule")]
+        [Display(Name = "No de DA")]
         [StringLength(9)]
         public global::System.String Matricule;
 
         //Extrait du PAM partiellement
-        [Display(Name = "Matricule")]
+        [Display(Name = "No de DA")]
         [StringLength(7, ErrorMessage = Messages.U_004)]
         public string Matricule7;
 
