@@ -32,12 +32,11 @@ namespace sachem.Controllers
 
         [NonAction]
         //liste des sessions disponibles en ordre d'année
-        private void ListeSession(int Session = 0)
+        private void ListeSession(int session = 0)
         {
-            var lSessions = db.Session.AsNoTracking().OrderBy(s => s.Annee).ThenBy(s => s.p_Saison.Saison).Where(s => s.p_Saison.id_Saison == s.id_Saison);
+            var lSessions = db.Session.AsNoTracking().OrderByDescending(y => y.Annee).ThenByDescending(x => x.id_Saison);
             var slSession = new List<SelectListItem>();
-            
-            slSession.AddRange(new SelectList(lSessions.OrderBy(i => i.id_Sess), "id_Sess", "NomSession", Session));
+            slSession.AddRange(new SelectList(lSessions, "id_Sess", "NomSession", session));
             ViewBag.Session = slSession;
 
         }
@@ -196,8 +195,7 @@ namespace sachem.Controllers
 
                 }
                 else if (Request.Form["Session"] == null)
-                    session = db.Session.Max(s => s.id_Sess);
-
+                    session = Convert.ToInt32(db.Session.OrderByDescending(y => y.Annee).ThenByDescending(x => x.id_Saison).FirstOrDefault().id_Sess);
             }
 
             ListeSession(session);
