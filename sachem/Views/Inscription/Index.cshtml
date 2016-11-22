@@ -47,23 +47,6 @@
             @Html.ValidationMessageFor(model => model.id_TypeInscription, "", new { @class = "text-danger" })
         </div>
     </div>
-        @*<h3 class="page-header">Identification</h3>
-    <div class="form-groug">
-        @Html.LabelFor(model => model.Personne.Telephone, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.Personne.Telephone, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.Personne.Telephone, "", new { @class = "text-danger" })
-        </div>
-    </div>
-
-    <div class="form-groug">
-        @Html.LabelFor(model => model.Personne.Courriel, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.Personne.Courriel, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.Personne.Courriel, "", new { @class = "text-danger" })
-        </div>
-    </div>*@
-
     <h3 class="page-header">Disponibilité</h3>
     <ul>
         <li>Indiquez vos heures de disponibilité en cliquant dans les cases appropriées.</li>
@@ -80,22 +63,34 @@
                 {
                     <th class="col-sm-2 text-center" style="height:30px;font-weight:bold;color:white;background-color:#666;">@j</th>
                 }
-
             </tr>
-            @for (var heure = 8; heure < 18;)
-            {
-                int heureCheckbox = heure;
-                <tr>
-                    <td class="text-center">@(heure)h - @(++heure)h</td>
-                    @for (var j = 0; j < 5; j++)
-                    {
-                        <td class="text-center"> @Html.CheckBox("horaireCheckbox", false, htmlAttributes: new { @class = "control-label col-md-2 checkzone", @id = jour[j] + heureCheckbox.ToString(), @value = jour[j] + "-" + heureCheckbox.ToString() })</td>
-                    }
-                </tr>
-            }
+            @{ TimeSpan StartTime = TimeSpan.FromHours(8);
+                int Difference = 30;
+                int EntriesCount = 17;
+                Dictionary<TimeSpan, TimeSpan> Entries = new Dictionary<TimeSpan, TimeSpan>();
 
+                for (int i = 0; i < EntriesCount; i++)
+                {
+                    Entries.Add(StartTime.Add(TimeSpan.FromMinutes(Difference * i)),
+                                StartTime.Add(TimeSpan.FromMinutes(Difference * i + Difference)));
+                }
+
+                foreach (var e in Entries)
+                {
+                    int heureCheckbox = 0; //  double minutesTotalesCheckBox = e.Value.TotalMinutes;
+                    TimeSpan ts90 = new TimeSpan(1, 30, 0);
+                    TimeSpan tsFin = new TimeSpan();
+                    tsFin = e.Value.Add(ts90);
+                    <tr>
+                        <td class="text-center">@(e.Value.Hours)h@(e.Value.Minutes.ToString("00")) - @(tsFin.Hours)h@(tsFin.Minutes.ToString("00"))</td>
+                        @for (var j = 0; j < 5; j++)
+                        {
+                            <td class="text-center"> @Html.CheckBox("horaireCheckbox", false, htmlAttributes: new { @class = "control-label col-md-2 checkzone", @id = jour[j] + heureCheckbox.ToString(), @value = jour[j] + "-" + heureCheckbox.ToString() })</td>
+                        }
+                    </tr>
+                }
+            }             
         </table>
-
         <br />
         @Html.Partial("_Boutons")
     </form>

@@ -33,14 +33,14 @@ namespace sachem.Controllers
                 {
                     return this.Json(new { success = false, message = "Utilisez un nombre pair d'heures." });
                 }
-                int[] heures = new int[longueurTab];
+                double[] heures = new double[longueurTab];
                 string[] splitValue1, splitValue2;
                 Array.Sort(values, new AlphanumComparatorFast());
                 for (int i = 0; i < values.Length - 1; i+=2)
                 {
                     splitValue1 = values[i].Split('-');
                     splitValue2 = values[i + 1].Split('-');
-                    if (!(int.Parse(splitValue1[1]) +1 == int.Parse(splitValue2[1])))
+                    if (!(double.Parse(splitValue1[1]) +1 == double.Parse(splitValue2[1])))
                     {
                         return this.Json(new { success = false, message = "Utilisez au moins deux heures consécutives!" });
                     }
