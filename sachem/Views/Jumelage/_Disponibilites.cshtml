@@ -13,24 +13,22 @@
     </tr>
     @{ TimeSpan StartTime = TimeSpan.FromHours(8);
         int Difference = 30;
-        int EntriesCount = 17;
+        int Rencontre = 90;
+        int EntriesCount = 18;
         Dictionary<TimeSpan, TimeSpan> Entries = new Dictionary<TimeSpan, TimeSpan>();
 
         for (int i = 0; i < EntriesCount; i++)
         {
             Entries.Add(StartTime.Add(TimeSpan.FromMinutes(Difference * i)),
-                        StartTime.Add(TimeSpan.FromMinutes(Difference * i + Difference)));
+                        StartTime.Add(TimeSpan.FromMinutes(Difference * i + Rencontre)));
         }
 
         foreach (var e in Entries)
         {
             int heureCheckbox = 0; //  double minutesTotalesCheckBox = e.Value.TotalMinutes;
-            TimeSpan ts90 = new TimeSpan(1, 30, 0);
-            TimeSpan tsFin = new TimeSpan();
-            tsFin = e.Value.Add(ts90);
             <tr>
                 <td class="text-center">
-                @(e.Value.Hours)h@(e.Value.Minutes.ToString("00")) - @(tsFin.Hours)h@(tsFin.Minutes.ToString("00"))
+                @(e.Key.Hours)h@(e.Key.Minutes.ToString("00")) - @(e.Value.Hours)h@(e.Value.Minutes.ToString("00"))
                 </td>
                 @for (var j = 0; j < 5; j++)
                 {
