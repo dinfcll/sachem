@@ -2,6 +2,44 @@
 
 <h4 class="page-header">Disponibilités</h4>
 
-<table class="table-condensed">
+<table class="table-bordered table-striped col-sm-12">
+@{string[] jour = new string[5] { "Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi" };}
+    <tr>
+        <th class="col-sm-2 text-center" style="height:30px;font-weight:bold;color:white;background-color:#666;">Heures</th>
+        @foreach (string j in jour)
+        {
+            <th class="col-sm-2 text-center" style="height:30px;font-weight:bold;color:white;background-color:#666;">@j</th>
+        }
+    </tr>
+    @{ TimeSpan StartTime = TimeSpan.FromHours(8);
+        int Difference = 30;
+        int EntriesCount = 17;
+        Dictionary<TimeSpan, TimeSpan> Entries = new Dictionary<TimeSpan, TimeSpan>();
 
+        for (int i = 0; i < EntriesCount; i++)
+        {
+            Entries.Add(StartTime.Add(TimeSpan.FromMinutes(Difference * i)),
+                        StartTime.Add(TimeSpan.FromMinutes(Difference * i + Difference)));
+        }
+
+        foreach (var e in Entries)
+        {
+            int heureCheckbox = 0; //  double minutesTotalesCheckBox = e.Value.TotalMinutes;
+            TimeSpan ts90 = new TimeSpan(1, 30, 0);
+            TimeSpan tsFin = new TimeSpan();
+            tsFin = e.Value.Add(ts90);
+            <tr>
+                <td class="text-center">
+                @(e.Value.Hours)h@(e.Value.Minutes.ToString("00")) - @(tsFin.Hours)h@(tsFin.Minutes.ToString("00"))
+                </td>
+                @for (var j = 0; j < 5; j++)
+                {
+                    @*ajouter la class alert-success au td a ces zones de dispo et le nbre de 'fit'
+                    ajouter la class alert-danger a ces zones jumeler et le terme 'jumele'*@
+                    <td class="text-center" id = "@jour[j]@heureCheckbox.ToString()" value = "@jour[j] - @heureCheckbox.ToString()">
+                    </td>
+                }
+            </tr>
+        }
+    }
 </table>

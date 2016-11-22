@@ -1,7 +1,82 @@
 ﻿@using sachem.Models
-
 <h4 class="page-header">Jumelages possibles</h4>
+<style>.hover-student{background-color:#f9f9f9;} .hover-student:hover{background-color:#eee;} .nodeco{color:#444;}.nodeco:hover{color:#444;text-decoration:none;}</style>
+<div class="panel-group" id="accordion">
+@for (int k = 0; k < 3; k++)
+{
+    <div class="panel panel-default">
+        <div class="hover-student">
+            <a class="nodeco" data-toggle="collapse" data-parent="#accordion" href="#collapse_@k">
+                <table>
+                    <tr>
+                        <th class="panel-heading  panel-title col-sm-1">
 
-<table class="table-condensed">
+                            <i class="material-icons col-sm-1" style="margin-top:-4px;">people</i>
 
-</table>
+                        </th>
+                        <th class="panel-heading panel-title col-sm-7">
+                           Nom, Prenom
+                         
+                        </th>
+                        <th class="panel-heading panel-title col-sm-2">
+                           No de DA
+                    
+                        </th>
+                        <th class="panel-heading panel-title col-sm-2">
+                            Type d'inscription
+
+                        </th>
+                        <th class="panel-heading col-sm-1">
+                            <a href="#">
+                            Accéder
+                            </a>
+                        </th>
+                    </tr>
+                </table>
+            </a>
+        </div>
+        <div id="collapse_@k" class="panel-collapse collapse">
+            <!--table de dispos-->
+            <table class="panel-body table-bordered table-striped col-sm-12">
+                @{string[] jour = new string[5] { "Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi" };}
+                <tr>
+                    <th class="col-sm-2 text-center" style="height:30px;font-weight:bold;color:white;background-color:#666;">Heures</th>
+                    @foreach (string j in jour)
+                    {
+                        <th class="col-sm-2 text-center" style="height:30px;font-weight:bold;color:white;background-color:#666;">@j</th>
+                    }
+                </tr>
+                @{ TimeSpan StartTime = TimeSpan.FromHours(8);
+                    int Difference = 30;
+                    int EntriesCount = 17;
+                    Dictionary<TimeSpan, TimeSpan> Entries = new Dictionary<TimeSpan, TimeSpan>();
+
+                    for (int i = 0; i < EntriesCount; i++)
+                    {
+                        Entries.Add(StartTime.Add(TimeSpan.FromMinutes(Difference * i)),
+                                    StartTime.Add(TimeSpan.FromMinutes(Difference * i + Difference)));
+                    }
+
+                    foreach (var e in Entries)
+                    {
+                        int heureCheckbox = 0; //  double minutesTotalesCheckBox = e.Value.TotalMinutes;
+                        TimeSpan ts90 = new TimeSpan(1, 30, 0);
+                        TimeSpan tsFin = new TimeSpan();
+                        tsFin = e.Value.Add(ts90);
+                        <tr>
+                            <td class="text-center">
+                                @(e.Value.Hours)h@(e.Value.Minutes.ToString("00")) - @(tsFin.Hours)h@(tsFin.Minutes.ToString("00"))
+                            </td>
+                            @for (var j = 0; j < 5; j++)
+                            {
+                                @*ajouter la class alert-success au td a ces zones de dispo et le nbre de 'fit'*@
+                                <td id="@jour[j]@heureCheckbox.ToString()" value="@jour[j] - @heureCheckbox.ToString()"><center></center><i class="material-icons pull-right">person_add</i></td>
+                            }
+                        </tr>
+                    }
+                }
+            </table>
+        </div>
+    </div>
+    }
+</div>

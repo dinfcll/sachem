@@ -3,13 +3,46 @@
 @{
     ViewBag.Title = "Jumelage";
 }
-
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet">
 <h2>@ViewBag.Title</h2>
 
 <div>
     <h4 class="page-header">Identification de l'étudiant</h4>
+    <dl class="dl-horizontal col-sm-6" style="right:0;margin-top:0;position:absolute;">
+        <dt>
+            @Html.DisplayNameFor(model => model.p_TypeInscription.TypeInscription)
+        </dt>
 
-    <dl class="dl-horizontal">
+        <dd>
+            @Html.DisplayFor(model => model.p_TypeInscription.TypeInscription)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.p_StatutInscription.Statut)
+        </dt>
+
+        <dd>
+            @Html.Label("ViewBag Jumele")
+        </dd>
+
+        <dt>
+            @Html.Label("ViewBag heures pret a")
+        </dt>
+
+        <dd>
+            @Html.Label("ViewBag 3hrs")
+        </dd>
+
+        <dt>
+            @Html.Label("ViewBag 2x consecutifs")
+        </dt>
+
+        <dd>
+            @Html.Label("ViewBag Oui")
+        </dd>
+    </dl>
+    <dl class="dl-horizontal col-sm-12">
         <dt>
             @Html.DisplayNameFor(model => model.Personne.Matricule7)
         </dt>
@@ -49,41 +82,9 @@
         <dd>
             @Html.DisplayFor(model => model.Personne.Telephone)
         </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.p_TypeInscription.TypeInscription)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.p_TypeInscription.TypeInscription)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.p_StatutInscription.Statut)
-        </dt>
-
-        <dd>
-            @Html.Display("ViewBag Jumele")
-        </dd>
-
-        <dt>
-            @Html.Display("ViewBag Nombre d'heures pret a.....")
-        </dt>
-
-        <dd>
-            @Html.Display("ViewBag 3hrs")
-        </dd>
-
-        <dt>
-            @Html.Display("ViewBag pret a faire 2 blocs consecutifs")
-        </dt>
-
-        <dd>
-            @Html.Display("ViewBag Oui")
-        </dd>
-
     </dl>
-</div>
+    
+    </div>
 
 @using (Html.BeginForm("Details", "Jumelage", FormMethod.Post, new { @class = "form-inline", role = "form" }))
 {
@@ -91,12 +92,12 @@
 }
 
 @*if jumeler < de 2 fois*@
-    @using (Html.BeginForm("Details", "Jumelage", FormMethod.Post, new { @class = "form-inline", role = "form" }))
-    {
-        @Html.Partial("_JumelagesPossibles")
-    }
+@using (Html.BeginForm("Details", "Jumelage", FormMethod.Post, new { @class = "form-inline", role = "form" }))
+{
+    @Html.Partial("_JumelagesPossibles")
+}
 @*else*@
-    @using (Html.BeginForm("Details", "Jumelage", FormMethod.Post, new { @class = "form-inline", role = "form" }))
-    {
-        @Html.Partial("_JumelagesAvec")
-    }
+@using (Html.BeginForm("Details", "Jumelage", FormMethod.Post, new { @class = "form-inline", role = "form" }))
+{
+    @Html.Partial("_JumelagesAvec")
+}
