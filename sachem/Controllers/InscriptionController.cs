@@ -40,7 +40,7 @@ namespace sachem.Controllers
                 {
                     splitValue1 = values[i].Split('-');
                     splitValue2 = values[i + 1].Split('-');
-                    if (!(double.Parse(splitValue1[1]) +1 == double.Parse(splitValue2[1])))
+                    if (!(int.Parse(splitValue1[1]) +1 == int.Parse(splitValue2[1])))
                     {
                         return this.Json(new { success = false, message = "Utilisez au moins deux heures consécutives!" });
                     }
