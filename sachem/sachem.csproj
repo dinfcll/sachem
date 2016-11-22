@@ -479,12 +479,12 @@
     <Content Include="Views\Inscription\_Boutons.cshtml" />
     <Content Include="Views\Etudiant\_DeleteProgEtu.cshtml" />
     <Content Include="Views\Shared\Ferme.cshtml" />
-    <Content Include="Views\Jumelage\Create.cshtml" />
-    <Content Include="Views\Jumelage\Delete.cshtml" />
     <Content Include="Views\Jumelage\Details.cshtml" />
-    <Content Include="Views\Jumelage\Edit.cshtml" />
     <Content Include="Views\Jumelage\Index.cshtml" />
     <Content Include="Views\Jumelage\_RechercheEtudiantInscrit.cshtml" />
+    <Content Include="Views\Jumelage\_JumelagesPossibles.cshtml" />
+    <Content Include="Views\Jumelage\_JumelagesAvec.cshtml" />
+    <Content Include="Views\Jumelage\_Disponibilites.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

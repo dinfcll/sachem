@@ -1,90 +1,102 @@
-﻿@model sachem.Models.Jumelage
+﻿@model sachem.Models.Inscription
 
 @{
-    ViewBag.Title = "Details";
+    ViewBag.Title = "Jumelage";
 }
 
-<h2>Details</h2>
+<h2>@ViewBag.Title</h2>
 
 <div>
-    <h4>Jumelage</h4>
-    <hr />
+    <h4 class="page-header">Identification de l'étudiant</h4>
+
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.DateDebut)
+            @Html.DisplayNameFor(model => model.Personne.Matricule7)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.DateDebut)
+            @Html.DisplayFor(model => model.Personne.Matricule7)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.DateFin)
+            @Html.DisplayNameFor(model => model.Personne.NomPrenom)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.DateFin)
+            @Html.DisplayFor(model => model.Personne.NomPrenom)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.HeureDebut)
+            @Html.DisplayNameFor(model => model.Personne.DateNais)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.HeureDebut)
+            @Html.DisplayFor(model => model.Personne.DateNais)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.HeureFin)
+            @Html.DisplayNameFor(model => model.Personne.Courriel)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.HeureFin)
+            @Html.DisplayFor(model => model.Personne.Courriel)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Inscription.NoteSup)
+            @Html.DisplayNameFor(model => model.Personne.Telephone)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Inscription.NoteSup)
+            @Html.DisplayFor(model => model.Personne.Telephone)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Inscription1.NoteSup)
+            @Html.DisplayNameFor(model => model.p_TypeInscription.TypeInscription)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Inscription1.NoteSup)
+            @Html.DisplayFor(model => model.p_TypeInscription.TypeInscription)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.p_Jour.Jour)
+            @Html.DisplayNameFor(model => model.p_StatutInscription.Statut)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.p_Jour.Jour)
+            @Html.Display("ViewBag Jumele")
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Personne.Nom)
+            @Html.Display("ViewBag Nombre d'heures pret a.....")
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Personne.Nom)
+            @Html.Display("ViewBag 3hrs")
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Session.id_Sess)
+            @Html.Display("ViewBag pret a faire 2 blocs consecutifs")
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Session.id_Sess)
+            @Html.Display("ViewBag Oui")
         </dd>
 
     </dl>
 </div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.id_Jumelage }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>
+
+@using (Html.BeginForm("Details", "Jumelage", FormMethod.Post, new { @class = "form-inline", role = "form" }))
+{
+    @Html.Partial("_Disponibilites")
+}
+
+@*if jumeler < de 2 fois*@
+    @using (Html.BeginForm("Details", "Jumelage", FormMethod.Post, new { @class = "form-inline", role = "form" }))
+    {
+        @Html.Partial("_JumelagesPossibles")
+    }
+@*else*@
+    @using (Html.BeginForm("Details", "Jumelage", FormMethod.Post, new { @class = "form-inline", role = "form" }))
+    {
+        @Html.Partial("_JumelagesAvec")
+    }

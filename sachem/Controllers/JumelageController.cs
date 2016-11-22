@@ -14,11 +14,33 @@ namespace sachem.Controllers
     {
         private SACHEMEntities db = new SACHEMEntities();
 
+        [NonAction]
+        //liste des sessions disponibles en ordre d'année
+        private void ListeSession(int session = 0)
+        {
+            var lSessions = db.Session.AsNoTracking().OrderByDescending(y => y.Annee).ThenByDescending(x => x.id_Saison);
+            var slSession = new List<SelectListItem>();
+            slSession.AddRange(new SelectList(lSessions, "id_Sess", "NomSession", session));
+            ViewBag.Session = slSession;
+        }
+
+        //fonctions permettant d'initialiser les listes déroulantes
+        [NonAction]
+        private void ListeTypeInscription(int TypeInscription = 0)
+        {
+            var lInscriptions = db.p_TypeInscription.AsNoTracking().OrderBy(i => i.TypeInscription);
+            var slInscription = new List<SelectListItem>();
+            slInscription.AddRange(new SelectList(lInscriptions, "id_TypeInscription", "TypeInscription", TypeInscription));
+            ViewBag.Inscription = slInscription;
+        }
+
         // GET: Jumelage
         public ActionResult Index()
         {
-            var jumelage = db.Jumelage.Include(j => j.Inscription).Include(j => j.Inscription1).Include(j => j.p_Jour).Include(j => j.Personne).Include(j => j.Session);
-            return View(jumelage.ToList());
+            ListeSession(0);
+            ListeTypeInscription(0);
+            var inscrit = db.Inscription;
+            return View(inscrit.ToList());
         }
 
         // GET: Jumelage/Details/5
@@ -28,12 +50,12 @@ namespace sachem.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Jumelage jumelage = db.Jumelage.Find(id);
-            if (jumelage == null)
+            Inscription inscription = db.Inscription.Find(id);
+            if (inscription == null)
             {
                 return HttpNotFound();
             }
-            return View(jumelage);
+            return View(inscription);
         }
 
         // GET: Jumelage/Create

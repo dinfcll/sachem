@@ -1,4 +1,4 @@
-﻿@model IEnumerable<sachem.Models.Jumelage>
+﻿@model IEnumerable<sachem.Models.Inscription>
 
 @{
     ViewBag.Title = "Jumelage";
@@ -6,72 +6,67 @@
 
 <h2>@ViewBag.Title</h2>
 
+@using (Html.BeginForm("Index", "Jumelage", FormMethod.Post, new { @class = "form-inline", role = "form" }))
+{
+    @Html.Partial("_RechercheEtudiantInscrit")
+}
+
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.DateDebut)
+            @Html.DisplayNameFor(model => model.Personne.NomPrenom)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.DateFin)
+            @Html.DisplayNameFor(model => model.Personne.Matricule7)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.HeureDebut)
+            @Html.DisplayNameFor(model => model.p_TypeInscription.TypeInscription)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.HeureFin)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Inscription.NoteSup)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Inscription1.NoteSup)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.p_Jour.Jour)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Personne.Nom)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Session.id_Sess)
-        </th>
+            @Html.DisplayNameFor(model => model.p_StatutInscription.Statut)
+        </th>        
         <th></th>
     </tr>
 
 @foreach (var item in Model) {
     <tr>
         <td>
-            @Html.DisplayFor(modelItem => item.DateDebut)
+            @Html.DisplayFor(modelItem => item.Personne.NomPrenom)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.DateFin)
+            @Html.DisplayFor(modelItem => item.Personne.Matricule7)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.HeureDebut)
+            @Html.DisplayFor(modelItem => item.p_TypeInscription.TypeInscription)
         </td>
+        
+            @{ int count = item.Jumelage.Count;
+                        string statut = "";
+                        switch (count)
+                        {
+                            case 0:
+                                statut = "Non jumelé";
+                                break;
+                            case 1:
+                                statut = "Jumelé";
+                                break;
+                            case 2:
+                                statut = "Jumelé (2 fois)";
+                                break;
+                            default:
+                                break;
+                        }
+                    }
         <td>
-            @Html.DisplayFor(modelItem => item.HeureFin)
+            @(statut)
         </td>
+
+
         <td>
-            @Html.DisplayFor(modelItem => item.Inscription.NoteSup)
+            @Html.ActionLink("Accéder", "Details", new { id=item.id_Inscription })
         </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Inscription1.NoteSup)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.p_Jour.Jour)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Personne.Nom)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Session.id_Sess)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.id_Jumelage }) |
-            @Html.ActionLink("Details", "Details", new { id=item.id_Jumelage }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.id_Jumelage })
-        </td>
+
+
     </tr>
 }
 
