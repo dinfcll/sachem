@@ -24,14 +24,14 @@ namespace sachem.Controllers
         }
 
         [HttpPost]
-        public ActionResult Index(string motDePasse, bool confirmationSignatureContrat)
+        public ActionResult Index(string motDePasse, bool confirmationSignatureContrat, Inscription inscription, Personne personne)
         {
             motDePasse = SachemIdentite.encrypterChaine(motDePasse);
             int idDeLaPersonneConnectee = SessionBag.Current.id_Pers;
             Personne personneConnectee = db.Personne.Find(idDeLaPersonneConnectee);
 
             Inscription inscriptionDeLaPersonneConnectee = db.Inscription.First(c => c.id_Pers == idDeLaPersonneConnectee);
-            inscriptionDeLaPersonneConnectee.ContratEngagement = true;
+            
 
             if (motDePasse != personneConnectee.MP)
             {
@@ -45,6 +45,7 @@ namespace sachem.Controllers
 
             if (ModelState.IsValid)
             {
+                inscriptionDeLaPersonneConnectee.ContratEngagement = true;
                 db.Entry(inscriptionDeLaPersonneConnectee).State = EntityState.Modified;
                 db.SaveChanges();
             }
