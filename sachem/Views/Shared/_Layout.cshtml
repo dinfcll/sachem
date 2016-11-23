@@ -7,9 +7,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - Sachem</title>
     @Styles.Render("~/Content/css")
+    @Styles.Render("~/Content/Site.css")
     @Scripts.Render("~/bundles/modernizr")
     @Scripts.Render("~/Scripts/jquery-1.10.2.js")
-    @Scripts.Render("~/scripts/materialize.min.js")
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
           rel="stylesheet">
 </head>
@@ -27,7 +27,6 @@
                 </div>
                 <b style="padding-left:80px;padding-top:12px;display:block;font-size:140%;color:white;bottom:0;">SACHEM</b>
             </div>
-
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     @*On accède à la présente session afin de voir si l'on peut afficher certains éléments*@
@@ -49,9 +48,6 @@
                                 @Html.ActionLink("Dossier étudiant", "Index", "DossierEtudiant")
                             </li>
                         }
-
-
-
 
                     <!--Si c'est un Enseignant et +.-->
                    @if (SachemIdentite.TypeListeProf.Contains(SachemIdentite.ObtenirTypeUsager(Session)))
