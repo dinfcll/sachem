@@ -1,7 +1,4 @@
 ﻿@model IEnumerable<sachem.Models.Inscription>
- @*   @using sachem.Models
-    @model PagedList.IPagedList<sachem.Models.Inscription>
-*@
 @{
     ViewBag.Title = "Dossier d'étudiant";
 }
@@ -51,7 +48,7 @@
     @if (!Model.Any())
     {
         <tr>
-            <td colspan="6">Aucun cours ne répond à ces critères</td>
+            <td colspan="6">Aucun dossier d'étudiant ne répond à ces critères</td>
         </tr>
     }
 </table>

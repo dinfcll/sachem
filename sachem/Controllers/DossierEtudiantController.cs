@@ -32,12 +32,11 @@ namespace sachem.Controllers
 
         [NonAction]
         //liste des sessions disponibles en ordre d'année
-        private void ListeSession(int Session = 0)
+        private void ListeSession(int session = 0)
         {
-            var lSessions = db.Session.AsNoTracking().OrderBy(s => s.Annee).ThenBy(s => s.p_Saison.Saison).Where(s => s.p_Saison.id_Saison == s.id_Saison);
+            var lSessions = db.Session.AsNoTracking().OrderByDescending(y => y.Annee).ThenByDescending(x => x.id_Saison);
             var slSession = new List<SelectListItem>();
-            
-            slSession.AddRange(new SelectList(lSessions.OrderBy(i => i.id_Sess), "id_Sess", "NomSession", Session));
+            slSession.AddRange(new SelectList(lSessions, "id_Sess", "NomSession", session));
             ViewBag.Session = slSession;
 
         }
@@ -196,8 +195,7 @@ namespace sachem.Controllers
 
                 }
                 else if (Request.Form["Session"] == null)
-                    session = db.Session.Max(s => s.id_Sess);
-
+                    session = Convert.ToInt32(db.Session.OrderByDescending(y => y.Annee).ThenByDescending(x => x.id_Saison).FirstOrDefault().id_Sess);
             }
 
             ListeSession(session);
@@ -272,107 +270,44 @@ namespace sachem.Controllers
         }
         [HttpPost]
         [ValidationAccesTuteur]
-        public ActionResult ModifBon(string bon, string insc, string pers)
+        public void ModifBon(bool bon, string insc)
         {
-            var id_Pers = Convert.ToInt32(pers);
-            var id_TypeInsc = (from d in db.Inscription
-                               where d.id_Pers == id_Pers
-                               select d).First().id_TypeInscription;
             var id_Inscription = Convert.ToInt32(insc);
 
-            Personne personne = db.Personne.Find(id_Pers);
             Inscription inscription = db.Inscription.Find(id_Inscription);
 
-            inscription.BonEchange = Convert.ToBoolean(bon); 
+            inscription.BonEchange = bon; 
 
-            var vCoursSuivi = from d in db.CoursSuivi
-                              where d.id_Pers == inscription.id_Pers
-                              select d;
-
-            var vInscription = from d in db.Inscription
-                               where d.id_Pers == inscription.id_Pers
-                               select d;
-
-            ViewBag.idPers = vInscription.First().id_Pers;
-            ViewBag.idTypeInsc = vInscription.First().id_TypeInscription;
-
-            if (ModelState.IsValid)
-            {
-                db.Entry(inscription).State = EntityState.Modified;
-                db.SaveChanges();
-            }
-
-            return View(Tuple.Create(inscription, vCoursSuivi.AsEnumerable(), vInscription.AsEnumerable()));
+            db.Entry(inscription).State = EntityState.Modified;
+            db.SaveChanges();
         }
 
         [HttpPost]
         [ValidationAccesEtu]
-        public ActionResult ModifEmail(string email, string insc, string pers)
+        public void ModifEmail(string email, string pers)
         {
             var id_Pers = Convert.ToInt32(pers);
-            var id_TypeInsc = (from d in db.Inscription
-                               where d.id_Pers == id_Pers
-                               select d).First().id_TypeInscription;
-            var id_Inscription = Convert.ToInt32(insc);
 
             Personne personne = db.Personne.Find(id_Pers);
-            Inscription inscription = db.Inscription.Find(id_Inscription);
 
             personne.Courriel = email;
 
-            var vCoursSuivi = from d in db.CoursSuivi
-                              where d.id_Pers == inscription.id_Pers
-                              select d;
-
-            var vInscription = from d in db.Inscription
-                               where d.id_Pers == inscription.id_Pers
-                               select d;
-
-            ViewBag.idPers = vInscription.First().id_Pers;
-            ViewBag.idTypeInsc = vInscription.First().id_TypeInscription;
-
-            if (ModelState.IsValid)
-            {
-                db.Entry(personne).State = EntityState.Modified;
-                db.SaveChanges();
-            }
-
-            return View(Tuple.Create(inscription, vCoursSuivi.AsEnumerable(), vInscription.AsEnumerable()));
+            db.Entry(personne).State = EntityState.Modified;
+            db.SaveChanges();
         }
 
         [HttpPost]
         [ValidationAccesEtu]
-        public ActionResult ModifTel(string tel, string insc, string pers)
+        public void ModifTel(string tel, string pers)
         {
             var id_Pers = Convert.ToInt32(pers);
-            var id_TypeInsc = (from d in db.Inscription
-                               where d.id_Pers == id_Pers
-                               select d).First().id_TypeInscription;
-            var id_Inscription = Convert.ToInt32(insc);
 
             Personne personne = db.Personne.Find(id_Pers);
-            Inscription inscription = db.Inscription.Find(id_Inscription);
 
             personne.Telephone = SachemIdentite.FormatTelephone(tel);
 
-            var vCoursSuivi = from d in db.CoursSuivi
-                              where d.id_Pers == inscription.id_Pers
-                              select d;
-
-            var vInscription = from d in db.Inscription
-                               where d.id_Pers == inscription.id_Pers
-                               select d;
-
-            ViewBag.idPers = vInscription.First().id_Pers;
-            ViewBag.idTypeInsc = vInscription.First().id_TypeInscription;
-
-            if (ModelState.IsValid)
-            {
-                db.Entry(personne).State = EntityState.Modified;
-                db.SaveChanges();
-            }
-
-            return View(Tuple.Create(inscription, vCoursSuivi.AsEnumerable(), vInscription.AsEnumerable()));
+            db.Entry(personne).State = EntityState.Modified;
+            db.SaveChanges();
         }
 
 

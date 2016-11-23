@@ -3,13 +3,13 @@
 @{
     ViewBag.Title = "Dossier de l'étudiant";
 }
-<style>#btn-input-field-tel { height: 34px; width:34px; } #btn-input-field-email { height: 34px; width:34px; } #input-field-tel { float: left;width: 245px; } #input-field-email { float: left;width: 245px; } #btn-input-field-icon{margin-left:-6px;font-size:150%;}</style>
+<style>#btn-input-field-tel { height: 34px; width:34px; } #btn-input-field-email { height: 34px; width:34px;} #input-field-tel { float: left;width: 245px; } #input-field-email { float: left;width: 245px; } #btn-input-field-icon{margin-left:-6px;font-size:150%;}</style>
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
       rel="stylesheet">
 
 <h2>@ViewBag.Title</h2>
 
-
+<div id="succes" style="color:#468847;display:none;"></div>
 @using (Html.BeginForm("Details", "DossierEtudiant", FormMethod.Post, new { @class = "form-inline", role = "form" }))
 {
     @Html.AntiForgeryToken()
@@ -65,7 +65,7 @@
                 <button type="button" id="btn-input-field-email" class="btn btn-default">
                     <i class="material-icons" id="btn-input-field-icon">build</i>
                 </button>
-                @Html.ValidationMessageFor(model => model.Item1.Personne.Courriel, "", new { @class = "text-danger" })
+                <div id="erreur-email" style="color:#b94a48;display:none;"></div>
             }
             else
             {
@@ -118,7 +118,7 @@
                     <button type="button" id="btn-input-field-tel" class="btn btn-default">
                         <i class="material-icons" id="btn-input-field-icon">build</i>
                     </button>
-                @Html.ValidationMessageFor(model => model.Item1.Personne.Telephone, "", new { @class = "text-danger" })
+                    <div id="erreur-tel" style="color:#b94a48;display:none;"></div>
             }
             else
             {
@@ -159,7 +159,6 @@ else
     }
 }
     </dl>
-    <input type="submit" id="submit" class="hide" />
 }
      @if (sachem.Models.SachemIdentite.ObtenirTypeUsager(Session) != sachem.Models.TypeUsagers.Eleve)
      {     <div style="margin-top:10px;">@Html.ActionLink("Retourner à la recherche", "Index", "DossierEtudiant", null)</div> }
@@ -172,8 +171,8 @@ else
 @Scripts.Render("~/bundles/jquery")
 <script src="~/scripts/jquery-1.10.2.min.js"></script>
 <script type="text/javascript">
+    $(document).ready(function () {    
         $('#btn-input-field-tel').click(function () {
-            var insc = document.getElementById("hidden-id-insc");
             var pers = document.getElementById("hidden-id-pers");
             var tel = document.getElementById("input-field-tel");
             var pattern10 = new RegExp(/^\d{10}$/);
@@ -181,50 +180,59 @@ else
             if (pattern10.test(tel.value)||pattern14.test(tel.value)) {
                 $.ajax({
                     url: "/DossierEtudiant/ModifTel",
-                    dataType:'json',
-                    data: { "tel": tel.value, "insc": insc.value, "pers": pers.value },
+                    data: { "tel": tel.value, "pers": pers.value },
                     type: "POST",
-                    success: function () {
-                        window.location.reload(true);
+                    success: function () {                        
+                        $('#succes').show();
+                        document.getElementById('succes').innerText = "Le téléphone a été modifié";
+                        $('#erreur-tel').hide();
                     }
-                });
+                })
             }
             else
             {
-                //validation error
+                $('#erreur-tel').show();
+                document.getElementById('erreur-tel').innerText = "Le téléphone saisi est invalide";
+                $('#succes').hide();
             }
-        });
+        })
         $('#btn-input-field-email').click(function () {
-            var insc = document.getElementById("hidden-id-insc");
             var pers = document.getElementById("hidden-id-pers");
             var email = document.getElementById("input-field-email");
             var pattern = new RegExp(/^(("[\w-\s]+")|([\w-]+(?:\.[\w-]+)*)|("[\w-\s]+")([\w-]+(?:\.[\w-]+)*))(@@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$)|(@@\[?((25[0-5]\.|2[0-4][0-9]\.|1[0-9]{2}\.|[0-9]{1,2}\.))((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\.){2}(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\]?$)/i);
             if (pattern.test(email.value)) {
-                $('#submit').trigger('click');
                 $.ajax({
                     url: "/DossierEtudiant/ModifEmail",
-                    data: { "email": email.value, "insc": insc.value, "pers": pers.value },
+                    data: { "email": email.value, "pers": pers.value },
                     type: "POST",
                     success: function () {
-                        window.location.reload(true);
+                        $('#succes').show();
+                        document.getElementById('succes').innerText = "Le courriel a été modifié";
+                        $('#erreur-email').hide();
                     }
-                });
+                })
             }
             else{
-                //validation error
+                $('#erreur-email').show();
+                document.getElementById('erreur-email').innerText = "Le courriel saisi est invalide";
+                $('#succes').hide();
             }
-        });
+        })
         $('#check-bon-echange').click(function () {
             var insc = document.getElementById("hidden-id-insc");
-            var pers = document.getElementById("hidden-id-pers");
-            var bon = $(this).prop("checked");
+            var bon = $(this).prop("checked");            
             $.ajax({
                 url: "/DossierEtudiant/ModifBon",
-                data: { "bon": bon, "insc": insc.value, "pers": pers.value },
+                data: { "bon": bon, "insc": insc.value },
                 type: "POST",
                 success: function () {
-                    window.location.reload(true);
+                    $("#succes").show();
+                    if (bon == true) 
+                        document.getElementById('succes').innerText = "Le bon d'achat a été acheté";
+                    else
+                        document.getElementById('succes').innerText = "Le bon d'achat n'a pas été acheté";
                 }
-            });
-        });
+            })
+        })
+    })
 </script>
