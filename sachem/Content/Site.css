@@ -187,3 +187,16 @@ video {
   }
 }
 /*fin barre de progres pour en attente de jumelage*/
+
+@media (min-width: 768px) and (max-width: 991px) {
+    .nomUtilisateurNav{
+        display:none !important;
+    }
+}
+
+@media (max-width: 768px)
+{
+    .glyphicon-user{
+        display:none !important;
+    }
+}

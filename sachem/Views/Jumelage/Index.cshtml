@@ -2,7 +2,6 @@
 @{
     ViewBag.Title = "Jumelage";
 }
-<script src="~/scripts/materialize.min.js"></script>
 <h2>@ViewBag.Title</h2>
 
 @using (Html.BeginForm("Index", "Jumelage", FormMethod.Post, new { @class = "form-inline", role = "form" }))
@@ -10,7 +9,7 @@
     @Html.Partial("_RechercheEtudiantInscrit")
 }
 
-<div class="progres hide">
+<div class="progres">
     <div class="indeterminate"></div>
 </div>
 
