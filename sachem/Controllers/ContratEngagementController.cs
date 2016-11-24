@@ -18,21 +18,20 @@ namespace sachem.Controllers
             //TODO envoyer le bon message dans la table Formulaire
             //TODO mettre la question dans la table Question
             int idDeLaPersonneConnectee = SessionBag.Current.id_Pers;
-            Personne personneConnectee = db.Personne.Find(idDeLaPersonneConnectee);
             Inscription inscriptionDeLaPersonneConnectee = db.Inscription.First(c => c.id_Pers == idDeLaPersonneConnectee);
             return View(inscriptionDeLaPersonneConnectee);
         }
 
         [HttpPost]
-        public ActionResult Index(string motDePasse, bool confirmationSignatureContrat, Inscription inscription, Personne personne)
+        public ActionResult Index(string motDePasse, bool confirmationSignatureContrat, [Bind(Include = "id_Inscription")] Inscription inscription)
         {
             motDePasse = SachemIdentite.encrypterChaine(motDePasse);
             int idDeLaPersonneConnectee = SessionBag.Current.id_Pers;
             Personne personneConnectee = db.Personne.Find(idDeLaPersonneConnectee);
 
-            Inscription inscriptionDeLaPersonneConnectee = db.Inscription.First(c => c.id_Pers == idDeLaPersonneConnectee);
+            Inscription inscriptionDeLaPersonneConnectee = db.Inscription.Find(inscription.id_Inscription);
             
-
+            
             if (motDePasse != personneConnectee.MP)
             {
                 ModelState.AddModelError(string.Empty, "Erreur mot de passe");
