@@ -53,24 +53,6 @@ namespace sachem.Controllers
         public ActionResult Index(int? page)
         {
             noPage = (page ?? noPage);
-            ViewBag.Jumeler = 
-                
-                string statut = "";
-                switch (count)
-                {
-                    case 0:
-                        statut = "Non jumelé";
-                        break;
-                    case 1:
-                        statut = "Jumelé";
-                        break;
-                    case 2:
-                        statut = "Jumelé (2 fois)";
-                        break;
-                    default:
-                        break;
-                }
-            }
             return View(Rechercher().ToPagedList(noPage, 20));
         }
 
