@@ -22,7 +22,7 @@
     </ul>
 </div>
 
-@if (Model.ContratEngagement == false)
+@if (!Model.ContratEngagement)
 {
     using (Html.BeginForm("Index", "ContratEngagement", FormMethod.Post, new { @class = "form-inline", role = "form" }))
     {
