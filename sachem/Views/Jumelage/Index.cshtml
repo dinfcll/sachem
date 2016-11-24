@@ -1,0 +1,72 @@
+﻿@model IEnumerable<sachem.Models.Inscription>
+@{
+    ViewBag.Title = "Jumelage";
+}
+<h2>@ViewBag.Title</h2>
+
+@using (Html.BeginForm("Index", "Jumelage", FormMethod.Post, new { @class = "form-inline", role = "form" }))
+{
+    @Html.Partial("_RechercheEtudiantInscrit")
+}
+
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Personne.NomPrenom)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Personne.Matricule7)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.p_TypeInscription.TypeInscription)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.p_StatutInscription.Statut)
+        </th>        
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Personne.NomPrenom)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Personne.Matricule7)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.p_TypeInscription.TypeInscription)
+        </td>
+        
+            @{ int count = item.Jumelage.Count;
+                        string statut = "";
+                        switch (count)
+                        {
+                            case 0:
+                                statut = "Non jumelé";
+                                break;
+                            case 1:
+                                statut = "Jumelé";
+                                break;
+                            case 2:
+                                statut = "Jumelé (2 fois)";
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+        <td>
+            @(statut)
+        </td>
+
+
+        <td>
+            @Html.ActionLink("Accéder", "Details", new { id=item.id_Inscription })
+        </td>
+
+
+    </tr>
+}
+
+</table>
