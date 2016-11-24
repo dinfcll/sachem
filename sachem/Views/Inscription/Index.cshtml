@@ -8,30 +8,52 @@
     ViewBag.Title = "Inscription au service de Sachem";
 }
 <script>
-    function suivant(e) {
-        var HoraireArray = [];
-        $('[name="horaireCheckbox"]:checked').each(function () {
-            HoraireArray.push(($(this).val()));
-        });
-        var postData = { values: HoraireArray };
-        if (postData.length < 2) {
-            alert("Utilisez au moins une plage horaire de 2!");
-            return;
-        }
-        $.ajax({
-            url: "/Inscription/Index",
-            data: postData,
-            type: "POST",
-            traditional: true,
-            dataType: 'json',
-            success: function (data) {
-                alert(data.message);
+    function suivant() {
+        alert("bonjour");
+        postData = getDisp();
+        var modal = document.getElementById('modalModification');
+        var boutonOk = document.getElementById('btnOk');
+        modal.style.display = 'block';
+        boutonOk.onclick = function () {
+            var nomCollege = document.getElementById("txtNomCollegeModif").value;
+            if (nomCollege != "") {
+                Modifier(id, nomCollege);
             }
-        });
-        return false;
     }
 
-   
+        function getDisp() {
+            var HoraireArray = [];
+            $('[name="horaireCheckbox"]:checked').each(function () {
+                HoraireArray.push(($(this).val()));
+            });
+            var postData = { values: HoraireArray };
+            return postData;
+        }
+
+        function envoie(e, postData) {
+            /*var HoraireArray = [];
+                    $('[name="horaireCheckbox"]:checked').each(function () {
+                        HoraireArray.push(($(this).val()));
+                    });*/
+            postData = getDisp();
+            if (postData.length < 2) {
+                alert("Utilisez au moins une plage horaire de 2!");
+                return;
+            }
+            $.ajax({
+                url: "/Inscription/Index",
+                data: postData,
+                type: "POST",
+                traditional: true,
+                dataType: 'json',
+                success: function (data) {
+                    alert(data.message);
+                }
+            });
+            return false;
+        }
+
+    }
 </script>
 
 <div class="container">
@@ -98,3 +120,23 @@
             @Html.Partial("_Boutons")
     </form>
         </div>
+
+<div class="container">
+    <div class="modal fade" id="ConfirmDisp" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">0.</h4>
+                </div>
+                <div class="modal-body">
+                    <p>vos plages de disponibilitées sélectionnées:</p> <input type="text" id="txtNomCollegeModif" class="form-control" /><br />
+                </div>
+                <div class="modal-footer">
+                    <button id="btnOk" type="button" data-dismiss="modal" class="btn btn-primary">Modifier</button>
+                    <button type="button" data-dismiss="modal" class="btn">Annuler</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
