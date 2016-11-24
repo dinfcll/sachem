@@ -208,7 +208,7 @@ namespace sachem.Controllers
             {
                 if (personne.MP != null && personne.MP.Length < 6)
                 {
-                    ModelState.AddModelError(string.Empty, "Le mot de passe est trop court");
+                    ModelState.AddModelError(string.Empty, Messages.C_001);
                 }
                 else
                 {
