@@ -1,14 +1,17 @@
 ﻿@using PagedList.Mvc;
 @model PagedList.IPagedList<sachem.Models.p_College>
 @{
-    ViewBag.Title = "Collèges d'enseignement";    
+    ViewBag.Title = "Collèges d'enseignement";
 }
 <h2>@ViewBag.Title</h2>
 
 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
 <p class="text-success">
-    @Html.ViewBag.Success
     @TempData["Success"]
+</p>
+<p class="text-danger">
+    @TempData["Erreur"]
 </p>
 
 @Scripts.Render("~/bundles/jquery")
@@ -18,16 +21,16 @@
 <script type="text/javascript">
     function ModifModal(id) {
         var modal = document.getElementById('modalModification');
-        var nom = document.getElementById('nomActuelCollege_'+id).innerText
+        var nom = document.getElementById('nomActuelCollege_'+id).innerText;
         document.getElementById('txtNomCollegeModif').value = nom;
         var boutonModif = document.getElementById('btnModifier');
         modal.style.display = 'block';
         boutonModif.onclick = function() {
             var nomCollege = document.getElementById("txtNomCollegeModif").value;
             if(nomCollege!=""){
-                Modifier(id, nomCollege);
-            }
+            Modifier(id, nomCollege);
         }
+    }
     }
 
     function SuppressionModal(id) {
@@ -46,9 +49,9 @@
         boutonAjout.onclick = function () {
             var nomCollege = document.getElementById("txtNomCollegeAjout").value;
             if(nomCollege!=""){
-                Ajout(nomCollege)
-            }            
+            Ajout(nomCollege)
         }
+    }
     }
 
     function Suppression(id) {
@@ -57,7 +60,7 @@
             data: { "id": id },
             type: "POST",
             success: function() {
-                window.location.reload(true);
+                location.reload(true);
             }
             });
         }
@@ -68,7 +71,7 @@
             data: { "nomCollege": nouveauNomCollege, "id": id },
             type: "POST",
             success: function(){
-                window.location.reload(true);
+                location.reload(true);
     }
         });
     }
@@ -79,7 +82,10 @@
             data: { "nomCollege" : nomCollege},
             type: "POST",
             success: function () {
-                window.location.reload(true);
+                location.reload(true);
+            },
+            error: function(){
+                location.reload(true);
             }
         });
     }

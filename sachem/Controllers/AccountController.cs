@@ -307,6 +307,7 @@ namespace sachem.Controllers
                     EtudiantBD.Courriel = personne.Courriel;
                     EtudiantBD.Telephone = SachemIdentite.FormatTelephone(personne.Telephone);
                     EtudiantBD.MP = personne.MP;
+                    EtudiantBD.ConfirmPassword = personne.ConfirmPassword;
                     SachemIdentite.encrypterMPPersonne(ref EtudiantBD);
 
                     db.Entry(EtudiantBD).State = EntityState.Modified;
@@ -338,7 +339,7 @@ namespace sachem.Controllers
                     AjoutInfoConnection(EtudiantBD);
                     SessionBag.Current.id_TypeUsag = TypeUsagers.Etudiant;
                     TempData["Success"] = Messages.I_026();
-                    return RedirectToAction("Login", "Account");
+                    return RedirectToAction("Index", "Inscription");
                 }
             }
             // Si nous sommes arrivés là, un échec s’est produit. Réafficher le formulaire
@@ -386,8 +387,7 @@ namespace sachem.Controllers
                     SachemIdentite.encrypterMPPersonne(ref utilisateur);//l'Encrypte
                     db.Entry(utilisateur).State = EntityState.Modified;
                     db.SaveChanges();//L'enregistre
-                    TempData["Success"] = Messages.I_019();
-                    return RedirectToAction("Login", "Account");
+                    ViewBag.Success = Messages.I_019();
                 }
                 else
                 {
@@ -417,7 +417,7 @@ namespace sachem.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public ActionResult ModifierPassword(Personne personne, string Modifier)
+        public ActionResult ModifierPassword(Personne personne, string Modifier, string Annuler)
         {
             int idpersonne = SessionBag.Current.id_Pers;//Chercher l'id et le mot de passe de l'utilisateur en cours dans l'objet sessionbag
             string ancienmdpbd = SessionBag.Current.MP;
@@ -440,6 +440,7 @@ namespace sachem.Controllers
             {
                 Personne utilisateur = db.Personne.AsNoTracking().Where(x => x.id_Pers == idpersonne).FirstOrDefault();
                 utilisateur.MP = personne.MP;//Change le mot de passe
+                utilisateur.ConfirmPassword = personne.ConfirmPassword;
                 SachemIdentite.encrypterMPPersonne(ref utilisateur);//l'Encrypte
                 SessionBag.Current.MP = utilisateur.MP;//Modifier le mot de passe dans le sessionbag
                 SupprimerCookieConnexion(); //Supprime le cookie
@@ -448,7 +449,6 @@ namespace sachem.Controllers
                 ViewBag.Success = Messages.I_018();
                 return View(personne);
             }
-            return View();
         }
         #endregion
 

@@ -66,6 +66,7 @@ namespace sachem.Classes_Sachem
         {
             private readonly SACHEMEntities db = new SACHEMEntities();
             int id = SessionBag.Current.id_Pers;
+            public const string pathErreurAuth = "/Home/Ferme";
             static readonly List<TypeUsagers> rolesAcces = new List<TypeUsagers>() { TypeUsagers.Etudiant };
             public override void OnActionExecuting(ActionExecutingContext filterContext)
             {

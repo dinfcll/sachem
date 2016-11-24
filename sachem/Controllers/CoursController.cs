@@ -168,7 +168,7 @@ namespace sachem.Controllers
             if (cours == null)
                 return HttpNotFound();
 
-            return View(cours);
+            return View("Delete", cours);
         }
 
         [HttpPost, ActionName("Delete")]

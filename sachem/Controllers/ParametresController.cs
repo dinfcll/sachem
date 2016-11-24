@@ -32,7 +32,7 @@ namespace sachem.Controllers
             {
                 if ((courriel.DateDebut - courriel.DateFin.Value).TotalDays > 0)
                     ModelState.AddModelError(string.Empty, Messages.C_005);
-            }
+                }
 
             if (ModelState.IsValid)
             {
@@ -106,12 +106,12 @@ namespace sachem.Controllers
             ViewBag.idSess = session;
             var lhoraire = db.p_HoraireInscription.OrderByDescending(y => y.id_Sess).Where(x => x.id_Sess == session).FirstOrDefault();
             ListeSession(session);
-            ViewBag.idSessStable = idZero.id_Sess;
+            ViewBag.idSessStable = idZero.id_Sess;         
             return View(lhoraire);
         }
 
 
-
+        
         [HttpPost]
         [ValidationAccesSuper]
         public ActionResult EditHoraire([Bind(Include = "id_Sess, DateDebut, DateFin, HeureDebut, HeureFin")] p_HoraireInscription HI)
@@ -194,11 +194,19 @@ namespace sachem.Controllers
         {
             if (db.p_College.Any(r => r.id_College == id))
             {
-                var college = db.p_College.Find(id);
-                college.College = nomCollege;
-                db.Entry(college).State = EntityState.Modified;
-                db.SaveChanges();
-                TempData["Success"] = string.Format(Messages.I_046());
+                ValiderCollege(nomCollege);
+                if (ModelState.IsValid)
+                {
+                    var college = db.p_College.Find(id);
+                    college.College = nomCollege;
+                    db.Entry(college).State = EntityState.Modified;
+                    db.SaveChanges();
+                    TempData["Success"] = string.Format(Messages.I_046());
+                }
+                else
+                {
+                   TempData["Erreur"] = "Ce collège d'enseignement existe déjà";
+                }
             }
         }
 
@@ -216,6 +224,10 @@ namespace sachem.Controllers
                 db.p_College.Add(college);
                 db.SaveChanges();
                 TempData["Success"] = string.Format(Messages.I_044(nomCollege));
+            }
+            else
+            {
+                TempData["Erreur"] = "Ce collège d'enseignement existe déjà";
             }
         }
 

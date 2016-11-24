@@ -7,25 +7,36 @@ using System.Web.Mvc;
 using sachem.Models;
 using PagedList;
 using static sachem.Classes_Sachem.ValidationAcces;
+using sachem.Models.DataAccess;
 
 namespace sachem.Controllers
 {
-
     public class DossierEtudiantController : Controller
     {
         private SACHEMEntities db = new SACHEMEntities();
         protected int noPage = 1;
         private int? pageRecue = null;
 
-        #region ObtentionRecherche
+        private readonly IDataRepository dataRepository;
+
+        public DossierEtudiantController()
+        {
+            dataRepository = new BdRepository();
+        }
+
+        public DossierEtudiantController(IDataRepository dataRepository)
+        {
+            this.dataRepository = dataRepository;
+        }
+
+
         [NonAction]
         //liste des sessions disponibles en ordre d'année
-        private void ListeSession(int Session = 0)
+        private void ListeSession(int session = 0)
         {
-            var lSessions = db.Session.AsNoTracking().OrderBy(s => s.Annee).ThenBy(s => s.p_Saison.Saison).Where(s => s.p_Saison.id_Saison == s.id_Saison);
+            var lSessions = db.Session.AsNoTracking().OrderByDescending(y => y.Annee).ThenByDescending(x => x.id_Saison);
             var slSession = new List<SelectListItem>();
-            
-            slSession.AddRange(new SelectList(lSessions.OrderBy(i => i.id_Sess), "id_Sess", "NomSession", Session));
+            slSession.AddRange(new SelectList(lSessions, "id_Sess", "NomSession", session));
             ViewBag.Session = slSession;
 
         }
@@ -60,7 +71,7 @@ namespace sachem.Controllers
             ViewBag.Superviseur = new SelectList(ObtenirListeSuperviseur(session), "id_Pers", "NomPrenom", superviseur);
         }
 
-        #region Fonction Ajax
+
         /// <summary>
         /// Actualise le dropdownlist des groupes selon l'élément sélectionné dans les dropdownlist Session et Cours
         /// </summary>
@@ -72,8 +83,7 @@ namespace sachem.Controllers
             var a = ObtenirListeSuperviseur(session).Select(c => new { c.id_Pers, c.NomPrenom });
             return Json(a.ToList(), JsonRequestBehavior.AllowGet);
         }
-        #endregion
-        #region Fonction Recherche IEnumerable<Inscription> List
+
         //Fonction pour gérer la recherche, elle est utilisée dans la suppression et dans l'index
         [NonAction]
         protected IEnumerable<Inscription> Rechercher()
@@ -85,8 +95,7 @@ namespace sachem.Controllers
             int session = 0;
             int typeinscription = SessionBag.Current.id_Inscription; //si different de 0, il indiquera a la dropdownlist de type inscription que c'est un tuteur et que la list doit etre grise sur son 'eleve aide'
             int superviseur = SessionBag.Current.idSuperviseur; //si different de 0, il indiquera a la dropdownlist de superviseur de mettre le nom de l'enseignant par defaut, si l'enseignant n'est pas superviseur d'un jumelage = 0 = tous.
-            //region recuperation de donnees en GET pour initialiser les drop down listes
-            #region recuperer donnees form
+
             if (Request.RequestType == "GET" && Session["DernRechEtu"] != null && (string)Session["DernRechEtuUrl"] == Request.Url?.LocalPath)
             {//GET
                 var anciennerech = (string)Session["DernRechEtu"];
@@ -186,14 +195,9 @@ namespace sachem.Controllers
 
                 }
                 else if (Request.Form["Session"] == null)
-                    session = db.Session.Max(s => s.id_Sess);
-
+                    session = Convert.ToInt32(db.Session.OrderByDescending(y => y.Annee).ThenByDescending(x => x.id_Saison).FirstOrDefault().id_Sess);
             }
 
-
-
-            #endregion
-            #region traitement donnees resultatReq
             ListeSession(session);
             ListeTypeInscription(typeinscription);
             ListeSuperviseur(session, superviseur);
@@ -214,9 +218,8 @@ namespace sachem.Controllers
                                     select p;
                            
             return lstEtu.ToList();
-            #endregion
         }
-        #endregion
+
 
         [NonAction]
         protected IEnumerable<Inscription> Rechercher(int? Page)
@@ -224,7 +227,7 @@ namespace sachem.Controllers
             pageRecue = Page;
             return Rechercher();
         }
-        #endregion
+
         // GET: DossierEtudiant
         [ValidationAccesTuteur]
         public ActionResult Index(int? page)
@@ -243,7 +246,8 @@ namespace sachem.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-             Inscription inscription = db.Inscription.Find(id);
+            //Inscription inscription = db.Inscription.Find(id);
+            var inscription = dataRepository.FindInscription(id.Value);
 
 
             if (inscription == null)
@@ -264,55 +268,46 @@ namespace sachem.Controllers
 
             return View(Tuple.Create(inscription, vCoursSuivi.AsEnumerable(), vInscription.AsEnumerable()));
         }
-
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        [ValidationAccesEtu]
-        public ActionResult Details(FormCollection model)
+        [ValidationAccesTuteur]
+        public void ModifBon(bool bon, string insc)
         {
-            var id_Pers = Convert.ToInt32(model["item1.Personne.id_Pers"]);
-            var id_TypeInsc = (from d in db.Inscription
-                               where d.id_Pers == id_Pers
-                               select d).First().id_TypeInscription;
-            var id_Inscription = Convert.ToInt32(model["item1.id_Inscription"]);
+            var id_Inscription = Convert.ToInt32(insc);
 
-            Personne personne = db.Personne.Find(id_Pers);
             Inscription inscription = db.Inscription.Find(id_Inscription);
 
-            if (SachemIdentite.ObtenirTypeUsager(Session) == TypeUsagers.Tuteur ||
-                SachemIdentite.ObtenirTypeUsager(Session) == TypeUsagers.Eleve)
-            {
-                var Courriel = Convert.ToString(model["item1.Personne.Courriel"]);
-                var Telephone = Convert.ToString(model["item1.Personne.Telephone"]);
-                personne.Courriel = Courriel;
-                personne.Telephone = SachemIdentite.FormatTelephone(Telephone);
-            }
+            inscription.BonEchange = bon; 
 
-            if (SachemIdentite.TypeListeProf.Contains(SachemIdentite.ObtenirTypeUsager(Session)))
-            {
-                var BonEchange = Convert.ToBoolean(model["Item1.BonEchange.value"] != "false");
-                inscription.BonEchange = BonEchange;
-            }
+            db.Entry(inscription).State = EntityState.Modified;
+            db.SaveChanges();
+        }
 
-            var vCoursSuivi = from d in db.CoursSuivi
-                              where d.id_Pers == inscription.id_Pers
-                              select d;
+        [HttpPost]
+        [ValidationAccesEtu]
+        public void ModifEmail(string email, string pers)
+        {
+            var id_Pers = Convert.ToInt32(pers);
 
-            var vInscription = from d in db.Inscription
-                               where d.id_Pers == inscription.id_Pers
-                               select d;
+            Personne personne = db.Personne.Find(id_Pers);
 
-            ViewBag.idPers = vInscription.First().id_Pers;
-            ViewBag.idTypeInsc = vInscription.First().id_TypeInscription;
+            personne.Courriel = email;
 
-            if (ModelState.IsValid)
-            {
-                db.Entry(personne).State = EntityState.Modified;
-                db.Entry(inscription).State = EntityState.Modified;
-                db.SaveChanges();
+            db.Entry(personne).State = EntityState.Modified;
+            db.SaveChanges();
+        }
 
-            }
-            return View(Tuple.Create(inscription, vCoursSuivi.AsEnumerable(), vInscription.AsEnumerable()));
+        [HttpPost]
+        [ValidationAccesEtu]
+        public void ModifTel(string tel, string pers)
+        {
+            var id_Pers = Convert.ToInt32(pers);
+
+            Personne personne = db.Personne.Find(id_Pers);
+
+            personne.Telephone = SachemIdentite.FormatTelephone(tel);
+
+            db.Entry(personne).State = EntityState.Modified;
+            db.SaveChanges();
         }
 
 
