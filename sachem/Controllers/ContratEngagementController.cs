@@ -11,7 +11,7 @@ namespace sachem.Controllers
     public class ContratEngagementController : Controller
     {
         private readonly SACHEMEntities db = new SACHEMEntities();
-        // GET: ContratEngagement
+        
         public ActionResult Index()
         {
             int idDeLaPersonneConnectee = SessionBag.Current.id_Pers;
