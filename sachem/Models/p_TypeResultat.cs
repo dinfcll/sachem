@@ -12,21 +12,18 @@ namespace sachem.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class p_Jour
+    public partial class p_TypeResultat
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public p_Jour()
+        public p_TypeResultat()
         {
-            this.Disponibilite = new HashSet<Disponibilite>();
-            this.Jumelage = new HashSet<Jumelage>();
+            this.Question = new HashSet<Question>();
         }
     
-        public int id_Jour { get; set; }
-        public string Jour { get; set; }
+        public int id_TypeResultat { get; set; }
+        public string Description { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Disponibilite> Disponibilite { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Jumelage> Jumelage { get; set; }
+        public virtual ICollection<Question> Question { get; set; }
     }
 }

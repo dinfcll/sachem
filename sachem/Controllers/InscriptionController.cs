@@ -27,35 +27,39 @@ namespace sachem.Controllers
         [HttpPost]
         public ActionResult Index(string typeInscription, string[] values )
         {
+            var SessionActuelle = db.Session.AsNoTracking().OrderByDescending(y => y.Annee).ThenByDescending(x => x.id_Saison).FirstOrDefault();
+            Inscription inscriptionBD = new Inscription();
+            inscriptionBD.id_Pers = SessionBag.Current.id_Pers;
+            inscriptionBD.id_Sess = SessionActuelle.id_Sess;
+            inscriptionBD.id_Statut = 1;
+            //inscriptionBD.id_TypeInscription = La valeur du checkbox;
+            inscriptionBD.DateInscription = DateTime.Now;
+
             ViewBag.TypeInscription = new SelectList(db.p_TypeInscription, "id_TypeInscription", "TypeInscription");
             if (values != null)
             {
                 int longueurTab = values.Length;
-                if (longueurTab < 2)
-                {
-                    return this.Json(new { success = false, message = MSG_ERREUR_LENGTH });
-                }
-                int heure1, heure2, heure3;
+                int minute;
                 string[] splitValue1, splitValue2, splitValue3;
-                string jour1, jour2, jour3;
+                string jour;
+                Lis­t<DisponibiliteStruct> disponibilites = new List<DisponibiliteStruct>();
                 Array.Sort(values, new AlphanumComparatorFast());
-                for (int i = 0; i < values.Length - 2; i+=2)
+                for (int i = 0; i < values.Length - 2; i += 2)
                 {
+                    //TODO: Valider si les heures se suivent, formatter pour demander confirmation à l'utilisateur.
                     splitValue1 = values[i].Split('-');
-                    splitValue2 = values[i + 1].Split('-');
-                    splitValue3 = values[i + 2].Split('-');
-                    heure1 = int.Parse(splitValue1[1]);
-                    heure2 = int.Parse(splitValue2[1]);
-                    heure3 = int.Parse(splitValue3[1]);
-                    jour1 = splitValue1[0];
-                    jour2 = splitValue2[0];
-                    jour3 = splitValue3[0];
+                    minute = int.Parse(splitValue1[1]);
+                    jour = splitValue1[0];
+                    disponibilites.Add(new DisponibiliteStruct(jour, minute));
+                }
 
-                    if (!((heure1 + 1) == heure2) || (jour1 != jour2))
-                    {
-                        if(!(heure2 + 1 == heure3 && jour2 == jour3))
-                            return this.Json(new { success = false, message = MSG_ERREUR_CONSECUTIF });
-                    }
+                Disponibilite dispoBD = new Disponibilite();
+                //dispoBD.id_Inscription =  Le ID de l'inscription?
+                foreach (DisponibiliteStruct m in disponibilites)
+                {
+                    //TODO: Mettre dans BD après validation.
+                    db.Disponibilite.Add(dispoBD);
+                    db.SaveChanges();
                 }
 
 
