@@ -29,7 +29,6 @@ namespace sachem.Controllers
             this.dataRepository = dataRepository;
         }
 
-
         [NonAction]
         //liste des sessions disponibles en ordre d'année
         private void ListeSession(int session = 0)
@@ -38,7 +37,6 @@ namespace sachem.Controllers
             var slSession = new List<SelectListItem>();
             slSession.AddRange(new SelectList(lSessions, "id_Sess", "NomSession", session));
             ViewBag.Session = slSession;
-
         }
 
         //fonctions permettant d'obtenir la liste des groupe. Appelé pour l'initialisation et la maj de la liste déroulante Groupe
@@ -52,7 +50,6 @@ namespace sachem.Controllers
                                 select p;
             return lstEnseignant.ToList();
         }
-
 
         //fonctions permettant d'initialiser les listes déroulantes
         [NonAction]
@@ -70,7 +67,6 @@ namespace sachem.Controllers
         {
             ViewBag.Superviseur = new SelectList(ObtenirListeSuperviseur(session), "id_Pers", "NomPrenom", superviseur);
         }
-
 
         /// <summary>
         /// Actualise le dropdownlist des groupes selon l'élément sélectionné dans les dropdownlist Session et Cours
@@ -219,7 +215,6 @@ namespace sachem.Controllers
             return lstEtu.ToList();
         }
 
-
         [NonAction]
         protected IEnumerable<Inscription> Rechercher(int? Page)
         {
@@ -232,7 +227,6 @@ namespace sachem.Controllers
         public ActionResult Index(int? page)
         {
             noPage = (page ?? noPage);
-
             return View(Rechercher().ToPagedList(noPage, 20));
         }
 
@@ -247,7 +241,6 @@ namespace sachem.Controllers
 
             //Inscription inscription = db.Inscription.Find(id);
             var inscription = dataRepository.FindInscription(id.Value);
-
 
             if (inscription == null)
             {
@@ -267,6 +260,7 @@ namespace sachem.Controllers
 
             return View(Tuple.Create(inscription, vCoursSuivi.AsEnumerable(), vInscription.AsEnumerable()));
         }
+        
         [HttpPost]
         [ValidationAccesTuteur]
         public void ModifBon(bool bon, string insc)
@@ -308,7 +302,6 @@ namespace sachem.Controllers
             db.Entry(personne).State = EntityState.Modified;
             db.SaveChanges();
         }
-
 
         protected override void Dispose(bool disposing)
         {
