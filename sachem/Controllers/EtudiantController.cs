@@ -12,8 +12,6 @@ namespace sachem.Controllers
 {
     public class EtudiantController : RechercheEtudiantController
     {
-        private SACHEMEntities db = new SACHEMEntities();
-
         public const string CONSTANTE20 = "20";
         [ValidationAccesEnseignant]
         public ActionResult Index(int? page)
@@ -123,6 +121,7 @@ namespace sachem.Controllers
             epep.epe = Prog.ToList();
             return View(epep);
         }
+
         [HttpPost]
         [AcceptVerbs("Get", "Post")]
         public virtual JsonResult ActualisePEtu(int idProg, int idPers, int Valider = 0)
