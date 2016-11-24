@@ -5,13 +5,14 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using sachem.Models;
+using static sachem.Classes_Sachem.ValidationAcces;
 
 namespace sachem.Controllers
 {
     public class ContratEngagementController : Controller
     {
         private readonly SACHEMEntities db = new SACHEMEntities();
-        
+        [ValidationAccesEtu]
         public ActionResult Index()
         {
             int idDeLaPersonneConnectee = SessionBag.Current.id_Pers;
