@@ -239,6 +239,7 @@
     <Compile Include="Controllers\PersonnesController.cs" />
     <Compile Include="Controllers\ProgrammesOffertsController.cs" />
     <Compile Include="Controllers\RechercheEtudiantController.cs" />
+    <Compile Include="Controllers\RechercheInscriptionController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -489,6 +490,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\RechercheInscription\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
