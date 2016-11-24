@@ -129,6 +129,7 @@ namespace sachem.Controllers
         {
             string mdpPlain = MP;
             Personne PersonneBD = new Personne();
+            const int STATUT_ACCEPTE = 3;
 
             //Validations des champs et de la connection
             if (mdpPlain == "")
@@ -243,8 +244,9 @@ namespace sachem.Controllers
                     }
                     else
                     {
+                        
                         Inscription inscription = db.Inscription.FirstOrDefault(c => c.id_Pers == PersonneBD.id_Pers);
-                        if (inscription != null && inscription.id_Inscription == 3 && inscription.ContratEngagement == false)
+                        if (inscription != null && inscription.id_Inscription == STATUT_ACCEPTE && inscription.ContratEngagement == false)
                         {
                             return RedirectToAction("Index","ContratEngagement");
                         }
