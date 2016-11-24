@@ -244,7 +244,6 @@ namespace sachem.Controllers
 
             //Inscription inscription = db.Inscription.Find(id);
             var inscription = dataRepository.FindInscription(id.Value);
-            
 
             if (inscription == null)
             {
