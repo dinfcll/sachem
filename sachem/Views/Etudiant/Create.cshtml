@@ -20,10 +20,10 @@
         <hr />
         @Html.Partial("_Etudiant")
         <div class="form-group">
-            @Html.LabelFor(model => model.personne.Matricule7, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.personne.Matricule, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.personne.Matricule7, new { htmlAttributes = new { @class = "form-control",@required = "required",minlength=7,maxlength=7, @title = "Le matricule doit contenir 7 caractères", @Value = String.Empty} })
-                @Html.ValidationMessageFor(model => model.personne.Matricule7, "", new { @class = "text-danger" })
+                @Html.EditorFor(model => model.personne.Matricule, new { htmlAttributes = new { @class = "form-control",@required = "required",minlength=7,maxlength=7, @title = "Le matricule doit contenir 7 caractères", @Value = String.Empty} })
+                @Html.ValidationMessageFor(model => model.personne.Matricule, "", new { @class = "text-danger" })
             </div>
         </div>
 

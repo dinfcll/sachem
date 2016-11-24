@@ -56,13 +56,21 @@ namespace sachem.Controllers
                 ViewBag.id_Sexe = db.p_Sexe;
                 ViewBag.Selected = 0;
                 ViewBag.id_TypeUsag = new SelectList(db.p_TypeUsag, "id_TypeUsag", "TypeUsag");
-            ViewBag.id_Programme = new SelectList(db.ProgrammeEtude.Where(x => x.Actif == true), "id_ProgEtu", "CodeNomProgramme");
+                ViewBag.id_Programme = new SelectList(db.ProgrammeEtude.Where(x => x.Actif == true), "id_ProgEtu", "CodeNomProgramme");
                 ViewBag.id_Session = new SelectList(db.Session, "id_Sess", "NomSession");
 
             Valider(pepp.personne);
-            if(ConfirmeMdp(personne.MP, personne.ConfirmPassword) == false)
-            {                
-                return View(pepp);
+            if (pepp.personne.MP == "" || pepp.personne.ConfirmPassword == "")
+            {
+                ModelState.AddModelError("Mot de passe", "Veuillez entrer un mot de passe");
+                TempData["Echec"] = "Veuillez entrer un mot de passe";
+            }
+            else
+            {
+                if (ConfirmeMdp(personne.MP, personne.ConfirmPassword) == false)
+                {
+                    return View(pepp);
+                }
             }
 
             var etuprog = new EtuProgEtude();
@@ -85,7 +93,7 @@ namespace sachem.Controllers
                 TempData["Success"] = Messages.I_010(personne.Matricule7); // Message afficher sur la page d'index confirmant la création
                 return RedirectToAction("Index");
             }
-            return View(pepp);
+             return View(pepp);
         }
         // GET: Etudiant/Edit/5
         [ValidationAccesEnseignant]
