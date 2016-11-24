@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Web;
 using System.Web.Mvc;
 using sachem.Models;
@@ -13,7 +14,11 @@ namespace sachem.Controllers
         
         public ActionResult Index()
         {
-            return View();
+            var touteInscription = from nom in db.Inscription
+                select nom;
+
+
+            return View(touteInscription.ToList());
         }
 
         // GET: RechercheInscription/Details/5

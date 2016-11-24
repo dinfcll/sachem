@@ -487,10 +487,10 @@
     <Content Include="Views\Jumelage\_JumelagesAvec.cshtml" />
     <Content Include="Views\Jumelage\_Disponibilites.cshtml" />
     <Content Include="Views\ContratEngagement\Index.cshtml" />
+    <Content Include="Views\RechercheInscription\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\RechercheInscription\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
