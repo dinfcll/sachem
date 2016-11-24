@@ -15,7 +15,7 @@ Les jumelages seront créés une fois la période d'inscription terminée. Ils s
 Par l'entremise du site, l'enseignant doit livrer des documents (devoirs ou instructions) au tuteur d'un jumelage, pour être complétés avec son étudiant aidé. Le tuteur doit compléter son cahier de suivi hebdomadairement pour indiquer la progression de l'étudiant aidé. L'enseignant peut annoter ce cahier de suivi et le retourner au tuteur par la suite.
 
 
-# Captures 
+# Captures
 <img width="150" src="https://git.dinf.cll.qc.ca/lainessej/sachem/uploads/95b7a5e0607519d675b55dbb57844558/Inscription_1.PNG"/>
 <img width="150" src="https://git.dinf.cll.qc.ca/lainessej/sachem/uploads/72f685881b3f055fea8f958903fb0ab4/MAJ_jumelage_-_d%C3%A9tail_-_jumelage_possible.PNG"/>
 <img width="150" src="https://git.dinf.cll.qc.ca/lainessej/sachem/uploads/39d0284b0e52e0551d1baf6bbfbd6da0/rapport_initial_B.PNG"/>
