@@ -198,16 +198,13 @@ namespace sachem.Controllers
                     db.EtuProgEtude.Add(etuprog);
                     db.SaveChanges();
                    }
-
-            if (ConfirmeMdp(personne.MP, personne.ConfirmPassword) == false)
-            {
-                ModelState.AddModelError(string.Empty, "Le mot de passe et la confirmation de mot de passe doivent être identique.");
-            }
-            else
+            if (ConfirmeMdp(personne.MP, personne.ConfirmPassword) == true)
             {
                 if (personne.MP != null && personne.MP.Length < 6)
                 {
-                    ModelState.AddModelError(string.Empty, Messages.C_001);
+                    ModelState.AddModelError("ConfirmPassword", "Le mot de passe doit contenir 6 caratères");
+                    TempData["Echec"] = "Le mot de passe doit contenir 6 caratères";
+                    
                 }
                 else
                 {
@@ -225,6 +222,7 @@ namespace sachem.Controllers
                         personne.ConfirmPassword = personne.MP;
                     }
                 }
+
             }
 
             if (ModelState.IsValid)

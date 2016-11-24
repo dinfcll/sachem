@@ -45,7 +45,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.personne.MP, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.PasswordFor(model => model.personne.MP, new { @class = "form-control", placeholder = "Mot de passe", @Value = "", @minlength = "6", @title = "Longueur minimale de 6 charactère." })
+                @Html.PasswordFor(model => model.personne.MP, new { @class = "form-control", placeholder = "Mot de passe", @Value = String.Empty, @minlength = "6", @title = "Longueur minimale de 6 charactère." })
                 @Html.ValidationMessageFor(model => model.personne.MP, "", new { @class = "text-danger" })
             </div>
         </div>
