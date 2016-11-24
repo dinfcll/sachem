@@ -29,7 +29,6 @@ namespace sachem.Controllers
             this.dataRepository = dataRepository;
         }
 
-
         [NonAction]
         //liste des sessions disponibles en ordre d'année
         private void ListeSession(int Session = 0)
@@ -39,7 +38,6 @@ namespace sachem.Controllers
             
             slSession.AddRange(new SelectList(lSessions.OrderBy(i => i.id_Sess), "id_Sess", "NomSession", Session));
             ViewBag.Session = slSession;
-
         }
 
         //fonctions permettant d'obtenir la liste des groupe. Appelé pour l'initialisation et la maj de la liste déroulante Groupe
@@ -53,7 +51,6 @@ namespace sachem.Controllers
                                 select p;
             return lstEnseignant.ToList();
         }
-
 
         //fonctions permettant d'initialiser les listes déroulantes
         [NonAction]
@@ -71,7 +68,6 @@ namespace sachem.Controllers
         {
             ViewBag.Superviseur = new SelectList(ObtenirListeSuperviseur(session), "id_Pers", "NomPrenom", superviseur);
         }
-
 
         /// <summary>
         /// Actualise le dropdownlist des groupes selon l'élément sélectionné dans les dropdownlist Session et Cours
@@ -234,7 +230,6 @@ namespace sachem.Controllers
         public ActionResult Index(int? page)
         {
             noPage = (page ?? noPage);
-            
             return View(Rechercher().ToPagedList(noPage, 20));
         }
 
@@ -269,6 +264,7 @@ namespace sachem.Controllers
 
             return View(Tuple.Create(inscription, vCoursSuivi.AsEnumerable(), vInscription.AsEnumerable()));
         }
+        
         [HttpPost]
         [ValidationAccesTuteur]
         public ActionResult ModifBon(string bon, string insc, string pers)
