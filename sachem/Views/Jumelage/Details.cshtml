@@ -90,7 +90,7 @@
     @Html.Partial("_Disponibilites")
 }
 
-@*if jumeler < de 2 fois*@
+@*if futur sur: etudiant peut etre encore jumeler, afficher la zone de jumelage possible*@
 @using (Html.BeginForm("Details", "Jumelage", FormMethod.Post, new { @class = "form-inline", role = "form" }))
 {
     @Html.Partial("_JumelagesPossibles")

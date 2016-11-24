@@ -32,7 +32,6 @@ namespace sachem.Controllers
         }
 
         [NonAction]
-        //liste des sessions disponibles en ordre d'année
         private void ListeSession(int session = 0)
         {
             var lSessions = db.Session.AsNoTracking().OrderByDescending(y => y.Annee).ThenByDescending(x => x.id_Saison);
@@ -41,7 +40,6 @@ namespace sachem.Controllers
             ViewBag.Session = slSession;
         }
 
-        //fonctions permettant d'initialiser les listes déroulantes
         [NonAction]
         private void ListeTypeInscription(int TypeInscription = 0)
         {
@@ -51,32 +49,47 @@ namespace sachem.Controllers
             ViewBag.Inscription = slInscription;
         }
 
-        // GET: Jumelage
         [ValidationAccesEnseignant]
         public ActionResult Index(int? page)
         {
             noPage = (page ?? noPage);
-
+            ViewBag.Jumeler = 
+                
+                string statut = "";
+                switch (count)
+                {
+                    case 0:
+                        statut = "Non jumelé";
+                        break;
+                    case 1:
+                        statut = "Jumelé";
+                        break;
+                    case 2:
+                        statut = "Jumelé (2 fois)";
+                        break;
+                    default:
+                        break;
+                }
+            }
             return View(Rechercher().ToPagedList(noPage, 20));
         }
 
         [NonAction]
-        protected IEnumerable<Inscription> Rechercher()
+        private IEnumerable<Inscription> Rechercher()
         {
             int session = 0;
             int typeinscription = 0;
-
-            if (Request.RequestType == "GET" && Session["DernRechEtu"] != null && (string)Session["DernRechEtuUrl"] == Request.Url?.LocalPath)
+            bool requeteGetSinonPost = Request.RequestType == "GET" && Session["DernRechEtu"] != null && (string)Session["DernRechEtuUrl"] == Request.Url?.LocalPath;
+            if (requeteGetSinonPost)
             {
-                var anciennerech = (string)Session["DernRechEtu"];
-                var tanciennerech = anciennerech.Split(';');
+                var tanciennerech = Session["DernRechEtu"].ToString().Split(';');
 
-                if (tanciennerech[1] != "")
+                if (tanciennerech.Length != 0)
                 {
                     session = Int32.Parse(tanciennerech[1]);
                     ViewBag.Session = session;
                 }
-                if (tanciennerech[2] != "")
+                if (tanciennerech.Length != 0)
                 {
                     typeinscription = Int32.Parse(tanciennerech[2]);
                     ViewBag.Inscription = typeinscription;
@@ -126,13 +139,12 @@ namespace sachem.Controllers
         }
 
         [NonAction]
-        protected IEnumerable<Inscription> Rechercher(int? Page)
+        private IEnumerable<Inscription> Rechercher(int? Page)
         {
             pageRecue = Page;
             return Rechercher();
         }
 
-        // GET: Jumelage/Details/5
         [ValidationAccesEnseignant]
         public ActionResult Details(int? id)
         {
@@ -148,7 +160,6 @@ namespace sachem.Controllers
             return View(inscription);
         }
 
-        //// GET: Jumelage/Create
         //public ActionResult Create()
         //{
         //    ViewBag.id_InscEleve = new SelectList(db.Inscription, "id_Inscription", "NoteSup");
@@ -159,9 +170,6 @@ namespace sachem.Controllers
         //    return View();
         //}
 
-        //// POST: Jumelage/Create
-        //// Afin de déjouer les attaques par sur-validation, activez les propriétés spécifiques que vous voulez lier. Pour 
-        //// plus de détails, voir  http://go.microsoft.com/fwlink/?LinkId=317598.
         //[HttpPost]
         //[ValidateAntiForgeryToken]
         //public ActionResult Create([Bind(Include = "id_Jumelage,id_InscEleve,id_InscrTuteur,id_Sess,id_Enseignant,id_Jour,DateDebut,DateFin,HeureDebut,HeureFin")] Jumelage jumelage)
@@ -181,7 +189,6 @@ namespace sachem.Controllers
         //    return View(jumelage);
         //}
 
-        //// GET: Jumelage/Edit/5
         //public ActionResult Edit(int? id)
         //{
         //    if (id == null)
@@ -201,9 +208,6 @@ namespace sachem.Controllers
         //    return View(jumelage);
         //}
 
-        //// POST: Jumelage/Edit/5
-        //// Afin de déjouer les attaques par sur-validation, activez les propriétés spécifiques que vous voulez lier. Pour 
-        //// plus de détails, voir  http://go.microsoft.com/fwlink/?LinkId=317598.
         //[HttpPost]
         //[ValidateAntiForgeryToken]
         //public ActionResult Edit([Bind(Include = "id_Jumelage,id_InscEleve,id_InscrTuteur,id_Sess,id_Enseignant,id_Jour,DateDebut,DateFin,HeureDebut,HeureFin")] Jumelage jumelage)
@@ -222,7 +226,6 @@ namespace sachem.Controllers
         //    return View(jumelage);
         //}
 
-        //// GET: Jumelage/Delete/5
         //public ActionResult Delete(int? id)
         //{
         //    if (id == null)
@@ -237,7 +240,6 @@ namespace sachem.Controllers
         //    return View(jumelage);
         //}
 
-        //// POST: Jumelage/Delete/5
         //[HttpPost, ActionName("Delete")]
         //[ValidateAntiForgeryToken]
         //public ActionResult DeleteConfirmed(int id)

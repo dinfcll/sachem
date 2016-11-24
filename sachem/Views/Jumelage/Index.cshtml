@@ -39,9 +39,8 @@
             @Html.DisplayFor(modelItem => item.p_TypeInscription.TypeInscription)
         </td>
         
-            @{ int count = item.Jumelage.Count;
-                        string statut = "";
-                        switch (count)
+            @{          string statut = "";
+                        switch (item.Jumelage.Count)
                         {
                             case 0:
                                 statut = "Non jumelé";
