@@ -222,6 +222,7 @@
     <Compile Include="Classes_Sachem\ValidationsAcces.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\ConsulterCoursController.cs" />
+    <Compile Include="Controllers\ContratEngagementController.cs" />
     <Compile Include="Controllers\CoursController.cs" />
     <Compile Include="Classes_Sachem\Crypt.cs" />
     <Compile Include="Controllers\CoursSuiviController.cs" />
@@ -233,6 +234,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ImporterController.cs" />
     <Compile Include="Controllers\InscriptionController.cs" />
+    <Compile Include="Controllers\JumelageController.cs" />
     <Compile Include="Controllers\ParametresController.cs" />
     <Compile Include="Controllers\PersonnesController.cs" />
     <Compile Include="Controllers\ProgrammesOffertsController.cs" />
@@ -477,6 +479,13 @@
     <Content Include="Views\Inscription\_Boutons.cshtml" />
     <Content Include="Views\Etudiant\_DeleteProgEtu.cshtml" />
     <Content Include="Views\Shared\Ferme.cshtml" />
+    <Content Include="Views\Jumelage\Details.cshtml" />
+    <Content Include="Views\Jumelage\Index.cshtml" />
+    <Content Include="Views\Jumelage\_RechercheEtudiantInscrit.cshtml" />
+    <Content Include="Views\Jumelage\_JumelagesPossibles.cshtml" />
+    <Content Include="Views\Jumelage\_JumelagesAvec.cshtml" />
+    <Content Include="Views\Jumelage\_Disponibilites.cshtml" />
+    <Content Include="Views\ContratEngagement\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
