@@ -205,15 +205,32 @@ namespace sachem.Controllers
                 ModelState.AddModelError(string.Empty, "Le mot de passe et la confirmation de mot de passe doivent être identique.");
             }
             else
-            if (personne.MP.Length < 6)
             {
-                ModelState.AddModelError(string.Empty, "Le mot de passe est trop court");
+                if (personne.MP != null && personne.MP.Length < 6)
+                {
+                    ModelState.AddModelError(string.Empty, "Le mot de passe est trop court");
+                }
+                else
+                {
+                    if (personne.MP != null && personne.ConfirmPassword != null)
+                    {
+                        pepp.personne.MP = SachemIdentite.encrypterChaine(pepp.personne.MP); // Encryption du mot de passe
+                        pepp.personne.ConfirmPassword = SachemIdentite.encrypterChaine(pepp.personne.ConfirmPassword); // Encryption du mot de passe  
+                    }
+                    else
+                    {
+                        var mdp = from c in db.Personne
+                                  where (c.id_Pers == personne.id_Pers)
+                                  select c.MP;
+                        personne.MP = mdp.SingleOrDefault();
+                        personne.ConfirmPassword = personne.MP;
+                    }
+                }
             }
 
             if (ModelState.IsValid)
             {
-                pepp.personne.MP = SachemIdentite.encrypterChaine(pepp.personne.MP); // Encryption du mot de passe
-                pepp.personne.ConfirmPassword = SachemIdentite.encrypterChaine(pepp.personne.ConfirmPassword); // Encryption du mot de passe   
+ 
                 db.Entry(pepp.personne).State = EntityState.Modified;
                 db.SaveChanges();
                 TempData["Success"] = Messages.I_045(personne.NomPrenom);
