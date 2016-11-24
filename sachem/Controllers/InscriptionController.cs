@@ -25,16 +25,16 @@ namespace sachem.Controllers
         [HttpPost]
         public ActionResult Index(int typeInscription, string[] values )
         {
+            int id_Pers = SessionBag.Current.id_Pers;
             ViewBag.TypeInscription = new SelectList(db.p_TypeInscription, "id_TypeInscription", "TypeInscription");
             var SessionActuelle = db.Session.AsNoTracking().OrderByDescending(y => y.Annee).ThenByDescending(x => x.id_Saison).FirstOrDefault();
             Inscription inscriptionBD = new Inscription();
-            inscriptionBD.id_Pers = SessionBag.Current.id_Pers;
+            inscriptionBD.id_Pers = id_Pers;
             inscriptionBD.id_Sess = SessionActuelle.id_Sess;
             inscriptionBD.id_Statut = 1;
             inscriptionBD.BonEchange = false;
             inscriptionBD.ContratEngagement = false;
             inscriptionBD.TransmettreInfoTuteur = false;
-            //inscriptionBD.id_TypeInscription = La valeur du checkbox;
             inscriptionBD.DateInscription = DateTime.Now;
             inscriptionBD.id_TypeInscription = typeInscription;
             db.Inscription.Add(inscriptionBD);
@@ -57,10 +57,11 @@ namespace sachem.Controllers
                 }
 
                 Disponibilite dispoBD = new Disponibilite();
-                //dispoBD.id_Inscription =  Le ID de l'inscription?
+                var InscriptionEtu = db.Inscription.Where(x => x.id_Pers == id_Pers).FirstOrDefault();
                 foreach (DisponibiliteStruct m in disponibilites)
                 {
-                    //TODO: Mettre dans BD après validation.
+                    dispoBD.id_Inscription = InscriptionEtu.id_Inscription;
+                    dispoBD.id_Jour = m.dictionary[m.Jour];
                     db.Disponibilite.Add(dispoBD);
                     db.SaveChanges();
                 }
