@@ -14,9 +14,6 @@ namespace sachem.Controllers
         // GET: ContratEngagement
         public ActionResult Index()
         {
-            //TODO : envoyer la personne dans la view aussi pour ne pas a avoir a aller le chercher une deuxieme fois
-            //TODO envoyer le bon message dans la table Formulaire
-            //TODO mettre la question dans la table Question
             int idDeLaPersonneConnectee = SessionBag.Current.id_Pers;
             Inscription inscriptionDeLaPersonneConnectee = db.Inscription.First(c => c.id_Pers == idDeLaPersonneConnectee);
             return View(inscriptionDeLaPersonneConnectee);
@@ -34,7 +31,7 @@ namespace sachem.Controllers
             
             if (motDePasse != personneConnectee.MP)
             {
-                ModelState.AddModelError(string.Empty, "Erreur mot de passe");
+                ModelState.AddModelError(string.Empty, Messages.C_001);
             }
 
             if (!confirmationSignatureContrat)
@@ -49,7 +46,7 @@ namespace sachem.Controllers
                 db.SaveChanges();
             }
 
-            return View();
+            return View(inscriptionDeLaPersonneConnectee);
         }
     }
 }
