@@ -180,6 +180,7 @@ namespace sachem.Controllers
             personne.id_TypeUsag = 1;
             personne.Telephone = SachemIdentite.FormatTelephone(personne.Telephone);
             pepp.personne = personne;
+            string Message = "Le mot de passe doit contenir 6 caratères";
 
             var etuprog = new EtuProgEtude();
             //Aller chercher Programme d'étude(nom)
@@ -198,20 +199,19 @@ namespace sachem.Controllers
                     db.EtuProgEtude.Add(etuprog);
                     db.SaveChanges();
                    }
-            if (ConfirmeMdp(personne.MP, personne.ConfirmPassword) == true)
+            if (ConfirmeMdp(personne.MP, personne.ConfirmPassword))
             {
                 if (personne.MP != null && personne.MP.Length < 6)
                 {
-                    ModelState.AddModelError("ConfirmPassword", "Le mot de passe doit contenir 6 caratères");
-                    TempData["Echec"] = "Le mot de passe doit contenir 6 caratères";
-                    
+                    ModelState.AddModelError("ConfirmPassword", Message);
+                    TempData["Echec"] = Message;  
                 }
                 else
                 {
                     if (personne.MP != null && personne.ConfirmPassword != null)
                     {
-                        pepp.personne.MP = SachemIdentite.encrypterChaine(pepp.personne.MP); // Encryption du mot de passe
-                        pepp.personne.ConfirmPassword = SachemIdentite.encrypterChaine(pepp.personne.ConfirmPassword); // Encryption du mot de passe  
+                        pepp.personne.MP = SachemIdentite.encrypterChaine(pepp.personne.MP);
+                        pepp.personne.ConfirmPassword = SachemIdentite.encrypterChaine(pepp.personne.ConfirmPassword); 
                     }
                     else
                     {
@@ -222,12 +222,10 @@ namespace sachem.Controllers
                         personne.ConfirmPassword = personne.MP;
                     }
                 }
-
             }
 
             if (ModelState.IsValid)
             {
- 
                 db.Entry(pepp.personne).State = EntityState.Modified;
                 db.SaveChanges();
                 TempData["Success"] = Messages.I_045(personne.NomPrenom);
@@ -256,7 +254,6 @@ namespace sachem.Controllers
             {
                 return HttpNotFound();
             }
-            
             return View(personne);
         }
         // POST: Etudiant/Delete/5

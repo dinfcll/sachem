@@ -6,7 +6,6 @@
 
 @Html.Partial("_DeleteProgEtu")
 <h2>@ViewBag.Title</h2>
-
 @using (Html.BeginForm("Edit", "Etudiant", FormMethod.Post))
 {
     <p class="text-success">
@@ -29,11 +28,9 @@
         </tr>
     }
     @Html.AntiForgeryToken()
-
     <div class="form-horizontal">
         <hr />
         @Html.Partial("_Etudiant")
-        @*@Html.ValidationSummary(true, "", new { @class = "text-danger" })*@
         @Html.HiddenFor(model => model.personne.id_Pers)
         <div class="form-group">
             @Html.LabelFor(model => model.personne.Matricule, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -56,7 +53,6 @@
                 @Html.ValidationMessageFor(model => model.personne.ConfirmPassword, "", new { @class = "text-danger" })
             </div>
         </div>
-
         <div class="form-group">
             @Html.LabelFor(model => model.personne.Actif, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
@@ -126,5 +122,4 @@
         </div>
     </div>
 }
-
 <span id="IDPE" hidden style="visibility: hidden;font-size:0px;">0</span>
