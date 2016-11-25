@@ -1,0 +1,24 @@
+﻿@model sachem.Models
+<!DOCTYPE html>
+@{
+    ViewBag.Title = "Inscription au service de Sachem - Élève aidé";
+}
+<div class="container">
+    <h2>@ViewBag.Title</h2>
+    <p class="text-success">
+        @Html.Raw(@TempData["Success"])
+    </p>
+
+    @Html.AntiForgeryToken()
+
+    <div class="form-groug">
+        
+        <div class="col-md-10">
+
+            @Html.Partial("_CoursSuivi")
+        </div>
+    </div>
+        <br />
+        @Html.Partial("_Boutons")
+    </form>
+</div>
