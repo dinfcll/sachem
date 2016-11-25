@@ -7,9 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - Sachem</title>
     @Styles.Render("~/Content/css")
+    @Styles.Render("~/Content/Site.css")
     @Scripts.Render("~/bundles/modernizr")
     @Scripts.Render("~/Scripts/jquery-1.10.2.js")
-
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+          rel="stylesheet">
 </head>
 <body>
     <div class="navbar navbar-inverse navbar-fixed-top">
@@ -47,9 +49,6 @@
                             </li>
                         }
 
-
-
-
                     <!--Si c'est un Enseignant et +.-->
                    @if (SachemIdentite.TypeListeProf.Contains(SachemIdentite.ObtenirTypeUsager(Session)))
                    {
@@ -75,6 +74,7 @@
                                 <li>@Html.ActionLink("Groupes", "Index", "Groupes")</li>
                             @if (SachemIdentite.TypeListeAdmin.Contains(SachemIdentite.ObtenirTypeUsager(Session)))
                             {
+                                <li>@Html.ActionLink("Jumelages","Index", "Jumelage")</li>
                                 <li>@Html.ActionLink("Horaire d'inscription", "EditHoraire", "Parametres")</li>
                                 <li>@Html.ActionLink("Programmes offerts", "Index", "ProgrammesOfferts")</li>
                                 <li>@Html.ActionLink("Importer données", "Index", "Importer")</li>
@@ -88,6 +88,9 @@
         </div>
     </div>
     <div class="container body-content">
+        <div class="progres">
+            <div class="indeterminate"></div>
+        </div>
         @RenderBody()
         <hr />
         <footer>

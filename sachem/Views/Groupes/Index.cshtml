@@ -55,30 +55,26 @@
     </table>
 }
 
-<table class="table-condensed">
-    <tr>
-        <td>@Html.ActionLink("Ajouter un groupe", "Create")</td>
-    </tr>
-</table>
+<div style="margin-top:5px;margin-bottom:10px;">@Html.ActionLink("Ajouter un groupe", "Create", null, null, new { @class = "btn btn-default" })</div>
     
 <table class="table">
     <tr>
-        <th>
+        <th class="col-sm-1">
             @Html.DisplayNameFor(model => model.FirstOrDefault().Session.NomSession)
         </th>
-        <th>
+        <th class="col-sm-5">
             @Html.DisplayNameFor(model => model.FirstOrDefault().Cours.CodeNom)
         </th>
-        <th>
+        <th class="col-sm-1">
             @Html.DisplayNameFor(model => model.FirstOrDefault().NoGroupe)
         </th>
-        <th>
+        <th class="col-sm-2">
             @Html.DisplayNameFor(model => model.FirstOrDefault().Personne.NomPrenom)
         </th>
-        <th>
+        <th class="col-sm-1">
             @Html.DisplayNameFor(model => model.FirstOrDefault().nbPersonneGroupe)
         </th>
-        <th></th>
+        <th class="col-sm-2"></th>
     </tr>
 
 @foreach (var item in Model) {

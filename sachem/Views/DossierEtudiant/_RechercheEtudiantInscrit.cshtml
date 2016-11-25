@@ -1,49 +1,4 @@
 ﻿@using sachem.Models
-<script src="~/Scripts/jquery-1.10.2.js"></script>
-
-<script type="text/javascript">
-    $(document).ready(function () {
-        $("#SelectSession").change(function () {
-            var vSession = $('#SelectSession').val();
-
-            $.ajax({
-                type: 'POST',
-                url:
-                    @Html.Raw("\"/" + HttpContext.Current.Request.RequestContext.RouteData.Values["controller"].ToString() + "/ActualiseSuperviseurddl\""),
-                data: {
-                    session: vSession
-                },
-
-                async: false,
-                cache: false,
-                dataType: "json",
-                success: function (donnees) {
-
-                    $("#SelectSuperviseur").empty();
-                    $('#SelectSuperviseur').append($('<option>', {
-                        value: 0,
-                        text: 'Choisir'
-                    }));
-
-                    $.each(donnees, function (i, item) {
-                        $('#SelectSuperviseur').append($('<option>', {
-                            value: item.id_Sess,
-                            text: item.session
-
-                        }));
-                    });
-
-                }
-            });
-
-           
-
-        });
-
-
-    });
-
-</script>
 <h4>Recherche</h4>
 
 <table class="table-condensed">
@@ -62,8 +17,7 @@
 @if (SachemIdentite.ObtenirTypeUsager(Session) == TypeUsagers.Tuteur)
 {
         <td>
-            @Html.DropDownList("Inscription", null, "Tous", htmlAttributes: new { @class = "form-search", disabled="disabled" })
-            
+            @Html.DropDownList("Inscription", null, "Tous", htmlAttributes: new { @class = "form-search", disabled="disabled" })   
         </td>
 }
 else
@@ -80,14 +34,7 @@ else
             Superviseur :
         </td>
             <td>
-                @if (SachemIdentite.ObtenirTypeUsager(Session) == TypeUsagers.Enseignant)
-                {
-                    @Html.DropDownList("Superviseur", null, "Tous", htmlAttributes: new { @class = "form-search", disabled="disabled"})
-                }
-                else
-                {
-                    @Html.DropDownList("Superviseur", null, "Tous", htmlAttributes: new { @class = "form-search" })
-                }
+                @Html.DropDownList("Superviseur", null, "Tous", htmlAttributes: new { @class = "form-search" })
             </td>
 }
     </tr>
@@ -110,8 +57,7 @@ else
     </tr>
     <tr>
         <td>
-            @*Il n'existe pas de HtmlHelper pour créer un bouton submit, il faut donc le creer manuellement*@
-            <input type="submit" value="Rechercher" class="form-search" />
+            <input type="submit" value="Rechercher" class="btn btn-default" style="margin-top:5px;margin-bottom:10px;"/>
         </td>
     </tr>
 </table>

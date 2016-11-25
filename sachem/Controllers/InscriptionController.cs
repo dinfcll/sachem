@@ -150,6 +150,6 @@ namespace sachem.Controllers
         public string ErreurCours()
         {
             return Messages.I_048();
-        }       
+        }
     }
 }

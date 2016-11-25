@@ -26,24 +26,24 @@
             </tr>
         </table>
     }
-</p>
-    @Html.ActionLink("Ajouter un programme d'étude", "Create")
+
+<div style="margin-top:5px;margin-bottom:10px;">@Html.ActionLink("Ajouter un programme d'étude", "Create", null, null, new { @class = "btn btn-default" })</div>
     
 <table class="table">
     <tr>
-        <th>
+        <th class="col-sm-1">
             @Html.DisplayNameFor(model => model.Code)
         </th>
-        <th>
+        <th class="col-sm-1">
             @Html.DisplayNameFor(model => model.Annee)
         </th>
-        <th>
+        <th class="col-sm-7">
             @Html.DisplayNameFor(model => model.NomProg)
         </th>
-        <th>
+        <th class="col-sm-1">
             @Html.DisplayNameFor(model => model.Actif)
         </th>
-        <th></th>
+        <th class="col-sm-2"></th>
     </tr>
 
     @foreach (var item in Model)
@@ -85,4 +85,3 @@
         @Html.PagedListPager(pagedlist, page => Url.Action("Index", "ProgrammesOfferts", new {recherche = ViewBag.Recherche, page = page}))
     </div>
 }
-    @Html.ActionLink("Retourner à la recherche des programmes d'étude", "Index")

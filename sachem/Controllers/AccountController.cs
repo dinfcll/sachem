@@ -97,7 +97,12 @@ namespace sachem.Controllers
         [AllowAnonymous]
         public ActionResult Login(string returnUrl)
         {
-            //Si le cookie de connexion existe on prérempli les infos de connexion avec les infos du cookie.
+
+            if(SachemIdentite.ObtenirTypeUsager(Session) != TypeUsagers.Aucun)
+            {
+                return RedirectToAction("Index","DossierEtudiant",null);
+            }
+
             if (CookieConnexionExiste())
             {
                 Personne PersonneCookie = new Personne();
@@ -124,6 +129,7 @@ namespace sachem.Controllers
         {
             string mdpPlain = MP;
             Personne PersonneBD = new Personne();
+            const int STATUT_ACCEPTE = 3;
 
             //Validations des champs et de la connection
             if (mdpPlain == "")
@@ -238,7 +244,16 @@ namespace sachem.Controllers
                     }
                     else
                     {
-                        return RedirectToAction("Index", "Inscription");
+                        
+                        Inscription inscription = db.Inscription.FirstOrDefault(c => c.id_Pers == PersonneBD.id_Pers);
+                        if (inscription != null && inscription.id_Inscription == STATUT_ACCEPTE && inscription.ContratEngagement == false)
+                        {
+                            return RedirectToAction("Index","ContratEngagement");
+                        }
+                        else
+                        {
+                            return RedirectToAction("Index", "Inscription");
+                        }  
                     }
                 }
             }
@@ -302,6 +317,7 @@ namespace sachem.Controllers
                     EtudiantBD.Courriel = personne.Courriel;
                     EtudiantBD.Telephone = SachemIdentite.FormatTelephone(personne.Telephone);
                     EtudiantBD.MP = personne.MP;
+                    EtudiantBD.ConfirmPassword = personne.ConfirmPassword;
                     SachemIdentite.encrypterMPPersonne(ref EtudiantBD);
 
                     db.Entry(EtudiantBD).State = EntityState.Modified;
@@ -413,42 +429,36 @@ namespace sachem.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult ModifierPassword(Personne personne, string Modifier, string Annuler)
         {
-            if (Annuler != null)//Verifier si c'est le bouton annuler qui a été cliqué
-                return RedirectToAction("Index", "Home");
+            int idpersonne = SessionBag.Current.id_Pers;//Chercher l'id et le mot de passe de l'utilisateur en cours dans l'objet sessionbag
+            string ancienmdpbd = SessionBag.Current.MP;
 
-            if (Modifier != null)//Si modifier mdp a été cliqué
+            if (personne.AncienMotDePasse == null)
+                ModelState.AddModelError("AncienMotDePasse", Messages.U_001); //requis
+
+            if (!ConfirmeMdp(personne.MP, personne.ConfirmPassword))
+                return View(personne);
+
+            if (personne.AncienMotDePasse == null || personne.MP == null || personne.ConfirmPassword == null) //Validation pour les champs requis
+                return View(personne);
+
+            if (SachemIdentite.encrypterChaine(personne.AncienMotDePasse) != ancienmdpbd)//Vérifier si le champ ancien mot de passe est le bon mot de passe
             {
-                int idpersonne = SessionBag.Current.id_Pers;//Chercher l'id et le mot de passe de l'utilisateur en cours dans l'objet sessionbag
-                string ancienmdpbd = SessionBag.Current.MP;
-
-                if (personne.AncienMotDePasse == null)
-                    ModelState.AddModelError("AncienMotDePasse", Messages.U_001); //requis
-
-                if (!ConfirmeMdp(personne.MP, personne.ConfirmPassword))
-                    return View(personne);
-
-                if (personne.AncienMotDePasse == null || personne.MP == null || personne.ConfirmPassword == null) //Validation pour les champs requis
-                    return View(personne);
-
-                if (SachemIdentite.encrypterChaine(personne.AncienMotDePasse) != ancienmdpbd)//Vérifier si le champ ancien mot de passe est le bon mot de passe
-                {
-                    ModelState.AddModelError("AncienMotDePasse", Messages.C_002);
-                    return View(personne);
-                }
-                else
-                {
-                    Personne utilisateur = db.Personne.AsNoTracking().Where(x => x.id_Pers == idpersonne).FirstOrDefault();
-                    utilisateur.MP = personne.MP;//Change le mot de passe
-                    SachemIdentite.encrypterMPPersonne(ref utilisateur);//l'Encrypte
-                    SessionBag.Current.MP = utilisateur.MP;//Modifier le mot de passe dans le sessionbag
-                    SupprimerCookieConnexion(); //Supprime le cookie
-                    db.Entry(utilisateur).State = EntityState.Modified;
-                    db.SaveChanges();//L'enregistre
-                    ViewBag.Success = Messages.I_018();
-                    return View(personne);
-                }
+                ModelState.AddModelError("AncienMotDePasse", Messages.C_002);
+                return View(personne);
             }
-            return View();
+            else
+            {
+                Personne utilisateur = db.Personne.AsNoTracking().Where(x => x.id_Pers == idpersonne).FirstOrDefault();
+                utilisateur.MP = personne.MP;//Change le mot de passe
+                utilisateur.ConfirmPassword = personne.ConfirmPassword;
+                SachemIdentite.encrypterMPPersonne(ref utilisateur);//l'Encrypte
+                SessionBag.Current.MP = utilisateur.MP;//Modifier le mot de passe dans le sessionbag
+                SupprimerCookieConnexion(); //Supprime le cookie
+                db.Entry(utilisateur).State = EntityState.Modified;
+                db.SaveChanges();//L'enregistre
+                ViewBag.Success = Messages.I_018();
+                return View(personne);
+            }
         }
         #endregion
 

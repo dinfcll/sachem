@@ -5,7 +5,6 @@
     ViewBag.Title = "Modifier courriel";
 }
 
-@Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
 <h2>@ViewBag.Title</h2>
 @*Merci à Rion Williams et au site http://rion.io/2014/09/30/integrating-tinymce-into-an-mvc-5-project/ pour le code sur TinyMCE*@
@@ -80,6 +79,7 @@
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
                 <input type="submit" value="Enregistrer" class="btn btn-default" />
+                @Html.ActionLink("Annuler", "Index", "DossierEtudiant", null, new { @class = "btn btn-default" })
             </div>
         </div>
     </div>

@@ -16,18 +16,12 @@
         @Html.HiddenFor(model => model.id_Pers)
         @Html.Partial("_Enseignant")
         <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                
-                <input type="button" value="Accéder aux groupes de l'enseignant" class="btn btn-default" onclick="location.href='@Url.Action("Index", "Groupes", new { id = Model.id_Pers})'"/>
-                
+            <div class="col-md-10">
+                @Html.ActionLink("Accéder aux groupes de l'enseignant", "Index", "Groupes", new { id = Model.id_Pers }, new { @class = "" })
             </div>
         </div>
     </div>
 }
-
-<div>
-    @Html.ActionLink("Retour à la recherche des enseignants", "Index")
-</div>
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")

@@ -42,5 +42,16 @@
 <div class="form-group">
     <div class="col-md-offset-2 col-md-10">
         <input type="submit" value="Enregistrer" class="btn btn-default" />
+        @if (Request.UrlReferrer != null)
+        {
+            if (Request.UrlReferrer.ToString().Contains("ConsulterCours/Details")) // Si on arrive du controller "ConsulterCours"
+            {
+                @Html.ActionLink("Annuler", "Details", "ConsulterCours", new { idCours = Model.Cours.id_Cours, idSess = Model.id_Sess }, new { @class = "btn btn-default" })
+            }
+            else // Sinon
+            {
+                @Html.ActionLink("Annuler", "Index", null, null, new { @class = "btn btn-default" })
+            }
+        }
     </div>
 </div>

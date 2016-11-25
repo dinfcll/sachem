@@ -1,32 +1,26 @@
 ﻿@model sachem.Models.GroupeEtudiant
 
 @{
-    ViewBag.Title = "Déplacer groupe";
+    ViewBag.Title = "Déplacer un élève dans un autre groupe";
 }
-
 <h2>@ViewBag.Title</h2>
 
-<div>
-    <h4>Déplacer un élève</h4>
+<div>    
     <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Groupe.NoGroupe)
-        </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Groupe.NoGroupe)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Personne.Nom)
-        </dt>
-
-        <dd>
+    <div class="form-group">
+        @Html.LabelFor(model => model.Personne.Nom, null, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div>
             @Html.DisplayFor(model => model.Personne.NomPrenom)
-        </dd>
+        </div>
+    </div>
 
-    </dl>
+    <div class="form-group">
+        @Html.LabelFor(model => model.Groupe.NoGroupe, null, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div>
+            @Html.DisplayFor(model => model.Groupe.NoGroupe)
+        </div>
+    </div>
 
     @using (Html.BeginForm()) {
         @Html.AntiForgeryToken()
@@ -44,10 +38,8 @@
        <div class="form-group">
             <div class="col-md-offset-2">
                 <input type="submit" value="Déplacer vers ce groupe" class="btn btn-default" /> 
+                @Html.ActionLink("Annuler", "Edit", null, new { id = Model.Groupe.id_Groupe }, new { @class = "btn btn-default" })
             </div>
        </div>
-        <div>
-            @Html.ActionLink("Retour à la modification du groupe", "Edit", new { id = Model.Groupe.id_Groupe })
-        </div>
     }
 </div>

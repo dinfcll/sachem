@@ -1,4 +1,5 @@
 ﻿@model sachem.Models.Personne
+@using sachem.Models
 <div class="form-group">
         @Html.LabelFor(model => model.Nom, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
@@ -27,7 +28,7 @@
 <div class="form-group">
         @Html.LabelFor(model => model.DateNais, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
-            @Html.EditorFor(model => model.DateNais, new { htmlAttributes = new { @class = "form-control", PlaceHolder = "AAAA/MM/JJ", @required = "required", @title = "Requis" } })
+            @Html.EditorFor(model => model.DateNais, new { htmlAttributes = new { @class = "form-control", PlaceHolder = "AAAA/MM/JJ", @required = "required", @title = Messages.U_001 } })
             @Html.ValidationMessageFor(model => model.DateNais, "", new { @class = "text-danger" })
         </div>
 </div>
@@ -85,5 +86,6 @@
 <div class="form-group">
     <div class="col-md-offset-2 col-md-10">
         <input type="submit" value="Enregister" class="btn btn-default" />
+        @Html.ActionLink("Annuler", "Index", null, null, new { @class = "btn btn-default" })
     </div>
 </div>

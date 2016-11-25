@@ -17,28 +17,27 @@
         <tr>
             <td>Session :</td>
             <td>@Html.DropDownList("Session", null, "Toutes", htmlAttributes: new { @class = "form-search" })</td>
-            <td>Enseignant :</td>
-            <td>
-                @if (!ViewBag.IsEnseignant)
+            @if (!ViewBag.IsEnseignant)
                 {
-                    @Html.DropDownList("Personne", null, "Tous", htmlAttributes: new { @class = "form-search" })
+                <td> Enseignant : </td>
+                <td> @Html.DropDownList("Personne", null, "Tous", htmlAttributes: new { @class = "form-search" })</td>
                 }
-            </td>
             <td><input type="submit" value="Rechercher" class="form-search" /></td>
         </tr>
     </table>
+    <br/>
 }
 <table class="table">
         @if(ViewBag.IsEnseignant) //si enseignant
          {
              <tr>
-                 <th>
+                 <th class="col-sm-1">
                      @Html.DisplayNameFor(model => model.FirstOrDefault().Cours.Code)
                  </th>
-                 <th>
+                 <th class="col-sm-9">
                      @Html.DisplayNameFor(model => model.FirstOrDefault().Cours.Nom)
                  </th>
-                 <th></th>
+                 <th class="col-sm-2"></th>
              </tr>
 
              foreach (var item in Model)
@@ -59,22 +58,22 @@
          else //si responsable
          {
              <tr>
-                 <th>
+                 <th class="col-sm-1">
                      @Html.DisplayNameFor(model => model.FirstOrDefault().Cours.Code)
                  </th>
-                 <th>
+                 <th class="col-sm-5">
                      @Html.DisplayNameFor(model => model.FirstOrDefault().Cours.Nom)
                  </th>
-                 <th>
+                 <th class="col-sm-1">
                      @Html.DisplayNameFor(model => model.FirstOrDefault().Cours.Actif)
                  </th>
-                 <th>
+                 <th class="col-sm-4">
                      Enseignant
                  </th>
-                 <th></th>
+                 <th class="col-sm-1"></th>
              </tr>
 
-             foreach (var item in Model)
+        foreach (var item in Model)
              {
                  <tr>
                      <td>

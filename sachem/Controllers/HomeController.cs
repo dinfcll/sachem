@@ -31,5 +31,10 @@ namespace sachem.Controllers
         {
             return View();
         }
+
+        public ActionResult Ferme()
+        {
+            return View();
+        }
     }
 }
