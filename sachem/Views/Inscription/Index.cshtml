@@ -9,15 +9,14 @@
 }
 <script>
     function suivant() {
-        alert("bonjour");
         postData = getDisp();
-        var modal = document.getElementById('modalModification');
+        var modal = document.getElementById('ConfirmDisp');
         var boutonOk = document.getElementById('btnOk');
+        document.getElementById("plageDisp").innerText = postData.jours;
         modal.style.display = 'block';
+        
         boutonOk.onclick = function () {
-            var nomCollege = document.getElementById("txtNomCollegeModif").value;
-            if (nomCollege != "") {
-                Modifier(id, nomCollege);
+            envoie(postData);
             }
     }
 
@@ -26,11 +25,11 @@
             $('[name="horaireCheckbox"]:checked').each(function () {
                 HoraireArray.push(($(this).val()));
             });
-            var postData = { values: HoraireArray };
+            var postData = { jours: HoraireArray };
             return postData;
         }
 
-        function envoie(e, postData) {
+        function envoie(postData) {
             /*var HoraireArray = [];
                     $('[name="horaireCheckbox"]:checked').each(function () {
                         HoraireArray.push(($(this).val()));
@@ -52,8 +51,6 @@
             });
             return false;
         }
-
-    }
 </script>
 
 <div class="container">
@@ -127,13 +124,14 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">0.</h4>
+                    <h4 class="modal-title">Confirmation plage de disponibilité</h4>
                 </div>
                 <div class="modal-body">
-                    <p>vos plages de disponibilitées sélectionnées:</p> <input type="text" id="txtNomCollegeModif" class="form-control" /><br />
+                    <p>vos plages de disponibilitées sélectionnées:</p> 
+                    <p id="plageDisp"></p>
                 </div>
                 <div class="modal-footer">
-                    <button id="btnOk" type="button" data-dismiss="modal" class="btn btn-primary">Modifier</button>
+                    <button id="btnOk" type="button" data-dismiss="modal" class="btn btn-primary">Confirmer</button>
                     <button type="button" data-dismiss="modal" class="btn">Annuler</button>
                 </div>
             </div>
