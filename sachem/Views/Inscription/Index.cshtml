@@ -11,6 +11,12 @@
         postData = getDisp();
         var modal = document.getElementById('ConfirmDisp');
         var boutonOk = document.getElementById('btnOk');
+        postData.forEach(function (disp) {
+            var date = new Date(0, 0, 0, 0, 0, 0, 0);
+            date.setMinutes(parseInt(disp.substring(disp.indexOf("-") + 1, disp.lentgh)) + 480);
+            var heure = date.toTimeString().substring(0, 5);
+            disp = disp.substring(0, disp.indexOf("-")) + " " + heure;
+        })
         document.getElementById("plageDisp").innerText = postData.jours;
         modal.style.display = 'block';
         
@@ -18,31 +24,31 @@
             envoie(postData);
             }
     }
+    
+    function getDisp() {
+        var HoraireArray = [];
+        $('[name="horaireCheckbox"]:checked').each(function () {
+            HoraireArray.push(($(this).val()));
+        });
+        var typeinscr = $('#TypeInscription').val();
+        var postData = { jours: HoraireArray, typeInscription: typeinscr };
+        return postData;
+    }
 
-        function getDisp() {
-            var HoraireArray = [];
-            $('[name="horaireCheckbox"]:checked').each(function () {
-                HoraireArray.push(($(this).val()));
-            });
-            var typeinscr = $('#TypeInscription').val();
-            var postData = { jours: HoraireArray, typeInscription: typeinscr };
-            return postData;
-        }
-
-        function envoie(postData) {
-            postData = getDisp();
-            $.ajax({
-                url: "/Inscription/Index",
-                data: postData,
-                type: "POST",
-                traditional: true,
-                dataType: 'json',
-                success: function (data) {
-                    alert(data.message);
-                }
-            });
-            return false;
-        }
+    function envoie(postData) {
+        postData = getDisp();
+        $.ajax({
+            url: "/Inscription/Index",
+            data: postData,
+            type: "POST",
+            traditional: true,
+            dataType: 'json',
+            success: function (data) {
+                alert(data.message);
+            }
+        });
+        return false;
+    }
 </script>
 
 <div class="container">
