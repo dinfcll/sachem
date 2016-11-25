@@ -60,7 +60,7 @@ namespace sachem.Controllers
                 ViewBag.id_Session = new SelectList(db.Session, "id_Sess", "NomSession");
 
             Valider(EtuProg.personne);
-            if (EtuProg.personne.MP == "" || EtuProg.personne.ConfirmPassword == "")
+            if (EtuProg.personne.MP == null)
             {
                 ModelState.AddModelError("Mot de passe", "Veuillez entrer un mot de passe");
                 TempData["Echec"] = "Veuillez entrer un mot de passe";
@@ -69,7 +69,7 @@ namespace sachem.Controllers
             {
                 if (ConfirmeMdp(personne.MP, personne.ConfirmPassword) == false)
                 {
-                    return View(EtuProg);
+                return View(EtuProg);
                 }
             }
 
@@ -182,12 +182,13 @@ namespace sachem.Controllers
         [ValidateAntiForgeryToken]
         [ValidationAccesEnseignant]
         //Modification lorsqu'on clique sur le bouton modification / Enregistrement
-        public ActionResult Edit([Bind(Include = "id_Pers,id_Sexe,id_TypeUsag,Nom,Prenom,NomUsager,Matricule7,MP,Courriel,Telephone,DateNais,Actif")] Personne personne)
+        public ActionResult Edit([Bind(Include = "id_Pers,id_Sexe,id_TypeUsag,Nom,Prenom,NomUsager,Matricule7,MP,ConfirmPassword,Courriel,Telephone,DateNais,Actif")] Personne personne)
         {
             PersonneEtuProgParent EtuProg = new PersonneEtuProgParent();
             personne.id_TypeUsag = 1;
             personne.Telephone = SachemIdentite.FormatTelephone(personne.Telephone);
             EtuProg.personne = personne;
+            string Message = "Le mot de passe doit contenir 6 caratères";
 
             var etuprog = new EtuProgEtude();
             //Aller chercher Programme d'étude(nom)
@@ -206,6 +207,31 @@ namespace sachem.Controllers
                     db.EtuProgEtude.Add(etuprog);
                     db.SaveChanges();
                    }
+            if (ConfirmeMdp(personne.MP, personne.ConfirmPassword))
+            {
+                if (personne.MP != null && personne.MP.Length < 6)
+                {
+                    ModelState.AddModelError("ConfirmPassword", Message);
+                    TempData["Echec"] = Message;  
+                }
+                else
+                {
+                    if (personne.MP != null && personne.ConfirmPassword != null)
+                    {
+                        EtuProg.personne.MP = SachemIdentite.encrypterChaine(EtuProg.personne.MP);
+                        EtuProg.personne.ConfirmPassword = SachemIdentite.encrypterChaine(EtuProg.personne.ConfirmPassword); 
+                    }
+                    else
+                    {
+                        var mdp = from c in db.Personne
+                                  where (c.id_Pers == personne.id_Pers)
+                                  select c.MP;
+                        personne.MP = mdp.SingleOrDefault();
+                        personne.ConfirmPassword = personne.MP;
+                    }
+                }
+            }
+
             if (ModelState.IsValid)
             {
                 db.Entry(EtuProg.personne).State = EntityState.Modified;
@@ -236,7 +262,6 @@ namespace sachem.Controllers
             {
                 return HttpNotFound();
             }
-            
             return View(personne);
         }
         // POST: Etudiant/Delete/5
