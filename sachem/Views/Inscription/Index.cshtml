@@ -1,6 +1,9 @@
 ﻿@model sachem.Models.Inscription
 
-
+<style>
+.checkzone{width:100%;top:-1px;height:25px;background-size:100%; -webkit-appearance: none; -moz-appearance:none;}
+.checkzone:checked{width:100%; background-image:url('../../Images/x.png');background-position:center;background-repeat:no-repeat;background-size:30px 25px;height:25px; -webkit-appearance: none; -moz-appearance:none;}
+</style>
 @{
     ViewBag.Title = "Inscription au service de Sachem";
 }
@@ -23,69 +26,73 @@
             dataType: 'json',
             success: function (data) {
                 alert(data.message);
-            }
-            
+            }           
         });
         return false;
-    }
-
-   
+    }  
 </script>
 
-
-<h2>@ViewBag.Title</h2>
-<p class="text-success">
-    @Html.Raw(@TempData["Success"])
-</p>
+<div class="container">
+    <h2>@ViewBag.Title</h2>
+    <p class="text-success">
+        @Html.Raw(@TempData["Success"])
+    </p>
 
     @Html.AntiForgeryToken()
 
-    <div class="form-group">
+    <div class="form-groug">
         @Html.LabelFor(model => model.id_TypeInscription, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
             @Html.DropDownList("TypeInscription", null, "Choisir", htmlAttributes: new { @class = "form-control" })
             @Html.ValidationMessageFor(model => model.id_TypeInscription, "", new { @class = "text-danger" })
         </div>
     </div>
-
-    <h3>Disponibilité</h3>
-    <p> 
-        -Indiquez vos heures de disponibilité en cochant les cases appropriées.<br />
-        -Formez des blocs d'au moins deux heures consécutives.(les rencontres dureront 1h30/semaine) <br />
-        -Inscrivez plusieurs choix pour faciliter le jumelage.
-    </p>
+    <h3 class="page-header">Disponibilité</h3>
+    <ul>
+        <li>Indiquez vos heures de disponibilité en cliquant dans les cases appropriées.</li>
+        <li>Chaque X indique que vous êtes disponible pour une rencontre de 1h30 dans cette plage horaire</li>
+        <li>Il y aura au minimum une rencontre par semaine, soit 1h30/semaine</li>
+        <li>Inscrivez plusieurs choix pour faciliter le jumelage.</li>
+    </ul>
     <form method="post" id="TabDisp">
-        <div>
-            @{string[] jour = new string[5] { "Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi" };}
-            <CENTER>
-                    <table style="width:100%" border=1>
-                        <TR>
-                            <TH>Heures</TH>
-                            <TH>@jour[0]</TH>
-                            <TH>@jour[1]</TH>
-                            <TH>@jour[2]</TH>
-                            <TH>@jour[3]</TH>
-                            <TH>@jour[4]</TH>
 
-                        </TR>
-                        @for (var heure = 8; heure < 18;)
+        @{string[] jour = new string[5] { "Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi" };}
+        <table class="table-bordered table-striped col-sm-12">
+            <tr>
+                <th class="col-sm-2 text-center" style="height:30px;font-weight:bold;color:white;background-color:#666;">Heures</th>
+                @foreach (string j in jour)
+                {
+                    <th class="col-sm-2 text-center" style="height:30px;font-weight:bold;color:white;background-color:#666;">@j</th>
+                }
+            </tr>
+            @{ TimeSpan StartTime = TimeSpan.FromHours(8);
+                int Difference = 30;
+                int Rencontre = 90;
+                int EntriesCount = 18;
+                Dictionary<TimeSpan, TimeSpan> Entries = new Dictionary<TimeSpan, TimeSpan>();
+
+                for (int i = 0; i < EntriesCount; i++)
+                {
+                    Entries.Add(StartTime.Add(TimeSpan.FromMinutes(Difference * i)),//key = debut rencontre
+                                StartTime.Add(TimeSpan.FromMinutes(Difference * i + Rencontre)));//value = fin rencontre
+                }
+
+                foreach (var e in Entries)
+                {
+                    int heureCheckbox = 0; //  double minutesTotalesCheckBox = e.Value.TotalMinutes;
+                    <tr>
+                        <td class="text-center">
+                            @(e.Key.Hours)h@(e.Key.Minutes.ToString("00")) - @(e.Value.Hours)h@(e.Value.Minutes.ToString("00"))
+                        </td>
+                        @for (var j = 0; j < 5; j++)
                         {
-                            int heureCheckbox = heure;
-                            <TR>
-                                <TD>@(heure)h - @(++heure)h</TD>
-
-
-                                @for (var j = 0; j < 5; j++)
-                                {
-                                   <TD align="center"> @Html.CheckBox("horaireCheckbox", false, htmlAttributes: new { @class = "control-label col-md-2", @id = jour[j] + heureCheckbox.ToString(), @value = jour[j] + "-" + heureCheckbox.ToString() })</TD>
-                                }
-                            </TR>
+                            <td class="text-center"> @Html.CheckBox("horaireCheckbox", false, htmlAttributes: new { @class = "control-label col-md-2 checkzone", @id = jour[j] + heureCheckbox.ToString(), @value = jour[j] + "-" + heureCheckbox.ToString() })</td>
                         }
-
-                    </table>
-            </CENTER>
-            <br />
-            <br />
-            @Html.Partial("_Boutons")
-        </div>
+                    </tr>
+                }
+            }             
+        </table>
+        <br />
+        @Html.Partial("_Boutons")
     </form>
+</div>
