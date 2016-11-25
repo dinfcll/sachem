@@ -63,13 +63,13 @@ namespace sachem.Models
         [RegularExpression(@"^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$", ErrorMessage = Messages.U_009)] //Vérifie le format du tel
         public string Telephone; //Ajout pour #Tel dans BD
 
-        [Display(Name = "Nom d'usager")]
+        [Display(Name = "Nom d'utilisateur")]
         [StringLength(25)]
         public string NomUsager;
 
         [Display(Name = "No de DA")]
         [StringLength(9)]
-        public global::System.String Matricule;
+        public string Matricule;
 
         //Extrait du PAM partiellement
         [Display(Name = "No de DA")]
