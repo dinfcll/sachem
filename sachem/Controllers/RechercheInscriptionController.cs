@@ -117,7 +117,7 @@ namespace sachem.Controllers
         [NonAction]
         private void ListeStatut(int Statut = 0)
         {
-            var lStatut = from statut in db.p_StatutCours select statut;
+            var lStatut = from statut in db.p_StatutInscription select statut;
             var slStatut = new List<SelectListItem>();
             slStatut.AddRange(new SelectList(lStatut, "id_Statut", "Statut", Statut));
 
@@ -128,6 +128,8 @@ namespace sachem.Controllers
         private IEnumerable<Inscription> Rechercher()
         {
             var sess = 0;
+            var type = 0;
+            var statut = 0;
 
             if (Request.RequestType == "GET" && Session["DernRechCours"] != null && (string)Session["DernRechCoursUrl"] == Request.Url?.LocalPath)
             {
@@ -138,6 +140,14 @@ namespace sachem.Controllers
                 {
                     sess = int.Parse(tanciennerech[0]);
                 }
+                if (tanciennerech[1] != "")
+                {
+                    type = int.Parse(tanciennerech[0]);
+                }
+                if (tanciennerech[2] != "")
+                {
+                    statut = int.Parse(tanciennerech[0]);
+                }
             }
             else
             {
@@ -145,13 +155,22 @@ namespace sachem.Controllers
                     int.TryParse(Request.Form["Session"], out sess);
                 else if (Request.Form["Session"] == null)
                     sess = db.Session.Max(s => s.id_Sess);
+
+                if (!string.IsNullOrEmpty(Request.Form["TypeInscription"]))
+                    int.TryParse(Request.Form["TypeInscription"], out type);
+
+                if (!string.IsNullOrEmpty(Request.Form["Statut"]))
+                    int.TryParse(Request.Form["Statut"], out statut);
             }
 
 
             ListeSession(sess);
+            ListeTypeInscription(type);
+            ListeStatut(statut);
+
 
             var inscription = from c in db.Inscription
-                        where (c.id_Sess == sess || sess == 0)
+                              where ((c.id_Sess == sess || sess == 0) && (c.id_Statut == type || type == 0) && (c.id_TypeInscription == statut || statut == 0))
                         select c;
 
             Session["DernRechCours"] = sess;
