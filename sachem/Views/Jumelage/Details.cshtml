@@ -1,0 +1,102 @@
+﻿@model sachem.Models.Inscription
+
+@{
+    ViewBag.Title = "Jumelage";
+}
+
+<h2>@ViewBag.Title</h2>
+
+<div>
+    <h4 class="page-header">Identification de l'étudiant</h4>
+    <dl class="dl-horizontal col-sm-6" style="right:0;margin-top:0;position:absolute;">
+        <dt>
+            @Html.DisplayNameFor(model => model.p_TypeInscription.TypeInscription)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.p_TypeInscription.TypeInscription)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.p_StatutInscription.Statut)
+        </dt>
+
+        <dd>
+            @Html.Label("ViewBag Jumele")
+        </dd>
+
+        <dt>
+            @Html.Label("ViewBag heures pret a")
+        </dt>
+
+        <dd>
+            @Html.Label("ViewBag 3hrs")
+        </dd>
+
+        <dt>
+            @Html.Label("ViewBag 2x consecutifs")
+        </dt>
+
+        <dd>
+            @Html.Label("ViewBag Oui")
+        </dd>
+    </dl>
+    <dl class="dl-horizontal col-sm-12">
+        <dt>
+            @Html.DisplayNameFor(model => model.Personne.Matricule7)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Personne.Matricule7)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Personne.NomPrenom)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Personne.NomPrenom)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Personne.DateNais)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Personne.DateNais)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Personne.Courriel)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Personne.Courriel)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Personne.Telephone)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Personne.Telephone)
+        </dd>
+    </dl>
+    
+    </div>
+
+@using (Html.BeginForm("Details", "Jumelage", FormMethod.Post, new { @class = "form-inline", role = "form" }))
+{
+    @Html.Partial("_Disponibilites")
+}
+
+@*if futur sur: etudiant peut etre encore jumeler, afficher la zone de jumelage possible*@
+@using (Html.BeginForm("Details", "Jumelage", FormMethod.Post, new { @class = "form-inline", role = "form" }))
+{
+    @Html.Partial("_JumelagesPossibles")
+}
+@*else*@
+@using (Html.BeginForm("Details", "Jumelage", FormMethod.Post, new { @class = "form-inline", role = "form" }))
+{
+    @Html.Partial("_JumelagesAvec")
+}

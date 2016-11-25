@@ -32,16 +32,16 @@ namespace sachem.Controllers
                 if (longueurTab % 2 != 0)
                 {
                     return this.Json(new { success = false, message = "Utilisez un nombre pair d'heures." });
-                }
+        }
                 int[] heures = new int[longueurTab];
                 string[] splitValue1, splitValue2;
                 Array.Sort(values, new AlphanumComparatorFast());
                 for (int i = 0; i < values.Length - 1; i+=2)
-                {
+        {
                     splitValue1 = values[i].Split('-');
                     splitValue2 = values[i + 1].Split('-');
                     if (!(int.Parse(splitValue1[1]) +1 == int.Parse(splitValue2[1])))
-                    {
+            {
                         return this.Json(new { success = false, message = "Utilisez au moins deux heures consécutives!" });
                     }
                 }
@@ -54,7 +54,7 @@ namespace sachem.Controllers
             }
         }
 
-        
+
         // GET: Inscription/Delete/5
         //NOTE: Penser à Wiper les inscriptions à chaque fin de session. Constante?
         public ActionResult Delete(int id)
@@ -104,6 +104,52 @@ namespace sachem.Controllers
         {
             Array.Sort(tableau, StringComparer.InvariantCulture);
             return tableau;
+        }
+        public ActionResult Tuteur()
+        {
+            listeCours();
+            listeCollege();
+            return View();
+        }
+        public ActionResult TBenevole()
+        {
+            listeCours();
+            listeCollege();
+            return View();
+        }
+        [HttpPost]
+        public void listeCours()
+        {
+            var lstCrs = from c in db.Cours orderby c.Nom select c;
+            var slCrs = new List<SelectListItem>();
+            slCrs.AddRange(new SelectList(lstCrs, "id_Cours","CodeNom"));
+            ViewBag.lstCours = slCrs;
+            ViewBag.lstCours1 = slCrs;
+        }
+        [HttpPost]
+        public void listeCollege()
+        {
+            var lstCol = from c in db.p_College orderby c.College select c;
+            var slCol = new List<SelectListItem>();
+            slCol.AddRange(new SelectList(lstCol, "id_College", "College"));
+            ViewBag.lstCollege = slCol;
+        }
+
+        [HttpPost]
+        public ActionResult getLigneCours()
+        {
+            listeCours();
+            listeCollege();
+            return PartialView("_LigneCoursReussi");
+        }
+        [HttpPost]
+        public void Poursuivre()
+        {
+        }
+        [HttpPost]
+        public string ErreurCours()
+        {
+            return Messages.I_048();
         }
     }
 }

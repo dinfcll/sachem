@@ -88,29 +88,28 @@ namespace sachem.Controllers
 
             if (Request.RequestType == "GET" && Session["DernRechEtu"] != null && (string)Session["DernRechEtuUrl"] == Request.Url?.LocalPath)
             {
-                var anciennerech = (string)Session["DernRechEtu"];
-                var tanciennerech = anciennerech.Split(';');
+                var tanciennerech = Session["DernRechEtu"].ToString().Split(';');
 
-                if (tanciennerech[0] != "")
+                if (tanciennerech[0].Length != 0)
                 {
                     matricule = tanciennerech[0];
                     ViewBag.Matricule = matricule;
                 }
                 else
                 {
-                    if (tanciennerech[1] != "")
+                    if (tanciennerech[1].Length != 0)
                     {
                         session = Int32.Parse(tanciennerech[1]);
                         ViewBag.Session = session;
                         champsRenseignes++;
                     }
-                    if (tanciennerech[2] != "")
+                    if (tanciennerech[2].Length != 0)
                     {
                         cours = Int32.Parse(tanciennerech[2]);
                         ViewBag.Cours = cours;
                         champsRenseignes++;
                     }
-                    if (tanciennerech[3] != "")
+                    if (tanciennerech[3].Length != 0)
                     {
                         groupe = Int32.Parse(tanciennerech[3]);
                         ViewBag.Groupe = groupe;

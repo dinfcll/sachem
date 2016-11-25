@@ -29,7 +29,6 @@ namespace sachem.Controllers
             this.dataRepository = dataRepository;
         }
 
-
         [NonAction]
         //liste des sessions disponibles en ordre d'année
         private void ListeSession(int session = 0)
@@ -38,7 +37,6 @@ namespace sachem.Controllers
             var slSession = new List<SelectListItem>();
             slSession.AddRange(new SelectList(lSessions, "id_Sess", "NomSession", session));
             ViewBag.Session = slSession;
-
         }
 
         //fonctions permettant d'obtenir la liste des groupe. Appelé pour l'initialisation et la maj de la liste déroulante Groupe
@@ -52,7 +50,6 @@ namespace sachem.Controllers
                                 select p;
             return lstEnseignant.ToList();
         }
-
 
         //fonctions permettant d'initialiser les listes déroulantes
         [NonAction]
@@ -70,7 +67,6 @@ namespace sachem.Controllers
         {
             ViewBag.Superviseur = new SelectList(ObtenirListeSuperviseur(session), "id_Pers", "NomPrenom", superviseur);
         }
-
 
         /// <summary>
         /// Actualise le dropdownlist des groupes selon l'élément sélectionné dans les dropdownlist Session et Cours
@@ -98,27 +94,26 @@ namespace sachem.Controllers
 
             if (Request.RequestType == "GET" && Session["DernRechEtu"] != null && (string)Session["DernRechEtuUrl"] == Request.Url?.LocalPath)
             {//GET
-                var anciennerech = (string)Session["DernRechEtu"];
-                var tanciennerech = anciennerech.Split(';');
+                var tanciennerech = Session["DernRechEtu"].ToString().Split(';');
 
-                if (tanciennerech[0] != "")
+                if (tanciennerech[0].Length != 0)
                 {
                     matricule = tanciennerech[0];
                     ViewBag.Matricule = matricule;
                 }
                 else
                 {
-                    if (tanciennerech[1] != "")
+                    if (tanciennerech[1].Length != 0)
                     {
                         session = Int32.Parse(tanciennerech[1]);
                         ViewBag.Session = session;
                     }
-                    if (tanciennerech[2] != "")
+                    if (tanciennerech[2].Length != 0)
                     {
                         typeinscription = Int32.Parse(tanciennerech[2]);
                         ViewBag.Inscription = typeinscription;
                     }
-                    if (tanciennerech[3] != "")
+                    if (tanciennerech[3].Length != 0)
                     {
                         superviseur = Int32.Parse(tanciennerech[3]);
                         ViewBag.Superviseur = superviseur;
@@ -220,7 +215,6 @@ namespace sachem.Controllers
             return lstEtu.ToList();
         }
 
-
         [NonAction]
         protected IEnumerable<Inscription> Rechercher(int? Page)
         {
@@ -233,7 +227,6 @@ namespace sachem.Controllers
         public ActionResult Index(int? page)
         {
             noPage = (page ?? noPage);
-
             return View(Rechercher().ToPagedList(noPage, 20));
         }
 
@@ -248,7 +241,6 @@ namespace sachem.Controllers
 
             //Inscription inscription = db.Inscription.Find(id);
             var inscription = dataRepository.FindInscription(id.Value);
-
 
             if (inscription == null)
             {
@@ -268,6 +260,7 @@ namespace sachem.Controllers
 
             return View(Tuple.Create(inscription, vCoursSuivi.AsEnumerable(), vInscription.AsEnumerable()));
         }
+        
         [HttpPost]
         [ValidationAccesTuteur]
         public void ModifBon(bool bon, string insc)
@@ -309,7 +302,6 @@ namespace sachem.Controllers
             db.Entry(personne).State = EntityState.Modified;
             db.SaveChanges();
         }
-
 
         protected override void Dispose(bool disposing)
         {
