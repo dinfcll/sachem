@@ -218,8 +218,8 @@ namespace sachem.Controllers
                 {
                     if (personne.MP != null && personne.ConfirmPassword != null)
                     {
-                        EtuProg.personne.MP = SachemIdentite.encrypterChaine(pepp.personne.MP);
-                        EtuProg.personne.ConfirmPassword = SachemIdentite.encrypterChaine(pepp.personne.ConfirmPassword); 
+                        EtuProg.personne.MP = SachemIdentite.encrypterChaine(EtuProg.personne.MP);
+                        EtuProg.personne.ConfirmPassword = SachemIdentite.encrypterChaine(EtuProg.personne.ConfirmPassword); 
                     }
                     else
                     {
