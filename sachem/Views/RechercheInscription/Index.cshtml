@@ -1,13 +1,28 @@
 ﻿@model IEnumerable<sachem.Models.Inscription>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Inscription";
 }
 
-<h2>Index</h2>
+<h2>@ViewBag.Title</h2>
+<h3>Recherche</h3>
 
-<p>
-</p>
+@using (Html.BeginForm("Index", "RechercheInscription", FormMethod.Post, new { @class = "form-inline", role = "form" }))
+{
+    <h4>Recherche</h4>
+    <table class="table-condensed">
+        <tr>
+            <td>Session :</td>
+            <td>@Html.DropDownList("Session", null, "Toutes", htmlAttributes: new { @class = "form-search" })</td>
+            <td>Type d'inscription :</td>
+            <td>@Html.DropDownList("TypeInscription", null, "Toutes", htmlAttributes: new { @class = "form-search" })</td>
+            <td>Statut :</td>
+            <td>@Html.DropDownList("Statut", null, "Toutes", htmlAttributes: new { @class = "form-search" })</td>
+            <td><input type="submit" value="Rechercher" class="form-search" /></td>
+        </tr>
+    </table>
+}
+
 <table class="table">
     <tr>
         <th>

@@ -16,7 +16,9 @@ namespace sachem.Controllers
         {
             var touteInscription = from nom in db.Inscription
                 select nom;
-
+            ListeSession();
+            ListeStatut();
+            ListeTypeInscription();
 
             return View(touteInscription.ToList());
         }
@@ -91,6 +93,36 @@ namespace sachem.Controllers
             {
                 return View();
             }
+        }
+
+        [NonAction]
+        private void ListeSession(int Session = 0)
+        {
+            var lSessions = from session in db.Session select session;
+            var slSession = new List<SelectListItem>();
+            slSession.AddRange(new SelectList(lSessions, "id_Sess", "NomSession", Session));
+
+            ViewBag.Session = slSession;
+        }
+
+        [NonAction]
+        private void ListeTypeInscription(int TypeInscription = 0)
+        {
+            var lTypeInscription = from typeinscription in db.p_TypeInscription select typeinscription;
+            var slTypeInscription = new List<SelectListItem>();
+            slTypeInscription.AddRange(new SelectList(lTypeInscription, "id_TypeInscription", "TypeInscription", TypeInscription));
+
+            ViewBag.TypeInscription = slTypeInscription;
+        }
+
+        [NonAction]
+        private void ListeStatut(int Statut = 0)
+        {
+            var lStatut = from statut in db.p_StatutCours select statut;
+            var slStatut = new List<SelectListItem>();
+            slStatut.AddRange(new SelectList(lStatut, "id_Statut", "Statut", Statut));
+
+            ViewBag.Statut = slStatut;
         }
     }
 }
