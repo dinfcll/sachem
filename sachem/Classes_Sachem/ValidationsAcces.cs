@@ -65,12 +65,14 @@ namespace sachem.Classes_Sachem
         public class ValidationAccesInscription : ActionFilterAttribute
         {
             private readonly SACHEMEntities db = new SACHEMEntities();
-            int id = SessionBag.Current.id_Pers;
+            int? id = SessionBag.Current.id_Pers;
             public const string PATH_ERREUR_AUTH = "/Home/Ferme";
             public const string PATH_ERREUR_DEJA = "/Home/Deja";
             static readonly List<TypeUsagers> rolesAcces = new List<TypeUsagers>() { TypeUsagers.Etudiant };
             public override void OnActionExecuting(ActionExecutingContext filterContext)
             {
+                if (id == null)
+                    filterContext.Result = new RedirectResult("/Account/Login");
                 var verif = SachemIdentite.ValiderRoleAcces(rolesAcces, filterContext.HttpContext.Session);
                 if (!verif)
                     filterContext.Result = new RedirectResult(PATH_ERREUR_AUTH);

@@ -24,20 +24,13 @@
             $('[name="horaireCheckbox"]:checked').each(function () {
                 HoraireArray.push(($(this).val()));
             });
-            var postData = { jours: HoraireArray };
+            var typeinscr = $('#TypeInscription').val();
+            var postData = { jours: HoraireArray, typeInscription: typeinscr };
             return postData;
         }
 
         function envoie(postData) {
-            /*var HoraireArray = [];
-                    $('[name="horaireCheckbox"]:checked').each(function () {
-                        HoraireArray.push(($(this).val()));
-                    });*/
             postData = getDisp();
-            if (postData.length < 2) {
-                alert("Utilisez au moins une plage horaire de 2!");
-                return;
-            }
             $.ajax({
                 url: "/Inscription/Index",
                 data: postData,
@@ -99,7 +92,7 @@
 
                 foreach (var e in Entries)
                 {
-                    int heureCheckbox = 0; //  double minutesTotalesCheckBox = e.Value.TotalMinutes;
+                    double heureCheckbox = e.Key.TotalMinutes - StartTime.TotalMinutes;
                     <tr>
                         <td class="text-center">
                             @(e.Key.Hours)h@(e.Key.Minutes.ToString("00")) - @(e.Value.Hours)h@(e.Value.Minutes.ToString("00"))
