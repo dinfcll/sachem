@@ -60,7 +60,7 @@ namespace sachem.Controllers
                 ViewBag.id_Session = new SelectList(db.Session, "id_Sess", "NomSession");
 
             Valider(EtuProg.personne);
-            if (EtuProg.personne.MP == "" || EtuProg.personne.ConfirmPassword == "")
+            if (EtuProg.personne.MP == null || EtuProg.personne.ConfirmPassword == null)
             {
                 ModelState.AddModelError("Mot de passe", "Veuillez entrer un mot de passe");
                 TempData["Echec"] = "Veuillez entrer un mot de passe";
