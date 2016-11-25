@@ -13,8 +13,6 @@ namespace sachem.Controllers
     public class InscriptionController : Controller
     {
         private readonly SACHEMEntities db = new SACHEMEntities();
-        private const string MSG_ERREUR_CONSECUTIF = "Erreur: vous devez avoir une plage horaire contenant des heures consécutives.";
-        private const string MSG_ERREUR_LENGTH = "Cochez au moins 2 heures.";
         private const string MSG_ERREUR_REMPLIR = "Veuillez remplir le formulaire de disponibilités.";
         //[ValidationAcces.ValidationAccesInscription]
         // GET: Inscription
@@ -27,12 +25,16 @@ namespace sachem.Controllers
         [HttpPost]
         public ActionResult Index(string typeInscription, string[] jours )
         {
+            int id_Pers = SessionBag.Current.id_Pers;
+            ViewBag.TypeInscription = new SelectList(db.p_TypeInscription, "id_TypeInscription", "TypeInscription");
             var SessionActuelle = db.Session.AsNoTracking().OrderByDescending(y => y.Annee).ThenByDescending(x => x.id_Saison).FirstOrDefault();
             Inscription inscriptionBD = new Inscription();
-            inscriptionBD.id_Pers = SessionBag.Current.id_Pers;
+            inscriptionBD.id_Pers = id_Pers;
             inscriptionBD.id_Sess = SessionActuelle.id_Sess;
             inscriptionBD.id_Statut = 1;
-            //inscriptionBD.id_TypeInscription = La valeur du checkbox;
+            inscriptionBD.BonEchange = false;
+            inscriptionBD.ContratEngagement = false;
+            inscriptionBD.TransmettreInfoTuteur = false;
             inscriptionBD.DateInscription = DateTime.Now;
 
             ViewBag.TypeInscription = new SelectList(db.p_TypeInscription, "id_TypeInscription", "TypeInscription");
@@ -40,7 +42,7 @@ namespace sachem.Controllers
             {
                 int longueurTab = jours.Length;
                 int minute;
-                string[] splitValue1, splitValue2, splitValue3;
+                string[] splitValue1;
                 string jour;
                 Lis­t<DisponibiliteStruct> disponibilites = new List<DisponibiliteStruct>();
                 Array.Sort(jours, new AlphanumComparatorFast());
@@ -54,10 +56,11 @@ namespace sachem.Controllers
                 }
 
                 Disponibilite dispoBD = new Disponibilite();
-                //dispoBD.id_Inscription =  Le ID de l'inscription?
+                var InscriptionEtu = db.Inscription.Where(x => x.id_Pers == id_Pers).FirstOrDefault();
                 foreach (DisponibiliteStruct m in disponibilites)
                 {
-                    //TODO: Mettre dans BD après validation.
+                    dispoBD.id_Inscription = InscriptionEtu.id_Inscription;
+                    dispoBD.id_Jour = m.dictionary[m.Jour];
                     db.Disponibilite.Add(dispoBD);
                     db.SaveChanges();
                 }
@@ -96,32 +99,5 @@ namespace sachem.Controllers
             }
         }
 
-        [NonAction]
-        private int? JourANumero(string jour)
-        {
-            switch (jour)
-            {
-                case "Lundi":
-                    return 2;
-                case "Mardi":
-                    return 3;
-                case "Mercredi":
-                    return 4;
-                case "Jeudi":
-                    return 5;
-                case "Vendredi":
-                    return 6;
-                default:
-                    return null;
-
-            }
-        }
-
-        [NonAction]
-        private string[] triageTableauAlphaNumerique(string[] tableau)
-        {
-            Array.Sort(tableau, StringComparer.InvariantCulture);
-            return tableau;
-        }
     }
 }
