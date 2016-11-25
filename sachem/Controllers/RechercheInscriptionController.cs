@@ -16,11 +16,10 @@ namespace sachem.Controllers
         {
             var touteInscription = from nom in db.Inscription
                 select nom;
-            ListeSession();
             ListeStatut();
             ListeTypeInscription();
 
-            return View(touteInscription.ToList());
+            return View(Rechercher());
         }
 
         // GET: RechercheInscription/Details/5
@@ -123,6 +122,42 @@ namespace sachem.Controllers
             slStatut.AddRange(new SelectList(lStatut, "id_Statut", "Statut", Statut));
 
             ViewBag.Statut = slStatut;
+        }
+
+        [NonAction]
+        private IEnumerable<Inscription> Rechercher()
+        {
+            var sess = 0;
+
+            if (Request.RequestType == "GET" && Session["DernRechCours"] != null && (string)Session["DernRechCoursUrl"] == Request.Url?.LocalPath)
+            {
+                var anciennerech = (string)Session["DernRechCours"];
+                var tanciennerech = anciennerech.Split(';');
+
+                if (tanciennerech[0] != "")
+                {
+                    sess = int.Parse(tanciennerech[0]);
+                }
+            }
+            else
+            {
+                if (!string.IsNullOrEmpty(Request.Form["Session"]))
+                    int.TryParse(Request.Form["Session"], out sess);
+                else if (Request.Form["Session"] == null)
+                    sess = db.Session.Max(s => s.id_Sess);
+            }
+
+
+            ListeSession(sess);
+
+            var inscription = from c in db.Inscription
+                        where (c.id_Sess == sess || sess == 0)
+                        select c;
+
+            Session["DernRechCours"] = sess;
+            Session["DernRechCoursUrl"] = Request.Url?.LocalPath;
+
+            return inscription.ToList();
         }
     }
 }
