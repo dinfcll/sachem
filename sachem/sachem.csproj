@@ -491,6 +491,7 @@
     <Content Include="Views\Shared\_CoursReussis.cshtml" />
     <Content Include="Views\Inscription\TBenevole.cshtml" />
     <Content Include="Views\Shared\_LigneCoursReussi.cshtml" />
+    <Content Include="Views\Inscription\_CoursEleve.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
