@@ -14,7 +14,7 @@ namespace sachem.Controllers
     {
         private readonly SACHEMEntities db = new SACHEMEntities();
         private const string MSG_ERREUR_REMPLIR = "Veuillez remplir le formulaire de disponibilités.";
-        //[ValidationAcces.ValidationAccesInscription]
+        [ValidationAcces.ValidationAccesInscription]
         // GET: Inscription
         public ActionResult Index()
         {
@@ -22,6 +22,7 @@ namespace sachem.Controllers
             return View();
         }
 
+        [ValidationAcces.ValidationAccesInscription]
         [HttpPost]
         public ActionResult Index(int typeInscription, string[] values )
         {
@@ -47,7 +48,7 @@ namespace sachem.Controllers
                 string jour;
                 Lis­t<DisponibiliteStruct> disponibilites = new List<DisponibiliteStruct>();
                 Array.Sort(values, new AlphanumComparatorFast());
-                for (int i = 0; i < values.Length - 2; i += 2)
+                for (int i = 0; i < values.Length; i++)
                 {
                     //TODO: Valider si les heures se suivent, formatter pour demander confirmation à l'utilisateur.
                     splitValue1 = values[i].Split('-');
@@ -62,13 +63,11 @@ namespace sachem.Controllers
                 {
                     dispoBD.id_Inscription = InscriptionEtu.id_Inscription;
                     dispoBD.id_Jour = m.dictionary[m.Jour];
+                    dispoBD.minutes = m.Minute;
                     db.Disponibilite.Add(dispoBD);
                     db.SaveChanges();
                 }
-
-
                 return this.Json(new { success = true, message = values });
-
             }
             else
             {

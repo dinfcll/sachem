@@ -66,18 +66,23 @@ namespace sachem.Classes_Sachem
         {
             private readonly SACHEMEntities db = new SACHEMEntities();
             int id = SessionBag.Current.id_Pers;
-            public const string pathErreurAuth = "/Home/Ferme";
+            public const string PATH_ERREUR_AUTH = "/Home/Ferme";
+            public const string PATH_ERREUR_DEJA = "/Home/Deja";
             static readonly List<TypeUsagers> rolesAcces = new List<TypeUsagers>() { TypeUsagers.Etudiant };
             public override void OnActionExecuting(ActionExecutingContext filterContext)
             {
                 var verif = SachemIdentite.ValiderRoleAcces(rolesAcces, filterContext.HttpContext.Session);
                 if (!verif)
-                    filterContext.Result = new RedirectResult(pathErreurAuth);
+                    filterContext.Result = new RedirectResult(PATH_ERREUR_AUTH);
 
-                DateTime dateActuelle = DateTime.Now.Date;
+                /*DateTime dateActuelle = DateTime.Now.Date;
                 if (!ValidationDate(dateActuelle))
-                    filterContext.Result = new RedirectResult(pathErreurAuth);
-                
+                    filterContext.Result = new RedirectResult(PATH_ERREUR_AUTH);*/
+
+                var inscriptionExistante = db.Inscription.Any(x => x.id_Pers == id);
+                if(inscriptionExistante)
+                    filterContext.Result = new RedirectResult(PATH_ERREUR_DEJA);
+
             }
             private bool ValidationDate(DateTime DateActuelle)
             {
