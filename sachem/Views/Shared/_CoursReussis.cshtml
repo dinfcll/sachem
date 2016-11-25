@@ -113,6 +113,14 @@
                     $(this).closest(".InfoCourCollege").find($(".coursChange")).removeAttr('disabled');
                 }
             });
+            $(".InfoCourCollege").find($(".dropDownCollege")).change(function () {
+                if ($(this).val() != "") {
+                    $(this).closest(".InfoCourCollege").find($(".collegeChange")).attr('disabled', 'disabled');
+                }
+                else {
+                    $(this).closest(".InfoCourCollege").find($(".collegeChange")).removeAttr('disabled');
+                }
+            });
         }
 
         ajouterLigneCours = function () {
