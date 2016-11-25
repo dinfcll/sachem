@@ -24,7 +24,7 @@ namespace sachem.Controllers
 
         [ValidationAcces.ValidationAccesInscription]
         [HttpPost]
-        public ActionResult Index(int typeInscription, string[] values )
+        public ActionResult Index(string typeInscription, string[] jours )
         {
             int id_Pers = SessionBag.Current.id_Pers;
             ViewBag.TypeInscription = new SelectList(db.p_TypeInscription, "id_TypeInscription", "TypeInscription");
@@ -42,7 +42,7 @@ namespace sachem.Controllers
             db.SaveChanges();
             if (values != null)
             {
-                int longueurTab = values.Length;
+                int longueurTab = jours.Length;
                 int minute;
                 string[] splitValue1;
                 string jour;
@@ -51,7 +51,7 @@ namespace sachem.Controllers
                 for (int i = 0; i < values.Length; i++)
                 {
                     //TODO: Valider si les heures se suivent, formatter pour demander confirmation à l'utilisateur.
-                    splitValue1 = values[i].Split('-');
+                    splitValue1 = jours[i].Split('-');
                     minute = int.Parse(splitValue1[1]);
                     jour = splitValue1[0];
                     disponibilites.Add(new DisponibiliteStruct(jour, minute));
