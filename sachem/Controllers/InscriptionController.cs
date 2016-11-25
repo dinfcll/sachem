@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using sachem.Classes_Sachem;
 using sachem.Models;
+using System.Text.RegularExpressions;
 
 namespace sachem.Controllers
 {
@@ -12,50 +13,48 @@ namespace sachem.Controllers
     public class InscriptionController : Controller
     {
         private readonly SACHEMEntities db = new SACHEMEntities();
-
+        private readonly string msg_Erreur_Consecutif = "Erreur: vous devez avoir une plage horaire contenant 2 heures consécutives.";
         //[ValidationAcces.ValidationAccesInscription]
         // GET: Inscription
         public ActionResult Index()
         {
             ViewBag.TypeInscription = new SelectList(db.p_TypeInscription, "id_TypeInscription", "TypeInscription");
-            /*var inscription = from c in db.Inscription
-                              select c;
-            var liste = Tuple.Create(inscription, "string");*/
-            //return View(liste);
             return View();
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Index(int pa)
+        public ActionResult Index(string[] values)
         {
             ViewBag.TypeInscription = new SelectList(db.p_TypeInscription, "id_TypeInscription", "TypeInscription");
-
-            return View();
-        }
-
-        /*private string NoAJour(int id)
-        {
-            switch (id % 5)
+            if (values != null)
             {
-                case 0:
-                    return "Vendredi";
-                    break;
-                case 1:
-
-                    break;
-                case 2:
-                    break;
-                case 3:
-                    break;
-                case 4:
-                    break;
-                default:
-
-                    break;
+                int longueurTab = values.Length;
+                if (longueurTab % 2 != 0)
+                {
+                    return this.Json(new { success = false, message = "Utilisez un nombre pair d'heures." });
+        }
+                int[] heures = new int[longueurTab];
+                string[] splitValue1, splitValue2;
+                Array.Sort(values, new AlphanumComparatorFast());
+                for (int i = 0; i < values.Length - 1; i+=2)
+        {
+                    splitValue1 = values[i].Split('-');
+                    splitValue2 = values[i + 1].Split('-');
+                    if (!(int.Parse(splitValue1[1]) +1 == int.Parse(splitValue2[1])))
+            {
+                        return this.Json(new { success = false, message = "Utilisez au moins deux heures consécutives!" });
+                    }
+                }
+                return this.Json(new { success = true, message = values });
 
             }
-        }*/
+            else
+            {
+                return this.Json(new { success = false, message = "Veuillez remplir le formulaire de disponibilités." });
+            }
+        }
+
+
         // GET: Inscription/Delete/5
         //NOTE: Penser à Wiper les inscriptions à chaque fin de session. Constante?
         public ActionResult Delete(int id)
@@ -77,6 +76,34 @@ namespace sachem.Controllers
             {
                 return View();
             }
+        }
+
+        [NonAction]
+        private int? JourANumero(string jour)
+        {
+            switch (jour)
+            {
+                case "Lundi":
+                    return 2;
+                case "Mardi":
+                    return 3;
+                case "Mercredi":
+                    return 4;
+                case "Jeudi":
+                    return 5;
+                case "Vendredi":
+                    return 6;
+                default:
+                    return null;
+
+            }
+        }
+
+        [NonAction]
+        private string[] triageTableauAlphaNumerique(string[] tableau)
+        {
+            Array.Sort(tableau, StringComparer.InvariantCulture);
+            return tableau;
         }
         public ActionResult Tuteur()
         {
@@ -122,7 +149,7 @@ namespace sachem.Controllers
         [HttpPost]
         public string ErreurCours()
         {
-            return Messages.I_046();
+            return Messages.I_048();
         }       
     }
 }
