@@ -25,7 +25,7 @@ namespace sachem.Controllers
         }
 
         [HttpPost]
-        public ActionResult Index(string typeInscription, string[] values )
+        public ActionResult Index(string typeInscription, string[] jours )
         {
             var SessionActuelle = db.Session.AsNoTracking().OrderByDescending(y => y.Annee).ThenByDescending(x => x.id_Saison).FirstOrDefault();
             Inscription inscriptionBD = new Inscription();
@@ -36,18 +36,18 @@ namespace sachem.Controllers
             inscriptionBD.DateInscription = DateTime.Now;
 
             ViewBag.TypeInscription = new SelectList(db.p_TypeInscription, "id_TypeInscription", "TypeInscription");
-            if (values != null)
+            if (jours != null)
             {
-                int longueurTab = values.Length;
+                int longueurTab = jours.Length;
                 int minute;
                 string[] splitValue1, splitValue2, splitValue3;
                 string jour;
                 Lis­t<DisponibiliteStruct> disponibilites = new List<DisponibiliteStruct>();
-                Array.Sort(values, new AlphanumComparatorFast());
-                for (int i = 0; i < values.Length - 2; i += 2)
+                Array.Sort(jours, new AlphanumComparatorFast());
+                for (int i = 0; i < jours.Length - 2; i += 2)
                 {
                     //TODO: Valider si les heures se suivent, formatter pour demander confirmation à l'utilisateur.
-                    splitValue1 = values[i].Split('-');
+                    splitValue1 = jours[i].Split('-');
                     minute = int.Parse(splitValue1[1]);
                     jour = splitValue1[0];
                     disponibilites.Add(new DisponibiliteStruct(jour, minute));
@@ -63,7 +63,7 @@ namespace sachem.Controllers
                 }
 
 
-                return this.Json(new { success = true, message = values });
+                return this.Json(new { success = true, message = jours });
 
             }
             else
