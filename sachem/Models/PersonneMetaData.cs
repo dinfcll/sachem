@@ -63,7 +63,7 @@ namespace sachem.Models
         [RegularExpression(@"^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$", ErrorMessage = Messages.U_009)] //Vérifie le format du tel
         public string Telephone; //Ajout pour #Tel dans BD
 
-        [Display(Name = "Nom d'usager")]
+        [Display(Name = "Nom d'utilisateur")]
         [StringLength(25)]
         public string NomUsager;
 
