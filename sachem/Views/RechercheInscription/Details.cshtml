@@ -1,0 +1,89 @@
+﻿@model sachem.Models.Inscription
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Inscription</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.TransmettreInfoTuteur)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TransmettreInfoTuteur)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.NoteSup)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NoteSup)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ContratEngagement)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ContratEngagement)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.BonEchange)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BonEchange)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DateInscription)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DateInscription)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.p_StatutInscription.Statut)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.p_StatutInscription.Statut)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.p_TypeInscription.TypeInscription)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.p_TypeInscription.TypeInscription)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Personne.Nom)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Personne.Nom)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Session.id_Sess)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Session.id_Sess)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Retour à la liste d'inscription", "Index")
+</p>

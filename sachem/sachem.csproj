@@ -488,6 +488,7 @@
     <Content Include="Views\Jumelage\_Disponibilites.cshtml" />
     <Content Include="Views\ContratEngagement\Index.cshtml" />
     <Content Include="Views\RechercheInscription\Index.cshtml" />
+    <Content Include="Views\RechercheInscription\Details.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

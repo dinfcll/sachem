@@ -14,8 +14,8 @@ namespace sachem.Controllers
         
         public ActionResult Index()
         {
-            var touteInscription = from nom in db.Inscription
-                select nom;
+            var touteInscription = from inscription in db.Inscription
+                select inscription;
             ListeStatut();
             ListeTypeInscription();
 
@@ -25,7 +25,8 @@ namespace sachem.Controllers
         // GET: RechercheInscription/Details/5
         public ActionResult Details(int id)
         {
-            return View();
+            Inscription inscription = db.Inscription.Find(id);
+            return View(inscription);
         }
 
         // GET: RechercheInscription/Create
