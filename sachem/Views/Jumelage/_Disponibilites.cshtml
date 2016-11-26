@@ -1,7 +1,15 @@
 ﻿@using sachem.Models
 
 <h4 class="page-header">Disponibilités</h4>
-
+<style>
+    .checkzone {
+        width: 25px;
+        top: -1px;
+        height: 25px;
+        background-size: 100%;
+        -moz-appearance: none;
+    }
+</style>
 <table class="table-bordered table-striped col-sm-12">
     @{ List<string> jours = ((sachem.Controllers.JumelageController)this.ViewContext.Controller).RetourneListeJours(); }
     <tr>
