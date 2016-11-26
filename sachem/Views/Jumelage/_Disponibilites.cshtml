@@ -3,41 +3,35 @@
 <h4 class="page-header">Disponibilités</h4>
 
 <table class="table-bordered table-striped col-sm-12">
-@{string[] jour = new string[5] { "Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi" };}
+    @{ List<string> jours = ((sachem.Controllers.JumelageController)this.ViewContext.Controller).RetourneListeJours(); }
     <tr>
         <th class="col-sm-2 text-center" style="height:30px;font-weight:bold;color:white;background-color:#666;">Heures</th>
-        @foreach (string j in jour)
+        @foreach (string jour in jours)
         {
-            <th class="col-sm-2 text-center" style="height:30px;font-weight:bold;color:white;background-color:#666;">@j</th>
+            <th class="col-sm-2 text-center" style="height:30px;font-weight:bold;color:white;background-color:#666;">@jour</th>
         }
     </tr>
-    @{ TimeSpan StartTime = TimeSpan.FromHours(8);
-        int Difference = 30;
-        int Rencontre = 90;
-        int EntriesCount = 18;
-        Dictionary<TimeSpan, TimeSpan> Entries = new Dictionary<TimeSpan, TimeSpan>();
-
-        for (int i = 0; i < EntriesCount; i++)
+    @{ Dictionary<string, List<string>> ListeLabelValueDeTableauDisponibilite = ((sachem.Controllers.JumelageController)this.ViewContext.Controller).RetourneTableauDisponibilite(); }
+    @{
+        foreach (var v in ListeLabelValueDeTableauDisponibilite)
         {
-            Entries.Add(StartTime.Add(TimeSpan.FromMinutes(Difference * i)),
-                        StartTime.Add(TimeSpan.FromMinutes(Difference * i + Rencontre)));
-        }
-
-        foreach (var e in Entries)
-        {
-            int heureCheckbox = 0; //  double minutesTotalesCheckBox = e.Value.TotalMinutes;
             <tr>
                 <td class="text-center">
-                @(e.Key.Hours)h@(e.Key.Minutes.ToString("00")) - @(e.Value.Hours)h@(e.Value.Minutes.ToString("00"))
+                    @(v.Key)
                 </td>
-                @for (var j = 0; j < 5; j++)
+                @foreach (var w in v.Value)
                 {
-                    @*ajouter la class alert-success au td a ces zones de dispo et le nbre de 'fit'
-                    ajouter la class alert-danger a ces zones jumeler et le terme 'jumele'*@
-                    <td class="text-center" id = "@jour[j]@heureCheckbox.ToString()" value = "@jour[j] - @heureCheckbox.ToString()">
+                    <td class="text-center">
+                        @Html.CheckBox("horaireCheckbox", false, htmlAttributes: new
+                    {
+                        @class = "control-label col-md-2 checkzone",
+                        @id = w,
+                        @value = w
+                    })
                     </td>
-                }
+                }                        
             </tr>
         }
     }
 </table>
+<br />

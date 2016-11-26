@@ -41,6 +41,71 @@ namespace sachem.Controllers
         }
 
         [NonAction]
+        public string RetourneNbreJumelageEtudiant(int count)
+        {
+            string statut = "";
+            switch (count)
+            {
+                case 0:
+                    statut = "Non jumelé";
+                    break;
+                case 1:
+                    statut = "Jumelé";
+                    break;
+                case 2:
+                    statut = "Jumelé (2 fois)";
+                    break;
+                default:
+                    break;
+            }
+            return statut;
+        }
+
+        [NonAction]
+        public List<string> RetourneListeJours()
+        {
+            List<string> Jours = new List<string>();
+            Jours.Add("Lundi");
+            Jours.Add("Mardi");
+            Jours.Add("Mercredi");
+            Jours.Add("Jeudi");
+            Jours.Add("Vendredi");
+            return Jours;
+        }
+
+        [NonAction]
+        public Dictionary<string, List<string>> RetourneTableauDisponibilite()
+        {
+            TimeSpan StartTime = TimeSpan.FromHours(8);
+            int Difference = 30;
+            int Rencontre = 90;
+            int EntriesCount = 18;
+            string[] jour = new string[5] { "Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi" };
+            Dictionary<TimeSpan, TimeSpan> Entree = new Dictionary<TimeSpan, TimeSpan>();
+            Dictionary<string, List<string>> Sortie = new Dictionary<string, List<string>>();
+
+            for (int i = 0; i < EntriesCount; i++)
+            {
+                Entree.Add(StartTime.Add(TimeSpan.FromMinutes(Difference * i)),
+                            StartTime.Add(TimeSpan.FromMinutes(Difference * i + Rencontre)));
+            }
+
+            foreach (var e in Entree)
+            {
+                double heureCheckbox = e.Key.TotalMinutes - StartTime.TotalMinutes;
+                List<string> values = new List<string>();
+                for (int j = 0; j < 5; j++)
+                {
+                    values.Add(jour[j] + "-" + heureCheckbox.ToString());
+                }
+                Sortie.Add(
+                e.Key.Hours + "h" + e.Key.Minutes.ToString("00") + "-" + e.Value.Hours + "h" + e.Value.Minutes.ToString("00"),
+                values);
+            }
+            return Sortie;
+        }
+
+        [NonAction]
         private void ListeTypeInscription(int TypeInscription = 0)
         {
             var lInscriptions = db.p_TypeInscription.AsNoTracking().OrderBy(i => i.TypeInscription);
@@ -49,7 +114,7 @@ namespace sachem.Controllers
             ViewBag.Inscription = slInscription;
         }
 
-        [ValidationAccesEnseignant]
+        //[ValidationAccesEnseignant]
         public ActionResult Index(int? page)
         {
             noPage = (page ?? noPage);
@@ -127,7 +192,7 @@ namespace sachem.Controllers
             return Rechercher();
         }
 
-        [ValidationAccesEnseignant]
+        //[ValidationAccesEnseignant]
         public ActionResult Details(int? id)
         {
             if (id == null)

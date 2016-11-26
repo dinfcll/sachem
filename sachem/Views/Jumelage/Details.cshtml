@@ -22,7 +22,8 @@
         </dt>
 
         <dd>
-            @Html.Label("ViewBag Jumele")
+            @{ String count = ((sachem.Controllers.JumelageController)this.ViewContext.Controller).RetourneNbreJumelageEtudiant(Model.Jumelage.Count); }
+            @(count)
         </dd>
 
         <dt>

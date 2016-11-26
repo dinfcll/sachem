@@ -75,7 +75,50 @@ namespace sachem.Controllers
             }
         }
 
-        
+        [NonAction]
+        public List<string> RetourneListeJours()
+        {
+            List<string> Jours = new List<string>();
+            Jours.Add("Lundi");
+            Jours.Add("Mardi");
+            Jours.Add("Mercredi");
+            Jours.Add("Jeudi");
+            Jours.Add("Vendredi");
+            return Jours;
+        }
+
+        [NonAction]
+        public Dictionary<string, List<string>> RetourneTableauDisponibilite()
+        {
+            TimeSpan StartTime = TimeSpan.FromHours(8);
+            int Difference = 30;
+            int Rencontre = 90;
+            int EntriesCount = 18;
+            string[] jour = new string[5] { "Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi" };
+            Dictionary<TimeSpan, TimeSpan> Entree = new Dictionary<TimeSpan, TimeSpan>();
+            Dictionary<string, List<string>> Sortie = new Dictionary<string, List<string>>();
+
+            for (int i = 0; i < EntriesCount; i++)
+            {
+                Entree.Add(StartTime.Add(TimeSpan.FromMinutes(Difference * i)),
+                            StartTime.Add(TimeSpan.FromMinutes(Difference * i + Rencontre)));
+            }
+
+            foreach (var e in Entree)
+            {
+                double heureCheckbox = e.Key.TotalMinutes - StartTime.TotalMinutes;
+                List<string> values = new List<string>();
+                for (int j = 0; j < 5; j++)
+                {
+                    values.Add(jour[j] + "-" + heureCheckbox.ToString());
+                }
+                Sortie.Add(
+                e.Key.Hours + "h" + e.Key.Minutes.ToString("00") + "-" + e.Value.Hours + "h" + e.Value.Minutes.ToString("00"),
+                values);
+            }
+            return Sortie;
+        }
+
         // GET: Inscription/Delete/5
         //NOTE: Penser à Wiper les inscriptions à chaque fin de session. Constante?
         public ActionResult Delete(int id)
