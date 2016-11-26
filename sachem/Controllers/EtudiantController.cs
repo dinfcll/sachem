@@ -45,24 +45,32 @@ namespace sachem.Controllers
         [ValidationAccesEnseignant]
         public ActionResult Create([Bind(Include = "id_Pers,id_Sexe,id_TypeUsag,Nom,Prenom,Matricule,MP,ConfirmPassword,Courriel,Telephone,DateNais")] Personne personne,int? page)
         {
-            PersonneEtuProgParent pepp = new PersonneEtuProgParent();
+            PersonneEtuProgParent EtuProg = new PersonneEtuProgParent();
 
             personne.id_TypeUsag = 1;
             personne.Actif = true;
             personne.Telephone = SachemIdentite.FormatTelephone(personne.Telephone);
             personne.Matricule = CONSTANTE20 + personne.Matricule;
-            pepp.personne = personne;
+            EtuProg.personne = personne;
 
                 ViewBag.id_Sexe = db.p_Sexe;
                 ViewBag.Selected = 0;
                 ViewBag.id_TypeUsag = new SelectList(db.p_TypeUsag, "id_TypeUsag", "TypeUsag");
-            ViewBag.id_Programme = new SelectList(db.ProgrammeEtude.Where(x => x.Actif == true), "id_ProgEtu", "CodeNomProgramme");
+                ViewBag.id_Programme = new SelectList(db.ProgrammeEtude.Where(x => x.Actif == true), "id_ProgEtu", "CodeNomProgramme");
                 ViewBag.id_Session = new SelectList(db.Session, "id_Sess", "NomSession");
 
-            Valider(pepp.personne);
-            if(ConfirmeMdp(personne.MP, personne.ConfirmPassword) == false)
-            {                
-                return View(pepp);
+            Valider(EtuProg.personne);
+            if (EtuProg.personne.MP == null)
+            {
+                ModelState.AddModelError("Mot de passe", "Veuillez entrer un mot de passe");
+                TempData["Echec"] = "Veuillez entrer un mot de passe";
+            }
+            else
+            {
+                if (ConfirmeMdp(personne.MP, personne.ConfirmPassword) == false)
+                {
+                return View(EtuProg);
+                }
             }
 
             var etuprog = new EtuProgEtude();
@@ -77,15 +85,15 @@ namespace sachem.Controllers
             // Si les données sont valides, faire l'ajout
             if (ModelState.IsValid)
             {
-                pepp.personne.MP = SachemIdentite.encrypterChaine(pepp.personne.MP); // Encryption du mot de passe
-                pepp.personne.ConfirmPassword = SachemIdentite.encrypterChaine(pepp.personne.ConfirmPassword); // Encryption du mot de passe   
-                db.Personne.Add(pepp.personne);
+                EtuProg.personne.MP = SachemIdentite.encrypterChaine(EtuProg.personne.MP); // Encryption du mot de passe
+                EtuProg.personne.ConfirmPassword = SachemIdentite.encrypterChaine(EtuProg.personne.ConfirmPassword); // Encryption du mot de passe   
+                db.Personne.Add(EtuProg.personne);
                 db.SaveChanges();
                 personne.Telephone = SachemIdentite.RemettreTel(personne.Telephone);
                 TempData["Success"] = Messages.I_010(personne.Matricule7); // Message afficher sur la page d'index confirmant la création
                 return RedirectToAction("Index");
             }
-            return View(pepp);
+             return View(EtuProg);
         }
         // GET: Etudiant/Edit/5
         [ValidationAccesEnseignant]
@@ -116,10 +124,10 @@ namespace sachem.Controllers
             ViewBag.id_TypeUsag = new SelectList(db.p_TypeUsag, "id_TypeUsag", "TypeUsag", personne.id_TypeUsag);
             ViewBag.id_Programme = new SelectList(db.ProgrammeEtude.Where(x=> x.Actif==true), "id_ProgEtu", "CodeNomProgramme");
             ViewBag.id_Session = new SelectList(db.Session, "id_Sess", "NomSession");
-            PersonneEtuProgParent epep = new PersonneEtuProgParent();
-            epep.personne = personne;
-            epep.epe = Prog.ToList();
-            return View(epep);
+            PersonneEtuProgParent EtuProg = new PersonneEtuProgParent();
+            EtuProg.personne = personne;
+            EtuProg.EtuProgEtu = Prog.ToList();
+            return View(EtuProg);
         }
 
         [HttpPost]
@@ -174,20 +182,21 @@ namespace sachem.Controllers
         [ValidateAntiForgeryToken]
         [ValidationAccesEnseignant]
         //Modification lorsqu'on clique sur le bouton modification / Enregistrement
-        public ActionResult Edit([Bind(Include = "id_Pers,id_Sexe,id_TypeUsag,Nom,Prenom,NomUsager,Matricule7,MP,Courriel,Telephone,DateNais,Actif")] Personne personne)
+        public ActionResult Edit([Bind(Include = "id_Pers,id_Sexe,id_TypeUsag,Nom,Prenom,NomUsager,Matricule7,MP,ConfirmPassword,Courriel,Telephone,DateNais,Actif")] Personne personne)
         {
-            PersonneEtuProgParent pepp = new PersonneEtuProgParent();
+            PersonneEtuProgParent EtuProg = new PersonneEtuProgParent();
             personne.id_TypeUsag = 1;
             personne.Telephone = SachemIdentite.FormatTelephone(personne.Telephone);
-            pepp.personne = personne;
+            EtuProg.personne = personne;
+            string Message = "Le mot de passe doit contenir 6 caratères";
 
             var etuprog = new EtuProgEtude();
             //Aller chercher Programme d'étude(nom)
             var Prog = from d in db.EtuProgEtude
-                       where d.id_Etu == pepp.personne.id_Pers
+                       where d.id_Etu == EtuProg.personne.id_Pers
                        orderby d.ProgrammeEtude.Code
                        select d;
-            pepp.epe = Prog.ToList();
+            EtuProg.EtuProgEtu = Prog.ToList();
 
             //Ajout du programme d'étude (Si l'étudiant rajoute les champs)
                 if (Request.Form["id_Programme"] != "" && Request.Form["id_Session"] != ""&& ConfirmeMdp(personne.MP, personne.ConfirmPassword) == true)
@@ -198,20 +207,45 @@ namespace sachem.Controllers
                     db.EtuProgEtude.Add(etuprog);
                     db.SaveChanges();
                    }
+            if (ConfirmeMdp(personne.MP, personne.ConfirmPassword))
+            {
+                if (personne.MP != null && personne.MP.Length < 6)
+                {
+                    ModelState.AddModelError("ConfirmPassword", Message);
+                    TempData["Echec"] = Message;  
+                }
+                else
+                {
+                    if (personne.MP != null && personne.ConfirmPassword != null)
+                    {
+                        EtuProg.personne.MP = SachemIdentite.encrypterChaine(EtuProg.personne.MP);
+                        EtuProg.personne.ConfirmPassword = SachemIdentite.encrypterChaine(EtuProg.personne.ConfirmPassword); 
+                    }
+                    else
+                    {
+                        var mdp = from c in db.Personne
+                                  where (c.id_Pers == personne.id_Pers)
+                                  select c.MP;
+                        personne.MP = mdp.SingleOrDefault();
+                        personne.ConfirmPassword = personne.MP;
+                    }
+                }
+            }
+
             if (ModelState.IsValid)
             {
-                db.Entry(pepp.personne).State = EntityState.Modified;
+                db.Entry(EtuProg.personne).State = EntityState.Modified;
                 db.SaveChanges();
                 TempData["Success"] = Messages.I_045(personne.NomPrenom);
                 return RedirectToAction("Index");
             }
             //Mise à jour Viewbag
             ViewBag.id_Sexe = db.p_Sexe;
-            ViewBag.Selected = pepp.personne.id_Sexe;
-            ViewBag.id_TypeUsag = new SelectList(db.p_TypeUsag, "id_TypeUsag", "TypeUsag", pepp.personne.id_TypeUsag);
+            ViewBag.Selected = EtuProg.personne.id_Sexe;
+            ViewBag.id_TypeUsag = new SelectList(db.p_TypeUsag, "id_TypeUsag", "TypeUsag", EtuProg.personne.id_TypeUsag);
             ViewBag.id_Programme = new SelectList(db.ProgrammeEtude.Where(x => x.Actif == true), "id_ProgEtu", "CodeNomProgramme");
             ViewBag.id_Session = new SelectList(db.Session, "id_Sess", "NomSession");
-            return View(pepp);
+            return View(EtuProg);
         }
 
         // GET: Etudiant/Delete/5
@@ -228,7 +262,6 @@ namespace sachem.Controllers
             {
                 return HttpNotFound();
             }
-            
             return View(personne);
         }
         // POST: Etudiant/Delete/5
