@@ -25,5 +25,9 @@ namespace sachem.Models
         [Display(Name = "Type d\'inscription")]
         [Required(ErrorMessage = Messages.U_001)]
         public string id_TypeInscription;
+
+        [Display(Name = "Statut de l\'inscription")]
+        [Required(ErrorMessage = Messages.U_001)]
+        public string id_Statut;
     }
 }

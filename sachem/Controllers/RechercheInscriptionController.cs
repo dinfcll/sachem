@@ -11,11 +11,13 @@ namespace sachem.Controllers
     public class RechercheInscriptionController : Controller
     {
         private readonly SACHEMEntities db = new SACHEMEntities();
-        
+
+        const int BROUILLON = 1;
         public ActionResult Index()
         {
             var touteInscription = from inscription in db.Inscription
-                select inscription;
+                                   where inscription.id_Statut != BROUILLON
+                                   select inscription;
             ListeStatut();
             ListeTypeInscription();
 
@@ -25,8 +27,9 @@ namespace sachem.Controllers
         // GET: RechercheInscription/Details/5
         public ActionResult Details(int id)
         {
-            Inscription inscription = db.Inscription.Find(id);
-            return View(inscription);
+            Inscription inscriptionPersonne = db.Inscription.Find(id);
+            IQueryable<Inscription> inscription = db.Inscription.Where(x => x.id_Pers == inscriptionPersonne.id_Pers);
+            return View(inscriptionPersonne);
         }
 
         // GET: RechercheInscription/Create

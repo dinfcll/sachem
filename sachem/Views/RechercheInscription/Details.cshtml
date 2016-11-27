@@ -1,65 +1,58 @@
 ﻿@model sachem.Models.Inscription
 
 @{
-    ViewBag.Title = "Details";
+    ViewBag.Title = "Détails de l'inscription";
 }
 
-<h2>Details</h2>
+<h2>@ViewBag.Title</h2>
 
 <div>
-    <h4>Inscription</h4>
-    <hr />
+    <h4>Identification de l'étudiant</h4>
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.TransmettreInfoTuteur)
+            @Html.DisplayNameFor(model => model.Personne.Matricule7)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.TransmettreInfoTuteur)
+            @Html.DisplayFor(model => model.Personne.Matricule7)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.NoteSup)
+            @Html.DisplayNameFor(model => model.Personne.NomPrenom)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.NoteSup)
+            @Html.DisplayFor(model => model.Personne.NomPrenom)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.ContratEngagement)
+            @Html.DisplayNameFor(model => model.Personne.DateNais)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.ContratEngagement)
+            @Html.DisplayFor(model => model.Personne.DateNais)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.BonEchange)
+            @Html.DisplayNameFor(model => model.Personne.Courriel)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.BonEchange)
+            @Html.DisplayFor(model => model.Personne.Courriel)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.DateInscription)
+            @Html.DisplayNameFor(model => model.Personne.Telephone)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.DateInscription)
-        </dd>
+            @Html.DisplayFor(model => model.Personne.Telephone)
+        </dd>   
+
+        <h4>Inscription</h4>
 
         <dt>
-            @Html.DisplayNameFor(model => model.p_StatutInscription.Statut)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.p_StatutInscription.Statut)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.p_TypeInscription.TypeInscription)
+            @Html.DisplayNameFor(model => model.id_TypeInscription)
         </dt>
 
         <dd>
@@ -67,21 +60,12 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Personne.Nom)
+            @Html.DisplayNameFor(model => model.id_Statut)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Personne.Nom)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Session.id_Sess)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Session.id_Sess)
-        </dd>
-
+            @Html.DisplayFor(model => model.p_StatutInscription.Statut)
+        </dd> 
     </dl>
 </div>
 <p>
