@@ -15,6 +15,8 @@ namespace sachem.Controllers
 {
     public class JumelageController : Controller
     {
+        private const int HEURE_DEBUT = 8;
+        private const int HEURE_FIN = 18;
         private SACHEMEntities db = new SACHEMEntities();
         protected int noPage = 1;
         private int? pageRecue = null;
@@ -62,7 +64,7 @@ namespace sachem.Controllers
         }
 
         [NonAction]
-        public List<string> RetourneListeJours()
+        public List<string> RetourneListeJoursSemaine()
         {
             List<string> Jours = new List<string>();
             Jours.Add("Lundi");
@@ -70,7 +72,7 @@ namespace sachem.Controllers
             Jours.Add("Mercredi");
             Jours.Add("Jeudi");
             Jours.Add("Vendredi");
-            return Jours;
+            return Jours.ToList();
         }
 
         [NonAction]
@@ -78,7 +80,7 @@ namespace sachem.Controllers
         {
             TimeSpan StartTime = TimeSpan.FromHours(8);
             int Difference = 30;
-            int Rencontre = 90;
+            int Rencontre = db.p_dureeRencontre.FirstOrDefault().duree;
             int EntriesCount = 18;
             string[] jour = new string[5] { "Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi" };
             Dictionary<TimeSpan, TimeSpan> Entree = new Dictionary<TimeSpan, TimeSpan>();
@@ -103,6 +105,78 @@ namespace sachem.Controllers
                 values);
             }
             return Sortie;
+        }
+
+        [NonAction]
+        Dictionary<string, Dictionary<int, string>> RetourneDisponibiliteJumelageUsager(int id, int idTypeInsc)
+        {            
+            List<string>  jumelageValeurDispo = new List<string>();            
+            IQueryable<Disponibilite> dispo = db.Disponibilite.Where(x => x.id_Inscription == id);
+            for (int i = 0; i < dispo.ToList().Count; i++)
+            {
+                jumelageValeurDispo.Add(
+                    dispo
+                    .Where(x => x.id_Dispo == i)
+                    .Select(y => y.p_Jour.Jour)
+                    .ToString() 
+                    + "-" +
+                    dispo
+                    .Where(x => x.id_Dispo == i)
+                    .Select(y => y.minutes)
+                    .ToString()
+                    );
+            }
+
+            IQueryable<Jumelage> jumelage;
+            if (idTypeInsc == 1)
+            {
+                jumelage = db.Jumelage.Where(eleve => eleve.id_InscEleve == id);
+            }
+            else
+            {
+                jumelage = db.Jumelage.Where(tuteur => tuteur.id_InscrTuteur == id);
+            }
+            for(int j =0;j< jumelage.ToList().Count; j++)
+            {
+                string dispoJumele = jumelage
+                    .Select(x => x.p_Jour.Jour)
+                    .ToString()
+                    + "-" +
+                    jumelage
+                    .Select(y => y.minutes)
+                    .ToString();
+                int indexDispo = jumelageValeurDispo.IndexOf(dispoJumele);
+                if (indexDispo != -1)
+                    jumelageValeurDispo[indexDispo] = "*" + dispoJumele;
+            }
+
+            string[] jour = new string[5] { "Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi" };
+            TimeSpan StartTime = TimeSpan.FromHours(HEURE_DEBUT);
+            int Difference = 30;
+            int Rencontre = db.p_dureeRencontre.FirstOrDefault().duree;
+            int heureMax = HEURE_FIN;
+            Dictionary<TimeSpan, TimeSpan> heures = new Dictionary<TimeSpan, TimeSpan>();
+            Dictionary<string, List<string>> Sortie = new Dictionary<string, List<string>>();
+
+            for (int i = 0; i < heureMax; i++)
+            {
+                heures.Add(StartTime.Add(TimeSpan.FromMinutes(Difference * i)),
+                            StartTime.Add(TimeSpan.FromMinutes(Difference * i + Rencontre)));
+            }
+
+            foreach (var e in heures)
+            {
+                double heureCheckbox = e.Key.TotalMinutes;// - StartTime.TotalMinutes; pas necesaire vu que ca peut faire buger le systeme si il change le debut 8h00 a 7h00 tout decalera.
+                List<string> values = new List<string>();
+                for (int j = 0; j < 5; j++)
+                {
+                    values.Add(jour[j] + "-" + heureCheckbox.ToString());
+                }
+                Sortie.Add(
+                e.Key.Hours + "h" + e.Key.Minutes.ToString("00") + "-" + e.Value.Hours + "h" + e.Value.Minutes.ToString("00"),
+                values);
+            }
+            return 1;
         }
 
         [NonAction]

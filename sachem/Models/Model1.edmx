@@ -155,8 +155,7 @@ avertissement 6002: La table/vue 'SACHEM.dbo.Compteur' n'a pas de clé primaire 
           <Property Name="id_Jour" Type="int" Nullable="false" />
           <Property Name="DateDebut" Type="date" Nullable="false" />
           <Property Name="DateFin" Type="date" />
-          <Property Name="HeureDebut" Type="datetime" Nullable="false" />
-          <Property Name="HeureFin" Type="datetime" Nullable="false" />
+          <Property Name="minutes" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="p_College">
           <Key>
@@ -178,6 +177,16 @@ avertissement 6002: La table/vue 'SACHEM.dbo.Compteur' n'a pas de clé primaire 
           <Property Name="Facebook" Type="varchar" MaxLength="100" />
           <Property Name="SiteWeb" Type="varchar" MaxLength="100" />
           <Property Name="Local" Type="varchar" MaxLength="5" Nullable="false" />
+        </EntityType>
+        <!--Erreurs détectées durant la génération :
+avertissement 6002: La table/vue 'SACHEM.dbo.p_dureeRencontre' n'a pas de clé primaire définie. La clé a été déduite et la définition a été créée en tant que table/vue en lecture seule.-->
+        <EntityType Name="p_dureeRencontre">
+          <Key>
+            <PropertyRef Name="id_duree" />
+            <PropertyRef Name="duree" />
+          </Key>
+          <Property Name="id_duree" Type="int" Nullable="false" />
+          <Property Name="duree" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="p_HoraireInscription">
           <Key>
@@ -904,6 +913,12 @@ avertissement 6002: La table/vue 'SACHEM.dbo.Compteur' n'a pas de clé primaire 
     [Compteur].[Compteur] AS [Compteur]
     FROM [dbo].[Compteur] AS [Compteur]</DefiningQuery>
           </EntitySet>
+          <EntitySet Name="p_dureeRencontre" EntityType="Self.p_dureeRencontre" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [p_dureeRencontre].[id_duree] AS [id_duree], 
+    [p_dureeRencontre].[duree] AS [duree]
+    FROM [dbo].[p_dureeRencontre] AS [p_dureeRencontre]</DefiningQuery>
+          </EntitySet>
           <AssociationSet Name="FK_ChoixReponse_Question" Association="Self.FK_ChoixReponse_Question">
             <End Role="Question" EntitySet="Question" />
             <End Role="ChoixReponse" EntitySet="ChoixReponse" />
@@ -1281,6 +1296,7 @@ avertissement 6002: La table/vue 'SACHEM.dbo.Compteur' n'a pas de clé primaire 
             <End Role="Section" EntitySet="Section" />
             <End Role="Section1" EntitySet="Section" />
           </AssociationSet>
+          <EntitySet Name="p_dureeRencontre" EntityType="SACHEMModel.p_dureeRencontre" />
         </EntityContainer>
         <EntityType Name="ChoixReponse">
           <Key>
@@ -1459,13 +1475,12 @@ avertissement 6002: La table/vue 'SACHEM.dbo.Compteur' n'a pas de clé primaire 
           <Property Name="id_Jour" Type="Int32" Nullable="false" />
           <Property Name="DateDebut" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="DateFin" Type="DateTime" Precision="0" />
-          <Property Name="HeureDebut" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="HeureFin" Type="DateTime" Nullable="false" Precision="3" />
           <NavigationProperty Name="Inscription" Relationship="SACHEMModel.FK_Jumelage_Inscription" FromRole="Jumelage" ToRole="Inscription" />
           <NavigationProperty Name="Inscription1" Relationship="SACHEMModel.FK_Jumelage_Inscription1" FromRole="Jumelage" ToRole="Inscription" />
           <NavigationProperty Name="p_Jour" Relationship="SACHEMModel.FK_Jumelage_p_Jour" FromRole="Jumelage" ToRole="p_Jour" />
           <NavigationProperty Name="Personne" Relationship="SACHEMModel.FK_Jumelage_Personne" FromRole="Jumelage" ToRole="Personne" />
           <NavigationProperty Name="Session" Relationship="SACHEMModel.FK_Jumelage_Session" FromRole="Jumelage" ToRole="Session" />
+          <Property Name="minutes" Type="Int32" Nullable="false" />
         </EntityType>
         <EntityType Name="p_College">
           <Key>
@@ -2222,6 +2237,14 @@ avertissement 6002: La table/vue 'SACHEM.dbo.Compteur' n'a pas de clé primaire 
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="p_dureeRencontre">
+          <Key>
+            <PropertyRef Name="id_duree" />
+            <PropertyRef Name="duree" />
+          </Key>
+          <Property Name="id_duree" Type="Int32" Nullable="false" />
+          <Property Name="duree" Type="Int32" Nullable="false" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -2371,8 +2394,7 @@ avertissement 6002: La table/vue 'SACHEM.dbo.Compteur' n'a pas de clé primaire 
           <EntitySetMapping Name="Jumelage">
             <EntityTypeMapping TypeName="SACHEMModel.Jumelage">
               <MappingFragment StoreEntitySet="Jumelage">
-                <ScalarProperty Name="HeureFin" ColumnName="HeureFin" />
-                <ScalarProperty Name="HeureDebut" ColumnName="HeureDebut" />
+                <ScalarProperty Name="minutes" ColumnName="minutes" />
                 <ScalarProperty Name="DateFin" ColumnName="DateFin" />
                 <ScalarProperty Name="DateDebut" ColumnName="DateDebut" />
                 <ScalarProperty Name="id_Jour" ColumnName="id_Jour" />
@@ -2599,6 +2621,14 @@ avertissement 6002: La table/vue 'SACHEM.dbo.Compteur' n'a pas de clé primaire 
               <MappingFragment StoreEntitySet="Compteur">
                 <ScalarProperty Name="Compteur1" ColumnName="Compteur" />
                 <ScalarProperty Name="id_Compteur" ColumnName="id_Compteur" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="p_dureeRencontre">
+            <EntityTypeMapping TypeName="SACHEMModel.p_dureeRencontre">
+              <MappingFragment StoreEntitySet="p_dureeRencontre">
+                <ScalarProperty Name="duree" ColumnName="duree" />
+                <ScalarProperty Name="id_duree" ColumnName="id_duree" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

@@ -60,5 +60,6 @@ namespace sachem.Models
         public virtual DbSet<Session> Session { get; set; }
         public virtual DbSet<Suivi> Suivi { get; set; }
         public virtual DbSet<Compteur> Compteur { get; set; }
+        public virtual DbSet<p_dureeRencontre> p_dureeRencontre { get; set; }
     }
 }

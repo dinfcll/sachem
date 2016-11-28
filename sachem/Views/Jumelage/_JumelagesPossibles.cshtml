@@ -6,69 +6,49 @@
 {
     <div class="panel panel-default">
         <div class="hover-student">
-            <a class="nodeco" data-toggle="collapse" data-parent="#accordion" href="#collapse_@k">
                 <table>
                     <tr>
-                        <th class="panel-heading  panel-title col-sm-1">
-
-                            <i class="material-icons col-sm-1" style="margin-top:-4px;">people</i>
-
+                        <th class="panel-heading col-sm-1">
+                            <a class="nodeco" data-toggle="collapse" data-parent="#accordion" href="#collapse_@k">
+                                <i class="material-icons col-sm-1" style="margin-top:-4px;">people</i>
+                            </a>
                         </th>
-                        <th class="panel-heading panel-title col-sm-7">
-                           Nom, Prenom
-                         
+                        <th class="panel-heading col-sm-7">
+                            <a class="nodeco" data-toggle="collapse" data-parent="#accordion" href="#collapse_@k">Nom, Prenom</a>
                         </th>
-                        <th class="panel-heading panel-title col-sm-2">
-                           No de DA
-                    
+                        <th class="panel-heading col-sm-2">
+                            <a class="nodeco" data-toggle="collapse" data-parent="#accordion" href="#collapse_@k">No de DA</a>
                         </th>
-                        <th class="panel-heading panel-title col-sm-2">
-                            Type d'inscription
-
+                        <th class="panel-heading  col-sm-2">
+                            <a class="nodeco" data-toggle="collapse" data-parent="#accordion" href="#collapse_@k">Type d'inscription</a>
                         </th>
                         <th class="panel-heading col-sm-1">
-                            <a href="#">
-                            Accéder
-                            </a>
+                            <a href="#">Accéder</a>
                         </th>
                     </tr>
                 </table>
-            </a>
         </div>
         <div id="collapse_@k" class="panel-collapse collapse">
-            <!--table de dispos-->
-            <table class="panel-body table-bordered table-striped col-sm-12">
-                @{string[] jour = new string[5] { "Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi" };}
+            <table class="table-bordered table-striped col-sm-12">
+                @{ List<string> jours = ((sachem.Controllers.JumelageController)this.ViewContext.Controller).RetourneListeJours(); }
                 <tr>
                     <th class="col-sm-2 text-center" style="height:30px;font-weight:bold;color:white;background-color:#666;">Heures</th>
-                    @foreach (string j in jour)
+                    @foreach (string jour in jours)
                     {
-                        <th class="col-sm-2 text-center" style="height:30px;font-weight:bold;color:white;background-color:#666;">@j</th>
+                        <th class="col-sm-2 text-center" style="height:30px;font-weight:bold;color:white;background-color:#666;">@jour</th>
                     }
                 </tr>
-                @{ TimeSpan StartTime = TimeSpan.FromHours(8);
-                    int Difference = 30;
-                    int Rencontre = 90;
-                    int EntriesCount = 18;
-                    Dictionary<TimeSpan, TimeSpan> Entries = new Dictionary<TimeSpan, TimeSpan>();
-
-                    for (int i = 0; i < EntriesCount; i++)
+                @{ Dictionary<string, List<string>> ListeLabelValueDeTableauDisponibilite = ((sachem.Controllers.JumelageController)this.ViewContext.Controller).RetourneTableauDisponibilite(); }
+                @{
+                    foreach (var v in ListeLabelValueDeTableauDisponibilite)
                     {
-                        Entries.Add(StartTime.Add(TimeSpan.FromMinutes(Difference * i)),//key = debut rencontre
-                                    StartTime.Add(TimeSpan.FromMinutes(Difference * i + Rencontre)));//value = fin rencontre
-                    }
-
-                    foreach (var e in Entries)
-                    {
-                        int heureCheckbox = 0; //  double minutesTotalesCheckBox = e.Value.TotalMinutes;
                         <tr>
                             <td class="text-center">
-                                @(e.Key.Hours)h@(e.Key.Minutes.ToString("00")) - @(e.Value.Hours)h@(e.Value.Minutes.ToString("00"))
+                                @(v.Key)
                             </td>
-                            @for (var j = 0; j < 5; j++)
+                            @foreach (var w in v.Value)
                             {
-                                @*ajouter la class alert-success au td a ces zones de dispo et le nbre de 'fit'*@
-                                <td id="@jour[j]@heureCheckbox.ToString()" value="@jour[j] - @heureCheckbox.ToString()"><center></center><i class="material-icons pull-right">person_add</i></td>
+                                <td class="text-center" id="@w" name="@w"></td>
                             }
                         </tr>
                     }

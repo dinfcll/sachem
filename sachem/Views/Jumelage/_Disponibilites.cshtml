@@ -1,5 +1,4 @@
-﻿@using sachem.Models
-
+﻿@model sachem.Models.Inscription
 <h4 class="page-header">Disponibilités</h4>
 <style>
     .checkzone {
@@ -11,7 +10,7 @@
     }
 </style>
 <table class="table-bordered table-striped col-sm-12">
-    @{ List<string> jours = ((sachem.Controllers.JumelageController)this.ViewContext.Controller).RetourneListeJours(); }
+    @{ List<string> jours = ((sachem.Controllers.JumelageController)this.ViewContext.Controller).RetourneListeJoursSemaine();}
     <tr>
         <th class="col-sm-2 text-center" style="height:30px;font-weight:bold;color:white;background-color:#666;">Heures</th>
         @foreach (string jour in jours)
@@ -19,7 +18,10 @@
             <th class="col-sm-2 text-center" style="height:30px;font-weight:bold;color:white;background-color:#666;">@jour</th>
         }
     </tr>
-    @{ Dictionary<string, List<string>> ListeLabelValueDeTableauDisponibilite = ((sachem.Controllers.JumelageController)this.ViewContext.Controller).RetourneTableauDisponibilite(); }
+    @{ Dictionary<string, List<string>> ListeLabelValueDeTableauDisponibilite = ((sachem.Controllers.JumelageController)this.ViewContext.Controller)
+            .RetourneTableauDisponibilite(); }
+    @{ Dictionary<string, Dictionary<bool,string>> ListeDispoUsagerDeTableauDisponibilite = ((sachem.Controllers.JumelageController)this.ViewContext.Controller)
+            .RetourneDisponibiliteJumelageUsager(Model.id_Inscription, Model.id_TypeInscription); }
     @{
         foreach (var v in ListeLabelValueDeTableauDisponibilite)
         {
@@ -29,14 +31,7 @@
                 </td>
                 @foreach (var w in v.Value)
                 {
-                    <td class="text-center">
-                        @Html.CheckBox("horaireCheckbox", false, htmlAttributes: new
-                    {
-                        @class = "control-label col-md-2 checkzone",
-                        @id = w,
-                        @value = w
-                    })
-                    </td>
+                    <td class="text-center" id = "@w" name="@w"></td>
                 }                        
             </tr>
         }
