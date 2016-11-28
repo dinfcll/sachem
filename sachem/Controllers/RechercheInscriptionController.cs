@@ -28,8 +28,8 @@ namespace sachem.Controllers
         public ActionResult Details(int id)
         {
             Inscription inscriptionPersonne = db.Inscription.Find(id);
-            IQueryable<Inscription> inscription = db.Inscription.Where(x => x.id_Pers == inscriptionPersonne.id_Pers);
-            return View(inscriptionPersonne);
+            List<Inscription> inscription = db.Inscription.Where(x => x.id_Pers == inscriptionPersonne.id_Pers).ToList();
+            return View(inscription);
         }
 
         // GET: RechercheInscription/Create

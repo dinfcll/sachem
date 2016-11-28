@@ -1,4 +1,4 @@
-﻿@model sachem.Models.Inscription
+﻿@model List<sachem.Models.Inscription>
 
 @{
     ViewBag.Title = "Détails de l'inscription";
@@ -10,64 +10,98 @@
     <h4>Identification de l'étudiant</h4>
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.Personne.Matricule7)
+            @Html.DisplayNameFor(model => model.First().Personne.Matricule7)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Personne.Matricule7)
+            @Html.DisplayFor(model => model.First().Personne.Matricule7)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Personne.NomPrenom)
+            @Html.DisplayNameFor(model => model.First().Personne.NomPrenom)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Personne.NomPrenom)
+            @Html.DisplayFor(model => model.First().Personne.NomPrenom)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Personne.DateNais)
+            @Html.DisplayNameFor(model => model.First().Personne.DateNais)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Personne.DateNais)
+            @Html.DisplayFor(model => model.First().Personne.DateNais)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Personne.Courriel)
+            @Html.DisplayNameFor(model => model.First().Personne.Courriel)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Personne.Courriel)
+            @Html.DisplayFor(model => model.First().Personne.Courriel)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Personne.Telephone)
+            @Html.DisplayNameFor(model => model.First().Personne.Telephone)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Personne.Telephone)
-        </dd>   
-
-        <h4>Inscription</h4>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.id_TypeInscription)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.p_TypeInscription.TypeInscription)
+            @Html.DisplayFor(model => model.First().Personne.Telephone)
         </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.id_Statut)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.p_StatutInscription.Statut)
-        </dd> 
     </dl>
 </div>
+
+    <h4>Inscription</h4>
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.First().id_TypeInscription)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.First().p_TypeInscription.TypeInscription)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.First().id_Statut)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.First().p_StatutInscription.Statut)
+        </dd>
+    </dl>
+
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.First().DateInscription)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.First().id_TypeInscription)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.First().id_Statut)
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model.Skip(1))
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DateInscription)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.p_TypeInscription.TypeInscription)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.p_StatutInscription.Statut)
+                </td>
+                <td>
+                    @Html.ActionLink("Consulter", "Details", new { id = item.id_Inscription })
+                </td>
+            </tr>
+        }
+</table>
 <p>
     @Html.ActionLink("Retour à la liste d'inscription", "Index")
 </p>
