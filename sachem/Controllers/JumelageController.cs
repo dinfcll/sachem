@@ -130,7 +130,7 @@ namespace sachem.Controllers
                 caseDispo.NbreUsagerMemeDispo = 0;
                 caseDispo.EstDispo = true;
                 caseDispo.EstDispoMaisJumele = true;
-                if (Convert.ToBoolean(j.consecutif))
+                if (Convert.ToBoolean(!j.consecutif))
                 {
                     caseDispo.EstConsecutiveDonc3hrs = false;
                     jumelageValeurDispo.Add(caseDispo);
@@ -139,12 +139,15 @@ namespace sachem.Controllers
                 {
                     caseDispo.EstConsecutiveDonc3hrs = false;
                     jumelageValeurDispo.Add(caseDispo);
-                    caseDispo.Minutes = j.minutes + DUREE_RENCONTRE;
-                    caseDispo.NomCase = caseDispo.Jour + "-" + caseDispo.Minutes;
-                    caseDispo.EstConsecutiveDonc3hrs = true;
-                    jumelageValeurDispo.Add(caseDispo);
-                    caseDispo.EstConsecutiveDonc3hrs = true;
-                    jumelageValeurDispo.Add(caseDispo);
+                    for (int k = 30; k <= DUREE_RENCONTRE; k += 30)
+                    {
+                        caseDispo.Minutes = j.minutes + k;
+                        caseDispo.NomCase = caseDispo.Jour + "-" + caseDispo.Minutes;
+                        caseDispo.EstConsecutiveDonc3hrs = true;
+                        jumelageValeurDispo.Add(caseDispo);
+                        caseDispo.EstConsecutiveDonc3hrs = true;
+                        jumelageValeurDispo.Add(caseDispo);
+                    }
                 }
             }
 
@@ -227,6 +230,86 @@ namespace sachem.Controllers
             }
 
             return sortie;
+        }
+
+        [NonAction]
+        public IQueryable<Inscription> RetourneJumeleursPotentiels(int id, int idTypeInsc, int session)
+        {
+            IOrderedQueryable<Inscription> listeJumeleurs;
+            if (idTypeInsc == 1)
+            {
+                listeJumeleurs = from p in db.Inscription
+                                 where (db.Jumelage.Any(x => x.id_InscEleve != id) &&
+                                 (p.id_Sess == session) &&
+                                 (p.id_TypeInscription != idTypeInsc))
+                                 orderby p.Personne.Nom, p.Personne.Prenom
+                                 select p;
+            }
+            else
+            {
+                listeJumeleurs = from p in db.Inscription
+                                 where (db.Jumelage.Any(x => x.id_InscrTuteur != id) &&
+                                 (p.id_Sess == session))
+                                 orderby p.Personne.Nom, p.Personne.Prenom
+                                 select p;
+            }
+            
+            return listeJumeleurs;
+        }
+
+        [NonAction]
+        public IQueryable<Inscription> RetourneJumeleurs(int id, int idTypeInsc, int session)
+        {
+            IOrderedQueryable<Inscription> listeJumeleurs;
+            if (idTypeInsc == 1)
+            {
+                listeJumeleurs = from p in db.Inscription
+                                 where (db.Jumelage.Any(x => x.id_InscEleve == id) &&
+                                 (p.id_Sess == session) &&
+                                 (p.id_TypeInscription != idTypeInsc))
+                                 orderby p.Personne.Nom, p.Personne.Prenom
+                                 select p;
+            }
+            else
+            {
+                listeJumeleurs = from p in db.Inscription
+                                 where (db.Jumelage.Any(x => x.id_InscrTuteur == id) &&
+                                 (p.id_Sess == session))
+                                 orderby p.Personne.Nom, p.Personne.Prenom
+                                 select p;
+            }
+
+            return listeJumeleurs;
+        }
+
+        [NonAction]
+        public List<string> RetournePlageHoraireChaqueJumeleur(int idVu, int idTypeInsc, int session, int idJumeleur)
+        {
+            List<string> plageHoraire = new List<string>();
+            TimeSpan DebutJournee = new TimeSpan();
+            IQueryable<Jumelage> jumeleur;
+            if (idTypeInsc == 1)
+                jumeleur = db.Jumelage.Where(x => x.id_InscEleve == idVu && x.id_InscrTuteur == idJumeleur && x.id_Sess == session);
+            else
+                jumeleur = db.Jumelage.Where(x => x.id_InscrTuteur == idVu && x.id_InscEleve == idJumeleur && x.id_Sess == session);
+            foreach (var j in jumeleur)
+            {
+                if (!j.consecutif)
+                {                    
+                    plageHoraire.Add(
+                        j.p_Jour.Jour + " " + 
+                        (DebutJournee.Add(TimeSpan.FromMinutes(j.minutes))).ToString(@"hh\:mm") + "-" + 
+                        (DebutJournee.Add(TimeSpan.FromMinutes(j.minutes + DUREE_RENCONTRE))).ToString(@"hh\:mm"));
+                }
+                else
+                {
+                    plageHoraire.Add(
+                        j.p_Jour.Jour + " " + 
+                        (DebutJournee.Add(TimeSpan.FromMinutes(j.minutes))).ToString(@"hh\:mm") + "-" + 
+                        (DebutJournee.Add(TimeSpan.FromMinutes(j.minutes + (DUREE_RENCONTRE * 2)))).ToString(@"hh\:mm"));
+                }
+            }
+            return plageHoraire;
         }
 
         [NonAction]

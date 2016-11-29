@@ -1,60 +1,91 @@
-﻿@using sachem.Models
-<h4 class="page-header">Jumelages possibles</h4>
-<style>.hover-student{background-color:#f9f9f9;} .hover-student:hover{background-color:#eee;} .nodeco{color:#444;}.nodeco:hover{color:#444;text-decoration:none;}.nodeco:not(:hover){text-decoration:none;color:#444;}</style>
-<div class="panel-group" id="accordion">
-@for (int k = 0; k < 3; k++)
+﻿@model sachem.Models.Inscription 
+@using sachem.Models
+@using sachem.Controllers
+@{ IQueryable<Inscription> listeJumeleurs = ((sachem.Controllers.JumelageController)this.ViewContext.Controller)
+                                    .RetourneJumeleursPotentiels(Model.id_Inscription, Model.id_TypeInscription, Model.id_Sess);
+    int k = 0;}
+@if (listeJumeleurs.Count() > 0)
 {
-    <div class="panel panel-default">
-        <div class="hover-student">
-                <table>
-                    <tr>
-                        <th class="panel-heading col-sm-1">
-                            <a class="nodeco" data-toggle="collapse" data-parent="#accordion" href="#collapse_@k">
-                                <i class="material-icons col-sm-1" style="margin-top:-4px;">people</i>
-                            </a>
-                        </th>
-                        <th class="panel-heading col-sm-7">
-                            <a class="nodeco" data-toggle="collapse" data-parent="#accordion" href="#collapse_@k">Nom, Prenom</a>
-                        </th>
-                        <th class="panel-heading col-sm-2">
-                            <a class="nodeco" data-toggle="collapse" data-parent="#accordion" href="#collapse_@k">No de DA</a>
-                        </th>
-                        <th class="panel-heading  col-sm-2">
-                            <a class="nodeco" data-toggle="collapse" data-parent="#accordion" href="#collapse_@k">Type d'inscription</a>
-                        </th>
-                        <th class="panel-heading col-sm-1">
-                            <a href="#">Accéder</a>
-                        </th>
-                    </tr>
-                </table>
-        </div>
-        <div id="collapse_@k" class="panel-collapse collapse">
-            @*<table class="table-bordered table-striped col-sm-12">
-                @{ List<string> jours = ((sachem.Controllers.JumelageController)this.ViewContext.Controller).RetourneListeJours(); }
-                <tr>
-                    <th class="col-sm-2 text-center" style="height:30px;font-weight:bold;color:white;background-color:#666;">Heures</th>
-                    @foreach (string jour in jours)
-                    {
-                        <th class="col-sm-2 text-center" style="height:30px;font-weight:bold;color:white;background-color:#666;">@jour</th>
-                    }
-                </tr>
-                @{ Dictionary<string, List<string>> ListeLabelValueDeTableauDisponibilite = ((sachem.Controllers.JumelageController)this.ViewContext.Controller).RetourneTableauDisponibilite(); }
-                @{
-                    foreach (var v in ListeLabelValueDeTableauDisponibilite)
-                    {
+    <h4 class="page-header">Jumelages possibles</h4>
+    <style>.hover-student{background-color:#f9f9f9;} .hover-student:hover{background-color:#eee;} .nodeco{color:#444;}.nodeco:hover{color:#444;text-decoration:none;}.nodeco:not(:hover){text-decoration:none;color:#444;}</style>
+    <div class="panel-group" id="accordion">
+
+    @foreach (var j in listeJumeleurs)
+    {
+        k++;
+        <div class="panel panel-default">
+            <div class="hover-student">
+                    <table>
                         <tr>
-                            <td class="text-center">
-                                @(v.Key)
-                            </td>
-                            @foreach (var w in v.Value)
-                            {
-                                <td class="text-center" id="@w" name="@w"></td>
-                            }
+                            <th class="panel-heading col-sm-1">
+                                <a class="nodeco" data-toggle="collapse" data-parent="#accordion" href="#collapse_@k">
+                                    <i class="material-icons col-sm-1" style="margin-top:-4px;">people</i>
+                                </a>
+                            </th>
+                            <th class="panel-heading col-sm-7">
+                                <a class="nodeco" data-toggle="collapse" data-parent="#accordion" href="#collapse_@k">@j.Personne.NomPrenom </a>
+                            </th>
+                            <th class="panel-heading col-sm-2">
+                                <a class="nodeco" data-toggle="collapse" data-parent="#accordion" href="#collapse_@k">@j.Personne.Matricule7</a>
+                            </th>
+                            <th class="panel-heading  col-sm-2">
+                                <a class="nodeco" data-toggle="collapse" data-parent="#accordion" href="#collapse_@k">@j.p_TypeInscription.TypeInscription </a>
+                            </th>
+                            <th class="panel-heading col-sm-1">
+                                <a href="#">Accéder</a>
+                            </th>
                         </tr>
+                    </table>
+            </div>
+            <div id="collapse_@k" class="panel-collapse collapse">
+                <table class="table-bordered table-striped col-sm-12">
+                    @{ List<string> jours = ((sachem.Controllers.JumelageController)this.ViewContext.Controller)
+     .RetourneListeJoursSemaine();}
+                    <tr>
+                        <th class="col-sm-2 text-center" style="height:30px;font-weight:bold;color:white;background-color:#666;">Heures</th>
+                        @foreach (string jour in jours)
+                        {
+                            <th class="col-sm-2 text-center" style="height:30px;font-weight:bold;color:white;background-color:#666;">@jour</th>
+                        }
+                    </tr>
+                    @{ Dictionary<string, List<caseDisponibilite>> ListeDispoUsagerDeTableauDisponibilite =
+     ((sachem.Controllers.JumelageController)this.ViewContext.Controller)
+     .RetourneDisponibiliteJumelageUsager(Model.id_Inscription, Model.id_TypeInscription); }
+                    @{
+                        foreach (var v in ListeDispoUsagerDeTableauDisponibilite)
+                        {
+                            <tr>
+                                <td class="text-center">
+                                    @(v.Key)
+                                </td>
+                                @foreach (var w in v.Value)
+                                {
+                                    if (w.EstDispoMaisJumele)
+                                    {
+                                        if (!w.EstConsecutiveDonc3hrs)
+                                        {
+                                            <td class="text-center" style="background-color:#e57373;" id="@w.NomCase" name="@w.NomCase">Jumelé</td>
+                                        }
+                                        else
+                                        {
+                                            <td class="text-center" style="background-color:#e57373;" id="@w.NomCase" name="@w.NomCase"></td>
+                                        }
+                                    }
+                                    else if (w.EstDispo)
+                                    {
+                                        <td class="text-center" style="background-color:#81c784;" id="@w.NomCase" name="@w.NomCase">@w.NbreUsagerMemeDispo</td>
+                                    }
+                                    else
+                                    {
+                                        <td class="text-center" id="@w.NomCase" name="@w.NomCase"></td>
+                                    }
+                                }
+                            </tr>
+                        }
                     }
-                }
-            </table>*@
+                </table>
+            </div>
         </div>
+       }
     </div>
-    }
-</div>
+}
