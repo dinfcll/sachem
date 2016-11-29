@@ -109,19 +109,22 @@ Un suivi de votre issue sera fait.
 
 # Crédits
 
-Merci à notre équipe de concepteurs principaux:
+Merci à notre équipe de concepteurs principaux, en ordre alphabétique:
 
-[Josée Lainesse](#),
-[Olivier Lafleur](https://github.com/olafleur),
-[Alexys Leclerc](https://github.com/LeclercA),
-[Jose Ouellet](https://github.com/jwallet),
-[Dylan Marcotte](https://github.com/FragZServer),
+[Robert Ableson](#),
+[Pierre Bégin](#),
 [Anthony Benoit-Caron](https://github.com/Anthobc),
+[Marie-Christine Boilard](#),
 [Simon Huard](https://github.com/simHuard),
-[Cristian Zubieta](https://github.com/cristianzubieta),
+[Olivier Lafleur](https://github.com/olafleur),
+[Josée Lainesse](#),
+[Alexys Leclerc](https://github.com/LeclercA),
+[Dylan Marcotte](https://github.com/FragZServer),
+[Alexandre Martineau](https://github.com/AlexandreMartineau),
+[Jose Ouellet](https://github.com/jwallet),
 [Guillaume Prud'homme](https://github.com/GuillaumePrudhomme),
 [Louis-Roch Tessier](https://github.com/louisrochtessier),
-[Alexandre Martineau](https://github.com/AlexandreMartineau),
 [Loïc Turgeon](https://github.com/loicturgeon),
 [Alexandre Venables](https://github.com/VenablesAu),
+[Cristian Zubieta](https://github.com/cristianzubieta),
 et nos supers [contribueurs](https://github.com/dinfcll/sachem/graphs/contributors).
