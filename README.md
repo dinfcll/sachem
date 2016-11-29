@@ -9,11 +9,12 @@
     * [Après jumelage](#après-jumelage)
 * [Développement](#développement)
     * [Matériels nécessaires](#matériels-nécessaires)
-    * [Dépendances](#dépendances)
-    * [Cloner et commencer](#cloner-et-commencer)
+        * [SQL Server](#sql-server)
+        * [Dépendances](#dépendances)
+    * [Commencer](#commencer)
         * [Web.config](#webconfig)
-    * [Modèle de branches](#modèle-de-branches)
-    * [Issues](#issues)
+    * [Structuration de nos branches](#structuration-de-nos-branches)
+    * [Problèmes et fonctionnalités](#problèmes-et-fonctionnalités)
 * [Captures](#captures)
 * [Crédits](#crédits)
    
@@ -43,30 +44,35 @@ Par l'entremise du site, l'enseignant doit livrer des documents (devoirs ou inst
 ## Matériels nécessaires
 
 * [Git](http://git-scm.com/book/en/v2/Getting-Started-Installing-Git): Versionner sur GitHub le projet
-* [Visual Studio 2015](https://www.visualstudio.com/post-download-vs/?sku=community&clcid=0x409&telem=ga): Programmer sous ASP.NET MVC
-* [.Net Framework 4.6](https://www.microsoft.com/en-ca/download/details.aspx?id=48130): Bibliothèque .Net
-* [SQL Server 2016](https://www.microsoft.com/en-us/sql-server/sql-server-downloads): Base de données
-* [SQL Server Management Studio](https://msdn.microsoft.com/library/mt238290.aspx): Administration de la base de données
-* [BD Backup](https://github.com/dinfcll/sachem/blob/master/sachem/BD_Presentation.bak): Fichier de la base de données de base.
+* [Visual Studio 2015](https://www.visualstudio.com/post-download-vs/?sku=community&clcid=0x409&telem=ga): Programmer en ASP.NET MVC
+   * [.Net Framework 4.6](https://www.microsoft.com/en-ca/download/details.aspx?id=48130): Bibliothèque .Net
+* [SQL Server 2016](https://www.microsoft.com/en-us/sql-server/sql-server-downloads): Application de base de données
+   * [SQL Server Management Studio](https://msdn.microsoft.com/library/mt238290.aspx): Administration de la base de données
+   * [Fichier de la base de données de base](https://github.com/dinfcll/sachem/blob/jwallet-readme-doc/sachem/_Contribute/sachem.bak)
+   * [Diagramme de classes](https://github.com/dinfcll/sachem/blob/jwallet-readme-doc/sachem/_Contribute/Diagrammes%20de%20classes%20SACHEM.png)
 
-### SQL Server 2016
+### SQL Server
 
-## Dépendances
+Pour l'installation de l'application SQL Server 2016 Developper, suivez [cette documentation](http://www.sqlcoffee.com/SQLServer2016_0001.htm)
 
-Le projet contient certaines dépendances à des paquets NuGet:
+Pour restaurer le [fichier backup](https://github.com/dinfcll/sachem/blob/jwallet-readme-doc/sachem/_Contribute/sachem.bak) de la base de données, suivez [cette documentation](http://www.howtogeek.com/50354/restoring-a-sql-database-backup-using-sql-server-management-studio/)
+
+### Dépendances
+
+Le projet contient certaines dépendances à des paquets NuGet dans Visual Studio. Utilisez le gestionnaire NuGet disponible dans Visual Studio pour les installer s'ils ne le sont pas:
 - ASP.Net
 - ASP.Net MVC
 - JQuery
 - Bootstrap
 - Dropzone
 
-## Cloner et commencer
+## Commencer
 
-Une fois SQL Server installé et la base de données SACHEM (BD Backup) ajouté par l'interface de SQL Server Management Studio, vous êtes prêt à cloner le projet. Soit par Visual Studio dans la section `Team Explorer` ou par ligne de commande Git:
+Cloner le projet par ligne de commande Git:
 
 `git clone https://github.com/dinfcll/sachem.git`
 
-Une fois chargé, la première manipulation à faire est de s'assurer que votre connexion à la BD de SACHEM correspond bien à celle de votre ordinateur dans le fichier `web.config`.
+Une fois chargé, assurez-vous que votre connexion à la BD de SACHEM, dans le fichier [web.config](webconfig), correspond bien à celui de votre usager dans SQL Server.
 
 ### Web.config
 
@@ -80,7 +86,7 @@ Vous aurez à modifier le serveur de connexion si vous avez configuré un usager
 
 Veiller à ne pas envoyer sur la branche principale `master` votre `web.config` personnalisé. Retirez le dans le dernier `commit` lors de votre `pull request`.
 
-## Modèle de branches
+## Structuration de nos branches
 
 Notre branche principale est `master`.
 
@@ -90,7 +96,7 @@ Nous demandons à ceux travaillant sur des branches autres que `master` de synch
 
 Veiller à ne pas envoyer sur la branche principale `master` votre `web.config` personnalisé. Retirez le dans le dernier `commit` lors de votre `pull request`.
 
-## Issues
+## Problèmes et fonctionnalités
 
 Rapportez en tant que nouvelle `issue` tout:
 - Bug à fixer
