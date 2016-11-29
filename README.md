@@ -109,7 +109,7 @@ Un suivi de votre issue sera fait.
 
 # Crédits
 
-Merci à notre équipe de concepteurs principaux, en ordre alphabétique:
+Merci à nos principaux concepteurs, en ordre alphabétique:
 
 [Robert Ableson](#),
 [Pierre Bégin](#),
