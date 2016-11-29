@@ -653,6 +653,66 @@ avertissement 6002: La table/vue 'SACHEM.dbo.Compteur' n'a pas de clé primaire 
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Jumelage_Inscription">
+          <End Role="Inscription" Type="Self.Inscription" Multiplicity="1" />
+          <End Role="Jumelage" Type="Self.Jumelage" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Inscription">
+              <PropertyRef Name="id_Inscription" />
+            </Principal>
+            <Dependent Role="Jumelage">
+              <PropertyRef Name="id_InscEleve" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Jumelage_Inscription1">
+          <End Role="Inscription" Type="Self.Inscription" Multiplicity="1" />
+          <End Role="Jumelage" Type="Self.Jumelage" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Inscription">
+              <PropertyRef Name="id_Inscription" />
+            </Principal>
+            <Dependent Role="Jumelage">
+              <PropertyRef Name="id_InscrTuteur" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Jumelage_p_Jour">
+          <End Role="p_Jour" Type="Self.p_Jour" Multiplicity="1" />
+          <End Role="Jumelage" Type="Self.Jumelage" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="p_Jour">
+              <PropertyRef Name="id_Jour" />
+            </Principal>
+            <Dependent Role="Jumelage">
+              <PropertyRef Name="id_Jour" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Jumelage_Personne">
+          <End Role="Personne" Type="Self.Personne" Multiplicity="1" />
+          <End Role="Jumelage" Type="Self.Jumelage" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Personne">
+              <PropertyRef Name="id_Pers" />
+            </Principal>
+            <Dependent Role="Jumelage">
+              <PropertyRef Name="id_Enseignant" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Jumelage_Session">
+          <End Role="Session" Type="Self.Session" Multiplicity="1" />
+          <End Role="Jumelage" Type="Self.Jumelage" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Session">
+              <PropertyRef Name="id_Sess" />
+            </Principal>
+            <Dependent Role="Jumelage">
+              <PropertyRef Name="id_Sess" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_p_HoraireInscription_Session">
           <End Role="Session" Type="Self.Session" Multiplicity="1" />
           <End Role="p_HoraireInscription" Type="Self.p_HoraireInscription" Multiplicity="0..1" />
@@ -943,6 +1003,26 @@ avertissement 6002: La table/vue 'SACHEM.dbo.Compteur' n'a pas de clé primaire 
           <AssociationSet Name="FK_Inscription_Session" Association="Self.FK_Inscription_Session">
             <End Role="Session" EntitySet="Session" />
             <End Role="Inscription" EntitySet="Inscription" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Jumelage_Inscription" Association="Self.FK_Jumelage_Inscription">
+            <End Role="Inscription" EntitySet="Inscription" />
+            <End Role="Jumelage" EntitySet="Jumelage" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Jumelage_Inscription1" Association="Self.FK_Jumelage_Inscription1">
+            <End Role="Inscription" EntitySet="Inscription" />
+            <End Role="Jumelage" EntitySet="Jumelage" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Jumelage_p_Jour" Association="Self.FK_Jumelage_p_Jour">
+            <End Role="p_Jour" EntitySet="p_Jour" />
+            <End Role="Jumelage" EntitySet="Jumelage" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Jumelage_Personne" Association="Self.FK_Jumelage_Personne">
+            <End Role="Personne" EntitySet="Personne" />
+            <End Role="Jumelage" EntitySet="Jumelage" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Jumelage_Session" Association="Self.FK_Jumelage_Session">
+            <End Role="Session" EntitySet="Session" />
+            <End Role="Jumelage" EntitySet="Jumelage" />
           </AssociationSet>
           <AssociationSet Name="FK_p_HoraireInscription_Session" Association="Self.FK_p_HoraireInscription_Session">
             <End Role="Session" EntitySet="Session" />

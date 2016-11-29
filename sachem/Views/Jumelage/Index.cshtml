@@ -39,7 +39,7 @@
             @Html.DisplayFor(modelItem => item.p_TypeInscription.TypeInscription)
         </td>
         <td>
-            @{ String count = ((sachem.Controllers.JumelageController)this.ViewContext.Controller).RetourneNbreJumelageEtudiant(item.Jumelage.Count); }
+            @{ String count = ((sachem.Controllers.JumelageController)this.ViewContext.Controller).RetourneNbreJumelageEtudiant(item.Jumelage.Count()); }
             @(count)
         </td>
 
