@@ -119,13 +119,13 @@ Un suivi de votre issue sera fait.
 
 Merci à nos principaux concepteurs, en ordre alphabétique:
 
-[Robert Ableson](#),
-[Pierre Bégin](#),
+Robert Ableson,
+Pierre Bégin,
 [Anthony Benoit-Caron](https://github.com/Anthobc),
-[Marie-Christine Boilard](#),
+Marie-Christine Boilard,
 [Simon Huard](https://github.com/simHuard),
 [Olivier Lafleur](https://github.com/olafleur),
-[Josée Lainesse](#),
+Josée Lainesse,
 [Alexys Leclerc](https://github.com/LeclercA),
 [Dylan Marcotte](https://github.com/FragZServer),
 [Alexandre Martineau](https://github.com/AlexandreMartineau),
