@@ -82,7 +82,6 @@
         <AssociationConnector Association="SACHEMModel.FK_Question_Section" />
         <AssociationConnector Association="SACHEMModel.FK_ReponseQuestion_Suivi" />
         <AssociationConnector Association="SACHEMModel.FK_Section_Section" />
-        <EntityTypeShape EntityType="SACHEMModel.p_dureeRencontre" Width="1.5" PointX="3.625" PointY="2.125" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

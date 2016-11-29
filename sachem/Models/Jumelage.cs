@@ -23,6 +23,7 @@ namespace sachem.Models
         public System.DateTime DateDebut { get; set; }
         public Nullable<System.DateTime> DateFin { get; set; }
         public int minutes { get; set; }
+        public byte consecutif { get; set; }
     
         public virtual Inscription Inscription { get; set; }
         public virtual Inscription Inscription1 { get; set; }

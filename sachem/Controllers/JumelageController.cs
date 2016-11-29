@@ -13,10 +13,41 @@ using sachem.Models.DataAccess;
 
 namespace sachem.Controllers
 {
+    public struct caseDisponibilite
+    {
+        string jour;
+        int minutes;
+        string nomCase;
+        bool estDispo;
+        bool estDispoMaisJumele;
+        int nbreUsagerMemeDispo;
+        bool estConsecutiveDonc3hrs;
+
+        public string Jour { get { return jour; } set { jour = value; } }
+        public int Minutes { get { return minutes; } set { minutes = value; } }
+        public string NomCase { get { return nomCase; } set { nomCase = value; } }
+        public bool EstDispo { get { return estDispo; } set { estDispo = value; } }
+        public bool EstDispoMaisJumele { get { return estDispoMaisJumele; } set { estDispoMaisJumele = value; } }
+        public int NbreUsagerMemeDispo { get { return nbreUsagerMemeDispo; } set { nbreUsagerMemeDispo = value; } }
+        public bool EstConsecutiveDonc3hrs { get { return estConsecutiveDonc3hrs; } set { estConsecutiveDonc3hrs = value; } }
+    }
+
+    public enum Semaine
+    {
+        Dimanche = 0,
+        Lundi,
+        Mardi,
+        Mercredi,
+        Jeudi,
+        Vendredi,
+        Samedi
+    }
+
     public class JumelageController : Controller
     {
         private const int HEURE_DEBUT = 8;
         private const int HEURE_FIN = 18;
+        private const int DUREE_RENCONTRE = 90;
         private SACHEMEntities db = new SACHEMEntities();
         protected int noPage = 1;
         private int? pageRecue = null;
@@ -67,116 +98,135 @@ namespace sachem.Controllers
         public List<string> RetourneListeJoursSemaine()
         {
             List<string> Jours = new List<string>();
-            Jours.Add("Lundi");
-            Jours.Add("Mardi");
-            Jours.Add("Mercredi");
-            Jours.Add("Jeudi");
-            Jours.Add("Vendredi");
+            for (int i = 1; i < 6; i++)
+            {
+                Jours.Add(((Semaine)i).ToString());
+            }
             return Jours.ToList();
         }
 
         [NonAction]
-        public Dictionary<string, List<string>> RetourneTableauDisponibilite()
-        {
-            TimeSpan StartTime = TimeSpan.FromHours(8);
-            int Difference = 30;
-            int Rencontre = db.p_dureeRencontre.FirstOrDefault().duree;
-            int EntriesCount = 18;
-            string[] jour = new string[5] { "Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi" };
-            Dictionary<TimeSpan, TimeSpan> Entree = new Dictionary<TimeSpan, TimeSpan>();
-            Dictionary<string, List<string>> Sortie = new Dictionary<string, List<string>>();
-
-            for (int i = 0; i < EntriesCount; i++)
-            {
-                Entree.Add(StartTime.Add(TimeSpan.FromMinutes(Difference * i)),
-                            StartTime.Add(TimeSpan.FromMinutes(Difference * i + Rencontre)));
-            }
-
-            foreach (var e in Entree)
-            {
-                double heureCheckbox = e.Key.TotalMinutes - StartTime.TotalMinutes;
-                List<string> values = new List<string>();
-                for (int j = 0; j < 5; j++)
-                {
-                    values.Add(jour[j] + "-" + heureCheckbox.ToString());
-                }
-                Sortie.Add(
-                e.Key.Hours + "h" + e.Key.Minutes.ToString("00") + "-" + e.Value.Hours + "h" + e.Value.Minutes.ToString("00"),
-                values);
-            }
-            return Sortie;
-        }
-
-        [NonAction]
-        Dictionary<string, Dictionary<int, string>> RetourneDisponibiliteJumelageUsager(int id, int idTypeInsc)
+        public Dictionary<string, List<caseDisponibilite>> RetourneDisponibiliteJumelageUsager(int id, int idTypeInsc)
         {            
-            List<string>  jumelageValeurDispo = new List<string>();            
+            List<caseDisponibilite> jumelageValeurDispo = new List<caseDisponibilite>();
+            caseDisponibilite caseDispo = new caseDisponibilite();        
             IQueryable<Disponibilite> dispo = db.Disponibilite.Where(x => x.id_Inscription == id);
-            for (int i = 0; i < dispo.ToList().Count; i++)
-            {
-                jumelageValeurDispo.Add(
-                    dispo
-                    .Where(x => x.id_Dispo == i)
-                    .Select(y => y.p_Jour.Jour)
-                    .ToString() 
-                    + "-" +
-                    dispo
-                    .Where(x => x.id_Dispo == i)
-                    .Select(y => y.minutes)
-                    .ToString()
-                    );
-            }
+            IQueryable<Disponibilite> dispoAutres = db.Disponibilite.Where(x => x.id_Inscription != id);
+            IQueryable<Jumelage> dispoJumele; 
 
-            IQueryable<Jumelage> jumelage;
             if (idTypeInsc == 1)
             {
-                jumelage = db.Jumelage.Where(eleve => eleve.id_InscEleve == id);
+                dispoJumele = db.Jumelage.Where(eleve => eleve.id_InscEleve == id);
             }
             else
             {
-                jumelage = db.Jumelage.Where(tuteur => tuteur.id_InscrTuteur == id);
+                dispoJumele = db.Jumelage.Where(tuteur => tuteur.id_InscrTuteur == id);
             }
-            for(int j =0;j< jumelage.ToList().Count; j++)
+            foreach (var j in dispoJumele)
             {
-                string dispoJumele = jumelage
-                    .Select(x => x.p_Jour.Jour)
-                    .ToString()
-                    + "-" +
-                    jumelage
-                    .Select(y => y.minutes)
-                    .ToString();
-                int indexDispo = jumelageValeurDispo.IndexOf(dispoJumele);
-                if (indexDispo != -1)
-                    jumelageValeurDispo[indexDispo] = "*" + dispoJumele;
+                caseDispo.Jour = j.p_Jour.Jour;
+                caseDispo.Minutes = j.minutes;
+                caseDispo.NomCase = caseDispo.Jour + "-" + caseDispo.Minutes;
+                caseDispo.NbreUsagerMemeDispo = 0;
+                caseDispo.EstDispo = true;
+                caseDispo.EstDispoMaisJumele = true;
+                if (Convert.ToBoolean(j.consecutif))
+                {
+                    caseDispo.EstConsecutiveDonc3hrs = false;
+                    jumelageValeurDispo.Add(caseDispo);
+                }
+                else
+                {
+                    caseDispo.EstConsecutiveDonc3hrs = false;
+                    jumelageValeurDispo.Add(caseDispo);
+                    caseDispo.Minutes = j.minutes + DUREE_RENCONTRE;
+                    caseDispo.NomCase = caseDispo.Jour + "-" + caseDispo.Minutes;
+                    caseDispo.EstConsecutiveDonc3hrs = true;
+                    jumelageValeurDispo.Add(caseDispo);
+                    caseDispo.EstConsecutiveDonc3hrs = true;
+                    jumelageValeurDispo.Add(caseDispo);
+                }
             }
 
-            string[] jour = new string[5] { "Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi" };
-            TimeSpan StartTime = TimeSpan.FromHours(HEURE_DEBUT);
+            int compteurUsagerAvecMemeDispo = 0;
+            foreach (var d in dispo)
+            {
+                foreach(var a in dispoAutres)
+                {
+                    if(d.id_Jour==a.id_Jour && d.minutes==a.minutes)
+                    {
+                        if(!jumelageValeurDispo.Exists(x=>x.Jour==a.p_Jour.Jour&&x.Minutes==a.minutes))
+                        {
+                            compteurUsagerAvecMemeDispo++;
+                        }
+                    }
+                }
+                caseDispo.Jour = d.p_Jour.Jour;
+                caseDispo.Minutes = d.minutes;
+                caseDispo.NomCase = d.p_Jour.Jour + "-" + d.minutes;
+                caseDispo.NbreUsagerMemeDispo = compteurUsagerAvecMemeDispo;
+                caseDispo.EstDispo = true;
+                caseDispo.EstDispoMaisJumele = false;
+                jumelageValeurDispo.Add(caseDispo);            
+            }
+
+            TimeSpan startTime = TimeSpan.FromHours(HEURE_DEBUT); // Doit changer pour cette valeur
             int Difference = 30;
-            int Rencontre = db.p_dureeRencontre.FirstOrDefault().duree;
-            int heureMax = HEURE_FIN;
+            int Rencontre = DUREE_RENCONTRE; // Doit changer pour cette valeur
+            int heureMax = HEURE_FIN; // Doit changer pour cette valeur
             Dictionary<TimeSpan, TimeSpan> heures = new Dictionary<TimeSpan, TimeSpan>();
-            Dictionary<string, List<string>> Sortie = new Dictionary<string, List<string>>();
+            Dictionary<string, List<caseDisponibilite>> sortie = new Dictionary<string, List<caseDisponibilite>>();
 
             for (int i = 0; i < heureMax; i++)
             {
-                heures.Add(StartTime.Add(TimeSpan.FromMinutes(Difference * i)),
-                            StartTime.Add(TimeSpan.FromMinutes(Difference * i + Rencontre)));
+                heures.Add(
+                    startTime.Add(TimeSpan.FromMinutes(Difference * i)),
+                    startTime.Add(TimeSpan.FromMinutes(Difference * i + Rencontre))
+                    );                
             }
 
             foreach (var e in heures)
             {
-                double heureCheckbox = e.Key.TotalMinutes;// - StartTime.TotalMinutes; pas necesaire vu que ca peut faire buger le systeme si il change le debut 8h00 a 7h00 tout decalera.
-                List<string> values = new List<string>();
-                for (int j = 0; j < 5; j++)
+                int heureCheckbox = (int)e.Key.TotalMinutes; // Doit changer pour cette valeur
+                caseDisponibilite caseToutes = new caseDisponibilite();
+                List<caseDisponibilite> values = new List<caseDisponibilite>();
+                bool dispoHeuresPresent = false;
+                dispoHeuresPresent = jumelageValeurDispo.Exists(x => x.Minutes==heureCheckbox);
+                for (int j = 1; j < 6; j++)
                 {
-                    values.Add(jour[j] + "-" + heureCheckbox.ToString());
+                    if (dispoHeuresPresent)
+                    {
+                        if (jumelageValeurDispo.Exists(x => x.Jour == ((Semaine)j).ToString() && x.Minutes == heureCheckbox))
+                        {
+                            caseToutes = jumelageValeurDispo.Find(x => x.Jour == ((Semaine)j).ToString() && x.Minutes == heureCheckbox);
+                        }
+                        else
+                        {
+                            caseToutes.Jour = ((Semaine)j).ToString();
+                            caseToutes.Minutes = heureCheckbox;
+                            caseToutes.NomCase = caseToutes.Jour + "-" + caseToutes.Minutes;
+                            caseToutes.NbreUsagerMemeDispo = 0;
+                            caseToutes.EstDispoMaisJumele = false;
+                            caseToutes.EstDispo = false;
+                        }
+                    }
+                    else
+                    {
+                        caseToutes.Jour = ((Semaine)j).ToString();
+                        caseToutes.Minutes = heureCheckbox;
+                        caseToutes.NomCase = caseToutes.Jour + "-" + caseToutes.Minutes;
+                        caseToutes.NbreUsagerMemeDispo = 0;
+                        caseToutes.EstDispoMaisJumele = false;
+                        caseToutes.EstDispo = false;
+                    }
+                    values.Add(caseToutes);
                 }
-                Sortie.Add(
+                sortie.Add(
                 e.Key.Hours + "h" + e.Key.Minutes.ToString("00") + "-" + e.Value.Hours + "h" + e.Value.Minutes.ToString("00"),
                 values);
             }
-            return 1;
+
+            return sortie;
         }
 
         [NonAction]
@@ -280,96 +330,6 @@ namespace sachem.Controllers
             }
             return View(inscription);
         }
-
-        //public ActionResult Create()
-        //{
-        //    ViewBag.id_InscEleve = new SelectList(db.Inscription, "id_Inscription", "NoteSup");
-        //    ViewBag.id_InscrTuteur = new SelectList(db.Inscription, "id_Inscription", "NoteSup");
-        //    ViewBag.id_Jour = new SelectList(db.p_Jour, "id_Jour", "Jour");
-        //    ViewBag.id_Enseignant = new SelectList(db.Personne, "id_Pers", "Nom");
-        //    ViewBag.id_Sess = new SelectList(db.Session, "id_Sess", "id_Sess");
-        //    return View();
-        //}
-
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public ActionResult Create([Bind(Include = "id_Jumelage,id_InscEleve,id_InscrTuteur,id_Sess,id_Enseignant,id_Jour,DateDebut,DateFin,HeureDebut,HeureFin")] Jumelage jumelage)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        db.Jumelage.Add(jumelage);
-        //        db.SaveChanges();
-        //        return RedirectToAction("Index");
-        //    }
-
-        //    ViewBag.id_InscEleve = new SelectList(db.Inscription, "id_Inscription", "NoteSup", jumelage.id_InscEleve);
-        //    ViewBag.id_InscrTuteur = new SelectList(db.Inscription, "id_Inscription", "NoteSup", jumelage.id_InscrTuteur);
-        //    ViewBag.id_Jour = new SelectList(db.p_Jour, "id_Jour", "Jour", jumelage.id_Jour);
-        //    ViewBag.id_Enseignant = new SelectList(db.Personne, "id_Pers", "Nom", jumelage.id_Enseignant);
-        //    ViewBag.id_Sess = new SelectList(db.Session, "id_Sess", "id_Sess", jumelage.id_Sess);
-        //    return View(jumelage);
-        //}
-
-        //public ActionResult Edit(int? id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-        //    }
-        //    Jumelage jumelage = db.Jumelage.Find(id);
-        //    if (jumelage == null)
-        //    {
-        //        return HttpNotFound();
-        //    }
-        //    ViewBag.id_InscEleve = new SelectList(db.Inscription, "id_Inscription", "NoteSup", jumelage.id_InscEleve);
-        //    ViewBag.id_InscrTuteur = new SelectList(db.Inscription, "id_Inscription", "NoteSup", jumelage.id_InscrTuteur);
-        //    ViewBag.id_Jour = new SelectList(db.p_Jour, "id_Jour", "Jour", jumelage.id_Jour);
-        //    ViewBag.id_Enseignant = new SelectList(db.Personne, "id_Pers", "Nom", jumelage.id_Enseignant);
-        //    ViewBag.id_Sess = new SelectList(db.Session, "id_Sess", "id_Sess", jumelage.id_Sess);
-        //    return View(jumelage);
-        //}
-
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public ActionResult Edit([Bind(Include = "id_Jumelage,id_InscEleve,id_InscrTuteur,id_Sess,id_Enseignant,id_Jour,DateDebut,DateFin,HeureDebut,HeureFin")] Jumelage jumelage)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        db.Entry(jumelage).State = EntityState.Modified;
-        //        db.SaveChanges();
-        //        return RedirectToAction("Index");
-        //    }
-        //    ViewBag.id_InscEleve = new SelectList(db.Inscription, "id_Inscription", "NoteSup", jumelage.id_InscEleve);
-        //    ViewBag.id_InscrTuteur = new SelectList(db.Inscription, "id_Inscription", "NoteSup", jumelage.id_InscrTuteur);
-        //    ViewBag.id_Jour = new SelectList(db.p_Jour, "id_Jour", "Jour", jumelage.id_Jour);
-        //    ViewBag.id_Enseignant = new SelectList(db.Personne, "id_Pers", "Nom", jumelage.id_Enseignant);
-        //    ViewBag.id_Sess = new SelectList(db.Session, "id_Sess", "id_Sess", jumelage.id_Sess);
-        //    return View(jumelage);
-        //}
-
-        //public ActionResult Delete(int? id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-        //    }
-        //    Jumelage jumelage = db.Jumelage.Find(id);
-        //    if (jumelage == null)
-        //    {
-        //        return HttpNotFound();
-        //    }
-        //    return View(jumelage);
-        //}
-
-        //[HttpPost, ActionName("Delete")]
-        //[ValidateAntiForgeryToken]
-        //public ActionResult DeleteConfirmed(int id)
-        //{
-        //    Jumelage jumelage = db.Jumelage.Find(id);
-        //    db.Jumelage.Remove(jumelage);
-        //    db.SaveChanges();
-        //    return RedirectToAction("Index");
-        //}
 
         protected override void Dispose(bool disposing)
         {

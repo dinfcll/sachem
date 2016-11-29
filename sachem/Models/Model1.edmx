@@ -156,6 +156,7 @@ avertissement 6002: La table/vue 'SACHEM.dbo.Compteur' n'a pas de clé primaire 
           <Property Name="DateDebut" Type="date" Nullable="false" />
           <Property Name="DateFin" Type="date" />
           <Property Name="minutes" Type="int" Nullable="false" />
+          <Property Name="consecutif" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="p_College">
           <Key>
@@ -177,16 +178,6 @@ avertissement 6002: La table/vue 'SACHEM.dbo.Compteur' n'a pas de clé primaire 
           <Property Name="Facebook" Type="varchar" MaxLength="100" />
           <Property Name="SiteWeb" Type="varchar" MaxLength="100" />
           <Property Name="Local" Type="varchar" MaxLength="5" Nullable="false" />
-        </EntityType>
-        <!--Erreurs détectées durant la génération :
-avertissement 6002: La table/vue 'SACHEM.dbo.p_dureeRencontre' n'a pas de clé primaire définie. La clé a été déduite et la définition a été créée en tant que table/vue en lecture seule.-->
-        <EntityType Name="p_dureeRencontre">
-          <Key>
-            <PropertyRef Name="id_duree" />
-            <PropertyRef Name="duree" />
-          </Key>
-          <Property Name="id_duree" Type="int" Nullable="false" />
-          <Property Name="duree" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="p_HoraireInscription">
           <Key>
@@ -662,66 +653,6 @@ avertissement 6002: La table/vue 'SACHEM.dbo.p_dureeRencontre' n'a pas de clé p
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Jumelage_Inscription">
-          <End Role="Inscription" Type="Self.Inscription" Multiplicity="1" />
-          <End Role="Jumelage" Type="Self.Jumelage" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Inscription">
-              <PropertyRef Name="id_Inscription" />
-            </Principal>
-            <Dependent Role="Jumelage">
-              <PropertyRef Name="id_InscEleve" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Jumelage_Inscription1">
-          <End Role="Inscription" Type="Self.Inscription" Multiplicity="1" />
-          <End Role="Jumelage" Type="Self.Jumelage" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Inscription">
-              <PropertyRef Name="id_Inscription" />
-            </Principal>
-            <Dependent Role="Jumelage">
-              <PropertyRef Name="id_InscrTuteur" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Jumelage_p_Jour">
-          <End Role="p_Jour" Type="Self.p_Jour" Multiplicity="1" />
-          <End Role="Jumelage" Type="Self.Jumelage" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="p_Jour">
-              <PropertyRef Name="id_Jour" />
-            </Principal>
-            <Dependent Role="Jumelage">
-              <PropertyRef Name="id_Jour" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Jumelage_Personne">
-          <End Role="Personne" Type="Self.Personne" Multiplicity="1" />
-          <End Role="Jumelage" Type="Self.Jumelage" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Personne">
-              <PropertyRef Name="id_Pers" />
-            </Principal>
-            <Dependent Role="Jumelage">
-              <PropertyRef Name="id_Enseignant" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Jumelage_Session">
-          <End Role="Session" Type="Self.Session" Multiplicity="1" />
-          <End Role="Jumelage" Type="Self.Jumelage" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Session">
-              <PropertyRef Name="id_Sess" />
-            </Principal>
-            <Dependent Role="Jumelage">
-              <PropertyRef Name="id_Sess" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_p_HoraireInscription_Session">
           <End Role="Session" Type="Self.Session" Multiplicity="1" />
           <End Role="p_HoraireInscription" Type="Self.p_HoraireInscription" Multiplicity="0..1" />
@@ -913,12 +844,6 @@ avertissement 6002: La table/vue 'SACHEM.dbo.p_dureeRencontre' n'a pas de clé p
     [Compteur].[Compteur] AS [Compteur]
     FROM [dbo].[Compteur] AS [Compteur]</DefiningQuery>
           </EntitySet>
-          <EntitySet Name="p_dureeRencontre" EntityType="Self.p_dureeRencontre" store:Type="Tables" store:Schema="dbo">
-            <DefiningQuery>SELECT 
-    [p_dureeRencontre].[id_duree] AS [id_duree], 
-    [p_dureeRencontre].[duree] AS [duree]
-    FROM [dbo].[p_dureeRencontre] AS [p_dureeRencontre]</DefiningQuery>
-          </EntitySet>
           <AssociationSet Name="FK_ChoixReponse_Question" Association="Self.FK_ChoixReponse_Question">
             <End Role="Question" EntitySet="Question" />
             <End Role="ChoixReponse" EntitySet="ChoixReponse" />
@@ -1018,26 +943,6 @@ avertissement 6002: La table/vue 'SACHEM.dbo.p_dureeRencontre' n'a pas de clé p
           <AssociationSet Name="FK_Inscription_Session" Association="Self.FK_Inscription_Session">
             <End Role="Session" EntitySet="Session" />
             <End Role="Inscription" EntitySet="Inscription" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Jumelage_Inscription" Association="Self.FK_Jumelage_Inscription">
-            <End Role="Inscription" EntitySet="Inscription" />
-            <End Role="Jumelage" EntitySet="Jumelage" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Jumelage_Inscription1" Association="Self.FK_Jumelage_Inscription1">
-            <End Role="Inscription" EntitySet="Inscription" />
-            <End Role="Jumelage" EntitySet="Jumelage" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Jumelage_p_Jour" Association="Self.FK_Jumelage_p_Jour">
-            <End Role="p_Jour" EntitySet="p_Jour" />
-            <End Role="Jumelage" EntitySet="Jumelage" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Jumelage_Personne" Association="Self.FK_Jumelage_Personne">
-            <End Role="Personne" EntitySet="Personne" />
-            <End Role="Jumelage" EntitySet="Jumelage" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Jumelage_Session" Association="Self.FK_Jumelage_Session">
-            <End Role="Session" EntitySet="Session" />
-            <End Role="Jumelage" EntitySet="Jumelage" />
           </AssociationSet>
           <AssociationSet Name="FK_p_HoraireInscription_Session" Association="Self.FK_p_HoraireInscription_Session">
             <End Role="Session" EntitySet="Session" />
@@ -1296,7 +1201,6 @@ avertissement 6002: La table/vue 'SACHEM.dbo.p_dureeRencontre' n'a pas de clé p
             <End Role="Section" EntitySet="Section" />
             <End Role="Section1" EntitySet="Section" />
           </AssociationSet>
-          <EntitySet Name="p_dureeRencontre" EntityType="SACHEMModel.p_dureeRencontre" />
         </EntityContainer>
         <EntityType Name="ChoixReponse">
           <Key>
@@ -1481,6 +1385,7 @@ avertissement 6002: La table/vue 'SACHEM.dbo.p_dureeRencontre' n'a pas de clé p
           <NavigationProperty Name="Personne" Relationship="SACHEMModel.FK_Jumelage_Personne" FromRole="Jumelage" ToRole="Personne" />
           <NavigationProperty Name="Session" Relationship="SACHEMModel.FK_Jumelage_Session" FromRole="Jumelage" ToRole="Session" />
           <Property Name="minutes" Type="Int32" Nullable="false" />
+          <Property Name="consecutif" Type="Byte" Nullable="false" />
         </EntityType>
         <EntityType Name="p_College">
           <Key>
@@ -2237,14 +2142,6 @@ avertissement 6002: La table/vue 'SACHEM.dbo.p_dureeRencontre' n'a pas de clé p
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="p_dureeRencontre">
-          <Key>
-            <PropertyRef Name="id_duree" />
-            <PropertyRef Name="duree" />
-          </Key>
-          <Property Name="id_duree" Type="Int32" Nullable="false" />
-          <Property Name="duree" Type="Int32" Nullable="false" />
-        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -2394,6 +2291,7 @@ avertissement 6002: La table/vue 'SACHEM.dbo.p_dureeRencontre' n'a pas de clé p
           <EntitySetMapping Name="Jumelage">
             <EntityTypeMapping TypeName="SACHEMModel.Jumelage">
               <MappingFragment StoreEntitySet="Jumelage">
+                <ScalarProperty Name="consecutif" ColumnName="consecutif" />
                 <ScalarProperty Name="minutes" ColumnName="minutes" />
                 <ScalarProperty Name="DateFin" ColumnName="DateFin" />
                 <ScalarProperty Name="DateDebut" ColumnName="DateDebut" />
@@ -2621,14 +2519,6 @@ avertissement 6002: La table/vue 'SACHEM.dbo.p_dureeRencontre' n'a pas de clé p
               <MappingFragment StoreEntitySet="Compteur">
                 <ScalarProperty Name="Compteur1" ColumnName="Compteur" />
                 <ScalarProperty Name="id_Compteur" ColumnName="id_Compteur" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="p_dureeRencontre">
-            <EntityTypeMapping TypeName="SACHEMModel.p_dureeRencontre">
-              <MappingFragment StoreEntitySet="p_dureeRencontre">
-                <ScalarProperty Name="duree" ColumnName="duree" />
-                <ScalarProperty Name="id_duree" ColumnName="id_duree" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

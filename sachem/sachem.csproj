@@ -273,9 +273,6 @@
     <Compile Include="Models\PersEtuProg.cs" />
     <Compile Include="Models\p_CollegeMetadata.cs" />
     <Compile Include="Models\PersonneMetadata.cs" />
-    <Compile Include="Models\p_dureeRencontre.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\p_TypeFormulaire.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
