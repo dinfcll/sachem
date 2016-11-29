@@ -49,6 +49,8 @@ Par l'entremise du site, l'enseignant doit livrer des documents (devoirs ou inst
 * [SQL Server Management Studio](https://msdn.microsoft.com/library/mt238290.aspx): Administration de la base de données
 * [BD Backup](https://github.com/dinfcll/sachem/blob/master/sachem/BD_Presentation.bak): Fichier de la base de données de base.
 
+### SQL Server 2016
+
 ## Dépendances
 
 Le projet contient certaines dépendances à des paquets NuGet:
