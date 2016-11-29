@@ -9,6 +9,27 @@
     padding-right: 15px;
 }
 
+.logo {
+    position:absolute;
+    width:200px;
+}
+
+.cll {
+    background-image: url('../Images/logo-cegep.png');  
+    background-repeat:no-repeat;
+    background-position:left;
+    background-size: auto 70px;
+    height: 70px; 
+}
+
+.sachem {
+    background-image: url('../Images/logo-sachem.png');
+    background-position: 74px 7px;
+    background-repeat:no-repeat;
+    background-size: auto 35px;
+    height: 70px;
+}
+
 /* Override the default bootstrap behavior where horizontal description lists 
    will truncate terms that are too long to fit in the left column 
 */
