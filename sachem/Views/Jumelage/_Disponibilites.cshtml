@@ -1,15 +1,6 @@
 ﻿@model sachem.Models.Inscription
 @using sachem.Controllers;
-<h4 class="page-header">Disponibilités</h4>
-<style>
-    .checkzone {
-        width: 25px;
-        top: -1px;
-        height: 25px;
-        background-size: 100%;
-        -moz-appearance: none;
-    }
-</style>
+
 <table class="table-bordered table-striped col-sm-12">
     @{ List<string> jours = ((sachem.Controllers.JumelageController)this.ViewContext.Controller)
             .RetourneListeJoursSemaine();}
@@ -22,7 +13,7 @@
     </tr>
     @{ Dictionary<string, List<caseDisponibilite>> ListeDispoUsagerDeTableauDisponibilite = 
             ((sachem.Controllers.JumelageController)this.ViewContext.Controller)
-            .RetourneDisponibiliteJumelageUsager(Model.id_Inscription, Model.id_TypeInscription); }
+            .RetourneDisponibiliteJumelageUsager(Model.id_Inscription, Model.id_TypeInscription, Model.id_Sess); }
     @{
         foreach (var v in ListeDispoUsagerDeTableauDisponibilite)
         {
@@ -32,7 +23,7 @@
                 </td>
                 @foreach (var w in v.Value)
                 {
-                    if (w.EstDispoMaisJumele)
+                    if (w.EstDispoMaisJumele && !w.EstDispo)
                     {
                         if (!w.EstConsecutiveDonc3hrs)
                         {
@@ -42,6 +33,10 @@
                         {
                             <td class="text-center" style="background-color:#e57373;" id="@w.NomCase" name="@w.NomCase"></td>
                         }
+                    }
+                    else if (w.EstDispoMaisJumele && w.EstDispo)
+                    {
+                        <td class="text-center" style="background-color:#b0bec5;" id="@w.NomCase" name="@w.NomCase">@w.NbreUsagerMemeDispo</td>
                     }
                     else if (w.EstDispo)
                     {

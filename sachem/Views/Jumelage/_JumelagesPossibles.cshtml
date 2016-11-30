@@ -1,16 +1,16 @@
 ﻿@model sachem.Models.Inscription 
 @using sachem.Models
 @using sachem.Controllers
-@{ IQueryable<Inscription> listeJumeleurs = ((sachem.Controllers.JumelageController)this.ViewContext.Controller)
+@{ List<Inscription> listeJumeleursPotentiels = ((sachem.Controllers.JumelageController)this.ViewContext.Controller)
                                     .RetourneJumeleursPotentiels(Model.id_Inscription, Model.id_TypeInscription, Model.id_Sess);
     int k = 0;}
-@if (listeJumeleurs.Count() > 0)
+@if (listeJumeleursPotentiels.Count() > 0)
 {
     <h4 class="page-header">Jumelages possibles</h4>
     <style>.hover-student{background-color:#f9f9f9;} .hover-student:hover{background-color:#eee;} .nodeco{color:#444;}.nodeco:hover{color:#444;text-decoration:none;}.nodeco:not(:hover){text-decoration:none;color:#444;}</style>
     <div class="panel-group" id="accordion">
 
-    @foreach (var j in listeJumeleurs)
+    @foreach (var j in listeJumeleursPotentiels)
     {
         k++;
         <div class="panel panel-default">
@@ -32,7 +32,7 @@
                                 <a class="nodeco" data-toggle="collapse" data-parent="#accordion" href="#collapse_@k">@j.p_TypeInscription.TypeInscription </a>
                             </th>
                             <th class="panel-heading col-sm-1">
-                                <a href="#">Accéder</a>
+                                <a href="@j.id_Inscription">Accéder</a>
                             </th>
                         </tr>
                     </table>
@@ -40,7 +40,7 @@
             <div id="collapse_@k" class="panel-collapse collapse">
                 <table class="table-bordered table-striped col-sm-12">
                     @{ List<string> jours = ((sachem.Controllers.JumelageController)this.ViewContext.Controller)
-     .RetourneListeJoursSemaine();}
+              .RetourneListeJoursSemaine();}
                     <tr>
                         <th class="col-sm-2 text-center" style="height:30px;font-weight:bold;color:white;background-color:#666;">Heures</th>
                         @foreach (string jour in jours)
@@ -49,8 +49,8 @@
                         }
                     </tr>
                     @{ Dictionary<string, List<caseDisponibilite>> ListeDispoUsagerDeTableauDisponibilite =
-     ((sachem.Controllers.JumelageController)this.ViewContext.Controller)
-     .RetourneDisponibiliteJumelageUsager(Model.id_Inscription, Model.id_TypeInscription); }
+              ((sachem.Controllers.JumelageController)this.ViewContext.Controller)
+              .RetourneDisponibiliteJumelageUsager(@j.id_Inscription, @j.id_TypeInscription, @j.id_Sess); }
                     @{
                         foreach (var v in ListeDispoUsagerDeTableauDisponibilite)
                         {
@@ -60,7 +60,7 @@
                                 </td>
                                 @foreach (var w in v.Value)
                                 {
-                                    if (w.EstDispoMaisJumele)
+                                    if (w.EstDispoMaisJumele && !w.EstDispo)
                                     {
                                         if (!w.EstConsecutiveDonc3hrs)
                                         {
@@ -70,6 +70,10 @@
                                         {
                                             <td class="text-center" style="background-color:#e57373;" id="@w.NomCase" name="@w.NomCase"></td>
                                         }
+                                    }
+                                    else if (w.EstDispoMaisJumele && w.EstDispo)
+                                    {
+                                        <td class="text-center" style="background-color:#b0bec5;" id="@w.NomCase" name="@w.NomCase">@w.NbreUsagerMemeDispo</td>
                                     }
                                     else if (w.EstDispo)
                                     {

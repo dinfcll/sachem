@@ -48,6 +48,7 @@ namespace sachem.Controllers
         private const int HEURE_DEBUT = 8;
         private const int HEURE_FIN = 18;
         private const int DUREE_RENCONTRE = 90;
+        private const int ID_INSCRIPTION_POUR_ELEVE_AIDE = 1;
         private SACHEMEntities db = new SACHEMEntities();
         protected int noPage = 1;
         private int? pageRecue = null;
@@ -106,21 +107,23 @@ namespace sachem.Controllers
         }
 
         [NonAction]
-        public Dictionary<string, List<caseDisponibilite>> RetourneDisponibiliteJumelageUsager(int id, int idTypeInsc)
-        {            
+        public Dictionary<string, List<caseDisponibilite>> RetourneDisponibiliteJumelageUsager(int id, int idTypeInsc, int session)
+        {
             List<caseDisponibilite> jumelageValeurDispo = new List<caseDisponibilite>();
-            caseDisponibilite caseDispo = new caseDisponibilite();        
+            caseDisponibilite caseDispo = new caseDisponibilite();
             IQueryable<Disponibilite> dispo = db.Disponibilite.Where(x => x.id_Inscription == id);
-            IQueryable<Disponibilite> dispoAutres = db.Disponibilite.Where(x => x.id_Inscription != id);
-            IQueryable<Jumelage> dispoJumele; 
+            IQueryable<Disponibilite> dispoAutres;
+            IQueryable<Jumelage> dispoJumele;
 
-            if (idTypeInsc == 1)
+            if (idTypeInsc == ID_INSCRIPTION_POUR_ELEVE_AIDE)
             {
-                dispoJumele = db.Jumelage.Where(eleve => eleve.id_InscEleve == id);
+                dispoJumele = db.Jumelage.Where(eleve => eleve.id_InscEleve == id && eleve.id_Sess == session);
+                dispoAutres = db.Disponibilite.Where(x => x.id_Inscription != id && x.Inscription.id_TypeInscription != ID_INSCRIPTION_POUR_ELEVE_AIDE);
             }
             else
             {
-                dispoJumele = db.Jumelage.Where(tuteur => tuteur.id_InscrTuteur == id);
+                dispoJumele = db.Jumelage.Where(tuteur => tuteur.id_InscrTuteur == id && tuteur.id_Sess == session);
+                dispoAutres = db.Disponibilite.Where(x => x.id_Inscription != id && x.Inscription.id_TypeInscription == ID_INSCRIPTION_POUR_ELEVE_AIDE);
             }
             foreach (var j in dispoJumele)
             {
@@ -128,7 +131,7 @@ namespace sachem.Controllers
                 caseDispo.Minutes = j.minutes;
                 caseDispo.NomCase = caseDispo.Jour + "-" + caseDispo.Minutes;
                 caseDispo.NbreUsagerMemeDispo = 0;
-                caseDispo.EstDispo = true;
+                caseDispo.EstDispo = false;
                 caseDispo.EstDispoMaisJumele = true;
                 if (Convert.ToBoolean(!j.consecutif))
                 {
@@ -154,11 +157,12 @@ namespace sachem.Controllers
             int compteurUsagerAvecMemeDispo = 0;
             foreach (var d in dispo)
             {
-                foreach(var a in dispoAutres)
+                compteurUsagerAvecMemeDispo = 0;
+                foreach (var a in dispoAutres)
                 {
-                    if(d.id_Jour==a.id_Jour && d.minutes==a.minutes)
+                    if (d.id_Jour == a.id_Jour && d.minutes == a.minutes)
                     {
-                        if(!jumelageValeurDispo.Exists(x=>x.Jour==a.p_Jour.Jour&&x.Minutes==a.minutes))
+                        if (!jumelageValeurDispo.Exists(x => x.Jour == a.p_Jour.Jour && x.Minutes == a.minutes))
                         {
                             compteurUsagerAvecMemeDispo++;
                         }
@@ -169,8 +173,22 @@ namespace sachem.Controllers
                 caseDispo.NomCase = d.p_Jour.Jour + "-" + d.minutes;
                 caseDispo.NbreUsagerMemeDispo = compteurUsagerAvecMemeDispo;
                 caseDispo.EstDispo = true;
-                caseDispo.EstDispoMaisJumele = false;
-                jumelageValeurDispo.Add(caseDispo);            
+                caseDispo.EstDispoMaisJumele = jumelageValeurDispo.Exists(
+                        x => x.Jour == caseDispo.Jour &&
+                        x.EstDispoMaisJumele == true &&
+                        x.EstConsecutiveDonc3hrs == false &&
+                        ((caseDispo.Minutes > x.Minutes && caseDispo.Minutes < x.Minutes + DUREE_RENCONTRE) ||
+                        ((caseDispo.Minutes + DUREE_RENCONTRE) > x.Minutes && (caseDispo.Minutes + DUREE_RENCONTRE) < x.Minutes + DUREE_RENCONTRE))
+                        )
+                        ||
+                        jumelageValeurDispo.Exists(
+                            x => x.Jour == caseDispo.Jour &&
+                            x.EstDispoMaisJumele == true &&
+                            x.EstConsecutiveDonc3hrs == true &&
+                            ((caseDispo.Minutes > x.Minutes && caseDispo.Minutes < x.Minutes + (DUREE_RENCONTRE * 2)) ||
+                            ((caseDispo.Minutes + DUREE_RENCONTRE) > x.Minutes && (caseDispo.Minutes + DUREE_RENCONTRE) < x.Minutes + (DUREE_RENCONTRE * 2)))
+                            );              
+                jumelageValeurDispo.Add(caseDispo);     
             }
 
             TimeSpan startTime = TimeSpan.FromHours(HEURE_DEBUT); // Doit changer pour cette valeur
@@ -233,40 +251,72 @@ namespace sachem.Controllers
         }
 
         [NonAction]
-        public IQueryable<Inscription> RetourneJumeleursPotentiels(int id, int idTypeInsc, int session)
+        public List<Inscription> RetourneJumeleursPotentiels(int id, int idTypeInsc, int session)
         {
-            IOrderedQueryable<Inscription> listeJumeleurs;
-            if (idTypeInsc == 1)
+            IOrderedQueryable<Inscription> listeJumeleurs, eleve;
+            eleve = from i in db.Inscription
+                    where (db.Disponibilite.Any(x => x.id_Inscription == id) &&
+                    (i.id_Sess == session) &&
+                    (i.id_Inscription == id) &&
+                    (i.id_TypeInscription == idTypeInsc))
+                    orderby i.Personne.Nom, i.Personne.Prenom
+                    select i;
+
+            if (idTypeInsc == ID_INSCRIPTION_POUR_ELEVE_AIDE)
             {
-                listeJumeleurs = from p in db.Inscription
-                                 where (db.Jumelage.Any(x => x.id_InscEleve != id) &&
-                                 (p.id_Sess == session) &&
-                                 (p.id_TypeInscription != idTypeInsc))
-                                 orderby p.Personne.Nom, p.Personne.Prenom
-                                 select p;
+                listeJumeleurs = from i in db.Inscription
+                                 where (db.Disponibilite.Any(x => x.id_Inscription != id) &&
+                                 (i.id_Sess == session) &&
+                                 (i.id_TypeInscription != ID_INSCRIPTION_POUR_ELEVE_AIDE))
+                                 orderby i.Personne.Nom, i.Personne.Prenom
+                                 select i;
             }
             else
             {
-                listeJumeleurs = from p in db.Inscription
-                                 where (db.Jumelage.Any(x => x.id_InscrTuteur != id) &&
-                                 (p.id_Sess == session))
-                                 orderby p.Personne.Nom, p.Personne.Prenom
-                                 select p;
+                listeJumeleurs = from i in db.Inscription
+                                 where (db.Disponibilite.Any(x => x.id_Inscription != id) &&
+                                 (i.id_Sess == session) &&
+                                 (i.id_TypeInscription == ID_INSCRIPTION_POUR_ELEVE_AIDE))
+                                 orderby i.Personne.Nom, i.Personne.Prenom
+                                 select i;
             }
-            
-            return listeJumeleurs;
+
+            List<Disponibilite> disposJumeleurs = listeJumeleurs.SelectMany(x=>x.Disponibilite).ToList();
+            List<Disponibilite> disposEleve = eleve.SelectMany(x => x.Disponibilite).ToList();
+            List<int> jumeleursPotentiels = new List<int>();
+            foreach(var dispo in disposEleve)
+            {
+                if ((disposJumeleurs.Exists(x => (x.id_Jour == dispo.id_Jour) && (x.minutes == dispo.minutes) && (!jumeleursPotentiels.Contains(x.id_Inscription)))))
+                {
+                    jumeleursPotentiels.AddRange(disposJumeleurs.FindAll(y => y.id_Jour == dispo.id_Jour && y.minutes == dispo.minutes).Select(x => x.id_Inscription).ToList());
+                }
+            }
+
+            List<Inscription> listeJumeleursPotentiels = new List<Inscription>();            
+            foreach (var jumeleur in listeJumeleurs)
+            {
+                for (int k = 0; k < jumeleursPotentiels.Count(); k++)
+                {
+                    if (jumeleur.id_Inscription == jumeleursPotentiels[k])
+                    {
+                        listeJumeleursPotentiels.Add(jumeleur);
+                    }
+                }
+            }
+           
+            return listeJumeleursPotentiels;
         }
 
         [NonAction]
         public IQueryable<Inscription> RetourneJumeleurs(int id, int idTypeInsc, int session)
         {
             IOrderedQueryable<Inscription> listeJumeleurs;
-            if (idTypeInsc == 1)
+            if (idTypeInsc == ID_INSCRIPTION_POUR_ELEVE_AIDE)
             {
                 listeJumeleurs = from p in db.Inscription
                                  where (db.Jumelage.Any(x => x.id_InscEleve == id) &&
                                  (p.id_Sess == session) &&
-                                 (p.id_TypeInscription != idTypeInsc))
+                                 (p.id_TypeInscription != ID_INSCRIPTION_POUR_ELEVE_AIDE))
                                  orderby p.Personne.Nom, p.Personne.Prenom
                                  select p;
             }
@@ -274,7 +324,8 @@ namespace sachem.Controllers
             {
                 listeJumeleurs = from p in db.Inscription
                                  where (db.Jumelage.Any(x => x.id_InscrTuteur == id) &&
-                                 (p.id_Sess == session))
+                                 (p.id_Sess == session) &&
+                                 (p.id_TypeInscription == ID_INSCRIPTION_POUR_ELEVE_AIDE))
                                  orderby p.Personne.Nom, p.Personne.Prenom
                                  select p;
             }
@@ -288,7 +339,7 @@ namespace sachem.Controllers
             List<string> plageHoraire = new List<string>();
             TimeSpan DebutJournee = new TimeSpan();
             IQueryable<Jumelage> jumeleur;
-            if (idTypeInsc == 1)
+            if (idTypeInsc == ID_INSCRIPTION_POUR_ELEVE_AIDE)
                 jumeleur = db.Jumelage.Where(x => x.id_InscEleve == idVu && x.id_InscrTuteur == idJumeleur && x.id_Sess == session);
             else
                 jumeleur = db.Jumelage.Where(x => x.id_InscrTuteur == idVu && x.id_InscEleve == idJumeleur && x.id_Sess == session);
