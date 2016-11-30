@@ -14,6 +14,18 @@
     width:200px;
 }
 
+.navbar-inverse .navbar-nav > li > a {
+  color: #dddddd;
+}
+
+.navbar-inverse .navbar-toggle {
+  border-color: #555555;
+}
+
+.navbar-inverse {
+    background-color: #333333;
+}
+
 .cll {
     background-image: url('../Images/logo-cegep.png');  
     background-repeat:no-repeat;
@@ -208,6 +220,9 @@ textarea {
 @media (max-width: 768px)
 {
     .glyphicon-user{
+        display:none !important;
+    }
+    .glyphicon-log-in{
         display:none !important;
     }
 }
