@@ -13,6 +13,7 @@
         * [VS Dépendances](#vs-dépendances)
     * [Commencer](#commencer)
         * [Web.config](#webconfig)
+        * [Navigation sur le site](#navigation-sur-le-site)
     * [Structuration de nos branches](#structuration-de-nos-branches)
     * [Problèmes et fonctionnalités](#problèmes-et-fonctionnalités)
 * [Captures](#captures)
@@ -86,15 +87,35 @@ Vous aurez à modifier le serveur de connexion si vous avez configuré un usager
 
 Veiller à ne pas envoyer sur la branche principale `master` votre `web.config` personnalisé. Retirez le dans le dernier `commit` lors de votre `pull request`.
 
+### Navigation sur le site
+
+Par défaut, le compte administrateur principal est celui du responsable SACHEM: `resp`.
+
+Utilisez ce compte pour tester les fonctionnalités ou apporter des modifications à la base de données à partir du site, comme modifier les paramètres d'un compte utilisateur. Le mot de passe du responsable SACHEM est: `resp`.
+
+Pour tester le site SACHEM, il vous faudra des types de comptes différents:
+- SuperUtili (Niveau 4)
+- Responsable SACHEM (Niveau 3)
+- Enseignant (Niveau 2)
+- Etudiant (Niveau 1)
+   - Tuteur réménunéré (Niveau 1-B3)
+   - Tuteur bénévole (Niveau 1-B2)
+   - Tuteur de cours (Niveau 1-B1)
+   - Élève aidé (Niveau 1-A)
+   
+_Note sur les étudiants_: Les tuteurs (Niveau 1-B) ont les mêmes droits au site. L'élève aidé (Niveau 1-A) est celui qui possède le moins de droits, à l'exception d'un étudiant qui ne s'est pas inscrit au SACHEM, mais n'a créé qu'un compte sur le site (Niveau 1).
+
+Utilisez le site pour créer les comptes qui vous seront utiles pour vos tests. Utilisez également SQL Server pour naviguer dans les données disponibles de la BD, entres autres `dbo.Personne` vous donnera accès à une fausse liste d'étudiants et d'enseignants qui fréquentent le département de mathématiques. Prenez en note le `NomUsager` pour un enseignant, ajoutez-y un mot de passe en vous connectant en tant que responsable SACHEM, ou prenez en note le `Matricule` et la `DateNais` pour un étudiant pour créer un compte, vous pouvez aussi le modifier avec le responsable SACHEM. N'oubliez de créer un compte `SuperUtili` pour tester l'accès complet au site.
+
 ## Structuration de nos branches
 
 Notre branche principale est `master`.
 
-Toute nouvelle fonctionnalité, correction de bug et/ou test doit être réalisé dans une `nouvelle branche` ou avoir fait un `fork` du projet. Une fois votre changement réalisé et prêt, une demande de `Pull Request` peut être créé pour affecter `master`.
+Toute nouvelle fonctionnalité, correction de bug et/ou test doit être réalisé dans une nouvelle branche ou avoir fait un `fork` du projet. Une fois votre changement réalisé et prêt, une demande de `Pull Request` peut être créé pour affecter master.
 
-Nous demandons à ceux travaillant sur des branches autres que `master` de synchroniser fréquemment avec `master` pour obtenir les plus récents ajouts.
+Nous demandons à ceux travaillant sur des branches autres que master de synchroniser fréquemment avec master pour obtenir les plus récents ajouts.
 
-Veiller à ne pas envoyer sur la branche principale `master` votre `web.config` personnalisé. Retirez le dans le dernier `commit` lors de votre `pull request`.
+Veiller à ne pas envoyer sur la branche principale votre `web.config` personnalisé. Retirez s'il est présent dans votre pull request.
 
 ## Problèmes et fonctionnalités
 
@@ -103,9 +124,9 @@ Rapportez en tant que nouvelle `issue` tout:
 - Nouvelle fonctionnalité à concevoir
 - Suggestion ou question
 
-Ajoutez votre nouvelle issue dans `Projects` > `Projet SACHEM`:
+Ajoutez votre nouvelle issue dans: `Projects > Projet SACHEM > Add cards`.
 
-Par le menu `Add cards`, sélectionnez votre issue et déposez le dans `A faire`.
+Sélectionnez votre issue et déposez le dans `A faire`.
 
 Un suivi de votre issue sera fait.
 
