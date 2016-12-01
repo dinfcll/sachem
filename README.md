@@ -17,6 +17,8 @@
     * [Structuration de nos branches](#structuration-de-nos-branches)
     * [Problèmes et fonctionnalités](#problèmes-et-fonctionnalités)
 * [Annexe](#annexe)
+   * [Diagramme de classes](#diagramme-de-classes)
+   * [Dossiers fonctionnels](#dossiers-fonctionnels)
    * [Captures](#captures)
    * [Crédits](#crédits)
    
@@ -50,8 +52,7 @@ Par l'entremise du site, l'enseignant doit livrer des documents (devoirs ou inst
    * [.Net Framework 4.6](https://www.microsoft.com/en-ca/download/details.aspx?id=48130): Bibliothèque .Net
 * [SQL Server 2016](https://www.microsoft.com/en-us/sql-server/sql-server-downloads): Application de base de données
    * [SQL Server Management Studio](https://msdn.microsoft.com/library/mt238290.aspx): Administration de la base de données
-   * [Fichier de la base de données de base](https://github.com/dinfcll/sachem/blob/jwallet-readme-doc/sachem/_Contribute/sachem.bak)
-   * [Diagramme de classes](https://github.com/dinfcll/sachem/blob/jwallet-readme-doc/sachem/_Contribute/Diagrammes%20de%20classes%20SACHEM.png)
+   * [Fichiers en annexe](#annexe)
 
 ### SQL Server
 
@@ -133,9 +134,27 @@ Un suivi de votre issue sera fait.
 
 # Annexe
 
+## Diagramme de classes
+
+![Diagramme](sachem/_Contribute/dossiersFonctionnels/Diagrammes_de_classes_SACHEM.png)
+
 ## Dossiers fonctionnels
 
+Voici la liste des dossiers fonctionnels conçus par [Josée Lainesse](#) qui ont permis de concevoir ce projet:
 
+* [Se connecter](sachem/_Contribute/dossiersFonctionnels/P490_Se_connecter.pdf)
+* [MAJ Parametres](sachem/_Contribute/dossiersFonctionnels/P490_MAJ_Paramatres.pdf)
+* [MAJ Dossier étudiant](sachem/_Contribute/dossiersFonctionnels/P490_MAJ_Dossier_étudiant.pdf)
+* [MAJ Enseignant](sachem/_Contribute/dossiersFonctionnels/P490_MAJ_Enseignant.pdf)
+* [MAJ Etudiant](sachem/_Contribute/dossiersFonctionnels/P490_MAJ_Etudiant.pdf)
+* [MAJ Cours](sachem/_Contribute/dossiersFonctionnels/P490_MAJ_Cours.pdf)
+* [MAJ Groupe](sachem/_Contribute/dossiersFonctionnels/P490_MAJ_Groupe.pdf)
+* [MAJ Programmes offerts](sachem/_Contribute/dossiersFonctionnels/P490_MAJ_Programmes_offerts.pdf)
+* [Consulter cours](sachem/_Contribute/dossiersFonctionnels/P490_Consulter_cours.pdf)
+* [Importer données](sachem/_Contribute/dossiersFonctionnels/P490_Importer_données.pdf)
+* [Gérer inscription](sachem/_Contribute/dossiersFonctionnels/P490_Gérer_inscription.pdf)
+* [Signer contrat engagement](sachem/_Contribute/dossiersFonctionnels/P490_Signer_contrat_engagement.pdf)
+* [Importer données - Service Windows - Différé](sachem/_Contribute/dossiersFonctionnels/P540_ImporterDonnées.pdf)
 
 ## Captures
 
