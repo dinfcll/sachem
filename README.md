@@ -171,8 +171,8 @@ Voici la liste des dossiers fonctionnels conçus par [Josée Lainesse](#) qui on
 
 Merci à nos principaux concepteurs, en ordre alphabétique:
 
-Robert Ableson,
-Pierre Bégin,
+[Robert Ableson](https://github.com/robertableson),
+[Pierre Bégin](https://github.com/0169109),
 [Anthony Benoit-Caron](https://github.com/Anthobc),
 Marie-Christine Boilard,
 [Simon Huard](https://github.com/simHuard),
