@@ -5,6 +5,8 @@ using System.Security.Cryptography;
 using System.Web;
 using System.Web.Mvc;
 using sachem.Models;
+using System.Net;
+using static sachem.Classes_Sachem.ValidationAcces;
 
 namespace sachem.Controllers
 {
@@ -13,6 +15,7 @@ namespace sachem.Controllers
         private readonly SACHEMEntities db = new SACHEMEntities();
 
         const int BROUILLON = 1;
+        [ValidationAccesSuper]
         public ActionResult Index()
         {
             var touteInscription = from inscription in db.Inscription
@@ -24,10 +27,20 @@ namespace sachem.Controllers
             return View(Rechercher());
         }
 
-        // GET: RechercheInscription/Details/5
-        public ActionResult Details(int id)
+        [ValidationAccesSuper]
+        public ActionResult Details(int? id)
         {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
             Inscription inscriptionPersonne = db.Inscription.Find(id);
+            if(inscriptionPersonne == null)
+            {
+                return HttpNotFound();
+            }
+
             List<Inscription> inscription = db.Inscription.Where(x => x.id_Pers == inscriptionPersonne.id_Pers).ToList();
             return View(inscription);
         }
