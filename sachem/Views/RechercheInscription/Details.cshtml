@@ -83,22 +83,27 @@
             </th>
             <th></th>
         </tr>
-
-        @foreach (var item in Model.Skip(1))
+        @if (Model.Count > 1)
+        {
+            foreach (var item in Model.Skip(1))
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DateInscription)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.p_TypeInscription.TypeInscription)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.p_StatutInscription.Statut)
+                    </td>
+                </tr>
+            }
+        }
+        else
         {
             <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.DateInscription)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.p_TypeInscription.TypeInscription)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.p_StatutInscription.Statut)
-                </td>
-                <td>
-                    @Html.ActionLink("Consulter", "Details", new { id = item.id_Inscription })
-                </td>
+                <td colspan="6">Aucun résultat trouvé</td>
             </tr>
         }
 </table>
