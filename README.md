@@ -63,7 +63,7 @@ Pour restaurer le [fichier backup](https://github.com/dinfcll/sachem/blob/jwalle
 
 ### Visual Studio
 
-Pour configurer Visual Studio avec notre répertoire Git de SACHEM, vous pouvez aller voir [cette page](sachem/wiki/Contribuer-au-projet-sur-Visual-Studio-2015) de notre wiki.
+Pour configurer Visual Studio avec notre répertoire Git de SACHEM, vous pouvez aller voir [cette page](https://github.com/dinfcll/sachem/wiki/Contribuer-au-projet-sur-Visual-Studio-2015) de notre wiki.
 
 #### Dépendances VS
 
