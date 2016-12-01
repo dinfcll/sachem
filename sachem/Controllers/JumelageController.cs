@@ -74,6 +74,21 @@ namespace sachem.Controllers
             ViewBag.Session = slSession;
         }
 
+        public void AjoutJumelage(int idTuteur,int idEleveAide, string jour, int minutes)
+        {
+            int idJour = (int)Enum.Parse(typeof(Semaine), jour);
+            Jumelage ajoutJumelage = new Jumelage();
+            ajoutJumelage.consecutif = false;
+            ajoutJumelage.DateDebut = new DateTime();
+            ajoutJumelage.DateFin = null;
+            ajoutJumelage.id_Enseignant = 0;
+            ajoutJumelage.id_InscEleve = idEleveAide;
+            ajoutJumelage.id_InscrTuteur = idTuteur;
+            ajoutJumelage.id_Jour = idJour;
+            ajoutJumelage.id_Sess = sachem.Models.SessionBag.Current.id_Sess;
+            ajoutJumelage.minutes = minutes;
+        }
+
         [NonAction]
         public string RetourneNbreJumelageEtudiant(int count)
         {
