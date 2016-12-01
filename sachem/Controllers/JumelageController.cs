@@ -104,8 +104,6 @@ namespace sachem.Controllers
                 case 2:
                     statut = "Jumelé (2 fois)";
                     break;
-                default:
-                    break;
             }
             return statut;
         }
