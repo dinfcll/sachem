@@ -80,8 +80,8 @@ namespace sachem.Controllers
         public ActionResult EleveAide1()
         {
             listeCours();
-            listeCollege();
             return View();
+            //Ajouter session + etat du cours dropdown, enlever liste collège, terminer la première et la deuxième page en priorité
         }
         [NonAction]
         private int? JourANumero(string jour)
