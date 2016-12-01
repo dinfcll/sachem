@@ -185,6 +185,6 @@ Josée Lainesse,
 [Guillaume Prud'homme](https://github.com/GuillaumePrudhomme),
 [Louis-Roch Tessier](https://github.com/louisrochtessier),
 [Loïc Turgeon](https://github.com/loicturgeon),
-[Alexandre Venables](https://github.com/VenablesAu),
+[Alexandre Venables](https://github.com/VenablesA),
 [Cristian Zubieta](https://github.com/cristianzubieta),
 et nos supers [contribueurs](https://github.com/dinfcll/sachem/graphs/contributors).
