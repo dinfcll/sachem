@@ -38,7 +38,16 @@
             @Html.DisplayFor(modelItem => item.p_TypeInscription.TypeInscription)
         </td>
         <td>
-            @{ String count = ((sachem.Controllers.JumelageController)this.ViewContext.Controller).RetourneNbreJumelageEtudiant(item.Jumelage.Count()); }
+            @{  String count;
+                if (item.p_TypeInscription.id_TypeInscription == 1)
+                {
+                    count = ((sachem.Controllers.JumelageController)this.ViewContext.Controller).RetourneNbreJumelageEtudiant(item.Jumelage.Count());
+                }
+                else
+                {
+                    count = ((sachem.Controllers.JumelageController)this.ViewContext.Controller).RetourneNbreJumelageEtudiant(item.Jumelage1.Count());
+                }
+            }
             @(count)
         </td>
 
