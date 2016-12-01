@@ -10,7 +10,8 @@
 * [Développement](#développement)
     * [Matériels nécessaires](#matériels-nécessaires)
         * [SQL Server](#sql-server)
-        * [VS Dépendances](#vs-dépendances)
+        * [Visual Studio](#visual-studio)
+            * [Dépendances VS](#dépendances-vs)
     * [Commencer](#commencer)
         * [Web.config](#webconfig)
         * [Navigation sur le site](#navigation-sur-le-site)
@@ -60,7 +61,11 @@ Pour l'installation de l'application SQL Server 2016 Developper, suivez [cette d
 
 Pour restaurer le [fichier backup](https://github.com/dinfcll/sachem/blob/jwallet-readme-doc/sachem/_Contribute/sachem.bak) de la base de données, suivez [cette documentation](http://www.howtogeek.com/50354/restoring-a-sql-database-backup-using-sql-server-management-studio/)
 
-### VS Dépendances
+### Visual Studio
+
+Pour configurer Visual Studio avec notre répertoire Git de SACHEM, vous pouvez aller voir [cette page](sachem/wiki/Contribuer-au-projet-sur-Visual-Studio-2015) de notre wiki.
+
+#### Dépendances VS
 
 Le projet contient certaines dépendances à des paquets NuGet dans Visual Studio. Utilisez le gestionnaire NuGet disponible dans Visual Studio pour les installer s'ils ne le sont pas:
 - ASP.Net
