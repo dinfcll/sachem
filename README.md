@@ -63,7 +63,7 @@ Pour restaurer le [fichier backup](https://github.com/dinfcll/sachem/blob/jwalle
 
 ### Visual Studio
 
-Pour configurer Visual Studio avec notre répertoire Git de SACHEM, vous pouvez aller voir [cette page](wiki/Contribuer-au-projet-sur-Visual-Studio-2015) de notre wiki.
+Pour configurer Visual Studio avec notre répertoire Git de SACHEM, vous pouvez aller voir [cette page](sachem/wiki/Contribuer-au-projet-sur-Visual-Studio-2015) de notre wiki.
 
 #### Dépendances VS
 
@@ -80,7 +80,7 @@ Cloner le projet par ligne de commande Git:
 
 `git clone https://github.com/dinfcll/sachem.git`
 
-Une fois chargé, assurez-vous que votre connexion à la BD de SACHEM, dans le fichier [web.config](webconfig), correspond bien à celui de votre usager dans SQL Server.
+Une fois chargé, assurez-vous que votre connexion à la BD de SACHEM, dans le fichier [web.config](#webconfig), correspond bien à celui de votre usager dans SQL Server.
 
 ### Web.config
 
