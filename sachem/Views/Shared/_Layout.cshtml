@@ -88,7 +88,7 @@
         </div>
     </div>
     <div class="container body-content">
-        <div class="progres hide">
+        <div class="progres hide" id="mainProgressBar">
             <div class="indeterminate"></div>
         </div>
         @RenderBody()
@@ -100,7 +100,21 @@
             </a></p>
         </footer>
     </div>
-
+    <script>
+        $("input[type='submit']").on("click", function () {
+            window.onbeforeunload = function () {
+                $("#mainProgressBar").removeClass('hide');
+            }
+               
+        });
+        $("a").on("click", function () {
+            var href = String($(this).attr("href"));
+            var bHref = Boolean($(this).attr("href"));
+            var bTarget = Boolean($(this).attr("target"));
+            if(href.charAt(0)!="#" && bHref && !bTarget)
+                $("#mainProgressBar").removeClass('hide');
+        });
+    </script>
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
