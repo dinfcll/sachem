@@ -77,7 +77,12 @@ namespace sachem.Controllers
                 return View();
             }
         }
-
+        public ActionResult EleveAide1()
+        {
+            listeCours();
+            listeCollege();
+            return View();
+        }
         [NonAction]
         private int? JourANumero(string jour)
         {

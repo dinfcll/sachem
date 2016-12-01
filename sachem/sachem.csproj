@@ -479,7 +479,7 @@
     <Content Include="Views\Inscription\_Boutons.cshtml" />
     <Content Include="Views\Etudiant\_DeleteProgEtu.cshtml" />
     <Content Include="Views\Shared\Ferme.cshtml" />
-    <Content Include="Views\Inscription\Eleveaide.cshtml" />
+    <Content Include="Views\Inscription\EleveAide1.cshtml" />
     <Content Include="Views\Jumelage\Details.cshtml" />
     <Content Include="Views\Jumelage\Index.cshtml" />
     <Content Include="Views\Jumelage\_RechercheEtudiantInscrit.cshtml" />
@@ -491,7 +491,7 @@
     <Content Include="Views\Shared\_CoursReussis.cshtml" />
     <Content Include="Views\Inscription\TBenevole.cshtml" />
     <Content Include="Views\Shared\_LigneCoursReussi.cshtml" />
-    <Content Include="Views\Inscription\_CoursEleve.cshtml" />
+    <Content Include="Views\Inscription\_AjoutCours.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

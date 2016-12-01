@@ -1,5 +1,4 @@
-﻿@model sachem.Models
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 @{
     ViewBag.Title = "Inscription au service de Sachem - Élève aidé";
 }
@@ -9,7 +8,8 @@
     @using (Html.BeginForm())
     {
         @Html.AntiForgeryToken()
-        @Html.Partial("_CoursEleve")
+        @Html.Partial("_AjoutCours");
+
 
     }
 </div>
