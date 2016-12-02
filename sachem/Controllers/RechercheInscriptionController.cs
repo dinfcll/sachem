@@ -18,6 +18,7 @@ namespace sachem.Controllers
         const int BROUILLON = 1;
         const int ACCEPTE = 3;
         const int REFUSE = 5;
+
         [ValidationAccesSuper]
         public ActionResult Index()
         {
