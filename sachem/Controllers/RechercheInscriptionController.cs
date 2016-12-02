@@ -7,6 +7,7 @@ using System.Web.Mvc;
 using sachem.Models;
 using System.Net;
 using static sachem.Classes_Sachem.ValidationAcces;
+using System.Data.Entity;
 
 namespace sachem.Controllers
 {
@@ -76,18 +77,20 @@ namespace sachem.Controllers
 
         // POST: RechercheInscription/Edit/5
         [HttpPost]
-        public ActionResult Edit(List<Inscription> inscription)
+        public ActionResult Edit(int id_Inscription, int id_Statut)
         {
-            try
+            var inscription = db.Inscription.FirstOrDefault(x => x.id_Inscription == id_Inscription);
+            if(inscription != null && inscription.id_Sess == db.Session.Max(s => s.id_Sess))
             {
-                // TODO: Add update logic here
+                inscription.id_Statut = id_Statut;
+                db.Entry(inscription).State = EntityState.Modified;
+                db.SaveChanges();
 
-                return RedirectToAction("Index");
+                TempData["Success"] = "Inscription modifiée avec succès!";
+                return RedirectToAction("Details","RechercheInscription",new { id = id_Inscription });
             }
-            catch
-            {
-                return View();
-            }
+            TempData["Erreur"] = "Erreur lors de la modification de l'inscription. N'oubliez pas qu'il est impossible de modifier l'inscription des anciennes sessions.";
+            return RedirectToAction("Details", "RechercheInscription", new { id = id_Inscription });
         }
 
         // GET: RechercheInscription/Delete/5
@@ -149,9 +152,9 @@ namespace sachem.Controllers
             var type = 0;
             var statut = 0;
 
-            if (Request.RequestType == "GET" && Session["DernRechCours"] != null && (string)Session["DernRechCoursUrl"] == Request.Url?.LocalPath)
+            if (Request.RequestType == "GET" && Session["DernRechInsc"] != null && (string)Session["DernRechInscUrl"] == Request.Url?.LocalPath)
             {
-                var anciennerech = (string)Session["DernRechCours"];
+                var anciennerech = Session["DernRechInsc"].ToString();
                 var tanciennerech = anciennerech.Split(';');
 
                 if (tanciennerech[0] != "")
@@ -160,11 +163,11 @@ namespace sachem.Controllers
                 }
                 if (tanciennerech[1] != "")
                 {
-                    type = int.Parse(tanciennerech[0]);
+                    type = int.Parse(tanciennerech[1]);
                 }
                 if (tanciennerech[2] != "")
                 {
-                    statut = int.Parse(tanciennerech[0]);
+                    statut = int.Parse(tanciennerech[2]);
                 }
             }
             else
@@ -188,11 +191,11 @@ namespace sachem.Controllers
 
 
             var inscription = from c in db.Inscription
-                              where ((c.id_Sess == sess || sess == 0) && (c.id_Statut == type || type == 0) && (c.id_TypeInscription == statut || statut == 0))
+                              where ((c.id_Sess == sess || sess == 0) && (c.id_Statut == statut || statut == 0) && (c.id_TypeInscription == type || type == 0))
                         select c;
 
-            Session["DernRechCours"] = sess;
-            Session["DernRechCoursUrl"] = Request.Url?.LocalPath;
+            Session["DernRechInsc"] = sess + ";" + type + ";" + statut;
+            Session["DernRechInscUrl"] = Request.Url?.LocalPath;
 
             return inscription.ToList();
         }

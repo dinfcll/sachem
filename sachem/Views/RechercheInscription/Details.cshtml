@@ -5,7 +5,12 @@
 }
 
 <h2>@ViewBag.Title</h2>
-
+<p class="text-success">
+    @TempData["Success"]
+</p>
+<p class="text-danger">
+    @TempData["Erreur"]
+</p>
 <div>
     <h4>Identification de l'étudiant</h4>
     <dl class="dl-horizontal">
@@ -73,7 +78,8 @@
 @using (Html.BeginForm("Edit", "RechercheInscription", FormMethod.Post, new { @class = "form-inline", role = "form" }))
 {
     <div class="form-actions no-color">
-        <span>Décision     </span>  @Html.DropDownListFor(model => model.First().id_Statut, (SelectList)ViewBag.Liste_Statut, new { @class = "form-control" })<input type="submit" value="Enregistrer" class="btn btn-default" />
+        @Html.HiddenFor(m => m.First().id_Inscription)
+        <span>Décision     </span>  @Html.DropDownListFor(model => model.First().id_Statut, (SelectList)ViewBag.Liste_Statut, new { @class = "form-control" }) <input type="submit" value="Enregistrer" class="btn btn-default" />
         @Html.ActionLink("Acceder au jumelage", "Details", "Jumelage", new { id = Model.First().id_Inscription},null) <br /> <br />
     </div>
 }
