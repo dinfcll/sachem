@@ -15,14 +15,14 @@ namespace sachem.Controllers
         private readonly SACHEMEntities db = new SACHEMEntities();
 
         const int BROUILLON = 1;
+        const int ACCEPTE = 3;
+        const int REFUSE = 5;
         [ValidationAccesSuper]
         public ActionResult Index()
         {
             var touteInscription = from inscription in db.Inscription
                                    where inscription.id_Statut != BROUILLON
                                    select inscription;
-            ListeStatut();
-            ListeTypeInscription();
 
             return View(Rechercher());
         }
@@ -135,7 +135,7 @@ namespace sachem.Controllers
         [NonAction]
         private void ListeStatut(int Statut = 0)
         {
-            var lStatut = from statut in db.p_StatutInscription select statut;
+            var lStatut = from statut in db.p_StatutInscription where statut.id_Statut != BROUILLON select statut;
             var slStatut = new List<SelectListItem>();
             slStatut.AddRange(new SelectList(lStatut, "id_Statut", "Statut", Statut));
 
@@ -199,8 +199,13 @@ namespace sachem.Controllers
 
         private void RemplirDropList(Inscription inscription)
         {
-
-            ViewBag.Liste_Statut = new SelectList(db.p_StatutInscription, "id_Statut", "Statut", inscription.id_Inscription);
+            var lStatut = from statut in db.p_StatutInscription where statut.id_Statut == ACCEPTE || statut.id_Statut == REFUSE select statut;
+            int vraiStatut = inscription.id_Statut;
+            if(vraiStatut != REFUSE)
+            {
+                vraiStatut = ACCEPTE;
+            }
+            ViewBag.Liste_Statut = new SelectList(lStatut, "id_Statut", "Statut", vraiStatut);
         }
     }
 }
