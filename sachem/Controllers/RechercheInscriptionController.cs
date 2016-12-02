@@ -134,11 +134,9 @@ namespace sachem.Controllers
                     int.TryParse(Request.Form["Statut"], out statut);
             }
 
-
             ListeSession(sess);
             ListeTypeInscription(type);
             ListeStatut(statut);
-
 
             var inscription = from c in db.Inscription
                               where ((c.id_Sess == sess || sess == 0) && (c.id_Statut == statut || statut == 0) && (c.id_TypeInscription == type || type == 0))
