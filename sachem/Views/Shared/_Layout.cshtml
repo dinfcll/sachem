@@ -74,8 +74,9 @@
                                 <li>@Html.ActionLink("Groupes", "Index", "Groupes")</li>
                             @if (SachemIdentite.TypeListeAdmin.Contains(SachemIdentite.ObtenirTypeUsager(Session)))
                             {
-                                <li>@Html.ActionLink("Jumelages","Index", "Jumelage")</li>
                                 <li>@Html.ActionLink("Horaire d'inscription", "EditHoraire", "Parametres")</li>
+                                <li>@Html.ActionLink("Inscription", "Index", "RechercheInscription")</li>
+                                <li>@Html.ActionLink("Jumelages", "Index", "Jumelage")</li>
                                 <li>@Html.ActionLink("Programmes offerts", "Index", "ProgrammesOfferts")</li>
                                 <li>@Html.ActionLink("Importer données", "Index", "Importer")</li>
                             }
