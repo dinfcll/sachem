@@ -110,6 +110,7 @@ namespace sachem.Controllers
             listeCours();
             listeCollege();
             return View();
+            SessionBag.Current.id_;
         }
         public ActionResult TBenevole()
         {
@@ -143,18 +144,21 @@ namespace sachem.Controllers
             return PartialView("_LigneCoursReussi");
         }
         [HttpPost]
-        public void Poursuivre()
+        public void Poursuivre(string[][] values)
         {
+            CoursSuivi cs = new CoursSuivi();    
+                    
+            /*test.cours;
+            test.college;
+            test.resultat;
+
+            bd.save(test);
+            return RedirectToAction page suivante;*/
         }
         [HttpPost]
         public string ErreurCours()
         {
             return Messages.I_048();
         }
-        //[HttpPost]
-        //public JsonResult ValidCoursInscription()
-        //{
-
-        //}
     }
 }
