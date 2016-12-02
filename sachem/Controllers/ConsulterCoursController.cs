@@ -70,19 +70,16 @@ namespace sachem.Controllers
                 {
                     idPersonne = Convert.ToInt32(Request.Params["Personne"]);
                     ViewBag.Superviseur = idPersonne;
-
                 }
                 if (!String.IsNullOrEmpty(Request.Form["SelectSession"]))
                 {
                     idSess = Convert.ToInt32(Request.Form["SelectSession"]);
                     ViewBag.Session = idSess;
-
                 }
                 else if (!String.IsNullOrEmpty(Request.Params["Session"]))
                 {
                     idSess = Convert.ToInt32(Request.Params["Session"]);
                     ViewBag.Session = idSess;
-
                 }
                 else if (Request.Form["Session"] == null)
                     idSess = Convert
