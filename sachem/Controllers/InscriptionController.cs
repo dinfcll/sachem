@@ -80,6 +80,7 @@ namespace sachem.Controllers
         public ActionResult EleveAide1()
         {
             listeCours();
+            listeStatutCours();
             return View();
             //Ajouter session + etat du cours dropdown, enlever liste collège, terminer la première et la deuxième page en priorité
         }
@@ -122,7 +123,7 @@ namespace sachem.Controllers
             listeCollege();
             return View();
         }
-        [HttpPost]
+        [NonAction]
         public void listeCours()
         {
             var lstCrs = from c in db.Cours orderby c.Nom select c;
@@ -131,7 +132,7 @@ namespace sachem.Controllers
             ViewBag.lstCours = slCrs;
             ViewBag.lstCours1 = slCrs;
         }
-        [HttpPost]
+        [NonAction]
         public void listeCollege()
         {
             var lstCol = from c in db.p_College orderby c.College select c;
@@ -139,13 +140,27 @@ namespace sachem.Controllers
             slCol.AddRange(new SelectList(lstCol, "id_College", "College"));
             ViewBag.lstCollege = slCol;
         }
-
+        [NonAction]
+        public void listeStatutCours()
+        {
+            var lstStatut = from c in db.p_StatutCours orderby c.id_Statut select c;
+            var slStatut = new List<SelectListItem>();
+            slStatut.AddRange(new SelectList(lstStatut, "id_Statut", "Statut"));
+            ViewBag.lstStatut = slStatut;
+        }
         [HttpPost]
         public ActionResult getLigneCours()
         {
             listeCours();
             listeCollege();
             return PartialView("_LigneCoursReussi");
+        }
+        [HttpPost]
+        public ActionResult getLigneCoursEleveAide()
+        {
+            listeCours();
+            listeStatutCours();
+            return PartialView("_LigneCoursReussiEleveAide");
         }
         [HttpPost]
         public void Poursuivre()
