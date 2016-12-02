@@ -4,7 +4,7 @@
 @{ IQueryable<Inscription> listeJumeleurs = ((sachem.Controllers.JumelageController)this.ViewContext.Controller)
                                                   .RetourneJumeleurs(Model.id_Inscription, Model.id_TypeInscription, Model.id_Sess);
  }
-@if (listeJumeleurs.Count()>0)
+@if (listeJumeleurs.Count() > 0)
 {
 <h4 class="page-header">Jumelé à</h4>
 

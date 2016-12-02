@@ -249,10 +249,10 @@ textarea {
     text-decoration:none;
     color:#444;
 }
-.checkzone
+.checkzone input[type=checkbox]
 {
     width:25px;
-    top:-1px;
     height:25px;
+    top:-1px;
     background-size:100%; 
 }

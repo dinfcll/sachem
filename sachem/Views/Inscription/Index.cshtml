@@ -96,10 +96,10 @@
                         </td>
                             @foreach (var w in v.Value)
                             {
-                                <td class="text-center">
+                                <td class="text-center checkzone">
                                     @Html.CheckBox("horaireCheckbox", false, htmlAttributes: new
                                {
-                                   @class = "control-label col-md-2 checkzone",
+                                   @class = "control-label",
                                    @id = w,
                                    @value = w
                                })

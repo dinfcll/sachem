@@ -19,7 +19,7 @@ namespace sachem.Controllers
         private const int HEURE_FIN = 18;
         private const int DUREE_RENCONTRE = 90;
 
-        [ValidationAcces.ValidationAccesInscription]
+        //[ValidationAcces.ValidationAccesInscription]
         // GET: Inscription
         public ActionResult Index()
         {
@@ -27,8 +27,7 @@ namespace sachem.Controllers
             return View();
         }
 
-
-        [ValidationAcces.ValidationAccesInscription]
+        //[ValidationAcces.ValidationAccesInscription]
         [HttpPost]
         public ActionResult Index(int typeInscription, string[] jours )
         {
@@ -79,7 +78,7 @@ namespace sachem.Controllers
                         return RedirectToAction("EleveAide1");
                     case 2: // Tuteur de cours
                         return RedirectToAction("Index");
-                    case 3: //Tuteur de bénévole
+                    case 3: //Tuteur bénévole
                     case 4: //Tuteur rémunéré
                         return RedirectToAction("Index");
                     default:
@@ -95,7 +94,12 @@ namespace sachem.Controllers
         [NonAction]
         public List<string> RetourneListeJours()
         {
-            return new List<string> { "Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi" };
+            List<string> Jours = new List<string>();
+            for (int i = 1; i < 6; i++)
+            {
+                Jours.Add(((Semaine)i).ToString());
+            }
+            return Jours.ToList();
         }
 
         [NonAction]
