@@ -1,80 +1,160 @@
-﻿@using sachem.Models
-<h4 class="page-header">Jumelages possibles</h4>
-<style>.hover-student{background-color:#f9f9f9;} .hover-student:hover{background-color:#eee;} .nodeco{color:#444;}.nodeco:hover{color:#444;text-decoration:none;}.nodeco:not(:hover){text-decoration:none;color:#444;}</style>
-<div class="panel-group" id="accordion">
-@for (int k = 0; k < 3; k++)
+﻿@model sachem.Models.Inscription 
+@using sachem.Models
+@using sachem.Controllers
+@{ List<Inscription> listeJumeleursPotentiels = ((sachem.Controllers.JumelageController)this.ViewContext.Controller)
+                                    .RetourneJumeleursPotentiels(Model.id_Inscription, Model.id_TypeInscription, Model.id_Sess);
+    int k = 0; }
+<script>
+    function AjoutModal(jour, minutes, idTuteur, idEleveAide, nomTuteur, nomEleveAide) {
+        var modal = document.getElementById('modalAjout')
+        var boutonAjout = document.getElementById('btnAjout')
+        document.getElementById('modal-tuteur').textContent = nomTuteur;
+        document.getElementById('modal-eleve').innerHTML = nomEleveAide;
+        document.getElementById('modal-idTuteur').textContent = idTuteur;
+        document.getElementById('modal-idEleveAide').textContent = idEleveAide;
+        modal.style.display = 'block';
+        boutonAjout.onclick = function () {
+            Ajout(idTuteur, idEleveAide, jour, minutes);
+        }
+    }
+
+    function Ajout(idTuteur, idEleveAide, jour, minutes) {
+        $.ajax({
+            url: "/Jumelage/AjoutJumelage",
+            data: { "idTuteur": idTuteur, "idEleveAide": idEleveAide, "Jour": jour, "minutes": minutes },
+            type: "POST",
+            success: function () {
+                location.reload(true);
+            },
+            error: function () {
+                location.reload(true);
+            }
+        });
+    }
+</script>
+@if (listeJumeleursPotentiels.Count() > 0)
 {
-    <div class="panel panel-default">
-        <div class="hover-student">
-            <a class="nodeco" data-toggle="collapse" data-parent="#accordion" href="#collapse_@k">
-                <table>
-                    <tr>
-                        <th class="panel-heading  panel-title col-sm-1">
+    <h4 class="page-header">Jumelages possibles</h4>
 
-                            <i class="material-icons col-sm-1" style="margin-top:-4px;">people</i>
+    <div class="panel-group" id="accordion">
 
-                        </th>
-                        <th class="panel-heading panel-title col-sm-7">
-                           Nom, Prenom
-                         
-                        </th>
-                        <th class="panel-heading panel-title col-sm-2">
-                           No de DA
-                    
-                        </th>
-                        <th class="panel-heading panel-title col-sm-2">
-                            Type d'inscription
-
-                        </th>
-                        <th class="panel-heading col-sm-1">
-                            <a href="#">
-                            Accéder
-                            </a>
-                        </th>
-                    </tr>
-                </table>
-            </a>
-        </div>
-        <div id="collapse_@k" class="panel-collapse collapse">
-            <!--table de dispos-->
-            <table class="panel-body table-bordered table-striped col-sm-12">
-                @{string[] jour = new string[5] { "Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi" };}
-                <tr>
-                    <th class="col-sm-2 text-center" style="height:30px;font-weight:bold;color:white;background-color:#666;">Heures</th>
-                    @foreach (string j in jour)
-                    {
-                        <th class="col-sm-2 text-center" style="height:30px;font-weight:bold;color:white;background-color:#666;">@j</th>
-                    }
-                </tr>
-                @{ TimeSpan StartTime = TimeSpan.FromHours(8);
-                    int Difference = 30;
-                    int Rencontre = 90;
-                    int EntriesCount = 18;
-                    Dictionary<TimeSpan, TimeSpan> Entries = new Dictionary<TimeSpan, TimeSpan>();
-
-                    for (int i = 0; i < EntriesCount; i++)
-                    {
-                        Entries.Add(StartTime.Add(TimeSpan.FromMinutes(Difference * i)),//key = debut rencontre
-                                    StartTime.Add(TimeSpan.FromMinutes(Difference * i + Rencontre)));//value = fin rencontre
-                    }
-
-                    foreach (var e in Entries)
-                    {
-                        int heureCheckbox = 0; //  double minutesTotalesCheckBox = e.Value.TotalMinutes;
+    @foreach (var j in listeJumeleursPotentiels)
+    {
+        k++;
+        <div class="panel panel-default">
+            <div class="hover-student">
+                    <table>
                         <tr>
-                            <td class="text-center">
-                                @(e.Key.Hours)h@(e.Key.Minutes.ToString("00")) - @(e.Value.Hours)h@(e.Value.Minutes.ToString("00"))
-                            </td>
-                            @for (var j = 0; j < 5; j++)
-                            {
-                                @*ajouter la class alert-success au td a ces zones de dispo et le nbre de 'fit'*@
-                                <td id="@jour[j]@heureCheckbox.ToString()" value="@jour[j] - @heureCheckbox.ToString()"><center></center><i class="material-icons pull-right">person_add</i></td>
-                            }
+                            <th class="panel-heading col-sm-1">
+                                <a class="nodeco" data-toggle="collapse" data-parent="#accordion" href="#collapse_@k">
+                                    <i class="material-icons col-sm-1" style="margin-top:-4px;">people</i>
+                                </a>
+                            </th>
+                            <th class="panel-heading col-sm-6">
+                                <a class="nodeco" data-toggle="collapse" data-parent="#accordion" href="#collapse_@k">@j.Personne.NomPrenom </a>
+                            </th>
+                            <th class="panel-heading col-sm-2">
+                                <a class="nodeco" data-toggle="collapse" data-parent="#accordion" href="#collapse_@k">@j.Personne.Matricule7</a>
+                            </th>
+                            <th class="panel-heading  col-sm-3">
+                                <a class="nodeco" data-toggle="collapse" data-parent="#accordion" href="#collapse_@k">@j.p_TypeInscription.TypeInscription </a>
+                            </th>
+                            <th class="panel-heading col-sm-1">
+                                <a href="@j.id_Inscription">Accéder</a>
+                            </th>
                         </tr>
+                    </table>
+            </div>
+            <div id="collapse_@k" class="panel-collapse collapse">
+                <table class="table-bordered table-striped col-sm-12">
+                    @{ List<string> jours = ((sachem.Controllers.JumelageController)this.ViewContext.Controller)
+              .RetourneListeJoursSemaine();}
+                    <tr>
+                        <th class="col-sm-2 text-center" style="height:30px;font-weight:bold;color:white;background-color:#666;">Heures</th>
+                        @foreach (string jour in jours)
+                        {
+                            <th class="col-sm-2 text-center" style="height:30px;font-weight:bold;color:white;background-color:#666;">@jour</th>
+                        }
+                    </tr>
+                    @{ Dictionary<string, List<caseDisponibilite>> ListeDispoUsagerDeTableauDisponibilite =
+              ((sachem.Controllers.JumelageController)this.ViewContext.Controller)
+              .RetourneDisponibiliteJumelageUsager(@j.id_Inscription, @j.id_TypeInscription, @j.id_Sess); }
+                    @{
+                        foreach (var v in ListeDispoUsagerDeTableauDisponibilite)
+                        {
+                            <tr>
+                                <td class="text-center">
+                                    @(v.Key)
+                                </td>
+                                @foreach (var w in v.Value)
+                                {
+                                    if (w.EstDispoMaisJumele && !w.EstDispo)
+                                    {
+                                        if (!w.EstConsecutiveDonc3hrs)
+                                        {
+                                            <td class="text-center" style="background-color:#e57373;" id="@w.NomCase" name="@w.NomCase">Jumelé</td>
+                                        }
+                                        else
+                                        {
+                                            <td class="text-center" style="background-color:#e57373;" id="@w.NomCase" name="@w.NomCase"></td>
+                                        }
+                                    }
+                                    else if (w.EstDispoMaisJumele && w.EstDispo)
+                                    {
+                                        <td class="text-center" style="background-color:#b0bec5;" id="@w.NomCase" name="@w.NomCase">@w.NbreUsagerMemeDispo</td>
+                                    }
+                                    else if (w.EstDispo)
+                                    {
+                                        <td class="text-center" style="background-color:#81c784;" id="@w.NomCase" name="@w.NomCase">
+                                            @w.NbreUsagerMemeDispo                                                
+                                            @if (w.NbreUsagerMemeDispo > 0)
+                                            {
+                                                <a href="#" onclick="AjoutModal(
+                                                   @w.Jour,
+                                                   @v.Value,
+                                                   @j.id_Inscription, 
+                                                   @Model.id_Inscription, 
+                                                   @j.Personne.PrenomNom, 
+                                                   @Model.Personne.PrenomNom);"
+                                                    data-toggle="modal" data-target="#modalAjout" class="modal-open">
+                                                    <i class="material-icons" style="float:right;padding-right:5px;color:#fff;text-shadow: 2px 2px #999;">
+                                                        group_add
+                                                    </i>
+                                                </a>
+                                            }
+                                        </td>
+                                    }
+                                    else
+                                    {
+                                        <td class="text-center" id="@w.NomCase" name="@w.NomCase"></td>
+                                    }
+                                }
+                            </tr>
+                        }
                     }
-                }
-            </table>
+                </table>
+            </div>
+        </div>
+       }
+    </div>
+    <div class="container">
+        <div class="modal fade" id="modalAjout" role="dialog">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Création d'un jumelage entre tuteur et élève aidé.</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p>Êtes-vous certain de créer un jumelage entre <span id="modal-tuteur"></span> et <span id="modal-eleve"></span> pour
+                         la plage horaire de <span id="modal-plage-horaire-1"></span>?</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button id="btnAjout" type="button" data-dismiss="modal" class="btn btn-primary">Créer le jumelage</button>
+                        <button type="button" data-dismiss="modal" class="btn">Annuler</button>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
-    }
-</div>
+}

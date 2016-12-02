@@ -1,43 +1,54 @@
-﻿@using sachem.Models
-
-<h4 class="page-header">Disponibilités</h4>
+﻿@model sachem.Models.Inscription
+@using sachem.Controllers;
 
 <table class="table-bordered table-striped col-sm-12">
-@{string[] jour = new string[5] { "Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi" };}
+    @{ List<string> jours = ((sachem.Controllers.JumelageController)this.ViewContext.Controller)
+            .RetourneListeJoursSemaine();}
     <tr>
         <th class="col-sm-2 text-center" style="height:30px;font-weight:bold;color:white;background-color:#666;">Heures</th>
-        @foreach (string j in jour)
+        @foreach (string jour in jours)
         {
-            <th class="col-sm-2 text-center" style="height:30px;font-weight:bold;color:white;background-color:#666;">@j</th>
+            <th class="col-sm-2 text-center" style="height:30px;font-weight:bold;color:white;background-color:#666;">@jour</th>
         }
     </tr>
-    @{ TimeSpan StartTime = TimeSpan.FromHours(8);
-        int Difference = 30;
-        int Rencontre = 90;
-        int EntriesCount = 18;
-        Dictionary<TimeSpan, TimeSpan> Entries = new Dictionary<TimeSpan, TimeSpan>();
-
-        for (int i = 0; i < EntriesCount; i++)
+    @{ Dictionary<string, List<caseDisponibilite>> ListeDispoUsagerDeTableauDisponibilite = 
+            ((sachem.Controllers.JumelageController)this.ViewContext.Controller)
+            .RetourneDisponibiliteJumelageUsager(Model.id_Inscription, Model.id_TypeInscription, Model.id_Sess); }
+    @{
+        foreach (var v in ListeDispoUsagerDeTableauDisponibilite)
         {
-            Entries.Add(StartTime.Add(TimeSpan.FromMinutes(Difference * i)),
-                        StartTime.Add(TimeSpan.FromMinutes(Difference * i + Rencontre)));
-        }
-
-        foreach (var e in Entries)
-        {
-            int heureCheckbox = 0; //  double minutesTotalesCheckBox = e.Value.TotalMinutes;
             <tr>
                 <td class="text-center">
-                @(e.Key.Hours)h@(e.Key.Minutes.ToString("00")) - @(e.Value.Hours)h@(e.Value.Minutes.ToString("00"))
+                    @(v.Key)
                 </td>
-                @for (var j = 0; j < 5; j++)
+                @foreach (var w in v.Value)
                 {
-                    @*ajouter la class alert-success au td a ces zones de dispo et le nbre de 'fit'
-                    ajouter la class alert-danger a ces zones jumeler et le terme 'jumele'*@
-                    <td class="text-center" id = "@jour[j]@heureCheckbox.ToString()" value = "@jour[j] - @heureCheckbox.ToString()">
-                    </td>
+                    if (w.EstDispoMaisJumele && !w.EstDispo)
+                    {
+                        if (!w.EstConsecutiveDonc3hrs)
+                        {
+                            <td class="text-center" style="background-color:#e57373;" id="@w.NomCase" name="@w.NomCase">Jumelé</td>
+                        }
+                        else
+                        {
+                            <td class="text-center" style="background-color:#e57373;" id="@w.NomCase" name="@w.NomCase"></td>
+                        }
+                    }
+                    else if (w.EstDispoMaisJumele && w.EstDispo)
+                    {
+                        <td class="text-center" style="background-color:#b0bec5;" id="@w.NomCase" name="@w.NomCase">@w.NbreUsagerMemeDispo</td>
+                    }
+                    else if (w.EstDispo)
+                    {
+                        <td class="text-center" style="background-color:#81c784;" id="@w.NomCase" name="@w.NomCase">@w.NbreUsagerMemeDispo</td>
+                    }
+                    else
+                    {
+                    <td class="text-center" id = "@w.NomCase" name="@w.NomCase"></td>
+                    }
                 }
             </tr>
         }
     }
 </table>
+<br />

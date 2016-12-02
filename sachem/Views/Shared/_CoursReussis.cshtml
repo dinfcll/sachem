@@ -145,8 +145,7 @@
             else
             {
                 var coursReussis = listeCoursReussis();
-                console.log(coursReussis);
-                var postData = { values: coursReussis };
+                var postData = { values: coursReussis, coursInteret:coursInteresse };
                 $.ajax({
                     url: "/Inscription/Poursuivre",
                     type: "POST",
