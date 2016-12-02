@@ -1,27 +1,29 @@
 ﻿
+<style type="text/css">
+    .dropDownSess {
+        width: 150px;
+    }
+    .dropDownStatut {
+        width: 120px;
+    }
+</style>
 <div class="clearfix rowCourseReussisPadTop InfoCourCollege">
-    <div class="col-md-12">
-            <div class="form-group">
-                <label for="lstCours">Cours:</label>
-                <div class="row-md-2">
-                    @Html.DropDownList("lstCours", null, htmlAttributes: new { @class = "form-search ins-selectcours valLignecours dropDownCours" })
-                </div>
-            </div>
-        <br />
-            <div class="form-group">
-                <div class="col-md-2">
-                    @Html.DropDownList("lstStatut", null, htmlAttributes: new { @class = "form-search ins-selectcollege valLignecours dropDownStatut" })
-                </div>
-                <div class="col-md-2">
-                    @Html.DropDownList("lstSess", null, htmlAttributes: new { @class = "form-search ins-selectcollege valLignecours dropDownSess" })
-                </div>
-                <div class="col-md-4">
-                    <input type="text" class="form-control text-box single-line ins-text-box valLignecours" placeholder="Résultat" />
-                </div>
-            </div>
-      
-</div>
-    <div class="col-md-3">
-        <input type="button" value="Supprimer" style="float:right" class="btn btn-default btnSupprimerCours" />
+    <br />
+    <input type="button" span="6" value="Supprimer" style="float:right" class="btn btn-default btnSupprimerCours" />
+        <div class="input-group">
+            <span class="input-group-addon" id="basic-addon1">Cours</span>
+                @Html.DropDownList("lstCours", null, htmlAttributes: new { @class = "form-search ins-selectcours valLignecours dropDownCours" })
+        </div>
+        <div class="input-group">
+            <span class="input-group-addon" id="basic-addon2">Statut</span>
+                @Html.DropDownList("lstStatut", null, htmlAttributes: new { @class = "form-search ins-selectcollege valLignecours dropDownStatut" })
+        </div>
+    <div class="input-group">
+        <span class="input-group-addon" id="basic-addon2">Session</span>
+        @Html.DropDownList("lstSess", null, htmlAttributes: new { @class = "form-search ins-selectcollege valLignecours dropDownSess" })
+    </div>
+    <div class="input-group">
+        <span class="input-group-addon" id="basic-addon2">Résultat</span>
+        <input type="text" class="form-control text-box single-line ins-text-box valLignecours" placeholder="Résultat" />
     </div>
 </div>
