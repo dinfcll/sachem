@@ -6,8 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - Sachem</title>
-    @Styles.Render("~/Content/css")
-    @Styles.Render("~/Content/Site.css")
+    <link href="~/Content/css" rel="stylesheet" type="text/css" media="screen" />
     @Scripts.Render("~/bundles/modernizr")
     @Scripts.Render("~/Scripts/jquery-1.10.2.js")
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
@@ -22,13 +21,13 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <div style="position: absolute;">
-                    <img src="~/Images/logo-cegep.png" height="70" />
+                <div class="logo">
+                    <div class="cll"><div class="sachem"></div></div>                    
                 </div>
-                <b style="padding-left:80px;padding-top:12px;display:block;font-size:140%;color:white;bottom:0;">SACHEM</b>
+                @*<b style="padding-left:80px;padding-top:12px;display:block;font-size:140%;color:white;bottom:0;">SACHEM</b>*@
             </div>
             <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
+                <ul class="nav navbar-nav" style="padding-left:160px;">
                     @*On accède à la présente session afin de voir si l'on peut afficher certains éléments*@
                     <!--Ces liens sont à changer selon les controlleurs/vues des équipes.-->
 
@@ -89,7 +88,7 @@
         </div>
     </div>
     <div class="container body-content">
-        <div class="progres">
+        <div class="progres hide" id="mainProgressBar">
             <div class="indeterminate"></div>
         </div>
         @RenderBody()
@@ -101,7 +100,21 @@
             </a></p>
         </footer>
     </div>
-
+    <script>
+        $("input[type='submit']").on("click", function () {
+            window.onbeforeunload = function () {
+                $("#mainProgressBar").removeClass('hide');
+            }
+               
+        });
+        $("a").on("click", function () {
+            var href = String($(this).attr("href"));
+            var bHref = Boolean($(this).attr("href"));
+            var bTarget = Boolean($(this).attr("target"));
+            if(href.charAt(0)!="#" && bHref && !bTarget)
+                $("#mainProgressBar").removeClass('hide');
+        });
+    </script>
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)

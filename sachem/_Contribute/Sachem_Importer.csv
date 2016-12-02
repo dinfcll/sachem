@@ -1,0 +1,925 @@
+AnSession;Numero;Nom;Prenom;Sexe;DateNaissance;NoCours;NoGroupe;TitreLong;EnsNom;EnsPrenom;NoProgramme;TitreCourt;AnneeVersion
+20163;201668114;Adiaheno-Kaldjob              ;Youcef              ;M;31/12/1998;2011A5LL;1;Mathématiques I pour chimie et biologie;St-Onge;Alexandre;8106;Tremplin DEC;2015
+20163;201668049;Alain                         ;Yoan                ;M;31/12/1998;201NYA05;1;Calcul différentiel;Laflamme;Nadia;8004;Préalables universitaires;2013
+20163;201667704;Alain                         ;Yasmina             ;F;31/12/1996;2012A4LL;1;Mathématiques en mécanique 1;Plourde;Frédéric;8116;Tremplin - Passage interpr;2015
+20163;201667691;Allard                        ;Yanrick             ;M;31/10/1997;2011C5LL;1;Mathématique en électronique industrielle II;Bourget;Patrick;243C0;Technol électroniq industr;2007
+20163;201667647;Allard                        ;Yannick             ;M;31/10/1997;201NYA05;2;Calcul différentiel;Fortin;Steve;200B0;Sciences de la nature;1998
+20163;201667593;Allard-Aubut                  ;Yannick             ;M;31/08/1998;201NYC05;1;Algèbre linéaire et géométrie vectorielle;Carel;Jacques;8004;Préalables universitaires;2013
+20163;201667587;Alliche                       ;Xavier              ;M;31/08/1998;201NYA05;1;Calcul différentiel;Laflamme;Nadia;8004;Préalables universitaires;2013
+20163;201667523;Ampleman                      ;Xavier              ;M;31/08/1998;360300RE;3;Méthodes quantitatives en sciences humaines;Rousseau;Martin;8126;Tremplin - Commandite;2015
+20163;201667118;Anctil                        ;Xavier              ;M;31/08/1992;2011E5LL;3;Statistique;Genest;Maxime;8126;Tremplin - Commandite;2015
+20163;201667100;Anctil-Duquette               ;Xavier              ;M;31/08/1992;2011A5LL;1;Mathématiques I pour chimie et biologie;St-Onge;Alexandre;8116;Tremplin - Passage interpr;2015
+20163;201666923;Andrews                       ;Xavier              ;M;31/05/1999;201NYA05;3;Calcul différentiel;Fortin;Steve;420AB;420.A0 spec. infor. indust;2000
+20163;201666795;Arsenault                     ;William             ;M;31/05/1999;2011A4LL;3;Mathématiques en architecture 1;Turcotte;Annie;221A0;Technologie l'architecture;2003
+20163;201666634;Arsenault                     ;William             ;M;31/05/1995;201NYA05;2;Calcul différentiel;Fortin;Steve;200B0;Sciences de la nature;1998
+20163;201666546;Asselin                       ;William             ;M;31/03/1999;360300RE;2;Méthodes quantitatives en sciences humaines;Fortin;Steve;300A3;Individu-Société ;2001
+20163;201666461;Asselin                       ;William             ;M;30/12/1998;201302RE;1;Méthodes quantitatives avancées;Bouchard;Véronique;300A2;Sociétés-Monde;2001
+20163;201666361;Asselin                       ;William             ;M;30/12/1979;201NYA05;2;Calcul différentiel;Fortin;Steve;200B0;Sciences de la nature;1998
+20163;201666096;Asselin-Néron                 ;William             ;M;30/11/1997;2011E5LL;3;Statistique;Genest;Maxime;8126;Tremplin - Commandite;2015
+20163;201665960;Aubé                          ;William             ;M;30/10/1998;201NYASN;1;Calcul différentiel;Plourde;Frédéric;200B1;ActionSciences;2012
+20163;201665452;Aubert                        ;William             ;M;30/10/1998;201NYASN;1;Calcul différentiel;Plourde;Frédéric;200B1;ActionSciences;2012
+20163;201665439;Aubé-Villeneuve               ;William             ;M;30/10/1997;2012C5LL;1;Les grandes idées scientifiques;Nadeau;Lucie;700B0;Histoire et civilisation;2002
+20163;201665364;Aubin                         ;William             ;M;30/09/1998;2011C3LL;1;Statistique pour chimie et biologie;Genest;Maxime;210AB;210A0 Spéc chimie analyti;2001
+20163;201665293;Aubut                         ;William             ;M;30/09/1997;201203RE;1;Calcul II;Breton;Josée;420AC;420.A0 spec. gest res info;2000
+20163;201665007;Audet                         ;William             ;M;30/09/1996;2012A4LL;1;Mathématiques en mécanique 1;Plourde;Frédéric;8116;Tremplin - Passage interpr;2015
+20163;201664919;Audet                         ;William             ;M;30/09/1995;360300RE;2;Méthodes quantitatives en sciences humaines;Fortin;Steve;8116;Tremplin - Passage interpr;2015
+20163;201664801;Audet                         ;William             ;M;30/09/1991;360300RE;3;Méthodes quantitatives en sciences humaines;Rousseau;Martin;8116;Tremplin - Passage interpr;2015
+20163;201664742;Auger-Labadie                 ;William             ;M;30/08/1998;20101550;1;Mise à niveau pour Mathématique, séquence Technico-sciences de la 5e secondaire;Turcotte;Annie;8106;Tremplin DEC;2015
+20163;201664401;Austin                        ;William             ;M;30/08/1995;201NYC05;2;Algèbre linéaire et géométrie vectorielle;Carel;Jacques;8116;Tremplin - Passage interpr;2015
+20163;201664355;Ayotte-Nadeau                 ;William             ;M;30/07/1994;201NYA05;3;Calcul différentiel;Fortin;Steve;8116;Tremplin - Passage interpr;2015
+20163;201664319;Babineau                      ;William             ;M;30/06/1999;2012A4LL;2;Mathématiques en mécanique 1;Plourde;Frédéric;8116;Tremplin - Passage interpr;2015
+20163;201663806;Bachedi                       ;Vincent             ;M;30/06/1999;20101550;1;Mise à niveau pour Mathématique, séquence Technico-sciences de la 5e secondaire;Turcotte;Annie;300A2;Sociétés-Monde;2001
+20163;201663801;Badeau                        ;Vincent             ;M;30/06/1999;360300RE;3;Méthodes quantitatives en sciences humaines;Rousseau;Martin;300A3;Individu-Société ;2001
+20163;201663781;Baillargeon                   ;Vincent             ;M;30/06/1998;2011A5LL;1;Mathématiques I pour chimie et biologie;St-Onge;Alexandre;210AB;210A0 Spéc chimie analyti;2001
+20163;201663749;Baillargeon                   ;Vincent             ;M;30/06/1997;2011A5LL;2;Mathématiques I pour chimie et biologie;St-Onge;Alexandre;210AB;210A0 Spéc chimie analyti;2001
+20163;201663699;Baillargeon                   ;Vincent             ;M;30/05/1997;2011A5LL;1;Mathématiques I pour chimie et biologie;St-Onge;Alexandre;210AA;210A0 Spéc biotechnologies;2001
+20163;201663504;Barré-Lapointe                ;Vicky               ;F;30/05/1997;20101550;1;Mise à niveau pour Mathématique, séquence Technico-sciences de la 5e secondaire;Turcotte;Annie;8116;Tremplin - Passage interpr;2015
+20163;201663497;Bastille-Sirois               ;Vichara             ;F;30/04/1998;201NYA05;2;Calcul différentiel;Fortin;Steve;200B0;Sciences de la nature;1998
+20163;201663392;Beaudoin                      ;Vanessa             ;F;30/04/1998;201203RE;1;Calcul II;Breton;Josée;410B0;Tech comptabilité gestion;2002
+20163;201663355;Beaudoin                      ;Vanessa             ;F;30/03/1999;2011E5LL;1;Statistique;Bouchard;Véronique;410B0;Tech comptabilité gestion;2002
+20163;201663343;Beaudoin                      ;Vanessa             ;F;30/03/1998;2012A4LL;1;Mathématiques en mécanique 1;Plourde;Frédéric;241A0;Techniq génie mécanique;1999
+20163;201663255;Beaudoin                      ;Valérie             ;F;30/03/1998;2012A4LL;1;Mathématiques en mécanique 1;Plourde;Frédéric;241A0;Techniq génie mécanique;1999
+20163;201663246;Beaulieu                      ;Valérie             ;F;30/03/1997;2011A4LL;3;Mathématiques en architecture 1;Turcotte;Annie;221A0;Technologie l'architecture;2003
+20163;201663090;Beaulieu                      ;Valérie             ;F;30/01/1999;2011A4LL;3;Mathématiques en architecture 1;Turcotte;Annie;221A0;Technologie l'architecture;2003
+20163;201662970;Beaulieu                      ;Valérie             ;F;29/12/1998;2011A4LL;2;Mathématiques en architecture 1;Bourget;Patrick;221A0;Technologie l'architecture;2003
+20163;201662925;Beaulne                       ;Valérie             ;F;29/12/1997;360300RE;2;Méthodes quantitatives en sciences humaines;Fortin;Steve;300A3;Individu-Société ;2001
+20163;201662634;Beaupré                       ;Valérie             ;F;29/12/1997;20101550;1;Mise à niveau pour Mathématique, séquence Technico-sciences de la 5e secondaire;Turcotte;Annie;8106;Tremplin DEC;2015
+20163;201662363;Beauregard                    ;Ugo                 ;M;29/12/1989;201302RE;3;Méthodes quantitatives avancées;Genest;Maxime;420AC;420.A0 spec. gest res info;2000
+20163;201662293;Bédard                        ;Tristan             ;M;29/11/1998;360300RE;1;Méthodes quantitatives en sciences humaines;Laflamme;Nadia;300A1;Administration-Économie;2001
+20163;201662288;Bédard                        ;Tristan             ;M;29/11/1996;201302RE;3;Méthodes quantitatives avancées;Genest;Maxime;300A2;Sociétés-Monde;2001
+20163;201662134;Bédard-Chrétien               ;Tristan             ;M;29/11/1990;2011A5LL;2;Mathématiques I pour chimie et biologie;St-Onge;Alexandre;210AA;210A0 Spéc biotechnologies;2001
+20163;201662077;Begin                         ;Tristan             ;M;29/10/1997;201NYC05;2;Algèbre linéaire et géométrie vectorielle;Carel;Jacques;200B0;Sciences de la nature;1998
+20163;201661963;Bégin                         ;Tomy                ;M;29/10/1996;360300RE;2;Méthodes quantitatives en sciences humaines;Fortin;Steve;300A1;Administration-Économie;2001
+20163;201661915;Begin-Godbout                 ;Tommy-Claude        ;M;29/10/1985;2011A4LL;2;Mathématiques en architecture 1;Bourget;Patrick;221A0;Technologie l'architecture;2003
+20163;201661880;Bélanger                      ;Tommy               ;M;29/09/1995;201302RE;3;Méthodes quantitatives avancées;Genest;Maxime;300A3;Individu-Société ;2001
+20163;201661726;Bélanger                      ;Tommy               ;M;29/08/1999;20101550;1;Mise à niveau pour Mathématique, séquence Technico-sciences de la 5e secondaire;Turcotte;Annie;8106;Tremplin DEC;2015
+20163;201661706;Bélanger                      ;Timy Regina Daniela ;F;29/08/1999;201NYA05;1;Calcul différentiel;Laflamme;Nadia;700B0;Histoire et civilisation;2002
+20163;201661687;Bélanger                      ;Thomas              ;M;29/08/1998;360300RE;2;Méthodes quantitatives en sciences humaines;Fortin;Steve;300A3;Individu-Société ;2001
+20163;201661628;Bélanger                      ;Thomas              ;M;29/08/1997;360300RE;2;Méthodes quantitatives en sciences humaines;Fortin;Steve;300A1;Administration-Économie;2001
+20163;201661590;Bélanger                      ;Thomas              ;M;29/08/1997;2011A4LL;2;Mathématiques en architecture 1;Bourget;Patrick;221A0;Technologie l'architecture;2003
+20163;201661178;Bélanger                      ;Thinhinane          ;F;29/07/1999;2012A4LL;2;Mathématiques en mécanique 1;Plourde;Frédéric;241D0;Technol maintenance indust;2003
+20163;201661152;Bélanger                      ;Théo                ;M;29/07/1999;201NYA05;4;Calcul différentiel;St-Onge;Alexandre;200B0;Sciences de la nature;1998
+20163;201660075;Bélanger                      ;Thelsa              ;F;29/07/1995;2011A5LL;1;Mathématiques I pour chimie et biologie;St-Onge;Alexandre;210AA;210A0 Spéc biotechnologies;2001
+20163;201644196;Béliveau                      ;Tanya               ;F;29/06/1999;201NYC05;2;Algèbre linéaire et géométrie vectorielle;Carel;Jacques;8004;Préalables universitaires;2013
+20163;201644191;Bell-Dupré                    ;Tania               ;F;29/06/1992;201NYA05;3;Calcul différentiel;Fortin;Steve;8004;Préalables universitaires;2013
+20163;201644020;Belleau                       ;Suzie               ;F;29/05/1999;201302RE;3;Méthodes quantitatives avancées;Genest;Maxime;420AA;420.A0 spec. inform. gest.;2000
+20163;201643979;Belleau                       ;Stevie              ;M;29/05/1998;201302RE;3;Méthodes quantitatives avancées;Genest;Maxime;420AA;420.A0 spec. inform. gest.;2000
+20163;201643944;Bellemare                     ;Steven              ;M;29/04/1999;201NYC05;1;Algèbre linéaire et géométrie vectorielle;Carel;Jacques;241A0;Techniq génie mécanique;1999
+20163;201642972;Bergeron                      ;Steven              ;M;29/04/1999;20101550;1;Mise à niveau pour Mathématique, séquence Technico-sciences de la 5e secondaire;Turcotte;Annie;8116;Tremplin - Passage interpr;2015
+20163;201642920;Bergeron                      ;Steve               ;M;29/04/1998;201302RE;2;Méthodes quantitatives avancées;Bouchard;Véronique;300A2;Sociétés-Monde;2001
+20163;201642884;Bergeron                      ;Steve               ;M;29/04/1998;201NYC05;1;Algèbre linéaire et géométrie vectorielle;Carel;Jacques;200B0;Sciences de la nature;1998
+20163;201642869;Bergeron                      ;Stéphany            ;F;29/03/1991;2012A4LL;2;Mathématiques en mécanique 1;Plourde;Frédéric;241D0;Technol maintenance indust;2003
+20163;201642848;Bergeron                      ;Stéphany            ;F;29/02/1992;2011A5LL;1;Mathématiques I pour chimie et biologie;St-Onge;Alexandre;210AA;210A0 Spéc biotechnologies;2001
+20163;201642826;Bergeron                      ;Stéphanie           ;F;29/01/1995;360300RE;3;Méthodes quantitatives en sciences humaines;Rousseau;Martin;8116;Tremplin - Passage interpr;2015
+20163;201642753;Bergeron-Martineau            ;Stéphanie           ;F;29/01/1994;20101550;1;Mise à niveau pour Mathématique, séquence Technico-sciences de la 5e secondaire;Turcotte;Annie;8116;Tremplin - Passage interpr;2015
+20163;201642718;Bernard-Fabre                 ;Stéphanie           ;F;29/01/1992;360300RE;3;Méthodes quantitatives en sciences humaines;Rousseau;Martin;300A1;Administration-Économie;2001
+20163;201642688;Bernatchez                    ;Stéphanie           ;F;28/12/1998;360300RE;1;Méthodes quantitatives en sciences humaines;Laflamme;Nadia;300A1;Administration-Économie;2001
+20163;201642667;Bernier                       ;Stéphanie           ;F;28/12/1998;2012C5LL;1;Les grandes idées scientifiques;Nadeau;Lucie;700B0;Histoire et civilisation;2002
+20163;201642644;Bernier                       ;Stéphanie           ;F;28/12/1996;20101550;1;Mise à niveau pour Mathématique, séquence Technico-sciences de la 5e secondaire;Turcotte;Annie;8116;Tremplin - Passage interpr;2015
+20163;201642560;Bernier                       ;Stéphanie           ;F;28/12/1996;201NYA05;3;Calcul différentiel;Fortin;Steve;300A2;Sociétés-Monde;2001
+20163;201642546;Bernier                       ;Stéphanie           ;F;28/12/1995;2012C5LL;1;Les grandes idées scientifiques;Nadeau;Lucie;700B0;Histoire et civilisation;2002
+20163;201642545;Berthiaume                    ;Stéphane            ;M;28/11/1997;2011A5LL;2;Mathématiques I pour chimie et biologie;St-Onge;Alexandre;210AA;210A0 Spéc biotechnologies;2001
+20163;201642484;Bérubé                        ;Steeven             ;M;28/11/1997;201NYA05;2;Calcul différentiel;Fortin;Steve;200B0;Sciences de la nature;1998
+20163;201642482;Bérubé-Lapointe               ;Stacy               ;F;28/11/1997;2011A5LL;1;Mathématiques I pour chimie et biologie;St-Onge;Alexandre;210AB;210A0 Spéc chimie analyti;2001
+20163;201642474;Bérubé-McGee                  ;Sophie              ;F;28/11/1996;201NYA05;2;Calcul différentiel;Fortin;Steve;200B0;Sciences de la nature;1998
+20163;201642408;Bétil                         ;Sohahiio            ;M;28/11/1989;201NYA05;4;Calcul différentiel;St-Onge;Alexandre;200B0;Sciences de la nature;1998
+20163;201642406;Bilodeau                      ;Simon-Pierre        ;M;28/10/1997;2011A5LL;2;Mathématiques I pour chimie et biologie;St-Onge;Alexandre;210AB;210A0 Spéc chimie analyti;2001
+20163;201642347;Bilodeau                      ;Simon-Pierre        ;M;28/10/1997;201DSN03;1;Mathématiques en mécanique 3;Carel;Jacques;241A0;Techniq génie mécanique;1999
+20163;201642344;Bilodeau                      ;Simon-Luc           ;M;28/10/1997;201NYA05;4;Calcul différentiel;St-Onge;Alexandre;8004;Préalables universitaires;2013
+20163;201642281;Bilodeau                      ;Simon               ;M;28/10/1997;2012A4LL;2;Mathématiques en mécanique 1;Plourde;Frédéric;241A0;Techniq génie mécanique;1999
+20163;201642258;Bisson                        ;Simon               ;M;28/10/1997;201NYA05;4;Calcul différentiel;St-Onge;Alexandre;200B0;Sciences de la nature;1998
+20163;201642196;Bisson                        ;Simon               ;M;28/09/1995;2011A4LL;3;Mathématiques en architecture 1;Turcotte;Annie;221A0;Technologie l'architecture;2003
+20163;201642190;Bizier                        ;Simon               ;M;28/09/1995;201NYA05;4;Calcul différentiel;St-Onge;Alexandre;200B0;Sciences de la nature;1998
+20163;201642185;Bizier                        ;Simon               ;M;28/08/1998;20101550;1;Mise à niveau pour Mathématique, séquence Technico-sciences de la 5e secondaire;Turcotte;Annie;8116;Tremplin - Passage interpr;2015
+20163;201642174;Bizier                        ;Simon               ;M;28/08/1998;201NYA05;1;Calcul différentiel;Laflamme;Nadia;200B0;Sciences de la nature;1998
+20163;201642160;Blais                         ;Sebastien           ;M;28/07/1999;2011A4LL;1;Mathématiques en architecture 1;Bourget;Patrick;221A0;Technologie l'architecture;2003
+20163;201642148;Blais                         ;Sarah-Maude         ;F;28/07/1998;2011A5LL;2;Mathématiques I pour chimie et biologie;St-Onge;Alexandre;210AA;210A0 Spéc biotechnologies;2001
+20163;201642122;Blanchet                      ;Sarah-Eve           ;F;28/06/1999;360300RE;2;Méthodes quantitatives en sciences humaines;Fortin;Steve;300A1;Administration-Économie;2001
+20163;201642081;Blaney                        ;Sarah-Aude          ;F;28/06/1998;2011A4LL;2;Mathématiques en architecture 1;Bourget;Patrick;221A0;Technologie l'architecture;2003
+20163;201642053;Blier                         ;Sarah-Aude          ;F;28/06/1998;2012A4LL;2;Mathématiques en mécanique 1;Plourde;Frédéric;241D0;Technol maintenance indust;2003
+20163;201642002;Blouin                        ;Sarah               ;F;28/06/1997;2011A5LL;2;Mathématiques I pour chimie et biologie;St-Onge;Alexandre;210AA;210A0 Spéc biotechnologies;2001
+20163;201641909;Blouin                        ;Sarah               ;F;28/06/1996;2011A4LL;2;Mathématiques en architecture 1;Bourget;Patrick;221A0;Technologie l'architecture;2003
+20163;201641789;Blouin                        ;Sarah               ;F;28/06/1995;360300RE;3;Méthodes quantitatives en sciences humaines;Rousseau;Martin;300A1;Administration-Économie;2001
+20163;201641728;Blouin-Journeault             ;Sarah               ;F;28/05/1997;2011A4LL;3;Mathématiques en architecture 1;Turcotte;Annie;221A0;Technologie l'architecture;2003
+20163;201641714;Bluteau                       ;Sarah               ;F;28/04/1999;360300RE;1;Méthodes quantitatives en sciences humaines;Laflamme;Nadia;300A3;Individu-Société ;2001
+20163;201641705;Boilard                       ;Sarah               ;F;28/04/1999;20101550;1;Mise à niveau pour Mathématique, séquence Technico-sciences de la 5e secondaire;Turcotte;Annie;8106;Tremplin DEC;2015
+20163;201641703;Boissonneault                 ;Sandra              ;F;28/04/1998;201302RE;3;Méthodes quantitatives avancées;Genest;Maxime;300A3;Individu-Société ;2001
+20163;201641666;Boivin                        ;Sandra              ;F;28/04/1998;2011A5LL;2;Mathématiques I pour chimie et biologie;St-Onge;Alexandre;210AB;210A0 Spéc chimie analyti;2001
+20163;201641664;Boivin                        ;Samuel              ;M;28/04/1997;201NYC05;1;Algèbre linéaire et géométrie vectorielle;Carel;Jacques;200B0;Sciences de la nature;1998
+20163;201641657;Boivin                        ;Samuel              ;M;28/04/1997;201NYA05;2;Calcul différentiel;Fortin;Steve;200B0;Sciences de la nature;1998
+20163;201641639;Bonin-Labrecque               ;Samuel              ;M;28/03/1999;2012A4LL;1;Mathématiques en mécanique 1;Plourde;Frédéric;241A0;Techniq génie mécanique;1999
+20163;201641621;Bordeleau                     ;Samuel              ;M;28/02/1999;20101550;1;Mise à niveau pour Mathématique, séquence Technico-sciences de la 5e secondaire;Turcotte;Annie;8116;Tremplin - Passage interpr;2015
+20163;201641594;Bossé                         ;Samuel              ;M;28/02/1999;2011A4LL;3;Mathématiques en architecture 1;Turcotte;Annie;221A0;Technologie l'architecture;2003
+20163;201641572;Bouchard                      ;Samuel              ;M;28/01/1998;2011A5LL;2;Mathématiques I pour chimie et biologie;St-Onge;Alexandre;210AA;210A0 Spéc biotechnologies;2001
+20163;201641565;Bouchard                      ;Samuel              ;M;28/01/1998;201NYA05;2;Calcul différentiel;Fortin;Steve;20016;Sc. nat et Arts, lettres ;2013
+20163;201641536;Bouchard                      ;Samuel              ;M;28/01/1997;2012A4LL;1;Mathématiques en mécanique 1;Plourde;Frédéric;241A0;Techniq génie mécanique;1999
+20163;201641521;Bouchard                      ;Samuel              ;M;28/01/1993;201NYC05;1;Algèbre linéaire et géométrie vectorielle;Carel;Jacques;200B0;Sciences de la nature;1998
+20163;201641476;Bouchard                      ;Samuel              ;M;27/12/1994;360300RE;3;Méthodes quantitatives en sciences humaines;Rousseau;Martin;300A3;Individu-Société ;2001
+20163;201641426;Bouchard                      ;Samuel              ;M;27/12/1991;2011A4LL;1;Mathématiques en architecture 1;Bourget;Patrick;221A0;Technologie l'architecture;2003
+20163;201641409;Bouchard                      ;Samuel              ;M;27/12/1989;2011C5LL;1;Mathématique en électronique industrielle II;Bourget;Patrick;243C0;Technol électroniq industr;2007
+20163;201641369;Bouchard                      ;Samuel              ;M;27/12/1989;201NYA05;3;Calcul différentiel;Fortin;Steve;200B0;Sciences de la nature;1998
+20163;201641223;Boucher                       ;Samuel              ;M;27/11/1997;2011A4LL;3;Mathématiques en architecture 1;Turcotte;Annie;221A0;Technologie l'architecture;2003
+20163;201641178;Boucher                       ;Samuel              ;M;27/11/1993;2011A4LL;2;Mathématiques en architecture 1;Bourget;Patrick;221A0;Technologie l'architecture;2003
+20163;201641100;Boucher                       ;Samuel              ;M;27/11/1989;2011A5LL;1;Mathématiques I pour chimie et biologie;St-Onge;Alexandre;210AA;210A0 Spéc biotechnologies;2001
+20163;201641019;Boudreau                      ;Samuel              ;M;27/10/1997;201NYA05;1;Calcul différentiel;Laflamme;Nadia;200B0;Sciences de la nature;1998
+20163;201641003;Boudreau                      ;Samuel              ;M;27/10/1997;2011A5LL;2;Mathématiques I pour chimie et biologie;St-Onge;Alexandre;210AA;210A0 Spéc biotechnologies;2001
+20163;201641001;Boudreault                    ;Samuel              ;M;27/08/1999;201NYA05;4;Calcul différentiel;St-Onge;Alexandre;200B0;Sciences de la nature;1998
+20163;201640550;Boudreault                    ;Samuel              ;M;27/08/1995;360300RE;3;Méthodes quantitatives en sciences humaines;Rousseau;Martin;8116;Tremplin - Passage interpr;2015
+20163;201640498;Boudreault-Guimond            ;Samuel              ;M;27/07/1995;2012A4LL;1;Mathématiques en mécanique 1;Plourde;Frédéric;241A0;Techniq génie mécanique;1999
+20163;201640488;Bouffard                      ;Samuel              ;M;27/07/1992;201NYA05;2;Calcul différentiel;Fortin;Steve;200B0;Sciences de la nature;1998
+20163;201640431;Bouffard                      ;Samuel              ;M;27/07/1989;20101550;1;Mise à niveau pour Mathématique, séquence Technico-sciences de la 5e secondaire;Turcotte;Annie;500AL;Option Langues;2013
+20163;201640392;Bouffard                      ;Sammy               ;F;27/06/1995;201302RE;3;Méthodes quantitatives avancées;Genest;Maxime;300A3;Individu-Société ;2001
+20163;201640340;Bouffard                      ;Samir               ;M;27/06/1993;2011E5LL;2;Statistique;Bouchard;Véronique;8116;Tremplin - Passage interpr;2015
+20163;201640269;Boulay                        ;Samantha            ;F;27/05/1999;2011A4LL;3;Mathématiques en architecture 1;Turcotte;Annie;221A0;Technologie l'architecture;2003
+20163;201640266;Boulianne                     ;Samantha            ;F;27/05/1999;201NYA05;4;Calcul différentiel;St-Onge;Alexandre;200B0;Sciences de la nature;1998
+20163;201640234;Bourdages                     ;Sabryna             ;F;27/04/1998;360300RE;3;Méthodes quantitatives en sciences humaines;Rousseau;Martin;300A1;Administration-Économie;2001
+20163;201640181;Bourget                       ;Sabrina             ;F;27/03/1999;201NYA05;1;Calcul différentiel;Laflamme;Nadia;200B0;Sciences de la nature;1998
+20163;201639999;Bourget                       ;Sabrina             ;F;27/03/1998;2011A4LL;2;Mathématiques en architecture 1;Bourget;Patrick;221A0;Technologie l'architecture;2003
+20163;201639983;Bourget                       ;Sabrina             ;F;27/03/1997;2011A4LL;1;Mathématiques en architecture 1;Bourget;Patrick;221A0;Technologie l'architecture;2003
+20163;201639947;Bourret                       ;Sabrina             ;F;27/02/1998;201302RE;1;Méthodes quantitatives avancées;Bouchard;Véronique;300A3;Individu-Société ;2001
+20163;201639900;Boutin                        ;Sabrina             ;F;27/02/1996;2011A4LL;1;Mathématiques en architecture 1;Bourget;Patrick;221A0;Technologie l'architecture;2003
+20163;201639882;Boutin                        ;Sabrina             ;F;27/01/2000;201NYA05;2;Calcul différentiel;Fortin;Steve;200B0;Sciences de la nature;1998
+20163;201639866;Boutin                        ;Sabrina             ;F;27/01/1999;2011A5LL;2;Mathématiques I pour chimie et biologie;St-Onge;Alexandre;210AA;210A0 Spéc biotechnologies;2001
+20163;201639809;Boutin                        ;Rupert              ;M;27/01/1997;2011A5LL;1;Mathématiques I pour chimie et biologie;St-Onge;Alexandre;210AA;210A0 Spéc biotechnologies;2001
+20163;201639790;Bowen                         ;Roxanne             ;F;27/01/1997;2012A4LL;2;Mathématiques en mécanique 1;Plourde;Frédéric;241A0;Techniq génie mécanique;1999
+20163;201639782;Brassard                      ;Roxanne             ;F;27/01/1996;201NYA05;3;Calcul différentiel;Fortin;Steve;200B0;Sciences de la nature;1998
+20163;201639768;Brassard-Côté                 ;Roxanne             ;F;27/01/1995;201NYA05;4;Calcul différentiel;St-Onge;Alexandre;200B0;Sciences de la nature;1998
+20163;201639727;Breton                        ;Roxanne             ;F;26/12/1997;201NYA05;4;Calcul différentiel;St-Onge;Alexandre;200B0;Sciences de la nature;1998
+20163;201639725;Breton                        ;Roxanne             ;F;26/12/1996;2012A4LL;1;Mathématiques en mécanique 1;Plourde;Frédéric;241A0;Techniq génie mécanique;1999
+20163;201639710;Breton                        ;Roxane              ;F;26/11/1998;201NYA05;4;Calcul différentiel;St-Onge;Alexandre;200B0;Sciences de la nature;1998
+20163;201639688;Breton                        ;Rose-Marie          ;F;26/11/1995;201NYA05;2;Calcul différentiel;Fortin;Steve;200B0;Sciences de la nature;1998
+20163;201639677;Breton                        ;Rose                ;F;26/10/1997;2011A4LL;1;Mathématiques en architecture 1;Bourget;Patrick;221A0;Technologie l'architecture;2003
+20163;201639654;Brière                        ;Rosalye             ;F;26/09/1996;201NYASN;1;Calcul différentiel;Plourde;Frédéric;200B1;ActionSciences;2012
+20163;201639616;Brisson                       ;Rosalie             ;F;26/08/1999;2011A4LL;1;Mathématiques en architecture 1;Bourget;Patrick;221A0;Technologie l'architecture;2003
+20163;201639592;Brisson                       ;Rosalie             ;F;26/08/1999;2012A4LL;2;Mathématiques en mécanique 1;Plourde;Frédéric;241A0;Techniq génie mécanique;1999
+20163;201639575;Brisson                       ;Rosalie             ;F;26/08/1997;2011A4LL;1;Mathématiques en architecture 1;Bourget;Patrick;221A0;Technologie l'architecture;2003
+20163;201639572;Brisson                       ;Rosalie             ;F;26/07/1999;201NYA05;4;Calcul différentiel;St-Onge;Alexandre;200B0;Sciences de la nature;1998
+20163;201639552;Brochu                        ;Roger Andres        ;M;26/07/1992;2011A5LL;2;Mathématiques I pour chimie et biologie;St-Onge;Alexandre;210AB;210A0 Spéc chimie analyti;2001
+20163;201639507;Brochu                        ;Roch                ;M;26/04/1999;201NYA05;4;Calcul différentiel;St-Onge;Alexandre;200B0;Sciences de la nature;1998
+20163;201639412;Brochu                        ;Ricardo Andre       ;M;26/04/1996;2011A4LL;1;Mathématiques en architecture 1;Bourget;Patrick;221A0;Technologie l'architecture;2003
+20163;201639284;Brochu                        ;Renée               ;F;26/04/1994;201NYA05;2;Calcul différentiel;Fortin;Steve;200B0;Sciences de la nature;1998
+20163;201639265;Brousseau                     ;Renaud              ;M;26/04/1991;201NYA05;4;Calcul différentiel;St-Onge;Alexandre;20016;Sc. nat et Arts, lettres ;2013
+20163;201639207;Brûlé                         ;Renaud              ;M;26/03/1999;2011A4LL;1;Mathématiques en architecture 1;Bourget;Patrick;221A0;Technologie l'architecture;2003
+20163;201639174;Brunner                       ;Rebecca             ;F;26/03/1999;2011A4LL;3;Mathématiques en architecture 1;Turcotte;Annie;221A0;Technologie l'architecture;2003
+20163;201639166;Bureau                        ;Raphaëlle           ;F;26/03/1998;201NYA05;3;Calcul différentiel;Fortin;Steve;200B0;Sciences de la nature;1998
+20163;201639147;Bureau                        ;Raphaël             ;M;26/03/1998;201NYA05;2;Calcul différentiel;Fortin;Steve;20016;Sc. nat et Arts, lettres ;2013
+20163;201639133;Busque                        ;Raphaël             ;M;26/02/1999;2012A4LL;1;Mathématiques en mécanique 1;Plourde;Frédéric;241D0;Technol maintenance indust;2003
+20163;201639121;Bussières                     ;Raphaël             ;M;26/02/1997;201NYASN;1;Calcul différentiel;Plourde;Frédéric;200B1;ActionSciences;2012
+20163;201639056;Bussières                     ;Raphaël             ;M;26/02/1995;360300RE;2;Méthodes quantitatives en sciences humaines;Fortin;Steve;300A1;Administration-Économie;2001
+20163;201638934;Canuel-Côté                   ;Raphaël             ;M;26/02/1974;2011A5LL;2;Mathématiques I pour chimie et biologie;St-Onge;Alexandre;210AA;210A0 Spéc biotechnologies;2001
+20163;201638927;Caouette                      ;Raphaël             ;M;26/01/1996;2011A4LL;3;Mathématiques en architecture 1;Turcotte;Annie;221A0;Technologie l'architecture;2003
+20163;201638907;Caouette                      ;Raphael             ;M;26/01/1995;201NYA05;3;Calcul différentiel;Fortin;Steve;200B0;Sciences de la nature;1998
+20163;201638861;Caouette                      ;Raphael             ;M;25/11/1998;201NYA05;2;Calcul différentiel;Fortin;Steve;20016;Sc. nat et Arts, lettres ;2013
+20163;201638850;Carbonneau                    ;Ralph               ;M;25/11/1998;201NYA05;4;Calcul différentiel;St-Onge;Alexandre;200B0;Sciences de la nature;1998
+20163;201638834;Caron                         ;Rachel              ;F;25/11/1997;201NYA05;2;Calcul différentiel;Fortin;Steve;20016;Sc. nat et Arts, lettres ;2013
+20163;201638762;Caron                         ;Jean;M;25/10/1998;201NYA05;3;Calcul différentiel;Fortin;Steve;20016;Sc. nat et Arts, lettres ;2013
+20163;201638724;Caron                         ;Pierre-Olivier      ;M;25/10/1996;201NYASN;1;Calcul différentiel;Plourde;Frédéric;200B1;ActionSciences;2012
+20163;201638721;Caron                         ;Pierre-Olivier      ;M;25/10/1996;201NYA05;1;Calcul différentiel;Laflamme;Nadia;200B0;Sciences de la nature;1998
+20163;201638712;Caron                         ;Pierre-Luc          ;M;25/10/1995;201NYA05;2;Calcul différentiel;Fortin;Steve;20016;Sc. nat et Arts, lettres ;2013
+20163;201638676;Caron                         ;Pierre-Luc          ;M;25/10/1995;201NYA05;1;Calcul différentiel;Laflamme;Nadia;20016;Sc. nat et Arts, lettres ;2013
+20163;201638634;Caron                         ;Pierluc             ;M;25/09/1996;201NYA05;4;Calcul différentiel;St-Onge;Alexandre;200B0;Sciences de la nature;1998
+20163;201638624;Caron                         ;Pier-Luc            ;M;25/08/1999;2011A4LL;3;Mathématiques en architecture 1;Turcotte;Annie;221A0;Technologie l'architecture;2003
+20163;201638613;Carrier                       ;Pier-Luc            ;M;25/07/1998;360300RE;1;Méthodes quantitatives en sciences humaines;Laflamme;Nadia;300A1;Administration-Économie;2001
+20163;201638610;Carrier                       ;Pier-Etienne        ;M;25/07/1979;2011A5LL;2;Mathématiques I pour chimie et biologie;St-Onge;Alexandre;210AB;210A0 Spéc chimie analyti;2001
+20163;201638605;Carrier                       ;Philippe            ;M;25/06/1999;201NYA05;1;Calcul différentiel;Laflamme;Nadia;200B0;Sciences de la nature;1998
+20163;201638574;Carrier                       ;Philippe            ;M;25/04/1997;201NYASN;1;Calcul différentiel;Plourde;Frédéric;200B1;ActionSciences;2012
+20163;201638543;Casault                       ;Philippe            ;M;25/04/1997;201NYA05;1;Calcul différentiel;Laflamme;Nadia;200B0;Sciences de la nature;1998
+20163;201638513;Castonguay                    ;Philippe            ;M;25/03/1998;201NYASN;1;Calcul différentiel;Plourde;Frédéric;200B1;ActionSciences;2012
+20163;201638512;Castonguay                    ;Philippe            ;M;25/03/1998;201NYA05;3;Calcul différentiel;Fortin;Steve;200B0;Sciences de la nature;1998
+20163;201638495;Castonguay                    ;Philippe            ;M;25/03/1998;201NYA05;3;Calcul différentiel;Fortin;Steve;200B0;Sciences de la nature;1998
+20163;201638489;Castonguay-Pelletier          ;Philippe            ;M;25/03/1995;201NYA05;4;Calcul différentiel;St-Onge;Alexandre;200B0;Sciences de la nature;1998
+20163;201638469;Caya                          ;Philippe            ;M;25/03/1985;2011A4LL;2;Mathématiques en architecture 1;Bourget;Patrick;221A0;Technologie l'architecture;2003
+20163;201638448;Cazes                         ;Philip              ;M;25/03/1977;2011A4LL;1;Mathématiques en architecture 1;Bourget;Patrick;221A0;Technologie l'architecture;2003
+20163;201638369;Chabot                        ;Pénélope            ;F;25/02/1999;2012A4LL;2;Mathématiques en mécanique 1;Plourde;Frédéric;241A0;Techniq génie mécanique;1999
+20163;201638365;Chabot                        ;Pedro               ;M;25/01/1997;2011A5LL;1;Mathématiques I pour chimie et biologie;St-Onge;Alexandre;210AB;210A0 Spéc chimie analyti;2001
+20163;201638313;Chabot                        ;Paul                ;M;25/01/1995;201NYASN;1;Calcul différentiel;Plourde;Frédéric;200B1;ActionSciences;2012
+20163;201638062;Chabot                        ;Patricia            ;F;25/01/1995;201NYA05;3;Calcul différentiel;Fortin;Steve;20016;Sc. nat et Arts, lettres ;2013
+20163;201638054;Chabot                        ;Pascal              ;M;24/12/1998;201NYA05;2;Calcul différentiel;Fortin;Steve;20016;Sc. nat et Arts, lettres ;2013
+20163;201637962;Chabot                        ;Pascal              ;M;24/11/1998;2011A4LL;3;Mathématiques en architecture 1;Turcotte;Annie;221A0;Technologie l'architecture;2003
+20163;201637935;Chalut                        ;Paméla              ;F;24/11/1995;201NYA05;1;Calcul différentiel;Laflamme;Nadia;200B0;Sciences de la nature;1998
+20163;201637924;Champagne                     ;Olivier             ;M;24/10/1996;201203RE;1;Calcul II;Breton;Josée;420AC;420.A0 spec. gest res info;2000
+20163;201637898;Charron                       ;Olivier             ;M;24/09/1998;2011A4LL;1;Mathématiques en architecture 1;Bourget;Patrick;221A0;Technologie l'architecture;2003
+20163;201637860;Chayer                        ;Olivier             ;M;24/09/1990;2011A4LL;3;Mathématiques en architecture 1;Turcotte;Annie;221A0;Technologie l'architecture;2003
+20163;201637832;Chénard                       ;Olivier             ;M;24/07/1999;2012A4LL;2;Mathématiques en mécanique 1;Plourde;Frédéric;241A0;Techniq génie mécanique;1999
+20163;201637819;Cheng                         ;Olivier             ;M;24/07/1999;201NYASN;1;Calcul différentiel;Plourde;Frédéric;200B1;ActionSciences;2012
+20163;201637815;Chevalier                     ;Olivier             ;M;24/07/1996;2012A4LL;2;Mathématiques en mécanique 1;Plourde;Frédéric;241A0;Techniq génie mécanique;1999
+20163;201637798;Chevrier                      ;Olivier             ;M;24/07/1995;360300RE;3;Méthodes quantitatives en sciences humaines;Rousseau;Martin;300A1;Administration-Économie;2001
+20163;201637730;Chiasson                      ;Olivier             ;M;24/06/1997;2011A4LL;2;Mathématiques en architecture 1;Bourget;Patrick;221A0;Technologie l'architecture;2003
+20163;201637712;Chicoine-Fournier             ;Olivier             ;M;24/05/1999;201NYA05;4;Calcul différentiel;St-Onge;Alexandre;20016;Sc. nat et Arts, lettres ;2013
+20163;201637592;Chouinard-Gagnon              ;Olivier             ;M;24/05/1997;201NYA05;2;Calcul différentiel;Fortin;Steve;20016;Sc. nat et Arts, lettres ;2013
+20163;201637582;Chouinard-Gagnon              ;Olivier             ;M;24/04/1997;2011A4LL;3;Mathématiques en architecture 1;Turcotte;Annie;221A0;Technologie l'architecture;2003
+20163;201637460;Chouinard-Ruest               ;Olivier             ;M;24/04/1996;2011A4LL;2;Mathématiques en architecture 1;Bourget;Patrick;221A0;Technologie l'architecture;2003
+20163;201637452;Chrétien                      ;Olivier             ;M;24/04/1995;201NYA05;3;Calcul différentiel;Fortin;Steve;200B0;Sciences de la nature;1998
+20163;201637437;Clavet-Pearson                ;Olivier             ;M;24/03/1998;201NYASN;1;Calcul différentiel;Plourde;Frédéric;200B1;ActionSciences;2012
+20163;201637436;Cloutier                      ;Olivier             ;M;24/03/1991;360300RE;2;Méthodes quantitatives en sciences humaines;Fortin;Steve;30016;Sc. hum.et Arts, lettres ;2013
+20163;201637426;Cloutier                      ;Olivier             ;M;24/02/1999;201NYA05;4;Calcul différentiel;St-Onge;Alexandre;200B0;Sciences de la nature;1998
+20163;201637394;Cloutier                      ;Océane              ;F;24/01/1994;360300RE;2;Méthodes quantitatives en sciences humaines;Fortin;Steve;30016;Sc. hum.et Arts, lettres ;2013
+20163;201637393;Cloutier                      ;Noémy               ;F;23/12/1998;2011A4LL;3;Mathématiques en architecture 1;Turcotte;Annie;221A0;Technologie l'architecture;2003
+20163;201637391;Comtois                       ;Noémie              ;F;23/12/1997;2012A4LL;2;Mathématiques en mécanique 1;Plourde;Frédéric;241A0;Techniq génie mécanique;1999
+20163;201637381;Corrivault-Gascon             ;Noémie              ;F;23/12/1996;201NYA05;1;Calcul différentiel;Laflamme;Nadia;20016;Sc. nat et Arts, lettres ;2013
+20163;201637275;Corrivault-Gascon             ;Noémie              ;F;23/11/1998;201NYA05;3;Calcul différentiel;Fortin;Steve;20016;Sc. nat et Arts, lettres ;2013
+20163;201637239;Corrivault-Gascon             ;Noémie              ;F;23/11/1998;201NYA05;1;Calcul différentiel;Laflamme;Nadia;200B0;Sciences de la nature;1998
+20163;201637227;Corriveau                     ;Noémie              ;F;23/11/1995;201NYA05;2;Calcul différentiel;Fortin;Steve;200B0;Sciences de la nature;1998
+20163;201637135;Corriveau                     ;Noam                ;M;23/10/1998;2011A4LL;3;Mathématiques en architecture 1;Turcotte;Annie;221A0;Technologie l'architecture;2003
+20163;201637099;Corriveau-Therrien            ;Nicolas             ;M;23/10/1998;2012A4LL;2;Mathématiques en mécanique 1;Plourde;Frédéric;241A0;Techniq génie mécanique;1999
+20163;201637067;Costa de Oliveira             ;Nicolas             ;M;23/10/1997;360300RE;3;Méthodes quantitatives en sciences humaines;Rousseau;Martin;300A1;Administration-Économie;2001
+20163;201637060;Coté                          ;Nicolas             ;M;23/10/1996;2012A4LL;2;Mathématiques en mécanique 1;Plourde;Frédéric;241A0;Techniq génie mécanique;1999
+20163;201637059;Côté                          ;Nicolas             ;M;23/10/1995;2011A4LL;3;Mathématiques en architecture 1;Turcotte;Annie;221A0;Technologie l'architecture;2003
+20163;201637037;Côté                          ;Nathan              ;M;23/10/1993;360300RE;1;Méthodes quantitatives en sciences humaines;Laflamme;Nadia;30016;Sc. hum.et Arts, lettres ;2013
+20163;201636977;Côté                          ;Nathan              ;M;23/09/1999;201NYA05;3;Calcul différentiel;Fortin;Steve;200B0;Sciences de la nature;1998
+20163;201636898;Côté                          ;Naomie              ;F;23/09/1993;201NYA05;1;Calcul différentiel;Laflamme;Nadia;20016;Sc. nat et Arts, lettres ;2013
+20163;201636863;Côté                          ;Nadine              ;F;23/08/1998;2011A5LL;2;Mathématiques I pour chimie et biologie;St-Onge;Alexandre;210AA;210A0 Spéc biotechnologies;2001
+20163;201636757;Côté                          ;Nadège              ;F;23/08/1997;201NYA05;1;Calcul différentiel;Laflamme;Nadia;20016;Sc. nat et Arts, lettres ;2013
+20163;201636748;Côté                          ;Nabil               ;M;23/07/1997;201NYA05;2;Calcul différentiel;Fortin;Steve;200B0;Sciences de la nature;1998
+20163;201636708;Côté                          ;Myriam              ;F;23/06/1998;2012A4LL;2;Mathématiques en mécanique 1;Plourde;Frédéric;241A0;Techniq génie mécanique;1999
+20163;201636681;Côté                          ;Myriam              ;F;23/06/1988;2011A5LL;1;Mathématiques I pour chimie et biologie;St-Onge;Alexandre;210AA;210A0 Spéc biotechnologies;2001
+20163;201636518;Côté                          ;Myriam              ;F;23/06/1969;201NYASN;1;Calcul différentiel;Plourde;Frédéric;200B1;ActionSciences;2012
+20163;201636511;Côté                          ;Myriam              ;F;23/05/1998;201NYA05;1;Calcul différentiel;Laflamme;Nadia;200B0;Sciences de la nature;1998
+20163;201636499;Côté                          ;Myriam              ;F;23/04/1998;201NYA05;3;Calcul différentiel;Fortin;Steve;20016;Sc. nat et Arts, lettres ;2013
+20163;201636486;Côté-Cloutier                 ;Myra                ;F;23/04/1997;201NYA05;1;Calcul différentiel;Laflamme;Nadia;20016;Sc. nat et Arts, lettres ;2013
+20163;201636481;Côté-Morisset                 ;Myra                ;F;23/04/1992;201NYA05;2;Calcul différentiel;Fortin;Steve;20016;Sc. nat et Arts, lettres ;2013
+20163;201636479;Côté-Rivard                   ;Mylène              ;F;23/03/1999;201NYA05;4;Calcul différentiel;St-Onge;Alexandre;20016;Sc. nat et Arts, lettres ;2013
+20163;201636409;Couette                       ;Mohamed             ;M;23/03/1998;2012A4LL;1;Mathématiques en mécanique 1;Plourde;Frédéric;241D0;Technol maintenance indust;2003
+20163;201636407;Couture                       ;Mireille            ;F;23/03/1997;360300RE;3;Méthodes quantitatives en sciences humaines;Rousseau;Martin;300A1;Administration-Économie;2001
+20163;201636389;Couture                       ;Mikaël              ;M;23/01/1998;2011A4LL;1;Mathématiques en architecture 1;Bourget;Patrick;221A0;Technologie l'architecture;2003
+20163;201636384;Couture                       ;Mikael              ;M;23/01/1998;201NYASN;1;Calcul différentiel;Plourde;Frédéric;200B1;ActionSciences;2012
+20163;201636344;Couture                       ;Michèle             ;F;23/01/1998;201NYA05;1;Calcul différentiel;Laflamme;Nadia;20016;Sc. nat et Arts, lettres ;2013
+20163;201636308;Couture                       ;Michel              ;M;23/01/1996;201NYA05;2;Calcul différentiel;Fortin;Steve;20016;Sc. nat et Arts, lettres ;2013
+20163;201636298;Couture                       ;Michel              ;M;23/01/1989;360300RE;2;Méthodes quantitatives en sciences humaines;Fortin;Steve;30016;Sc. hum.et Arts, lettres ;2013
+20163;201636219;Couture                       ;Michel              ;M;22/12/1998;2012A4LL;2;Mathématiques en mécanique 1;Plourde;Frédéric;241A0;Techniq génie mécanique;1999
+20163;201636210;Croteau                       ;Michaël             ;M;22/12/1997;201NYA05;3;Calcul différentiel;Fortin;Steve;20016;Sc. nat et Arts, lettres ;2013
+20163;201636172;Cyr                           ;Michaël             ;M;22/12/1996;2011A4LL;1;Mathématiques en architecture 1;Bourget;Patrick;221A0;Technologie l'architecture;2003
+20163;201636165;da Silva                      ;Michaël             ;M;22/12/1995;201NYA05;1;Calcul différentiel;Laflamme;Nadia;20016;Sc. nat et Arts, lettres ;2013
+20163;201636153;Dagenais                      ;Michaël             ;M;22/11/1983;201NYA05;1;Calcul différentiel;Laflamme;Nadia;200B0;Sciences de la nature;1998
+20163;201636151;Daigle                        ;Michaël             ;M;22/10/1995;2011A4LL;3;Mathématiques en architecture 1;Turcotte;Annie;221A0;Technologie l'architecture;2003
+20163;201636149;Daigle                        ;Michael             ;M;22/09/1997;20101550;1;Mise à niveau pour Mathématique, séquence Technico-sciences de la 5e secondaire;Turcotte;Annie;8106;Tremplin DEC;2015
+20163;201636120;Dallaire Gagné                ;Michael             ;M;22/09/1994;360300RE;1;Méthodes quantitatives en sciences humaines;Laflamme;Nadia;300A1;Administration-Économie;2001
+20163;201636114;D'Anjou                       ;Mévrick             ;M;22/07/1998;201302RE;1;Méthodes quantitatives avancées;Bouchard;Véronique;8106;Tremplin DEC;2015
+20163;201636083;D'Anjou                       ;Mélissa             ;F;22/07/1983;201NYASN;1;Calcul différentiel;Plourde;Frédéric;200B1;ActionSciences;2012
+20163;201636082;D'Anjou                       ;Mélissa             ;F;22/06/1998;20101550;1;Mise à niveau pour Mathématique, séquence Technico-sciences de la 5e secondaire;Turcotte;Annie;8106;Tremplin DEC;2015
+20163;201635900;D'Astous                      ;Mélissa             ;F;22/06/1996;201NYA05;2;Calcul différentiel;Fortin;Steve;20016;Sc. nat et Arts, lettres ;2013
+20163;201635899;De Bellefeuille               ;Mélissa             ;F;22/06/1996;201NYA05;4;Calcul différentiel;St-Onge;Alexandre;20016;Sc. nat et Arts, lettres ;2013
+20163;201635782;De Montigny                   ;Mélissa             ;F;22/06/1992;2011A5LL;1;Mathématiques I pour chimie et biologie;St-Onge;Alexandre;210AB;210A0 Spéc chimie analyti;2001
+20163;201635743;De Rico                       ;Mélina              ;F;22/06/1983;2012A4LL;2;Mathématiques en mécanique 1;Plourde;Frédéric;241A0;Techniq génie mécanique;1999
+20163;201635738;Deblois                       ;Mélanie             ;F;22/05/1998;2011A4LL;2;Mathématiques en architecture 1;Bourget;Patrick;221A0;Technologie l'architecture;2003
+20163;201635729;Demers                        ;Meggan              ;F;22/05/1998;201NYA05;3;Calcul différentiel;Fortin;Steve;200B0;Sciences de la nature;1998
+20163;201635686;Demers                        ;Megan               ;F;22/05/1997;201NYASN;1;Calcul différentiel;Plourde;Frédéric;200B1;ActionSciences;2012
+20163;201635448;Demers                        ;Megan               ;F;22/05/1997;2011A4LL;1;Mathématiques en architecture 1;Bourget;Patrick;221A0;Technologie l'architecture;2003
+20163;201635213;Demers                        ;Megan               ;F;22/05/1996;201NYA05;1;Calcul différentiel;Laflamme;Nadia;200B0;Sciences de la nature;1998
+20163;201635149;Demers                        ;Maxime              ;M;22/04/1998;2011A4LL;2;Mathématiques en architecture 1;Bourget;Patrick;221A0;Technologie l'architecture;2003
+20163;201635143;Demers                        ;Maxime              ;M;22/03/1999;201NYA05;1;Calcul différentiel;Laflamme;Nadia;200B0;Sciences de la nature;1998
+20163;201635116;Demers                        ;Maxime              ;M;22/03/1999;2011A4LL;1;Mathématiques en architecture 1;Bourget;Patrick;221A0;Technologie l'architecture;2003
+20163;201635038;Demers                        ;Maxime              ;M;22/03/1996;2012A4LL;1;Mathématiques en mécanique 1;Plourde;Frédéric;241A0;Techniq génie mécanique;1999
+20163;201634864;Denault                       ;Maxime              ;M;22/01/1999;2011A5LL;1;Mathématiques I pour chimie et biologie;St-Onge;Alexandre;210AA;210A0 Spéc biotechnologies;2001
+20163;201634751;Déraspe                       ;Maxime              ;M;22/01/1999;2011A4LL;2;Mathématiques en architecture 1;Bourget;Patrick;221A0;Technologie l'architecture;2003
+20163;201634748;Desbiens                      ;Maxime              ;M;22/01/1995;201NYA05;2;Calcul différentiel;Fortin;Steve;200B0;Sciences de la nature;1998
+20163;201634733;Desbiens                      ;Maxime              ;M;21/12/1997;201NYA05;4;Calcul différentiel;St-Onge;Alexandre;200B0;Sciences de la nature;1998
+20163;201634729;Deschênes                     ;Maxime              ;M;21/11/1998;201NYA05;2;Calcul différentiel;Fortin;Steve;200B0;Sciences de la nature;1998
+20163;201634661;Deschênes                     ;Maxime              ;M;21/11/1996;2011A4LL;2;Mathématiques en architecture 1;Bourget;Patrick;221A0;Technologie l'architecture;2003
+20163;201634660;Deschênes                     ;Maxime              ;M;21/10/1997;2011A4LL;2;Mathématiques en architecture 1;Bourget;Patrick;221A0;Technologie l'architecture;2003
+20163;201634481;Deschênes                     ;Maxime              ;M;21/10/1995;2011A4LL;3;Mathématiques en architecture 1;Turcotte;Annie;221A0;Technologie l'architecture;2003
+20163;201634466;Descoteaux                    ;Maxim               ;M;21/10/1995;201NYA05;3;Calcul différentiel;Fortin;Steve;20016;Sc. nat et Arts, lettres ;2013
+20163;201634459;Descôteaux                    ;Maxim               ;M;21/09/1998;201NYA05;3;Calcul différentiel;Fortin;Steve;8106;Tremplin DEC;2015
+20163;201634456;Desjardins                    ;Maxence             ;M;21/08/1999;2011A4LL;2;Mathématiques en architecture 1;Bourget;Patrick;221A0;Technologie l'architecture;2003
+20163;201634419;Desmanche                     ;Maude               ;F;21/08/1998;2011A5LL;2;Mathématiques I pour chimie et biologie;St-Onge;Alexandre;210AA;210A0 Spéc biotechnologies;2001
+20163;201634416;Després                       ;Maude               ;F;21/08/1998;2011A5LL;1;Mathématiques I pour chimie et biologie;St-Onge;Alexandre;210AA;210A0 Spéc biotechnologies;2001
+20163;201634312;Desrosiers-Verreault          ;Maude               ;F;21/07/1999;201NYA05;1;Calcul différentiel;Laflamme;Nadia;20016;Sc. nat et Arts, lettres ;2013
+20163;201634293;Dicko                         ;Maude               ;F;21/07/1998;2011A4LL;3;Mathématiques en architecture 1;Turcotte;Annie;221A0;Technologie l'architecture;2003
+20163;201634218;Dion-Gagné                    ;Maude               ;F;21/07/1998;201NYA05;2;Calcul différentiel;Fortin;Steve;410B0;Tech comptabilité gestion;2002
+20163;201634191;Dionne                        ;Matias              ;M;21/07/1997;201NYA05;2;Calcul différentiel;Fortin;Steve;30016;Sc. hum.et Arts et lettres;1999
+20163;201634180;Dorion                        ;Mathilde            ;F;21/07/1997;201302RE;1;Méthodes quantitatives avancées;Bouchard;Véronique;420AA;420.A0 spec. inform. gest.;2000
+20163;201634155;Dorval                        ;Mathilde            ;F;21/07/1997;201NYC05;1;Algèbre linéaire et géométrie vectorielle;Carel;Jacques;420AA;420.A0 spec. inform. gest.;2000
+20163;201634142;Dorval-Lévesque               ;Mathieu             ;M;21/07/1995;2012A4LL;1;Mathématiques en mécanique 1;Plourde;Frédéric;241A0;Techniq génie mécanique;1999
+20163;201634140;Doucet                        ;Mathieu             ;M;21/06/1999;201NYA05;3;Calcul différentiel;Fortin;Steve;300A1;Administration-Économie;2001
+20163;201634090;Doyon                         ;Mathieu             ;M;21/06/1998;201NYA05;3;Calcul différentiel;Fortin;Steve;200B0;Sciences de la nature;1998
+20163;201633855;Drouin                        ;Mathieu             ;M;21/06/1997;2011A4LL;1;Mathématiques en architecture 1;Bourget;Patrick;221A0;Technologie l'architecture;2003
+20163;201633648;Drouin                        ;Mathieu             ;M;21/06/1995;201NYA05;4;Calcul différentiel;St-Onge;Alexandre;200B0;Sciences de la nature;1998
+20163;201633637;Drouin                        ;Mathieu             ;M;21/06/1994;2011D4LL;3;Mathématiques en architecture 2;Rousseau;Martin;221A0;Technologie l'architecture;2003
+20163;201633532;Dubé                          ;Mathieu             ;M;21/05/1999;201302RE;2;Méthodes quantitatives avancées;Bouchard;Véronique;300A3;Individu-Société ;2001
+20163;201633530;Dubuc-Hernandez               ;Mathieu             ;M;21/05/1997;2011A4LL;2;Mathématiques en architecture 1;Bourget;Patrick;221A0;Technologie l'architecture;2003
+20163;201633485;Duchaîne                      ;Mathieu             ;M;21/05/1996;201NYA05;3;Calcul différentiel;Fortin;Steve;200B0;Sciences de la nature;1998
+20163;201633392;Duchesne                      ;Mathieu             ;M;21/04/1999;2011A4LL;3;Mathématiques en architecture 1;Turcotte;Annie;221A0;Technologie l'architecture;2003
+20163;201633382;Duchesne                      ;Mathieu             ;M;21/04/1998;201NYASN;1;Calcul différentiel;Plourde;Frédéric;200B1;ActionSciences;2012
+20163;201633346;Dufour                        ;Mathieu             ;M;21/04/1996;2012A4LL;1;Mathématiques en mécanique 1;Plourde;Frédéric;241A0;Techniq génie mécanique;1999
+20163;201633172;Dufour                        ;Mathieu             ;M;21/04/1994;2012A4LL;1;Mathématiques en mécanique 1;Plourde;Frédéric;241A0;Techniq génie mécanique;1999
+20163;201633162;Duhamel                       ;Mathieu             ;M;21/03/1999;2011A4LL;1;Mathématiques en architecture 1;Bourget;Patrick;221A0;Technologie l'architecture;2003
+20163;201633134;Dumais                        ;Marylou             ;F;21/03/1999;201NYA05;3;Calcul différentiel;Fortin;Steve;200B0;Sciences de la nature;1998
+20163;201633098;Dumas                         ;Maryann             ;F;21/03/1998;2012A4LL;2;Mathématiques en mécanique 1;Plourde;Frédéric;241A0;Techniq génie mécanique;1999
+20163;201633066;Dumas                         ;Martin              ;M;21/03/1998;2013A4LL;1;Mathématiques en génie chimique;Plourde;Frédéric;210C0;Techniques génie chimique;2010
+20163;201633043;Dumont                        ;Marthe Odile        ;F;21/02/1991;201NYA05;2;Calcul différentiel;Fortin;Steve;152B0;Gestion entrepr. agricole;2013
+20163;201633033;Dupont                        ;Marjorie            ;F;21/02/1988;2012A4LL;1;Mathématiques en mécanique 1;Plourde;Frédéric;241A0;Techniq génie mécanique;1999
+20163;201633032;Dupont                        ;Marie-Sophie        ;F;21/01/1999;2012A4LL;2;Mathématiques en mécanique 1;Plourde;Frédéric;241A0;Techniq génie mécanique;1999
+20163;201632965;Dupont                        ;Marie-Pierre        ;F;21/01/1999;201NYA05;1;Calcul différentiel;Laflamme;Nadia;200B0;Sciences de la nature;1998
+20163;201632923;Dupuis                        ;Marie-Pier          ;F;20/12/1998;201NYA05;3;Calcul différentiel;Fortin;Steve;200B0;Sciences de la nature;1998
+20163;201632922;Durand-Cassistat              ;Marie-Pier          ;F;20/12/1997;2012A4LL;1;Mathématiques en mécanique 1;Plourde;Frédéric;241A0;Techniq génie mécanique;1999
+20163;201632883;Dutil                         ;Marie-Pier          ;F;20/12/1996;201NYASN;1;Calcul différentiel;Plourde;Frédéric;200B1;ActionSciences;2012
+20163;201632856;Duval                         ;Marie-Pier          ;F;20/11/1997;201NYA05;4;Calcul différentiel;St-Onge;Alexandre;200B0;Sciences de la nature;1998
+20163;201632854;Duval                         ;Marie-Noël          ;F;20/11/1997;201NYA05;4;Calcul différentiel;St-Onge;Alexandre;200B0;Sciences de la nature;1998
+20163;201632853;Duval                         ;Marie-Michèle       ;F;20/11/1997;201NYASN;1;Calcul différentiel;Plourde;Frédéric;200B1;ActionSciences;2012
+20163;201632846;Emond                         ;Marie-Lou           ;F;20/11/1996;201NYA05;2;Calcul différentiel;Fortin;Steve;200B0;Sciences de la nature;1998
+20163;201632832;Enoch                         ;Marie-Laurence      ;F;20/10/1997;2011A4LL;3;Mathématiques en architecture 1;Turcotte;Annie;221A0;Technologie l'architecture;2003
+20163;201632820;Fam                           ;Marie-Joëlle        ;F;20/10/1997;201NYA05;4;Calcul différentiel;St-Onge;Alexandre;200B0;Sciences de la nature;1998
+20163;201632797;Faubert                       ;Marie-Frédérique    ;F;20/10/1997;201NYASN;1;Calcul différentiel;Plourde;Frédéric;200B1;ActionSciences;2012
+20163;201632767;Faucher                       ;Marie-France        ;F;20/10/1995;201NYA05;4;Calcul différentiel;St-Onge;Alexandre;200B0;Sciences de la nature;1998
+20163;201632715;Faucher                       ;Marie-Eve           ;F;20/10/1992;360300RE;1;Méthodes quantitatives en sciences humaines;Laflamme;Nadia;300A1;Administration-Économie;2001
+20163;201632701;Faucher                       ;Marie-Eve           ;F;20/09/1999;2012A4LL;2;Mathématiques en mécanique 1;Plourde;Frédéric;241A0;Techniq génie mécanique;1999
+20163;201632664;Faucher                       ;Marie-Eve           ;F;20/09/1999;2011A5LL;1;Mathématiques I pour chimie et biologie;St-Onge;Alexandre;210AA;210A0 Spéc biotechnologies;2001
+20163;201632663;Faucher                       ;Marie-Chantal       ;F;20/09/1988;360300RE;1;Méthodes quantitatives en sciences humaines;Laflamme;Nadia;300A1;Administration-Économie;2001
+20163;201632655;Fellice                       ;Marie-Catherine     ;F;20/08/1998;2012A4LL;2;Mathématiques en mécanique 1;Plourde;Frédéric;241A0;Techniq génie mécanique;1999
+20163;201632646;Felteau                       ;Marie               ;F;20/08/1997;201NYC05;2;Algèbre linéaire et géométrie vectorielle;Carel;Jacques;210AB;210A0 Spéc chimie analyti;2001
+20163;201632592;Ferland                       ;Marc-Olivier        ;M;20/07/1999;201NYA05;4;Calcul différentiel;St-Onge;Alexandre;200B0;Sciences de la nature;1998
+20163;201632561;Ferrand                       ;Marc-Olivier        ;M;20/07/1999;201NYA05;3;Calcul différentiel;Fortin;Steve;200B0;Sciences de la nature;1998
+20163;201632512;Filion                        ;Marc-Olivier        ;M;20/06/1995;2011A4LL;2;Mathématiques en architecture 1;Bourget;Patrick;221A0;Technologie l'architecture;2003
+20163;201632509;Fillion                       ;Marc-Antoine        ;M;20/05/1999;2011A4LL;3;Mathématiques en architecture 1;Turcotte;Annie;221A0;Technologie l'architecture;2003
+20163;201632491;Fiset                         ;Marc-Antoine        ;M;20/05/1999;201NYA05;2;Calcul différentiel;Fortin;Steve;200B0;Sciences de la nature;1998
+20163;201632473;Fiset                         ;Marc-Antoine        ;M;20/05/1997;2011A4LL;2;Mathématiques en architecture 1;Bourget;Patrick;221A0;Technologie l'architecture;2003
+20163;201632468;Flamand                       ;Marc-Antoine        ;M;20/05/1997;201NYA05;4;Calcul différentiel;St-Onge;Alexandre;200B0;Sciences de la nature;1998
+20163;201632467;Fleurent                      ;Marc-Antoine        ;M;20/05/1991;2011A4LL;3;Mathématiques en architecture 1;Turcotte;Annie;221A0;Technologie l'architecture;2003
+20163;201632459;Fluet                         ;Marc-Antoine        ;M;20/04/1999;2012A4LL;2;Mathématiques en mécanique 1;Plourde;Frédéric;241A0;Techniq génie mécanique;1999
+20163;201632377;Fontaine                      ;Marc-Antoine        ;M;20/04/1999;201NYA05;1;Calcul différentiel;Laflamme;Nadia;200B0;Sciences de la nature;1998
+20163;201632375;Fontaine                      ;Marc-Antoine        ;M;20/04/1998;2012A4LL;1;Mathématiques en mécanique 1;Plourde;Frédéric;241A0;Techniq génie mécanique;1999
+20163;201632348;Fontaine                      ;Marc-Antoine        ;M;20/04/1998;201NYA05;1;Calcul différentiel;Laflamme;Nadia;200B0;Sciences de la nature;1998
+20163;201632332;Fontaine                      ;Marc-Antoine        ;M;20/04/1994;2011A5LL;1;Mathématiques I pour chimie et biologie;St-Onge;Alexandre;210AA;210A0 Spéc biotechnologies;2001
+20163;201632068;Forgues                       ;Marc-Antoine        ;M;20/03/1998;2011A4LL;3;Mathématiques en architecture 1;Turcotte;Annie;221A0;Technologie l'architecture;2003
+20163;201632037;Forgues                       ;Marc-André          ;M;20/03/1990;2011A4LL;3;Mathématiques en architecture 1;Turcotte;Annie;221A0;Technologie l'architecture;2003
+20163;201631972;Forgues-Godbout               ;Maïka               ;F;20/02/1998;2011A4LL;1;Mathématiques en architecture 1;Bourget;Patrick;221A0;Technologie l'architecture;2003
+20163;201613325;Fortier                       ;Magaly              ;F;20/02/1997;201NYASN;1;Calcul différentiel;Plourde;Frédéric;200B1;ActionSciences;2012
+20163;201612479;Fortier                       ;Madeleine           ;F;20/02/1993;2012A4LL;1;Mathématiques en mécanique 1;Plourde;Frédéric;241A0;Techniq génie mécanique;1999
+20163;201612107;Fortier                       ;Madeleine           ;F;20/01/1999;2011A4LL;2;Mathématiques en architecture 1;Bourget;Patrick;221A0;Technologie l'architecture;2003
+20163;201611862;Fortin                        ;Lysanne             ;F;19/12/1998;2011A4LL;3;Mathématiques en architecture 1;Turcotte;Annie;221A0;Technologie l'architecture;2003
+20163;201611637;Fortin                        ;Lysanne             ;F;19/12/1997;360300RE;1;Méthodes quantitatives en sciences humaines;Laflamme;Nadia;300A1;Administration-Économie;2001
+20163;201611348;Fortin                        ;Lydia               ;F;19/12/1993;2011A4LL;3;Mathématiques en architecture 1;Turcotte;Annie;221A0;Technologie l'architecture;2003
+20163;201611341;Fortin                        ;Luisa               ;F;19/12/1993;2012A4LL;2;Mathématiques en mécanique 1;Plourde;Frédéric;241A0;Techniq génie mécanique;1999
+20163;201611341;Fortin                        ;Luisa               ;F;19/12/1993;201NYA05;3;Calcul différentiel;Fortin;Steve;241A0;Techniq génie mécanique;1999
+20163;201611202;Fortin                        ;Luiggi Ferney       ;M;19/11/1997;201NYA05;3;Calcul différentiel;Fortin;Steve;200B0;Sciences de la nature;1998
+20163;201610048;Fortin                        ;Ludovic             ;M;19/11/1995;2011A4LL;2;Mathématiques en architecture 1;Bourget;Patrick;221A0;Technologie l'architecture;2003
+20163;201601993;Fortin                        ;Lucie               ;F;19/11/1994;2012A4LL;1;Mathématiques en mécanique 1;Plourde;Frédéric;241A0;Techniq génie mécanique;1999
+20163;201601874;Fortin                        ;Lucas               ;M;19/11/1994;201NYA05;2;Calcul différentiel;Fortin;Steve;200B0;Sciences de la nature;1998
+20163;201601609;Fournier                      ;Louis-Philippe      ;M;19/11/1991;201NYA05;1;Calcul différentiel;Laflamme;Nadia;200B0;Sciences de la nature;1998
+20163;201601595;Fournier                      ;Louis-Martin        ;M;19/11/1991;201NYA05;2;Calcul différentiel;Fortin;Steve;200B0;Sciences de la nature;1998
+20163;201601373;Fournier                      ;Louis-Joël          ;M;19/09/1994;2011A4LL;1;Mathématiques en architecture 1;Bourget;Patrick;221A0;Technologie l'architecture;2003
+20163;201567995;Francoeur                     ;Louis-Etienne       ;M;19/09/1993;201NYA05;2;Calcul différentiel;Fortin;Steve;200B0;Sciences de la nature;1998
+20163;201567693;Francoeur                     ;Louis-Charles       ;M;19/09/1991;201NYB05;1;Calcul intégral;Turcotte;Annie;200B0;Sciences de la nature;1998
+20163;201567585;Fullum                        ;Louis-Antoine       ;M;19/08/1998;2011A4LL;2;Mathématiques en architecture 1;Bourget;Patrick;221A0;Technologie l'architecture;2003
+20163;201567291;Gagné                         ;Louis               ;M;19/08/1997;2011A4LL;2;Mathématiques en architecture 1;Bourget;Patrick;221A0;Technologie l'architecture;2003
+20163;201567249;Gagné                         ;Louis               ;M;19/07/1999;360300RE;2;Méthodes quantitatives en sciences humaines;Fortin;Steve;300A1;Administration-Économie;2001
+20163;201566972;Gagné                         ;Louis               ;M;19/07/1997;2011A4LL;1;Mathématiques en architecture 1;Bourget;Patrick;221A0;Technologie l'architecture;2003
+20163;201566932;Gagné                         ;Loryanne            ;F;19/07/1995;2012A4LL;2;Mathématiques en mécanique 1;Plourde;Frédéric;241D0;Technol maintenance indust;2003
+20163;201566881;Gagné                         ;Loïc                ;M;19/06/1999;201NYASN;1;Calcul différentiel;Plourde;Frédéric;200B1;ActionSciences;2012
+20163;201566615;Gagné                         ;Léonie              ;F;19/06/1999;201NYA05;3;Calcul différentiel;Fortin;Steve;200B0;Sciences de la nature;1998
+20163;201566362;Gagné-Thivierge               ;Lea                 ;F;19/06/1998;2011A5LL;2;Mathématiques I pour chimie et biologie;St-Onge;Alexandre;210AA;210A0 Spéc biotechnologies;2001
+20163;201566239;Gagnon                        ;Laurie              ;F;19/06/1997;2012A4LL;2;Mathématiques en mécanique 1;Plourde;Frédéric;241D0;Technol maintenance indust;2003
+20163;201566228;Gagnon                        ;Laurie              ;F;19/06/1995;2012A4LL;1;Mathématiques en mécanique 1;Plourde;Frédéric;241A0;Techniq génie mécanique;1999
+20163;201565968;Gagnon                        ;Laurie              ;F;19/05/1999;201NYASN;1;Calcul différentiel;Plourde;Frédéric;200B1;ActionSciences;2012
+20163;201565944;Gagnon                        ;Laurie              ;F;19/05/1997;2011A4LL;2;Mathématiques en architecture 1;Bourget;Patrick;221A0;Technologie l'architecture;2003
+20163;201565934;Gagnon                        ;Laurie              ;F;19/03/1999;2011A5LL;2;Mathématiques I pour chimie et biologie;St-Onge;Alexandre;210AA;210A0 Spéc biotechnologies;2001
+20163;201565533;Gagnon-Goyette                ;Laurie              ;F;19/03/1999;2011A5LL;1;Mathématiques I pour chimie et biologie;St-Onge;Alexandre;210AA;210A0 Spéc biotechnologies;2001
+20163;201565415;Gagnon-Vallée                 ;Laurie              ;F;19/03/1999;201NYA05;3;Calcul différentiel;Fortin;Steve;200B0;Sciences de la nature;1998
+20163;201565295;Garant                        ;Laurie              ;F;19/03/1997;201NYA05;1;Calcul différentiel;Laflamme;Nadia;200B0;Sciences de la nature;1998
+20163;201565259;Garneau                       ;Laurent             ;M;19/03/1995;360300RE;1;Méthodes quantitatives en sciences humaines;Laflamme;Nadia;300A1;Administration-Économie;2001
+20163;201565162;Garneau                       ;Laurent             ;M;19/02/1998;201302RE;2;Méthodes quantitatives avancées;Bouchard;Véronique;300A3;Individu-Société ;2001
+20163;201565093;Garneau                       ;Laurence            ;M;19/02/1997;201NYA05;1;Calcul différentiel;Laflamme;Nadia;200B0;Sciences de la nature;1998
+20163;201565004;Garon                         ;Laurence            ;F;19/02/1997;360300RE;2;Méthodes quantitatives en sciences humaines;Fortin;Steve;300A1;Administration-Économie;2001
+20163;201564409;Gaudin                        ;Laurence            ;F;19/02/1993;201NYA05;4;Calcul différentiel;St-Onge;Alexandre;200B0;Sciences de la nature;1998
+20163;201564324;Gaudreau                      ;Laurence            ;F;19/01/1998;201NYASN;1;Calcul différentiel;Plourde;Frédéric;200B1;ActionSciences;2012
+20163;201564304;Gaudreau                      ;Laurence            ;F;18/12/1998;2012A4LL;1;Mathématiques en mécanique 1;Plourde;Frédéric;241A0;Techniq génie mécanique;1999
+20163;201564125;Gaudreault                    ;Laurence            ;F;18/12/1997;201NYA05;3;Calcul différentiel;Fortin;Steve;200B0;Sciences de la nature;1998
+20163;201563839;Gauthier                      ;Laurence            ;F;18/12/1997;2012A4LL;1;Mathématiques en mécanique 1;Plourde;Frédéric;241D0;Technol maintenance indust;2003
+20163;201563679;Gauthier                      ;Laurence            ;F;18/12/1997;201NYASN;1;Calcul différentiel;Plourde;Frédéric;200B1;ActionSciences;2012
+20163;201563660;Gauthier                      ;Laurance            ;F;18/11/1998;201NYA05;4;Calcul différentiel;St-Onge;Alexandre;200B0;Sciences de la nature;1998
+20163;201563470;Gauvin                        ;Laura               ;F;18/11/1998;2011A4LL;2;Mathématiques en architecture 1;Bourget;Patrick;221A0;Technologie l'architecture;2003
+20163;201563389;Gélinas                       ;Laura               ;F;18/11/1996;201NYA05;1;Calcul différentiel;Laflamme;Nadia;200B0;Sciences de la nature;1998
+20163;201563387;Gélinas                       ;Laura               ;F;18/11/1996;2013A4LL;1;Mathématiques en génie chimique;Plourde;Frédéric;210C0;Techniques génie chimique;2010
+20163;201563140;Gendreau-Foy                  ;Laura               ;F;18/11/1995;2013A4LL;1;Mathématiques en génie chimique;Plourde;Frédéric;210C0;Techniques génie chimique;2010
+20163;201563051;Gendron                       ;Lara                ;F;18/10/1997;201NYASN;1;Calcul différentiel;Plourde;Frédéric;200B1;ActionSciences;2012
+20163;201562923;Genest                        ;Krystina            ;F;18/10/1995;2012A4LL;2;Mathématiques en mécanique 1;Plourde;Frédéric;241A0;Techniq génie mécanique;1999
+20163;201562896;Geoffroy                      ;Kristina            ;F;18/10/1994;2011A4LL;2;Mathématiques en architecture 1;Bourget;Patrick;221A0;Technologie l'architecture;2003
+20163;201562830;Gervais                       ;Kimberly            ;F;18/09/1998;2012A4LL;2;Mathématiques en mécanique 1;Plourde;Frédéric;241A0;Techniq génie mécanique;1999
+20163;201562753;Gervais-Damphousse            ;Kim                 ;F;18/09/1996;201NYASN;1;Calcul différentiel;Plourde;Frédéric;200B1;ActionSciences;2012
+20163;201562738;Gharbi                        ;Kim                 ;F;18/08/1998;2011A5LL;2;Mathématiques I pour chimie et biologie;St-Onge;Alexandre;210AA;210A0 Spéc biotechnologies;2001
+20163;201562658;Giasson                       ;Kevin               ;M;18/07/1998;201NYA05;3;Calcul différentiel;Fortin;Steve;200B0;Sciences de la nature;1998
+20163;201562636;Giguère                       ;Kevin               ;M;18/07/1994;201NYA05;4;Calcul différentiel;St-Onge;Alexandre;200B0;Sciences de la nature;1998
+20163;201562594;Giguère                       ;Kevin               ;M;18/06/1996;201NYA05;4;Calcul différentiel;St-Onge;Alexandre;200B0;Sciences de la nature;1998
+20163;201562568;Giguère                       ;Kéven               ;M;18/05/1997;2011A5LL;1;Mathématiques I pour chimie et biologie;St-Onge;Alexandre;210AA;210A0 Spéc biotechnologies;2001
+20163;201562363;Giguère                       ;Keven               ;M;18/05/1993;201NYA05;1;Calcul différentiel;Laflamme;Nadia;200B0;Sciences de la nature;1998
+20163;201562298;Gilbert                       ;Keven               ;M;18/04/1998;201NYA05;2;Calcul différentiel;Fortin;Steve;200B0;Sciences de la nature;1998
+20163;201562257;Gilbert                       ;Kendra              ;F;18/04/1998;2011A5LL;1;Mathématiques I pour chimie et biologie;St-Onge;Alexandre;210AA;210A0 Spéc biotechnologies;2001
+20163;201562122;Girard                        ;Kelly               ;F;18/04/1997;201NYA05;1;Calcul différentiel;Laflamme;Nadia;200B0;Sciences de la nature;1998
+20163;201562122;Girard                        ;Kelly               ;F;18/04/1997;2013A4LL;1;Mathématiques en génie chimique;Plourde;Frédéric;200B0;Sciences de la nature;1998
+20163;201562081;Giroux                        ;Katrina             ;F;18/03/1998;201NYA05;2;Calcul différentiel;Fortin;Steve;200B0;Sciences de la nature;1998
+20163;201562025;Gloh                          ;Kathy               ;F;18/03/1997;2013A4LL;1;Mathématiques en génie chimique;Plourde;Frédéric;210C0;Techniques génie chimique;2010
+20163;201561983;Godbout                       ;Kathryne-Elizabeth  ;F;18/03/1994;2011A5LL;2;Mathématiques I pour chimie et biologie;St-Onge;Alexandre;210AA;210A0 Spéc biotechnologies;2001
+20163;201561955;Godbout                       ;Karol-Ann           ;F;18/02/1999;2011A5LL;1;Mathématiques I pour chimie et biologie;St-Onge;Alexandre;210AB;210A0 Spéc chimie analyti;2001
+20163;201561718;Godbout                       ;Kamille             ;F;18/02/1998;201NYA05;3;Calcul différentiel;Fortin;Steve;200B0;Sciences de la nature;1998
+20163;201561642;Godbout                       ;Justine-Elise       ;F;18/01/1998;2011A5LL;1;Mathématiques I pour chimie et biologie;St-Onge;Alexandre;210AB;210A0 Spéc chimie analyti;2001
+20163;201561425;Godbout                       ;Justine             ;F;18/01/1987;201NYA05;4;Calcul différentiel;St-Onge;Alexandre;200B0;Sciences de la nature;1998
+20163;201560340;Godbout                       ;Justine             ;F;17/12/1997;201302RE;2;Méthodes quantitatives avancées;Bouchard;Véronique;300A3;Individu-Société ;2001
+20163;201560276;Gonthier                      ;Justine             ;F;17/12/1996;2011A5LL;2;Mathématiques I pour chimie et biologie;St-Onge;Alexandre;210AA;210A0 Spéc biotechnologies;2001
+20163;201560197;Gosselin                      ;Justin              ;M;17/12/1996;201NYA05;1;Calcul différentiel;Laflamme;Nadia;200B0;Sciences de la nature;1998
+20163;201560181;Gosselin                      ;Justin              ;M;17/12/1982;2012A4LL;1;Mathématiques en mécanique 1;Plourde;Frédéric;241A0;Techniq génie mécanique;1999
+20163;201544807;Gosselin                      ;Juliette            ;F;17/11/1998;2011A4LL;1;Mathématiques en architecture 1;Bourget;Patrick;221A0;Technologie l'architecture;2003
+20163;201544692;Gosselin                      ;Julie-Pier          ;F;17/11/1996;2011A4LL;1;Mathématiques en architecture 1;Bourget;Patrick;221A0;Technologie l'architecture;2003
+20163;201544293;Gosselin                      ;Julien              ;M;17/09/1996;2011A4LL;1;Mathématiques en architecture 1;Bourget;Patrick;221A0;Technologie l'architecture;2003
+20163;201544293;Gosselin                      ;Julien              ;M;17/09/1996;201NYASN;1;Calcul différentiel;Plourde;Frédéric;221A0;Technologie l'architecture;2003
+20163;201544055;Gougeon                       ;Julien              ;M;17/08/1999;201NYB05;1;Calcul intégral;Turcotte;Annie;200B0;Sciences de la nature;1998
+20163;201543963;Gouin                         ;Julien              ;M;17/08/1997;2011A4LL;1;Mathématiques en architecture 1;Bourget;Patrick;221A0;Technologie l'architecture;2003
+20163;201543892;Goulet                        ;Julien              ;M;17/07/1999;201NYA05;4;Calcul différentiel;St-Onge;Alexandre;200B0;Sciences de la nature;1998
+20163;201543883;Goulet                        ;Julien              ;M;17/07/1998;201NYASN;1;Calcul différentiel;Plourde;Frédéric;200B1;ActionSciences;2012
+20163;201543854;Goulet                        ;Julien              ;M;17/07/1989;2011A4LL;2;Mathématiques en architecture 1;Bourget;Patrick;221A0;Technologie l'architecture;2003
+20163;201543695;Gourgues                      ;Julien              ;M;17/06/1997;201NYA05;1;Calcul différentiel;Laflamme;Nadia;200B0;Sciences de la nature;1998
+20163;201543682;Grenier                       ;Julien              ;M;17/06/1996;2011A4LL;1;Mathématiques en architecture 1;Bourget;Patrick;221A0;Technologie l'architecture;2003
+20163;201543481;Grenier                       ;Julie-Anne          ;F;17/05/1999;2011A4LL;3;Mathématiques en architecture 1;Turcotte;Annie;221A0;Technologie l'architecture;2003
+20163;201543253;Grenon                        ;Julie               ;F;17/04/1999;201NYB05;1;Calcul intégral;Turcotte;Annie;200B0;Sciences de la nature;1998
+20163;201543249;Groleau                       ;Julianne            ;F;17/04/1999;201NYA05;2;Calcul différentiel;Fortin;Steve;200B0;Sciences de la nature;1998
+20163;201543176;Grondin                       ;Judith              ;F;17/04/1997;2011A5LL;1;Mathématiques I pour chimie et biologie;St-Onge;Alexandre;210AA;210A0 Spéc biotechnologies;2001
+20163;201543158;Grondin-Beaudet               ;Jua Albert          ;M;17/03/1999;201NYASN;1;Calcul différentiel;Plourde;Frédéric;200B1;ActionSciences;2012
+20163;201543143;Guay                          ;Josiane             ;F;17/03/1991;2011A5LL;2;Mathématiques I pour chimie et biologie;St-Onge;Alexandre;210AA;210A0 Spéc biotechnologies;2001
+20163;201543046;Guay                          ;José-Gabriel        ;M;17/02/1999;2011A4LL;2;Mathématiques en architecture 1;Bourget;Patrick;221A0;Technologie l'architecture;2003
+20163;201543036;Guay                          ;Jordan              ;M;17/02/1999;2011A4LL;2;Mathématiques en architecture 1;Bourget;Patrick;221A0;Technologie l'architecture;2003
+20163;201543035;Guay                          ;Jordan              ;M;17/02/1999;2011A4LL;3;Mathématiques en architecture 1;Turcotte;Annie;221A0;Technologie l'architecture;2003
+20163;201542896;Guay                          ;Jordan              ;M;17/02/1992;2011A4LL;3;Mathématiques en architecture 1;Turcotte;Annie;221A0;Technologie l'architecture;2003
+20163;201542893;Guay-Barbeau                  ;Jordan              ;M;17/01/1999;2011A4LL;3;Mathématiques en architecture 1;Turcotte;Annie;221A0;Technologie l'architecture;2003
+20163;201542663;Guérard                       ;Jordan              ;M;17/01/1999;201NYA05;3;Calcul différentiel;Fortin;Steve;200B0;Sciences de la nature;1998
+20163;201542585;Guérette                      ;Jordan              ;M;17/01/1995;201NYA05;3;Calcul différentiel;Fortin;Steve;200B0;Sciences de la nature;1998
+20163;201542570;Guillemette                   ;Jordan              ;M;16/12/1998;201NYASN;1;Calcul différentiel;Plourde;Frédéric;200B1;ActionSciences;2012
+20163;201542556;Guillemette                   ;Jordan              ;M;16/10/1995;201NYASN;1;Calcul différentiel;Plourde;Frédéric;200B1;ActionSciences;2012
+20163;201542553;Guimont                       ;Jordan              ;M;16/09/1998;201NYA05;1;Calcul différentiel;Laflamme;Nadia;200B0;Sciences de la nature;1998
+20163;201542507;Hamel                         ;Jonathan            ;M;16/09/1998;2011A5LL;1;Mathématiques I pour chimie et biologie;St-Onge;Alexandre;210AB;210A0 Spéc chimie analyti;2001
+20163;201542462;Hamel                         ;Jonathan            ;M;16/08/1996;2012A4LL;1;Mathématiques en mécanique 1;Plourde;Frédéric;241A0;Techniq génie mécanique;1999
+20163;201542326;Harbec                        ;Jonathan            ;M;16/08/1995;2011A4LL;2;Mathématiques en architecture 1;Bourget;Patrick;221A0;Technologie l'architecture;2003
+20163;201542253;Harnois                       ;Jonathan            ;M;16/08/1995;201NYA05;1;Calcul différentiel;Laflamme;Nadia;200B0;Sciences de la nature;1998
+20163;201542239;Harvey                        ;Jonathan            ;M;16/07/1999;2011A4LL;3;Mathématiques en architecture 1;Turcotte;Annie;221A0;Technologie l'architecture;2003
+20163;201542189;Harvey                        ;Jonathan            ;M;16/07/1998;2011A4LL;2;Mathématiques en architecture 1;Bourget;Patrick;221A0;Technologie l'architecture;2003
+20163;201542140;Hébert                        ;Jonathan            ;M;16/07/1995;2011A4LL;2;Mathématiques en architecture 1;Bourget;Patrick;221A0;Technologie l'architecture;2003
+20163;201542131;Hébert                        ;Jonathan            ;M;16/07/1993;2011A5LL;2;Mathématiques I pour chimie et biologie;St-Onge;Alexandre;210AB;210A0 Spéc chimie analyti;2001
+20163;201542094;Hervieux                      ;Jonathan            ;M;16/06/1999;2011A4LL;2;Mathématiques en architecture 1;Bourget;Patrick;221A0;Technologie l'architecture;2003
+20163;201542094;Hervieux                      ;Jonathan            ;M;16/06/1999;360300RE;4;Tutorat en mathématiques;Bouchard;Véronique;221A0;Technologie l'architecture;2003
+20163;201542031;Horn                          ;Jonathan            ;M;16/06/1999;201NYA05;4;Calcul différentiel;St-Onge;Alexandre;200B0;Sciences de la nature;1998
+20163;201542005;Houde                         ;Joliane             ;F;16/06/1998;2011A5LL;2;Mathématiques I pour chimie et biologie;St-Onge;Alexandre;210AB;210A0 Spéc chimie analyti;2001
+20163;201541997;Houde                         ;Jolène              ;F;16/06/1998;201NYASN;1;Calcul différentiel;Plourde;Frédéric;200B1;ActionSciences;2012
+20163;201541988;Hudon                         ;Johany              ;F;16/06/1997;201302RE;2;Méthodes quantitatives avancées;Bouchard;Véronique;300A3;Individu-Société ;2001
+20163;201541966;Huet                          ;Joey                ;M;16/05/1999;2012A4LL;1;Mathématiques en mécanique 1;Plourde;Frédéric;241D0;Technol maintenance indust;2003
+20163;201541852;Huot                          ;Joël                ;M;16/05/1998;2011A5LL;2;Mathématiques I pour chimie et biologie;St-Onge;Alexandre;210AA;210A0 Spéc biotechnologies;2001
+20163;201541824;Isabel                        ;Joanik              ;M;16/05/1998;2011A4LL;1;Mathématiques en architecture 1;Bourget;Patrick;221A0;Technologie l'architecture;2003
+20163;201541727;Jacques                       ;Joanie              ;F;16/04/1999;2012C5LL;1;Les grandes idées scientifiques;Nadeau;Lucie;700B0;Histoire et civilisation;2002
+20163;201541646;Jacques                       ;Joanie              ;F;16/03/1999;2011A5LL;2;Mathématiques I pour chimie et biologie;St-Onge;Alexandre;210AB;210A0 Spéc chimie analyti;2001
+20163;201541640;Jacques                       ;Jimmy               ;M;16/03/1999;20101550;1;Mise à niveau pour Mathématique, séquence Technico-sciences de la 5e secondaire;Turcotte;Annie;8116;Tremplin - Passage interpr;2015
+20163;201541637;Jalbert                       ;Jimmy               ;M;16/03/1998;2011A5LL;1;Mathématiques I pour chimie et biologie;St-Onge;Alexandre;210AA;210A0 Spéc biotechnologies;2001
+20163;201541636;Jaramillo Zabala              ;Jimmy               ;M;16/03/1998;2012A4LL;2;Mathématiques en mécanique 1;Plourde;Frédéric;241D0;Technol maintenance indust;2003
+20163;201541616;Jeffrey                       ;Jilles              ;F;16/03/1997;2011A4LL;3;Mathématiques en architecture 1;Turcotte;Annie;221A0;Technologie l'architecture;2003
+20163;201541576;Jess                          ;Jessyca             ;F;16/03/1986;360300RE;1;Méthodes quantitatives en sciences humaines;Laflamme;Nadia;300A3;Individu-Société ;2001
+20163;201541412;Jess                          ;Jessy               ;M;16/02/1999;2011C5LL;1;Mathématique en électronique industrielle II;Bourget;Patrick;243C0;Technol électroniq industr;2007
+20163;201541297;Jetté                         ;Jessy               ;F;16/02/1999;2011A5LL;1;Mathématiques I pour chimie et biologie;St-Onge;Alexandre;210AA;210A0 Spéc biotechnologies;2001
+20163;201541239;Jetté                         ;Jessy               ;F;16/02/1998;360300RE;1;Méthodes quantitatives en sciences humaines;Laflamme;Nadia;300A3;Individu-Société ;2001
+20163;201541221;Jobin                         ;Jessika             ;F;16/02/1998;2011A4LL;1;Mathématiques en architecture 1;Bourget;Patrick;221A0;Technologie l'architecture;2003
+20163;201541168;Jomphe                        ;Jessica             ;F;16/02/1997;201NYA05;2;Calcul différentiel;Fortin;Steve;243C0;Technol électroniq industr;2007
+20163;201541115;Jovin                         ;Jessica             ;F;16/01/1998;2011C5LL;1;Mathématique en électronique industrielle II;Bourget;Patrick;243C0;Technol électroniq industr;2007
+20163;201541052;Kack                          ;Jessica             ;F;16/01/1997;201203RE;1;Calcul II;Breton;Josée;8004;Préalables universitaires;2013
+20163;201540993;Kalmery                       ;Jessica             ;F;16/01/1995;20101550;1;Mise à niveau pour Mathématique, séquence Technico-sciences de la 5e secondaire;Turcotte;Annie;8116;Tremplin - Passage interpr;2015
+20163;201540749;Kourouma                      ;Jesen               ;M;16/01/1995;201NYA05;2;Calcul différentiel;Fortin;Steve;152B0;Gestion entrepr. agricole;2013
+20163;201540700;Labadie                       ;Jérôme              ;M;15/12/1998;2011C5LL;1;Mathématique en électronique industrielle II;Bourget;Patrick;243C0;Technol électroniq industr;2007
+20163;201540677;Labbé                         ;Jérôme              ;M;15/12/1998;2011C5LL;1;Mathématique en électronique industrielle II;Bourget;Patrick;243C0;Technol électroniq industr;2007
+20163;201540654;Labonté                       ;Jerôme              ;M;15/12/1996;2011C5LL;1;Mathématique en électronique industrielle II;Bourget;Patrick;243C0;Technol électroniq industr;2007
+20163;201540654;Labonté                       ;Jerôme              ;M;15/12/1996;360300RE;4;Tutorat en mathématiques;Bouchard;Véronique;243C0;Technol électroniq industr;2007
+20163;201540643;Labrecque                     ;Jérome              ;M;15/11/1999;201203RE;1;Calcul II;Breton;Josée;30016;Sc. hum.et Arts, lettres ;2013
+20163;201540623;Labrecque-Provencher          ;Jérome              ;M;15/11/1998;201NYA05;2;Calcul différentiel;Fortin;Steve;152B0;Gestion entrepr. agricole;2013
+20163;201540595;Labrie                        ;Jérémy              ;M;15/09/1998;2011C5LL;1;Mathématique en électronique industrielle II;Bourget;Patrick;243C0;Technol électroniq industr;2007
+20163;201540567;Lacasse                       ;Jérémy              ;M;15/09/1998;2011C5LL;1;Mathématique en électronique industrielle II;Bourget;Patrick;243C0;Technol électroniq industr;2007
+20163;201540496;Lacasse                       ;Jérémy              ;M;15/09/1996;2011C5LL;1;Mathématique en électronique industrielle II;Bourget;Patrick;243C0;Technol électroniq industr;2007
+20163;201540447;Lacasse                       ;Jérémy              ;M;15/08/1998;2011C5LL;1;Mathématique en électronique industrielle II;Bourget;Patrick;243C0;Technol électroniq industr;2007
+20163;201540393;Lacasse                       ;Jérémy              ;M;15/07/1999;2011C5LL;1;Mathématique en électronique industrielle II;Bourget;Patrick;243C0;Technol électroniq industr;2007
+20163;201540356;Lacasse                       ;Jeremy              ;M;15/07/1999;2011C5LL;1;Mathématique en électronique industrielle II;Bourget;Patrick;243C0;Technol électroniq industr;2007
+20163;201540276;Lacasse-Aubin                 ;Jérémie             ;M;15/07/1998;2011C5LL;1;Mathématique en électronique industrielle II;Bourget;Patrick;243C0;Technol électroniq industr;2007
+20163;201540252;Lachance                      ;Jérémie             ;M;15/07/1998;2011C5LL;1;Mathématique en électronique industrielle II;Bourget;Patrick;243C0;Technol électroniq industr;2007
+20163;201540238;Lachance                      ;Jérémie             ;M;15/07/1998;2011C5LL;1;Mathématique en électronique industrielle II;Bourget;Patrick;243C0;Technol électroniq industr;2007
+20163;201540168;Lachance                      ;Jérémie             ;M;15/06/1999;2011C5LL;1;Mathématique en électronique industrielle II;Bourget;Patrick;243C0;Technol électroniq industr;2007
+20163;201540159;Lachance                      ;Jennifer            ;F;15/06/1999;2011C5LL;1;Mathématique en électronique industrielle II;Bourget;Patrick;243C0;Technol électroniq industr;2007
+20163;201540006;Lacombe                       ;Jennifer            ;F;15/06/1999;2011C5LL;1;Mathématique en électronique industrielle II;Bourget;Patrick;243C0;Technol électroniq industr;2007
+20163;201539998;Lacroix                       ;Jennifer            ;F;15/06/1998;2011C5LL;1;Mathématique en électronique industrielle II;Bourget;Patrick;243C0;Technol électroniq industr;2007
+20163;201539973;Lacroix                       ;Jean-Sébastien      ;M;15/06/1995;2011C5LL;1;Mathématique en électronique industrielle II;Bourget;Patrick;243C0;Technol électroniq industr;2007
+20163;201539956;Laflamme                      ;Jean-Sebastien      ;M;15/06/1994;201203RE;1;Calcul II;Breton;Josée;30016;Sc. hum.et Arts, lettres ;2013
+20163;201539761;Laflamme                      ;Jean-Samuel         ;M;15/05/1999;2011C5LL;1;Mathématique en électronique industrielle II;Bourget;Patrick;243C0;Technol électroniq industr;2007
+20163;201539654;Laflamme                      ;Jean-Raphaël        ;M;15/04/1996;2011C5LL;1;Mathématique en électronique industrielle II;Bourget;Patrick;243C0;Technol électroniq industr;2007
+20163;201539653;Laflamme                      ;Jean-Philippe       ;M;15/04/1984;201NYC05;1;Algèbre linéaire et géométrie vectorielle;Carel;Jacques;210C0;Techniques génie chimique;2010
+20163;201539652;Laflamme                      ;Jean-Michel         ;M;15/03/1999;360300RE;3;Méthodes quantitatives en sciences humaines;Rousseau;Martin;500AH;Option Littérature;2013
+20163;201539599;Laflamme                      ;Jean-Mathieu        ;M;15/02/1999;20101550;1;Mise à niveau pour Mathématique, séquence Technico-sciences de la 5e secondaire;Turcotte;Annie;700B0;Histoire et civilisation;2002
+20163;201539581;Laflamme                      ;Jean-Gabriel        ;M;15/02/1999;201NYA05;2;Calcul différentiel;Fortin;Steve;210AB;210A0 Spéc chimie analyti;2001
+20163;201539544;Lafontaine                    ;Jean-Frédérick      ;M;15/02/1991;2011C3LL;1;Statistique pour chimie et biologie;Genest;Maxime;210AB;210A0 Spéc chimie analyti;2001
+20163;201539527;Lafontaine                    ;Jean-Félix          ;M;15/01/1999;2011D4LL;1;Mathématiques en architecture 2;Breton;Josée;221A0;Technologie l'architecture;2003
+20163;201539515;Lagacé                        ;Jean-Denis          ;M;15/01/1998;201NYA05;4;Calcul différentiel;St-Onge;Alexandre;410B0;Tech comptabilité gestion;2002
+20163;201539362;Lagacé                        ;Jean-Denis          ;M;15/01/1997;201203RE;1;Calcul II;Breton;Josée;420AC;420.A0 spec. gest res info;2000
+20163;201539357;Lagrange                      ;Jean-Daniel         ;M;15/01/1996;201NYB05;1;Calcul intégral;Turcotte;Annie;210AA;210A0 Spéc biotechnologies;2001
+20163;201539351;Lajoie                        ;Jean-Christophe     ;M;15/01/1995;201NYA05;2;Calcul différentiel;Fortin;Steve;210AA;210A0 Spéc biotechnologies;2001
+20163;201539338;Lajoie-Bergeron               ;Jean-Alexandre      ;M;14/12/1998;360300RE;1;Méthodes quantitatives en sciences humaines;Laflamme;Nadia;700B0;Histoire et civilisation;2002
+20163;201539337;Laliberté                     ;Jean Philip         ;M;14/12/1998;360300RE;1;Méthodes quantitatives en sciences humaines;Laflamme;Nadia;500AG;Option Cinéma;2013
+20163;201539279;Laliberté                     ;Jean Christophe     ;M;14/12/1997;360300RE;3;Méthodes quantitatives en sciences humaines;Rousseau;Martin;388A0;Techn. de travail social;2000
+20163;201539225;Lambert                       ;Jason               ;M;14/11/1997;201302RE;1;Méthodes quantitatives avancées;Bouchard;Véronique;700B0;Histoire et civilisation;2002
+20163;201539220;Lamonde                       ;Jason               ;M;14/10/1997;2011D4LL;3;Mathématiques en architecture 2;Rousseau;Martin;221A0;Technologie l'architecture;2003
+20163;201539021;Lamy                          ;Jany                ;F;14/10/1997;360300RE;1;Méthodes quantitatives en sciences humaines;Laflamme;Nadia;388A0;Techn. de travail social;2000
+20163;201538987;Landeo Arone                  ;Janie               ;F;14/10/1994;360300RE;1;Méthodes quantitatives en sciences humaines;Laflamme;Nadia;388A0;Techn. de travail social;2000
+20163;201538982;Landry                        ;Janie               ;F;14/10/1988;201302RE;3;Méthodes quantitatives avancées;Genest;Maxime;420AB;420.A0 spec. infor. indust;2000
+20163;201538928;Landry                        ;James               ;M;14/10/1984;20101550;1;Mise à niveau pour Mathématique, séquence Technico-sciences de la 5e secondaire;Turcotte;Annie;410B0;Tech comptabilité gestion;2002
+20163;201538804;Landry-Miville                ;Jade                ;F;14/09/1999;2011E5LL;2;Statistique;Bouchard;Véronique;410C0;Conseils assur serv financ;2002
+20163;201538797;Langevin                      ;Jade                ;F;14/08/1999;201NYA05;3;Calcul différentiel;Fortin;Steve;243C0;Technol électroniq industr;2007
+20163;201538785;Langevin                      ;Jade                ;F;14/08/1999;201NYC05;2;Algèbre linéaire et géométrie vectorielle;Carel;Jacques;180A0;Soins infirmiers;2007
+20163;201538772;Langlois                      ;Jade                ;F;14/08/1998;201NYA05;2;Calcul différentiel;Fortin;Steve;180A0;Soins infirmiers;2007
+20163;201538747;Langlois                      ;Jacob               ;M;14/07/1997;2012A4LL;2;Mathématiques en mécanique 1;Plourde;Frédéric;241D0;Technol maintenance indust;2003
+20163;201538738;Laplante                      ;Jacob               ;M;14/06/1999;2011E5LL;2;Statistique;Bouchard;Véronique;410C0;Conseils assur serv financ;2002
+20163;201538735;Lapointe                      ;Jacob               ;M;14/05/1994;2011C5LL;1;Mathématique en électronique industrielle II;Bourget;Patrick;243C0;Technol électroniq industr;2007
+20163;201538725;Lapointe                      ;Jacob               ;M;14/04/1960;2011E5LL;2;Statistique;Bouchard;Véronique;410C0;Conseils assur serv financ;2002
+20163;201538724;Lapointe                      ;Jacob               ;M;14/03/1998;2012C5LL;1;Les grandes idées scientifiques;Nadeau;Lucie;700B0;Histoire et civilisation;2002
+20163;201538681;Lapointe                      ;Jacob               ;M;14/03/1998;2011E5LL;1;Statistique;Bouchard;Véronique;410B0;Tech comptabilité gestion;2002
+20163;201538679;Lapointe                      ;Isabelle            ;F;14/03/1997;2011E5LL;2;Statistique;Bouchard;Véronique;410C0;Conseils assur serv financ;2002
+20163;201538669;Laporte-Sylvain               ;Isabelle            ;F;14/02/1996;2011D4LL;3;Mathématiques en architecture 2;Rousseau;Martin;221A0;Technologie l'architecture;2003
+20163;201538621;Laprise                       ;Isabelle            ;F;14/01/1999;2011C3LL;1;Statistique pour chimie et biologie;Genest;Maxime;210AA;210A0 Spéc biotechnologies;2001
+20163;201538588;Laroche                       ;Ibrahima Kalil      ;M;14/01/1999;2011A5LL;1;Mathématiques I pour chimie et biologie;St-Onge;Alexandre;210AA;210A0 Spéc biotechnologies;2001
+20163;201538552;Laroche                       ;Hugo                ;M;13/12/1998;2011D4LL;3;Mathématiques en architecture 2;Rousseau;Martin;221A0;Technologie l'architecture;2003
+20163;201538538;Larochelle                    ;Hugo                ;M;13/12/1997;2011C3LL;1;Statistique pour chimie et biologie;Genest;Maxime;210C0;Techniques génie chimique;2010
+20163;201538492;Larose                        ;Hubert              ;M;13/12/1996;2011D4LL;3;Mathématiques en architecture 2;Rousseau;Martin;221A0;Technologie l'architecture;2003
+20163;201538459;Larose                        ;Hubert              ;M;13/11/1974;2011D4LL;1;Mathématiques en architecture 2;Breton;Josée;221A0;Technologie l'architecture;2003
+20163;201538378;Larue                         ;Hermine             ;F;13/10/1997;2011C3LL;1;Statistique pour chimie et biologie;Genest;Maxime;210AB;210A0 Spéc chimie analyti;2001
+20163;201538368;Latulippe                     ;Henry               ;M;13/10/1994;2011C5LL;1;Mathématique en électronique industrielle II;Bourget;Patrick;243C0;Technol électroniq industr;2007
+20163;201538360;Lavoie                        ;Henri               ;M;13/09/1999;2011E5LL;2;Statistique;Bouchard;Véronique;410C0;Conseils assur serv financ;2002
+20163;201538328;Lavoie                        ;Héloïse             ;F;13/09/1998;2011C5LL;1;Mathématique en électronique industrielle II;Bourget;Patrick;243C0;Technol électroniq industr;2007
+20163;201538318;Lavoie                        ;Guillaume           ;M;13/09/1997;2011D4LL;1;Mathématiques en architecture 2;Breton;Josée;221A0;Technologie l'architecture;2003
+20163;201538253;Lavoie                        ;Guillaume           ;M;13/09/1997;2011D4LL;1;Mathématiques en architecture 2;Breton;Josée;221A0;Technologie l'architecture;2003
+20163;201538230;Lavoie-Raymond                ;Guillaume           ;M;13/09/1996;2011E5LL;1;Statistique;Bouchard;Véronique;410B0;Tech comptabilité gestion;2002
+20163;201538226;Lavoie-Simard                 ;Guillaume           ;M;13/09/1995;2011D4LL;3;Mathématiques en architecture 2;Rousseau;Martin;221A0;Technologie l'architecture;2003
+20163;201538211;Lawrence                      ;Guillaume           ;M;13/09/1995;2011E5LL;3;Statistique;Genest;Maxime;410B0;Tech comptabilité gestion;2002
+20163;201538177;Leao-Vachon                   ;Guillaume           ;M;13/09/1995;2011D4LL;3;Mathématiques en architecture 2;Rousseau;Martin;221A0;Technologie l'architecture;2003
+20163;201538141;Leblanc                       ;Guillaume           ;M;13/09/1994;2012C5LL;1;Les grandes idées scientifiques;Nadeau;Lucie;700B0;Histoire et civilisation;2002
+20163;201538019;Leblanc                       ;Guillaume           ;M;13/08/1999;2011D4LL;2;Mathématiques en architecture 2;Breton;Josée;221A0;Technologie l'architecture;2003
+20163;201537861;Leblond                       ;Guillaume           ;M;13/08/1998;2011C5LL;1;Mathématique en électronique industrielle II;Bourget;Patrick;243C0;Technol électroniq industr;2007
+20163;201537825;Leblond-Blais                 ;Grégorie            ;M;13/08/1998;2011C3LL;1;Statistique pour chimie et biologie;Genest;Maxime;210AB;210A0 Spéc chimie analyti;2001
+20163;201537662;Lebreux                       ;Gilles              ;M;13/08/1998;2011E5LL;1;Statistique;Bouchard;Véronique;410B0;Tech comptabilité gestion;2002
+20163;201537640;Leclerc                       ;Gérémy              ;M;13/08/1996;2011E5LL;2;Statistique;Bouchard;Véronique;410C0;Conseils assur serv financ;2002
+20163;201537632;Leclerc                       ;Geneviève           ;F;13/07/1999;2011D4LL;2;Mathématiques en architecture 2;Breton;Josée;221A0;Technologie l'architecture;2003
+20163;201537581;Leclerc                       ;Geneviève           ;F;13/07/1999;2011E5LL;2;Statistique;Bouchard;Véronique;410C0;Conseils assur serv financ;2002
+20163;201537570;Leclerc                       ;Gabrielle           ;F;13/07/1998;201203RE;1;Calcul II;Breton;Josée;420AC;420.A0 spec. gest res info;2000
+20163;201537525;Leclerc                       ;Gabrielle           ;F;13/06/1999;2011D4LL;2;Mathématiques en architecture 2;Breton;Josée;221A0;Technologie l'architecture;2003
+20163;201537525;Leclerc                       ;Gabrielle           ;F;13/06/1999;201NYB05;1;Calcul intégral;Turcotte;Annie;221A0;Technologie l'architecture;2003
+20163;201537488;Lecomte                       ;Gabrielle           ;F;13/06/1984;2011D4LL;2;Mathématiques en architecture 2;Breton;Josée;221A0;Technologie l'architecture;2003
+20163;201537376;Lecours                       ;Gabrielle           ;F;13/06/1984;2011D4LL;2;Mathématiques en architecture 2;Breton;Josée;221A0;Technologie l'architecture;2003
+20163;201537312;Lecours                       ;Gabrielle           ;F;13/05/1999;2011D4LL;1;Mathématiques en architecture 2;Breton;Josée;221A0;Technologie l'architecture;2003
+20163;201537123;Lefebvre                      ;Gabrielle           ;F;13/05/1998;360300RE;1;Méthodes quantitatives en sciences humaines;Laflamme;Nadia;388A0;Techn. de travail social;2000
+20163;201537103;Lefebvre                      ;Gabrielle           ;F;13/05/1997;2011D4LL;1;Mathématiques en architecture 2;Breton;Josée;221A0;Technologie l'architecture;2003
+20163;201537095;Lemay                         ;Gabrielle           ;F;13/05/1990;2011A4LL;3;Mathématiques en architecture 1;Turcotte;Annie;221A0;Technologie l'architecture;2003
+20163;201537038;Lemay                         ;Gabriel             ;M;13/04/1999;360300RE;2;Méthodes quantitatives en sciences humaines;Fortin;Steve;412A0;Techniques de bureautique;1999
+20163;201537036;Lemay                         ;Gabriel             ;M;13/04/1994;2011D4LL;3;Mathématiques en architecture 2;Rousseau;Martin;221A0;Technologie l'architecture;2003
+20163;201537001;Lemay                         ;Gabriel             ;M;13/04/1994;201302RE;1;Méthodes quantitatives avancées;Bouchard;Véronique;412A0;Techniques de bureautique;1999
+20163;201536767;Lemelin                       ;Gabriel             ;M;13/03/2000;2011D4LL;1;Mathématiques en architecture 2;Breton;Josée;221A0;Technologie l'architecture;2003
+20163;201536654;Lemieux                       ;Gabriel             ;M;13/03/1998;2011D4LL;1;Mathématiques en architecture 2;Breton;Josée;221A0;Technologie l'architecture;2003
+20163;201536322;Lemieux                       ;Gabriel             ;M;13/03/1998;2011C3LL;1;Statistique pour chimie et biologie;Genest;Maxime;210AA;210A0 Spéc biotechnologies;2001
+20163;201536221;Lemieux                       ;Gabriel             ;M;13/02/1999;2011E5LL;2;Statistique;Bouchard;Véronique;410C0;Conseils assur serv financ;2002
+20163;201536129;Lemire-Gagnon                 ;Gabriel             ;M;13/02/1998;2011D4LL;2;Mathématiques en architecture 2;Breton;Josée;221A0;Technologie l'architecture;2003
+20163;201536107;Lepage                        ;Gabriel             ;M;13/02/1996;2011D4LL;1;Mathématiques en architecture 2;Breton;Josée;221A0;Technologie l'architecture;2003
+20163;201536088;Lessard                       ;Gabriel             ;M;13/01/1980;2011D4LL;1;Mathématiques en architecture 2;Breton;Josée;221A0;Technologie l'architecture;2003
+20163;201536053;Lessard                       ;Gabriel             ;M;12/12/1995;2011D4LL;2;Mathématiques en architecture 2;Breton;Josée;221A0;Technologie l'architecture;2003
+20163;201535722;Lessard                       ;Gabriel             ;M;12/11/1997;2011E5LL;3;Statistique;Genest;Maxime;410B0;Tech comptabilité gestion;2002
+20163;201535692;Lessard                       ;Gabriel             ;M;12/11/1997;201203RE;1;Calcul II;Breton;Josée;420AB;420.A0 spec. infor. indust;2000
+20163;201535607;Lessard                       ;Gabriel             ;M;12/10/1999;2011E5LL;1;Statistique;Bouchard;Véronique;410B0;Tech comptabilité gestion;2002
+20163;201535565;Letourneau                    ;Frédérique          ;F;12/09/1995;201203RE;1;Calcul II;Breton;Josée;420AA;420.A0 spec. inform. gest.;2000
+20163;201535565;Letourneau                    ;Frédérique          ;F;12/09/1995;2011D4LL;1;Mathématiques en architecture 2;Breton;Josée;420AA;420.A0 spec. inform. gest.;2000
+20163;201535538;Létourneau                    ;Frédérik            ;M;12/07/1995;2011D4LL;2;Mathématiques en architecture 2;Breton;Josée;221A0;Technologie l'architecture;2003
+20163;201535538;Létourneau                    ;Frédérik            ;M;12/07/1995;2011C3LL;1;Statistique pour chimie et biologie;Genest;Maxime;221A0;Technologie l'architecture;2003
+20163;201535528;Levasseur                     ;Frédérick           ;M;12/07/1995;2011D4LL;1;Mathématiques en architecture 2;Breton;Josée;221A0;Technologie l'architecture;2003
+20163;201535429;Léveillé                      ;Frédéric            ;M;12/06/1999;2011E5LL;3;Statistique;Genest;Maxime;410B0;Tech comptabilité gestion;2002
+20163;201535365;Léveillé                      ;Frédéric            ;M;12/06/1998;2011E5LL;1;Statistique;Bouchard;Véronique;410B0;Tech comptabilité gestion;2002
+20163;201535342;Lévesque                      ;Frédéric            ;M;12/04/1999;201NYB05;1;Calcul intégral;Turcotte;Annie;210AA;210A0 Spéc biotechnologies;2001
+20163;201535313;Lévesque                      ;Frédéric            ;M;12/03/1999;2011C3LL;1;Statistique pour chimie et biologie;Genest;Maxime;210AB;210A0 Spéc chimie analyti;2001
+20163;201535297;Lévesque                      ;Frederic            ;M;12/03/1999;2011E5LL;2;Statistique;Bouchard;Véronique;410C0;Conseils assur serv financ;2002
+20163;201535162;Levesque-Arbour               ;François-Xavier     ;M;12/02/1999;2011E5LL;1;Statistique;Bouchard;Véronique;410B0;Tech comptabilité gestion;2002
+20163;201535026;Levesque-Vargas               ;François            ;M;12/02/1999;2011E5LL;2;Statistique;Bouchard;Véronique;410C0;Conseils assur serv financ;2002
+20163;201534993;Lindsay                       ;François            ;M;12/02/1999;2011D4LL;1;Mathématiques en architecture 2;Breton;Josée;221A0;Technologie l'architecture;2003
+20163;201534987;Linteau                       ;François            ;M;12/01/1999;2011D4LL;2;Mathématiques en architecture 2;Breton;Josée;221A0;Technologie l'architecture;2003
+20163;201534980;Longang Nanguen               ;François            ;M;12/01/1999;360300RE;1;Méthodes quantitatives en sciences humaines;Laflamme;Nadia;388A0;Techn. de travail social;2000
+20163;201534952;Loranger                      ;François            ;M;11/12/1998;360300RE;1;Méthodes quantitatives en sciences humaines;Laflamme;Nadia;388A0;Techn. de travail social;2000
+20163;201534922;Lortie                        ;Francis             ;M;11/11/1997;2011E5LL;2;Statistique;Bouchard;Véronique;410C0;Conseils assur serv financ;2002
+20163;201534911;Lupien-Montesinos             ;Francis             ;M;11/11/1996;2011D4LL;1;Mathématiques en architecture 2;Breton;Josée;221A0;Technologie l'architecture;2003
+20163;201534857;Madore                        ;Francis             ;M;11/11/1994;2011D4LL;2;Mathématiques en architecture 2;Breton;Josée;221A0;Technologie l'architecture;2003
+20163;201534824;Magramane                     ;Francis             ;M;11/11/1994;2011E5LL;1;Statistique;Bouchard;Véronique;410B0;Tech comptabilité gestion;2002
+20163;201534787;Maheu                         ;Francis             ;M;11/10/1998;2011E5LL;3;Statistique;Genest;Maxime;410B0;Tech comptabilité gestion;2002
+20163;201534723;Maheux                        ;Francis             ;M;11/10/1996;2011D4LL;2;Mathématiques en architecture 2;Breton;Josée;221A0;Technologie l'architecture;2003
+20163;201534714;Maheux                        ;Francis             ;M;11/10/1992;2011D4LL;1;Mathématiques en architecture 2;Breton;Josée;221A0;Technologie l'architecture;2003
+20163;201534702;Mailhot                       ;Florence            ;F;11/09/1999;201203RE;1;Calcul II;Breton;Josée;420AA;420.A0 spec. inform. gest.;2000
+20163;201534697;Mailhot                       ;Florence            ;F;11/09/1998;2011D4LL;2;Mathématiques en architecture 2;Breton;Josée;221A0;Technologie l'architecture;2003
+20163;201534689;Makemnang Sonkeng             ;Florence            ;F;11/09/1996;2012C5LL;1;Les grandes idées scientifiques;Nadeau;Lucie;700B0;Histoire et civilisation;2002
+20163;201534650;Malette                       ;Félix-Antoine       ;M;11/09/1996;2011E5LL;1;Statistique;Bouchard;Véronique;410B0;Tech comptabilité gestion;2002
+20163;201534520;Maltais                       ;Félix               ;M;11/08/1999;2011D4LL;3;Mathématiques en architecture 2;Rousseau;Martin;221A0;Technologie l'architecture;2003
+20163;201534412;Maras                         ;Félix               ;M;11/08/1994;2011E5LL;1;Statistique;Bouchard;Véronique;410B0;Tech comptabilité gestion;2002
+20163;201534365;Marceau                       ;Félix               ;M;11/07/1999;2011D4LL;1;Mathématiques en architecture 2;Breton;Josée;221A0;Technologie l'architecture;2003
+20163;201534122;Marceau                       ;Félix               ;M;11/07/1998;2011E5LL;1;Statistique;Bouchard;Véronique;410B0;Tech comptabilité gestion;2002
+20163;201534053;Marceau                       ;Félix               ;M;11/07/1998;2011E5LL;1;Statistique;Bouchard;Véronique;410B0;Tech comptabilité gestion;2002
+20163;201534046;Marcoux                       ;Félix               ;M;11/06/1999;2011C3LL;1;Statistique pour chimie et biologie;Genest;Maxime;210C0;Techniques génie chimique;2010
+20163;201534037;Marcoux                       ;Félix               ;M;11/06/1997;2011D4LL;1;Mathématiques en architecture 2;Breton;Josée;221A0;Technologie l'architecture;2003
+20163;201534033;Marcoux                       ;Félicia             ;F;11/06/1992;2011D4LL;2;Mathématiques en architecture 2;Breton;Josée;221A0;Technologie l'architecture;2003
+20163;201534030;Marquis                       ;Éveline             ;F;11/04/1999;2011D4LL;2;Mathématiques en architecture 2;Breton;Josée;221A0;Technologie l'architecture;2003
+20163;201534030;Marquis                       ;Éveline             ;F;11/04/1999;2011E5LL;2;Statistique;Bouchard;Véronique;221A0;Technologie l'architecture;2003
+20163;201534023;Marquis                       ;Ève                 ;F;11/04/1999;2011C3LL;1;Statistique pour chimie et biologie;Genest;Maxime;210AA;210A0 Spéc biotechnologies;2001
+20163;201533761;Marquis                       ;Ève                 ;F;11/04/1998;2011E5LL;1;Statistique;Bouchard;Véronique;410B0;Tech comptabilité gestion;2002
+20163;201533670;Martel                        ;Ève                 ;F;11/04/1998;2011D4LL;3;Mathématiques en architecture 2;Rousseau;Martin;221A0;Technologie l'architecture;2003
+20163;201533604;Martens                       ;Eve                 ;F;11/04/1997;2011E5LL;1;Statistique;Bouchard;Véronique;410B0;Tech comptabilité gestion;2002
+20163;201533602;Martineau                     ;Èva                 ;F;11/03/1999;2011C3LL;1;Statistique pour chimie et biologie;Genest;Maxime;210AB;210A0 Spéc chimie analyti;2001
+20163;201533571;Martineau                     ;Étienne             ;M;11/03/1997;2011D4LL;3;Mathématiques en architecture 2;Rousseau;Martin;221A0;Technologie l'architecture;2003
+20163;201533539;Martineau                     ;Etienne             ;M;11/02/1999;2011A4LL;2;Mathématiques en architecture 1;Bourget;Patrick;221A0;Technologie l'architecture;2003
+20163;201533508;Martineau                     ;Etienne             ;M;11/01/1999;2011D4LL;1;Mathématiques en architecture 2;Breton;Josée;221A0;Technologie l'architecture;2003
+20163;201533441;Martineau                     ;Etienne             ;M;11/01/1998;2012C5LL;1;Les grandes idées scientifiques;Nadeau;Lucie;700B0;Histoire et civilisation;2002
+20163;201533424;Martineau                     ;Etienne             ;M;10/12/1997;2011D4LL;2;Mathématiques en architecture 2;Breton;Josée;221A0;Technologie l'architecture;2003
+20163;201533408;Masse                         ;Estelle             ;F;10/12/1995;2011D4LL;2;Mathématiques en architecture 2;Breton;Josée;221A0;Technologie l'architecture;2003
+20163;201533383;Masse                         ;Érika               ;F;10/12/1995;2011E5LL;1;Statistique;Bouchard;Véronique;410B0;Tech comptabilité gestion;2002
+20163;201533289;Massé                         ;Erika               ;F;10/11/1998;2012C5LL;1;Les grandes idées scientifiques;Nadeau;Lucie;700B0;Histoire et civilisation;2002
+20163;201533237;Masson                        ;Erika               ;F;10/11/1997;2011E5LL;2;Statistique;Bouchard;Véronique;410C0;Conseils assur serv financ;2002
+20163;201533230;Mathieu                       ;Erika               ;F;10/11/1997;2011C3LL;1;Statistique pour chimie et biologie;Genest;Maxime;210AB;210A0 Spéc chimie analyti;2001
+20163;201533202;Mathieu                       ;Eric                ;M;10/09/1999;2011C3LL;1;Statistique pour chimie et biologie;Genest;Maxime;210AA;210A0 Spéc biotechnologies;2001
+20163;201533193;MBeri                         ;Eric                ;M;10/09/1999;2011E5LL;1;Statistique;Bouchard;Véronique;410B0;Tech comptabilité gestion;2002
+20163;201533188;Mcintyre                      ;Enrick              ;M;10/08/1999;2011D4LL;1;Mathématiques en architecture 2;Breton;Josée;221A0;Technologie l'architecture;2003
+20163;201533187;Mercier                       ;Émmy                ;F;10/08/1999;2011E5LL;1;Statistique;Bouchard;Véronique;410B0;Tech comptabilité gestion;2002
+20163;201533148;Mercier-Castonguay            ;Emmanuel            ;M;10/08/1999;2011E5LL;1;Statistique;Bouchard;Véronique;410B0;Tech comptabilité gestion;2002
+20163;201532983;Mesa Pinzon                   ;Emmanuel            ;M;10/08/1999;2011D4LL;3;Mathématiques en architecture 2;Rousseau;Martin;221A0;Technologie l'architecture;2003
+20163;201532898;Méthot                        ;Emmanuel            ;M;10/08/1997;2011D4LL;2;Mathématiques en architecture 2;Breton;Josée;221A0;Technologie l'architecture;2003
+20163;201532884;Méthot-Dion                   ;Emma                ;F;10/07/1999;2011C3LL;1;Statistique pour chimie et biologie;Genest;Maxime;210AA;210A0 Spéc biotechnologies;2001
+20163;201532785;Métivier                      ;Émilie              ;F;10/07/1998;2012C5LL;1;Les grandes idées scientifiques;Nadeau;Lucie;700B0;Histoire et civilisation;2002
+20163;201532783;Michalk                       ;Émilie              ;F;10/06/1997;2011E5LL;1;Statistique;Bouchard;Véronique;410B0;Tech comptabilité gestion;2002
+20163;201532691;Michaud                       ;Emilie              ;F;10/04/1999;2011D4LL;1;Mathématiques en architecture 2;Breton;Josée;221A0;Technologie l'architecture;2003
+20163;201532637;Michaud                       ;Emilie              ;F;10/02/1998;2011D4LL;1;Mathématiques en architecture 2;Breton;Josée;221A0;Technologie l'architecture;2003
+20163;201532500;Michaud                       ;Émile               ;M;10/01/1999;2011C3LL;1;Statistique pour chimie et biologie;Genest;Maxime;210AB;210A0 Spéc chimie analyti;2001
+20163;201532376;Mignault                      ;Émile               ;M;10/01/1999;2011D4LL;3;Mathématiques en architecture 2;Rousseau;Martin;221A0;Technologie l'architecture;2003
+20163;201532335;Mimeault                      ;Emile               ;M;10/01/1998;2011E5LL;1;Statistique;Bouchard;Véronique;410B0;Tech comptabilité gestion;2002
+20163;201532265;Miville-Rioux                 ;Emile               ;M;09/12/1997;2011D4LL;3;Mathématiques en architecture 2;Rousseau;Martin;221A0;Technologie l'architecture;2003
+20163;201532175;Moisan                        ;Emile               ;M;09/12/1996;2011E5LL;2;Statistique;Bouchard;Véronique;410C0;Conseils assur serv financ;2002
+20163;201532165;Mondou                        ;Emile               ;M;09/11/1997;2011E5LL;2;Statistique;Bouchard;Véronique;410C0;Conseils assur serv financ;2002
+20163;201532158;Monfette                      ;Elysabeth           ;F;09/11/1997;2011D4LL;3;Mathématiques en architecture 2;Rousseau;Martin;221A0;Technologie l'architecture;2003
+20163;201532155;Mongrain                      ;Elsa                ;F;09/10/1998;2011D4LL;2;Mathématiques en architecture 2;Breton;Josée;221A0;Technologie l'architecture;2003
+20163;201532145;Montambault                   ;Elsa                ;F;09/10/1992;2011D4LL;1;Mathématiques en architecture 2;Breton;Josée;221A0;Technologie l'architecture;2003
+20163;201532098;Montminy                      ;Elodie              ;F;09/09/1999;201203RE;1;Calcul II;Breton;Josée;420AA;420.A0 spec. inform. gest.;2000
+20163;201532098;Montminy                      ;Elodie              ;F;09/09/1999;2011E5LL;1;Statistique;Bouchard;Véronique;420AA;420.A0 spec. inform. gest.;2000
+20163;201532051;Montreuil                     ;Elliot              ;M;09/09/1999;2011E5LL;1;Statistique;Bouchard;Véronique;410B0;Tech comptabilité gestion;2002
+20163;201532049;Moreau                        ;Elizabeth           ;F;09/09/1998;2011D4LL;1;Mathématiques en architecture 2;Breton;Josée;221A0;Technologie l'architecture;2003
+20163;201531978;Morency                       ;Elizabeth           ;F;09/09/1996;2011C3LL;1;Statistique pour chimie et biologie;Genest;Maxime;210AA;210A0 Spéc biotechnologies;2001
+20163;201531890;Morency                       ;Elizabeth           ;F;09/09/1995;2011D4LL;2;Mathématiques en architecture 2;Breton;Josée;221A0;Technologie l'architecture;2003
+20163;201531407;Morin                         ;Élisabeth           ;F;09/07/1992;2011C5LL;1;Mathématique en électronique industrielle II;Bourget;Patrick;243C0;Technol électroniq industr;2007
+20163;201512571;Morin                         ;Elisabeth           ;F;09/06/1999;201203RE;1;Calcul II;Breton;Josée;420AA;420.A0 spec. inform. gest.;2000
+20163;201512520;Morin-Roussel                 ;Elisabeth           ;F;09/06/1999;2012C5LL;1;Les grandes idées scientifiques;Nadeau;Lucie;700B0;Histoire et civilisation;2002
+20163;201512253;Morissette                    ;Elisabeth           ;F;09/05/1997;2011D4LL;2;Mathématiques en architecture 2;Breton;Josée;221A0;Technologie l'architecture;2003
+20163;201511828;Morissette                    ;Elisabeth           ;F;09/05/1993;2011D4LL;2;Mathématiques en architecture 2;Breton;Josée;221A0;Technologie l'architecture;2003
+20163;201511526;Nadeau                        ;Élie-Joseph         ;M;09/05/1979;2011C3LL;1;Statistique pour chimie et biologie;Genest;Maxime;210AB;210A0 Spéc chimie analyti;2001
+20163;201511509;Nadeau                        ;Élie                ;F;09/04/1998;201NYC05;1;Algèbre linéaire et géométrie vectorielle;Carel;Jacques;210C0;Techniques génie chimique;2010
+20163;201511073;Nadeau                        ;Eliane              ;F;09/04/1994;2011D4LL;2;Mathématiques en architecture 2;Breton;Josée;221A0;Technologie l'architecture;2003
+20163;201511019;Nadeau                        ;Édouard             ;M;09/03/1999;2011C3LL;1;Statistique pour chimie et biologie;Genest;Maxime;210AB;210A0 Spéc chimie analyti;2001
+20163;201510746;Nadeau                        ;Édouard             ;M;09/03/1998;2011C5LL;1;Mathématique en électronique industrielle II;Bourget;Patrick;243C0;Technol électroniq industr;2007
+20163;201467957;Nadeau                        ;Édouard             ;M;09/03/1998;2011E5LL;1;Statistique;Bouchard;Véronique;410B0;Tech comptabilité gestion;2002
+20163;201467860;Nadeau                        ;Edouard             ;M;09/02/1999;2011E5LL;2;Statistique;Bouchard;Véronique;410C0;Conseils assur serv financ;2002
+20163;201467781;Nadeau                        ;Dylan               ;M;09/02/1999;2011C3LL;1;Statistique pour chimie et biologie;Genest;Maxime;210AB;210A0 Spéc chimie analyti;2001
+20163;201467167;Nadeau-Grondin                ;Dominique           ;M;09/02/1998;2011D4LL;1;Mathématiques en architecture 2;Breton;Josée;221A0;Technologie l'architecture;2003
+20163;201466927;Naud                          ;Dominique           ;F;09/02/1997;2011A5LL;1;Mathématiques I pour chimie et biologie;St-Onge;Alexandre;210AB;210A0 Spéc chimie analyti;2001
+20163;201466811;Néron                         ;Dominique           ;F;08/12/1997;2011E5LL;1;Statistique;Bouchard;Véronique;410B0;Tech comptabilité gestion;2002
+20163;201465707;Nicolas                       ;Dominic             ;M;08/12/1992;2011D4LL;2;Mathématiques en architecture 2;Breton;Josée;221A0;Technologie l'architecture;2003
+20163;201465678;Noël                          ;Dominic             ;M;08/11/1998;2011C3LL;1;Statistique pour chimie et biologie;Genest;Maxime;210AB;210A0 Spéc chimie analyti;2001
+20163;201464828;Noël                          ;Dominic             ;M;08/11/1990;2011D4LL;1;Mathématiques en architecture 2;Breton;Josée;221A0;Technologie l'architecture;2003
+20163;201464256;Noël                          ;Dérick              ;M;08/10/1998;2011E5LL;1;Statistique;Bouchard;Véronique;410B0;Tech comptabilité gestion;2002
+20163;201464127;Noël                          ;David               ;M;08/10/1998;2011C3LL;1;Statistique pour chimie et biologie;Genest;Maxime;210AA;210A0 Spéc biotechnologies;2001
+20163;201463567;Tremblay                      ;David               ;M;08/10/1997;2011C3LL;1;Statistique pour chimie et biologie;Genest;Maxime;210AB;210A0 Spéc chimie analyti;2001
+20163;201462538;Normand                       ;David               ;M;08/10/1997;2011C3LL;1;Statistique pour chimie et biologie;Genest;Maxime;210AB;210A0 Spéc chimie analyti;2001
+20163;201462362;Noronha-Robin                 ;David               ;M;08/10/1997;2011D4LL;1;Mathématiques en architecture 2;Breton;Josée;221A0;Technologie l'architecture;2003
+20163;201462337;Oettli                        ;David               ;M;08/09/1999;2011D4LL;1;Mathématiques en architecture 2;Breton;Josée;221A0;Technologie l'architecture;2003
+20163;201462231;Oettli                        ;David               ;M;08/08/1995;2011C3LL;1;Statistique pour chimie et biologie;Genest;Maxime;210AA;210A0 Spéc biotechnologies;2001
+20163;201461975;O'Hearn                       ;Dave                ;M;08/08/1995;2011C3LL;1;Statistique pour chimie et biologie;Genest;Maxime;210AB;210A0 Spéc chimie analyti;2001
+20163;201461808;Olivier                       ;Darcy               ;F;08/07/1996;2011C3LL;1;Statistique pour chimie et biologie;Genest;Maxime;210AA;210A0 Spéc biotechnologies;2001
+20163;201461808;Olivier                       ;Darcy               ;F;08/07/1996;201203RE;1;Calcul II;Breton;Josée;210AA;210A0 Spéc biotechnologies;2001
+20163;201461393;Omanda Atcha                  ;Daphnée             ;F;08/06/1998;2011D4LL;3;Mathématiques en architecture 2;Rousseau;Martin;221A0;Technologie l'architecture;2003
+20163;201461170;Otis-Quevillon                ;Daphnée             ;F;08/05/1998;2011D4LL;2;Mathématiques en architecture 2;Breton;Josée;221A0;Technologie l'architecture;2003
+20163;201445301;Ott                           ;Daniel              ;M;08/05/1996;2012C5LL;1;Les grandes idées scientifiques;Nadeau;Lucie;700B0;Histoire et civilisation;2002
+20163;201444926;Ouellet                       ;Danick              ;M;08/05/1990;2011E5LL;3;Statistique;Genest;Maxime;410B0;Tech comptabilité gestion;2002
+20163;201444865;Pagé                          ;Cynthia             ;F;08/04/1999;2011D4LL;2;Mathématiques en architecture 2;Breton;Josée;221A0;Technologie l'architecture;2003
+20163;201444743;Pagé                          ;Cynthia             ;F;08/04/1999;2011E5LL;1;Statistique;Bouchard;Véronique;410B0;Tech comptabilité gestion;2002
+20163;201444616;Painchaud                     ;Cynthia             ;F;08/04/1998;2011C3LL;1;Statistique pour chimie et biologie;Genest;Maxime;210AA;210A0 Spéc biotechnologies;2001
+20163;201443693;Paquet                        ;Cyndie              ;F;08/04/1995;201203RE;1;Calcul II;Breton;Josée;420AA;420.A0 spec. inform. gest.;2000
+20163;201443454;Paquet                        ;Corinne             ;F;08/04/1986;2011D4LL;2;Mathématiques en architecture 2;Breton;Josée;221A0;Technologie l'architecture;2003
+20163;201443415;Paquet                        ;Corinne             ;F;08/03/1999;2011E5LL;1;Statistique;Bouchard;Véronique;410B0;Tech comptabilité gestion;2002
+20163;201443158;Paquet                        ;Coralie             ;F;08/02/1997;2011D4LL;2;Mathématiques en architecture 2;Breton;Josée;221A0;Technologie l'architecture;2003
+20163;201443031;Paquet                        ;Coralie             ;F;08/01/1999;2011E5LL;1;Statistique;Bouchard;Véronique;410B0;Tech comptabilité gestion;2002
+20163;201442847;Paquet                        ;Coralie             ;F;08/01/1999;2011D4LL;2;Mathématiques en architecture 2;Breton;Josée;221A0;Technologie l'architecture;2003
+20163;201442621;Paquin                        ;Clément             ;M;08/01/1997;201DSN03;1;Mathématiques en mécanique 3;Carel;Jacques;241D0;Technol maintenance indust;2003
+20163;201442304;Paradis                       ;Claudy              ;F;07/12/1998;2011D4LL;2;Mathématiques en architecture 2;Breton;Josée;221A0;Technologie l'architecture;2003
+20163;201442260;Paré                          ;Claudine            ;F;07/12/1995;2011D4LL;1;Mathématiques en architecture 2;Breton;Josée;221A0;Technologie l'architecture;2003
+20163;201442235;Paré                          ;Claudie             ;F;07/10/1996;2011E5LL;1;Statistique;Bouchard;Véronique;410B0;Tech comptabilité gestion;2002
+20163;201442193;Paré                          ;Claudie             ;F;07/10/1989;2011E5LL;1;Statistique;Bouchard;Véronique;410B0;Tech comptabilité gestion;2002
+20163;201442042;Paré                          ;Claudie             ;F;07/10/1988;2012C5LL;1;Les grandes idées scientifiques;Nadeau;Lucie;700B0;Histoire et civilisation;2002
+20163;201441804;Paré                          ;Claudia             ;F;07/10/1988;201203RE;1;Calcul II;Breton;Josée;420AA;420.A0 spec. inform. gest.;2000
+20163;201441659;Parent                        ;Cindy               ;F;07/09/1978;2011C3LL;1;Statistique pour chimie et biologie;Genest;Maxime;210AB;210A0 Spéc chimie analyti;2001
+20163;201441420;Parent                        ;Christopher         ;M;07/08/1999;2011C3LL;1;Statistique pour chimie et biologie;Genest;Maxime;210AA;210A0 Spéc biotechnologies;2001
+20163;201441329;Patoine                       ;Christopher         ;M;07/08/1999;2011E5LL;3;Statistique;Genest;Maxime;410B0;Tech comptabilité gestion;2002
+20163;201441304;Pauzé                         ;Christopher         ;M;07/08/1999;2011E5LL;3;Statistique;Genest;Maxime;410B0;Tech comptabilité gestion;2002
+20163;201441290;Pelchat                       ;Christopher         ;M;07/08/1997;2011D4LL;1;Mathématiques en architecture 2;Breton;Josée;221A0;Technologie l'architecture;2003
+20163;201441281;Pelchat                       ;Christopher         ;M;07/08/1997;2011D4LL;1;Mathématiques en architecture 2;Breton;Josée;221A0;Technologie l'architecture;2003
+20163;201441252;Pelchat                       ;Christopher         ;M;07/08/1996;2011A4LL;2;Mathématiques en architecture 1;Bourget;Patrick;221A0;Technologie l'architecture;2003
+20163;201441126;Pelletier                     ;Christopher         ;M;07/08/1993;2011C3LL;1;Statistique pour chimie et biologie;Genest;Maxime;210AA;210A0 Spéc biotechnologies;2001
+20163;201441074;Pelletier                     ;Christophe          ;M;07/08/1992;2012C5LL;1;Les grandes idées scientifiques;Nadeau;Lucie;700B0;Histoire et civilisation;2002
+20163;201441071;Pelletier                     ;Christophe          ;M;07/07/1999;201NYB05;1;Calcul intégral;Turcotte;Annie;210AB;210A0 Spéc chimie analyti;2001
+20163;201440873;Pelletier                     ;Christina           ;F;07/07/1993;2011E5LL;1;Statistique;Bouchard;Véronique;410B0;Tech comptabilité gestion;2002
+20163;201440770;Pelletier                     ;Christina           ;F;07/07/1982;201203RE;1;Calcul II;Breton;Josée;420AA;420.A0 spec. inform. gest.;2000
+20163;201440510;Pelletier                     ;Chloé               ;F;07/06/1998;2011A5LL;1;Mathématiques I pour chimie et biologie;St-Onge;Alexandre;210AA;210A0 Spéc biotechnologies;2001
+20163;201440492;Pelletier-Houle               ;Charlotte           ;F;07/04/1999;2011E5LL;2;Statistique;Bouchard;Véronique;410C0;Conseils assur serv financ;2002
+20163;201440492;Pelletier-Houle               ;Charlotte           ;F;07/04/1999;2011D4LL;2;Mathématiques en architecture 2;Breton;Josée;410C0;Conseils assur serv financ;2002
+20163;201440451;Pensivy                       ;Charles-Isaac       ;M;07/04/1999;201203RE;1;Calcul II;Breton;Josée;420AA;420.A0 spec. inform. gest.;2000
+20163;201440449;Pépin-Boudreau                ;Charles-Frédérick   ;M;07/04/1996;2011E5LL;2;Statistique;Bouchard;Véronique;410C0;Conseils assur serv financ;2002
+20163;201440446;Perreault                     ;Charles-Antoine     ;M;07/03/1997;360300RE;1;Méthodes quantitatives en sciences humaines;Laflamme;Nadia;300A3;Individu-Société ;2001
+20163;201440403;Perreault                     ;Charles-Antoine     ;M;07/02/1998;201302RE;2;Méthodes quantitatives avancées;Bouchard;Véronique;300A3;Individu-Société ;2001
+20163;201440327;Perreault-Carrier             ;Charles-Antoine     ;M;07/02/1997;201NYC05;1;Algèbre linéaire et géométrie vectorielle;Carel;Jacques;221A0;Technologie l'architecture;2003
+20163;201440216;Perron                        ;Charles-Antoine     ;M;07/02/1995;360300RE;2;Méthodes quantitatives en sciences humaines;Fortin;Steve;388A0;Techn. de travail social;2000
+20163;201439916;Perron                        ;Charles-Antoine     ;M;07/01/1999;360300RE;2;Méthodes quantitatives en sciences humaines;Fortin;Steve;300A3;Individu-Société ;2001
+20163;201439848;Person                        ;Charles-Antoine     ;M;07/01/1998;201302RE;2;Méthodes quantitatives avancées;Bouchard;Véronique;300A3;Individu-Société ;2001
+20163;201439807;Picard                        ;Charles-Alexandre   ;M;07/01/1997;360300RE;2;Méthodes quantitatives en sciences humaines;Fortin;Steve;300A3;Individu-Société ;2001
+20163;201439613;Picard                        ;Charles             ;M;07/01/1991;201302RE;3;Méthodes quantitatives avancées;Genest;Maxime;300A3;Individu-Société ;2001
+20163;201439537;Picard                        ;Charles             ;M;06/12/1998;360300RE;1;Méthodes quantitatives en sciences humaines;Laflamme;Nadia;300A3;Individu-Société ;2001
+20163;201439336;Pigeon                        ;Charles             ;M;06/11/1998;360300RE;2;Méthodes quantitatives en sciences humaines;Fortin;Steve;300A3;Individu-Société ;2001
+20163;201439244;Pineda-Campos                 ;Charles             ;M;06/10/1998;360300RE;1;Méthodes quantitatives en sciences humaines;Laflamme;Nadia;300A3;Individu-Société ;2001
+20163;201439065;Pineda-Campos                 ;Charles             ;M;06/10/1997;201NYA05;4;Calcul différentiel;St-Onge;Alexandre;221A0;Technologie l'architecture;2003
+20163;201439057;Plamondon                     ;Charles             ;M;06/10/1997;201NYA05;4;Calcul différentiel;St-Onge;Alexandre;221A0;Technologie l'architecture;2003
+20163;201439055;Plamondon                     ;Charles             ;M;06/10/1993;201NYA05;4;Calcul différentiel;St-Onge;Alexandre;221A0;Technologie l'architecture;2003
+20163;201438827;Plourde                       ;Charles             ;M;06/10/1986;2011D4LL;3;Mathématiques en architecture 2;Rousseau;Martin;221A0;Technologie l'architecture;2003
+20163;201438588;Poirier                       ;Charles             ;M;06/09/1998;360300RE;2;Méthodes quantitatives en sciences humaines;Fortin;Steve;700B0;Histoire et civilisation;2002
+20163;201438561;Poirier                       ;Célia               ;F;06/09/1997;360300RE;3;Méthodes quantitatives en sciences humaines;Rousseau;Martin;300A2;Sociétés-Monde;2001
+20163;201438540;Potvin                        ;Céleste             ;F;06/09/1996;360300RE;3;Méthodes quantitatives en sciences humaines;Rousseau;Martin;300A2;Sociétés-Monde;2001
+20163;201437869;Poulin                        ;Cédric              ;M;06/08/1999;360300RE;1;Méthodes quantitatives en sciences humaines;Laflamme;Nadia;300A3;Individu-Société ;2001
+20163;201437865;Poulin                        ;Cédric              ;M;06/08/1999;360300RE;2;Méthodes quantitatives en sciences humaines;Fortin;Steve;300A2;Sociétés-Monde;2001
+20163;201437844;Poulin                        ;Cédric              ;M;06/07/1999;360300RE;3;Méthodes quantitatives en sciences humaines;Rousseau;Martin;300A1;Administration-Économie;2001
+20163;201437828;Poulin                        ;Catherine           ;F;06/07/1998;201203RE;1;Calcul II;Breton;Josée;300A1;Administration-Économie;2001
+20163;201437810;Pouliot                       ;Catherine           ;F;06/07/1998;201302RE;1;Méthodes quantitatives avancées;Bouchard;Véronique;300A3;Individu-Société ;2001
+20163;201437806;Pouliot                       ;Catherine           ;F;06/07/1984;360300RE;3;Méthodes quantitatives en sciences humaines;Rousseau;Martin;300A3;Individu-Société ;2001
+20163;201437643;Pouliot                       ;Cassandra           ;F;06/06/1999;2011D4LL;2;Mathématiques en architecture 2;Breton;Josée;221A0;Technologie l'architecture;2003
+20163;201437534;Pouliot                       ;Cassandra           ;F;06/06/1993;201203RE;1;Calcul II;Breton;Josée;420AA;420.A0 spec. inform. gest.;2000
+20163;201437511;Pouliot                       ;Cassandra           ;F;06/05/1999;201302RE;1;Méthodes quantitatives avancées;Bouchard;Véronique;300A3;Individu-Société ;2001
+20163;201437224;Pouliot                       ;Caroline            ;F;06/05/1998;360300RE;2;Méthodes quantitatives en sciences humaines;Fortin;Steve;300A2;Sociétés-Monde;2001
+20163;201437150;Pouliot                       ;Caroline            ;F;06/05/1997;360300RE;1;Méthodes quantitatives en sciences humaines;Laflamme;Nadia;300A3;Individu-Société ;2001
+20163;201437041;Prévost                       ;Carol-Ann           ;F;06/05/1991;201302RE;3;Méthodes quantitatives avancées;Genest;Maxime;300A3;Individu-Société ;2001
+20163;201436954;Pronovost                     ;Camille             ;F;06/04/1999;360300RE;3;Méthodes quantitatives en sciences humaines;Rousseau;Martin;300A3;Individu-Société ;2001
+20163;201436905;Provencher                    ;Camille             ;F;06/04/1997;201DSN03;1;Mathématiques en mécanique 3;Carel;Jacques;241D0;Technol maintenance indust;2003
+20163;201436881;Quesnel-Mignault              ;Camille             ;F;06/04/1997;360300RE;3;Méthodes quantitatives en sciences humaines;Rousseau;Martin;300A3;Individu-Société ;2001
+20163;201436616;Quintero Lancheros            ;Camille             ;F;06/03/1998;2011D4LL;2;Mathématiques en architecture 2;Breton;Josée;221A0;Technologie l'architecture;2003
+20163;201436585;Quirion                       ;Camille             ;F;06/03/1998;201203RE;1;Calcul II;Breton;Josée;300A1;Administration-Économie;2001
+20163;201436562;Quirion                       ;Camille             ;F;06/02/1998;360300RE;3;Méthodes quantitatives en sciences humaines;Rousseau;Martin;300A3;Individu-Société ;2001
+20163;201436552;R. Lepage                     ;Camille             ;M;06/02/1998;201302RE;2;Méthodes quantitatives avancées;Bouchard;Véronique;300A2;Sociétés-Monde;2001
+20163;201436448;Racette                       ;Camille             ;F;06/02/1992;201302RE;3;Méthodes quantitatives avancées;Genest;Maxime;300A2;Sociétés-Monde;2001
+20163;201436448;Racette                       ;Camille             ;F;06/02/1992;2011E5LL;2;Statistique;Bouchard;Véronique;300A2;Sociétés-Monde;2001
+20163;201436341;Racine                        ;Camille             ;F;06/01/1999;201203RE;1;Calcul II;Breton;Josée;300A1;Administration-Économie;2001
+20163;201436169;Racine                        ;Camille             ;F;06/01/1999;360300RE;2;Méthodes quantitatives en sciences humaines;Fortin;Steve;300A2;Sociétés-Monde;2001
+20163;201436096;Ratycz-Légaré                 ;Camille             ;F;06/01/1998;201203RE;1;Calcul II;Breton;Josée;300A1;Administration-Économie;2001
+20163;201436032;Renaud                        ;Camélie             ;F;06/01/1998;2011D4LL;1;Mathématiques en architecture 2;Breton;Josée;221A0;Technologie l'architecture;2003
+20163;201435933;Renauld                       ;Calixa              ;M;06/01/1997;2011D4LL;3;Mathématiques en architecture 2;Rousseau;Martin;221A0;Technologie l'architecture;2003
+20163;201435752;Rhéaume                       ;Brandon             ;M;06/01/1990;360300RE;3;Méthodes quantitatives en sciences humaines;Rousseau;Martin;300A3;Individu-Société ;2001
+20163;201435460;Rhorab                        ;Boris Ulrick        ;M;05/12/1994;201302RE;3;Méthodes quantitatives avancées;Genest;Maxime;300A3;Individu-Société ;2001
+20163;201435380;Richard                       ;Bobby               ;M;05/12/1991;360300RE;2;Méthodes quantitatives en sciences humaines;Fortin;Steve;300A2;Sociétés-Monde;2001
+20163;201435197;Richard                       ;Benjamyn            ;M;05/11/1998;2011D4LL;3;Mathématiques en architecture 2;Rousseau;Martin;221A0;Technologie l'architecture;2003
+20163;201435174;Richard                       ;Benjamin            ;M;05/11/1997;2011D4LL;2;Mathématiques en architecture 2;Breton;Josée;221A0;Technologie l'architecture;2003
+20163;201435173;Richard                       ;Benjamin            ;M;05/11/1996;360300RE;1;Méthodes quantitatives en sciences humaines;Laflamme;Nadia;300A3;Individu-Société ;2001
+20163;201435146;Richard-Rodrigue              ;Benjamin            ;M;05/09/1999;201302RE;2;Méthodes quantitatives avancées;Bouchard;Véronique;300A3;Individu-Société ;2001
+20163;201434713;Richard-Whittom               ;Béatrice            ;F;05/09/1998;360300RE;2;Méthodes quantitatives en sciences humaines;Fortin;Steve;300A3;Individu-Société ;2001
+20163;201434406;Richer                        ;Béatrice            ;F;05/09/1998;360300RE;2;Méthodes quantitatives en sciences humaines;Fortin;Steve;300A2;Sociétés-Monde;2001
+20163;201434350;Rioux                         ;Béatrice            ;F;05/09/1997;360300RE;1;Méthodes quantitatives en sciences humaines;Laflamme;Nadia;300A3;Individu-Société ;2001
+20163;201434323;Rioux-Roy                     ;Béatrice            ;F;05/09/1988;201DSN03;1;Mathématiques en mécanique 3;Carel;Jacques;241D0;Technol maintenance indust;2003
+20163;201434016;Rivard-Lavoie                 ;Bastien             ;M;05/08/1999;2011D4LL;3;Mathématiques en architecture 2;Rousseau;Martin;221A0;Technologie l'architecture;2003
+20163;201433789;Roberge                       ;Barbara             ;F;05/08/1997;360300RE;3;Méthodes quantitatives en sciences humaines;Rousseau;Martin;300A3;Individu-Société ;2001
+20163;201433700;Roberge                       ;Aurélie             ;F;05/08/1997;360300RE;1;Méthodes quantitatives en sciences humaines;Laflamme;Nadia;300A3;Individu-Société ;2001
+20163;201433596;Robin                         ;Auré-Lee            ;F;05/08/1997;201203RE;1;Calcul II;Breton;Josée;300A1;Administration-Économie;2001
+20163;201433551;Robitaille                    ;Audrey              ;F;05/08/1987;360300RE;3;Méthodes quantitatives en sciences humaines;Rousseau;Martin;300A2;Sociétés-Monde;2001
+20163;201433224;Robitaille                    ;Audrey              ;F;05/07/1999;201203RE;1;Calcul II;Breton;Josée;300A1;Administration-Économie;2001
+20163;201433072;Robitaille                    ;Audrey              ;F;05/07/1998;360300RE;2;Méthodes quantitatives en sciences humaines;Fortin;Steve;300A3;Individu-Société ;2001
+20163;201432610;Robitaille                    ;Audrey              ;F;05/07/1998;2011D4LL;2;Mathématiques en architecture 2;Breton;Josée;221A0;Technologie l'architecture;2003
+20163;201432585;Rodrigue                      ;Audrey              ;F;05/07/1994;201302RE;2;Méthodes quantitatives avancées;Bouchard;Véronique;300A2;Sociétés-Monde;2001
+20163;201432104;Rodrigue                      ;Audrey              ;F;05/06/1995;2012C5LL;1;Les grandes idées scientifiques;Nadeau;Lucie;700B0;Histoire et civilisation;2002
+20163;201431739;Roseberry                     ;Audrey              ;F;05/04/1999;360300RE;1;Méthodes quantitatives en sciences humaines;Laflamme;Nadia;300A3;Individu-Société ;2001
+20163;201431739;Roseberry                     ;Audrey              ;F;05/04/1999;105M81LL;5;Tutorat en mathématiques;Bouchard;Véronique;300A3;Individu-Société ;2001
+20163;201431500;Rouleau                       ;Audrey              ;F;05/04/1997;360300RE;2;Méthodes quantitatives en sciences humaines;Fortin;Steve;300A3;Individu-Société ;2001
+20163;201431399;Rousseau                      ;Arnaud              ;M;05/03/1999;201302RE;1;Méthodes quantitatives avancées;Bouchard;Véronique;300A3;Individu-Société ;2001
+20163;201411811;Roussel                       ;Arielle             ;F;05/03/1999;2011D4LL;3;Mathématiques en architecture 2;Rousseau;Martin;221A0;Technologie l'architecture;2003
+20163;201401078;Routhier                      ;Arianne             ;F;05/03/1997;201302RE;3;Méthodes quantitatives avancées;Genest;Maxime;300A3;Individu-Société ;2001
+20163;201391704;Roy                           ;Arianne             ;F;05/02/1999;360300RE;1;Méthodes quantitatives en sciences humaines;Laflamme;Nadia;300A3;Individu-Société ;2001
+20163;201368647;Roy                           ;Arianne             ;F;05/02/1997;360300RE;2;Méthodes quantitatives en sciences humaines;Fortin;Steve;300A2;Sociétés-Monde;2001
+20163;201367963;Roy                           ;Arianne             ;F;05/02/1997;360300RE;2;Méthodes quantitatives en sciences humaines;Fortin;Steve;300A3;Individu-Société ;2001
+20163;201367889;Roy                           ;Ariane              ;F;05/02/1997;360300RE;2;Méthodes quantitatives en sciences humaines;Fortin;Steve;300A3;Individu-Société ;2001
+20163;201366456;Roy                           ;Ariane              ;F;05/02/1996;2011D4LL;1;Mathématiques en architecture 2;Breton;Josée;221A0;Technologie l'architecture;2003
+20163;201365742;Roy                           ;Ariane              ;F;05/02/1980;360300RE;3;Méthodes quantitatives en sciences humaines;Rousseau;Martin;300A2;Sociétés-Monde;2001
+20163;201365559;Roy                           ;Ariane              ;F;05/01/1999;2011D4LL;3;Mathématiques en architecture 2;Rousseau;Martin;221A0;Technologie l'architecture;2003
+20163;201365075;Roy                           ;Ariane              ;F;04/12/1998;2011D4LL;3;Mathématiques en architecture 2;Rousseau;Martin;221A0;Technologie l'architecture;2003
+20163;201364992;Roy                           ;Ariane              ;F;04/12/1998;360300RE;3;Méthodes quantitatives en sciences humaines;Rousseau;Martin;300A3;Individu-Société ;2001
+20163;201364244;Roy                           ;Antony              ;M;04/12/1997;201203RE;1;Calcul II;Breton;Josée;300A1;Administration-Économie;2001
+20163;201364173;Roy                           ;Antony              ;M;04/12/1997;360300RE;3;Méthodes quantitatives en sciences humaines;Rousseau;Martin;300A3;Individu-Société ;2001
+20163;201363933;Roy                           ;Antoine             ;M;04/12/1991;360300RE;2;Méthodes quantitatives en sciences humaines;Fortin;Steve;300A3;Individu-Société ;2001
+20163;201363760;Roy                           ;Antoine             ;M;04/11/1996;201203RE;1;Calcul II;Breton;Josée;300A1;Administration-Économie;2001
+20163;201363537;Roy-Dorval                    ;Antoine             ;M;04/09/1999;201DSN03;1;Mathématiques en mécanique 3;Carel;Jacques;241D0;Technol maintenance indust;2003
+20163;201363537;Roy-Dorval                    ;Antoine             ;M;04/09/1999;105M81LL;4;Tutorat en mathématiques;Bouchard;Véronique;241D0;Technol maintenance indust;2003
+20163;201362651;Roy-Théberge                  ;Antoine             ;M;04/09/1997;201NYC05;2;Algèbre linéaire et géométrie vectorielle;Carel;Jacques;200B0;Sciences de la nature;1998
+20163;201362133;Ruel                          ;Antoine             ;M;04/09/1997;201302RE;3;Méthodes quantitatives avancées;Genest;Maxime;300A3;Individu-Société ;2001
+20163;201342331;Ruel                          ;Antoine             ;M;04/09/1996;201NYC05;2;Algèbre linéaire et géométrie vectorielle;Carel;Jacques;200B0;Sciences de la nature;1998
+20163;201342133;Ruel                          ;Antoine             ;M;04/08/1999;201NYC05;2;Algèbre linéaire et géométrie vectorielle;Carel;Jacques;200B0;Sciences de la nature;1998
+20163;201341967;Ruel                          ;Antoine             ;M;04/07/1999;201NYB05;1;Calcul intégral;Turcotte;Annie;200B0;Sciences de la nature;1998
+20163;201341716;Saint-Pierre                  ;Antoine             ;M;04/07/1998;201NYB05;1;Calcul intégral;Turcotte;Annie;200B0;Sciences de la nature;1998
+20163;201341620;Samson                        ;Antoine             ;M;04/06/1999;201NYC05;1;Algèbre linéaire et géométrie vectorielle;Carel;Jacques;200B0;Sciences de la nature;1998
+20163;201341552;Samson                        ;Antoine             ;M;04/06/1999;201NYC05;1;Algèbre linéaire et géométrie vectorielle;Carel;Jacques;200B0;Sciences de la nature;1998
+20163;201341249;Savard                        ;Antoine             ;M;04/06/1998;201302RE;3;Méthodes quantitatives avancées;Genest;Maxime;300A3;Individu-Société ;2001
+20163;201341209;Savard                        ;Antoine             ;M;04/06/1997;201302RE;3;Méthodes quantitatives avancées;Genest;Maxime;300A2;Sociétés-Monde;2001
+20163;201341090;Savard                        ;Antoine             ;M;04/05/1998;201302RE;3;Méthodes quantitatives avancées;Genest;Maxime;300A3;Individu-Société ;2001
+20163;201340819;Savard                        ;Antoine             ;M;04/04/1998;201NYC05;1;Algèbre linéaire et géométrie vectorielle;Carel;Jacques;200B0;Sciences de la nature;1998
+20163;201340580;Savard                        ;Antoine             ;M;04/04/1995;201NYC05;2;Algèbre linéaire et géométrie vectorielle;Carel;Jacques;200B0;Sciences de la nature;1998
+20163;201339970;Sévigny                       ;Antoine             ;M;04/03/1995;2012A4LL;2;Mathématiques en mécanique 1;Plourde;Frédéric;241A0;Techniq génie mécanique;1999
+20163;201339745;Shannon-Lambert               ;Anthony G.          ;M;04/02/1998;360300RE;2;Méthodes quantitatives en sciences humaines;Fortin;Steve;300A3;Individu-Société ;2001
+20163;201339412;Simard                        ;Anthony             ;M;04/02/1998;201NYC05;2;Algèbre linéaire et géométrie vectorielle;Carel;Jacques;200B0;Sciences de la nature;1998
+20163;201339215;Simard                        ;Anthony             ;M;04/02/1995;105M81LL;2;Tutorat en mathématiques;Bouchard;Véronique;200B0;Sciences de la nature;1998
+20163;201338612;Simard                        ;Anthony             ;M;04/02/1995;201NYC05;2;Algèbre linéaire et géométrie vectorielle;Carel;Jacques;200B0;Sciences de la nature;1998
+20163;201338541;Simard                        ;Anthony             ;M;04/01/1998;105M81LL;2;Tutorat en mathématiques;Bouchard;Véronique;200B0;Sciences de la nature;1998
+20163;201338503;Simard                        ;Anthony             ;M;03/12/1998;2012A4LL;1;Mathématiques en mécanique 1;Plourde;Frédéric;241A0;Techniq génie mécanique;1999
+20163;201337580;Simoneau                      ;Anthony             ;M;03/12/1998;105M81LL;1;Tutorat en mathématiques;Bouchard;Véronique;200B0;Sciences de la nature;1998
+20163;201337495;Simoneau                      ;Anthony             ;M;03/12/1997;201NYC05;2;Algèbre linéaire et géométrie vectorielle;Carel;Jacques;200B0;Sciences de la nature;1998
+20163;201337248;Simoneau                      ;Anthony             ;M;03/10/1997;201NYC05;1;Algèbre linéaire et géométrie vectorielle;Carel;Jacques;200B0;Sciences de la nature;1998
+20163;201337248;Simoneau                      ;Anthony             ;M;03/10/1997;105M81LL;4;Tutorat en mathématiques;Bouchard;Véronique;200B0;Sciences de la nature;1998
+20163;201337132;Sohahiio                      ;Anthony             ;M;03/10/1995;201NYB05;1;Calcul intégral;Turcotte;Annie;200B0;Sciences de la nature;1998
+20163;201336963;Sorel                         ;Anthony             ;M;03/09/1998;105M81LL;3;Tutorat en mathématiques;Bouchard;Véronique;200B0;Sciences de la nature;1998
+20163;201336844;St-Gelais                     ;Anthony             ;M;03/09/1998;201NYC05;1;Algèbre linéaire et géométrie vectorielle;Carel;Jacques;200B0;Sciences de la nature;1998
+20163;201336649;St-Georges                    ;Anthony             ;M;03/09/1998;201NYC05;2;Algèbre linéaire et géométrie vectorielle;Carel;Jacques;200B0;Sciences de la nature;1998
+20163;201336409;St-Hilaire                    ;Anthony             ;M;03/09/1997;201DSN03;1;Mathématiques en mécanique 3;Carel;Jacques;241A0;Techniq génie mécanique;1999
+20163;201336409;St-Hilaire                    ;Anthony             ;M;03/09/1997;201NYA05;4;Calcul différentiel;St-Onge;Alexandre;241A0;Techniq génie mécanique;1999
+20163;201335411;Stibre                        ;Anthony             ;M;03/09/1996;201NYB05;1;Calcul intégral;Turcotte;Annie;200B0;Sciences de la nature;1998
+20163;201335252;St-Louis                      ;Anthony             ;M;03/09/1994;201NYC05;1;Algèbre linéaire et géométrie vectorielle;Carel;Jacques;200B0;Sciences de la nature;1998
+20163;201335252;St-Louis                      ;Anthony             ;M;03/09/1994;2012A4LL;2;Mathématiques en mécanique 1;Plourde;Frédéric;200B0;Sciences de la nature;1998
+20163;201334668;St-Louis                      ;Anthony             ;M;03/08/1999;105M81LL;3;Tutorat en mathématiques;Bouchard;Véronique;200B0;Sciences de la nature;1998
+20163;201334491;St-Onge                       ;Anne-Sophie         ;F;03/08/1998;201NYC05;2;Algèbre linéaire et géométrie vectorielle;Carel;Jacques;200B0;Sciences de la nature;1998
+20163;201334400;St-Pierre-Bernier             ;Anne-Sophie         ;F;03/08/1998;105M81LL;5;Tutorat en mathématiques;Bouchard;Véronique;200B0;Sciences de la nature;1998
+20163;201334400;St-Pierre-Bernier             ;Anne-Sophie         ;F;03/08/1998;201NYB05;1;Calcul intégral;Turcotte;Annie;200B0;Sciences de la nature;1998
+20163;201334267;St-Pierre-Dubé                ;Anne-Sophie         ;F;03/08/1995;201NYC05;2;Algèbre linéaire et géométrie vectorielle;Carel;Jacques;200B0;Sciences de la nature;1998
+20163;201334144;Sylvain                       ;Anne-Sophie         ;F;03/07/1998;201DSN03;1;Mathématiques en mécanique 3;Carel;Jacques;241A0;Techniq génie mécanique;1999
+20163;201333655;Sylvain                       ;Anne-Julie          ;F;03/07/1997;201NYC05;2;Algèbre linéaire et géométrie vectorielle;Carel;Jacques;20016;Sc. nat et Arts, lettres ;2013
+20163;201333551;Sylvain                       ;Anne                ;F;03/07/1995;201NYC05;1;Algèbre linéaire et géométrie vectorielle;Carel;Jacques;200B0;Sciences de la nature;1998
+20163;201332667;Sylvain                       ;Angélique           ;F;03/06/1998;2012A4LL;2;Mathématiques en mécanique 1;Plourde;Frédéric;241A0;Techniq génie mécanique;1999
+20163;201332617;Sylvain                       ;Angélique           ;F;03/06/1998;105M81LL;5;Tutorat en mathématiques;Bouchard;Véronique;200B0;Sciences de la nature;1998
+20163;201332251;Synnott                       ;Angelina            ;F;03/06/1998;201NYC05;2;Algèbre linéaire et géométrie vectorielle;Carel;Jacques;200B0;Sciences de la nature;1998
+20163;201331527;Tailleur                      ;Andrew              ;M;03/06/1996;201DSN03;1;Mathématiques en mécanique 3;Carel;Jacques;241A0;Techniq génie mécanique;1999
+20163;201331424;Talbot                        ;André-Samuel        ;M;03/05/1999;201203RE;1;Calcul II;Breton;Josée;300A1;Administration-Économie;2001
+20163;201331267;Tanguay                       ;Andrée-Ann          ;F;03/05/1999;201NYC05;2;Algèbre linéaire et géométrie vectorielle;Carel;Jacques;200B0;Sciences de la nature;1998
+20163;201331248;Tanguay                       ;Andréanne           ;F;03/04/1998;201NYB05;1;Calcul intégral;Turcotte;Annie;200B0;Sciences de la nature;1998
+20163;201331000;Tanguay                       ;Andréanne           ;F;03/04/1997;201NYC05;1;Algèbre linéaire et géométrie vectorielle;Carel;Jacques;200B0;Sciences de la nature;1998
+20163;201330973;Tardif                        ;Andréanne           ;F;03/04/1996;201NYA05;1;Calcul différentiel;Laflamme;Nadia;20016;Sc. nat et Arts, lettres ;2013
+20163;201330937;Tardif                        ;Anaïs Cathy         ;F;03/04/1984;201NYC05;1;Algèbre linéaire et géométrie vectorielle;Carel;Jacques;200B0;Sciences de la nature;1998
+20163;201330578;Têtu                          ;Anaïs               ;F;03/03/1997;105M81LL;5;Tutorat en mathématiques;Bouchard;Véronique;200B0;Sciences de la nature;1998
+20163;201311905;Thériault                     ;Amélie              ;F;03/02/1997;201203RE;1;Calcul II;Breton;Josée;420AB;420.A0 spec. infor. indust;2000
+20163;201311793;Thériault                     ;Amélie              ;F;03/02/1992;360300RE;2;Méthodes quantitatives en sciences humaines;Fortin;Steve;300A2;Sociétés-Monde;2001
+20163;201311159;Therriault                    ;Amélie              ;F;03/02/1991;201NYC05;2;Algèbre linéaire et géométrie vectorielle;Carel;Jacques;200B0;Sciences de la nature;1998
+20163;201300940;Therrien                      ;Amélie              ;F;03/01/1999;201NYC05;1;Algèbre linéaire et géométrie vectorielle;Carel;Jacques;20016;Sc. nat et Arts, lettres ;2013
+20163;201300421;Thibault                      ;Amélia              ;F;03/01/1998;105M81LL;4;Tutorat en mathématiques;Bouchard;Véronique;200B0;Sciences de la nature;1998
+20163;201262751;Thibault                      ;Allyson             ;F;03/01/1998;201DSN03;1;Mathématiques en mécanique 3;Carel;Jacques;241A0;Techniq génie mécanique;1999
+20163;201243053;Thibodeau                     ;Allison             ;F;03/01/1998;201NYC05;2;Algèbre linéaire et géométrie vectorielle;Carel;Jacques;200B0;Sciences de la nature;1998
+20163;201242825;Thiboutot                     ;Allison             ;F;03/01/1998;201NYC05;1;Algèbre linéaire et géométrie vectorielle;Carel;Jacques;200B0;Sciences de la nature;1998
+20163;201242213;Torrès                        ;Alisson             ;F;03/01/1996;201NYC05;2;Algèbre linéaire et géométrie vectorielle;Carel;Jacques;200B0;Sciences de la nature;1998
+20163;201241652;Trahan                        ;Alicia              ;F;02/12/1996;201NYC05;2;Algèbre linéaire et géométrie vectorielle;Carel;Jacques;200B0;Sciences de la nature;1998
+20163;201241283;Trahan-Arsenault              ;Alice               ;F;02/12/1996;201NYC05;2;Algèbre linéaire et géométrie vectorielle;Carel;Jacques;200B0;Sciences de la nature;1998
+20163;201241136;Trambouze                     ;Alice               ;F;02/12/1995;201DSN03;1;Mathématiques en mécanique 3;Carel;Jacques;241A0;Techniq génie mécanique;1999
+20163;201241127;Tremblay                      ;Alice               ;F;02/12/1994;201203RE;1;Calcul II;Breton;Josée;300A1;Administration-Économie;2001
+20163;201240224;Tremblay                      ;Alice               ;F;02/10/1998;201DSN03;1;Mathématiques en mécanique 3;Carel;Jacques;241A0;Techniq génie mécanique;1999
+20163;201240046;Tremblay                      ;Alexis              ;M;02/09/1999;2012A4LL;2;Mathématiques en mécanique 1;Plourde;Frédéric;241A0;Techniq génie mécanique;1999
+20163;201240035;Tremblay                      ;Alexis              ;M;02/09/1998;201NYB05;1;Calcul intégral;Turcotte;Annie;200B0;Sciences de la nature;1998
+20163;201238728;Tremblay                      ;Alexis              ;M;02/09/1996;105M81LL;2;Tutorat en mathématiques;Bouchard;Véronique;200B0;Sciences de la nature;1998
+20163;201238426;Tremblay                      ;Alexandre           ;M;02/09/1993;201NYC05;1;Algèbre linéaire et géométrie vectorielle;Carel;Jacques;200B0;Sciences de la nature;1998
+20163;201238426;Tremblay                      ;Alexandre           ;M;02/09/1993;105M81LL;5;Tutorat en mathématiques;Bouchard;Véronique;200B0;Sciences de la nature;1998
+20163;201237022;Trépanier                     ;Alexandre           ;M;02/08/1997;201DSN03;1;Mathématiques en mécanique 3;Carel;Jacques;241A0;Techniq génie mécanique;1999
+20163;201235335;Trépanier                     ;Alexandre           ;M;02/08/1994;2012A4LL;2;Mathématiques en mécanique 1;Plourde;Frédéric;241A0;Techniq génie mécanique;1999
+20163;201235161;Trottier                      ;Alexandre           ;M;02/07/1997;201NYC05;2;Algèbre linéaire et géométrie vectorielle;Carel;Jacques;200B0;Sciences de la nature;1998
+20163;201233616;Turcotte                      ;Alexandre           ;M;02/06/1999;201NYC05;1;Algèbre linéaire et géométrie vectorielle;Carel;Jacques;200B0;Sciences de la nature;1998
+20163;201233536;Turcotte                      ;Alexandre           ;M;02/06/1999;201NYC05;1;Algèbre linéaire et géométrie vectorielle;Carel;Jacques;200B0;Sciences de la nature;1998
+20163;201200847;Turcotte                      ;Alexandre           ;M;02/06/1998;201NYC05;2;Algèbre linéaire et géométrie vectorielle;Carel;Jacques;200B0;Sciences de la nature;1998
+20163;201200523;Turcotte                      ;Alexandre           ;M;02/06/1998;201NYC05;1;Algèbre linéaire et géométrie vectorielle;Carel;Jacques;200B0;Sciences de la nature;1998
+20163;201165459;Turgeon                       ;Alexandre           ;M;02/06/1998;201DSN03;1;Mathématiques en mécanique 3;Carel;Jacques;241A0;Techniq génie mécanique;1999
+20163;201163401;Turgeon                       ;Alexandre           ;M;02/06/1996;201NYC05;1;Algèbre linéaire et géométrie vectorielle;Carel;Jacques;200B0;Sciences de la nature;1998
+20163;201142105;Turgeon                       ;Alexandre           ;M;02/05/1998;105M81LL;3;Tutorat en mathématiques;Bouchard;Véronique;200B0;Sciences de la nature;1998
+20163;201142105;Turgeon                       ;Alexandre           ;M;02/05/1998;201NYC05;1;Algèbre linéaire et géométrie vectorielle;Carel;Jacques;200B0;Sciences de la nature;1998
+20163;201141306;Turgeon-Bourget               ;Alexandre           ;M;02/05/1998;201NYB05;1;Calcul intégral;Turcotte;Annie;200B0;Sciences de la nature;1998
+20163;201140576;Turgeon-Paré                  ;Alexandre           ;M;02/05/1992;201DSN03;1;Mathématiques en mécanique 3;Carel;Jacques;241A0;Techniq génie mécanique;1999
+20163;201137905;Turmel                        ;Alexandre           ;M;02/05/1992;201NYC05;2;Algèbre linéaire et géométrie vectorielle;Carel;Jacques;20016;Sc. nat et Arts, lettres ;2013
+20163;201136928;Turmel                        ;Alexandre           ;M;02/04/1999;201NYC05;2;Algèbre linéaire et géométrie vectorielle;Carel;Jacques;200B0;Sciences de la nature;1998
+20163;201136117;Turmel                        ;Alexandre           ;M;02/04/1998;201NYC05;2;Algèbre linéaire et géométrie vectorielle;Carel;Jacques;200B0;Sciences de la nature;1998
+20163;201134984;Vachon                        ;Alexandre           ;M;02/04/1998;201DSN03;1;Mathématiques en mécanique 3;Carel;Jacques;241A0;Techniq génie mécanique;1999
+20163;201133780;Vachon                        ;Alexandre           ;M;02/03/1998;201NYC05;1;Algèbre linéaire et géométrie vectorielle;Carel;Jacques;200B0;Sciences de la nature;1998
+20163;201133535;Vachon-Labonté                ;Alexandre           ;M;02/03/1995;201DSN03;1;Mathématiques en mécanique 3;Carel;Jacques;241A0;Techniq génie mécanique;1999
+20163;201133458;Vaillancourt                  ;Alexandre           ;M;02/02/1994;201NYC05;1;Algèbre linéaire et géométrie vectorielle;Carel;Jacques;200B0;Sciences de la nature;1998
+20163;201132617;Vaillancourt                  ;Alexandre           ;M;01/12/1998;201NYC05;2;Algèbre linéaire et géométrie vectorielle;Carel;Jacques;200B0;Sciences de la nature;1998
+20163;201130821;Vaillancourt                  ;Alexandra           ;F;01/12/1998;201DSN03;1;Mathématiques en mécanique 3;Carel;Jacques;241A0;Techniq génie mécanique;1999
+20163;201063989;Vallières                     ;Alexandra           ;F;01/11/1998;201DSN03;1;Mathématiques en mécanique 3;Carel;Jacques;241A0;Techniq génie mécanique;1999
+20163;201063989;Vallières                     ;Alexandra           ;F;01/11/1998;201NYC05;2;Algèbre linéaire et géométrie vectorielle;Carel;Jacques;241A0;Techniq génie mécanique;1999
+20163;201040357;Vallières                     ;Alexandra           ;F;01/10/1998;201NYC05;2;Algèbre linéaire et géométrie vectorielle;Carel;Jacques;200B0;Sciences de la nature;1998
+20163;201032109;Vandal                        ;Alexandra           ;F;01/10/1998;201DSN03;1;Mathématiques en mécanique 3;Carel;Jacques;241A0;Techniq génie mécanique;1999
+20163;201001106;Vandal                        ;Alexandra           ;F;01/09/1999;201DSN03;1;Mathématiques en mécanique 3;Carel;Jacques;241A0;Techniq génie mécanique;1999
+20163;200943345;Vasquez-Véronneau             ;Alexandra           ;F;01/08/1998;201NYC05;2;Algèbre linéaire et géométrie vectorielle;Carel;Jacques;20016;Sc. nat et Arts et Lettres;1999
+20163;200939881;Veer                          ;Alexandra           ;F;01/07/1997;201DSN03;1;Mathématiques en mécanique 3;Carel;Jacques;241A0;Techniq génie mécanique;1999
+20163;200935803;Veilleux                      ;Alexander           ;M;01/07/1997;201DSN03;1;Mathématiques en mécanique 3;Carel;Jacques;241A0;Techniq génie mécanique;1999
+20163;200934571;Veilleux                      ;Alexander           ;M;01/06/1999;2012A4LL;2;Mathématiques en mécanique 1;Plourde;Frédéric;241A0;Techniq génie mécanique;1999
+20163;200932042;Veilleux                      ;Alexander           ;M;01/06/1998;201NYC05;1;Algèbre linéaire et géométrie vectorielle;Carel;Jacques;200B0;Sciences de la nature;1998
+20163;200842129;Veilleux                      ;Alex                ;M;01/06/1995;201DSN03;1;Mathématiques en mécanique 3;Carel;Jacques;241A0;Techniq génie mécanique;1999
+20163;200833906;Veilleux-Allard               ;Alex                ;M;01/06/1995;201NYC05;1;Algèbre linéaire et géométrie vectorielle;Carel;Jacques;200B0;Sciences de la nature;1998
+20163;200821258;Verreault                     ;Alex                ;M;01/05/1998;201NYC05;1;Algèbre linéaire et géométrie vectorielle;Carel;Jacques;200B0;Sciences de la nature;1998
+20163;200741491;Verreault                     ;Alex                ;M;01/05/1996;201NYC05;1;Algèbre linéaire et géométrie vectorielle;Carel;Jacques;200B0;Sciences de la nature;1998
+20163;200741346;Vézina                        ;Alex                ;M;01/04/1998;201NYC05;1;Algèbre linéaire et géométrie vectorielle;Carel;Jacques;200B0;Sciences de la nature;1998
+20163;200734798;Vézina                        ;Alex                ;M;01/04/1997;201NYC05;2;Algèbre linéaire et géométrie vectorielle;Carel;Jacques;200B0;Sciences de la nature;1998
+20163;200566225;Vignault                      ;Alex                ;M;01/03/1990;201NYC05;1;Algèbre linéaire et géométrie vectorielle;Carel;Jacques;200B0;Sciences de la nature;1998
+20163;200362711;Voyer                         ;Alec                ;M;01/02/1999;105M81LL;2;Tutorat en mathématiques;Bouchard;Véronique;200B0;Sciences de la nature;1998
+20163;199937989;Walsh                         ;Albert              ;M;01/02/1999;201NYC05;1;Algèbre linéaire et géométrie vectorielle;Carel;Jacques;200B0;Sciences de la nature;1998
+20163;199738275;Watts                         ;Alban               ;M;01/02/1998;201NYB05;1;Calcul intégral;Turcotte;Annie;200B0;Sciences de la nature;1998
+20163;199131979;Weche                         ;Alain               ;M;01/02/1996;201203RE;1;Calcul II;Breton;Josée;420AB;420.A0 spec. infor. indust;2000
