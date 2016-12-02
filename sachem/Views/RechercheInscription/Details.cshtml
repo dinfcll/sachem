@@ -83,6 +83,8 @@
         @Html.ActionLink("Acceder au jumelage", "Details", "Jumelage", new { id = Model.First().id_Inscription},null) <br /> <br />
     </div>
 }
+@if (Model.Count > 1)
+{
     <table class="table">
         <tr>
             <th>
@@ -96,9 +98,8 @@
             </th>
             <th></th>
         </tr>
-        @if (Model.Count > 1)
-        {
-            foreach (var item in Model.Skip(1))
+
+            @foreach (var item in Model.Skip(1))
             {
                 <tr>
                     <td>
@@ -112,7 +113,6 @@
                     </td>
                 </tr>
             }
-        }
         else
         {
             <tr>
@@ -120,6 +120,7 @@
             </tr>
         }
 </table>
+}
 <p>
     @Html.ActionLink("Retour à la liste d'inscription", "Index")
 </p>
