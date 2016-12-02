@@ -249,10 +249,20 @@ textarea {
     text-decoration:none;
     color:#444;
 }
-.checkzone input[type=checkbox]
-{
-    width:25px;
-    height:25px;
-    top:-1px;
-    background-size:100%; 
+
+.checkzone input[type=checkbox] {
+    display:none;
+}
+
+.checkzone label {
+    border:2px solid #555555;
+    height: 25px;
+    width: 25px;
+    margin-bottom:-5px;
+}
+
+.checkzone input[type=checkbox]:checked ~ label {
+  background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"><path d="M14 18L26 6l4 4-16 16L4 16l4-4z"/></svg>');
+  background-size: 100%;
+  float:none;
 }
