@@ -14,6 +14,7 @@ namespace sachem.Controllers
     {
         private readonly SACHEMEntities db = new SACHEMEntities();
         private readonly string msg_Erreur_Consecutif = "Erreur: vous devez avoir une plage horaire contenant 2 heures consécutives.";
+        private string[] m_Session = { "Hiver", "Printemps", "Été", "Automne" };
         //[ValidationAcces.ValidationAccesInscription]
         // GET: Inscription
         public ActionResult Index()
@@ -81,6 +82,7 @@ namespace sachem.Controllers
         {
             listeCours();
             listeStatutCours();
+            listeSession();
             return View();
             //Ajouter session + etat du cours dropdown, enlever liste collège, terminer la première et la deuxième page en priorité
         }
@@ -148,6 +150,20 @@ namespace sachem.Controllers
             slStatut.AddRange(new SelectList(lstStatut, "id_Statut", "Statut"));
             ViewBag.lstStatut = slStatut;
         }
+        [NonAction]
+        public void listeSession()
+        {
+            List<string> listeSession = new List<string>();
+            var lstSess = from c in db.Session orderby c.id_Sess select c;
+            foreach( var session in lstSess)
+            {
+                string NomSession = m_Session[session.id_Saison]+" "+ session.Annee.ToString();
+                listeSession.Add(NomSession);             
+            }
+            var slSess = new List<SelectListItem>();
+            slSess.AddRange(new SelectList(listeSession));
+            ViewBag.lstSess = slSess;
+        }
         [HttpPost]
         public ActionResult getLigneCours()
         {
@@ -160,6 +176,7 @@ namespace sachem.Controllers
         {
             listeCours();
             listeStatutCours();
+            listeSession();
             return PartialView("_LigneCoursReussiEleveAide");
         }
         [HttpPost]

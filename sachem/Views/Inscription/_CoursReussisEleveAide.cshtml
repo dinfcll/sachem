@@ -30,15 +30,6 @@
                 }
             });
         }
-        validerCoursReussis = function (listeCoursReussis)
-        {
-            //RESTE À VÉRIFIER LES DOUBLONS ET LES RÉSULTATS EN INT OU DOUBLE
-            listeCoursReussis.forEach(function (element) {
-                alert(element);
-            });
-
-        }
-
         activationInput = function ()
         {
             $(".btnSupprimerCours").click(function () {
@@ -46,16 +37,6 @@
             });
             $(".ins-selectcours").change(function () {
                 var test = $(this).val();                
-            });
-            $(".InfoCourCollege").find($(".dropDownCours")).change(function () {
-                if ($(this).val() != "") {
-                    $(this).closest(".InfoCourCollege").find($(".coursChange")).attr('disabled', 'disabled');
-                }
-                else {
-                    $(this).closest(".InfoCourCollege").find($(".coursChange")).removeAttr('disabled');
-                }
-            });
-            $(".InfoCourCollege").find($(".dropDownStatut")).change(function () {
             });
         }
 
