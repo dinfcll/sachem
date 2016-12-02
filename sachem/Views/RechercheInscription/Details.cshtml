@@ -75,7 +75,7 @@
         </dd>
     </dl>
     
-@using (Html.BeginForm("Edit", "RechercheInscription", FormMethod.Post, new { @class = "form-inline", role = "form" }))
+@using (Html.BeginForm("Edit", "RechercheInscription", FormMethod.Get, new { @class = "form-inline", role = "form" }))
 {
     <div class="form-actions no-color">
         @Html.HiddenFor(m => m.First().id_Inscription)

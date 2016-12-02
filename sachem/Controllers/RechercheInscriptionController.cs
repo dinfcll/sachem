@@ -43,12 +43,12 @@ namespace sachem.Controllers
                 return HttpNotFound();
             }
 
-            List<Inscription> inscription = db.Inscription.Where(x => x.id_Pers == inscriptionPersonne.id_Pers).ToList();
+            var inscription = db.Inscription.Where(x => x.id_Pers == inscriptionPersonne.id_Pers).ToList();
             RemplirDropList(inscription.First());
             return View(inscription);
         }
 
-        [HttpPost]
+        [HttpGet]
         public ActionResult Edit(int id_Inscription, int id_Statut)
         {
             var inscription = db.Inscription.FirstOrDefault(x => x.id_Inscription == id_Inscription);
@@ -65,7 +65,6 @@ namespace sachem.Controllers
             return RedirectToAction("Details", "RechercheInscription", new { id = id_Inscription });
         }
 
-        [NonAction]
         private void ListeSession(int Session = 0)
         {
             var lSessions = from session in db.Session select session;
@@ -75,7 +74,6 @@ namespace sachem.Controllers
             ViewBag.Session = slSession;
         }
 
-        [NonAction]
         private void ListeTypeInscription(int TypeInscription = 0)
         {
             var lTypeInscription = from typeinscription in db.p_TypeInscription select typeinscription;
@@ -85,7 +83,6 @@ namespace sachem.Controllers
             ViewBag.TypeInscription = slTypeInscription;
         }
 
-        [NonAction]
         private void ListeStatut(int Statut = 0)
         {
             var lStatut = from statut in db.p_StatutInscription where statut.id_Statut != BROUILLON select statut;
@@ -95,7 +92,6 @@ namespace sachem.Controllers
             ViewBag.Statut = slStatut;
         }
 
-        [NonAction]
         private IEnumerable<Inscription> Rechercher()
         {
             var sess = 0;
