@@ -19,7 +19,7 @@ namespace sachem.Controllers
         private const int HEURE_FIN = 18;
         private const int DUREE_RENCONTRE = 90;
 
-        //[ValidationAcces.ValidationAccesInscription]
+        [ValidationAcces.ValidationAccesInscription]
         // GET: Inscription
         public ActionResult Index()
         {
