@@ -77,9 +77,9 @@ namespace sachem.Classes_Sachem
                 if (!verif)
                     filterContext.Result = new RedirectResult(PATH_ERREUR_AUTH);
 
-                /*DateTime dateActuelle = DateTime.Now.Date;
+                DateTime dateActuelle = DateTime.Now.Date;
                 if (!ValidationDate(dateActuelle))
-                    filterContext.Result = new RedirectResult(PATH_ERREUR_AUTH);*/
+                    filterContext.Result = new RedirectResult(PATH_ERREUR_AUTH);
 
                 var inscriptionExistante = db.Inscription.Any(x => x.id_Pers == id);
                 if(inscriptionExistante)
