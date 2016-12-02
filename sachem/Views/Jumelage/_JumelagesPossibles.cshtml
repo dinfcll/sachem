@@ -4,7 +4,7 @@
 @{ List<Inscription> listeJumeleursPotentiels = ((sachem.Controllers.JumelageController)this.ViewContext.Controller)
                                     .RetourneJumeleursPotentiels(Model.id_Inscription, Model.id_TypeInscription, Model.id_Sess);
     int k = 0; }
-<script type="text/javascript">
+<script>
     function AjoutModal(jour, minutes, idTuteur, idEleveAide, nomTuteur, nomEleveAide) {
         var modal = document.getElementById('modalAjout')
         var boutonAjout = document.getElementById('btnAjout')
@@ -35,7 +35,7 @@
 @if (listeJumeleursPotentiels.Count() > 0)
 {
     <h4 class="page-header">Jumelages possibles</h4>
-    <style>.hover-student{background-color:#f9f9f9;} .hover-student:hover{background-color:#eee;} .nodeco{color:#444;}.nodeco:hover{color:#444;text-decoration:none;}.nodeco:not(:hover){text-decoration:none;color:#444;}</style>
+
     <div class="panel-group" id="accordion">
 
     @foreach (var j in listeJumeleursPotentiels)

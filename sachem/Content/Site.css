@@ -226,3 +226,33 @@ textarea {
         display:none !important;
     }
 }
+
+.hover-student
+{
+    background-color:#f9f9f9;
+} 
+.hover-student:hover
+{
+    background-color:#eee;
+} 
+.nodeco
+{
+        color:#444;
+}
+.nodeco:hover
+{
+    color:#444;
+    text-decoration:none;
+}
+.nodeco:not(:hover)
+{
+    text-decoration:none;
+    color:#444;
+}
+.checkzone
+{
+    width:25px;
+    top:-1px;
+    height:25px;
+    background-size:100%; 
+}
