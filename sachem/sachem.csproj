@@ -379,7 +379,6 @@
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="_Contribute\Diagrammes de classes SACHEM.png" />
     <EntityDeploy Include="Models\Model1.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>Model1.Designer.cs</LastGenOutput>
@@ -484,7 +483,6 @@
     <Content Include="Views\Jumelage\_Disponibilites.cshtml" />
     <Content Include="Views\ContratEngagement\Index.cshtml" />
     <Content Include="_Contribute\BD_Presentation.bak" />
-    <Content Include="_Contribute\Guide utilisateur - MAJ enseignant.docx" />
     <Content Include="_Contribute\sachem.bak" />
     <Content Include="_Contribute\Sachem_Importer.csv" />
   </ItemGroup>
