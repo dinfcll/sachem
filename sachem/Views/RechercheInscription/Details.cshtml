@@ -69,7 +69,14 @@
             @Html.DisplayFor(model => model.First().p_StatutInscription.Statut)
         </dd>
     </dl>
-
+    
+@using (Html.BeginForm("Edit", "RechercheInscription", FormMethod.Post, new { @class = "form-inline", role = "form" }))
+{
+    @Html.HiddenFor(model => model.First().id_Inscription)
+    <div class="form-actions no-color">
+        <span>Décision</span>  @Html.DropDownListFor(model => model.First().id_Statut, (SelectList)ViewBag.Liste_Statut, new { @class = "form-control" }) <input type="submit" value="Enregistrer" class="btn btn-default" />
+    </div>
+}
     <table class="table">
         <tr>
             <th>

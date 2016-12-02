@@ -42,6 +42,7 @@ namespace sachem.Controllers
             }
 
             List<Inscription> inscription = db.Inscription.Where(x => x.id_Pers == inscriptionPersonne.id_Pers).ToList();
+            RemplirDropList(inscription.First());
             return View(inscription);
         }
 
@@ -68,14 +69,14 @@ namespace sachem.Controllers
         }
 
         // GET: RechercheInscription/Edit/5
-        public ActionResult Edit(int id)
+        public ActionResult Edit(int? id)
         {
             return View();
         }
 
         // POST: RechercheInscription/Edit/5
         [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
+        public ActionResult Edit(List<Inscription> inscription)
         {
             try
             {
@@ -194,6 +195,12 @@ namespace sachem.Controllers
             Session["DernRechCoursUrl"] = Request.Url?.LocalPath;
 
             return inscription.ToList();
+        }
+
+        private void RemplirDropList(Inscription inscription)
+        {
+
+            ViewBag.Liste_Statut = new SelectList(db.p_StatutInscription, "id_Statut", "Statut", inscription.id_Inscription);
         }
     }
 }
