@@ -72,9 +72,9 @@
     
 @using (Html.BeginForm("Edit", "RechercheInscription", FormMethod.Post, new { @class = "form-inline", role = "form" }))
 {
-    @Html.HiddenFor(model => model.First().id_Inscription)
     <div class="form-actions no-color">
-        <span>Décision</span>  @Html.DropDownListFor(model => model.First().id_Statut, (SelectList)ViewBag.Liste_Statut, new { @class = "form-control" }) <input type="submit" value="Enregistrer" class="btn btn-default" />
+        <span>Décision     </span>  @Html.DropDownListFor(model => model.First().id_Statut, (SelectList)ViewBag.Liste_Statut, new { @class = "form-control" }) <input type="submit" value="Enregistrer" class="btn btn-default" />
+        @Html.ActionLink("Acceder au jumelage", "Details", "Jumelage", new { id = Model.First().id_Inscription},null) <br /> <br />
     </div>
 }
     <table class="table">
