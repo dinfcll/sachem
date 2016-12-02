@@ -474,6 +474,11 @@ namespace sachem.Models
         /// </summary>
         /// <returns></returns>
         public const string U_013 = "Longueur minimale de 6 caractères.";
+        /// <summary>
+        /// "Veuillez entrer un nombre en 0 et 100!"
+        /// </summary>
+        /// <returns></returns>
+        public const string U_014 = "Veuillez entrer un nombre en 0 et 100";
 
         #endregion
 

@@ -25,5 +25,10 @@ namespace sachem.Models
         [Display(Name = "Type d\'inscription")]
         [Required(ErrorMessage = Messages.U_001)]
         public string id_TypeInscription;
+
+        [Display(Name = "Résultat")]
+        [Required(ErrorMessage = Messages.U_001)]
+        [Range(0,100, ErrorMessage = Messages.U_014)]
+        public double Resultat;
     }
 }

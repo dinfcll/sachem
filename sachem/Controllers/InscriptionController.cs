@@ -9,7 +9,7 @@ using System.Text.RegularExpressions;
 
 namespace sachem.Controllers
 {
-   
+
     public class InscriptionController : Controller
     {
         private readonly SACHEMEntities db = new SACHEMEntities();
@@ -32,16 +32,16 @@ namespace sachem.Controllers
                 if (longueurTab % 2 != 0)
                 {
                     return this.Json(new { success = false, message = "Utilisez un nombre pair d'heures." });
-        }
+                }
                 int[] heures = new int[longueurTab];
                 string[] splitValue1, splitValue2;
                 Array.Sort(values, new AlphanumComparatorFast());
-                for (int i = 0; i < values.Length - 1; i+=2)
-        {
+                for (int i = 0; i < values.Length - 1; i += 2)
+                {
                     splitValue1 = values[i].Split('-');
                     splitValue2 = values[i + 1].Split('-');
-                    if (!(int.Parse(splitValue1[1]) +1 == int.Parse(splitValue2[1])))
-            {
+                    if (!(int.Parse(splitValue1[1]) + 1 == int.Parse(splitValue2[1])))
+                    {
                         return this.Json(new { success = false, message = "Utilisez au moins deux heures consécutives!" });
                     }
                 }
@@ -122,7 +122,7 @@ namespace sachem.Controllers
         {
             var lstCrs = from c in db.Cours orderby c.Nom select c;
             var slCrs = new List<SelectListItem>();
-            slCrs.AddRange(new SelectList(lstCrs, "id_Cours","CodeNom"));
+            slCrs.AddRange(new SelectList(lstCrs, "id_Cours", "CodeNom"));
             ViewBag.lstCours = slCrs;
             ViewBag.lstCours1 = slCrs;
         }
@@ -151,5 +151,10 @@ namespace sachem.Controllers
         {
             return Messages.I_048();
         }
+        //[HttpPost]
+        //public JsonResult ValidCoursInscription()
+        //{
+
+        //}
     }
 }
