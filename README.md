@@ -163,9 +163,11 @@ Voici la liste des dossiers fonctionnels conçus par [Josée Lainesse](#) qui on
 
 ## Captures
 
-<img width="150" src="https://git.dinf.cll.qc.ca/lainessej/sachem/uploads/95b7a5e0607519d675b55dbb57844558/Inscription_1.PNG"/>
-<img width="150" src="https://git.dinf.cll.qc.ca/lainessej/sachem/uploads/72f685881b3f055fea8f958903fb0ab4/MAJ_jumelage_-_d%C3%A9tail_-_jumelage_possible.PNG"/>
-<img width="150" src="https://git.dinf.cll.qc.ca/lainessej/sachem/uploads/39d0284b0e52e0551d1baf6bbfbd6da0/rapport_initial_B.PNG"/>
+<img height="150" src="sachem/_Contribute/wiki/login.PNG"/>
+<img height="150" src="sachem/_Contribute/wiki/dossier.PNG"/>
+<img height="150" src="sachem/_Contribute/wiki/dossier_etu.PNG"/>
+<img height="150" src="sachem/_Contribute/wiki/etudiants.PNG"/>
+<img height="150" src="sachem/_Contribute/wiki/jum.PNG"/>
 
 ## Crédits
 
