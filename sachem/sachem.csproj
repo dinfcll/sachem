@@ -493,6 +493,7 @@
     <Content Include="_Contribute\Guide utilisateur - MAJ enseignant.docx" />
     <Content Include="_Contribute\sachem.bak" />
     <Content Include="_Contribute\Sachem_Importer.csv" />
+    <Content Include="Views\Inscription\EleveAide2.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

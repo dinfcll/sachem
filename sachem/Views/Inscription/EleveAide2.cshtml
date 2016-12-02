@@ -1,0 +1,52 @@
+﻿<!DOCTYPE html>
+@{
+    ViewBag.Title = "Inscription au service de Sachem - Élève aidé";
+}
+<div style="margin-right:15%">
+    <h2>@ViewBag.Title</h2>
+    <h3>Identification</h3>
+    @using (Html.BeginForm())
+    {
+        <div class="row">
+            <div class="col-md-6"><b>Avez-vous déjà eu un tuteur au Sachem?</b></div>
+            <div class="col-md-6">
+                <div>
+                    <input id="Q1a" name="Q1aradio" type="radio" checked />Oui
+                    <input id="Q1b" name="Q1bradio" type="radio" style="margin-left:30px;" />Non
+                </div>
+            </div>
+            <div class="col-md-6" style="margin-top:10px;"><b>Si oui, à quelle session?</b></div>
+            <div class="col-md-6" style="margin-top:10px;">
+                <div>
+                    @Html.DropDownList("Session", null, htmlAttributes: new { @class = "form-search" })
+                </div>
+            </div>
+            <div class="col-md-6" style="margin-top:10px;"><b>Avez-vous déjà intérrompu vos études?</b></div>
+            <div class="col-md-6" style="margin-top:10px;">
+                <div>
+                    <input id="Q3a" name="Q3aradio" type="radio" checked />Oui
+                    <input id="Q3b" name="Q3bradio" type="radio" style="margin-left:30px;" />Non
+                </div>
+            </div>
+            <div class="col-md-6" style="margin-top:10px;"><b>Si oui, combien d'années</b></div>
+            <div class="col-md-6" style="margin-top:10px;">
+                <div>
+                    @Html.TextBox("Q4txt", "", htmlAttributes: new { @class = "form-control", @placeholder = "ans" })
+                </div>
+            </div>
+            <div class="col-md-6" style="margin-top:10px;"><b>Avez-vous déjà intérrompu vos études?</b></div>
+            <div class="col-md-6" style="margin-top:10px;">
+                <div>
+                    <input id="Q3a" name="Q3aradio" type="radio" checked />Oui
+                    <input id="Q3b" name="Q3bradio" type="radio" style="margin-left:30px;" />Non
+                </div>
+            </div>
+            <div class="col-md-6" style="margin-top:10px;"><b>Si oui, combien d'années</b></div>
+            <div class="col-md-6" style="margin-top:10px;">
+                <div>
+                    @Html.TextBox("Q4txt", "", htmlAttributes: new { @class = "form-control", @placeholder = "ans" })
+                </div>
+            </div>
+        </div>
+    }
+</div>

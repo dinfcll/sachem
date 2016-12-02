@@ -83,6 +83,22 @@ namespace sachem.Controllers
             return View();
             //Ajouter session + etat du cours dropdown, enlever liste collège, terminer la première et la deuxième page en priorité
         }
+
+        public ActionResult EleveAide2()
+        {
+            listeSession();
+            return View();
+            //Ajouter session + etat du cours dropdown, enlever liste collège, terminer la première et la deuxième page en priorité
+        }
+
+        [NonAction]
+        private void listeSession(int session = 0)
+        {
+            var lSessions = db.Session.AsNoTracking().OrderByDescending(y => y.Annee).ThenByDescending(x => x.id_Saison);
+            var slSession = new List<SelectListItem>();
+            slSession.AddRange(new SelectList(lSessions, "id_Sess", "NomSession", session));
+            ViewBag.Session = slSession;
+        }
         [NonAction]
         private int? JourANumero(string jour)
         {
