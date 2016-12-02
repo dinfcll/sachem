@@ -27,7 +27,7 @@ namespace sachem.Controllers
             return View();
         }
 
-        //[ValidationAcces.ValidationAccesInscription]
+        [ValidationAcces.ValidationAccesInscription]
         [HttpPost]
         public ActionResult Index(int typeInscription, string[] jours )
         {
