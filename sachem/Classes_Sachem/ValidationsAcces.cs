@@ -77,9 +77,9 @@ namespace sachem.Classes_Sachem
                 if (!verif)
                     filterContext.Result = new RedirectResult(PATH_ERREUR_AUTH);
 
-                /*DateTime dateActuelle = DateTime.Now.Date;
+                DateTime dateActuelle = DateTime.Now.Date;
                 if (!ValidationDate(dateActuelle))
-                    filterContext.Result = new RedirectResult(PATH_ERREUR_AUTH);*/
+                    filterContext.Result = new RedirectResult(PATH_ERREUR_AUTH);
 
                 var inscriptionExistante = db.Inscription.Any(x => x.id_Pers == id);
                 if(inscriptionExistante)
@@ -88,9 +88,7 @@ namespace sachem.Classes_Sachem
             }
             private bool ValidationDate(DateTime DateActuelle)
             {
-                var GroupeDeMath = db.GroupeEtudiant.FirstOrDefault(x => x­.id_Etudiant == id);
-                var GroupeActuel = db.Groupe.FirstOrDefault(x => x.id_Groupe == GroupeDeMath.id_Groupe);
-                var Session = db.Session.FirstOrDefault(x => x.id_Sess == GroupeActuel.id_Sess);
+                var Session = db.Session.GroupBy(s => s.id_Sess).Select(s => s.OrderByDescending(c => c.id_Sess).First()).Select(c => new { c.id_Sess}); ;
                 var HoraireActuel = db.p_HoraireInscription.OrderByDescending(x => x.id_Sess).First();
                 if (!(DateActuelle > HoraireActuel.DateDebut && DateActuelle < HoraireActuel.DateFin))
                     return false;
