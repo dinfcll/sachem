@@ -39,7 +39,18 @@
                 var test = $(this).val();                
             });
         }
+        listeCoursReussis = function () {
+            var infoCourCollegeNote = [];
 
+            $(".InfoCourCollege").each(function (i) {
+                infoCourCollegeNote.push([]);
+                $($(this).find(".valLignecours")).each(function (j) {
+                    infoCourCollegeNote[i][j] = $(this).val();
+                });
+            });
+
+            return infoCourCollegeNote;
+        }
         ajouterLigneCours = function () {
             $.ajax({
                 url: "/Inscription/getLigneCoursEleveAide",
@@ -61,6 +72,18 @@
             window.location.href = '@Url.Action("Index", "Inscription")';
         });
         $("#btnPoursuivre").click(function () {
-               //TO-DO Faire validation avant prochaine page et envoyer au controlleur
+            var coursReussis = listeCoursReussis();
+            var postData = { values: coursReussis };
+            $.ajax({
+                url: "/Inscription/EleveAide1",
+                type: "POST",
+                data: postData,
+                success: function () {
+                    alert("Yeah!");
+                },
+                error: function () {
+                    alert("Il y a eu une erreur lors de l'enregistrement veuiller réessayer.");
+                }
+            });
         });
 </script>

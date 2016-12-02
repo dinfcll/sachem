@@ -84,7 +84,13 @@ namespace sachem.Controllers
             listeStatutCours();
             listeSession();
             return View();
-            //Ajouter session + etat du cours dropdown, enlever liste collège, terminer la première et la deuxième page en priorité
+            //terminer la première et la deuxième page en priorité
+        }
+        [HttpPost]
+        public ActionResult EleveAide1(string[][] values)
+        {
+            var texte = values;
+            return RedirectToAction("EleveAide2");
         }
         [NonAction]
         private int? JourANumero(string jour)
