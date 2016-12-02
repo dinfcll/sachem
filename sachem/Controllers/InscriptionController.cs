@@ -84,13 +84,19 @@ namespace sachem.Controllers
             listeStatutCours();
             listeSession();
             return View();
-            //terminer la première et la deuxième page en priorité
         }
         [HttpPost]
         public ActionResult EleveAide1(string[][] values)
         {
-            var texte = values;
-            return RedirectToAction("EleveAide2");
+            if(values==null)
+            {
+                return RedirectToAction("EleveAide2");
+            }
+            else
+            {
+                return RedirectToAction("EleveAide2");
+            }
+            
         }
         [NonAction]
         private int? JourANumero(string jour)
