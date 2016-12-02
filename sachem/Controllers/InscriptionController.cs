@@ -48,18 +48,17 @@ namespace sachem.Controllers
             if (jours != null)
             {
                 int longueurTab = jours.Length;
-                int minute;
                 string[] splitValue1;
-                string jour;
+                DisponibiliteStruct dispo = new DisponibiliteStruct();
                 Lis­t<DisponibiliteStruct> disponibilites = new List<DisponibiliteStruct>();
                 Array.Sort(jours, new AlphanumComparatorFast());
                 for (int i = 0; i < jours.Length; i++)
                 {
                     //TODO: Valider si les heures se suivent, formatter pour demander confirmation à l'utilisateur.
                     splitValue1 = jours[i].Split('-');
-                    minute = int.Parse(splitValue1[1]);
-                    jour = splitValue1[0];
-                    disponibilites.Add(new DisponibiliteStruct(jour, minute));
+                    dispo.Minutes = int.Parse(splitValue1[1]);
+                    dispo.Jour = splitValue1[0];
+                    disponibilites.Add(dispo);
                 }
 
                 Disponibilite dispoBD = new Disponibilite();
@@ -67,8 +66,8 @@ namespace sachem.Controllers
                 foreach (DisponibiliteStruct m in disponibilites)
                 {
                     dispoBD.id_Inscription = InscriptionEtu.id_Inscription;
-                    dispoBD.id_Jour = m.dictionary[m.Jour];
-                    dispoBD.minutes = m.Minute;
+                    dispoBD.id_Jour = (int)Enum.Parse(typeof(Semaine), m.Jour);
+                    dispoBD.minutes = m.Minutes;
                     db.Disponibilite.Add(dispoBD);
                     db.SaveChanges();
                 }

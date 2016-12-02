@@ -13,36 +13,6 @@ using sachem.Models.DataAccess;
 
 namespace sachem.Controllers
 {
-    public struct caseDisponibilite
-    {
-        string jour;
-        int minutes;
-        string nomCase;
-        bool estDispo;
-        bool estDispoMaisJumele;
-        int nbreUsagerMemeDispo;
-        bool estConsecutiveDonc3hrs;
-
-        public string Jour { get { return jour; } set { jour = value; } }
-        public int Minutes { get { return minutes; } set { minutes = value; } }
-        public string NomCase { get { return nomCase; } set { nomCase = value; } }
-        public bool EstDispo { get { return estDispo; } set { estDispo = value; } }
-        public bool EstDispoMaisJumele { get { return estDispoMaisJumele; } set { estDispoMaisJumele = value; } }
-        public int NbreUsagerMemeDispo { get { return nbreUsagerMemeDispo; } set { nbreUsagerMemeDispo = value; } }
-        public bool EstConsecutiveDonc3hrs { get { return estConsecutiveDonc3hrs; } set { estConsecutiveDonc3hrs = value; } }
-    }
-
-    public enum Semaine
-    {
-        Dimanche = 0,
-        Lundi,
-        Mardi,
-        Mercredi,
-        Jeudi,
-        Vendredi,
-        Samedi
-    }
-
     public class JumelageController : Controller
     {
         private const int HEURE_DEBUT = 8;
@@ -120,10 +90,10 @@ namespace sachem.Controllers
         }
 
         [NonAction]
-        public Dictionary<string, List<caseDisponibilite>> RetourneDisponibiliteJumelageUsager(int id, int idTypeInsc, int session)
+        public Dictionary<string, List<DisponibiliteStruct>> RetourneDisponibiliteJumelageUsager(int id, int idTypeInsc, int session)
         {
-            List<caseDisponibilite> jumelageValeurDispo = new List<caseDisponibilite>();
-            caseDisponibilite caseDispo = new caseDisponibilite();
+            List<DisponibiliteStruct> jumelageValeurDispo = new List<DisponibiliteStruct>();
+            DisponibiliteStruct caseDispo = new DisponibiliteStruct();
             IQueryable<Disponibilite> dispo = db.Disponibilite.Where(x => x.id_Inscription == id);
             IQueryable<Disponibilite> dispoAutres;
             IQueryable<Jumelage> dispoJumele;
@@ -204,12 +174,12 @@ namespace sachem.Controllers
                 jumelageValeurDispo.Add(caseDispo);     
             }
 
-            TimeSpan startTime = TimeSpan.FromHours(HEURE_DEBUT); // Doit changer pour cette valeur
+            TimeSpan startTime = TimeSpan.FromHours(HEURE_DEBUT);
             int Difference = 30;
-            int Rencontre = DUREE_RENCONTRE; // Doit changer pour cette valeur
-            int heureMax = HEURE_FIN; // Doit changer pour cette valeur
+            int Rencontre = DUREE_RENCONTRE;
+            int heureMax = HEURE_FIN;
             Dictionary<TimeSpan, TimeSpan> heures = new Dictionary<TimeSpan, TimeSpan>();
-            Dictionary<string, List<caseDisponibilite>> sortie = new Dictionary<string, List<caseDisponibilite>>();
+            Dictionary<string, List<DisponibiliteStruct>> sortie = new Dictionary<string, List<DisponibiliteStruct>>();
 
             for (int i = 0; i < heureMax; i++)
             {
@@ -221,9 +191,9 @@ namespace sachem.Controllers
 
             foreach (var e in heures)
             {
-                int heureCheckbox = (int)e.Key.TotalMinutes; // Doit changer pour cette valeur
-                caseDisponibilite caseToutes = new caseDisponibilite();
-                List<caseDisponibilite> values = new List<caseDisponibilite>();
+                int heureCheckbox = (int)e.Key.TotalMinutes;
+                DisponibiliteStruct caseToutes = new DisponibiliteStruct();
+                List<DisponibiliteStruct> values = new List<DisponibiliteStruct>();
                 bool dispoHeuresPresent = false;
                 dispoHeuresPresent = jumelageValeurDispo.Exists(x => x.Minutes==heureCheckbox);
                 for (int j = 1; j < 6; j++)
@@ -385,7 +355,7 @@ namespace sachem.Controllers
             ViewBag.Inscription = slInscription;
         }
 
-        //[ValidationAccesEnseignant]
+        [ValidationAccesEnseignant]
         public ActionResult Index(int? page)
         {
             noPage = (page ?? noPage);
@@ -463,7 +433,7 @@ namespace sachem.Controllers
             return Rechercher();
         }
 
-        //[ValidationAccesEnseignant]
+        [ValidationAccesEnseignant]
         public ActionResult Details(int? id)
         {
             if (id == null)
