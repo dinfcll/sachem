@@ -14,6 +14,11 @@ namespace sachem.Controllers
     {
         private readonly SACHEMEntities db = new SACHEMEntities();
         private const string MSG_ERREUR_REMPLIR = "Veuillez remplir le formulaire de disponibilités.";
+
+        private const int HEURE_DEBUT = 8;
+        private const int HEURE_FIN = 18;
+        private const int DUREE_RENCONTRE = 90;
+
         [ValidationAcces.ValidationAccesInscription]
         // GET: Inscription
         public ActionResult Index()
@@ -21,6 +26,7 @@ namespace sachem.Controllers
             ViewBag.TypeInscription = new SelectList(db.p_TypeInscription, "id_TypeInscription", "TypeInscription");
             return View();
         }
+
 
         [ValidationAcces.ValidationAccesInscription]
         [HttpPost]
@@ -67,7 +73,18 @@ namespace sachem.Controllers
                     db.Disponibilite.Add(dispoBD);
                     db.SaveChanges();
                 }
-                return this.Json(new { success = true, message = jours });
+                switch (typeInscription)
+                {
+                    case 1: // élève aidé
+                        return RedirectToAction("EleveAide1");
+                    case 2: // Tuteur de cours
+                        return RedirectToAction("Index");
+                    case 3: //Tuteur de bénévole
+                    case 4: //Tuteur de rémunéré
+                        return RedirectToAction("Index");
+                    default:
+                        return this.Json(new { success = false, message = MSG_ERREUR_REMPLIR });
+                }
             }
             else
             {
@@ -90,11 +107,11 @@ namespace sachem.Controllers
         [NonAction]
         public Dictionary<string, List<string>> RetourneTableauDisponibilite()
         {
-            TimeSpan StartTime = TimeSpan.FromHours(8);
+            TimeSpan StartTime = TimeSpan.FromHours(HEURE_DEBUT);
             int Difference = 30;
-            int Rencontre = 90;
+            int Rencontre = DUREE_RENCONTRE;
             int EntriesCount = 18;
-            string[] jour = new string[5] { "Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi" };
+            //string[] jour = new string[5] { "Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi" };
             Dictionary<TimeSpan, TimeSpan> Entree = new Dictionary<TimeSpan, TimeSpan>();
             Dictionary<string, List<string>> Sortie = new Dictionary<string, List<string>>();
 
@@ -108,9 +125,9 @@ namespace sachem.Controllers
             {
                 double heureCheckbox = e.Key.TotalMinutes - StartTime.TotalMinutes;
                 List<string> values = new List<string>();
-                for (int j = 0; j < 5; j++)
+                for (int j = (int)Semaine.Lundi; j <= (int)Semaine.Vendredi; j++)
                 {
-                    values.Add(jour[j] + "-" + heureCheckbox.ToString());
+                    values.Add(((Semaine)j).ToString() + "-" + heureCheckbox.ToString());
                 }
                 Sortie.Add(
                 e.Key.Hours + "h" + e.Key.Minutes.ToString("00") + "-" + e.Value.Hours + "h" + e.Value.Minutes.ToString("00"),
