@@ -11,7 +11,8 @@ namespace sachem.Models
         {
             Jour = s;
             Minute = m;
-
+            dictionary = new Dictionary<string, int> { { "Lundi", 2 }, { "Mardi", 3 }
+                , { "Mercredi", 4 }, { "Jeudi", 5 }, { "Vendredi", 6 } };
             dictionary = new Dictionary<string, int>();
             dictionary.Add("Lundi", 2);
             dictionary.Add("Mardi", 3);

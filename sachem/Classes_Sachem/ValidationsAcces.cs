@@ -72,19 +72,27 @@ namespace sachem.Classes_Sachem
             public override void OnActionExecuting(ActionExecutingContext filterContext)
             {
                 if (id == null)
+                {
                     filterContext.Result = new RedirectResult("/Account/Login");
+                }
+                    
                 var verif = SachemIdentite.ValiderRoleAcces(rolesAcces, filterContext.HttpContext.Session);
                 if (!verif)
+                {
                     filterContext.Result = new RedirectResult(PATH_ERREUR_AUTH);
+                }
 
                 DateTime dateActuelle = DateTime.Now.Date;
                 if (!ValidationDate(dateActuelle))
+                {
                     filterContext.Result = new RedirectResult(PATH_ERREUR_AUTH);
+                }
 
                 var inscriptionExistante = db.Inscription.Any(x => x.id_Pers == id);
                 if(inscriptionExistante)
+                {
                     filterContext.Result = new RedirectResult(PATH_ERREUR_DEJA);
-
+                }
             }
             private bool ValidationDate(DateTime DateActuelle)
             {
