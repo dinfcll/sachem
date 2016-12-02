@@ -80,7 +80,7 @@ namespace sachem.Controllers
                     case 2: // Tuteur de cours
                         return RedirectToAction("Index");
                     case 3: //Tuteur de bénévole
-                    case 4: //Tuteur de rémunéré
+                    case 4: //Tuteur rémunéré
                         return RedirectToAction("Index");
                     default:
                         return this.Json(new { success = false, message = MSG_ERREUR_REMPLIR });
@@ -95,13 +95,7 @@ namespace sachem.Controllers
         [NonAction]
         public List<string> RetourneListeJours()
         {
-            List<string> Jours = new List<string>();
-            Jours.Add("Lundi");
-            Jours.Add("Mardi");
-            Jours.Add("Mercredi");
-            Jours.Add("Jeudi");
-            Jours.Add("Vendredi");
-            return Jours;
+            return new List<string> { "Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi" };
         }
 
         [NonAction]
@@ -110,8 +104,7 @@ namespace sachem.Controllers
             TimeSpan StartTime = TimeSpan.FromHours(HEURE_DEBUT);
             int Difference = 30;
             int Rencontre = DUREE_RENCONTRE;
-            int EntriesCount = 18;
-            //string[] jour = new string[5] { "Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi" };
+            int EntriesCount = HEURE_FIN;
             Dictionary<TimeSpan, TimeSpan> Entree = new Dictionary<TimeSpan, TimeSpan>();
             Dictionary<string, List<string>> Sortie = new Dictionary<string, List<string>>();
 
@@ -123,7 +116,7 @@ namespace sachem.Controllers
 
             foreach (var e in Entree)
             {
-                double heureCheckbox = e.Key.TotalMinutes - StartTime.TotalMinutes;
+                double heureCheckbox = e.Key.TotalMinutes;
                 List<string> values = new List<string>();
                 for (int j = (int)Semaine.Lundi; j <= (int)Semaine.Vendredi; j++)
                 {
@@ -137,7 +130,6 @@ namespace sachem.Controllers
         }
 
         // GET: Inscription/Delete/5
-        //NOTE: Penser à Wiper les inscriptions à chaque fin de session. Constante?
         public ActionResult Delete(int id)
         {
             return View();
@@ -158,6 +150,5 @@ namespace sachem.Controllers
                 return View();
             }
         }
-        
     }
 }
