@@ -47,35 +47,6 @@ namespace sachem.Controllers
             return View(inscription);
         }
 
-        // GET: RechercheInscription/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: RechercheInscription/Create
-        [HttpPost]
-        public ActionResult Create(FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add insert logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        // GET: RechercheInscription/Edit/5
-        public ActionResult Edit(int? id)
-        {
-            return View();
-        }
-
-        // POST: RechercheInscription/Edit/5
         [HttpPost]
         public ActionResult Edit(int id_Inscription, int id_Statut)
         {
@@ -91,28 +62,6 @@ namespace sachem.Controllers
             }
             TempData["Erreur"] = "Erreur lors de la modification de l'inscription. N'oubliez pas qu'il est impossible de modifier l'inscription des anciennes sessions.";
             return RedirectToAction("Details", "RechercheInscription", new { id = id_Inscription });
-        }
-
-        // GET: RechercheInscription/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: RechercheInscription/Delete/5
-        [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add delete logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
         }
 
         [NonAction]
