@@ -17,7 +17,8 @@ namespace sachem.Controllers
     {
         private const int HEURE_DEBUT = 8;
         private const int HEURE_FIN = 18;
-        private const int DUREE_RENCONTRE = 90;
+        private const int DUREE_RENCONTRE_MINUTES = 90;
+        private const int DEMI_HEURE = 30;
         private const int ID_INSCRIPTION_POUR_ELEVE_AIDE = 1;
         private SACHEMEntities db = new SACHEMEntities();
         protected int noPage = 1;
@@ -118,6 +119,7 @@ namespace sachem.Controllers
                 caseDispo.EstDispo = false;
                 caseDispo.EstDispoMaisJumele = true;
                 caseDispo.EstDispoEtCompatible = false;
+                caseDispo.EstDispoEtCompatibleEtConsecutif = false;
                 if (Convert.ToBoolean(!j.consecutif))
                 {
                     caseDispo.EstConsecutiveDonc3hrs = false;
@@ -127,7 +129,7 @@ namespace sachem.Controllers
                 {
                     caseDispo.EstConsecutiveDonc3hrs = false;
                     jumelageValeurDispo.Add(caseDispo);
-                    for (int k = 30; k <= DUREE_RENCONTRE; k += 30)
+                    for (int k = DEMI_HEURE; k <= DUREE_RENCONTRE_MINUTES; k += DEMI_HEURE)
                     {
                         caseDispo.Minutes = j.minutes + k;
                         caseDispo.NomCase = caseDispo.Jour + "-" + caseDispo.Minutes;
@@ -159,6 +161,7 @@ namespace sachem.Controllers
                             if (idCeluiInspecte != 0 && dispoCeluiInspecte.Exists(x => x.p_Jour.Jour == a.p_Jour.Jour && x.minutes == a.minutes))
                             {
                                 caseDispo.EstDispoEtCompatible = true;
+                                caseDispo.EstDispoEtCompatibleEtConsecutif = disponbiliteEstElleConsecutiveDauMoins3hrs(dispo.ToList(), dispoCeluiInspecte, a.id_Jour, a.minutes);
                             }
                         }
                     }
@@ -172,20 +175,20 @@ namespace sachem.Controllers
                         x => x.Jour == caseDispo.Jour &&
                         x.EstDispoMaisJumele == true &&
                         x.EstConsecutiveDonc3hrs == false &&
-                        ((caseDispo.Minutes > x.Minutes && caseDispo.Minutes < x.Minutes + DUREE_RENCONTRE) ||
-                        ((caseDispo.Minutes + DUREE_RENCONTRE) > x.Minutes && (caseDispo.Minutes + DUREE_RENCONTRE) < x.Minutes + DUREE_RENCONTRE))
+                        ((caseDispo.Minutes > x.Minutes && caseDispo.Minutes < x.Minutes + DUREE_RENCONTRE_MINUTES) ||
+                        ((caseDispo.Minutes + DUREE_RENCONTRE_MINUTES) > x.Minutes && (caseDispo.Minutes + DUREE_RENCONTRE_MINUTES) < x.Minutes + DUREE_RENCONTRE_MINUTES))
                         ) || jumelageValeurDispo.Exists(
                             x => x.Jour == caseDispo.Jour &&
                             x.EstDispoMaisJumele == true &&
                             x.EstConsecutiveDonc3hrs == true &&
-                            ((caseDispo.Minutes > x.Minutes && caseDispo.Minutes < x.Minutes + (DUREE_RENCONTRE * 2)) ||
-                            ((caseDispo.Minutes + DUREE_RENCONTRE) > x.Minutes && (caseDispo.Minutes + DUREE_RENCONTRE) < x.Minutes + (DUREE_RENCONTRE * 2))));   
+                            ((caseDispo.Minutes > x.Minutes && caseDispo.Minutes < x.Minutes + (DUREE_RENCONTRE_MINUTES * 2)) ||
+                            ((caseDispo.Minutes + DUREE_RENCONTRE_MINUTES) > x.Minutes && (caseDispo.Minutes + DUREE_RENCONTRE_MINUTES) < x.Minutes + (DUREE_RENCONTRE_MINUTES * 2))));   
                 jumelageValeurDispo.Add(caseDispo);     
             }
 
             TimeSpan startTime = TimeSpan.FromHours(HEURE_DEBUT);
-            int Difference = 30;
-            int Rencontre = DUREE_RENCONTRE;
+            int Difference = DEMI_HEURE;
+            int Rencontre = DUREE_RENCONTRE_MINUTES;
             int heureMax = HEURE_FIN;
             Dictionary<TimeSpan, TimeSpan> heures = new Dictionary<TimeSpan, TimeSpan>();
             Dictionary<string, List<DisponibiliteStruct>> sortie = new Dictionary<string, List<DisponibiliteStruct>>();
@@ -240,6 +243,18 @@ namespace sachem.Controllers
             }
 
             return sortie;
+        }
+
+        private bool disponbiliteEstElleConsecutiveDauMoins3hrs(List<Disponibilite> dispos, List<Disponibilite> disposCeluiInspecte, int idJour, int minutes)
+        {
+            return ((dispos.Exists(x => x.id_Jour == idJour && x.minutes == minutes) &&
+                disposCeluiInspecte.Exists(x => x.id_Jour == idJour && x.minutes == minutes)) &&
+                (dispos.Exists(x => x.id_Jour == idJour && x.minutes == minutes + DEMI_HEURE) &&
+                disposCeluiInspecte.Exists(x => x.id_Jour == idJour && x.minutes == minutes + (DEMI_HEURE))) &&
+                (dispos.Exists(x => x.id_Jour == idJour && x.minutes == minutes + (DEMI_HEURE * 2)) &&
+                disposCeluiInspecte.Exists(x => x.id_Jour == idJour && x.minutes == minutes + (DEMI_HEURE * 2))) &&
+                (dispos.Exists(x => x.id_Jour == idJour && x.minutes == minutes + (DEMI_HEURE * 3)) &&
+                disposCeluiInspecte.Exists(x => x.id_Jour == idJour && x.minutes == minutes + (DEMI_HEURE * 3))));
         }
 
         [NonAction]
@@ -342,14 +357,14 @@ namespace sachem.Controllers
                     plageHoraire.Add(
                         j.p_Jour.Jour + " " + 
                         (DebutJournee.Add(TimeSpan.FromMinutes(j.minutes))).ToString(@"hh\:mm") + "-" + 
-                        (DebutJournee.Add(TimeSpan.FromMinutes(j.minutes + DUREE_RENCONTRE))).ToString(@"hh\:mm"));
+                        (DebutJournee.Add(TimeSpan.FromMinutes(j.minutes + DUREE_RENCONTRE_MINUTES))).ToString(@"hh\:mm"));
                 }
                 else
                 {
                     plageHoraire.Add(
                         j.p_Jour.Jour + " " + 
                         (DebutJournee.Add(TimeSpan.FromMinutes(j.minutes))).ToString(@"hh\:mm") + "-" + 
-                        (DebutJournee.Add(TimeSpan.FromMinutes(j.minutes + (DUREE_RENCONTRE * 2)))).ToString(@"hh\:mm"));
+                        (DebutJournee.Add(TimeSpan.FromMinutes(j.minutes + (DUREE_RENCONTRE_MINUTES * 2)))).ToString(@"hh\:mm"));
                 }
             }
             return plageHoraire;

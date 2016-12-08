@@ -107,7 +107,7 @@
                                     {
                                         <td class="text-center" style="background-color:#81c784;" id="@w.NomCase" name="@w.NomCase">
                                             @w.NbreUsagerMemeDispo                                                
-                                            @if (w.NbreUsagerMemeDispo > 0 && w.EstDispoEtCompatible)
+                                            @if (w.NbreUsagerMemeDispo > 0 && w.EstDispoEtCompatible && w.EstDispoEtCompatibleEtConsecutif)
                                             {
                                                 <a href="#" onclick="AjoutModal(
                                                    @w.Jour,
@@ -117,6 +117,21 @@
                                                    @j.Personne.PrenomNom, 
                                                    @Model.Personne.PrenomNom);"
                                                     data-toggle="modal" data-target="#modalAjout" class="modal-open">
+                                                    <i class="material-icons" style="float:right;padding-right:5px;color:red;text-shadow: 2px 2px #999;">
+                                                        group_add
+                                                    </i>
+                                                </a>
+                                            }
+                                            else if (w.NbreUsagerMemeDispo > 0 && w.EstDispoEtCompatible && !w.EstDispoEtCompatibleEtConsecutif)
+                                            {
+                                                <a href="#" onclick="AjoutModal(
+                                                   @w.Jour,
+                                                   @v.Value,
+                                                   @j.id_Inscription,
+                                                   @Model.id_Inscription,
+                                                   @j.Personne.PrenomNom,
+                                                   @Model.Personne.PrenomNom);"
+                                                   data-toggle="modal" data-target="#modalAjout" class="modal-open">
                                                     <i class="material-icons" style="float:right;padding-right:5px;color:#fff;text-shadow: 2px 2px #999;">
                                                         group_add
                                                     </i>

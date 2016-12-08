@@ -12,6 +12,7 @@ namespace sachem.Models
         int nbreUsagerMemeDispo;
         bool estConsecutiveDonc3hrs;
         bool estDispoEtCompatible;
+        bool estDispoEtCompatibleEtConsecutif;
 
         public string Jour { get { return jour; } set { jour = value; } }
         public int Minutes { get { return minutes; } set { minutes = value; } }
@@ -21,6 +22,7 @@ namespace sachem.Models
         public int NbreUsagerMemeDispo { get { return nbreUsagerMemeDispo; } set { nbreUsagerMemeDispo = value; } }
         public bool EstConsecutiveDonc3hrs { get { return estConsecutiveDonc3hrs; } set { estConsecutiveDonc3hrs = value; } }
         public bool EstDispoEtCompatible { get { return estDispoEtCompatible; } set { estDispoEtCompatible = value; } }
+        public bool EstDispoEtCompatibleEtConsecutif { get { return estDispoEtCompatibleEtConsecutif; } set { estDispoEtCompatibleEtConsecutif = value; } }
 
     }
 
