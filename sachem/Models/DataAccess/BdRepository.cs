@@ -47,6 +47,7 @@ namespace sachem.Models.DataAccess
             return db.Groupe.Any(condition);
         }
 
+
         public bool AnyCoursSuiviWhere(Expression<Func<CoursSuivi, bool>> condition)
         {
             return db.CoursSuivi.Any(condition);
@@ -201,7 +202,7 @@ namespace sachem.Models.DataAccess
             return db.Personne.Find(id);
         }
 
-        public void DeclareModified(Personne enseignant)
+        public void DeclareModifiedEns(Personne enseignant)
         {
             db.Entry(enseignant).State = EntityState.Modified;
             db.SaveChanges();
@@ -230,6 +231,13 @@ namespace sachem.Models.DataAccess
         public SelectList liste_usag(Personne personne, int id_resp, int id_ens)
         {
             return new SelectList(db.p_TypeUsag.Where(x => x.id_TypeUsag == id_ens || x.id_TypeUsag == id_resp), "id_TypeUsag", "TypeUsag");
+        }
+
+        public string FindMdp(int id)
+        {
+            string mdp = db.Personne.Where(x => x.id_Pers == id).FirstOrDefault().MP;
+
+            return mdp;
         }
     }
 }

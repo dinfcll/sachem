@@ -231,5 +231,15 @@ namespace sachemTests
             {
                 throw new NotImplementedException();
             }
+
+        public string FindMdp(int id)
+        {
+            throw new NotImplementedException();
         }
+
+        public void DeclareModifiedEns(Personne enseignant)
+        {
+            throw new NotImplementedException();
+        }
+    }
 }
