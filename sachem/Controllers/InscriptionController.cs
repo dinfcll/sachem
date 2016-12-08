@@ -17,7 +17,7 @@ namespace sachem.Controllers
 
         private const int HEURE_DEBUT = 8;
         private const int HEURE_FIN = 18;
-        private const int DUREE_RENCONTRE = 90;
+        private const int DUREE_RENCONTRE_MINUTES = 90;
 
         [ValidationAcces.ValidationAccesInscription]
         // GET: Inscription
@@ -71,14 +71,14 @@ namespace sachem.Controllers
                     db.Disponibilite.Add(dispoBD);
                     db.SaveChanges();
                 }
-                switch (typeInscription)
+                switch ((TypeInscription)typeInscription)
                 {
-                    case 1: // élève aidé
+                    case TypeInscription.eleveAide:
                         return RedirectToAction("EleveAide1");
-                    case 2: // Tuteur de cours
+                    case TypeInscription.tuteurDeCours:
                         return RedirectToAction("Index");
-                    case 3: //Tuteur bénévole
-                    case 4: //Tuteur rémunéré
+                    case TypeInscription.tuteurBenevole:
+                    case TypeInscription.tuteurRemunere:
                         return RedirectToAction("Index");
                     default:
                         return this.Json(new { success = false, message = MSG_ERREUR_REMPLIR });
@@ -106,7 +106,7 @@ namespace sachem.Controllers
         {
             TimeSpan StartTime = TimeSpan.FromHours(HEURE_DEBUT);
             int Difference = 30;
-            int Rencontre = DUREE_RENCONTRE;
+            int Rencontre = DUREE_RENCONTRE_MINUTES;
             int EntriesCount = HEURE_FIN;
             Dictionary<TimeSpan, TimeSpan> Entree = new Dictionary<TimeSpan, TimeSpan>();
             Dictionary<string, List<string>> Sortie = new Dictionary<string, List<string>>();
