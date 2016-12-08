@@ -3,10 +3,12 @@
     ViewBag.Title = "Inscription au service de Sachem - Élève aidé";
 }
 <div style="margin-right:15%">
-    <h2>@ViewBag.Title</h2>
+    <h2 @ViewBag.Title</h2>
     <h3>Identification</h3>
     @using (Html.BeginForm())
     {
+        
+        
         <div class="row">
             <div class="col-md-6"><b>Avez-vous déjà eu un tuteur au Sachem?</b></div>
             <div class="col-md-6">
@@ -48,9 +50,68 @@
                 </div>
             </div>
             <div class="col-md-6" style="margin-top:10px;"><b>Quelle profession voulez-vous excercer à la fin de vos études?</b></div>
-            <div>
-                @Html.TextBox("Q7txt", "", htmlAttributes: new { @class = "form-control" })
+                <div class="col-md-6" style="margin-top:10px;">
+                    <div>
+                        @Html.TextBox("Q7txt", "", htmlAttributes: new { @class = "form-control" })
+                    </div>
+                </div>
             </div>
-        </div>
+            <h3>Informations spécifiques</h3>
+            <div class="col-md-12" style="margin-top:10px;">
+                <b>Selon vous, combien de temps faut-il consacrer par semaine à l'étude des mathématiques pour réussir?</b>
+                <div>
+                    @Html.TextBox("Q8txt", "", htmlAttributes: new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="col-md-12" style="margin-top:10px;">
+                <b>Parmi ceux-ci, quels cours avez-vous suivis au secondaire?</b>
+                <div>
+                    &nbsp<b>TS4</b>&nbsp @Html.CheckBox("Q9a", false)
+                    &nbsp<b>TS5</b>&nbsp @Html.CheckBox("Q9b", false)
+                    &nbsp<b>SN4</b>&nbsp @Html.CheckBox("Q9c", false)
+                    &nbsp<b>SN5</b>&nbsp @Html.CheckBox("Q9d", false)
+                    &nbsp<b>CST4</b>&nbsp @Html.CheckBox("Q9e", false) 
+                    &nbsp<b>CST5</b>&nbsp @Html.CheckBox("Q9f", false)
+                </div>
+            </div>
+            <div class="col-md-12" style="margin-top:10px;">
+                <b>Autres? précisez:</b>
+                <div>
+                    @Html.TextBox("Q10txt", "", htmlAttributes: new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="col-md-12" style="margin-top:10px;">
+                <b>Avez-vous suivi des cours de mathématiques à la formation aux adultes?</b>
+                <div>
+                    <form>
+                        <input type="radio" name="Q11a" value="oui"> <b>Oui</b> &nbsp
+                        <input type="radio" name="Q11b" value="non"> <b>Non</b> &nbsp
+                    </form>
+                </div>
+            </div>
+            <div class="col-md-12" style="margin-top:10px;">
+                <b>Si oui, lesquelles?</b>
+                <div>
+                    <textarea name="Q12txta" rows="3" cols="200"></textarea> 
+                </div>
+            </div>
+            <div class="col-md-12" style="margin-top:10px;">
+                <b>D'après vous, pourquoi est-il important d'accorder de l'importance aux démarches?</b>
+                <div>
+                    <textarea name="Q13txta" rows="3" cols="200"></textarea>
+                </div>
+            </div>
+            <div class="col-md-12" style="margin-top:10px;">
+                <b>Aimez-vous ou avez-vous déjà aimé les mathématiques?</b>
+                <div>
+                    <input type="radio" name="Q14a" value="oui"> <b>Oui</b> &nbsp
+                    <input type="radio" name="Q14b" value="non"> <b>Non</b> &nbsp
+                </div>
+            </div>
+            <div style="margin-top:10px;">
+                <input type="button" value="Enregistrer et poursuivre" class="btn btn-default" id="btnPoursuivre_2" />
+                <input type="button" value="Enregistrer un brouillon" class="btn btn-default" id="btnBrouillon_2" />
+                <input type="button" value="Annuler" class="btn btn-default" id="btnAnnuler_2" />
+            </div>
     }
 </div>
