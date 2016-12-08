@@ -6,7 +6,15 @@ namespace sachem.Models
     public partial class Session
     {
         //Description de la session
-        public string NomSession => $"{p_Saison.Saison} {Annee}";
+        public string NomSession
+        {
+            get
+            {
+                var nomSession = $"{p_Saison.Saison} {Annee}";
+                return nomSession;
+            }
+        }
+
     }
 
     //redéfinition de la classe partielle
