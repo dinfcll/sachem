@@ -48,8 +48,8 @@ namespace sachem.Controllers
             return View(inscription);
         }
 
-        [HttpGet]
-        public ActionResult Edit(int id_Inscription, int id_Statut)
+        [HttpPut]
+        public ActionResult ChangerStatutInscription(int id_Inscription, int id_Statut)
         {
             var inscription = db.Inscription.FirstOrDefault(x => x.id_Inscription == id_Inscription);
             if(inscription != null && inscription.id_Sess == db.Session.Max(s => s.id_Sess))
@@ -100,20 +100,20 @@ namespace sachem.Controllers
 
             if (Request.RequestType == "GET" && Session["DernRechInsc"] != null && (string)Session["DernRechInscUrl"] == Request.Url?.LocalPath)
             {
-                var anciennerech = Session["DernRechInsc"].ToString();
-                var tanciennerech = anciennerech.Split(';');
+                var ancienneRech = Session["DernRechInsc"].ToString();
+                var tancienneRech = ancienneRech.Split(';');
 
-                if (tanciennerech[0] != "")
+                if (tancienneRech[0] != "")
                 {
-                    sess = int.Parse(tanciennerech[0]);
+                    sess = int.Parse(tancienneRech[0]);
                 }
-                if (tanciennerech[1] != "")
+                if (tancienneRech[1] != "")
                 {
-                    type = int.Parse(tanciennerech[1]);
+                    type = int.Parse(tancienneRech[1]);
                 }
-                if (tanciennerech[2] != "")
+                if (tancienneRech[2] != "")
                 {
-                    statut = int.Parse(tanciennerech[2]);
+                    statut = int.Parse(tancienneRech[2]);
                 }
             }
             else
