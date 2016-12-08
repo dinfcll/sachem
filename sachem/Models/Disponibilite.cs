@@ -17,8 +17,6 @@ namespace sachem.Models
         public int id_Dispo { get; set; }
         public int id_Inscription { get; set; }
         public int id_Jour { get; set; }
-        public System.TimeSpan HeureDebut { get; set; }
-        public System.TimeSpan HeureFin { get; set; }
         public int minutes { get; set; }
     
         public virtual Inscription Inscription { get; set; }

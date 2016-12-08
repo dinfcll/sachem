@@ -4,33 +4,36 @@
 @{ List<Inscription> listeJumeleursPotentiels = ((sachem.Controllers.JumelageController)this.ViewContext.Controller)
                                     .RetourneJumeleursPotentiels(Model.id_Inscription, Model.id_TypeInscription, Model.id_Sess);
     int k = 0; }
-<script>
-    function AjoutModal(jour, minutes, idTuteur, idEleveAide, nomTuteur, nomEleveAide) {
-        var modal = document.getElementById('modalAjout')
-        var boutonAjout = document.getElementById('btnAjout')
-        document.getElementById('modal-tuteur').textContent = nomTuteur;
-        document.getElementById('modal-eleve').innerHTML = nomEleveAide;
-        document.getElementById('modal-idTuteur').textContent = idTuteur;
-        document.getElementById('modal-idEleveAide').textContent = idEleveAide;
-        modal.style.display = 'block';
-        boutonAjout.onclick = function () {
-            Ajout(idTuteur, idEleveAide, jour, minutes);
-        }
-    }
-
-    function Ajout(idTuteur, idEleveAide, jour, minutes) {
-        $.ajax({
-            url: "/Jumelage/AjoutJumelage",
-            data: { "idTuteur": idTuteur, "idEleveAide": idEleveAide, "Jour": jour, "minutes": minutes },
-            type: "POST",
-            success: function () {
-                location.reload(true);
-            },
-            error: function () {
-                location.reload(true);
+@Scripts.Render("~/bundles/jquery")
+<script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        function AjoutModal(jour, minutes, idTuteur, idEleveAide, nomTuteur, nomEleveAide, estConsecutif) {
+            var modal = document.getElementById('modalAjout')
+            var boutonAjout = document.getElementById('btnAjout')
+            $('#modalTuteur').html(nomTuteur);
+            $('#modalEleve').html(nomEleveAide);
+            $('#modalConditionConsecutif').removeClass('hide');
+            modal.style.display = 'block';
+            boutonAjout.onclick = function () {
+                Ajout(idTuteur, idEleveAide, jour, minutes);
             }
-        });
-    }
+        }
+
+        function Ajout(idTuteur, idEleveAide, jour, minutes) {
+            $.ajax({
+                url: "/Jumelage/AjoutJumelage",
+                data: { "idTuteur": idTuteur, "idEleveAide": idEleveAide, "Jour": jour, "minutes": minutes },
+                type: "POST",
+                success: function () {
+                    location.reload(true);
+                },
+                error: function () {
+                    location.reload(true);
+                }
+            });
+        }
+    });
 </script>
 @if (listeJumeleursPotentiels.Count() > 0)
 {
@@ -76,9 +79,9 @@
                             <th class="col-sm-2 text-center" style="height:30px;font-weight:bold;color:white;background-color:#666;">@jour</th>
                         }
                     </tr>
-                    @{ Dictionary<string, List<caseDisponibilite>> ListeDispoUsagerDeTableauDisponibilite =
+                    @{ Dictionary<string, List<DisponibiliteStruct>> ListeDispoUsagerDeTableauDisponibilite =
               ((sachem.Controllers.JumelageController)this.ViewContext.Controller)
-              .RetourneDisponibiliteJumelageUsager(@j.id_Inscription, @j.id_TypeInscription, @j.id_Sess); }
+              .RetourneDisponibiliteJumelageUsager(@j.id_Inscription, @j.id_TypeInscription, @j.id_Sess, Model.id_Inscription); }
                     @{
                         foreach (var v in ListeDispoUsagerDeTableauDisponibilite)
                         {
@@ -107,16 +110,19 @@
                                     {
                                         <td class="text-center" style="background-color:#81c784;" id="@w.NomCase" name="@w.NomCase">
                                             @w.NbreUsagerMemeDispo                                                
-                                            @if (w.NbreUsagerMemeDispo > 0)
+                                            @if (w.NbreUsagerMemeDispo > 0 && w.EstDispoEtCompatible && w.EstDispoEtCompatibleEtConsecutif)
                                             {
-                                                <a href="#" onclick="AjoutModal(
-                                                   @w.Jour,
-                                                   @v.Value,
-                                                   @j.id_Inscription, 
-                                                   @Model.id_Inscription, 
-                                                   @j.Personne.PrenomNom, 
-                                                   @Model.Personne.PrenomNom);"
-                                                    data-toggle="modal" data-target="#modalAjout" class="modal-open">
+                                                <a href="#" onclick="AjoutModal(@w.Jour,@v.Value,@j.id_Inscription,@Model.id_Inscription,@j.Personne.PrenomNom,@Model.Personne.PrenomNom,true);"
+                                                   data-toggle="modal" data-target="#modalAjout" class="modal-open">
+                                                    <i class="material-icons" style="float:right;padding-right:5px;color:red;text-shadow: 2px 2px #999;">
+                                                        group_add
+                                                    </i>
+                                                </a>
+                                            }
+                                            else if (w.NbreUsagerMemeDispo > 0 && w.EstDispoEtCompatible && !w.EstDispoEtCompatibleEtConsecutif)
+                                            {
+                                                <a href="#" onclick="AjoutModal(@w.Jour,@v.Value,@j.id_Inscription,@Model.id_Inscription,@j.Personne.PrenomNom,@Model.Personne.PrenomNom,false);"
+                                                   data-toggle="modal" data-target="#modalAjout" class="modal-open">
                                                     <i class="material-icons" style="float:right;padding-right:5px;color:#fff;text-shadow: 2px 2px #999;">
                                                         group_add
                                                     </i>
@@ -146,8 +152,13 @@
                         <h4 class="modal-title">Création d'un jumelage entre tuteur et élève aidé.</h4>
                     </div>
                     <div class="modal-body">
-                        <p>Êtes-vous certain de créer un jumelage entre <span id="modal-tuteur"></span> et <span id="modal-eleve"></span> pour
-                         la plage horaire de <span id="modal-plage-horaire-1"></span>?</p>
+                        <p>Êtes-vous certain de créer un jumelage entre <span id="modalTuteur"></span> et <span id="modalEleve"></span> pour
+                         la plage horaire de <span id="modalPlageHoraire"></span>?</p>
+                        <p id="modalConditionConsecutif" class="hide">Désirez-vous étendre la durée de cette rencontre sur 3h pour créer un jumelage avec deux rencontres consécutives ?
+                        <select class="form-control">
+                            <option id="ouiConsecutif">Oui</option><option id="nonConsecutif">Non</option>
+                        </select>
+                        </p>
                     </div>
                     <div class="modal-footer">
                         <button id="btnAjout" type="button" data-dismiss="modal" class="btn btn-primary">Créer le jumelage</button>

@@ -73,7 +73,7 @@
     <h3 class="page-header">Disponibilité</h3>
     <ul>
         <li>Indiquez vos heures de disponibilité en cliquant dans les cases appropriées.</li>
-        <li>Chaque X indique que vous êtes disponible pour une rencontre de 1h30 dans cette plage horaire</li>
+        <li>Chaque &#10004; indique que vous êtes disponible pour une rencontre de 1h30 dans cette plage horaire</li>
         <li>Il y aura au minimum une rencontre par semaine, soit 1h30/semaine</li>
         <li>Inscrivez plusieurs choix pour faciliter le jumelage.</li>
     </ul>
@@ -97,12 +97,13 @@
                             @foreach (var w in v.Value)
                             {
                                 <td class="text-center checkzone">
+                                    
                                     @Html.CheckBox("horaireCheckbox", false, htmlAttributes: new
                                {
-                                   @class = "control-label",
                                    @id = w,
                                    @value = w
-                               })
+                               })<input type="checkbox"/><label for="@w"></label>
+                                   
                                 </td>
                             }                                
                     </tr>

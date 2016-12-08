@@ -22,8 +22,6 @@ namespace sachem.Models
         public int id_Jour { get; set; }
         public System.DateTime DateDebut { get; set; }
         public Nullable<System.DateTime> DateFin { get; set; }
-        public System.DateTime HeureDebut { get; set; }
-        public System.DateTime HeureFin { get; set; }
         public int minutes { get; set; }
         public bool consecutif { get; set; }
     

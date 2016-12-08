@@ -17,9 +17,9 @@ namespace sachem.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Cours()
         {
-            this.CoursInteret = new HashSet<CoursInteret>();
             this.CoursSuivi = new HashSet<CoursSuivi>();
             this.Groupe = new HashSet<Groupe>();
+            this.CoursInteret = new HashSet<CoursInteret>();
         }
     
         public int id_Cours { get; set; }
@@ -28,10 +28,10 @@ namespace sachem.Models
         public bool Actif { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<CoursInteret> CoursInteret { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CoursSuivi> CoursSuivi { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Groupe> Groupe { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<CoursInteret> CoursInteret { get; set; }
     }
 }

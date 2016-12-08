@@ -21,6 +21,5 @@ namespace sachem.Models
     
         public virtual Cours Cours { get; set; }
         public virtual Inscription Inscription { get; set; }
-        public virtual Inscription Inscription1 { get; set; }
     }
 }

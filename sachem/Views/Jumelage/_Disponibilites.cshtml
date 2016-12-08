@@ -1,4 +1,5 @@
 ﻿@model sachem.Models.Inscription
+@using sachem.Models;
 @using sachem.Controllers;
 
 <table class="table-bordered table-striped col-sm-12">
@@ -11,9 +12,9 @@
             <th class="col-sm-2 text-center" style="height:30px;font-weight:bold;color:white;background-color:#666;">@jour</th>
         }
     </tr>
-    @{ Dictionary<string, List<caseDisponibilite>> ListeDispoUsagerDeTableauDisponibilite = 
+    @{ Dictionary<string, List<DisponibiliteStruct>> ListeDispoUsagerDeTableauDisponibilite = 
             ((sachem.Controllers.JumelageController)this.ViewContext.Controller)
-            .RetourneDisponibiliteJumelageUsager(Model.id_Inscription, Model.id_TypeInscription, Model.id_Sess); }
+            .RetourneDisponibiliteJumelageUsager(Model.id_Inscription, Model.id_TypeInscription, Model.id_Sess, 0); }
     @{
         foreach (var v in ListeDispoUsagerDeTableauDisponibilite)
         {

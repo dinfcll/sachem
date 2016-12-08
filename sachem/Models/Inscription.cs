@@ -17,12 +17,12 @@ namespace sachem.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Inscription()
         {
+            this.CoursInteret = new HashSet<CoursInteret>();
             this.Disponibilite = new HashSet<Disponibilite>();
             this.Evaluation = new HashSet<Evaluation>();
             this.Jumelage = new HashSet<Jumelage>();
             this.Jumelage1 = new HashSet<Jumelage>();
             this.ReponseQuestion = new HashSet<ReponseQuestion>();
-            this.CoursInteret1 = new HashSet<CoursInteret>();
         }
     
         public int id_Inscription { get; set; }
@@ -36,7 +36,8 @@ namespace sachem.Models
         public Nullable<bool> BonEchange { get; set; }
         public System.DateTime DateInscription { get; set; }
     
-        public virtual CoursInteret CoursInteret { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<CoursInteret> CoursInteret { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Disponibilite> Disponibilite { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
@@ -51,7 +52,5 @@ namespace sachem.Models
         public virtual ICollection<Jumelage> Jumelage1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ReponseQuestion> ReponseQuestion { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<CoursInteret> CoursInteret1 { get; set; }
     }
 }

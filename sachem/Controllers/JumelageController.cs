@@ -13,41 +13,12 @@ using sachem.Models.DataAccess;
 
 namespace sachem.Controllers
 {
-    public struct caseDisponibilite
-    {
-        string jour;
-        int minutes;
-        string nomCase;
-        bool estDispo;
-        bool estDispoMaisJumele;
-        int nbreUsagerMemeDispo;
-        bool estConsecutiveDonc3hrs;
-
-        public string Jour { get { return jour; } set { jour = value; } }
-        public int Minutes { get { return minutes; } set { minutes = value; } }
-        public string NomCase { get { return nomCase; } set { nomCase = value; } }
-        public bool EstDispo { get { return estDispo; } set { estDispo = value; } }
-        public bool EstDispoMaisJumele { get { return estDispoMaisJumele; } set { estDispoMaisJumele = value; } }
-        public int NbreUsagerMemeDispo { get { return nbreUsagerMemeDispo; } set { nbreUsagerMemeDispo = value; } }
-        public bool EstConsecutiveDonc3hrs { get { return estConsecutiveDonc3hrs; } set { estConsecutiveDonc3hrs = value; } }
-    }
-
-    public enum Semaine
-    {
-        Dimanche = 0,
-        Lundi,
-        Mardi,
-        Mercredi,
-        Jeudi,
-        Vendredi,
-        Samedi
-    }
-
     public class JumelageController : Controller
     {
         private const int HEURE_DEBUT = 8;
         private const int HEURE_FIN = 18;
-        private const int DUREE_RENCONTRE = 90;
+        private const int DUREE_RENCONTRE_MINUTES = 90;
+        private const int DEMI_HEURE = 30;
         private const int ID_INSCRIPTION_POUR_ELEVE_AIDE = 1;
         private SACHEMEntities db = new SACHEMEntities();
         protected int noPage = 1;
@@ -120,13 +91,14 @@ namespace sachem.Controllers
         }
 
         [NonAction]
-        public Dictionary<string, List<caseDisponibilite>> RetourneDisponibiliteJumelageUsager(int id, int idTypeInsc, int session)
+        public Dictionary<string, List<DisponibiliteStruct>> RetourneDisponibiliteJumelageUsager(int id, int idTypeInsc, int session, int idCeluiInspecte)
         {
-            List<caseDisponibilite> jumelageValeurDispo = new List<caseDisponibilite>();
-            caseDisponibilite caseDispo = new caseDisponibilite();
+            List<DisponibiliteStruct> jumelageValeurDispo = new List<DisponibiliteStruct>();
+            DisponibiliteStruct caseDispo = new DisponibiliteStruct();
             IQueryable<Disponibilite> dispo = db.Disponibilite.Where(x => x.id_Inscription == id);
             IQueryable<Disponibilite> dispoAutres;
             IQueryable<Jumelage> dispoJumele;
+            List<Disponibilite> dispoCeluiInspecte = new List<Disponibilite>();
 
             if (idTypeInsc == ID_INSCRIPTION_POUR_ELEVE_AIDE)
             {
@@ -146,6 +118,8 @@ namespace sachem.Controllers
                 caseDispo.NbreUsagerMemeDispo = 0;
                 caseDispo.EstDispo = false;
                 caseDispo.EstDispoMaisJumele = true;
+                caseDispo.EstDispoEtCompatible = false;
+                caseDispo.EstDispoEtCompatibleEtConsecutif = false;
                 if (Convert.ToBoolean(!j.consecutif))
                 {
                     caseDispo.EstConsecutiveDonc3hrs = false;
@@ -155,7 +129,7 @@ namespace sachem.Controllers
                 {
                     caseDispo.EstConsecutiveDonc3hrs = false;
                     jumelageValeurDispo.Add(caseDispo);
-                    for (int k = 30; k <= DUREE_RENCONTRE; k += 30)
+                    for (int k = DEMI_HEURE; k <= DUREE_RENCONTRE_MINUTES; k += DEMI_HEURE)
                     {
                         caseDispo.Minutes = j.minutes + k;
                         caseDispo.NomCase = caseDispo.Jour + "-" + caseDispo.Minutes;
@@ -168,9 +142,15 @@ namespace sachem.Controllers
             }
 
             int compteurUsagerAvecMemeDispo = 0;
+            
+            if (idCeluiInspecte != 0)
+            {
+                dispoCeluiInspecte = db.Disponibilite.Where(x => x.id_Inscription == idCeluiInspecte).ToList();
+            }
             foreach (var d in dispo)
             {
                 compteurUsagerAvecMemeDispo = 0;
+                caseDispo.EstDispoEtCompatible = false;
                 foreach (var a in dispoAutres)
                 {
                     if (d.id_Jour == a.id_Jour && d.minutes == a.minutes)
@@ -178,6 +158,11 @@ namespace sachem.Controllers
                         if (!jumelageValeurDispo.Exists(x => x.Jour == a.p_Jour.Jour && x.Minutes == a.minutes))
                         {
                             compteurUsagerAvecMemeDispo++;
+                            if (idCeluiInspecte != 0 && dispoCeluiInspecte.Exists(x => x.p_Jour.Jour == a.p_Jour.Jour && x.minutes == a.minutes))
+                            {
+                                caseDispo.EstDispoEtCompatible = true;
+                                caseDispo.EstDispoEtCompatibleEtConsecutif = disponbiliteEstElleConsecutiveDauMoins3hrs(dispo.ToList(), dispoCeluiInspecte, a.id_Jour, a.minutes);
+                            }
                         }
                     }
                 }
@@ -190,54 +175,51 @@ namespace sachem.Controllers
                         x => x.Jour == caseDispo.Jour &&
                         x.EstDispoMaisJumele == true &&
                         x.EstConsecutiveDonc3hrs == false &&
-                        ((caseDispo.Minutes > x.Minutes && caseDispo.Minutes < x.Minutes + DUREE_RENCONTRE) ||
-                        ((caseDispo.Minutes + DUREE_RENCONTRE) > x.Minutes && (caseDispo.Minutes + DUREE_RENCONTRE) < x.Minutes + DUREE_RENCONTRE))
-                        )
-                        ||
-                        jumelageValeurDispo.Exists(
+                        ((caseDispo.Minutes > x.Minutes && caseDispo.Minutes < x.Minutes + DUREE_RENCONTRE_MINUTES) ||
+                        ((caseDispo.Minutes + DUREE_RENCONTRE_MINUTES) > x.Minutes && (caseDispo.Minutes + DUREE_RENCONTRE_MINUTES) < x.Minutes + DUREE_RENCONTRE_MINUTES))
+                        ) || jumelageValeurDispo.Exists(
                             x => x.Jour == caseDispo.Jour &&
                             x.EstDispoMaisJumele == true &&
                             x.EstConsecutiveDonc3hrs == true &&
-                            ((caseDispo.Minutes > x.Minutes && caseDispo.Minutes < x.Minutes + (DUREE_RENCONTRE * 2)) ||
-                            ((caseDispo.Minutes + DUREE_RENCONTRE) > x.Minutes && (caseDispo.Minutes + DUREE_RENCONTRE) < x.Minutes + (DUREE_RENCONTRE * 2)))
-                            );              
+                            ((caseDispo.Minutes > x.Minutes && caseDispo.Minutes < x.Minutes + (DUREE_RENCONTRE_MINUTES * 2)) ||
+                            ((caseDispo.Minutes + DUREE_RENCONTRE_MINUTES) > x.Minutes && (caseDispo.Minutes + DUREE_RENCONTRE_MINUTES) < x.Minutes + (DUREE_RENCONTRE_MINUTES * 2))));   
                 jumelageValeurDispo.Add(caseDispo);     
             }
 
-            TimeSpan startTime = TimeSpan.FromHours(HEURE_DEBUT); // Doit changer pour cette valeur
-            int Difference = 30;
-            int Rencontre = DUREE_RENCONTRE; // Doit changer pour cette valeur
-            int heureMax = HEURE_FIN; // Doit changer pour cette valeur
-            Dictionary<TimeSpan, TimeSpan> heures = new Dictionary<TimeSpan, TimeSpan>();
-            Dictionary<string, List<caseDisponibilite>> sortie = new Dictionary<string, List<caseDisponibilite>>();
+            TimeSpan startTime = TimeSpan.FromHours(HEURE_DEBUT);
+            int Difference = DEMI_HEURE;
+            int Rencontre = DUREE_RENCONTRE_MINUTES;
+            int heureMax = HEURE_FIN;
+            Dictionary<TimeSpan, TimeSpan> listeCasesRencontreAu30min = new Dictionary<TimeSpan, TimeSpan>();
+            Dictionary<string, List<DisponibiliteStruct>> listeCasesRencontreAfficher = new Dictionary<string, List<DisponibiliteStruct>>();
 
             for (int i = 0; i < heureMax; i++)
             {
-                heures.Add(
+                listeCasesRencontreAu30min.Add(
                     startTime.Add(TimeSpan.FromMinutes(Difference * i)),
                     startTime.Add(TimeSpan.FromMinutes(Difference * i + Rencontre))
                     );                
             }
 
-            foreach (var e in heures)
+            foreach (var case30min in listeCasesRencontreAu30min)
             {
-                int heureCheckbox = (int)e.Key.TotalMinutes; // Doit changer pour cette valeur
-                caseDisponibilite caseToutes = new caseDisponibilite();
-                List<caseDisponibilite> values = new List<caseDisponibilite>();
+                int minutes = (int)case30min.Key.TotalMinutes;
+                DisponibiliteStruct caseToutes = new DisponibiliteStruct();
+                List<DisponibiliteStruct> values = new List<DisponibiliteStruct>();
                 bool dispoHeuresPresent = false;
-                dispoHeuresPresent = jumelageValeurDispo.Exists(x => x.Minutes==heureCheckbox);
+                dispoHeuresPresent = jumelageValeurDispo.Exists(x => x.Minutes==minutes);
                 for (int j = 1; j < 6; j++)
                 {
                     if (dispoHeuresPresent)
                     {
-                        if (jumelageValeurDispo.Exists(x => x.Jour == ((Semaine)j).ToString() && x.Minutes == heureCheckbox))
+                        if (jumelageValeurDispo.Exists(x => x.Jour == ((Semaine)j).ToString() && x.Minutes == minutes))
                         {
-                            caseToutes = jumelageValeurDispo.Find(x => x.Jour == ((Semaine)j).ToString() && x.Minutes == heureCheckbox);
+                            caseToutes = jumelageValeurDispo.Find(x => x.Jour == ((Semaine)j).ToString() && x.Minutes == minutes);
                         }
                         else
                         {
                             caseToutes.Jour = ((Semaine)j).ToString();
-                            caseToutes.Minutes = heureCheckbox;
+                            caseToutes.Minutes = minutes;
                             caseToutes.NomCase = caseToutes.Jour + "-" + caseToutes.Minutes;
                             caseToutes.NbreUsagerMemeDispo = 0;
                             caseToutes.EstDispoMaisJumele = false;
@@ -247,7 +229,7 @@ namespace sachem.Controllers
                     else
                     {
                         caseToutes.Jour = ((Semaine)j).ToString();
-                        caseToutes.Minutes = heureCheckbox;
+                        caseToutes.Minutes = minutes;
                         caseToutes.NomCase = caseToutes.Jour + "-" + caseToutes.Minutes;
                         caseToutes.NbreUsagerMemeDispo = 0;
                         caseToutes.EstDispoMaisJumele = false;
@@ -255,12 +237,24 @@ namespace sachem.Controllers
                     }
                     values.Add(caseToutes);
                 }
-                sortie.Add(
-                e.Key.Hours + "h" + e.Key.Minutes.ToString("00") + "-" + e.Value.Hours + "h" + e.Value.Minutes.ToString("00"),
+                listeCasesRencontreAfficher.Add(
+                String.Format("{0}h{1}-{2}h{3}", case30min.Key.Hours, case30min.Key.Minutes.ToString("00"), case30min.Value.Hours, case30min.Value.Minutes.ToString("00")),
                 values);
             }
 
-            return sortie;
+            return listeCasesRencontreAfficher;
+        }
+
+        private bool disponbiliteEstElleConsecutiveDauMoins3hrs(List<Disponibilite> dispos, List<Disponibilite> disposCeluiInspecte, int idJour, int minutes)
+        {
+            return ((dispos.Exists(x => x.id_Jour == idJour && x.minutes == minutes) &&
+                disposCeluiInspecte.Exists(x => x.id_Jour == idJour && x.minutes == minutes)) &&
+                (dispos.Exists(x => x.id_Jour == idJour && x.minutes == minutes + DEMI_HEURE) &&
+                disposCeluiInspecte.Exists(x => x.id_Jour == idJour && x.minutes == minutes + (DEMI_HEURE))) &&
+                (dispos.Exists(x => x.id_Jour == idJour && x.minutes == minutes + (DEMI_HEURE * 2)) &&
+                disposCeluiInspecte.Exists(x => x.id_Jour == idJour && x.minutes == minutes + (DEMI_HEURE * 2))) &&
+                (dispos.Exists(x => x.id_Jour == idJour && x.minutes == minutes + (DEMI_HEURE * 3)) &&
+                disposCeluiInspecte.Exists(x => x.id_Jour == idJour && x.minutes == minutes + (DEMI_HEURE * 3))));
         }
 
         [NonAction]
@@ -363,14 +357,14 @@ namespace sachem.Controllers
                     plageHoraire.Add(
                         j.p_Jour.Jour + " " + 
                         (DebutJournee.Add(TimeSpan.FromMinutes(j.minutes))).ToString(@"hh\:mm") + "-" + 
-                        (DebutJournee.Add(TimeSpan.FromMinutes(j.minutes + DUREE_RENCONTRE))).ToString(@"hh\:mm"));
+                        (DebutJournee.Add(TimeSpan.FromMinutes(j.minutes + DUREE_RENCONTRE_MINUTES))).ToString(@"hh\:mm"));
                 }
                 else
                 {
                     plageHoraire.Add(
                         j.p_Jour.Jour + " " + 
                         (DebutJournee.Add(TimeSpan.FromMinutes(j.minutes))).ToString(@"hh\:mm") + "-" + 
-                        (DebutJournee.Add(TimeSpan.FromMinutes(j.minutes + (DUREE_RENCONTRE * 2)))).ToString(@"hh\:mm"));
+                        (DebutJournee.Add(TimeSpan.FromMinutes(j.minutes + (DUREE_RENCONTRE_MINUTES * 2)))).ToString(@"hh\:mm"));
                 }
             }
             return plageHoraire;
@@ -385,7 +379,7 @@ namespace sachem.Controllers
             ViewBag.Inscription = slInscription;
         }
 
-        //[ValidationAccesEnseignant]
+        [ValidationAccesEnseignant]
         public ActionResult Index(int? page)
         {
             noPage = (page ?? noPage);
@@ -463,7 +457,7 @@ namespace sachem.Controllers
             return Rechercher();
         }
 
-        //[ValidationAccesEnseignant]
+        [ValidationAccesEnseignant]
         public ActionResult Details(int? id)
         {
             if (id == null)

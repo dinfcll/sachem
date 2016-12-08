@@ -529,6 +529,7 @@
     <Content Include="Views\Shared\_CoursReussis.cshtml" />
     <Content Include="Views\Inscription\TBenevole.cshtml" />
     <Content Include="Views\Shared\_LigneCoursReussi.cshtml" />
+    <Content Include="Views\Jumelage\Delete.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
