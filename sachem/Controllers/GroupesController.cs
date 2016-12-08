@@ -124,6 +124,7 @@ namespace sachem.Controllers
         [ValidationAccesEnseignant]
         private ActionResult CreateEdit([Bind(Include = "id_Groupe,id_Cours,id_Sess,id_Enseignant,NoGroupe")] Groupe groupe, bool Ajouter = false)
         {
+            groupe.id_Enseignant = groupe.id_Enseignant == null ? SessionBag.Current.id_Pers : groupe.id_Enseignant;
             Valider(groupe);
 
             if (ModelState.IsValid)
