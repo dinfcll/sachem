@@ -7,34 +7,38 @@
 @Scripts.Render("~/bundles/jquery")
 <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
 <script type="text/javascript">
-    $(document).ready(function () {
-        function AjoutModal(jour, minutes, idTuteur, idEleveAide, nomTuteur, nomEleveAide, estConsecutif) {
-            var modal = document.getElementById('modalAjout')
-            var boutonAjout = document.getElementById('btnAjout')
-            $('#modalTuteur').html(nomTuteur);
-            $('#modalEleve').html(nomEleveAide);
+    function AjoutModal(jour, minutes, idVu, idJumeleA, nomJumeleA, nomVu, plageHoraire, vuTypeInsc, estConsecutif) {
+        var modal = document.getElementById('modalAjout');
+        var boutonAjout = document.getElementById('btnAjout');
+        $('#modalAjoutVu').html(nomVu);
+        $('#modalAjoutJumeleA').html(nomJumeleA);
+        $('#modalPlageHoraire').html(plageHoraire);
+        if (estConsecutif)
+        {            
             $('#modalConditionConsecutif').removeClass('hide');
-            modal.style.display = 'block';
-            boutonAjout.onclick = function () {
-                Ajout(idTuteur, idEleveAide, jour, minutes);
-            }
         }
+        modal.style.display = 'block';
+        boutonAjout.onclick = function () {
+            Ajout(idVu, idJumeleA, jour, minutes, vuTypeInsc, estConsecutif);
+        }
+    }
 
-        function Ajout(idTuteur, idEleveAide, jour, minutes) {
-            $.ajax({
-                url: "/Jumelage/AjoutJumelage",
-                data: { "idTuteur": idTuteur, "idEleveAide": idEleveAide, "Jour": jour, "minutes": minutes },
-                type: "POST",
-                success: function () {
-                    location.reload(true);
-                },
-                error: function () {
-                    location.reload(true);
-                }
-            });
-        }
-    });
+    function Ajout(idVu, idJumeleA, jour, minutes, vuTypeInsc, estConsecutif) {
+        var estConsecutif = document.getElementById('modalConsecutif').value;
+        $.ajax({
+            url: "/Jumelage/AjoutJumelage",
+            data: { "idVu": idVu, "idJumeleA": idJumeleA, "Jour": jour, "minutes": minutes, "vuTypeInsc": vuTypeInsc, "estConsecutif": estConsecutif },
+            type: "POST",
+            success: function () {
+                location.reload(true);
+            },
+            error: function () {
+                location.reload(true);
+            }
+        });
+    }
 </script>
+
 @if (listeJumeleursPotentiels.Count() > 0)
 {
     <h4 class="page-header">Jumelages possibles</h4>
@@ -108,11 +112,14 @@
                                     }
                                     else if (w.EstDispo)
                                     {
-                                        <td class="text-center" style="background-color:#81c784;" id="@w.NomCase" name="@w.NomCase">
+                                        TimeSpan startTime = TimeSpan.FromHours(0);
+                                        startTime = startTime.Add(TimeSpan.FromMinutes(w.Minutes));
+                                        string plageHoraire = (@w.Jour + " de " + @startTime.Hours + "h" + @startTime.Minutes.ToString("00") + " à " + @startTime.Add(TimeSpan.FromMinutes(90)).Hours + "h" + @startTime.Add(TimeSpan.FromMinutes(90)).Minutes.ToString("00"));
+                                            <td class="text-center" style="background-color:#81c784;" id="@w.NomCase" name="@w.NomCase">
                                             @w.NbreUsagerMemeDispo                                                
                                             @if (w.NbreUsagerMemeDispo > 0 && w.EstDispoEtCompatible && w.EstDispoEtCompatibleEtConsecutif)
                                             {
-                                                <a href="#" onclick="AjoutModal(@w.Jour,@v.Value,@j.id_Inscription,@Model.id_Inscription,@j.Personne.PrenomNom,@Model.Personne.PrenomNom,true);"
+                                                <a href="#" onclick="AjoutModal('@w.Jour',@w.Minutes,@Model.id_Inscription, @j.id_Inscription,'@j.Personne.PrenomNom','@Model.Personne.PrenomNom','@plageHoraire', @Model.id_TypeInscription, true)"
                                                    data-toggle="modal" data-target="#modalAjout" class="modal-open">
                                                     <i class="material-icons" style="float:right;padding-right:5px;color:red;text-shadow: 2px 2px #999;">
                                                         group_add
@@ -121,8 +128,8 @@
                                             }
                                             else if (w.NbreUsagerMemeDispo > 0 && w.EstDispoEtCompatible && !w.EstDispoEtCompatibleEtConsecutif)
                                             {
-                                                <a href="#" onclick="AjoutModal(@w.Jour,@v.Value,@j.id_Inscription,@Model.id_Inscription,@j.Personne.PrenomNom,@Model.Personne.PrenomNom,false);"
-                                                   data-toggle="modal" data-target="#modalAjout" class="modal-open">
+                                                <a href="#" onclick="AjoutModal('@w.Jour',@w.Minutes,@Model.id_Inscription, @j.id_Inscription,'@j.Personne.PrenomNom','@Model.Personne.PrenomNom','@plageHoraire', @Model.id_TypeInscription, false)"
+                                                   data-toggle="modal" data-target="#modalAjout">
                                                     <i class="material-icons" style="float:right;padding-right:5px;color:#fff;text-shadow: 2px 2px #999;">
                                                         group_add
                                                     </i>
@@ -143,29 +150,34 @@
         </div>
        }
     </div>
-    <div class="container">
-        <div class="modal fade" id="modalAjout" role="dialog">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                        <h4 class="modal-title">Création d'un jumelage entre tuteur et élève aidé.</h4>
-                    </div>
-                    <div class="modal-body">
-                        <p>Êtes-vous certain de créer un jumelage entre <span id="modalTuteur"></span> et <span id="modalEleve"></span> pour
-                         la plage horaire de <span id="modalPlageHoraire"></span>?</p>
-                        <p id="modalConditionConsecutif" class="hide">Désirez-vous étendre la durée de cette rencontre sur 3h pour créer un jumelage avec deux rencontres consécutives ?
-                        <select class="form-control">
-                            <option id="ouiConsecutif">Oui</option><option id="nonConsecutif">Non</option>
+  
+}
+<div class="container">
+    <div class="modal fade" id="modalAjout" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Création d'un jumelage</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        Êtes-vous certain de créer un jumelage entre <span id="modalAjoutVu"></span> (étudiant observé) et 
+                        <span id="modalAjoutJumeleA"></span> (étudiant jumelé à celui-ci) pour la plage horaire de <span id="modalPlageHoraire"></span>?
+                    </p>
+                    <p id="modalConditionConsecutif" class="hide">
+                        Désirez-vous étendre la durée de cette rencontre sur 3h pour créer un jumelage avec deux rencontres consécutives ?<br/>
+                        <select class="form-control" id="modalConsecutif">
+                            <option id="nonConsecutif" value="0">Non</option>
+                            <option id="ouiConsecutif" value="1">Oui</option>
                         </select>
-                        </p>
-                    </div>
-                    <div class="modal-footer">
-                        <button id="btnAjout" type="button" data-dismiss="modal" class="btn btn-primary">Créer le jumelage</button>
-                        <button type="button" data-dismiss="modal" class="btn">Annuler</button>
-                    </div>
+                    </p>
+                </div>
+                <div class="modal-footer">
+                    <button id="btnAjout" type="button" data-dismiss="modal" class="btn btn-primary">Créer le jumelage</button>
+                    <button type="button" data-dismiss="modal" class="btn">Annuler</button>
                 </div>
             </div>
         </div>
     </div>
-}
+</div>

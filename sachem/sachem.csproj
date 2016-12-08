@@ -525,7 +525,6 @@
     <Content Include="_Contribute\BD_Presentation.bak" />
     <Content Include="_Contribute\sachem.bak" />
     <Content Include="_Contribute\Sachem_Importer.csv" />
-    <Content Include="Views\Jumelage\Delete.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

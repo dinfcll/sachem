@@ -370,6 +370,54 @@ namespace sachem.Controllers
             return plageHoraire;
         }
 
+        public void RetirerJumelage(int idVu, int idJumeleA, int vuTypeInsc)
+        {
+            if(vuTypeInsc==1)
+            {
+                int jumRetirerId = db.Jumelage.Where(x => x.id_InscEleve == idVu && x.id_InscrTuteur == idJumeleA).Select(x=>x.id_Jumelage).First();
+                var jumRetirer = db.Jumelage.Find(jumRetirerId);
+                db.Jumelage.Remove(jumRetirer);
+                db.SaveChanges();
+            }
+            else
+            {
+                var jumRetirerId = db.Jumelage.Where(x => x.id_InscEleve == idJumeleA && x.id_InscrTuteur == idVu).Select(x => x.id_Jumelage).First();
+                var jumRetirer = db.Jumelage.Find(jumRetirerId);
+                db.Jumelage.Remove(jumRetirer);
+                db.SaveChanges();
+            }
+            
+            ViewBag.Success = "Le jumelage a été retiré.";
+        }
+
+        public void AjoutJumelage(int idVu, int idJumeleA, string jour, int minutes, int vuTypeInsc, bool estConsecutif)
+        {
+            if (vuTypeInsc == 1)
+            {
+                Jumelage jumCreation = new Jumelage();
+                jumCreation.id_Enseignant = 6;
+                jumCreation.id_InscEleve = idVu;
+                jumCreation.id_InscrTuteur = idJumeleA;
+                jumCreation.id_Jour = (int)Enum.Parse(typeof(Semaine), jour);
+                jumCreation.minutes = minutes;
+                jumCreation.id_Sess = 1;
+                jumCreation.DateDebut = DateTime.Now;
+                jumCreation.DateFin = DateTime.Now;
+                jumCreation.consecutif = false;
+                db.Jumelage.Add(jumCreation);
+                db.SaveChanges();
+            }
+            else
+            {
+                var jumRetirerId = db.Jumelage.Where(x => x.id_InscEleve == idJumeleA && x.id_InscrTuteur == idVu).Select(x => x.id_Jumelage).First();
+                var jumRetirer = db.Jumelage.Find(jumRetirerId);
+                db.Jumelage.Remove(jumRetirer);
+                db.SaveChanges();
+            }
+
+            ViewBag.Success = "Le jumelage a été retiré.";
+        }
+
         [NonAction]
         private void ListeTypeInscription(int TypeInscription = 0)
         {
@@ -457,7 +505,7 @@ namespace sachem.Controllers
             return Rechercher();
         }
 
-        [ValidationAccesEnseignant]
+        //[ValidationAccesEnseignant]
         public ActionResult Details(int? id)
         {
             if (id == null)
