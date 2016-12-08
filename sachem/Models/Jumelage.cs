@@ -20,11 +20,12 @@ namespace sachem.Models
         public int id_Sess { get; set; }
         public int id_Enseignant { get; set; }
         public int id_Jour { get; set; }
+        public int minutes { get; set; }
         public System.DateTime DateDebut { get; set; }
         public Nullable<System.DateTime> DateFin { get; set; }
         public System.DateTime HeureDebut { get; set; }
         public System.DateTime HeureFin { get; set; }
-    
+        public bool consecutif { get; set; }
         public virtual Inscription Inscription { get; set; }
         public virtual Inscription Inscription1 { get; set; }
         public virtual p_Jour p_Jour { get; set; }
