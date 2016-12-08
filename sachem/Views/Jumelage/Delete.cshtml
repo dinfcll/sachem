@@ -1,0 +1,78 @@
+﻿@model sachem.Models.Jumelage
+
+@{
+    ViewBag.Title = "Mettre fin à un jumelage";
+}
+
+<h2>@ViewBag.Title</h2>
+
+<h3>@sachem.Models.Messages.Q_016()</h3>
+<div>
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Session.NomSession )
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Session.NomSession)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Inscription.p_TypeInscription.TypeInscription)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Inscription.Personne.NomPrenom)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Inscription1.p_TypeInscription.TypeInscription )
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Inscription1.Personne.NomPrenom)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.id_Enseignant)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.id_Enseignant)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.minutes)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.minutes)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DateDebut)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DateDebut)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DateFin)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DateFin)
+        </dd>
+    </dl>
+
+    @using (Html.BeginForm("Delete", "Jumelage", FormMethod.Post, new { @class = "form-inline", role = "form" }))
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Supprimer" class="btn btn-default" />
+            @Html.ActionLink("Annuler", "Index", null, null, new { @class = "btn btn-default" })
+        </div>
+    }
+</div>

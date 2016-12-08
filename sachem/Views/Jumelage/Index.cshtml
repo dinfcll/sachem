@@ -9,7 +9,6 @@
     @Html.Partial("_RechercheEtudiantInscrit")
 }
 
-
 <table class="table">
     <tr>
         <th>
@@ -27,45 +26,38 @@
         <th></th>
     </tr>
 
-    @foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Personne.NomPrenom)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Personne.Matricule7)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.p_TypeInscription.TypeInscription)
-            </td>
-        
-            @{          string statut = "";
-                switch (item.Jumelage.Count)
-                {
-                    case 0:
-                        statut = "Non jumelé";
-                        break;
-                    case 1:
-                        statut = "Jumelé";
-                        break;
-                    case 2:
-                        statut = "Jumelé (2 fois)";
-                        break;
-                    default:
-                        break;
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Personne.NomPrenom)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Personne.Matricule7)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.p_TypeInscription.TypeInscription)
+        </td>
+        <td>
+            @{  String count;
+                if (item.p_TypeInscription.id_TypeInscription == 1)
+                        {
+                    count = ((sachem.Controllers.JumelageController)this.ViewContext.Controller).RetourneNbreJumelageEtudiant(item.Jumelage.Count());
                 }
-            }
-            <td>
-                @(statut)
-            </td>
+                else
+                {
+                    count = ((sachem.Controllers.JumelageController)this.ViewContext.Controller).RetourneNbreJumelageEtudiant(item.Jumelage1.Count());
+                        }
+                    }
+            @(count)
+        </td>
 
 
-            <td>
-                @Html.ActionLink("Accéder", "Details", new { id=item.id_Inscription })
-            </td>
+        <td>
+            @Html.ActionLink("Accéder", "Details", new { id=item.id_Inscription })
+        </td>
 
 
-        </tr>
-    }
+    </tr>
+}
 
 </table>

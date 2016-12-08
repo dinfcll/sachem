@@ -578,8 +578,14 @@ namespace sachem.Models
         public static string Q_015(string College)
         { return $"Voulez-vous vraiment supprimer le collège {College} ?"; }
 
-       
 
+        /// <summary>
+        /// Voulez-vous vraiment mettre fin au jumelage entre {0} et {1}?
+        /// </summary>
+        /// <param name="Jumelage"></param>
+        /// <returns></returns>private string Q_015(string College)
+        public static string Q_016()
+        { return $"Voulez-vous vraiment mettre fin à ce jumelage ?"; }
 
         #endregion
 
