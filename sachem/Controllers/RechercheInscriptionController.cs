@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Cryptography;
-using System.Web;
 using System.Web.Mvc;
 using sachem.Models;
 using System.Net;
@@ -22,10 +20,6 @@ namespace sachem.Controllers
         [ValidationAccesSuper]
         public ActionResult Index()
         {
-            var touteInscription = from inscription in db.Inscription
-                                   where inscription.id_Statut != BROUILLON
-                                   select inscription;
-
             return View(Rechercher());
         }
 
