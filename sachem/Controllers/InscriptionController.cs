@@ -16,7 +16,10 @@ namespace sachem.Controllers
         private readonly SACHEMEntities db = new SACHEMEntities();
         private readonly string msg_Erreur_Consecutif = "Erreur: vous devez avoir une plage horaire contenant 2 heures consécutives.";
         private string[] m_Session = { "Hiver", "Été", "Automne" };
-        private readonly string MESSAGESTATUT = "Un resultat et un statut d'un des cours ne concorde pas. Un cours réussi doit avoir une note supérieur à 60 et un échec inférieur à 60.";
+        private string IDREUSSIS = "1";
+        private string IDABAN = "2";
+        private string IDECHEC = "3";
+        private readonly string MESSAGESTATUT = "Un resultat et un statut d'un des cours ne concorde pas. Un cours réussi doit avoir une note supérieur ou égal à 60 et un échec inférieur à 60.";
         //[ValidationAcces.ValidationAccesInscription]
         // GET: Inscription
         public ActionResult Index()
@@ -93,13 +96,14 @@ namespace sachem.Controllers
         [HttpPost]
         public ActionResult EleveAide1(string[][] values)
         {
-            if(values==null)
+            TempData["Echec"] = "";
+            if (values==null)
             {
                 return RedirectToAction("Details", "DossierEtudiant", new { id = SessionBag.Current.id_Inscription });
             }
             else
             {
-                if (validationStatutResultat(values))
+                if (coherenceStatutResultat(values))
                 {
                     for (var i = 0; i < values.Length; i++)
                     {
@@ -123,8 +127,8 @@ namespace sachem.Controllers
                 }
                 else
                 {
-                    TempData["Echec"]=MESSAGESTATUT;
-                    return View();
+                    TempData["Echec"]= MESSAGESTATUT;
+                    return View("EleveAide1");
                 }
             }
             
@@ -149,7 +153,19 @@ namespace sachem.Controllers
 
             }
         }
-
+        [NonAction]
+        private int trouverIdSaison(string saison)
+        {
+            switch (saison)
+            {
+                case "Été":
+                    return 2;
+                case "Automne":
+                    return 3;
+                default:
+                    return 1;
+            }
+        }
         [NonAction]
         private string[] triageTableauAlphaNumerique(string[] tableau)
         {
@@ -196,16 +212,10 @@ namespace sachem.Controllers
         [NonAction]
         public void listeSession()
         {
-            List<string> listeSession = new List<string>();
             var lstSess = from c in db.Session orderby c.id_Sess select c;
-            foreach( var session in lstSess)
-            {
-                string NomSession = m_Session[session.id_Saison-1]+" "+ session.Annee.ToString();
-                listeSession.Add(NomSession);             
-            }
-            var slSess = new List<SelectListItem>();
-            slSess.AddRange(new SelectList(listeSession));
-            ViewBag.lstSess = slSess;
+            var slSession = new List<SelectListItem>();
+            slSession.AddRange(new SelectList(lstSess, "id_Sess", "NomSession", Session));
+            ViewBag.Session = slSession;
         }
         [HttpPost]
         public ActionResult getLigneCours()
@@ -223,16 +233,12 @@ namespace sachem.Controllers
             return PartialView("_LigneCoursReussiEleveAide");
         }
         [HttpPost]
-        public void Poursuivre()
-        {
-        }
-        [HttpPost]
         public string ErreurCours()
         {
             return Messages.I_048();
         }
         [NonAction]
-        public bool validationStatutResultat(string[][] values)
+        public bool coherenceStatutResultat(string[][] values)
         {
             var resultat = 0;
             var retour = true;
@@ -242,12 +248,12 @@ namespace sachem.Controllers
                 {
                     if (!int.TryParse(values[i][3], out resultat))
                     {
-                        if (values[i][1] != "2")
+                        if (values[i][1] != IDABAN)
                         {
                             retour = false;
                         }
                     }
-                    if (values[i][1] == "1")
+                    if (values[i][1] == IDREUSSIS)
                     {
                         if (resultat < 60)
                         {
@@ -256,7 +262,7 @@ namespace sachem.Controllers
                     }
                     else
                     {
-                        if (values[i][1] == "3")
+                        if (values[i][1] == IDECHEC)
                         {
                             if (resultat >= 60)
                             {
@@ -278,20 +284,9 @@ namespace sachem.Controllers
         [NonAction]
         public int trouverSession(string session)
         {
-            var idSaison = 1;
             var annee = Convert.ToInt32(session.Substring(session.Length - 5));
             var saison = session.Substring(0, session.Length - 5);
-            if (saison == "Été")
-            {
-                idSaison = 2;
-            }
-            else
-            {
-                if (saison == "Automne")
-                {
-                    idSaison = 3;
-                }
-            }
+            var idSaison = trouverIdSaison(saison);
             return db.Session.FirstOrDefault(x=>x.Annee==annee && x.id_Saison==idSaison).id_Sess;
         }
     }

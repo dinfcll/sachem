@@ -16,7 +16,7 @@
 </div>
 <div style="padding-bottom:10px">
     <input type="button" value="Ajouter un cours" class="btn btn-default ins-btnAjouter" id="btnAjouterCours" /><br /><br />
-    <input type="submit" value="Enregistrer et poursuivre" class="btn btn-default" id="btnPoursuivre" />
+    <input type="button" value="Enregistrer et poursuivre" class="btn btn-default" id="btnPoursuivre" />
     <input type="button" value="Enregistrer un brouillon" class="btn btn-default" id="btnBrouillon" />
     <input type="button" value="Annuler" class="btn btn-default" id="btnAnnuler" />
 </div>
@@ -39,7 +39,7 @@
                 $(this).parent().parent().remove();
             });
             $(".ins-selectcours").change(function () {
-                var test = $(this).val();                
+                var test = $(this).val();
             });
         }
         listeCoursReussis = function () {
@@ -81,10 +81,12 @@
                 url: "/Inscription/EleveAide1",
                 type: "POST",
                 data: postData,
+                success: function () {
+                        window.location.href = '@Url.Action("Details", "DossierEtudiant", new { id = SessionBag.Current.id_Inscription })';
+                },
                 error: function () {
-                    alert("Il y a eu une erreur. Cause possible: le résultat et le statut du cours ne concorde pas.");
+                    alert("erreur");
                 }
             });
-            window.location.href = '@Url.Action("Details", "DossierEtudiant", new { id = SessionBag.Current.id_Inscription })'
         });
 </script>
