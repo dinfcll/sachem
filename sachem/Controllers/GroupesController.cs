@@ -312,8 +312,8 @@ namespace sachem.Controllers
                     TempData["idGe"] = db.GroupeEtudiant.Where(x => x.id_Etudiant == idp).FirstOrDefault().id_GroupeEtudiant;
                     TempData["personne"] = p.id_Pers;
                     TempData["idgcible"] = g.NoGroupe;
-                    TempData["ErrorDep"] = Messages.Q_010(p.PrenomNom, g.Session.NomSession, g.NoGroupe, g.Cours.Nom);
-                    ModelState.AddModelError(string.Empty, Messages.Q_010(p.PrenomNom, g.Session.NomSession, g.NoGroupe, g.Cours.Nom));
+                    TempData["ErrorDep"] = Messages.Q_010(p.PrenomNom);
+                    ModelState.AddModelError(string.Empty, Messages.Q_010(p.PrenomNom));
                 }
 
                 if (ModelState.IsValid)
