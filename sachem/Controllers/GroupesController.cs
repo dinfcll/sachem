@@ -124,6 +124,7 @@ namespace sachem.Controllers
         [ValidationAccesEnseignant]
         private ActionResult CreateEdit([Bind(Include = "id_Groupe,id_Cours,id_Sess,id_Enseignant,NoGroupe")] Groupe groupe, bool Ajouter = false)
         {
+            groupe.id_Enseignant = groupe.id_Enseignant == null ? SessionBag.Current.id_Pers : groupe.id_Enseignant;
             Valider(groupe);
 
             if (ModelState.IsValid)
@@ -311,8 +312,8 @@ namespace sachem.Controllers
                     TempData["idGe"] = db.GroupeEtudiant.Where(x => x.id_Etudiant == idp).FirstOrDefault().id_GroupeEtudiant;
                     TempData["personne"] = p.id_Pers;
                     TempData["idgcible"] = g.NoGroupe;
-                    TempData["ErrorDep"] = Messages.Q_010(p.PrenomNom, g.Session.NomSession, g.NoGroupe, g.Cours.Nom);
-                    ModelState.AddModelError(string.Empty, Messages.Q_010(p.PrenomNom, g.Session.NomSession, g.NoGroupe, g.Cours.Nom));
+                    TempData["ErrorDep"] = Messages.Q_010(p.PrenomNom);
+                    ModelState.AddModelError(string.Empty, Messages.Q_010(p.PrenomNom));
                 }
 
                 if (ModelState.IsValid)
