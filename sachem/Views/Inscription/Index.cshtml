@@ -37,7 +37,7 @@
         var typeinscr = $('#TypeInscription').val();
         var postData = { jours: HoraireArray, typeInscription: typeinscr };
         return postData;
-    }
+        }
 
     function envoie() {
         var postData = getDisp();
@@ -49,17 +49,17 @@
             dataType: 'json',
             success: function (data) {
                 window.location.href = data.url.toString();
-            }
+            }           
         });
         return false;
-    }
+    }  
 </script>
 
 <div class="container">
-<h2>@ViewBag.Title</h2>
-<p class="text-success">
-    @Html.Raw(@TempData["Success"])
-</p>
+    <h2>@ViewBag.Title</h2>
+    <p class="text-success">
+        @Html.Raw(@TempData["Success"])
+    </p>
 
     @Html.AntiForgeryToken()
 
@@ -99,21 +99,21 @@
                                 <td class="text-center checkzone">
                                     
                                     @Html.CheckBox("horaireCheckbox", false, htmlAttributes: new
-                               {
+                        {
                                    @id = w,
                                    @value = w
                                })<input type="checkbox"/><label for="@w"></label>
                                    
                                 </td>
-                            }                                
+                        }
                     </tr>
                 }
-            }
+            }             
         </table>
         <br />
-    @Html.Partial("_Boutons")
+        @Html.Partial("_Boutons")
     </form>
-        </div>
+</div>
 
 <div class="container">
     <div class="modal fade" id="ConfirmDisp" role="dialog">

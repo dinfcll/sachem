@@ -32,3 +32,4 @@ namespace sachem.Models
         public double Resultat;*/
     }
 }
+

@@ -555,8 +555,8 @@ namespace sachem.Models
         /// </summary>
         /// <param name="NoGroupe"></param>
         /// <returns></returns>private string Q_010(string PrenomNom,string NomSaison,string NoGroupe,string NomCours)
-        public static string Q_010(string PrenomNom, string NomSaison, int NoGroupe, string NomCours)
-        { return $"L'étudiant {PrenomNom} est déjà inscrit au cours {NomCours} pour la session {NomSaison}. Voulez-vous le déplacer dans le groupe {NoGroupe}?"; }
+        public static string Q_010(string PrenomNom)
+        { return $"L'étudiant {PrenomNom} est déjà inscrit à un cours. Voulez-vous le déplacer?"; }
 
         public static string Q_011(string Etudiant)
         { return $"Voulez-vous vraiment supprimer le cours {Etudiant} ?"; }

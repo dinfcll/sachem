@@ -76,7 +76,7 @@ namespace sachem.Controllers
                 }
                 SessionBag.Current.id_Inscription = typeInscription;
                 switch (typeInscription)
-                {
+                    {
                     case 1: // élève aidé
                         return this.Json(new { url = "EleveAide1" });
                     case 2: // Tuteur de cours
@@ -86,8 +86,9 @@ namespace sachem.Controllers
                         return this.Json(new {url = "TBenevole" });
                     default:
                         return this.Json(new { success = false, message = MSG_ERREUR_REMPLIR });
+                    }
+            return Jours.ToList();
                 }
-            }
             else
             {
                 return this.Json(new { success = false, message = MSG_ERREUR_REMPLIR });
@@ -126,7 +127,7 @@ namespace sachem.Controllers
                 double minutes = case30min.Key.TotalMinutes;
                 List<string> values = new List<string>();
                 for (int j = (int)Semaine.Lundi; j <= (int)Semaine.Vendredi; j++)
-                {
+            {
                     values.Add(((Semaine)j).ToString() + "-" + minutes.ToString());
                 }
                 Sortie.Add(
@@ -169,8 +170,8 @@ namespace sachem.Controllers
         {
             listeCours();
             listeCollege();
-            return View();
-        }
+                return View();
+            }
         [HttpPost]
         public void listeCours()
         {

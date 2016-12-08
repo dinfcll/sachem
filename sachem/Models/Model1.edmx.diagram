@@ -43,6 +43,7 @@
         <AssociationConnector Association="SACHEMModel.FK_ChoixReponse_Question" />
         <AssociationConnector Association="SACHEMModel.FK_ReponseQuestion_ChoixReponse" />
         <AssociationConnector Association="SACHEMModel.FK_Courriel_p_TypeCourriel" />
+        <AssociationConnector Association="SACHEMModel.FK_CoursInteret_Cours" />
         <AssociationConnector Association="SACHEMModel.FK_CoursSuivi_Cours" />
         <AssociationConnector Association="SACHEMModel.FK_Groupe_Cours" />
         <AssociationConnector Association="SACHEMModel.FK_id_Cours" />
