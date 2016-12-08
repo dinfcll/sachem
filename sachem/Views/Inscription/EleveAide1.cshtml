@@ -4,9 +4,6 @@
 }
 <div style="margin-right:15%">
     <h2>@ViewBag.Title</h2>
-    <p class="text-danger">
-        @Html.Raw(@TempData["Echec"])
-    </p>
     @using (Html.BeginForm())
     {
         @Html.AntiForgeryToken()

@@ -4,6 +4,9 @@
 
 <h3 style="background-color:aliceblue">Informations spécifiques</h3>
 <h5 id="erreur" style="color:red;"></h5>
+<p class="text-danger">
+    @Html.Raw(@TempData["Echec"])
+</p>
 <h5 class="hIns">
     Indiquez tous les cours de mathématiques(collégial) que vous avez réussis,
     abandonnés ou échoués au cégep. Pour ceux réussis, indiquez vos résultats :

@@ -113,7 +113,7 @@ namespace sachem.Controllers
                                 cours.resultat = Convert.ToInt32(values[i][3]);
                             }
                             db.CoursSuivi.Add(cours);
-                            db.Entry(cours).State = EntityState.Modified;
+                            //db.Entry(cours).State = EntityState.Modified;
                             db.SaveChanges();
                         }
                     }
@@ -232,24 +232,59 @@ namespace sachem.Controllers
         [NonAction]
         public bool validationStatutResultat(string[][] values)
         {
+            var resultat = 0;
             var retour = true;
+            for (var i = 0; i < values.Length; i++)
+            {
+                if (!int.TryParse(values[i][3], out resultat))
+                {
+                    if(values[i][1]!="2")
+                    {
+                        retour = false;
+                    }
+                }
+                if (values[i][1] == "1")
+                {
+                    if (resultat < 60 )
+                    {
+                        retour = false;
+                    }
+                }
+                else
+                {
+                    if(values[i][1]=="3")
+                    {
+                        if (resultat >= 60)
+                        {
+                            retour = false;
+                        }
+                    }
+                    else
+                    {
+                        if(resultat!=0)
+                        {
+                            retour = false;
+                        }
+                    }
+                }
+            }
             return retour;
         }
         [NonAction]
         public int trouverSession(string session)
         {
-            var idSaison = 0;
+            var idSaison = 1;
             var annee = Convert.ToInt32(session.Substring(session.Length - 5));
             var saison = session.Substring(0, session.Length - 5);
             if (saison == "Été")
             {
-                idSaison = 1;
+                idSaison = 2;
             }
             else
             {
                 if (saison == "Automne")
                 {
-                    idSaison = 2;
+                    idSaison = 3;
                 }
             }
             return db.Session.FirstOrDefault(x=>x.Annee==annee && x.id_Saison==idSaison).id_Sess;
