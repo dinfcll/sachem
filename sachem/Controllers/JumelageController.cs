@@ -90,13 +90,14 @@ namespace sachem.Controllers
         }
 
         [NonAction]
-        public Dictionary<string, List<DisponibiliteStruct>> RetourneDisponibiliteJumelageUsager(int id, int idTypeInsc, int session)
+        public Dictionary<string, List<DisponibiliteStruct>> RetourneDisponibiliteJumelageUsager(int id, int idTypeInsc, int session, int idCeluiInspecte)
         {
             List<DisponibiliteStruct> jumelageValeurDispo = new List<DisponibiliteStruct>();
             DisponibiliteStruct caseDispo = new DisponibiliteStruct();
             IQueryable<Disponibilite> dispo = db.Disponibilite.Where(x => x.id_Inscription == id);
             IQueryable<Disponibilite> dispoAutres;
             IQueryable<Jumelage> dispoJumele;
+            List<Disponibilite> dispoCeluiInspecte = new List<Disponibilite>();
 
             if (idTypeInsc == ID_INSCRIPTION_POUR_ELEVE_AIDE)
             {
@@ -116,6 +117,7 @@ namespace sachem.Controllers
                 caseDispo.NbreUsagerMemeDispo = 0;
                 caseDispo.EstDispo = false;
                 caseDispo.EstDispoMaisJumele = true;
+                caseDispo.EstDispoEtCompatible = false;
                 if (Convert.ToBoolean(!j.consecutif))
                 {
                     caseDispo.EstConsecutiveDonc3hrs = false;
@@ -138,9 +140,15 @@ namespace sachem.Controllers
             }
 
             int compteurUsagerAvecMemeDispo = 0;
+            
+            if (idCeluiInspecte != 0)
+            {
+                dispoCeluiInspecte = db.Disponibilite.Where(x => x.id_Inscription == idCeluiInspecte).ToList();
+            }
             foreach (var d in dispo)
             {
                 compteurUsagerAvecMemeDispo = 0;
+                caseDispo.EstDispoEtCompatible = false;
                 foreach (var a in dispoAutres)
                 {
                     if (d.id_Jour == a.id_Jour && d.minutes == a.minutes)
@@ -148,6 +156,10 @@ namespace sachem.Controllers
                         if (!jumelageValeurDispo.Exists(x => x.Jour == a.p_Jour.Jour && x.Minutes == a.minutes))
                         {
                             compteurUsagerAvecMemeDispo++;
+                            if (idCeluiInspecte != 0 && dispoCeluiInspecte.Exists(x => x.p_Jour.Jour == a.p_Jour.Jour && x.minutes == a.minutes))
+                            {
+                                caseDispo.EstDispoEtCompatible = true;
+                            }
                         }
                     }
                 }
@@ -162,15 +174,12 @@ namespace sachem.Controllers
                         x.EstConsecutiveDonc3hrs == false &&
                         ((caseDispo.Minutes > x.Minutes && caseDispo.Minutes < x.Minutes + DUREE_RENCONTRE) ||
                         ((caseDispo.Minutes + DUREE_RENCONTRE) > x.Minutes && (caseDispo.Minutes + DUREE_RENCONTRE) < x.Minutes + DUREE_RENCONTRE))
-                        )
-                        ||
-                        jumelageValeurDispo.Exists(
+                        ) || jumelageValeurDispo.Exists(
                             x => x.Jour == caseDispo.Jour &&
                             x.EstDispoMaisJumele == true &&
                             x.EstConsecutiveDonc3hrs == true &&
                             ((caseDispo.Minutes > x.Minutes && caseDispo.Minutes < x.Minutes + (DUREE_RENCONTRE * 2)) ||
-                            ((caseDispo.Minutes + DUREE_RENCONTRE) > x.Minutes && (caseDispo.Minutes + DUREE_RENCONTRE) < x.Minutes + (DUREE_RENCONTRE * 2)))
-                            );              
+                            ((caseDispo.Minutes + DUREE_RENCONTRE) > x.Minutes && (caseDispo.Minutes + DUREE_RENCONTRE) < x.Minutes + (DUREE_RENCONTRE * 2))));   
                 jumelageValeurDispo.Add(caseDispo);     
             }
 

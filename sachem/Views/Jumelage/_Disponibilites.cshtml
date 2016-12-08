@@ -14,7 +14,7 @@
     </tr>
     @{ Dictionary<string, List<DisponibiliteStruct>> ListeDispoUsagerDeTableauDisponibilite = 
             ((sachem.Controllers.JumelageController)this.ViewContext.Controller)
-            .RetourneDisponibiliteJumelageUsager(Model.id_Inscription, Model.id_TypeInscription, Model.id_Sess); }
+            .RetourneDisponibiliteJumelageUsager(Model.id_Inscription, Model.id_TypeInscription, Model.id_Sess, 0); }
     @{
         foreach (var v in ListeDispoUsagerDeTableauDisponibilite)
         {

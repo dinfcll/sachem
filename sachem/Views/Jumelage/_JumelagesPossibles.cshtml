@@ -78,7 +78,7 @@
                     </tr>
                     @{ Dictionary<string, List<DisponibiliteStruct>> ListeDispoUsagerDeTableauDisponibilite =
               ((sachem.Controllers.JumelageController)this.ViewContext.Controller)
-              .RetourneDisponibiliteJumelageUsager(@j.id_Inscription, @j.id_TypeInscription, @j.id_Sess); }
+              .RetourneDisponibiliteJumelageUsager(@j.id_Inscription, @j.id_TypeInscription, @j.id_Sess, Model.id_Inscription); }
                     @{
                         foreach (var v in ListeDispoUsagerDeTableauDisponibilite)
                         {
@@ -107,7 +107,7 @@
                                     {
                                         <td class="text-center" style="background-color:#81c784;" id="@w.NomCase" name="@w.NomCase">
                                             @w.NbreUsagerMemeDispo                                                
-                                            @if (w.NbreUsagerMemeDispo > 0)
+                                            @if (w.NbreUsagerMemeDispo > 0 && w.EstDispoEtCompatible)
                                             {
                                                 <a href="#" onclick="AjoutModal(
                                                    @w.Jour,
