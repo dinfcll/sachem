@@ -190,36 +190,36 @@ namespace sachem.Controllers
             int Difference = DEMI_HEURE;
             int Rencontre = DUREE_RENCONTRE_MINUTES;
             int heureMax = HEURE_FIN;
-            Dictionary<TimeSpan, TimeSpan> heures = new Dictionary<TimeSpan, TimeSpan>();
-            Dictionary<string, List<DisponibiliteStruct>> sortie = new Dictionary<string, List<DisponibiliteStruct>>();
+            Dictionary<TimeSpan, TimeSpan> listeCasesRencontreAu30min = new Dictionary<TimeSpan, TimeSpan>();
+            Dictionary<string, List<DisponibiliteStruct>> listeCasesRencontreAfficher = new Dictionary<string, List<DisponibiliteStruct>>();
 
             for (int i = 0; i < heureMax; i++)
             {
-                heures.Add(
+                listeCasesRencontreAu30min.Add(
                     startTime.Add(TimeSpan.FromMinutes(Difference * i)),
                     startTime.Add(TimeSpan.FromMinutes(Difference * i + Rencontre))
                     );                
             }
 
-            foreach (var e in heures)
+            foreach (var case30min in listeCasesRencontreAu30min)
             {
-                int heureCheckbox = (int)e.Key.TotalMinutes;
+                int minutes = (int)case30min.Key.TotalMinutes;
                 DisponibiliteStruct caseToutes = new DisponibiliteStruct();
                 List<DisponibiliteStruct> values = new List<DisponibiliteStruct>();
                 bool dispoHeuresPresent = false;
-                dispoHeuresPresent = jumelageValeurDispo.Exists(x => x.Minutes==heureCheckbox);
+                dispoHeuresPresent = jumelageValeurDispo.Exists(x => x.Minutes==minutes);
                 for (int j = 1; j < 6; j++)
                 {
                     if (dispoHeuresPresent)
                     {
-                        if (jumelageValeurDispo.Exists(x => x.Jour == ((Semaine)j).ToString() && x.Minutes == heureCheckbox))
+                        if (jumelageValeurDispo.Exists(x => x.Jour == ((Semaine)j).ToString() && x.Minutes == minutes))
                         {
-                            caseToutes = jumelageValeurDispo.Find(x => x.Jour == ((Semaine)j).ToString() && x.Minutes == heureCheckbox);
+                            caseToutes = jumelageValeurDispo.Find(x => x.Jour == ((Semaine)j).ToString() && x.Minutes == minutes);
                         }
                         else
                         {
                             caseToutes.Jour = ((Semaine)j).ToString();
-                            caseToutes.Minutes = heureCheckbox;
+                            caseToutes.Minutes = minutes;
                             caseToutes.NomCase = caseToutes.Jour + "-" + caseToutes.Minutes;
                             caseToutes.NbreUsagerMemeDispo = 0;
                             caseToutes.EstDispoMaisJumele = false;
@@ -229,7 +229,7 @@ namespace sachem.Controllers
                     else
                     {
                         caseToutes.Jour = ((Semaine)j).ToString();
-                        caseToutes.Minutes = heureCheckbox;
+                        caseToutes.Minutes = minutes;
                         caseToutes.NomCase = caseToutes.Jour + "-" + caseToutes.Minutes;
                         caseToutes.NbreUsagerMemeDispo = 0;
                         caseToutes.EstDispoMaisJumele = false;
@@ -237,12 +237,12 @@ namespace sachem.Controllers
                     }
                     values.Add(caseToutes);
                 }
-                sortie.Add(
-                e.Key.Hours + "h" + e.Key.Minutes.ToString("00") + "-" + e.Value.Hours + "h" + e.Value.Minutes.ToString("00"),
+                listeCasesRencontreAfficher.Add(
+                String.Format("{0}h{1}-{2}h{3}", case30min.Key.Hours, case30min.Key.Minutes.ToString("00"), case30min.Value.Hours, case30min.Value.Minutes.ToString("00")),
                 values);
             }
 
-            return sortie;
+            return listeCasesRencontreAfficher;
         }
 
         private bool disponbiliteEstElleConsecutiveDauMoins3hrs(List<Disponibilite> dispos, List<Disponibilite> disposCeluiInspecte, int idJour, int minutes)
