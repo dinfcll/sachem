@@ -80,6 +80,8 @@ namespace sachem.Controllers
                 return View();
             }
         }
+
+        [ValidationAcces.ValidationAccesEtu]
         public ActionResult EleveAide1()
         {
             listeCours();
@@ -87,12 +89,13 @@ namespace sachem.Controllers
             listeSession();
             return View();
         }
+        [ValidationAcces.ValidationAccesEtu]
         [HttpPost]
         public ActionResult EleveAide1(string[][] values)
         {
             if(values==null)
             {
-                return RedirectToAction("EleveAide2");
+                return RedirectToAction("Details", "DossierEtudiant", new { id = SessionBag.Current.id_Inscription });
             }
             else
             {
@@ -103,7 +106,7 @@ namespace sachem.Controllers
                         if (values[i][0] != "")
                         {
                             var cours = new CoursSuivi();
-                            cours.id_Pers = 1;//SessionBag.Current.id_Pers;
+                            cours.id_Pers = SessionBag.Current.id_Pers;
                             cours.id_Cours = Convert.ToInt32(values[i][0]);
                             cours.id_Statut = Convert.ToInt32(values[i][1]);
                             cours.id_Sess = trouverSession(values[i][2]);
@@ -113,11 +116,10 @@ namespace sachem.Controllers
                                 cours.resultat = Convert.ToInt32(values[i][3]);
                             }
                             db.CoursSuivi.Add(cours);
-                            //db.Entry(cours).State = EntityState.Modified;
                             db.SaveChanges();
                         }
                     }
-                    return RedirectToAction("EleveAide2");
+                    return RedirectToAction("Details", "DossierEtudiant", new { id = SessionBag.Current.id_Inscription });
                 }
                 else
                 {
@@ -236,34 +238,37 @@ namespace sachem.Controllers
             var retour = true;
             for (var i = 0; i < values.Length; i++)
             {
-                if (!int.TryParse(values[i][3], out resultat))
+                if (values[i][0] != "")
                 {
-                    if(values[i][1]!="2")
+                    if (!int.TryParse(values[i][3], out resultat))
                     {
-                        retour = false;
+                        if (values[i][1] != "2")
+                        {
+                            retour = false;
+                        }
                     }
-                }
-                if (values[i][1] == "1")
-                {
-                    if (resultat < 60 )
+                    if (values[i][1] == "1")
                     {
-                        retour = false;
-                    }
-                }
-                else
-                {
-                    if(values[i][1]=="3")
-                    {
-                        if (resultat >= 60)
+                        if (resultat < 60)
                         {
                             retour = false;
                         }
                     }
                     else
                     {
-                        if(resultat!=0)
+                        if (values[i][1] == "3")
                         {
-                            retour = false;
+                            if (resultat >= 60)
+                            {
+                                retour = false;
+                            }
+                        }
+                        else
+                        {
+                            if (resultat != 0)
+                            {
+                                retour = false;
+                            }
                         }
                     }
                 }
