@@ -379,7 +379,6 @@
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="_Contribute\Diagrammes de classes SACHEM.png" />
     <EntityDeploy Include="Models\Model1.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>Model1.Designer.cs</LastGenOutput>
@@ -490,7 +489,6 @@
     <Content Include="Views\Shared\_LigneCoursReussi.cshtml" />
     <Content Include="Views\Inscription\_AjoutCours.cshtml" />
     <Content Include="_Contribute\BD_Presentation.bak" />
-    <Content Include="_Contribute\Guide utilisateur - MAJ enseignant.docx" />
     <Content Include="_Contribute\sachem.bak" />
     <Content Include="_Contribute\Sachem_Importer.csv" />
     <Content Include="Views\Inscription\_CoursReussisEleveAide.cshtml" />
