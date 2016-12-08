@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data.Entity;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -14,7 +15,8 @@ namespace sachem.Controllers
     {
         private readonly SACHEMEntities db = new SACHEMEntities();
         private readonly string msg_Erreur_Consecutif = "Erreur: vous devez avoir une plage horaire contenant 2 heures consécutives.";
-        private string[] m_Session = { "Hiver", "Printemps", "Été", "Automne" };
+        private string[] m_Session = { "Hiver", "Été", "Automne" };
+        private readonly string MESSAGESTATUT = "Un resultat et un statut d'un des cours ne concorde pas. Un cours réussi doit avoir une note supérieur à 60 et un échec inférieur à 60.";
         //[ValidationAcces.ValidationAccesInscription]
         // GET: Inscription
         public ActionResult Index()
@@ -94,7 +96,34 @@ namespace sachem.Controllers
             }
             else
             {
-                return RedirectToAction("EleveAide2");
+                if (validationStatutResultat(values))
+                {
+                    for (var i = 0; i < values.Length; i++)
+                    {
+                        if (values[i][0] != "")
+                        {
+                            var cours = new CoursSuivi();
+                            cours.id_Pers = 1;//SessionBag.Current.id_Pers;
+                            cours.id_Cours = Convert.ToInt32(values[i][0]);
+                            cours.id_Statut = Convert.ToInt32(values[i][1]);
+                            cours.id_Sess = trouverSession(values[i][2]);
+                            cours.id_College = db.p_College.FirstOrDefault(x => x.College == "Cégep de Lévis-Lauzon").id_College;
+                            if (values[i][3] != "")
+                            {
+                                cours.resultat = Convert.ToInt32(values[i][3]);
+                            }
+                            db.CoursSuivi.Add(cours);
+                            db.Entry(cours).State = EntityState.Modified;
+                            db.SaveChanges();
+                        }
+                    }
+                    return RedirectToAction("EleveAide2");
+                }
+                else
+                {
+                    TempData["Echec"]=MESSAGESTATUT;
+                    return View();
+                }
             }
             
         }
@@ -169,7 +198,7 @@ namespace sachem.Controllers
             var lstSess = from c in db.Session orderby c.id_Sess select c;
             foreach( var session in lstSess)
             {
-                string NomSession = m_Session[session.id_Saison]+" "+ session.Annee.ToString();
+                string NomSession = m_Session[session.id_Saison-1]+" "+ session.Annee.ToString();
                 listeSession.Add(NomSession);             
             }
             var slSess = new List<SelectListItem>();
@@ -199,6 +228,31 @@ namespace sachem.Controllers
         public string ErreurCours()
         {
             return Messages.I_048();
+        }
+        [NonAction]
+        public bool validationStatutResultat(string[][] values)
+        {
+            var retour = true;
+            return retour;
+        }
+        [NonAction]
+        public int trouverSession(string session)
+        {
+            var idSaison = 0;
+            var annee = Convert.ToInt32(session.Substring(session.Length - 5));
+            var saison = session.Substring(0, session.Length - 5);
+            if (saison == "Été")
+            {
+                idSaison = 1;
+            }
+            else
+            {
+                if (saison == "Automne")
+                {
+                    idSaison = 2;
+                }
+            }
+            return db.Session.FirstOrDefault(x=>x.Annee==annee && x.id_Saison==idSaison).id_Sess;
         }
     }
 }
