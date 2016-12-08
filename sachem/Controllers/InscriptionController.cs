@@ -199,28 +199,47 @@ namespace sachem.Controllers
         [HttpPost]
         public void Poursuivre(string[][] values, string[] coursInteret)
         {
+            
+
+            //CreerTables();
+
             CoursSuivi cs = new CoursSuivi();
-
-            /*var lSessions = db.Session
-                .AsNoTracking()
-                .OrderBy(s => s.Annee)
-                .ThenBy(s => s.p_Saison.Saison);*/
-
+                        
             int ptype = SessionBag.Current.id_Inscription;
             int idPers = SessionBag.Current.id_Pers;
+            var InscriptionInteret = db.Inscription.Where(x => x.id_Pers == idPers).FirstOrDefault();
+
             for (int i =0;i<3;i++)
             {   
                 CoursInteret ci = new CoursInteret();
-                ci.id_Inscription = (from d in db.Inscription where (d.id_TypeInscription == ptype  && d.id_Pers ==idPers) select d.id_Inscription).FirstOrDefault();
+                ci.id_Inscription = InscriptionInteret.id_Inscription;
                 ci.id_Cours = Int32.Parse(coursInteret[i]);
-                ci.Cours = (from d in db.Cours where d.id_Cours == ci.id_Cours select d).FirstOrDefault();
-                ci.Inscription = (from d in db.Inscription where d.id_Inscription == ci.id_Inscription select d).ToList().FirstOrDefault();
+
+                //ci.Cours = db.Cours.Where(x => x.id_Cours == ci.id_Cours).FirstOrDefault();
+                //ci.Inscription = InscriptionInteret;
+
                 ci.Priorite = i + 1;
                 db.CoursInteret.Add(ci);
-                db.SaveChanges(); 
+                try
+                {
+                    db.SaveChanges();
+                }
+                catch(DbUpdateException ex)
+                {
+
+                }
+                
             }
+            
             string arret;
         }
+
+        public void CreerTables()
+        {
+            
+        }
+
+
         [HttpPost]
         public string ErreurCours()
         {
