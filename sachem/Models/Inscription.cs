@@ -22,6 +22,7 @@ namespace sachem.Models
             this.Jumelage = new HashSet<Jumelage>();
             this.Jumelage1 = new HashSet<Jumelage>();
             this.ReponseQuestion = new HashSet<ReponseQuestion>();
+            this.CoursInteret1 = new HashSet<CoursInteret>();
         }
     
         public int id_Inscription { get; set; }
@@ -50,5 +51,7 @@ namespace sachem.Models
         public virtual ICollection<Jumelage> Jumelage1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ReponseQuestion> ReponseQuestion { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<CoursInteret> CoursInteret1 { get; set; }
     }
 }

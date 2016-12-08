@@ -82,6 +82,7 @@
         <AssociationConnector Association="SACHEMModel.FK_Question_Section" />
         <AssociationConnector Association="SACHEMModel.FK_ReponseQuestion_Suivi" />
         <AssociationConnector Association="SACHEMModel.FK_Section_Section" />
+        <AssociationConnector Association="SACHEMModel.FK_CoursInteret_Inscription1" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
