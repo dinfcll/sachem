@@ -119,15 +119,23 @@ namespace sachem.Controllers
             else
             {
                 if (!string.IsNullOrEmpty(Request.Form["Session"]))
+                {
                     int.TryParse(Request.Form["Session"], out sess);
-                else if (Request.Form["Session"] == null)
+                }
+                else
+                {
                     sess = db.Session.Max(s => s.id_Sess);
+                }
 
                 if (!string.IsNullOrEmpty(Request.Form["TypeInscription"]))
+                {
                     int.TryParse(Request.Form["TypeInscription"], out type);
+                }
 
                 if (!string.IsNullOrEmpty(Request.Form["Statut"]))
+                {
                     int.TryParse(Request.Form["Statut"], out statut);
+                }
             }
 
             ListeSession(sess);
