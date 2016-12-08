@@ -40,25 +40,25 @@
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Personne.NomPrenom)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Personne.Matricule7)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.p_StatutInscription.Statut)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.p_TypeInscription.TypeInscription)
-        </td>
+    @foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Personne.NomPrenom)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Personne.Matricule7)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.p_StatutInscription.Statut)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.p_TypeInscription.TypeInscription)
+            </td>
 
-        <td>
-            @Html.ActionLink("Acceder à l'inscription", "Details", new {id = item.id_Inscription})
-        </td>
-    </tr>
-}
+            <td>
+                @Html.ActionLink("Acceder à l'inscription", "Details", new {id = item.id_Inscription})
+            </td>
+        </tr>
+    }
 
 </table>
