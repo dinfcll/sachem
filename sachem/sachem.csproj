@@ -523,7 +523,6 @@
     <Content Include="Views\Jumelage\_JumelagesAvec.cshtml" />
     <Content Include="Views\Jumelage\_Disponibilites.cshtml" />
     <Content Include="Views\ContratEngagement\Index.cshtml" />
-    <Content Include="_Contribute\BD_Presentation.bak" />
     <Content Include="_Contribute\sachem.bak" />
     <Content Include="_Contribute\Sachem_Importer.csv" />
     <Content Include="Views\RechercheInscription\Index.cshtml" />
