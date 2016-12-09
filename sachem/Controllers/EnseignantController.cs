@@ -98,26 +98,19 @@ namespace sachem.Controllers
             }
             else
             {
-                var MdpEnseignant = dataRepository.FindMdp(personne.id_Pers);        
-                personne.MP = MdpEnseignant;
-                AncienMotDePasse = true;
+                var mdp = dataRepository.FindMdp(personne.id_Pers);
+                personne.MP = mdp;
 
             }
             RemplirDropList(personne);
             if (ModelState.IsValid)
             {
-                if (!AncienMotDePasse)
-                {
-                    dataRepository.DeclareModifiedEns(personne);
-                }
+                dataRepository.DeclareModifiedEns(personne);
                 TempData["Success"] = Messages.I_015(personne.NomUsager); // Message afficher sur la page d'index confirmant la modification
                 return RedirectToAction("Index");
             }
-            else
-            {
-                personne.MP = null;
-                personne.ConfirmPassword = null;
-            }
+            personne.MP = null;
+            personne.ConfirmPassword = null;
             return View(personne);
         }
 
