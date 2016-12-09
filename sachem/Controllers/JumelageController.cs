@@ -68,7 +68,7 @@ namespace sachem.Controllers
         public List<string> RetourneListeJoursSemaine()
         {
             List<string> Jours = new List<string>();
-            for (int i = 2; i < 7; i++)
+            for (int i = (int)Semaine.Lundi; i < (int)Semaine.Vendredi; i++)
             {
                 Jours.Add(((Semaine)i).ToString());
             }
@@ -182,7 +182,7 @@ namespace sachem.Controllers
                 List<DisponibiliteStruct> values = new List<DisponibiliteStruct>();
                 bool dispoHeuresPresent = false;
                 dispoHeuresPresent = listeCasesJumelageEtDisposCeluiInspecte.Exists(x => x.Minutes == minutes);
-                for (int j = 2; j < 7; j++)
+                for (int j = (int)Semaine.Lundi; j < (int)Semaine.Samedi; j++)
                 {
                     if (dispoHeuresPresent)
                     {
