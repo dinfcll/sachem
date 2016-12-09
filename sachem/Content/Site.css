@@ -42,12 +42,10 @@
 
 .nomSite {
     text-transform:uppercase;
-    margin-left:75px;
-    padding-top:5px; 
+    margin-left:78px;
     font-family:FontDuCegep;
-    font-size:30px;
-    padding-top:5px;
-    text-space-collapse:preserve-breaks;
+    font-size:26px;
+    padding-top:8px;
     word-spacing:0px;
     letter-spacing:2px;
     font-weight:900;
