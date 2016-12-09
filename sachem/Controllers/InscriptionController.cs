@@ -76,7 +76,7 @@ namespace sachem.Controllers
                     db.SaveChanges();
                 }
                 SessionBag.Current.id_Inscription = typeInscription;
-                switch (typeInscription)
+                switch ((TypeInscription)typeInscription)
                 {
                     case TypeInscription.eleveAide:
                         SessionBag.Current.id_TypeUsag = TypeUsagers.Eleve;

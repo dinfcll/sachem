@@ -47,7 +47,7 @@
             HoraireArray.push(($(this).val()));
         });
         var typeinscr = $('#TypeInscription').val();
-        var postData = { jours: HoraireArray, typeInscription: typeinscr };
+        var postData = { typeInscription: typeinscr, jours: HoraireArray };
         return postData;
         }
 
