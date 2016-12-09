@@ -18,6 +18,7 @@ namespace sachem.Models
         public p_TypeInscription()
         {
             this.Inscription = new HashSet<Inscription>();
+            this.p_TypeFormulaire = new HashSet<p_TypeFormulaire>();
         }
     
         public int id_TypeInscription { get; set; }
@@ -25,5 +26,7 @@ namespace sachem.Models
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Inscription> Inscription { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<p_TypeFormulaire> p_TypeFormulaire { get; set; }
     }
 }
