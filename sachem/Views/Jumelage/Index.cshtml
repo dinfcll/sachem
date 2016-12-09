@@ -9,7 +9,6 @@
     @Html.Partial("_RechercheEtudiantInscrit")
 }
 
-
 <table class="table">
     <tr>
         <th>
@@ -38,25 +37,18 @@
         <td>
             @Html.DisplayFor(modelItem => item.p_TypeInscription.TypeInscription)
         </td>
-        
-            @{          string statut = "";
-                        switch (item.Jumelage.Count)
+        <td>
+            @{  String count;
+                if (item.p_TypeInscription.id_TypeInscription == 1)
                         {
-                            case 0:
-                                statut = "Non jumelé";
-                                break;
-                            case 1:
-                                statut = "Jumelé";
-                                break;
-                            case 2:
-                                statut = "Jumelé (2 fois)";
-                                break;
-                            default:
-                                break;
+                    count = ((sachem.Controllers.JumelageController)this.ViewContext.Controller).RetourneNbreJumelageEtudiant(item.Jumelage.Count());
+                }
+                else
+                {
+                    count = ((sachem.Controllers.JumelageController)this.ViewContext.Controller).RetourneNbreJumelageEtudiant(item.Jumelage1.Count());
                         }
                     }
-        <td>
-            @(statut)
+            @(count)
         </td>
 
 

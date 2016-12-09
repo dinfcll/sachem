@@ -13,8 +13,14 @@ namespace sachem.Controllers
     public class InscriptionController : Controller
     {
         private readonly SACHEMEntities db = new SACHEMEntities();
-        private readonly string msg_Erreur_Consecutif = "Erreur: vous devez avoir une plage horaire contenant 2 heures consécutives.";
-        //[ValidationAcces.ValidationAccesInscription]
+        private const string MSG_ERREUR_REMPLIR = "Veuillez remplir le formulaire de disponibilités.";
+
+        private const int HEURE_DEBUT = 8;
+        private const int HEURE_FIN = 18;
+        private const int DEMI_HEURE = 30;
+        private const int DUREE_RENCONTRE_MINUTES = 90;
+
+        [ValidationAcces.ValidationAccesInscription]
         // GET: Inscription
         public ActionResult Index()
         {
@@ -22,41 +28,112 @@ namespace sachem.Controllers
             return View();
         }
 
+        [ValidationAcces.ValidationAccesInscription]
         [HttpPost]
-        public ActionResult Index(string[] values)
+        public ActionResult Index(int typeInscription, string[] jours )
         {
+            int id_Pers = SessionBag.Current.id_Pers;
             ViewBag.TypeInscription = new SelectList(db.p_TypeInscription, "id_TypeInscription", "TypeInscription");
-            if (values != null)
+            var SessionActuelle = db.Session.AsNoTracking().OrderByDescending(y => y.Annee).ThenByDescending(x => x.id_Saison).FirstOrDefault();
+            Inscription inscriptionBD = new Inscription();
+            inscriptionBD.id_Pers = id_Pers;
+            inscriptionBD.id_Sess = SessionActuelle.id_Sess;
+            inscriptionBD.id_Statut = 1;
+            inscriptionBD.BonEchange = false;
+            inscriptionBD.ContratEngagement = false;
+            inscriptionBD.TransmettreInfoTuteur = false;
+            inscriptionBD.DateInscription = DateTime.Now;
+            inscriptionBD.id_TypeInscription = typeInscription;
+            db.Inscription.Add(inscriptionBD);
+            db.SaveChanges();
+            if (jours != null)
             {
-                int longueurTab = values.Length;
-                if (longueurTab % 2 != 0)
+                int longueurTab = jours.Length;
+                string[] splitValue1;
+                DisponibiliteStruct dispo = new DisponibiliteStruct();
+                Lis­t<DisponibiliteStruct> disponibilites = new List<DisponibiliteStruct>();
+                Array.Sort(jours, new AlphanumComparatorFast());
+                for (int i = 0; i < jours.Length; i++)
                 {
-                    return this.Json(new { success = false, message = "Utilisez un nombre pair d'heures." });
+                    //TODO: Valider si les heures se suivent, formatter pour demander confirmation à l'utilisateur.
+                    splitValue1 = jours[i].Split('-');
+                    dispo.Minutes = int.Parse(splitValue1[1]);
+                    dispo.Jour = splitValue1[0];
+                    disponibilites.Add(dispo);
                 }
-                int[] heures = new int[longueurTab];
-                string[] splitValue1, splitValue2;
-                Array.Sort(values, new AlphanumComparatorFast());
-                for (int i = 0; i < values.Length - 1; i+=2)
-                {
-                    splitValue1 = values[i].Split('-');
-                    splitValue2 = values[i + 1].Split('-');
-                    if (!(int.Parse(splitValue1[1]) +1 == int.Parse(splitValue2[1])))
-                    {
-                        return this.Json(new { success = false, message = "Utilisez au moins deux heures consécutives!" });
-                    }
-                }
-                return this.Json(new { success = true, message = values });
 
+                Disponibilite dispoBD = new Disponibilite();
+                var InscriptionEtu = db.Inscription.Where(x => x.id_Pers == id_Pers).FirstOrDefault();
+                foreach (DisponibiliteStruct m in disponibilites)
+                {
+                    dispoBD.id_Inscription = InscriptionEtu.id_Inscription;
+                    dispoBD.id_Jour = (int)Enum.Parse(typeof(Semaine), m.Jour);
+                    dispoBD.minutes = m.Minutes;
+                    db.Disponibilite.Add(dispoBD);
+                    db.SaveChanges();
+                }
+                switch ((TypeInscription)typeInscription)
+                {
+                    case TypeInscription.eleveAide:
+                        return RedirectToAction("EleveAide1");
+                    case TypeInscription.tuteurDeCours:
+                        return RedirectToAction("Index");
+                    case TypeInscription.tuteurBenevole:
+                    case TypeInscription.tuteurRemunere:
+                        return RedirectToAction("Index");
+                    default:
+                        return this.Json(new { success = false, message = MSG_ERREUR_REMPLIR });
+                }
             }
             else
             {
-                return this.Json(new { success = false, message = "Veuillez remplir le formulaire de disponibilités." });
+                return this.Json(new { success = false, message = MSG_ERREUR_REMPLIR });
             }
         }
 
-        
+        [NonAction]
+        public List<string> RetourneListeJours()
+        {
+            List<string> Jours = new List<string>();
+            for (int i = 1; i < 6; i++)
+            {
+                Jours.Add(((Semaine)i).ToString());
+            }
+            return Jours.ToList();
+        }
+
+        [NonAction]
+        public Dictionary<string, List<string>> RetourneTableauDisponibilite()
+        {
+            TimeSpan StartTime = TimeSpan.FromHours(HEURE_DEBUT);
+            int Difference = DEMI_HEURE;
+            int Rencontre = DUREE_RENCONTRE_MINUTES;
+            int EntriesCount = HEURE_FIN;
+            Dictionary<TimeSpan, TimeSpan> listeCasesRencontreAu30min = new Dictionary<TimeSpan, TimeSpan>();
+            Dictionary<string, List<string>> Sortie = new Dictionary<string, List<string>>();
+
+            for (int i = 0; i < EntriesCount; i++)
+            {
+                listeCasesRencontreAu30min.Add(StartTime.Add(TimeSpan.FromMinutes(Difference * i)),
+                            StartTime.Add(TimeSpan.FromMinutes(Difference * i + Rencontre)));
+            }
+
+            foreach (var case30min in listeCasesRencontreAu30min)
+            {
+                double minutes = case30min.Key.TotalMinutes;
+                List<string> values = new List<string>();
+                for (int j = (int)Semaine.Lundi; j <= (int)Semaine.Vendredi; j++)
+                {
+                    values.Add(((Semaine)j).ToString() + "-" + minutes.ToString());
+                }
+                Sortie.Add(
+                String.Format("{0}h{1}-{2}h{3}", case30min.Key.Hours, case30min.Key.Minutes.ToString("00"), case30min.Value.Hours, case30min.Value.Minutes.ToString("00")),
+                values);
+            }
+            return Sortie;
+        }
+
         // GET: Inscription/Delete/5
-        //NOTE: Penser à Wiper les inscriptions à chaque fin de session. Constante?
         public ActionResult Delete(int id)
         {
             return View();
@@ -76,34 +153,6 @@ namespace sachem.Controllers
             {
                 return View();
             }
-        }
-
-        [NonAction]
-        private int? JourANumero(string jour)
-        {
-            switch (jour)
-            {
-                case "Lundi":
-                    return 2;
-                case "Mardi":
-                    return 3;
-                case "Mercredi":
-                    return 4;
-                case "Jeudi":
-                    return 5;
-                case "Vendredi":
-                    return 6;
-                default:
-                    return null;
-
-            }
-        }
-
-        [NonAction]
-        private string[] triageTableauAlphaNumerique(string[] tableau)
-        {
-            Array.Sort(tableau, StringComparer.InvariantCulture);
-            return tableau;
         }
     }
 }

@@ -239,8 +239,15 @@
     <Compile Include="Controllers\PersonnesController.cs" />
     <Compile Include="Controllers\ProgrammesOffertsController.cs" />
     <Compile Include="Controllers\RechercheEtudiantController.cs" />
+    <Compile Include="Controllers\RechercheInscriptionController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ChoixReponse.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Compteur.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Courriel.cs">
       <DependentUpon>Model1.tt</DependentUpon>
@@ -249,11 +256,27 @@
     <Compile Include="Models\Cours.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\CoursInteret.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\DataAccess\BdRepository.cs" />
     <Compile Include="Models\DataAccess\IDataRepository.cs" />
+    <Compile Include="Models\Disponibilite.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DisponibiliteStruct.cs" />
+    <Compile Include="Models\Evaluation.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Formulaire.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\PersEtuProg.cs" />
     <Compile Include="Models\p_CollegeMetadata.cs" />
     <Compile Include="Models\PersonneMetadata.cs" />
+    <Compile Include="Models\p_TypeFormulaire.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\p_TypeInscriptionMetadata.cs" />
     <Compile Include="Models\PTypeUsagMetadata.cs" />
     <Compile Include="Models\CoursMetadata.cs" />
@@ -335,16 +358,34 @@
     <Compile Include="Models\p_TypeInscription.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\p_TypeResultat.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\p_TypeUsag.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Question.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Rejet.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ReponseQuestion.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\SACHEMIdentite.cs" />
     <Compile Include="Models\sachemModelDN.cs" />
     <Compile Include="Models\SACHEMModels.cs" />
+    <Compile Include="Models\Section.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Session.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\SessionMetadata.cs" />
+    <Compile Include="Models\Suivi.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\ValidationPersonnalisee.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
@@ -485,10 +526,12 @@
     <Content Include="_Contribute\BD_Presentation.bak" />
     <Content Include="_Contribute\sachem.bak" />
     <Content Include="_Contribute\Sachem_Importer.csv" />
+    <Content Include="Views\RechercheInscription\Index.cshtml" />
+    <Content Include="Views\RechercheInscription\Details.cshtml" />
+    <Content Include="Views\Jumelage\Delete.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="_Contribute\wiki\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

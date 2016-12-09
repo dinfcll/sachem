@@ -25,10 +25,15 @@ namespace sachem.Models
             throw new UnintentionalCodeFirstException();
         }
     
+        public virtual DbSet<ChoixReponse> ChoixReponse { get; set; }
         public virtual DbSet<Courriel> Courriel { get; set; }
         public virtual DbSet<Cours> Cours { get; set; }
+        public virtual DbSet<CoursInteret> CoursInteret { get; set; }
         public virtual DbSet<CoursSuivi> CoursSuivi { get; set; }
+        public virtual DbSet<Disponibilite> Disponibilite { get; set; }
         public virtual DbSet<EtuProgEtude> EtuProgEtude { get; set; }
+        public virtual DbSet<Evaluation> Evaluation { get; set; }
+        public virtual DbSet<Formulaire> Formulaire { get; set; }
         public virtual DbSet<Groupe> Groupe { get; set; }
         public virtual DbSet<GroupeEtudiant> GroupeEtudiant { get; set; }
         public virtual DbSet<Inscription> Inscription { get; set; }
@@ -42,10 +47,18 @@ namespace sachem.Models
         public virtual DbSet<p_StatutCours> p_StatutCours { get; set; }
         public virtual DbSet<p_StatutInscription> p_StatutInscription { get; set; }
         public virtual DbSet<p_TypeCourriel> p_TypeCourriel { get; set; }
+        public virtual DbSet<p_TypeFormulaire> p_TypeFormulaire { get; set; }
         public virtual DbSet<p_TypeInscription> p_TypeInscription { get; set; }
+        public virtual DbSet<p_TypeResultat> p_TypeResultat { get; set; }
         public virtual DbSet<p_TypeUsag> p_TypeUsag { get; set; }
         public virtual DbSet<Personne> Personne { get; set; }
         public virtual DbSet<ProgrammeEtude> ProgrammeEtude { get; set; }
+        public virtual DbSet<Question> Question { get; set; }
+        public virtual DbSet<Rejet> Rejet { get; set; }
+        public virtual DbSet<ReponseQuestion> ReponseQuestion { get; set; }
+        public virtual DbSet<Section> Section { get; set; }
         public virtual DbSet<Session> Session { get; set; }
+        public virtual DbSet<Suivi> Suivi { get; set; }
+        public virtual DbSet<Compteur> Compteur { get; set; }
     }
 }

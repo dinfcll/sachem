@@ -1,0 +1,64 @@
+﻿@model IEnumerable<sachem.Models.Inscription>
+
+@{
+    ViewBag.Title = "Inscription";
+}
+
+<h2>@ViewBag.Title</h2>
+
+@using (Html.BeginForm("Index", "RechercheInscription", FormMethod.Post, new { @class = "form-inline", role = "form" }))
+{
+    <h4>Recherche</h4>
+    <table class="table-condensed">
+        <tr>
+            <td>Session :</td>
+            <td>@Html.DropDownList("Session", null, "Toutes", htmlAttributes: new { @class = "form-search" })</td>
+            <td>Type d'inscription :</td>
+            <td>@Html.DropDownList("TypeInscription", null, "Toutes", htmlAttributes: new { @class = "form-search" })</td>
+            <td>Statut :</td>
+            <td>@Html.DropDownList("Statut", null, "Toutes", htmlAttributes: new { @class = "form-search" })</td>
+            <td><input type="submit" value="Rechercher" class="form-search" /></td>
+        </tr>
+    </table>
+}
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Personne.Nom)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Personne.Matricule7)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.p_StatutInscription.Statut)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.p_TypeInscription.TypeInscription)
+        </th>
+
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Personne.NomPrenom)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Personne.Matricule7)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.p_StatutInscription.Statut)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.p_TypeInscription.TypeInscription)
+            </td>
+
+            <td>
+                @Html.ActionLink("Accéder à l'inscription", "Details", new {id = item.id_Inscription})
+            </td>
+        </tr>
+    }
+
+</table>

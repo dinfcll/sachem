@@ -1,5 +1,11 @@
-﻿@using sachem.Models
-
+﻿@model sachem.Models.Inscription
+@using sachem.Models
+@using sachem.Controllers
+@{ IQueryable<Inscription> listeJumeleurs = ((sachem.Controllers.JumelageController)this.ViewContext.Controller)
+                                                  .RetourneJumeleurs(Model.id_Inscription, Model.id_TypeInscription, Model.id_Sess);
+ }
+@if (listeJumeleurs.Count() > 0)
+{
 <h4 class="page-header">Jumelé à</h4>
 
 <table class="table table-striped col-sm-12">
@@ -9,16 +15,22 @@
         <th class="col-sm-3">Plage horaire</th>
         <th class="col-sm-3"></th>
     </tr>
-@for (int i = 0; i < 2; i++)
-{
-    <tr>
+    @foreach (var j in listeJumeleurs)
+    {
+        List<string> plageHoraire = ((sachem.Controllers.JumelageController)this.ViewContext.Controller)
+                                                      .RetournePlageHoraireChaqueJumeleur(Model.id_Inscription, Model.id_TypeInscription, Model.id_Sess, j.id_Inscription);
+        foreach(string p in plageHoraire)
+        {
+            <tr>
         
-        <td>Nom, Prenom</td>
-        <td>#######</td>
-        <td>Lundi 12h00-13h30</td>
-        <td><a href="#">Accéder</a> | 
-        <a href="#">Mettre fin à ce jumelage</a></td>
+                <td>@j.Personne.NomPrenom</td>
+                <td>@j.Personne.Matricule7</td>
+                <td>@p</td>
+                <td><a href=@j.id_Inscription>Accéder</a> | 
+                <a href="#">Mettre fin à ce jumelage</a></td>
         
-    </tr>
-}
+            </tr>
+        }
+    }
 </table>
+}
