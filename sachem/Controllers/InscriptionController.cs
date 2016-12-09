@@ -217,12 +217,27 @@ namespace sachem.Controllers
                     }
                     else
                     {
-                        temp[0] = values[i][2];
+                        if (!Contient(values[i][0], donneesInscription))
+                        {
+                            temp[0] = values[i][2];
+                        }
+                        else
+                        {
+                            erreur = true;    
+                        }
                     }                    
                 }
                 else
                 {
-                    temp[0] = values[i][0];                   
+                    if(!Contient(values[i][0], donneesInscription))
+                    {
+                        temp[0] = values[i][0];
+                    }
+                    else
+                    {
+                        erreur = true;
+                    }
+
                 }
 
                 if (Int32.TryParse(values[i][1], out resultat) && (resultat >= 0 && resultat <= 100))
@@ -246,12 +261,13 @@ namespace sachem.Controllers
                 }
                 else
                 {
-                    temp[2] = values[i][4];
+                    temp[2] = values[i][3];
                 }
 
                 donneesInscription.Add(temp);
                 i++;
             }
+
 
             //CreerTables();
 
@@ -284,6 +300,20 @@ namespace sachem.Controllers
             }*/
         }
 
+
+        public bool Contient(string value, List<string[]> donneesInscription)
+        {
+            foreach (string[] d in donneesInscription)
+            {
+                if (d[0] == value || d[2] == value)
+                {
+                    return true;
+                }
+            }
+
+            return false;
+
+        }
 
         [HttpPost]
         public string ErreurCours()
