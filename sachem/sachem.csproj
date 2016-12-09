@@ -239,6 +239,7 @@
     <Compile Include="Controllers\PersonnesController.cs" />
     <Compile Include="Controllers\ProgrammesOffertsController.cs" />
     <Compile Include="Controllers\RechercheEtudiantController.cs" />
+    <Compile Include="Controllers\RechercheInscriptionController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -525,6 +526,9 @@
     <Content Include="_Contribute\BD_Presentation.bak" />
     <Content Include="_Contribute\sachem.bak" />
     <Content Include="_Contribute\Sachem_Importer.csv" />
+    <Content Include="Views\RechercheInscription\Index.cshtml" />
+    <Content Include="Views\RechercheInscription\Details.cshtml" />
+    <Content Include="Views\Jumelage\Delete.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

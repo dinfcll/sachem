@@ -4,21 +4,44 @@ namespace sachem.Models
 {
     public struct DisponibiliteStruct
     {
-        public string Jour;
-        public int Minute;
-        public Dictionary<string, int> dictionary;
-        public DisponibiliteStruct(string s, int m)
-        {
-            Jour = s;
-            Minute = m;
-            dictionary = new Dictionary<string, int> { { "Lundi", 2 }, { "Mardi", 3 },
-                { "Mercredi", 4 }, { "Jeudi", 5 }, { "Vendredi", 6 } };
-            dictionary = new Dictionary<string, int>();
-            dictionary.Add("Lundi", 2);
-            dictionary.Add("Mardi", 3);
-            dictionary.Add("Mercredi", 4);
-            dictionary.Add("Jeudi", 5);
-            dictionary.Add("Vendredi", 6);
-        }
+        string jour;
+        int minutes;
+        string nomCase;
+        bool estDispo;
+        bool estDispoMaisJumele;
+        int nbreUsagerMemeDispo;
+        bool estConsecutiveDonc3hrs;
+        bool estDispoEtCompatible;
+        bool estDispoEtCompatibleEtConsecutif;
+
+        public string Jour { get { return jour; } set { jour = value; } }
+        public int Minutes { get { return minutes; } set { minutes = value; } }
+        public string NomCase { get { return nomCase; } set { nomCase = value; } }
+        public bool EstDispo { get { return estDispo; } set { estDispo = value; } }
+        public bool EstDispoMaisJumele { get { return estDispoMaisJumele; } set { estDispoMaisJumele = value; } }
+        public int NbreUsagerMemeDispo { get { return nbreUsagerMemeDispo; } set { nbreUsagerMemeDispo = value; } }
+        public bool EstConsecutiveDonc3hrs { get { return estConsecutiveDonc3hrs; } set { estConsecutiveDonc3hrs = value; } }
+        public bool EstDispoEtCompatible { get { return estDispoEtCompatible; } set { estDispoEtCompatible = value; } }
+        public bool EstDispoEtCompatibleEtConsecutif { get { return estDispoEtCompatibleEtConsecutif; } set { estDispoEtCompatibleEtConsecutif = value; } }
+
+    }
+
+    public enum Semaine
+    {
+        Dimanche = 1,
+        Lundi,
+        Mardi,
+        Mercredi,
+        Jeudi,
+        Vendredi,
+        Samedi
+    }
+
+    public enum TypeInscription
+    {
+        eleveAide = 1,
+        tuteurDeCours,
+        tuteurBenevole,
+        tuteurRemunere
     }
 }

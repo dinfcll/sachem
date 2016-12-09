@@ -548,8 +548,8 @@ namespace sachem.Models
         /// </summary>
         /// <param name="NoGroupe"></param>
         /// <returns></returns>private string Q_010(string PrenomNom,string NomSaison,string NoGroupe,string NomCours)
-        public static string Q_010(string PrenomNom, string NomSaison, int NoGroupe, string NomCours)
-        { return $"L'étudiant {PrenomNom} est déjà inscrit au cours {NomCours} pour la session {NomSaison}. Voulez-vous le déplacer dans le groupe {NoGroupe}?"; }
+        public static string Q_010(string PrenomNom)
+        { return $"L'étudiant {PrenomNom} est déjà inscrit à un cours. Voulez-vous le déplacer?"; }
 
         public static string Q_011(string Etudiant)
         { return $"Voulez-vous vraiment supprimer le cours {Etudiant} ?"; }
@@ -578,8 +578,14 @@ namespace sachem.Models
         public static string Q_015(string College)
         { return $"Voulez-vous vraiment supprimer le collège {College} ?"; }
 
-       
 
+        /// <summary>
+        /// Voulez-vous vraiment mettre fin au jumelage entre {0} et {1}?
+        /// </summary>
+        /// <param name="Jumelage"></param>
+        /// <returns></returns>private string Q_015(string College)
+        public static string Q_016()
+        { return $"Voulez-vous vraiment mettre fin à ce jumelage ?"; }
 
         #endregion
 

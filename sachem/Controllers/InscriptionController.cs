@@ -17,7 +17,8 @@ namespace sachem.Controllers
 
         private const int HEURE_DEBUT = 8;
         private const int HEURE_FIN = 18;
-        private const int DUREE_RENCONTRE = 90;
+        private const int DEMI_HEURE = 30;
+        private const int DUREE_RENCONTRE_MINUTES = 90;
 
         [ValidationAcces.ValidationAccesInscription]
         // GET: Inscription
@@ -26,7 +27,6 @@ namespace sachem.Controllers
             ViewBag.TypeInscription = new SelectList(db.p_TypeInscription, "id_TypeInscription", "TypeInscription");
             return View();
         }
-
 
         [ValidationAcces.ValidationAccesInscription]
         [HttpPost]
@@ -49,18 +49,17 @@ namespace sachem.Controllers
             if (jours != null)
             {
                 int longueurTab = jours.Length;
-                int minute;
                 string[] splitValue1;
-                string jour;
+                DisponibiliteStruct dispo = new DisponibiliteStruct();
                 Lis­t<DisponibiliteStruct> disponibilites = new List<DisponibiliteStruct>();
                 Array.Sort(jours, new AlphanumComparatorFast());
                 for (int i = 0; i < jours.Length; i++)
                 {
                     //TODO: Valider si les heures se suivent, formatter pour demander confirmation à l'utilisateur.
                     splitValue1 = jours[i].Split('-');
-                    minute = int.Parse(splitValue1[1]);
-                    jour = splitValue1[0];
-                    disponibilites.Add(new DisponibiliteStruct(jour, minute));
+                    dispo.Minutes = int.Parse(splitValue1[1]);
+                    dispo.Jour = splitValue1[0];
+                    disponibilites.Add(dispo);
                 }
 
                 Disponibilite dispoBD = new Disponibilite();
@@ -68,19 +67,19 @@ namespace sachem.Controllers
                 foreach (DisponibiliteStruct m in disponibilites)
                 {
                     dispoBD.id_Inscription = InscriptionEtu.id_Inscription;
-                    dispoBD.id_Jour = m.dictionary[m.Jour];
-                    dispoBD.minutes = m.Minute;
+                    dispoBD.id_Jour = (int)Enum.Parse(typeof(Semaine), m.Jour);
+                    dispoBD.minutes = m.Minutes;
                     db.Disponibilite.Add(dispoBD);
                     db.SaveChanges();
                 }
-                switch (typeInscription)
+                switch ((TypeInscription)typeInscription)
                 {
-                    case 1: // élève aidé
+                    case TypeInscription.eleveAide:
                         return RedirectToAction("EleveAide1");
-                    case 2: // Tuteur de cours
+                    case TypeInscription.tuteurDeCours:
                         return RedirectToAction("Index");
-                    case 3: //Tuteur de bénévole
-                    case 4: //Tuteur rémunéré
+                    case TypeInscription.tuteurBenevole:
+                    case TypeInscription.tuteurRemunere:
                         return RedirectToAction("Index");
                     default:
                         return this.Json(new { success = false, message = MSG_ERREUR_REMPLIR });
@@ -95,35 +94,40 @@ namespace sachem.Controllers
         [NonAction]
         public List<string> RetourneListeJours()
         {
-            return new List<string> { "Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi" };
+            List<string> Jours = new List<string>();
+            for (int i = 2; i < 7; i++)
+            {
+                Jours.Add(((Semaine)i).ToString());
+            }
+            return Jours.ToList();
         }
 
         [NonAction]
         public Dictionary<string, List<string>> RetourneTableauDisponibilite()
         {
             TimeSpan StartTime = TimeSpan.FromHours(HEURE_DEBUT);
-            int Difference = 30;
-            int Rencontre = DUREE_RENCONTRE;
+            int Difference = DEMI_HEURE;
+            int Rencontre = DUREE_RENCONTRE_MINUTES;
             int EntriesCount = HEURE_FIN;
-            Dictionary<TimeSpan, TimeSpan> Entree = new Dictionary<TimeSpan, TimeSpan>();
+            Dictionary<TimeSpan, TimeSpan> listeCasesRencontreAu30min = new Dictionary<TimeSpan, TimeSpan>();
             Dictionary<string, List<string>> Sortie = new Dictionary<string, List<string>>();
 
             for (int i = 0; i < EntriesCount; i++)
             {
-                Entree.Add(StartTime.Add(TimeSpan.FromMinutes(Difference * i)),
+                listeCasesRencontreAu30min.Add(StartTime.Add(TimeSpan.FromMinutes(Difference * i)),
                             StartTime.Add(TimeSpan.FromMinutes(Difference * i + Rencontre)));
             }
 
-            foreach (var e in Entree)
+            foreach (var case30min in listeCasesRencontreAu30min)
             {
-                double heureCheckbox = e.Key.TotalMinutes;
+                double minutes = case30min.Key.TotalMinutes;
                 List<string> values = new List<string>();
                 for (int j = (int)Semaine.Lundi; j <= (int)Semaine.Vendredi; j++)
                 {
-                    values.Add(((Semaine)j).ToString() + "-" + heureCheckbox.ToString());
+                    values.Add(((Semaine)j).ToString() + "-" + minutes.ToString());
                 }
                 Sortie.Add(
-                e.Key.Hours + "h" + e.Key.Minutes.ToString("00") + "-" + e.Value.Hours + "h" + e.Value.Minutes.ToString("00"),
+                String.Format("{0}h{1}-{2}h{3}", case30min.Key.Hours, case30min.Key.Minutes.ToString("00"), case30min.Value.Hours, case30min.Value.Minutes.ToString("00")),
                 values);
             }
             return Sortie;
