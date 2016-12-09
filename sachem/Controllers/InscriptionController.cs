@@ -102,8 +102,7 @@ namespace sachem.Controllers
             return Jours.ToList();
         }
 
-        [NonAction]
-        public static int CheckConfigHeure(string Heure, int defaut)
+        private static int CheckConfigHeure(string Heure, int defaut)
         {
             int result;
             return int.TryParse(Heure, out result) ? result : defaut;
