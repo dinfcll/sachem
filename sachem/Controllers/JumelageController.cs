@@ -68,7 +68,7 @@ namespace sachem.Controllers
         public List<string> RetourneListeJoursSemaine()
         {
             List<string> Jours = new List<string>();
-            for (int i = (int)Semaine.Lundi; i < (int)Semaine.Vendredi; i++)
+            for (int i = (int)Semaine.Lundi; i < (int)Semaine.Samedi; i++)
             {
                 Jours.Add(((Semaine)i).ToString());
             }
