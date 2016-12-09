@@ -331,6 +331,8 @@ namespace sachem.Models
         }
         public static string I_045(string NomEtudiant)
         { return $"L'étudiant {NomEtudiant} a été modifié."; }
+        public static string I_048()
+        { return $"Un cours ne peut être choisi qu'une seule fois."; }
 
         /// <summary>
         /// Le nom du collège a bien été modifié
@@ -472,6 +474,11 @@ namespace sachem.Models
         /// </summary>
         /// <returns></returns>
         public const string U_013 = "Longueur minimale de 6 caractères.";
+        /// <summary>
+        /// "Veuillez entrer un nombre en 0 et 100!"
+        /// </summary>
+        /// <returns></returns>
+        public const string U_014 = "Veuillez entrer un nombre en 0 et 100";
 
         #endregion
 
