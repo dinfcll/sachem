@@ -68,7 +68,7 @@ namespace sachem.Classes_Sachem
             
             public override void OnActionExecuting(ActionExecutingContext filterContext)
             {
-                verifAcces(rolesAccesEleve, filterContext, pathErreurAuth);
+                verifAcces(rolesAccesEtu, filterContext, pathErreurAuth);
             }
 
         }
