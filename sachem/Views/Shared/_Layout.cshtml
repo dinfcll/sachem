@@ -102,19 +102,12 @@
     </div>
     <div id="shovel-artica" class="hide shovelartica"></div>
     <script type="text/javascript">
-        $("input[type='submit']").on("click", function () {
-            window.onbeforeunload = function () {
-                $("#mainProgressBar").removeClass('hide');
-            }
-               
-        });
-        $("a").on("click", function () {
-            var href = String($(this).attr("href"));
-            var bHref = Boolean($(this).attr("href"));
-            var bTarget = Boolean($(this).attr("target"));
-            if(href.charAt(0)!="#" && bHref && !bTarget)
-                $("#mainProgressBar").removeClass('hide');
-        });
+        window.onbeforeunload = function () {
+            $("#mainProgressBar").removeClass('hide');
+        }
+        window.onload = function () {
+            $("#mainProgressBar").addClass('hide');
+        }
         $(document).keyup(function (e) {
             if (e.which == 122) {
                 e.preventDefault();
