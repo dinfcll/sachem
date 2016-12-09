@@ -239,7 +239,8 @@ namespace sachemTests
 
         public void DeclareModifiedEns(Personne enseignant)
         {
-            throw new NotImplementedException();
+            var index = listeEnseignant.FindIndex(a => a.id_Pers == enseignant.id_Pers);
+            listeEnseignant[index] = enseignant;
         }
     }
 }
