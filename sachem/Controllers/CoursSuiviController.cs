@@ -222,9 +222,9 @@ namespace sachem.Controllers
         // POST: CoursSuivi/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
+        public ActionResult DeleteConfirmed(int id_CoursReussi)
         {
-            CoursSuivi coursSuivi = dataRepository.FindCoursSuivi(id);
+            CoursSuivi coursSuivi = dataRepository.FindCoursSuivi(id_CoursReussi);
 
             dataRepository.RemoveCoursSuivi(coursSuivi);
             return RedirectToAction("Details", "DossierEtudiant", new { id = SessionBag.Current.id_Inscription });
