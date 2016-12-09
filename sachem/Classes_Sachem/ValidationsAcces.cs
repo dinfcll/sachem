@@ -53,6 +53,16 @@ namespace sachem.Classes_Sachem
             }
 
         }
+
+        public class ValidationAccesEleve : ActionFilterAttribute
+        {
+
+            public override void OnActionExecuting(ActionExecutingContext filterContext)
+            {
+                verifAcces(rolesAccesEleve, filterContext, pathErreurAuth);
+            }
+
+        }
         public class ValidationAccesEtu : ActionFilterAttribute
         {
             

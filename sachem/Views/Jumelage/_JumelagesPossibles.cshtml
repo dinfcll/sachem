@@ -8,34 +8,34 @@
 <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
 <script type="text/javascript">
     function AjoutModal(jour, minutes, idVu, idJumeleA, nomJumeleA, nomVu, typeEleveJumeleA, typeEleveVu, plageHoraire, vuTypeInsc, estConsecutif) {
-        var modal = document.getElementById('modalAjout');
-        var boutonAjout = document.getElementById('btnAjout');
-        $('#modalAjoutVu').html(nomVu);
-        $('#modalAjoutJumeleA').html(nomJumeleA);
-        $('#modalPlageHoraire').html(plageHoraire);
-        $('#modalAjoutEnseignantError').addClass('hide');
-        $('#modalAjoutTypeEleveVu').html(typeEleveVu);
-        $('#modalAjoutTypeEleveJumeleA').html(typeEleveJumeleA);
+        var modal = document.getElementById("modalAjout");
+        var boutonAjout = document.getElementById("btnAjout");
+        $("#modalAjoutVu").html(nomVu);
+        $("#modalAjoutJumeleA").html(nomJumeleA);
+        $("#modalPlageHoraire").html(plageHoraire);
+        $("#modalAjoutEnseignantError").addClass("hide");
+        $("#modalAjoutTypeEleveVu").html(typeEleveVu);
+        $("#modalAjoutTypeEleveJumeleA").html(typeEleveJumeleA);
         if (estConsecutif)
-        {            
-            $('#modalConditionConsecutif').removeClass('hide');
+        {
+            $("#modalConditionConsecutif").removeClass("hide");
         }
         else
         {
-            $('#modalConditionConsecutif').addClass('hide');
+            $("#modalConditionConsecutif").addClass("hide");
         }
-        modal.style.display = 'block';
+        modal.style.display = "block";
         boutonAjout.onclick = function () {
             Ajout(idVu, idJumeleA, jour, minutes, vuTypeInsc, estConsecutif);
         }
     }
 
     function Ajout(idVu, idJumeleA, jour, minutes, vuTypeInsc, estConsecutif) {
-        var estConsecutif = document.getElementById('modalConsecutif').value;
-        var idEnseignant = document.getElementById('modalAjoutEnseignant').value;
+        var estConsecutif = document.getElementById("modalConsecutif").value;
+        var idEnseignant = document.getElementById("modalAjoutEnseignant").value;
         if(idEnseignant!="")
         {        
-            $('#modalAjout').modal('hide');
+            $("#modalAjout").modal("hide");
             $.ajax({
                 url: "/Jumelage/AjoutJumelage",
                 data: { "idVu": idVu, "idJumeleA": idJumeleA, "Jour": jour, "minutes": minutes, "vuTypeInsc": vuTypeInsc, "idEnseignant": idEnseignant, "estConsecutif": estConsecutif },
@@ -48,7 +48,7 @@
         }
         else
         {
-            $('#modalAjoutEnseignantError').removeClass('hide');
+            $("#modalAjoutEnseignantError").removeClass("hide")
         }
     }
 </script>
@@ -134,9 +134,9 @@
                                             @if (w.NbreUsagerMemeDispo > 0 && w.EstDispoEtCompatible && w.EstDispoEtCompatibleEtConsecutif)
                                             {
                                                 <a href="#" onclick="AjoutModal('@w.Jour',@w.Minutes,@Model.id_Inscription, @j.id_Inscription,'@j.Personne.PrenomNom','@Model.Personne.PrenomNom',
-                                                    '@j.p_TypeInscription.TypeInscription','@Model.p_TypeInscription.TypeInscription','@plageHoraire', @Model.id_TypeInscription, 1)"
+                                                   '@j.p_TypeInscription.TypeInscription','@Model.p_TypeInscription.TypeInscription','@plageHoraire', @Model.id_TypeInscription, 1)"
                                                    data-toggle="modal" data-target="#modalAjout" class="modal-open">
-                                                    <i class="material-icons" style="float:right;margin-right:5px;color:#fff;text-shadow: 2px 2px #999;">
+                                                    <i class="material-icons" style="color:#fff;right:10px;top:-2px;text-shadow: 2px 2px #999;position:absolute;">
                                                         group_add
                                                     </i>
                                                 </a>
