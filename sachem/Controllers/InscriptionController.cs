@@ -325,6 +325,7 @@ namespace sachem.Controllers
             listeSession();
             return PartialView("_LigneCoursReussiEleveAide");
         }
+        [ValidationAcces.ValidationAccesEleve]
         public ActionResult EleveAide1()
         {
             listeCours();
@@ -332,6 +333,7 @@ namespace sachem.Controllers
             listeSession();
             return View();
         }
+        [ValidationAcces.ValidationAccesEleve]
         [HttpPost]
         public ActionResult EleveAide1(string[][] values)
         {
