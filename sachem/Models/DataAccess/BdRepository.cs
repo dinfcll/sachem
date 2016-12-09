@@ -235,7 +235,10 @@ namespace sachem.Models.DataAccess
 
         public string FindMdp(int id)
         {
-            string mdp = db.Personne.FirstOrDefault(x => x.id_Pers == id).MP;
+            var personne = db.Personne.FirstOrDefault(x => x.id_Pers == id);
+            string mdp = personne.MP;
+            db.Entry(personne).State = EntityState.Unchanged;
+            db.Entry(personne).State = EntityState.Detached;
 
             return mdp;
         }
