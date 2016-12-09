@@ -127,7 +127,7 @@ namespace sachem.Controllers
                 }
                 else
                 {
-                    TempData["Echec"]= MESSAGESTATUT;
+                    ModelState.AddModelError(string.Empty, MESSAGESTATUT);
                     return View("EleveAide1");
                 }
             }
