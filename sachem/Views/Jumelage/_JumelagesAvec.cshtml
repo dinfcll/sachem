@@ -8,11 +8,11 @@
 <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
 <script type="text/javascript">
     function RetirerModal(idVu, idJumeleA, vuTypeInsc, nomVu, nomJumeleA) {
-        var modal = document.getElementById('modalRetirer');
-        var boutonRetirer = document.getElementById('btnRetirer');
-        $('#modalRetirerJumeleA').html(nomJumeleA);
-        $('#modalRetirerVu').html(nomVu);
-        modal.style.display = 'block';
+        var modal = document.getElementById("modalRetirer");
+        var boutonRetirer = document.getElementById("btnRetirer");
+        $("#modalRetirerJumeleA").html(nomJumeleA);
+        $("#modalRetirerVu").html(nomVu);
+        modal.style.display = "block";
         boutonRetirer.onclick = function () {
             Retirer(idVu, idJumeleA, vuTypeInsc);
         }
@@ -24,13 +24,10 @@
             type: "POST",
             success: function () {
                 location.reload(true);
-            },
-            error: function () {
-                location.reload(true);
             }
         });
     }
-    </script>
+</script>
 @if (listeJumeleurs.Count() > 0)
 {
 <h4 class="page-header">Jumelé à</h4>
@@ -53,7 +50,7 @@
                 <td>@j.Personne.Matricule7</td>
                 <td>@p</td>
                 <td><a href=@j.id_Inscription>Accéder</a> | 
-                    <a href="#" onclick="RetirerModal(@Model.id_Inscription,@j.id_Inscription,@Model.id_TypeInscription,'@Model.Personne.PrenomNom','@j.Personne.PrenomNom')"
+                    <a href="#" onclick="RetirerModal(@Model.id_Inscription,@j.id_Inscription,@Model.id_TypeInscription,"@Model.Personne.PrenomNom","@j.Personne.PrenomNom")"
                        data-toggle="modal" data-target="#modalRetirer">Mettre fin à ce jumelage
                     </a></td>                
             </tr>
