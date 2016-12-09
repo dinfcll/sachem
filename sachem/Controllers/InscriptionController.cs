@@ -7,10 +7,11 @@ using System.Web.Mvc;
 using sachem.Classes_Sachem;
 using sachem.Models;
 using System.Text.RegularExpressions;
+using System.Data.Entity.Validation;
+using System.Data.Entity.Infrastructure;
 
 namespace sachem.Controllers
 {
-   
     public class InscriptionController : Controller
     {
         private readonly SACHEMEntities db = new SACHEMEntities();
@@ -94,7 +95,7 @@ namespace sachem.Controllers
                         return this.Json(new { success = false, message = MSG_ERREUR_REMPLIR });
                 }
             }
-            else
+            else 
             {
                 return this.Json(new { success = false, message = MSG_ERREUR_REMPLIR });
             }
@@ -176,6 +177,29 @@ namespace sachem.Controllers
             listeSession();
             return View();
         }
+        [NonAction]
+       public void listeStatutCours()
+       {
+            var lstStatut = from c in db.p_StatutCours orderby c.id_Statut select c;
+            var slStatut = new List<SelectListItem>();
+            slStatut.AddRange(new SelectList(lstStatut, "id_Statut", "Statut"));
+            ViewBag.lstStatut = slStatut;
+        }
+        [NonAction]
+        public void listeSession()
+        {
+            var lstSess = from c in db.Session orderby c.id_Sess select c;
+            var slSession = new List<SelectListItem>();
+            slSession.AddRange(new SelectList(lstSess, "id_Sess", "NomSession", Session));
+            ViewBag.slSession = slSession;
+        }
+        public ActionResult getLigneCoursEleveAide()
+        {
+            listeCours();
+            listeStatutCours();
+            listeSession();
+            return PartialView("_LigneCoursReussiEleveAide");
+        }
         [ValidationAcces.ValidationAccesEtu]
         [HttpPost]
         public ActionResult EleveAide1(string[][] values)
@@ -234,28 +258,30 @@ namespace sachem.Controllers
             Array.Sort(tableau, StringComparer.InvariantCulture);
             return tableau;
         }
+        [HttpGet]
         public ActionResult Tuteur()
         {
             listeCours();
             listeCollege();
             return View();
         }
+        [HttpGet]
         public ActionResult TBenevole()
         {
             listeCours();
             listeCollege();
             return View();
         }
-        [NonAction]
+        [HttpPost]
         public void listeCours()
         {
             var lstCrs = from c in db.Cours orderby c.Nom select c;
             var slCrs = new List<SelectListItem>();
-            slCrs.AddRange(new SelectList(lstCrs, "id_Cours","CodeNom"));
+            slCrs.AddRange(new SelectList(lstCrs, "id_Cours", "CodeNom"));
             ViewBag.lstCours = slCrs;
             ViewBag.lstCours1 = slCrs;
         }
-        [NonAction]
+        [HttpPost]
         public void listeCollege()
         {
             var lstCol = from c in db.p_College orderby c.College select c;
@@ -263,22 +289,7 @@ namespace sachem.Controllers
             slCol.AddRange(new SelectList(lstCol, "id_College", "College"));
             ViewBag.lstCollege = slCol;
         }
-        [NonAction]
-        public void listeStatutCours()
-        {
-            var lstStatut = from c in db.p_StatutCours orderby c.id_Statut select c;
-            var slStatut = new List<SelectListItem>();
-            slStatut.AddRange(new SelectList(lstStatut, "id_Statut", "Statut"));
-            ViewBag.lstStatut = slStatut;
-        }
-        [NonAction]
-        public void listeSession()
-        {
-            var lstSess = from c in db.Session orderby c.id_Sess select c;
-            var slSession = new List<SelectListItem>();
-            slSession.AddRange(new SelectList(lstSess, "id_Sess", "NomSession", Session));
-            ViewBag.slSession = slSession;
-        }
+
         [HttpPost]
         public ActionResult getLigneCours()
         {
@@ -287,13 +298,149 @@ namespace sachem.Controllers
             return PartialView("_LigneCoursReussi");
         }
         [HttpPost]
-        public ActionResult getLigneCoursEleveAide()
+        public string Poursuivre(string[][] values, string[] coursInteret)
         {
-            listeCours();
-            listeStatutCours();
-            listeSession();
-            return PartialView("_LigneCoursReussiEleveAide");
+            int i = 0;
+            int resultat;
+            string[] temp = new string[3];
+            List<string[]> donneesInscription = new List<string[]>();
+            bool erreur = false;
+
+            while (i < values.Length && !erreur)
+            {
+                temp = new string[3];
+
+                if (values[i][0] == "")
+                {
+                    if (values[i][2] == "")
+                    {
+                        erreur = true;
+                    }
+                    else
+                    {
+                        if (!Contient(values[i][0], donneesInscription))
+                        {
+                            temp[0] = values[i][2];
+                        }
+                        else
+                        {
+                            erreur = true;    
+                        }
+                    }                    
+                }
+                else
+                {
+                    if(!Contient(values[i][0], donneesInscription))
+                    {
+                        temp[0] = values[i][0];
+                    }
+                    else
+                    {
+                        erreur = true;
+                    }
+
+                }
+
+                if (Int32.TryParse(values[i][1], out resultat) && (resultat >= 0 && resultat <= 100))
+                {
+                    temp[1] = values[i][1];
+                }
+                else
+                {
+                    erreur = true;
+                }
+                if (values[i][3] == "")
+                {
+                    if (values[i][4] == "")
+                    {
+                        erreur = true;
+                    }
+                    else
+                    {
+                        temp[2] = values[i][4];
+                    }
+                }
+                else
+                {
+                    temp[2] = values[i][3];
+                }
+
+                donneesInscription.Add(temp);
+                i++;
+            }
+            if (erreur)
+            {
+                return "non!";
+            }
+
+            int idPers = SessionBag.Current.id_Pers;
+            int sess = SessionBag.Current.id_Sess;
+            int ptype = SessionBag.Current.id_Inscription;
+            var InscriptionInteret = db.Inscription.Where(x => x.id_Pers == idPers).FirstOrDefault();
+
+             foreach (string[] d in donneesInscription)
+             {
+                 CoursSuivi cs = new CoursSuivi();
+                 if (d[0] == "")
+                 {
+                     cs.autre_Cours = d[0];
+                 }
+                 else
+                 {
+                     cs.id_Cours = int.Parse(d[0]);
+                 }
+                 cs.resultat = int.Parse(d[1]);
+                 if (d[2] == "")
+                 {
+                     cs.autre_College = d[2];
+                 }
+                 else
+                 {
+                     cs.id_College = int.Parse(d[2]);
+                 }
+                 cs.id_Pers = idPers;
+                 cs.id_Sess = sess;
+                 db.CoursSuivi.Add(cs);
+                 db.SaveChanges();
+             }
+
+            for (i=0;i<3;i++)
+            {   
+                CoursInteret ci = new CoursInteret();
+                ci.id_Inscription = InscriptionInteret.id_Inscription;
+                ci.id_Cours = Int32.Parse(coursInteret[i]);
+
+                //ci.Cours = db.Cours.Where(x => x.id_Cours == ci.id_Cours).FirstOrDefault();
+                //ci.Inscription = InscriptionInteret;
+
+                ci.Priorite = i + 1;
+                db.CoursInteret.Add(ci);
+                try
+                {
+                    db.SaveChanges();
+                }
+                catch(DbUpdateException ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
+                
+            }
+            return "oui!";
         }
+
+
+        public bool Contient(string value, List<string[]> donneesInscription)
+        {
+            foreach (string[] d in donneesInscription)
+            {
+                if (d[0] == value || d[2] == value)
+        {
+                    return true;
+                }
+            }
+            return false;
+        }
+
         [HttpPost]
         public string ErreurCours()
         {
