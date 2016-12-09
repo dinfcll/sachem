@@ -78,13 +78,18 @@ namespace sachem.Controllers
                 SessionBag.Current.id_Inscription = typeInscription;
                 switch (typeInscription)
                 {
-                    case 1: // élève aidé
-                        return this.Json(new { url = "EleveAide1" });
-                    case 2: // Tuteur de cours
-                        return this.Json(new { url = "Tuteur" });
-                    case 3: //Tuteur bénévole
-                    case 4: //Tuteur rémunéré
-                        return this.Json(new {url = "TBenevole" });
+                    case TypeInscription.eleveAide:
+                        SessionBag.Current.id_TypeUsag = TypeUsagers.Eleve;
+                        return RedirectToAction("EleveAide1");
+                    case TypeInscription.tuteurDeCours:
+                        SessionBag.Current.id_TypeUsag = TypeUsagers.Tuteur;
+                        return RedirectToAction("Tuteur");
+                    case TypeInscription.tuteurBenevole:
+                        SessionBag.Current.id_TypeUsag = TypeUsagers.Tuteur;
+                        return RedirectToAction("TBenevole");
+                    case TypeInscription.tuteurRemunere:
+                        SessionBag.Current.id_TypeUsag = TypeUsagers.Tuteur;
+                        return RedirectToAction("TBenevole");
                     default:
                         return this.Json(new { success = false, message = MSG_ERREUR_REMPLIR });
                 }
@@ -187,23 +192,23 @@ namespace sachem.Controllers
         }
         [HttpPost]
         public void listeCollege()
-        {
+            {
             var lstCol = from c in db.p_College orderby c.College select c;
             var slCol = new List<SelectListItem>();
             slCol.AddRange(new SelectList(lstCol, "id_College", "College"));
             ViewBag.lstCollege = slCol;
-        }
+            }
 
         [HttpPost]
         public ActionResult getLigneCours()
-        {
+            {
             listeCours();
             listeCollege();
             return PartialView("_LigneCoursReussi");
         }
         [HttpPost]
         public void Poursuivre(string[][] values, string[] coursInteret)
-        {
+                    {
             int i = 0;
             int resultat;
             string[] temp = new string[3];
@@ -211,20 +216,20 @@ namespace sachem.Controllers
             bool erreur = false;
 
             while (i < values.Length && !erreur)
-            {
+                        {
                 temp = new string[3];
 
                 if (values[i][0] == "")
-                {
+                            {
                     if (values[i][2] == "")
                     {
                         erreur = true;
-                    }
+                            }
                     else
                     {
                         temp[0] = values[i][2];
-                    }                    
-                }
+                        }
+                    }
                 else
                 {
                     temp[0] = values[i][0];                   
@@ -233,13 +238,13 @@ namespace sachem.Controllers
                 if (Int32.TryParse(values[i][1], out resultat) && (resultat >= 0 && resultat <= 100))
                 {
                     temp[1] = values[i][1];
-                }
+        }
                 else
-                {
+        {
                     erreur = true;
                 }
                 if (values[i][3] == "")
-                {
+            {
                     if (values[i][4] == "")
                     {
                         erreur = true;
@@ -247,16 +252,16 @@ namespace sachem.Controllers
                     else
                     {
                         temp[2] = values[i][4];
-                    }
-                }
+            }
+        }
                 else
-                {
+        {
                     temp[2] = values[i][4];
                 }
 
                 donneesInscription.Add(temp);
                 i++;
-            }
+        }
 
             //CreerTables();
 
@@ -278,11 +283,11 @@ namespace sachem.Controllers
                 ci.Priorite = i + 1;
                 db.CoursInteret.Add(ci);
                 try
-                {
+        {
                     db.SaveChanges();
-                }
+        }
                 catch(DbUpdateException ex)
-                {
+        {
                     Console.WriteLine(ex.Message);
                 }
                 
@@ -355,7 +360,7 @@ namespace sachem.Controllers
                             cours.id_Sess = Convert.ToInt32(values[i][2]);
                             cours.id_College = db.p_College.FirstOrDefault(x => x.College == "Cégep de Lévis-Lauzon").id_College;
                             if (values[i][3] != "")
-                           {
+        {
                                 cours.resultat = Convert.ToInt32(values[i][3]);
                             }
                             db.CoursSuivi.Add(cours);
@@ -364,6 +369,6 @@ namespace sachem.Controllers
                 }
                     return RedirectToAction("Details", "DossierEtudiant", new { id = SessionBag.Current.id_Inscription });
                 }
-        }  
+        }      
     }
 }
