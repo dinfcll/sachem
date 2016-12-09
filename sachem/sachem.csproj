@@ -236,7 +236,6 @@
     <Compile Include="Controllers\InscriptionController.cs" />
     <Compile Include="Controllers\JumelageController.cs" />
     <Compile Include="Controllers\ParametresController.cs" />
-    <Compile Include="Controllers\PersonnesController.cs" />
     <Compile Include="Controllers\ProgrammesOffertsController.cs" />
     <Compile Include="Controllers\RechercheEtudiantController.cs" />
     <Compile Include="Controllers\RechercheInscriptionController.cs" />
@@ -397,6 +396,7 @@
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Images\500.gif" />
     <Content Include="Images\Alert.jpg" />
     <Content Include="Images\facebook.png" />
     <Content Include="Images\logo-cegep.png" />
@@ -529,14 +529,16 @@
     <Content Include="Views\Inscription\TBenevole.cshtml" />
     <Content Include="Views\Shared\_LigneCoursReussi.cshtml" />
     <Content Include="Views\Inscription\_AjoutCours.cshtml" />
-    <Content Include="_Contribute\BD_Presentation.bak" />
     <Content Include="_Contribute\sachem.bak" />
     <Content Include="_Contribute\Sachem_Importer.csv" />
     <Content Include="Views\Inscription\_CoursReussisEleveAide.cshtml" />
     <Content Include="Views\Inscription\_LigneCoursReussiEleveAide.cshtml" />
+    <Content Include="Views\Inscription\Tuteur.cshtml" />
+    <Content Include="Views\Shared\_CoursReussis.cshtml" />
+    <Content Include="Views\Inscription\TBenevole.cshtml" />
+    <Content Include="Views\Shared\_LigneCoursReussi.cshtml" />
     <Content Include="Views\RechercheInscription\Index.cshtml" />
     <Content Include="Views\RechercheInscription\Details.cshtml" />
-    <Content Include="Views\Jumelage\Delete.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

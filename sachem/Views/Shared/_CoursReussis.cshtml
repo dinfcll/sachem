@@ -56,7 +56,7 @@
 
         listeCoursInteresse = function ()
         {
-            var aideCours = [];
+            var aideCours = new Array();
             $(".validecours").each(function () {
                 if (aideCours.indexOf($(this).val()) == -1) {
                     aideCours.push($(this).val());
@@ -76,7 +76,7 @@
             });
         }
         listeCoursReussis = function () {
-            var infoCourCollegeNote = [];
+            var infoCourCollegeNote = new Array();
 
             $(".InfoCourCollege").each(function (i) {
                 infoCourCollegeNote.push([]);
@@ -87,27 +87,18 @@
 
             return infoCourCollegeNote;
         }
-
-        validerCoursReussis = function (listeCoursReussis)
-        {
-            //RESTE À VÉRIFIER LES DOUBLONS ET LES RÉSULTATS EN INT OU DOUBLE
-            listeCoursReussis.forEach(function (element) {
-                alert(element);
-            });
-
-        }
-
         activationInput = function ()
         {
             $(".btnSupprimerCours").click(function () {
                 $(this).parent().parent().remove();
             });
             $(".ins-selectcours").change(function () {
-                var test = $(this).val();                
+                var test = $(this).val();
             });
             $(".InfoCourCollege").find($(".dropDownCours")).change(function () {
                 if ($(this).val() != "") {
                     $(this).closest(".InfoCourCollege").find($(".coursChange")).attr('disabled', 'disabled');
+                    $(this).closest(".InfoCourCollege").find($(".coursChange")).val("");
                 }
                 else {
                     $(this).closest(".InfoCourCollege").find($(".coursChange")).removeAttr('disabled');
@@ -116,6 +107,7 @@
             $(".InfoCourCollege").find($(".dropDownCollege")).change(function () {
                 if ($(this).val() != "") {
                     $(this).closest(".InfoCourCollege").find($(".collegeChange")).attr('disabled', 'disabled');
+                    $(this).closest(".InfoCourCollege").find($(".collegeChange")).val("");
                 }
                 else {
                     $(this).closest(".InfoCourCollege").find($(".collegeChange")).removeAttr('disabled');
@@ -153,10 +145,19 @@
             else
             {
                 var coursReussis = listeCoursReussis();
-
-                var coursReussisValides = validerCoursReussis(coursReussis); 
+                var postData = { values: coursReussis, coursInteret:coursInteresse };
+                $.ajax({
+                    url: "/Inscription/Poursuivre",
+                    type: "POST",
+                    data: postData,
+                    success: function (data) {
+                        window.location.href = '@Url.Action("Index", "DossierEtudiant")';
+                    },
+                    error: function(){
+                        alert(data);
+                    }
+                });
             }
         });
-        
     });
 </script>
