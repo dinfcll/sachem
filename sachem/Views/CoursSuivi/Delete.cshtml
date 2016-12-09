@@ -65,11 +65,12 @@ else
     @using (Html.BeginForm()) {
         @Html.AntiForgeryToken()
 
-        <div class="form-actions no-color">
-            <input type="submit" value="Supprimer" class="btn btn-default" />
+        <div class="form-actions no-color">            
             @Html.HiddenFor(m => m.id_CoursReussi)
+            <input type="submit" value="Supprimer" class="btn btn-default" />
             @Html.ActionLink("Annuler", "Details", "DossierEtudiant", new { id = SessionBag.Current.id_Inscription }, new { @class = "btn btn-default" })
             @Html.Partial("_Footer", Model)
         </div>
+
     }
 </div>
