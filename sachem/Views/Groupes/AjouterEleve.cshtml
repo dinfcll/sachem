@@ -26,9 +26,9 @@
             @Html.AntiForgeryToken()
             <input type="hidden" name="idGroupeEtudiant" value="@TempData["idGe"]" />
             <input type="hidden" name="id_groupedepl" value="@ViewBag.idg" />
-            <button style="display:inline;padding:0px;margin:0px;" type="submit" class="btn btn-link">(Oui) L'étudiant sera uniquement dans le groupe @ViewBag.idg</button>
+            <button style="display:inline;padding:0px;margin:0px;" type="submit" class="btn btn-link">Déplacer</button>
         }|
-        @Html.ActionLink("(Non) L'étudiant sera dans les deux groupes", "AjouterEleveGET", new { idg = @TempData["idg"], idp = @TempData["personne"], noclick = 1 })  |
+        @Html.ActionLink("Conserver dans les deux groupes", "AjouterEleveGET", new { idg = @TempData["idg"], idp = @TempData["personne"], noclick = 1 })  |
         @Html.ActionLink("Annuler", "AjouterEleve", new { idg = @TempData["idg"], page = ViewBag.page })
     </div>
 }

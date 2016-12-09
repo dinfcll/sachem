@@ -1,23 +1,46 @@
 ﻿@model sachem.Models.Inscription
 
-<style>
-.checkzone{width:100%;top:-1px;height:25px;background-size:100%; -webkit-appearance: none; -moz-appearance:none;}
-.checkzone:checked{width:100%; background-image:url('../../Images/x.png');background-position:center;background-repeat:no-repeat;background-size:30px 25px;height:25px; -webkit-appearance: none; -moz-appearance:none;}
-</style>
 @{
     ViewBag.Title = "Inscription au service de Sachem";
 }
+
 <script>
-    function suivant(e) {
+    function suivant() {
+        postData = getDisp();
+        var modal = document.getElementById('ConfirmDisp');
+        var boutonOk = document.getElementById('btnOk');
+        var confirmHoraire = "";
+        $.each(postData.jours, function (nom, disp) {
+            var date = new Date(0, 0, 0, 0, 0, 0, 0);
+            date.setMinutes(parseInt(disp.substring(disp.indexOf("-") + 1, disp.lentgh)) + 480);
+            var heureMin = date.toTimeString().substring(0, 5);
+            date.setMinutes(date.getMinutes() + 90);
+            var heureMax = date.toTimeString().substring(0, 5);
+            disp = disp.substring(0, disp.indexOf("-")) + " " + heureMin + " - " + heureMax;
+            confirmHoraire += disp + ", ";
+        })
+        confirmHoraire = confirmHoraire.substring(0, confirmHoraire.toString().length - 2) + ".";
+        document.getElementById("plageDisp").innerText = confirmHoraire;
+        document.getElementById("typeInsc").innerText = $('#TypeInscription :selected').text();
+        modal.style.display = 'block';
+
+        boutonOk.onclick = function () {
+            envoie();
+            }
+    }
+
+    function getDisp() {
         var HoraireArray = [];
         $('[name="horaireCheckbox"]:checked').each(function () {
             HoraireArray.push(($(this).val()));
         });
-        var postData = { values: HoraireArray };
-        if (postData.length < 2) {
-            alert("Utilisez au moins une plage horaire de 2!");
-            return;
-        }
+        var typeinscr = $('#TypeInscription').val();
+        var postData = { jours: HoraireArray, typeInscription: typeinscr };
+        return postData;
+    }
+
+    function envoie() {
+        var postData = getDisp();
         $.ajax({
             url: "/Inscription/Index",
             data: postData,
@@ -26,17 +49,17 @@
             dataType: 'json',
             success: function (data) {
                 alert(data.message);
-            }           
+            }
         });
         return false;
-    }  
+    }
 </script>
 
 <div class="container">
-    <h2>@ViewBag.Title</h2>
-    <p class="text-success">
-        @Html.Raw(@TempData["Success"])
-    </p>
+<h2>@ViewBag.Title</h2>
+<p class="text-success">
+    @Html.Raw(@TempData["Success"])
+</p>
 
     @Html.AntiForgeryToken()
 
@@ -50,49 +73,67 @@
     <h3 class="page-header">Disponibilité</h3>
     <ul>
         <li>Indiquez vos heures de disponibilité en cliquant dans les cases appropriées.</li>
-        <li>Chaque X indique que vous êtes disponible pour une rencontre de 1h30 dans cette plage horaire</li>
+        <li>Chaque &#10004; indique que vous êtes disponible pour une rencontre de 1h30 dans cette plage horaire</li>
         <li>Il y aura au minimum une rencontre par semaine, soit 1h30/semaine</li>
         <li>Inscrivez plusieurs choix pour faciliter le jumelage.</li>
     </ul>
     <form method="post" id="TabDisp">
-
-        @{string[] jour = new string[5] { "Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi" };}
         <table class="table-bordered table-striped col-sm-12">
+            @{ List<string> jours = ((sachem.Controllers.InscriptionController)this.ViewContext.Controller).RetourneListeJours(); }
             <tr>
                 <th class="col-sm-2 text-center" style="height:30px;font-weight:bold;color:white;background-color:#666;">Heures</th>
-                @foreach (string j in jour)
+                @foreach (string jour in jours)
                 {
-                    <th class="col-sm-2 text-center" style="height:30px;font-weight:bold;color:white;background-color:#666;">@j</th>
+                    <th class="col-sm-2 text-center" style="height:30px;font-weight:bold;color:white;background-color:#666;">@jour</th>
                 }
             </tr>
-            @{ TimeSpan StartTime = TimeSpan.FromHours(8);
-                int Difference = 30;
-                int Rencontre = 90;
-                int EntriesCount = 18;
-                Dictionary<TimeSpan, TimeSpan> Entries = new Dictionary<TimeSpan, TimeSpan>();
-
-                for (int i = 0; i < EntriesCount; i++)
+            @{ Dictionary<string, List<string>> ListeLabelValueDeTableauDisponibilite = ((sachem.Controllers.InscriptionController)this.ViewContext.Controller).RetourneTableauDisponibilite(); }
+            @{foreach (var v in ListeLabelValueDeTableauDisponibilite)
                 {
-                    Entries.Add(StartTime.Add(TimeSpan.FromMinutes(Difference * i)),//key = debut rencontre
-                                StartTime.Add(TimeSpan.FromMinutes(Difference * i + Rencontre)));//value = fin rencontre
-                }
-
-                foreach (var e in Entries)
-                {
-                    int heureCheckbox = 0; //  double minutesTotalesCheckBox = e.Value.TotalMinutes;
                     <tr>
                         <td class="text-center">
-                            @(e.Key.Hours)h@(e.Key.Minutes.ToString("00")) - @(e.Value.Hours)h@(e.Value.Minutes.ToString("00"))
+                            @(v.Key)
                         </td>
-                        @for (var j = 0; j < 5; j++)
-                        {
-                            <td class="text-center"> @Html.CheckBox("horaireCheckbox", false, htmlAttributes: new { @class = "control-label col-md-2 checkzone", @id = jour[j] + heureCheckbox.ToString(), @value = jour[j] + "-" + heureCheckbox.ToString() })</td>
-                        }
+                            @foreach (var w in v.Value)
+                            {
+                                <td class="text-center checkzone">
+                                    
+                                    @Html.CheckBox("horaireCheckbox", false, htmlAttributes: new
+                               {
+                                   @id = w,
+                                   @value = w
+                               })<input type="checkbox"/><label for="@w"></label>
+                                   
+                                </td>
+                            }                                
                     </tr>
                 }
-            }             
+            }
         </table>
         <br />
-        @Html.Partial("_Boutons")
+    @Html.Partial("_Boutons")
     </form>
+        </div>
+
+<div class="container">
+    <div class="modal fade" id="ConfirmDisp" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Confirmation plage de disponibilité</h4>
+                </div>
+                <div class="modal-body">
+                    <p>Type d'inscription choisi:</p>
+                    <p id="typeInsc"></p>
+                    <p>vos plages de disponibilitées sélectionnées:</p> 
+                    <p id="plageDisp"></p>
+                </div>
+                <div class="modal-footer">
+                    <button id="btnOk" type="button" data-dismiss="modal" class="btn btn-primary">Confirmer</button>
+                    <button type="button" data-dismiss="modal" class="btn">Annuler</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
