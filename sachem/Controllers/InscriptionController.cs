@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data.Entity;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -17,13 +18,16 @@ namespace sachem.Controllers
         private readonly SACHEMEntities db = new SACHEMEntities();
         private const string MSG_ERREUR_REMPLIR = "Veuillez remplir le formulaire de disponibilités.";
 
-        private const int HEURE_DEBUT = 8;
-        private const int HEURE_FIN = 18;
+        private int HEURE_DEBUT = CheckConfigHeure(System.Configuration.ConfigurationManager.AppSettings.Get("HeureDebut"), 8);
+        private int HEURE_FIN = CheckConfigHeure(System.Configuration.ConfigurationManager.AppSettings.Get("HeureFin"), 18);
         private const int DEMI_HEURE = 30;
         private const int DUREE_RENCONTRE_MINUTES = 90;
-
-        [ValidationAcces.ValidationAccesInscription]
+        private string[] m_Session = { "Hiver", "Été", "Automne" };
+        private string IDREUSSIS = "1";
+        private string IDABAN = "2";
+        private string IDECHEC = "3";
         // GET: Inscription
+        [ValidationAcces.ValidationAccesInscription]
         public ActionResult Index()
         {
             ViewBag.TypeInscription = new SelectList(db.p_TypeInscription, "id_TypeInscription", "TypeInscription");
@@ -76,7 +80,7 @@ namespace sachem.Controllers
                 }
                 SessionBag.Current.id_Inscription = typeInscription;
                 switch (typeInscription)
-                    {
+                {
                     case 1: // élève aidé
                         return this.Json(new { url = "EleveAide1" });
                     case 2: // Tuteur de cours
@@ -86,8 +90,8 @@ namespace sachem.Controllers
                         return this.Json(new {url = "TBenevole" });
                     default:
                         return this.Json(new { success = false, message = MSG_ERREUR_REMPLIR });
-                    }
                 }
+            }
             else
             {
                 return this.Json(new { success = false, message = MSG_ERREUR_REMPLIR });
@@ -98,11 +102,17 @@ namespace sachem.Controllers
         public List<string> RetourneListeJours()
         {
             List<string> Jours = new List<string>();
-            for (int i = 1; i < 6; i++)
+            for (int i = 2; i < 7; i++)
             {
                 Jours.Add(((Semaine)i).ToString());
             }
             return Jours.ToList();
+        }
+
+        private static int CheckConfigHeure(string Heure, int defaut)
+        {
+            int result;
+            return int.TryParse(Heure, out result) ? result : defaut;
         }
 
         [NonAction]
@@ -126,7 +136,7 @@ namespace sachem.Controllers
                 double minutes = case30min.Key.TotalMinutes;
                 List<string> values = new List<string>();
                 for (int j = (int)Semaine.Lundi; j <= (int)Semaine.Vendredi; j++)
-            {
+                {
                     values.Add(((Semaine)j).ToString() + "-" + minutes.ToString());
                 }
                 Sortie.Add(
@@ -148,12 +158,84 @@ namespace sachem.Controllers
         {
             try
             {
-                // TODO: Add delete logic here
-
                 return RedirectToAction("Index");
             }
             catch
             {
+                return View();
+            }
+        }
+
+        [ValidationAcces.ValidationAccesEtu]
+        public ActionResult EleveAide1()
+        {
+            listeCours();
+            listeStatutCours();
+            listeSession();
+            return View();
+        }
+        [ValidationAcces.ValidationAccesEtu]
+        [HttpPost]
+        public ActionResult EleveAide1(string[][] values)
+        {
+            TempData["Echec"] = "";
+            if (values==null)
+            {
+                return RedirectToAction("Details", "DossierEtudiant", new { id = SessionBag.Current.id_Inscription });
+            }
+            else
+            {
+                    for (var i = 0; i < values.Length; i++)
+                    {
+                        if (values[i][0] != "")
+                        {
+                            var cours = new CoursSuivi();
+                            cours.id_Pers = SessionBag.Current.id_Pers;
+                            cours.id_Cours = Convert.ToInt32(values[i][0]);
+                            cours.id_Statut = Convert.ToInt32(values[i][1]);
+                            cours.id_Sess = Convert.ToInt32(values[i][2]);
+                            cours.id_College = db.p_College.FirstOrDefault(x => x.College == "Cégep de Lévis-Lauzon").id_College;
+                            if (values[i][3] != "")
+                            {
+                                cours.resultat = Convert.ToInt32(values[i][3]);
+                            }
+                            db.CoursSuivi.Add(cours);
+                            db.SaveChanges();
+                        }
+                    }
+                    return RedirectToAction("Details", "DossierEtudiant", new { id = SessionBag.Current.id_Inscription });
+                }
+        }
+        [NonAction]
+        private int? JourANumero(string jour)
+        {
+            switch (jour)
+            {
+                case "Lundi":
+                    return 2;
+                case "Mardi":
+                    return 3;
+                case "Mercredi":
+                    return 4;
+                case "Jeudi":
+                    return 5;
+                case "Vendredi":
+                    return 6;
+                default:
+                    return null;
+
+            }
+        }
+        [NonAction]
+        private string[] triageTableauAlphaNumerique(string[] tableau)
+        {
+            Array.Sort(tableau, StringComparer.InvariantCulture);
+            return tableau;
+        }
+        public ActionResult Tuteur()
+        {
+            listeCours();
+            listeCollege();
                 return View();
             }
         }

@@ -20,11 +20,11 @@
 <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
 <script type="text/javascript">
     function ModifModal(id) {
-        var modal = document.getElementById('modalModification');
-        var nom = document.getElementById('nomActuelCollege_'+id).innerText;
-        document.getElementById('txtNomCollegeModif').value = nom;
-        var boutonModif = document.getElementById('btnModifier');
-        modal.style.display = 'block';
+        var modal = document.getElementById("modalModification");
+        var nom = document.getElementById("nomActuelCollege_"+id).innerText;
+        document.getElementById("txtNomCollegeModif").value = nom;
+        var boutonModif = document.getElementById("btnModifier");
+        modal.style.display = "block";
         boutonModif.onclick = function() {
             var nomCollege = document.getElementById("txtNomCollegeModif").value;
             if(nomCollege!=""){
@@ -34,18 +34,18 @@
     }
 
     function SuppressionModal(id) {
-        var modal = document.getElementById('modalSuppression');
-        var boutonSuppression = document.getElementById('btnSuppression');
-        modal.style.display = 'block';
+        var modal = document.getElementById("modalSuppression");
+        var boutonSuppression = document.getElementById("btnSuppression");
+        modal.style.display = "block";
         boutonSuppression.onclick = function() {
             Suppression(id);
         }
     }
 
     function AjoutModal(){
-        var modal = document.getElementById('modalAjout');
-        var boutonAjout = document.getElementById('btnAjout');
-        modal.style.display = 'block';
+        var modal = document.getElementById("modalAjout");
+        var boutonAjout = document.getElementById("btnAjout");
+        modal.style.display = "block";
         boutonAjout.onclick = function () {
             var nomCollege = document.getElementById("txtNomCollegeAjout").value;
             if(nomCollege!=""){
@@ -102,7 +102,7 @@
         </tr>
     }
 </table>
-<a onclick="AjoutModal();" href="#" data-toggle="modal" data-target="#modalAjout" class="btn btn-default" style="margin-top:5px;margin-bottom:15px;">Ajouter un collège d'enseignement</a>
+<a onclick="AjoutModal()" href="#" data-toggle="modal" data-target="#modalAjout" class="btn btn-default" style="margin-top:5px;margin-bottom:15px;">Ajouter un collège d'enseignement</a>
 
     <table class="table">
         <tr>

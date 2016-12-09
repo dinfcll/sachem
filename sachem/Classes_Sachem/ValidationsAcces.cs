@@ -11,53 +11,64 @@ namespace sachem.Classes_Sachem
     public abstract class ValidationAcces
     {
         public const string pathErreurAuth = "/Home/Error";
-
-        
+        static readonly List<TypeUsagers> rolesAccesSuper = new List<TypeUsagers>() { TypeUsagers.Responsable, TypeUsagers.Super };
+        static readonly List<TypeUsagers> rolesAccesEnseignant = new List<TypeUsagers>() { TypeUsagers.Enseignant, TypeUsagers.Responsable, TypeUsagers.Super };
+        static readonly List<TypeUsagers> rolesAccesTuteur = new List<TypeUsagers>() { TypeUsagers.Responsable, TypeUsagers.Super, TypeUsagers.Enseignant, TypeUsagers.Tuteur };
+        static readonly List<TypeUsagers> rolesAccesEleve = new List<TypeUsagers>() { TypeUsagers.Responsable, TypeUsagers.Super, TypeUsagers.Enseignant, TypeUsagers.Tuteur, TypeUsagers.Eleve };
+        static readonly List<TypeUsagers> rolesAccesEtu = new List<TypeUsagers>() { TypeUsagers.Etudiant };
+        private static void verifAcces(List<TypeUsagers> listeRoles, ActionExecutingContext filterContext, string redirectTo)
+        {
+            var verif = SachemIdentite.ValiderRoleAcces(listeRoles, filterContext.HttpContext.Session);
+            if (!verif)
+                filterContext.Result = new RedirectResult(redirectTo);
+        }
 
         public class ValidationAccesSuper : ActionFilterAttribute
         {
             
-            static readonly List<TypeUsagers> rolesAcces = new List<TypeUsagers>() { TypeUsagers.Responsable, TypeUsagers.Super };
+            
             public override void OnActionExecuting(ActionExecutingContext filterContext)
             {
-                var verif = SachemIdentite.ValiderRoleAcces(rolesAcces, filterContext.HttpContext.Session);
-                if (!verif)
-                    filterContext.Result = new RedirectResult(pathErreurAuth);
+                verifAcces(rolesAccesSuper, filterContext, pathErreurAuth);
             }
 
         }
 
         public class ValidationAccesEnseignant : ActionFilterAttribute
         {
-            static readonly List<TypeUsagers> rolesAcces = new List<TypeUsagers>() { TypeUsagers.Enseignant, TypeUsagers.Responsable, TypeUsagers.Super };
+            
             public override void OnActionExecuting(ActionExecutingContext filterContext)
             {
-                var verif = SachemIdentite.ValiderRoleAcces(rolesAcces, filterContext.HttpContext.Session);
-                if (!verif)
-                    filterContext.Result = new RedirectResult(pathErreurAuth);
+                verifAcces(rolesAccesEnseignant, filterContext, pathErreurAuth);
             }
 
         }
 
         public class ValidationAccesTuteur : ActionFilterAttribute
         {
-            static readonly List<TypeUsagers> rolesAcces = new List<TypeUsagers>() { TypeUsagers.Responsable, TypeUsagers.Super, TypeUsagers.Enseignant, TypeUsagers.Tuteur };
+            
             public override void OnActionExecuting(ActionExecutingContext filterContext)
             {
-                var verif = SachemIdentite.ValiderRoleAcces(rolesAcces, filterContext.HttpContext.Session);
-                if (!verif)
-                    filterContext.Result = new RedirectResult(pathErreurAuth);
+                verifAcces(rolesAccesTuteur, filterContext, pathErreurAuth);
+            }
+
+        }
+
+        public class ValidationAccesEleve : ActionFilterAttribute
+        {
+
+            public override void OnActionExecuting(ActionExecutingContext filterContext)
+            {
+                verifAcces(rolesAccesEleve, filterContext, pathErreurAuth);
             }
 
         }
         public class ValidationAccesEtu : ActionFilterAttribute
         {
-            static readonly List<TypeUsagers> rolesAcces = new List<TypeUsagers>() { TypeUsagers.Responsable, TypeUsagers.Super, TypeUsagers.Enseignant, TypeUsagers.Tuteur, TypeUsagers.Eleve };
+            
             public override void OnActionExecuting(ActionExecutingContext filterContext)
             {
-                var verif = SachemIdentite.ValiderRoleAcces(rolesAcces, filterContext.HttpContext.Session);
-                if (!verif)
-                    filterContext.Result = new RedirectResult(pathErreurAuth);
+                verifAcces(rolesAccesEleve, filterContext, pathErreurAuth);
             }
 
         }
@@ -68,19 +79,15 @@ namespace sachem.Classes_Sachem
             int? id = SessionBag.Current.id_Pers;
             public const string PATH_ERREUR_AUTH = "/Home/Ferme";
             public const string PATH_ERREUR_DEJA = "/Home/Deja";
-            static readonly List<TypeUsagers> rolesAcces = new List<TypeUsagers>() { TypeUsagers.Etudiant };
+            
             public override void OnActionExecuting(ActionExecutingContext filterContext)
             {
                 if (id == null)
                 {
                     filterContext.Result = new RedirectResult("/Account/Login");
                 }
-                    
-                var verif = SachemIdentite.ValiderRoleAcces(rolesAcces, filterContext.HttpContext.Session);
-                if (!verif)
-                {
-                    filterContext.Result = new RedirectResult(PATH_ERREUR_AUTH);
-                }
+
+                verifAcces(rolesAccesEtu, filterContext, pathErreurAuth);
 
                 DateTime dateActuelle = DateTime.Now.Date;
                 if (!ValidationDate(dateActuelle))
@@ -96,7 +103,7 @@ namespace sachem.Classes_Sachem
             }
             private bool ValidationDate(DateTime DateActuelle)
             {
-                var Session = db.Session.GroupBy(s => s.id_Sess).Select(s => s.OrderByDescending(c => c.id_Sess).First()).Select(c => new { c.id_Sess}); ;
+                var Session = db.Session.GroupBy(s => s.id_Sess).Select(s => s.OrderByDescending(c => c.id_Sess).First()).Select(c => new { c.id_Sess});
                 var HoraireActuel = db.p_HoraireInscription.OrderByDescending(x => x.id_Sess).First();
                 if (!(DateActuelle > HoraireActuel.DateDebut && DateActuelle < HoraireActuel.DateFin))
                     return false;

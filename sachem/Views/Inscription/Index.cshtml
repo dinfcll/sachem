@@ -3,7 +3,19 @@
 @{
     ViewBag.Title = "Inscription au service de Sachem";
 }
-
+<style type="text/css">
+    .checkboxinscr {
+    -webkit-appearance:none;
+    width:30px;
+    height:30px;
+    background:white;
+    border-radius:5px;
+    border:2px solid #555;
+}
+.checkboxinscr:checked {
+    background: #abd;
+}
+</style>
 <script>
     function suivant() {
         postData = getDisp();
@@ -12,7 +24,7 @@
         var confirmHoraire = "";
         $.each(postData.jours, function (nom, disp) {
             var date = new Date(0, 0, 0, 0, 0, 0, 0);
-            date.setMinutes(parseInt(disp.substring(disp.indexOf("-") + 1, disp.lentgh)) + 480);
+            date.setMinutes(parseInt(disp.substring(disp.indexOf("-") + 1, disp.lentgh)));
             var heureMin = date.toTimeString().substring(0, 5);
             date.setMinutes(date.getMinutes() + 90);
             var heureMax = date.toTimeString().substring(0, 5);

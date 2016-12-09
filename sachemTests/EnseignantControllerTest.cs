@@ -38,7 +38,7 @@ namespace sachemTests
 
         }
         [TestMethod]
-        public void SupprimerEnseignantQuiExisteFonctionne()
+        public void ModifierEnseignantQuiExisteFonctionne()
         {
             var testRepository = new TestRepository();
             var EnsController = new EnseignantController(testRepository);

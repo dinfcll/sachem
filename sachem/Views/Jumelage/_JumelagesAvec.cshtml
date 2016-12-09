@@ -4,6 +4,30 @@
 @{ IQueryable<Inscription> listeJumeleurs = ((sachem.Controllers.JumelageController)this.ViewContext.Controller)
                                                   .RetourneJumeleurs(Model.id_Inscription, Model.id_TypeInscription, Model.id_Sess);
  }
+@Scripts.Render("~/bundles/jquery")
+<script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+<script type="text/javascript">
+    function RetirerModal(idVu, idJumeleA, vuTypeInsc, nomVu, nomJumeleA) {
+        var modal = document.getElementById("modalRetirer");
+        var boutonRetirer = document.getElementById("btnRetirer");
+        $("#modalRetirerJumeleA").html(nomJumeleA);
+        $("#modalRetirerVu").html(nomVu);
+        modal.style.display = "block";
+        boutonRetirer.onclick = function () {
+            Retirer(idVu, idJumeleA, vuTypeInsc);
+        }
+    }
+    function Retirer(idVu, idJumeleA, vuTypeInsc) {
+        $.ajax({
+            url: "/Jumelage/RetirerJumelage",
+            data: { "idVu": idVu, "idJumeleA": idJumeleA, "vuTypeInsc": vuTypeInsc },
+            type: "POST",
+            success: function () {
+                location.reload(true);
+            }
+        });
+    }
+</script>
 @if (listeJumeleurs.Count() > 0)
 {
 <h4 class="page-header">Jumelé à</h4>
@@ -21,16 +45,37 @@
                                                       .RetournePlageHoraireChaqueJumeleur(Model.id_Inscription, Model.id_TypeInscription, Model.id_Sess, j.id_Inscription);
         foreach(string p in plageHoraire)
         {
-            <tr>
-        
+            <tr>        
                 <td>@j.Personne.NomPrenom</td>
                 <td>@j.Personne.Matricule7</td>
                 <td>@p</td>
                 <td><a href=@j.id_Inscription>Accéder</a> | 
-                <a href="#">Mettre fin à ce jumelage</a></td>
-        
+                    <a href="#" onclick="RetirerModal(@Model.id_Inscription,@j.id_Inscription,@Model.id_TypeInscription,'@Model.Personne.PrenomNom','@j.Personne.PrenomNom')"
+                       data-toggle="modal" data-target="#modalRetirer">Mettre fin à ce jumelage
+                    </a></td>                
             </tr>
         }
     }
 </table>
 }
+<div class="container">
+    <div class="modal fade" id="modalRetirer" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Mettre fin à un jumelage</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        Êtes-vous certain de mettre fin au jumelage entre:<br/><b><span id="modalRetirerVu"></span></b> et <b><span id="modalRetirerJumeleA"></span></b>?
+</p>
+                </div>
+                <div class="modal-footer">
+                    <button id="btnRetirer" type="button" data-dismiss="modal" class="btn btn-primary">Retirer le jumelage</button>
+                    <button type="button" data-dismiss="modal" class="btn">Annuler</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
