@@ -87,7 +87,6 @@ namespace sachem.Controllers
                     default:
                         return this.Json(new { success = false, message = MSG_ERREUR_REMPLIR });
                     }
-            return Jours.ToList();
                 }
             else
             {
@@ -200,13 +199,65 @@ namespace sachem.Controllers
         [HttpPost]
         public void Poursuivre(string[][] values, string[] coursInteret)
         {
-            
+            int i = 0;
+            int resultat;
+            string[] temp = new string[3];
+            List<string[]> donneesInscription = new List<string[]>();
+            bool erreur = false;
+
+            while (i < values.Length && !erreur)
+            {
+                temp = new string[3];
+
+                if (values[i][0] == "")
+                {
+                    if (values[i][2] == "")
+                    {
+                        erreur = true;
+                    }
+                    else
+                    {
+                        temp[0] = values[i][2];
+                    }                    
+                }
+                else
+                {
+                    temp[0] = values[i][0];                   
+                }
+
+                if (Int32.TryParse(values[i][1], out resultat) && (resultat >= 0 && resultat <= 100))
+                {
+                    temp[1] = values[i][1];
+                }
+                else
+                {
+                    erreur = true;
+                }
+                if (values[i][3] == "")
+                {
+                    if (values[i][4] == "")
+                    {
+                        erreur = true;
+                    }
+                    else
+                    {
+                        temp[2] = values[i][4];
+                    }
+                }
+                else
+                {
+                    temp[2] = values[i][4];
+                }
+
+                donneesInscription.Add(temp);
+                i++;
+            }
 
             //CreerTables();
 
             CoursSuivi cs = new CoursSuivi();
                         
-            int ptype = SessionBag.Current.id_Inscription;
+            /*int ptype = SessionBag.Current.id_Inscription;
             int idPers = SessionBag.Current.id_Pers;
             var InscriptionInteret = db.Inscription.Where(x => x.id_Pers == idPers).FirstOrDefault();
 
@@ -230,12 +281,7 @@ namespace sachem.Controllers
                     Console.WriteLine(ex.Message);
                 }
                 
-            }
-        }
-
-        public void CreerTables()
-        {
-            
+            }*/
         }
 
 
