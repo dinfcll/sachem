@@ -17,7 +17,6 @@
             Retirer(idVu, idJumeleA, vuTypeInsc);
         }
     }
-
     function Retirer(idVu, idJumeleA, vuTypeInsc) {
         $.ajax({
             url: "/Jumelage/RetirerJumelage",
@@ -31,7 +30,7 @@
             }
         });
     }
-</script>
+    </script>
 @if (listeJumeleurs.Count() > 0)
 {
 <h4 class="page-header">Jumelé à</h4>
@@ -72,8 +71,8 @@
                 </div>
                 <div class="modal-body">
                     <p>
-                        Êtes-vous certain de mettre fin à ce jumelage entre <span id="modalRetirerVu"></span> (étudiant observé) et <span id="modalRetirerJumeleA"></span> (étudiant jumelé à celui-ci)?
-                    </p>
+                        Êtes-vous certain de mettre fin à ce jumelage entre:<br/><b><span id="modalRetirerVu"></span></b> et <b><span id="modalRetirerJumeleA"></span></b>?
+</p>
                 </div>
                 <div class="modal-footer">
                     <button id="btnRetirer" type="button" data-dismiss="modal" class="btn btn-primary">Retirer le jumelage</button>

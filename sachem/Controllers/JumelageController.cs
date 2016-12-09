@@ -45,20 +45,20 @@ namespace sachem.Controllers
             ViewBag.Session = slSession;
         }
 
-        public void AjoutJumelage(int idTuteur,int idEleveAide, string jour, int minutes)
-        {
-            int idJour = (int)Enum.Parse(typeof(Semaine), jour);
-            Jumelage ajoutJumelage = new Jumelage();
-            ajoutJumelage.consecutif = false;
-            ajoutJumelage.DateDebut = new DateTime();
-            ajoutJumelage.DateFin = null;
-            ajoutJumelage.id_Enseignant = 0;
-            ajoutJumelage.id_InscEleve = idEleveAide;
-            ajoutJumelage.id_InscrTuteur = idTuteur;
-            ajoutJumelage.id_Jour = idJour;
-            ajoutJumelage.id_Sess = sachem.Models.SessionBag.Current.id_Sess;
-            ajoutJumelage.minutes = minutes;
-        }
+        //public void AjoutJumelage(int idTuteur,int idEleveAide, string jour, int minutes)
+        //{
+        //    int idJour = (int)Enum.Parse(typeof(Semaine), jour);
+        //    Jumelage ajoutJumelage = new Jumelage();
+        //    ajoutJumelage.consecutif = false;
+        //    ajoutJumelage.DateDebut = new DateTime();
+        //    ajoutJumelage.DateFin = null;
+        //    ajoutJumelage.id_Enseignant = 0;
+        //    ajoutJumelage.id_InscEleve = idEleveAide;
+        //    ajoutJumelage.id_InscrTuteur = idTuteur;
+        //    ajoutJumelage.id_Jour = idJour;
+        //    ajoutJumelage.id_Sess = sachem.Models.SessionBag.Current.id_Sess;
+        //    ajoutJumelage.minutes = minutes;
+        //}
 
         [NonAction]
         public string RetourneNbreJumelageEtudiant(int count)
@@ -390,31 +390,32 @@ namespace sachem.Controllers
             ViewBag.Success = "Le jumelage a été retiré.";
         }
 
-        public void AjoutJumelage(int idVu, int idJumeleA, string jour, int minutes, int vuTypeInsc, bool estConsecutif)
+        public void AjoutJumelage(int idVu, int idJumeleA, string jour, int minutes, int vuTypeInsc, int idEnseignant, int estConsecutif)
         {
+            int idInscEleveAide = 0;
+            int idInscTuteur = 0;
             if (vuTypeInsc == 1)
             {
-                Jumelage jumCreation = new Jumelage();
-                jumCreation.id_Enseignant = 6;
-                jumCreation.id_InscEleve = idVu;
-                jumCreation.id_InscrTuteur = idJumeleA;
-                jumCreation.id_Jour = (int)Enum.Parse(typeof(Semaine), jour);
-                jumCreation.minutes = minutes;
-                jumCreation.id_Sess = 1;
-                jumCreation.DateDebut = DateTime.Now;
-                jumCreation.DateFin = DateTime.Now;
-                jumCreation.consecutif = false;
-                db.Jumelage.Add(jumCreation);
-                db.SaveChanges();
+                idInscEleveAide = idVu;
+                idInscTuteur = idJumeleA;
             }
             else
             {
-                var jumRetirerId = db.Jumelage.Where(x => x.id_InscEleve == idJumeleA && x.id_InscrTuteur == idVu).Select(x => x.id_Jumelage).First();
-                var jumRetirer = db.Jumelage.Find(jumRetirerId);
-                db.Jumelage.Remove(jumRetirer);
-                db.SaveChanges();
+                idInscEleveAide = idJumeleA;
+                idInscTuteur = idVu;
             }
-
+            Jumelage jumCreation = new Jumelage();
+            jumCreation.id_Enseignant = idEnseignant;
+            jumCreation.id_InscEleve = idInscEleveAide;
+            jumCreation.id_InscrTuteur = idInscTuteur;
+            jumCreation.id_Jour = (int)Enum.Parse(typeof(Semaine), jour);
+            jumCreation.minutes = minutes;
+            jumCreation.id_Sess = sachem.Models.SessionBag.Current.id_Sess;
+            jumCreation.DateDebut = DateTime.Now;
+            jumCreation.DateFin = DateTime.Now;
+            jumCreation.consecutif = Convert.ToBoolean(estConsecutif);
+            db.Jumelage.Add(jumCreation);
+            db.SaveChanges();
             ViewBag.Success = "Le jumelage a été retiré.";
         }
 
@@ -499,6 +500,21 @@ namespace sachem.Controllers
         }
 
         [NonAction]
+        private IEnumerable<Personne> ObtenirListeSuperviseur()
+        {
+            var lstEnseignant = from p in db.Personne
+                                where p.id_TypeUsag == 2 && p.Actif == true
+                                orderby p.Nom, p.Prenom
+                                select p;
+            return lstEnseignant.ToList();
+        }
+
+        private void ListeSuperviseur(int superviseur)
+        {
+            ViewBag.Superviseur = new SelectList(ObtenirListeSuperviseur(), "id_Pers", "NomPrenom", superviseur);
+        }
+
+        [NonAction]
         private IEnumerable<Inscription> Rechercher(int? Page)
         {
             pageRecue = Page;
@@ -517,6 +533,7 @@ namespace sachem.Controllers
             {
                 return HttpNotFound();
             }
+            ListeSuperviseur(0);
             return View(inscription);
         }
 
