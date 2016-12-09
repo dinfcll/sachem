@@ -383,7 +383,7 @@ namespace sachem.Controllers
             {
                 ModelState.AddModelError("Courriel", Messages.C_003);
             }
-            return View();
+            return RedirectToAction("Login", "Account", null);
         }
         #endregion
 
