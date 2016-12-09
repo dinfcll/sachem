@@ -13,6 +13,7 @@ namespace sachem.Classes_Sachem
         private readonly IDataRepository dataRepository;
         private readonly SACHEMEntities db = new SACHEMEntities();
         const int BROUILLON = 2;
+
         private List<SelectListItem> ListeSession(int session = 0)
         {
             var lSessions = dataRepository.GetSessions();
