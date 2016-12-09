@@ -59,24 +59,6 @@ namespace sachem.Controllers
             return RedirectToAction("Details", "RechercheInscription", new { id = id_Inscription });
         }
 
-        private void ListeTypeInscription(int TypeInscription = 0)
-        {
-            var lTypeInscription = from typeinscription in db.p_TypeInscription select typeinscription;
-            var slTypeInscription = new List<SelectListItem>();
-            slTypeInscription.AddRange(new SelectList(lTypeInscription, "id_TypeInscription", "TypeInscription", TypeInscription));
-
-            ViewBag.TypeInscription = slTypeInscription;
-        }
-
-        private void ListeStatut(int Statut = 0)
-        {
-            var lStatut = from statut in db.p_StatutInscription where statut.id_Statut != BROUILLON select statut;
-            var slStatut = new List<SelectListItem>();
-            slStatut.AddRange(new SelectList(lStatut, "id_Statut", "Statut", Statut));
-
-            ViewBag.Statut = slStatut;
-        }
-
         private IEnumerable<Inscription> Rechercher()
         {
             var sess = 0;
@@ -122,8 +104,8 @@ namespace sachem.Controllers
             }
 
             ViewBag.Session = Liste.ListeSession(sess);
-            ListeTypeInscription(type);
-            ListeStatut(statut);
+            ViewBag.TypeInscription = Liste.ListeTypeInscription(type);
+            ViewBag.Statut = Liste.ListeStatutInscriptionSansBrouillon(statut);
 
             var inscription = from c in db.Inscription
                               where ((c.id_Sess == sess || sess == 0) && (c.id_Statut == statut || statut == 0) && (c.id_TypeInscription == type || type == 0))

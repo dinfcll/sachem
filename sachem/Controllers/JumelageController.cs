@@ -414,15 +414,6 @@ namespace sachem.Controllers
             ViewBag.Success = "Le jumelage a été crée.";
         }
 
-        [NonAction]
-        private void ListeTypeInscription(int TypeInscription = 0)
-        {
-            var lInscriptions = db.p_TypeInscription.AsNoTracking().OrderBy(i => i.TypeInscription);
-            var slInscription = new List<SelectListItem>();
-            slInscription.AddRange(new SelectList(lInscriptions, "id_TypeInscription", "TypeInscription", TypeInscription));
-            ViewBag.Inscription = slInscription;
-        }
-
         [ValidationAccesEnseignant]
         public ActionResult Index(int? page)
         {
@@ -480,7 +471,7 @@ namespace sachem.Controllers
             }
 
             ViewBag.Session = Liste.ListeSession(session);
-            ListeTypeInscription(typeinscription);
+            ViewBag.Inscription = Liste.ListeTypeInscription(typeinscription);
 
             Session["DernRechEtu"] = session + ";" + typeinscription + ";" + noPage;
             Session["DernRechEtuUrl"] = Request.Url.LocalPath.ToString();

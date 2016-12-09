@@ -43,16 +43,6 @@ namespace sachem.Controllers
 
         //fonctions permettant d'initialiser les listes déroulantes
         [NonAction]
-        private void ListeTypeInscription(int TypeInscription = 0)
-        {
-            var lInscriptions = db.p_TypeInscription.AsNoTracking().OrderBy(i => i.TypeInscription);
-            var slInscription = new List<SelectListItem>();
-            slInscription.AddRange(new SelectList(lInscriptions, "id_TypeInscription", "TypeInscription", TypeInscription));
-            ViewBag.Inscription = slInscription;
-        }
-
-        //fonctions permettant d'initialiser les listes déroulantes
-        [NonAction]
         private void ListeSuperviseur(int session, int superviseur)
         {
             ViewBag.Superviseur = new SelectList(ObtenirListeSuperviseur(session), "id_Pers", "NomPrenom", superviseur);
@@ -184,7 +174,7 @@ namespace sachem.Controllers
             }
 
             ViewBag.Session = Liste.ListeSession(session);
-            ListeTypeInscription(typeinscription);
+            ViewBag.Inscription = Liste.ListeTypeInscription(typeinscription);
             ListeSuperviseur(session, superviseur);
 
             //on enregistre la recherche

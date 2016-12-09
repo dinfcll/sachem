@@ -84,11 +84,11 @@ public class Liste
 
     public static List<SelectListItem> ListeTypeInscription(int typeInscription = 0)
     {
-        var lTypeInscription = from typeinscription in db.p_TypeInscription select typeinscription;
-        var slTypeInscription = new List<SelectListItem>();
-        slTypeInscription.AddRange(new SelectList(lTypeInscription, "id_TypeInscription", "TypeInscription", typeInscription));
+        var lInscriptions = db.p_TypeInscription.AsNoTracking().OrderBy(i => i.TypeInscription);
+        var slInscription = new List<SelectListItem>();
+        slInscription.AddRange(new SelectList(lInscriptions, "id_TypeInscription", "TypeInscription", typeInscription));
 
-        return slTypeInscription;
+        return slInscription;
     }
 
     public static List<SelectListItem> ListeStatutInscriptionSansBrouillon(int statut = 0)
