@@ -32,16 +32,6 @@ namespace sachem.Controllers
         }
 
         [NonAction]
-        private void ListeCollege(int college = 0)
-        {
-            var lCollege = dataRepository.GetCollege();
-            var slCollege = new List<SelectListItem>();
-            slCollege.AddRange(new SelectList(lCollege, "id_College", "College", college));
-
-            ViewBag.id_College = slCollege;
-        }
-
-        [NonAction]
         private void ListeStatut(int statut = 0)
         {
             var lStatut = dataRepository.GetStatut();
@@ -91,7 +81,7 @@ namespace sachem.Controllers
             ViewBag.Resultat = "Create";
 
             ListeCours();
-            ListeCollege();
+            ViewBag.id_College = Liste.ListeCollege();
             ListeStatut();
             ViewBag.id_Sess = Liste.ListeSession();
             return View(cs);
@@ -103,7 +93,7 @@ namespace sachem.Controllers
         public ActionResult Create([Bind(Include = "id_CoursReussi,id_Sess,id_College,id_Statut,id_Cours,resultat,autre_Cours,autre_College")] CoursSuivi coursSuivi, int? id)
         {
             ListeCours();
-            ListeCollege();
+            ViewBag.id_College = Liste.ListeCollege();
             ListeStatut();
             ViewBag.id_Sess = Liste.ListeSession();
 
@@ -141,9 +131,9 @@ namespace sachem.Controllers
                 ListeCours(cs.id_Cours.Value);
 
             if (cs.id_College == null)
-                ListeCollege();
+                ViewBag.id_College = Liste.ListeCollege();
             else
-                ListeCollege(cs.id_College.Value);
+                ViewBag.id_College = Liste.ListeCollege(cs.id_College.Value);
 
             if (cs.id_Statut == null)
                 ListeStatut();
@@ -171,9 +161,9 @@ namespace sachem.Controllers
                 ListeCours(coursSuivi.id_Cours.Value);
 
             if (coursSuivi.id_College == null)
-                ListeCollege();
+                ViewBag.id_College = Liste.ListeCollege();
             else
-                ListeCollege(coursSuivi.id_College.Value);
+                ViewBag.id_College = Liste.ListeCollege(coursSuivi.id_College.Value);
 
             ListeStatut(coursSuivi.id_Statut.Value);
             ViewBag.id_Sess = Liste.ListeSession(coursSuivi.id_Sess.Value);
