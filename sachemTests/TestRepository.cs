@@ -78,39 +78,11 @@ namespace sachemTests
             throw new NotImplementedException();
         }
 
-        public IQueryable<Personne> IndexPersonne()
-        {
-            throw new NotImplementedException();
-        }
         public Personne FindPersonne(int id)
         {
             return listePersonne.Find(x => x.id_Pers == id);
         }
    
-        public IEnumerable<p_Sexe> AllSexe()
-        {
-            throw new NotImplementedException();
-        }
-
-        public IEnumerable<p_TypeUsag> AllTypeUsag()
-        {
-            throw new NotImplementedException();
-        }
-
-        public void DeclareModifiedPers(Personne pers)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void AddPersonne(Personne pers)
-        {
-            listePersonne.Add(pers);
-        }
-
-        public void RemovePersonne(Personne pers)
-        {
-            throw new NotImplementedException();
-        }
         public void Dispose()
         {
             throw new NotImplementedException();
