@@ -177,6 +177,29 @@ namespace sachem.Controllers
             listeSession();
             return View();
         }
+        [NonAction]
+       public void listeStatutCours()
+       {
+            var lstStatut = from c in db.p_StatutCours orderby c.id_Statut select c;
+            var slStatut = new List<SelectListItem>();
+            slStatut.AddRange(new SelectList(lstStatut, "id_Statut", "Statut"));
+            ViewBag.lstStatut = slStatut;
+        }
+        [NonAction]
+        public void listeSession()
+        {
+            var lstSess = from c in db.Session orderby c.id_Sess select c;
+            var slSession = new List<SelectListItem>();
+            slSession.AddRange(new SelectList(lstSess, "id_Sess", "NomSession", Session));
+            ViewBag.slSession = slSession;
+        }
+        public ActionResult getLigneCoursEleveAide()
+        {
+            listeCours();
+            listeStatutCours();
+            listeSession();
+            return PartialView("_LigneCoursReussiEleveAide");
+        }
         [ValidationAcces.ValidationAccesEtu]
         [HttpPost]
         public ActionResult EleveAide1(string[][] values)
