@@ -12,7 +12,6 @@ using System.Data.Entity.Infrastructure;
 
 namespace sachem.Controllers
 {
-   
     public class InscriptionController : Controller
     {
         private readonly SACHEMEntities db = new SACHEMEntities();
@@ -231,14 +230,7 @@ namespace sachem.Controllers
         {
             Array.Sort(tableau, StringComparer.InvariantCulture);
             return tableau;
-        }
-        public ActionResult Tuteur()
-        {
-            listeCours();
-            listeCollege();
-                return View();
-            }
-        }
+        }        
         [HttpGet]
         public ActionResult Tuteur()
         {
@@ -251,8 +243,8 @@ namespace sachem.Controllers
         {
             listeCours();
             listeCollege();
-                return View();
-            }
+            return View();
+        }
         [HttpPost]
         public void listeCours()
         {
@@ -352,39 +344,38 @@ namespace sachem.Controllers
             if (erreur)
             {
                 return "non!";
-            }   
-
-            CoursSuivi cs = new CoursSuivi();
-            int idPers = SessionBag.Current.id_Pers;
-            int sess = SessionBag.Current.id_Sess;
-
-            foreach (string[] d in donneesInscription)
-            {
-                if (d[0] == "")
-                {
-                    cs.autre_Cours = d[0];
-                }
-                else
-                {
-                    cs.id_Cours = int.Parse(d[0]);
-                }
-                cs.resultat = int.Parse(d[1]);
-                if (d[2] == "")
-                {
-                    cs.autre_College = d[2];
-                }
-                else
-                {
-                    cs.id_College = int.Parse(d[2]);
-                }
-                cs.id_Pers = idPers;
-                cs.id_Sess = sess;
-                db.CoursSuivi.Add(cs);
-                db.SaveChanges();
             }
 
-            int ptype = SessionBag.Current.id_Inscription;            
+            int idPers = SessionBag.Current.id_Pers;
+            int sess = SessionBag.Current.id_Sess;
+            int ptype = SessionBag.Current.id_Inscription;
             var InscriptionInteret = db.Inscription.Where(x => x.id_Pers == idPers).FirstOrDefault();
+
+             foreach (string[] d in donneesInscription)
+             {
+                 CoursSuivi cs = new CoursSuivi();
+                 if (d[0] == "")
+                 {
+                     cs.autre_Cours = d[0];
+                 }
+                 else
+                 {
+                     cs.id_Cours = int.Parse(d[0]);
+                 }
+                 cs.resultat = int.Parse(d[1]);
+                 if (d[2] == "")
+                 {
+                     cs.autre_College = d[2];
+                 }
+                 else
+                 {
+                     cs.id_College = int.Parse(d[2]);
+                 }
+                 cs.id_Pers = idPers;
+                 cs.id_Sess = sess;
+                 db.CoursSuivi.Add(cs);
+                 db.SaveChanges();
+             }
 
             for (i=0;i<3;i++)
             {   
