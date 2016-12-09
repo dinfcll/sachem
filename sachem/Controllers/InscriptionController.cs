@@ -79,12 +79,17 @@ namespace sachem.Controllers
                 switch ((TypeInscription)typeInscription)
                 {
                     case TypeInscription.eleveAide:
+                        SessionBag.Current.id_TypeUsag = 5;
                         return RedirectToAction("EleveAide1");
                     case TypeInscription.tuteurDeCours:
-                        return RedirectToAction("Index");
+                        SessionBag.Current.id_TypeUsag = 6;
+                        return RedirectToAction("Tuteur");
                     case TypeInscription.tuteurBenevole:
+                        SessionBag.Current.id_TypeUsag = 6;
+                        return RedirectToAction("TBenevole");
                     case TypeInscription.tuteurRemunere:
-                        return RedirectToAction("Index");
+                        SessionBag.Current.id_TypeUsag = 6;
+                        return RedirectToAction("TBenevole");
                     default:
                         return this.Json(new { success = false, message = MSG_ERREUR_REMPLIR });
                 }
