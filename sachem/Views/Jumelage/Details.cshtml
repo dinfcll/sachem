@@ -3,9 +3,14 @@
 @{
     ViewBag.Title = "Jumelage";
 }
-@Scripts.Render("~/bundles/jquery")
-<h2>@ViewBag.Title</h2>
 
+<h2>@ViewBag.Title</h2>
+<p class="text-success">
+    @ViewBag.Succes
+</p>
+<p class="text-danger">
+    @ViewBag.Erreur
+</p>
 <div>
     <h4 class="page-header">Identification de l'étudiant</h4>
     <dl class="dl-horizontal col-sm-6" style="right:0;margin-top:0;position:absolute;">
@@ -34,7 +39,7 @@
             }
             @(count)
         </dd>
-        @*<dt>wip en commentaire (voir code)</dt>
+        @*<dt>Doit afficher d'autres resultats lorsque les autres features seront prets (ceux des questionnaires)</dt>
     <dt>
         @Html.Label("[WIP FORMULAIRE] Nombre d'heures que l'étudiant est prêt à faire par semaine ( 1 rencontre = 1h30)")
     </dt>

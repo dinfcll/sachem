@@ -96,14 +96,14 @@ namespace sachem.Controllers
 
         [NonAction]
         public List<string> RetourneListeJours()
-                {
+        {
             List<string> Jours = new List<string>();
-            for (int i = 1; i < 6; i++)
-                    {
+            for (int i = 2; i < 7; i++)
+            {
                 Jours.Add(((Semaine)i).ToString());
-                    }
+            }
             return Jours.ToList();
-                }
+        }
 
         [NonAction]
         public Dictionary<string, List<string>> RetourneTableauDisponibilite()
@@ -126,7 +126,7 @@ namespace sachem.Controllers
                 double minutes = case30min.Key.TotalMinutes;
                 List<string> values = new List<string>();
                 for (int j = (int)Semaine.Lundi; j <= (int)Semaine.Vendredi; j++)
-            {
+                {
                     values.Add(((Semaine)j).ToString() + "-" + minutes.ToString());
                 }
                 Sortie.Add(
