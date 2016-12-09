@@ -93,7 +93,7 @@
                 $(this).parent().parent().remove();
             });
             $(".ins-selectcours").change(function () {
-                var test = $(this).val();                
+                var test = $(this).val();
             });
             $(".InfoCourCollege").find($(".dropDownCours")).change(function () {
                 if ($(this).val() != "") {
@@ -150,8 +150,8 @@
                     url: "/Inscription/Poursuivre",
                     type: "POST",
                     data: postData,
-                    success: function (data) { 
-                        alert(data);
+                    success: function (data) {
+                        window.location.href = '@Url.Action("Index", "DossierEtudiant")';
                     },
                     error: function(){
                         alert(data);
