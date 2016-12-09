@@ -101,7 +101,7 @@
         </footer>
     </div>
     <div id="shovel-artica" class="hide shovelartica"></div>
-    <script>
+    <script type="text/javascript">
         $("input[type='submit']").on("click", function () {
             window.onbeforeunload = function () {
                 $("#mainProgressBar").removeClass('hide');
@@ -115,17 +115,21 @@
             if(href.charAt(0)!="#" && bHref && !bTarget)
                 $("#mainProgressBar").removeClass('hide');
         });
-        window.onresize = function (event) {
-            var maxHeight = window.screen.height,
-                maxWidth = window.screen.width,
-                curHeight = window.innerHeight,
-                curWidth = window.innerWidth;
-
-            if (maxWidth == curWidth && maxHeight == curHeight) {
-                $('#shovel-artica').removeClass('hide');
+        $(document).keyup(function (e) {
+            if (e.which == 122) {
+                e.preventDefault();
+                if ($('#shovel-artica').hasClass('hide'))
+                {
+                    $('#shovel-artica').removeClass('hide');
+                }
+                else
+                {
+                    $('#shovel-artica').addClass('hide');
+                }                
+                return false;
             }
-        }
-    </script>
+        });
+    </script> 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
