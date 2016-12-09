@@ -45,21 +45,6 @@ namespace sachem.Controllers
             ViewBag.Session = slSession;
         }
 
-        //public void AjoutJumelage(int idTuteur,int idEleveAide, string jour, int minutes)
-        //{
-        //    int idJour = (int)Enum.Parse(typeof(Semaine), jour);
-        //    Jumelage ajoutJumelage = new Jumelage();
-        //    ajoutJumelage.consecutif = false;
-        //    ajoutJumelage.DateDebut = new DateTime();
-        //    ajoutJumelage.DateFin = null;
-        //    ajoutJumelage.id_Enseignant = 0;
-        //    ajoutJumelage.id_InscEleve = idEleveAide;
-        //    ajoutJumelage.id_InscrTuteur = idTuteur;
-        //    ajoutJumelage.id_Jour = idJour;
-        //    ajoutJumelage.id_Sess = sachem.Models.SessionBag.Current.id_Sess;
-        //    ajoutJumelage.minutes = minutes;
-        //}
-
         [NonAction]
         public string RetourneNbreJumelageEtudiant(int count)
         {
@@ -83,7 +68,7 @@ namespace sachem.Controllers
         public List<string> RetourneListeJoursSemaine()
         {
             List<string> Jours = new List<string>();
-            for (int i = 1; i < 6; i++)
+            for (int i = 2; i < 7; i++)
             {
                 Jours.Add(((Semaine)i).ToString());
             }
@@ -129,7 +114,7 @@ namespace sachem.Controllers
                 {
                     caseDispo.EstConsecutiveDonc3hrs = false;
                     jumelageValeurDispo.Add(caseDispo);
-                    for (int k = DEMI_HEURE; k <= DUREE_RENCONTRE_MINUTES; k += DEMI_HEURE)
+                    for (int k = DEMI_HEURE; k < DUREE_RENCONTRE_MINUTES; k += DEMI_HEURE)
                     {
                         caseDispo.Minutes = j.minutes + k;
                         caseDispo.NomCase = caseDispo.Jour + "-" + caseDispo.Minutes;
@@ -208,7 +193,7 @@ namespace sachem.Controllers
                 List<DisponibiliteStruct> values = new List<DisponibiliteStruct>();
                 bool dispoHeuresPresent = false;
                 dispoHeuresPresent = jumelageValeurDispo.Exists(x => x.Minutes==minutes);
-                for (int j = 1; j < 6; j++)
+                for (int j = 2; j < 7; j++)
                 {
                     if (dispoHeuresPresent)
                     {
@@ -410,13 +395,22 @@ namespace sachem.Controllers
             jumCreation.id_InscrTuteur = idInscTuteur;
             jumCreation.id_Jour = (int)Enum.Parse(typeof(Semaine), jour);
             jumCreation.minutes = minutes;
-            jumCreation.id_Sess = sachem.Models.SessionBag.Current.id_Sess;
+            var idSess = db.Inscription.Where(x => x.id_Inscription == idVu).Select(x => x.id_Sess);
+            if (idSess != null)
+            {
+                jumCreation.id_Sess = idSess.FirstOrDefault();
+            }
+            else
+            {
+                var idSessDefault = db.Session.OrderByDescending(y => y.id_Sess).FirstOrDefault();
+                jumCreation.id_Sess = idSessDefault.id_Sess;
+            }            
             jumCreation.DateDebut = DateTime.Now;
             jumCreation.DateFin = DateTime.Now;
             jumCreation.consecutif = Convert.ToBoolean(estConsecutif);
             db.Jumelage.Add(jumCreation);
             db.SaveChanges();
-            ViewBag.Success = "Le jumelage a été retiré.";
+            ViewBag.Success = "Le jumelage a été crée.";
         }
 
         [NonAction]
