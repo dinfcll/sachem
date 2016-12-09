@@ -17,14 +17,15 @@ namespace sachemTests
             var statut = "";
             var i = 0;
 
-            while(i > 3)
+            while(i <= 3)
             {
                 statut = jumelageController.RetourneNbreJumelageEtudiant(i);
                 Assert.IsNotNull(statut);
+                i++;
             }
 
-            statut = jumelageController.RetourneNbreJumelageEtudiant(3);
-            Assert.AreEqual(statut, string.Empty);
+            statut = jumelageController.RetourneNbreJumelageEtudiant(0);
+            Assert.AreEqual(statut, "Non jumelé");
         }
 
         [TestMethod]

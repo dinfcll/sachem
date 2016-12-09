@@ -28,7 +28,7 @@ namespace sachem.Models
 
     public enum Semaine
     {
-        Dimanche = 0,
+        Dimanche = 1,
         Lundi,
         Mardi,
         Mercredi,
