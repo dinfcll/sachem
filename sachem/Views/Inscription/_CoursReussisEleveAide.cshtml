@@ -20,7 +20,24 @@
     <input type="button" value="Enregistrer un brouillon" class="btn btn-default" id="btnBrouillon" />
     <input type="button" value="Annuler" class="btn btn-default" id="btnAnnuler" />
 </div>
-
+<div class="container">
+    <div class="modal fade" id="modalErreur" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Erreur lors de l'enregistrement</h4>
+                </div>
+                <div class="modal-body">
+                    <p>Un resultat et un statut d'un des cours ne concorde pas. Un cours réussi doit avoir une note supérieur ou égal à 60 et un échec inférieur à 60.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" data-dismiss="modal" class="btn">OK</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
 <script type="text/javascript">
         afficherErreur = function ()
@@ -117,7 +134,6 @@
             var coursReussis = listeCoursReussis();
             var postData = { values: coursReussis };
             if (coherenceStatutResultat()) {
-                alert("iftrue")
                 $.ajax({
                     url: "/Inscription/EleveAide1",
                     type: "POST",
@@ -132,7 +148,12 @@
                 });
             }else
             {
-                alert("Un resultat et un statut d'un des cours ne concorde pas. Un cours réussi doit avoir une note supérieur ou égal à 60 et un échec inférieur à 60.");
+                $('#modalErreur').modal('show');
+                ErreurModal();
             }
         });
+    function ErreurModal() {
+        var modal = document.getElementById('modalErreur');
+        modal.style.display = 'block';
+    }
 </script>
