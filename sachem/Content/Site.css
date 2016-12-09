@@ -78,6 +78,14 @@ textarea {
 }
 /*table avec les rangees de differentes couleurs --fin*/
 
+.shovelartica{
+    background-image: url('../Images/500.gif');
+    width:500px;
+    height:500px;
+    position:fixed;
+    top:30%;
+    left:45%;
+}
 /*drop down list de recherche*/
 .form-search
 {
