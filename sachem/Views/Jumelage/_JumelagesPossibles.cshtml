@@ -133,18 +133,18 @@
                                             @w.NbreUsagerMemeDispo                                                
                                             @if (w.NbreUsagerMemeDispo > 0 && w.EstDispoEtCompatible && w.EstDispoEtCompatibleEtConsecutif)
                                             {
-                                                <a href="#" onclick="AjoutModal("@w.Jour",@w.Minutes,@Model.id_Inscription, @j.id_Inscription,"@j.Personne.PrenomNom","@Model.Personne.PrenomNom",
-                                                    "@j.p_TypeInscription.TypeInscription","@Model.p_TypeInscription.TypeInscription","@plageHoraire", @Model.id_TypeInscription, 1)"
+                                                <a href="#" onclick="AjoutModal('@w.Jour',@w.Minutes,@Model.id_Inscription, @j.id_Inscription,'@j.Personne.PrenomNom','@Model.Personne.PrenomNom',
+                                                   '@j.p_TypeInscription.TypeInscription','@Model.p_TypeInscription.TypeInscription','@plageHoraire', @Model.id_TypeInscription, 1)"
                                                    data-toggle="modal" data-target="#modalAjout" class="modal-open">
-                                                    <i class="material-icons" style="float:right;margin-right:5px;color:#fff;text-shadow: 2px 2px #999;">
+                                                    <i class="material-icons" style="color:#fff;right:10px;top:-2px;text-shadow: 2px 2px #999;position:absolute;">
                                                         group_add
                                                     </i>
                                                 </a>
                                             }
                                             else if (w.NbreUsagerMemeDispo > 0 && w.EstDispoEtCompatible && !w.EstDispoEtCompatibleEtConsecutif)
                                             {
-                                                <a href="#" onclick="AjoutModal("@w.Jour",@w.Minutes,@Model.id_Inscription, @j.id_Inscription,"@j.Personne.PrenomNom","@Model.Personne.PrenomNom",
-                                                   "@j.p_TypeInscription.TypeInscription","@Model.p_TypeInscription.TypeInscription","@plageHoraire", @Model.id_TypeInscription, 0)"
+                                                <a href="#" onclick="AjoutModal('@w.Jour',@w.Minutes,@Model.id_Inscription, @j.id_Inscription,'@j.Personne.PrenomNom','@Model.Personne.PrenomNom',
+                                                   '@j.p_TypeInscription.TypeInscription','@Model.p_TypeInscription.TypeInscription','@plageHoraire', @Model.id_TypeInscription, 0)"
                                                    data-toggle="modal" data-target="#modalAjout">
                                                     <i class="material-icons" style="color:#fff;right:10px;top:-2px;text-shadow: 2px 2px #999;position:absolute;">
                                                         group_add
