@@ -374,7 +374,7 @@ namespace sachem.Controllers
             }
 
             int idPers = SessionBag.Current.id_Pers;
-            int sess = SessionBag.Current.id_Sess;
+            int sess = 2;
             int ptype = SessionBag.Current.id_Inscription;
             var InscriptionInteret = db.Inscription.Where(x => x.id_Pers == idPers).FirstOrDefault();
 
@@ -404,7 +404,7 @@ namespace sachem.Controllers
                  db.SaveChanges();
              }
 
-            for (i=0;i<3;i++)
+            /*for (i=0;i<3;i++)
             {   
                 CoursInteret ci = new CoursInteret();
                 ci.id_Inscription = InscriptionInteret.id_Inscription;
@@ -424,8 +424,8 @@ namespace sachem.Controllers
                     Console.WriteLine(ex.Message);
                 }
                 
-            }
-            return "oui!";
+            }*/
+            return "DossierEtudiant/Index";
         }
 
 
