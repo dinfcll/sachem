@@ -516,6 +516,7 @@
     <Content Include="Views\Inscription\_Boutons.cshtml" />
     <Content Include="Views\Etudiant\_DeleteProgEtu.cshtml" />
     <Content Include="Views\Shared\Ferme.cshtml" />
+    <Content Include="Views\Inscription\EleveAide1.cshtml" />
     <Content Include="Views\Jumelage\Details.cshtml" />
     <Content Include="Views\Jumelage\Index.cshtml" />
     <Content Include="Views\Jumelage\_RechercheEtudiantInscrit.cshtml" />
@@ -523,6 +524,11 @@
     <Content Include="Views\Jumelage\_JumelagesAvec.cshtml" />
     <Content Include="Views\Jumelage\_Disponibilites.cshtml" />
     <Content Include="Views\ContratEngagement\Index.cshtml" />
+    <Content Include="Views\Inscription\Tuteur.cshtml" />
+    <Content Include="Views\Shared\_CoursReussis.cshtml" />
+    <Content Include="Views\Inscription\TBenevole.cshtml" />
+    <Content Include="Views\Shared\_LigneCoursReussi.cshtml" />
+    <Content Include="Views\Inscription\_AjoutCours.cshtml" />
     <Content Include="_Contribute\BD_Presentation.bak" />
     <Content Include="_Contribute\sachem.bak" />
     <Content Include="_Contribute\Sachem_Importer.csv" />
@@ -531,6 +537,8 @@
     <Content Include="Views\Inscription\TBenevole.cshtml" />
     <Content Include="Views\Shared\_LigneCoursReussi.cshtml" />
     <Content Include="Views\Jumelage\Delete.cshtml" />
+    <Content Include="Views\Inscription\_CoursReussisEleveAide.cshtml" />
+    <Content Include="Views\Inscription\_LigneCoursReussiEleveAide.cshtml" />
     <Content Include="Views\RechercheInscription\Index.cshtml" />
     <Content Include="Views\RechercheInscription\Details.cshtml" />
     <Content Include="Views\Jumelage\Delete.cshtml" />

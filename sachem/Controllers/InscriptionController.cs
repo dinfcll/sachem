@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data.Entity;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -16,7 +17,6 @@ namespace sachem.Controllers
     {
         private readonly SACHEMEntities db = new SACHEMEntities();
         private const string MSG_ERREUR_REMPLIR = "Veuillez remplir le formulaire de disponibilités.";
-
         private const int HEURE_DEBUT = 8;
         private const int HEURE_FIN = 18;
         private const int DEMI_HEURE = 30;
@@ -24,6 +24,7 @@ namespace sachem.Controllers
 
         [ValidationAcces.ValidationAccesInscription]
         // GET: Inscription
+        [ValidationAcces.ValidationAccesInscription]
         public ActionResult Index()
         {
             ViewBag.TypeInscription = new SelectList(db.p_TypeInscription, "id_TypeInscription", "TypeInscription");
@@ -72,11 +73,11 @@ namespace sachem.Controllers
                     dispoBD.id_Jour = (int)Enum.Parse(typeof(Semaine), m.Jour);
                     dispoBD.minutes = m.Minutes;
                     db.Disponibilite.Add(dispoBD);
-                    //db.SaveChanges();
+                    db.SaveChanges();
                 }
                 SessionBag.Current.id_Inscription = typeInscription;
                 switch (typeInscription)
-                    {
+                {
                     case 1: // élève aidé
                         return this.Json(new { url = "EleveAide1" });
                     case 2: // Tuteur de cours
@@ -86,8 +87,8 @@ namespace sachem.Controllers
                         return this.Json(new {url = "TBenevole" });
                     default:
                         return this.Json(new { success = false, message = MSG_ERREUR_REMPLIR });
-                    }
                 }
+            }
             else
             {
                 return this.Json(new { success = false, message = MSG_ERREUR_REMPLIR });
@@ -126,7 +127,7 @@ namespace sachem.Controllers
                 double minutes = case30min.Key.TotalMinutes;
                 List<string> values = new List<string>();
                 for (int j = (int)Semaine.Lundi; j <= (int)Semaine.Vendredi; j++)
-            {
+                {
                     values.Add(((Semaine)j).ToString() + "-" + minutes.ToString());
                 }
                 Sortie.Add(
@@ -148,8 +149,6 @@ namespace sachem.Controllers
         {
             try
             {
-                // TODO: Add delete logic here
-
                 return RedirectToAction("Index");
             }
             catch
@@ -290,5 +289,76 @@ namespace sachem.Controllers
         {
             return Messages.I_048();
         }
+        [NonAction]
+        private string[] triageTableauAlphaNumerique(string[] tableau)
+        {
+            Array.Sort(tableau, StringComparer.InvariantCulture);
+            return tableau;
+        }
+        public ActionResult Tuteur()
+        {
+            listeCours();
+            listeCollege();
+            return View();
+        }
+        public ActionResult TBenevole()
+        {
+            listeCours();
+            listeCollege();
+            return View();
+        }
+        [NonAction]
+        public void listeCours()
+        {
+            var lstCrs = from c in db.Cours orderby c.Nom select c;
+            var slCrs = new List<SelectListItem>();
+            slCrs.AddRange(new SelectList(lstCrs, "id_Cours","CodeNom"));
+            ViewBag.lstCours = slCrs;
+            ViewBag.lstCours1 = slCrs;
+        }
+        [NonAction]
+        public void listeCollege()
+        {
+            var lstCol = from c in db.p_College orderby c.College select c;
+            var slCol = new List<SelectListItem>();
+            slCol.AddRange(new SelectList(lstCol, "id_College", "College"));
+            ViewBag.lstCollege = slCol;
+        }
+        [NonAction]
+        public void listeStatutCours()
+        {
+            var lstStatut = from c in db.p_StatutCours orderby c.id_Statut select c;
+            var slStatut = new List<SelectListItem>();
+            slStatut.AddRange(new SelectList(lstStatut, "id_Statut", "Statut"));
+            ViewBag.lstStatut = slStatut;
+        }
+        [NonAction]
+        public void listeSession()
+        {
+            var lstSess = from c in db.Session orderby c.id_Sess select c;
+            var slSession = new List<SelectListItem>();
+            slSession.AddRange(new SelectList(lstSess, "id_Sess", "NomSession", Session));
+            ViewBag.slSession = slSession;
+        }
+        [HttpPost]
+        public ActionResult getLigneCours()
+        {
+            listeCours();
+            listeCollege();
+            return PartialView("_LigneCoursReussi");
+        }
+        [HttpPost]
+        public ActionResult getLigneCoursEleveAide()
+        {
+            listeCours();
+            listeStatutCours();
+            listeSession();
+            return PartialView("_LigneCoursReussiEleveAide");
+        }
+        [HttpPost]
+        public string ErreurCours()
+        {
+            return Messages.I_048();
+        }      
     }
 }
