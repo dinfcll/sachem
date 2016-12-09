@@ -75,18 +75,22 @@ namespace sachem.Controllers
                     dispoBD.id_Jour = (int)Enum.Parse(typeof(Semaine), m.Jour);
                     dispoBD.minutes = m.Minutes;
                     db.Disponibilite.Add(dispoBD);
-                    //db.SaveChanges();
+                    db.SaveChanges();
                 }
-                SessionBag.Current.id_Inscription = typeInscription;
-                switch (typeInscription)
+                switch ((TypeInscription)typeInscription)
                 {
-                    case 1: // élève aidé
-                        return this.Json(new { url = "EleveAide1" });
-                    case 2: // Tuteur de cours
-                        return this.Json(new { url = "Tuteur" });
-                    case 3: //Tuteur bénévole
-                    case 4: //Tuteur rémunéré
-                        return this.Json(new {url = "TBenevole" });
+                    case TypeInscription.eleveAide:
+                        SessionBag.Current.id_TypeUsag = TypeUsagers.Eleve;
+                        return RedirectToAction("EleveAide1");
+                    case TypeInscription.tuteurDeCours:
+                        SessionBag.Current.id_TypeUsag = TypeUsagers.Tuteur;
+                        return RedirectToAction("Tuteur");
+                    case TypeInscription.tuteurBenevole:
+                        SessionBag.Current.id_TypeUsag = TypeUsagers.Tuteur;
+                        return RedirectToAction("TBenevole");
+                    case TypeInscription.tuteurRemunere:
+                        SessionBag.Current.id_TypeUsag = TypeUsagers.Tuteur;
+                        return RedirectToAction("TBenevole");
                     default:
                         return this.Json(new { success = false, message = MSG_ERREUR_REMPLIR });
                 }
@@ -230,7 +234,7 @@ namespace sachem.Controllers
         {
             Array.Sort(tableau, StringComparer.InvariantCulture);
             return tableau;
-        }        
+        }
         [HttpGet]
         public ActionResult Tuteur()
         {
@@ -407,7 +411,7 @@ namespace sachem.Controllers
             foreach (string[] d in donneesInscription)
             {
                 if (d[0] == value || d[2] == value)
-                {
+        {
                     return true;
                 }
             }
@@ -418,6 +422,6 @@ namespace sachem.Controllers
         public string ErreurCours()
         {
             return Messages.I_048();
-        }
+        }      
     }
 }
