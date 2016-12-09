@@ -236,7 +236,6 @@
     <Compile Include="Controllers\InscriptionController.cs" />
     <Compile Include="Controllers\JumelageController.cs" />
     <Compile Include="Controllers\ParametresController.cs" />
-    <Compile Include="Controllers\PersonnesController.cs" />
     <Compile Include="Controllers\ProgrammesOffertsController.cs" />
     <Compile Include="Controllers\RechercheEtudiantController.cs" />
     <Compile Include="Controllers\RechercheInscriptionController.cs" />
@@ -529,7 +528,6 @@
     <Content Include="Views\Inscription\TBenevole.cshtml" />
     <Content Include="Views\Shared\_LigneCoursReussi.cshtml" />
     <Content Include="Views\Inscription\_AjoutCours.cshtml" />
-    <Content Include="_Contribute\BD_Presentation.bak" />
     <Content Include="_Contribute\sachem.bak" />
     <Content Include="_Contribute\Sachem_Importer.csv" />
     <Content Include="Views\Inscription\_CoursReussisEleveAide.cshtml" />
