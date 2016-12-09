@@ -197,7 +197,7 @@ namespace sachem.Controllers
             return PartialView("_LigneCoursReussi");
         }
         [HttpPost]
-        public void Poursuivre(string[][] values, string[] coursInteret)
+        public string Poursuivre(string[][] values, string[] coursInteret)
         {
             int i = 0;
             int resultat;
@@ -267,17 +267,44 @@ namespace sachem.Controllers
                 donneesInscription.Add(temp);
                 i++;
             }
-
-
-            //CreerTables();
+            if (erreur)
+            {
+                return "non!";
+            }   
 
             CoursSuivi cs = new CoursSuivi();
-                        
-            /*int ptype = SessionBag.Current.id_Inscription;
             int idPers = SessionBag.Current.id_Pers;
+            int sess = SessionBag.Current.id_Sess;
+
+            foreach (string[] d in donneesInscription)
+            {
+                if (d[0] == "")
+                {
+                    cs.autre_Cours = d[0];
+                }
+                else
+                {
+                    cs.id_Cours = int.Parse(d[0]);
+                }
+                cs.resultat = int.Parse(d[1]);
+                if (d[2] == "")
+                {
+                    cs.autre_College = d[2];
+                }
+                else
+                {
+                    cs.id_College = int.Parse(d[2]);
+                }
+                cs.id_Pers = idPers;
+                cs.id_Sess = sess;
+                db.CoursSuivi.Add(cs);
+                db.SaveChanges();
+            }
+
+            int ptype = SessionBag.Current.id_Inscription;            
             var InscriptionInteret = db.Inscription.Where(x => x.id_Pers == idPers).FirstOrDefault();
 
-            for (int i =0;i<3;i++)
+            for (i=0;i<3;i++)
             {   
                 CoursInteret ci = new CoursInteret();
                 ci.id_Inscription = InscriptionInteret.id_Inscription;
@@ -297,7 +324,8 @@ namespace sachem.Controllers
                     Console.WriteLine(ex.Message);
                 }
                 
-            }*/
+            }
+            return "oui!";
         }
 
 
@@ -310,9 +338,7 @@ namespace sachem.Controllers
                     return true;
                 }
             }
-
             return false;
-
         }
 
         [HttpPost]

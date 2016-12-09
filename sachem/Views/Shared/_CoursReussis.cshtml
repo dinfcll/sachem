@@ -150,11 +150,11 @@
                     url: "/Inscription/Poursuivre",
                     type: "POST",
                     data: postData,
-                    success: function () { 
-                        alert("Yeah!");
+                    success: function (data) { 
+                        alert(data);
                     },
                     error: function(){
-                        alert("erreur");
+                        alert(data);
                     }
                 });
             }
