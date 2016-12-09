@@ -1,0 +1,159 @@
+﻿@using Microsoft.AspNet.Identity
+@using sachem.Models
+
+
+<h3 style="background-color:aliceblue">Informations spécifiques</h3>
+<h5 id="erreur" style="color:red;"></h5>
+<p class="text-danger">
+    @Html.Raw(@TempData["Echec"])
+</p>
+<h5 class="hIns">
+    Indiquez tous les cours de mathématiques(collégial) que vous avez réussis,
+    abandonnés ou échoués au cégep. Pour ceux réussis, indiquez vos résultats :
+</h5>
+<br />
+<div id="espaceCours">
+</div>
+<div style="padding-bottom:10px">
+    <input type="button" value="Ajouter un cours" class="btn btn-default ins-btnAjouter" id="btnAjouterCours" /><br /><br />
+    <input type="button" value="Enregistrer et poursuivre" class="btn btn-default" id="btnPoursuivre" />
+    <input type="button" value="Enregistrer un brouillon" class="btn btn-default" id="btnBrouillon" />
+    <input type="button" value="Annuler" class="btn btn-default" id="btnAnnuler" />
+</div>
+<div class="container">
+    <div class="modal fade" id="modalErreur" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Erreur lors de l'enregistrement</h4>
+                </div>
+                <div class="modal-body">
+                    <p>Un resultat et un statut d'un des cours ne concorde pas. Un cours réussi doit avoir une note supérieur ou égal à 60 et un échec inférieur à 60.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" data-dismiss="modal" class="btn">OK</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+<script type="text/javascript">
+        afficherErreur = function ()
+        {
+            $.ajax({
+                url: "/Inscription/ErreurCours",
+                type: "POST",
+                success: function (retour) {
+                    $("#erreur").html(retour);
+                }
+            });
+        }
+        activationInput = function ()
+        {
+            $(".btnSupprimerCours").click(function () {
+                $(this).parent().parent().remove();
+            });
+            $(".ins-selectcours").change(function () {
+                var test = $(this).val();
+            });
+        }
+        listeCoursReussis = function () {
+            var infoCourCollegeNote = [];
+
+            $(".InfoCourCollege").each(function (i) {
+                infoCourCollegeNote.push([]);
+                $($(this).find(".valLignecours")).each(function (j) {
+                    infoCourCollegeNote[i][j] = $(this).val();
+                });
+            });
+
+            return infoCourCollegeNote;
+        }
+        coherenceStatutResultat = function() {
+            var resultat = 0;
+            var retour = true;
+            var values = listeCoursReussis();
+            var IDREUSSIS = "1";
+            var IDECHEC = "3";
+            for (i in values)
+            {
+                resultat = values[i][3];
+                if (values[i][0] != "")
+                {
+                    if (values[i][1] == IDREUSSIS)
+                    {
+                        if (resultat < 60)
+                        {
+                            retour = false;
+                        }
+                    }
+                    else
+                    {
+                        if (values[i][1] == IDECHEC)
+                        {
+                            if (resultat >= 60)
+                            {
+                                retour = false;
+                            }
+                        }
+                        else
+                        {
+                            if (resultat != 0)
+                            {
+                                retour = false;
+                            }
+                        }
+                    }
+                }
+            }
+            return retour;
+        }
+        ajouterLigneCours = function () {
+            $.ajax({
+                url: "/Inscription/getLigneCoursEleveAide",
+                type: "POST",
+                success: function (donnees) {
+                    $("#espaceCours").append(donnees);
+                    activationInput();
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    $("#espaceCours").append(errorThrown);
+                }
+            });
+        }
+        ajouterLigneCours();
+        $("#btnAjouterCours").click(function (){
+            ajouterLigneCours();
+        });
+        $("#btnAnnuler").click(function () {
+            window.location.href = '@Url.Action("Index", "Inscription")';
+        });
+        $("#btnPoursuivre").click(function () {
+            var coursReussis = listeCoursReussis();
+            var postData = { values: coursReussis };
+            if (coherenceStatutResultat()) {
+                $.ajax({
+                    url: "/Inscription/EleveAide1",
+                    type: "POST",
+                    data: postData,
+                    datatype: JSON,
+                    success: function () {
+                        window.location.href = '@Url.Action("Details", "DossierEtudiant", new { id = SessionBag.Current.id_Inscription })';
+                    },
+                    error: function () {
+                        alert("erreur");
+                    }
+                });
+            }else
+            {
+                $('#modalErreur').modal('show');
+                ErreurModal();
+            }
+        });
+    function ErreurModal() {
+        var modal = document.getElementById('modalErreur');
+        modal.style.display = 'block';
+    }
+</script>
