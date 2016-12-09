@@ -22,7 +22,6 @@ namespace sachem.Controllers
         private const int DEMI_HEURE = 30;
         private const int DUREE_RENCONTRE_MINUTES = 90;
 
-        [ValidationAcces.ValidationAccesInscription]
         // GET: Inscription
         [ValidationAcces.ValidationAccesInscription]
         public ActionResult Index()
@@ -295,35 +294,6 @@ namespace sachem.Controllers
             Array.Sort(tableau, StringComparer.InvariantCulture);
             return tableau;
         }
-        public ActionResult Tuteur()
-        {
-            listeCours();
-            listeCollege();
-            return View();
-        }
-        public ActionResult TBenevole()
-        {
-            listeCours();
-            listeCollege();
-            return View();
-        }
-        [NonAction]
-        public void listeCours()
-        {
-            var lstCrs = from c in db.Cours orderby c.Nom select c;
-            var slCrs = new List<SelectListItem>();
-            slCrs.AddRange(new SelectList(lstCrs, "id_Cours","CodeNom"));
-            ViewBag.lstCours = slCrs;
-            ViewBag.lstCours1 = slCrs;
-        }
-        [NonAction]
-        public void listeCollege()
-        {
-            var lstCol = from c in db.p_College orderby c.College select c;
-            var slCol = new List<SelectListItem>();
-            slCol.AddRange(new SelectList(lstCol, "id_College", "College"));
-            ViewBag.lstCollege = slCol;
-        }
         [NonAction]
         public void listeStatutCours()
         {
@@ -341,24 +311,12 @@ namespace sachem.Controllers
             ViewBag.slSession = slSession;
         }
         [HttpPost]
-        public ActionResult getLigneCours()
-        {
-            listeCours();
-            listeCollege();
-            return PartialView("_LigneCoursReussi");
-        }
-        [HttpPost]
         public ActionResult getLigneCoursEleveAide()
         {
             listeCours();
             listeStatutCours();
             listeSession();
             return PartialView("_LigneCoursReussiEleveAide");
-        }
-        [HttpPost]
-        public string ErreurCours()
-        {
-            return Messages.I_048();
-        }      
+        }   
     }
 }
