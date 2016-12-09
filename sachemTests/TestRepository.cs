@@ -231,5 +231,16 @@ namespace sachemTests
             {
                 throw new NotImplementedException();
             }
+
+        public string FindMdp(int id)
+        {
+            throw new NotImplementedException();
         }
+
+        public void DeclareModifiedEns(Personne enseignant)
+        {
+            var index = listeEnseignant.FindIndex(a => a.id_Pers == enseignant.id_Pers);
+            listeEnseignant[index] = enseignant;
+        }
+    }
 }

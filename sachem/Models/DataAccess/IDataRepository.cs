@@ -57,6 +57,8 @@ namespace sachem.Models.DataAccess
 
         void DeclareModifiedPers(Personne pers);
 
+        string FindMdp(int id);
+
         void AddPersonne(Personne pers);
 
         void RemovePersonne(Personne pers);
@@ -84,7 +86,7 @@ namespace sachem.Models.DataAccess
 
         Personne FindEnseignant(int id);
 
-        void DeclareModified(Personne enseignant);
+        void DeclareModifiedEns(Personne enseignant);
 
         void RemoveEnseignant(int id);
 
