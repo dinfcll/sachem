@@ -59,15 +59,6 @@ namespace sachem.Controllers
             return RedirectToAction("Details", "RechercheInscription", new { id = id_Inscription });
         }
 
-        private void ListeSession(int Session = 0)
-        {
-            var lSessions = from session in db.Session select session;
-            var slSession = new List<SelectListItem>();
-            slSession.AddRange(new SelectList(lSessions, "id_Sess", "NomSession", Session));
-
-            ViewBag.Session = slSession;
-        }
-
         private void ListeTypeInscription(int TypeInscription = 0)
         {
             var lTypeInscription = from typeinscription in db.p_TypeInscription select typeinscription;
@@ -132,7 +123,7 @@ namespace sachem.Controllers
                 }
             }
 
-            ListeSession(sess);
+            ViewBag.Session = Liste.ListeSession(sess);
             ListeTypeInscription(type);
             ListeStatut(statut);
 

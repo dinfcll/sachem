@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data;
 using System.Linq;
 using System.Net;
 using System.Web.Mvc;
@@ -13,7 +12,6 @@ namespace sachem.Controllers
     {
         int m_IdPers;
         int m_IdTypeUsage;
-
         private readonly SACHEMEntities db = new SACHEMEntities();
 
         List<TypeUsagers> RolesAcces = new List<TypeUsagers>() { TypeUsagers.Enseignant, TypeUsagers.Responsable, TypeUsagers.Super };
@@ -100,7 +98,7 @@ namespace sachem.Controllers
 
             if (m_IdTypeUsage == 2)
             {
-                ListeSession(idSess);
+                ViewBag.Session = Liste.ListeSession(idSess);
 
                 var listeInfoEns = (from c in db.Groupe
                            where (c.id_Sess == idSess && c.id_Enseignant == m_IdPers) || 
@@ -120,7 +118,7 @@ namespace sachem.Controllers
             }
             else
             {
-                ListeSession(idSess);
+                ViewBag.Session = Liste.ListeSession(idSess);
                 ListePersonne(idSess, idPersonne);
 
                 var listeInfoResp = (from c in db.Groupe
@@ -206,19 +204,6 @@ namespace sachem.Controllers
             return valide;
         }
         
-        [NonAction]
-        private void ListeSession(int _idSess = 0)
-        {
-            var lSessions = db.Session
-                .AsNoTracking()
-                .OrderBy(s => s.Annee)
-                .ThenBy(s => s.p_Saison.Saison);
-            var slSession = new List<SelectListItem>();
-            slSession.AddRange(new SelectList(lSessions, "id_Sess", "NomSession", _idSess));
-
-            ViewBag.Session = slSession;
-        }
-
         [HttpPost]
         public void ListePersonne(int idSession, int idPers)
         {

@@ -37,15 +37,6 @@ namespace sachem.Controllers
         }
 
         [NonAction]
-        private void ListeSession(int session = 0)
-        {
-            var lSessions = db.Session.AsNoTracking().OrderByDescending(y => y.Annee).ThenByDescending(x => x.id_Saison);
-            var slSession = new List<SelectListItem>();
-            slSession.AddRange(new SelectList(lSessions, "id_Sess", "NomSession", session));
-            ViewBag.Session = slSession;
-        }
-
-        [NonAction]
         public string RetourneNbreJumelageEtudiant(int count)
         {
             string statut = "";
@@ -488,7 +479,7 @@ namespace sachem.Controllers
                     session = Convert.ToInt32(db.Session.OrderByDescending(y => y.Annee).ThenByDescending(x => x.id_Saison).FirstOrDefault().id_Sess);
             }
 
-            ListeSession(session);
+            ViewBag.Session = Liste.ListeSession(session);
             ListeTypeInscription(typeinscription);
 
             Session["DernRechEtu"] = session + ";" + typeinscription + ";" + noPage;

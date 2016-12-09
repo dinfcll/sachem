@@ -174,7 +174,7 @@ namespace sachem.Controllers
                     }
                 }
             }
-            ListeSession(session);
+            ViewBag.SelectSession = Liste.ListeSession(session);
             ListeCours(cours, session);
             ListeGroupe(cours, session, groupe);
 

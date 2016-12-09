@@ -29,16 +29,6 @@ namespace sachem.Controllers
             this.dataRepository = dataRepository;
         }
 
-        [NonAction]
-        //liste des sessions disponibles en ordre d'année
-        private void ListeSession(int session = 0)
-        {
-            var lSessions = db.Session.AsNoTracking().OrderByDescending(y => y.Annee).ThenByDescending(x => x.id_Saison);
-            var slSession = new List<SelectListItem>();
-            slSession.AddRange(new SelectList(lSessions, "id_Sess", "NomSession", session));
-            ViewBag.Session = slSession;
-        }
-
         //fonctions permettant d'obtenir la liste des groupe. Appelé pour l'initialisation et la maj de la liste déroulante Groupe
         [NonAction]
         private IEnumerable<Personne> ObtenirListeSuperviseur(int session)
@@ -193,7 +183,7 @@ namespace sachem.Controllers
                     session = Convert.ToInt32(db.Session.OrderByDescending(y => y.Annee).ThenByDescending(x => x.id_Saison).FirstOrDefault().id_Sess);
             }
 
-            ListeSession(session);
+            ViewBag.Session = Liste.ListeSession(session);
             ListeTypeInscription(typeinscription);
             ListeSuperviseur(session, superviseur);
 
