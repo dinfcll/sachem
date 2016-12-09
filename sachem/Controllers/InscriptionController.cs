@@ -14,22 +14,17 @@ namespace sachem.Controllers
     public class InscriptionController : Controller
     {
         private readonly SACHEMEntities db = new SACHEMEntities();
-        private readonly string msg_Erreur_Consecutif = "Erreur: vous devez avoir une plage horaire contenant 2 heures consécutives.";
-        private string[] m_Session = { "Hiver", "Été", "Automne" };
-        private string IDREUSSIS = "1";
-        private string IDABAN = "2";
-        private string IDECHEC = "3";
-        private readonly string MESSAGESTATUT = "Un resultat et un statut d'un des cours ne concorde pas. Un cours réussi doit avoir une note supérieur ou égal à 60 et un échec inférieur à 60.";
-        //[ValidationAcces.ValidationAccesInscription]
         private const string MSG_ERREUR_REMPLIR = "Veuillez remplir le formulaire de disponibilités.";
-
         private const int HEURE_DEBUT = 8;
         private const int HEURE_FIN = 18;
         private const int DEMI_HEURE = 30;
         private const int DUREE_RENCONTRE_MINUTES = 90;
-
-        [ValidationAcces.ValidationAccesInscription]
+        private string[] m_Session = { "Hiver", "Été", "Automne" };
+        private string IDREUSSIS = "1";
+        private string IDABAN = "2";
+        private string IDECHEC = "3";
         // GET: Inscription
+        [ValidationAcces.ValidationAccesInscription]
         public ActionResult Index()
         {
             ViewBag.TypeInscription = new SelectList(db.p_TypeInscription, "id_TypeInscription", "TypeInscription");
@@ -153,8 +148,6 @@ namespace sachem.Controllers
         {
             try
             {
-                // TODO: Add delete logic here
-
                 return RedirectToAction("Index");
             }
             catch
@@ -182,8 +175,6 @@ namespace sachem.Controllers
             }
             else
             {
-                if (coherenceStatutResultat(values))
-                {
                     for (var i = 0; i < values.Length; i++)
                     {
                         if (values[i][0] != "")
@@ -192,7 +183,7 @@ namespace sachem.Controllers
                             cours.id_Pers = SessionBag.Current.id_Pers;
                             cours.id_Cours = Convert.ToInt32(values[i][0]);
                             cours.id_Statut = Convert.ToInt32(values[i][1]);
-                            cours.id_Sess = trouverSession(values[i][2]);
+                            cours.id_Sess = Convert.ToInt32(values[i][2]);
                             cours.id_College = db.p_College.FirstOrDefault(x => x.College == "Cégep de Lévis-Lauzon").id_College;
                             if (values[i][3] != "")
                             {
@@ -204,13 +195,6 @@ namespace sachem.Controllers
                     }
                     return RedirectToAction("Details", "DossierEtudiant", new { id = SessionBag.Current.id_Inscription });
                 }
-                else
-                {
-                    ModelState.AddModelError(string.Empty, MESSAGESTATUT);
-                    return View("EleveAide1");
-                }
-            }
-            
         }
         [NonAction]
         private int? JourANumero(string jour)
@@ -230,19 +214,6 @@ namespace sachem.Controllers
                 default:
                     return null;
 
-            }
-        }
-        [NonAction]
-        private int trouverIdSaison(string saison)
-        {
-            switch (saison)
-            {
-                case "Été":
-                    return 2;
-                case "Automne":
-                    return 3;
-                default:
-                    return 1;
             }
         }
         [NonAction]
@@ -294,7 +265,7 @@ namespace sachem.Controllers
             var lstSess = from c in db.Session orderby c.id_Sess select c;
             var slSession = new List<SelectListItem>();
             slSession.AddRange(new SelectList(lstSess, "id_Sess", "NomSession", Session));
-            ViewBag.Session = slSession;
+            ViewBag.slSession = slSession;
         }
         [HttpPost]
         public ActionResult getLigneCours()
@@ -315,58 +286,6 @@ namespace sachem.Controllers
         public string ErreurCours()
         {
             return Messages.I_048();
-        }
-        [NonAction]
-        public bool coherenceStatutResultat(string[][] values)
-        {
-            var resultat = 0;
-            var retour = true;
-            for (var i = 0; i < values.Length; i++)
-            {
-                if (values[i][0] != "")
-                {
-                    if (!int.TryParse(values[i][3], out resultat))
-                    {
-                        if (values[i][1] != IDABAN)
-                        {
-                            retour = false;
-                        }
-                    }
-                    if (values[i][1] == IDREUSSIS)
-                    {
-                        if (resultat < 60)
-                        {
-                            retour = false;
-                        }
-                    }
-                    else
-                    {
-                        if (values[i][1] == IDECHEC)
-                        {
-                            if (resultat >= 60)
-                            {
-                                retour = false;
-                            }
-                        }
-                        else
-                        {
-                            if (resultat != 0)
-                            {
-                                retour = false;
-                            }
-                        }
-                    }
-                }
-            }
-            return retour;
-        }
-        [NonAction]
-        public int trouverSession(string session)
-        {
-            var annee = Convert.ToInt32(session.Substring(session.Length - 5));
-            var saison = session.Substring(0, session.Length - 5);
-            var idSaison = trouverIdSaison(saison);
-            return db.Session.FirstOrDefault(x=>x.Annee==annee && x.id_Saison==idSaison).id_Sess;
-        }
+        }      
     }
 }

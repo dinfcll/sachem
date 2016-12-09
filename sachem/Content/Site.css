@@ -227,44 +227,6 @@ textarea {
     }
 }
 
-
-
-
-
-
-/* Inscription */
-
-/*Tuteur de cours*/
-.rowCourseReussisPadTop {
-    padding:10px 10px 10px 10px;
-    border-bottom: 1px solid #eeeeee;
-}
-
-.ins-row {
-    padding-top:5px;
-}
-
-.ins-text-box {
-    height:30px;
-}
-
-.ins-selectcours {
-    height:30px;
-}
-.ins-selectcollege {
-    height:30px;
-}
-.ins-btnAjouter {
-    margin-top:20px;
-}
-.hIns {
-    font-weight:bold;
-}
-
-.pageItemPadding {
-    padding:10px 10px 10px 10px;
-}
-
 .hover-student
 {
     background-color:#f9f9f9;
@@ -303,4 +265,42 @@ textarea {
   background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"><path d="M14 18L26 6l4 4-16 16L4 16l4-4z"/></svg>');
   background-size: 100%;
   float:none;
+}
+
+
+
+
+
+
+/* Inscription */
+
+/*Tuteur de cours*/
+.rowCourseReussisPadTop {
+    padding:10px 10px 10px 10px;
+    border-bottom: 1px solid #eeeeee;
+}
+
+.ins-row {
+    padding-top:5px;
+}
+
+.ins-text-box {
+    height:30px;
+}
+
+.ins-selectcours {
+    height:30px;
+}
+.ins-selectcollege {
+    height:30px;
+}
+.ins-btnAjouter {
+    margin-top:20px;
+}
+.hIns {
+    font-weight:bold;
+}
+
+.pageItemPadding {
+    padding:10px 10px 10px 10px;
 }

@@ -54,6 +54,45 @@
 
             return infoCourCollegeNote;
         }
+        coherenceStatutResultat = function() {
+            var resultat = 0;
+            var retour = true;
+            var values = listeCoursReussis();
+            var IDREUSSIS = "1";
+            var IDECHEC = "3";
+            for (i in values)
+            {
+                resultat = values[i][3];
+                if (values[i][0] != "")
+                {
+                    if (values[i][1] == IDREUSSIS)
+                    {
+                        if (resultat < 60)
+                        {
+                            retour = false;
+                        }
+                    }
+                    else
+                    {
+                        if (values[i][1] == IDECHEC)
+                        {
+                            if (resultat >= 60)
+                            {
+                                retour = false;
+                            }
+                        }
+                        else
+                        {
+                            if (resultat != 0)
+                            {
+                                retour = false;
+                            }
+                        }
+                    }
+                }
+            }
+            return retour;
+        }
         ajouterLigneCours = function () {
             $.ajax({
                 url: "/Inscription/getLigneCoursEleveAide",
@@ -77,16 +116,23 @@
         $("#btnPoursuivre").click(function () {
             var coursReussis = listeCoursReussis();
             var postData = { values: coursReussis };
-            $.ajax({
-                url: "/Inscription/EleveAide1",
-                type: "POST",
-                data: postData,
-                success: function () {
+            if (coherenceStatutResultat()) {
+                alert("iftrue")
+                $.ajax({
+                    url: "/Inscription/EleveAide1",
+                    type: "POST",
+                    data: postData,
+                    datatype: JSON,
+                    success: function () {
                         window.location.href = '@Url.Action("Details", "DossierEtudiant", new { id = SessionBag.Current.id_Inscription })';
-                },
-                error: function () {
-                    alert("erreur");
-                }
-            });
+                    },
+                    error: function () {
+                        alert("erreur");
+                    }
+                });
+            }else
+            {
+                alert("Un resultat et un statut d'un des cours ne concorde pas. Un cours réussi doit avoir une note supérieur ou égal à 60 et un échec inférieur à 60.");
+            }
         });
 </script>
