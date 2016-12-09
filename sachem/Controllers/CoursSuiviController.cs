@@ -31,16 +31,6 @@ namespace sachem.Controllers
             ViewBag.id_Cours = slCours;
         }
 
-        [NonAction]
-        private void ListeStatut(int statut = 0)
-        {
-            var lStatut = dataRepository.GetStatut();
-            var slStatut = new List<SelectListItem>();
-            slStatut.AddRange(new SelectList(lStatut, "id_Statut", "Statut", statut));
-
-            ViewBag.id_Statut = slStatut;
-        }
-
         //Validation des champs cours et collège
         [NonAction]
         private void Valider([Bind(Include = "id_CoursReussi,id_Sess,id_Pers,id_College,id_Statut,id_Cours,resultat,autre_Cours,autre_College")] CoursSuivi coursSuivi, bool verif = false)
@@ -82,7 +72,7 @@ namespace sachem.Controllers
 
             ListeCours();
             ViewBag.id_College = Liste.ListeCollege();
-            ListeStatut();
+            ViewBag.id_Statut = Liste.ListeStatutCours();
             ViewBag.id_Sess = Liste.ListeSession();
             return View(cs);
         }
@@ -94,7 +84,7 @@ namespace sachem.Controllers
         {
             ListeCours();
             ViewBag.id_College = Liste.ListeCollege();
-            ListeStatut();
+            ViewBag.id_Statut = Liste.ListeStatutCours();
             ViewBag.id_Sess = Liste.ListeSession();
 
             if (dataRepository.FindPersonne((int) id) == null)
@@ -136,9 +126,9 @@ namespace sachem.Controllers
                 ViewBag.id_College = Liste.ListeCollege(cs.id_College.Value);
 
             if (cs.id_Statut == null)
-                ListeStatut();
+                ViewBag.id_Statut = Liste.ListeStatutCours();
             else
-                ListeStatut(cs.id_Statut.Value);
+                ViewBag.id_Statut = Liste.ListeStatutCours(cs.id_Statut.Value);
 
             if (cs.id_Sess == null)
                 ViewBag.id_Sess = Liste.ListeSession();
@@ -165,7 +155,7 @@ namespace sachem.Controllers
             else
                 ViewBag.id_College = Liste.ListeCollege(coursSuivi.id_College.Value);
 
-            ListeStatut(coursSuivi.id_Statut.Value);
+            ViewBag.id_Statut = Liste.ListeStatutCours(coursSuivi.id_Statut.Value);
             ViewBag.id_Sess = Liste.ListeSession(coursSuivi.id_Sess.Value);
 
             Valider(coursSuivi);
