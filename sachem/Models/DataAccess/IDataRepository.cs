@@ -49,19 +49,8 @@ namespace sachem.Models.DataAccess
 
         void RemoveCours(Cours cours);
 
-        IQueryable<Personne> IndexPersonne();
-
-        IEnumerable<p_Sexe> AllSexe();
-
-        IEnumerable<p_TypeUsag> AllTypeUsag();
-
-        void DeclareModifiedPers(Personne pers);
-
         string FindMdp(int id);
 
-        void AddPersonne(Personne pers);
-
-        void RemovePersonne(Personne pers);
         void RemoveCoursSuivi(CoursSuivi coursSuivi);
 
         bool AnyEnseignantWhere(Expression<Func<Personne, bool>> condition, Personne personne);
