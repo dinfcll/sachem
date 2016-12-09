@@ -223,7 +223,7 @@ namespace sachem.Controllers
         }
 
         // GET: DossierEtudiant
-        [ValidationAccesTuteur]
+        [ValidationAccesEleve]
         public ActionResult Index(int? page)
         {
             noPage = (page ?? noPage);
@@ -231,7 +231,7 @@ namespace sachem.Controllers
         }
 
         // GET: DossierEtudiant/Details/5
-        [ValidationAccesEtu]
+        [ValidationAccesEleve]
         public ActionResult Details(int? id)
         {
             if (id == null)
@@ -276,7 +276,7 @@ namespace sachem.Controllers
         }
 
         [HttpPost]
-        [ValidationAccesEtu]
+        [ValidationAccesEleve]
         public void ModifEmail(string email, string pers)
         {
             var id_Pers = Convert.ToInt32(pers);
@@ -290,7 +290,7 @@ namespace sachem.Controllers
         }
 
         [HttpPost]
-        [ValidationAccesEtu]
+        [ValidationAccesEleve]
         public void ModifTel(string tel, string pers)
         {
             var id_Pers = Convert.ToInt32(pers);
