@@ -68,7 +68,7 @@ namespace sachem.Controllers
         public List<string> RetourneListeJoursSemaine()
         {
             List<string> Jours = new List<string>();
-            for (int i = 2; i < 7; i++)
+            for (int i = (int)Semaine.Lundi; i < (int)Semaine.Samedi; i++)
             {
                 Jours.Add(((Semaine)i).ToString());
             }
@@ -167,11 +167,11 @@ namespace sachem.Controllers
             Dictionary<TimeSpan, TimeSpan> listeCasesRencontreAu30min = new Dictionary<TimeSpan, TimeSpan>();
             Dictionary<string, List<DisponibiliteStruct>> listeCasesRencontreAfficher = new Dictionary<string, List<DisponibiliteStruct>>();
 
-            for (int i = 0; i < heureMax; i++)
+            for (int k = 0; k < heureMax; k++)
             {
                 listeCasesRencontreAu30min.Add(
-                    startTime.Add(TimeSpan.FromMinutes(Difference * i)),
-                    startTime.Add(TimeSpan.FromMinutes(Difference * i + Rencontre))
+                    startTime.Add(TimeSpan.FromMinutes(Difference * k)),
+                    startTime.Add(TimeSpan.FromMinutes(Difference * k + Rencontre))
                     );
             }
 
@@ -182,7 +182,7 @@ namespace sachem.Controllers
                 List<DisponibiliteStruct> values = new List<DisponibiliteStruct>();
                 bool dispoHeuresPresent = false;
                 dispoHeuresPresent = listeCasesJumelageEtDisposCeluiInspecte.Exists(x => x.Minutes == minutes);
-                for (int j = 2; j < 7; j++)
+                for (int j = (int)Semaine.Lundi; j < (int)Semaine.Samedi; j++)
                 {
                     if (dispoHeuresPresent)
                     {
@@ -215,6 +215,7 @@ namespace sachem.Controllers
                 String.Format("{0}h{1}-{2}h{3}", case30min.Key.Hours, case30min.Key.Minutes.ToString("00"), case30min.Value.Hours, case30min.Value.Minutes.ToString("00")),
                 values);
             }
+
 
             return listeCasesRencontreAfficher;
         }
@@ -280,6 +281,10 @@ namespace sachem.Controllers
 
             List<Disponibilite> disposJumeleurs = listeJumeleurs.SelectMany(x=>x.Disponibilite).ToList();
             List<Disponibilite> disposEleve = eleve.SelectMany(x => x.Disponibilite).ToList();
+            if(disposEleve.Count()==0)
+            {
+                return new List<Inscription>();
+            }
             List<int> jumeleursPotentiels = new List<int>();
             foreach(var dispo in disposEleve)
             {

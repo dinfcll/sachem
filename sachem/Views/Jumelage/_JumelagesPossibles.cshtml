@@ -13,6 +13,7 @@
         $('#modalAjoutVu').html(nomVu);
         $('#modalAjoutJumeleA').html(nomJumeleA);
         $('#modalPlageHoraire').html(plageHoraire);
+        $('#modalAjoutEnseignantError').addClass('hide');
         $('#modalAjoutTypeEleveVu').html(typeEleveVu);
         $('#modalAjoutTypeEleveJumeleA').html(typeEleveJumeleA);
         if (estConsecutif)
@@ -34,7 +35,6 @@
         var idEnseignant = document.getElementById('modalAjoutEnseignant').value;
         if(idEnseignant!="")
         {        
-            $('#modalAjoutEnseignantError').addClass('hide');
             $('#modalAjout').modal('hide');
             $.ajax({
                 url: "/Jumelage/AjoutJumelage",
@@ -42,9 +42,6 @@
                 type: "POST",
                 success: function () {
                     location.reload(true);
-                },
-                error: function () {
-                //    location.reload(true);
                 }
             });
             
@@ -132,14 +129,14 @@
                                         TimeSpan startTime = TimeSpan.FromHours(0);
                                         startTime = startTime.Add(TimeSpan.FromMinutes(w.Minutes));
                                         string plageHoraire = (@w.Jour + " de " + @startTime.Hours + "h" + @startTime.Minutes.ToString("00") + " à " + @startTime.Add(TimeSpan.FromMinutes(90)).Hours + "h" + @startTime.Add(TimeSpan.FromMinutes(90)).Minutes.ToString("00"));
-                                            <td class="text-center" style="background-color:#81c784;" id="@w.NomCase" name="@w.NomCase">
+                                            <td class="text-center" style="position:relative;background-color:#81c784;" id="@w.NomCase" name="@w.NomCase">
                                             @w.NbreUsagerMemeDispo                                                
                                             @if (w.NbreUsagerMemeDispo > 0 && w.EstDispoEtCompatible && w.EstDispoEtCompatibleEtConsecutif)
                                             {
                                                 <a href="#" onclick="AjoutModal('@w.Jour',@w.Minutes,@Model.id_Inscription, @j.id_Inscription,'@j.Personne.PrenomNom','@Model.Personne.PrenomNom',
                                                     '@j.p_TypeInscription.TypeInscription','@Model.p_TypeInscription.TypeInscription','@plageHoraire', @Model.id_TypeInscription, 1)"
                                                    data-toggle="modal" data-target="#modalAjout" class="modal-open">
-                                                    <i class="material-icons" style="float:right;padding-right:5px;color:#fff;text-shadow: 2px 2px #999;">
+                                                    <i class="material-icons" style="float:right;margin-right:5px;color:#fff;text-shadow: 2px 2px #999;">
                                                         group_add
                                                     </i>
                                                 </a>
@@ -149,7 +146,7 @@
                                                 <a href="#" onclick="AjoutModal('@w.Jour',@w.Minutes,@Model.id_Inscription, @j.id_Inscription,'@j.Personne.PrenomNom','@Model.Personne.PrenomNom',
                                                    '@j.p_TypeInscription.TypeInscription','@Model.p_TypeInscription.TypeInscription','@plageHoraire', @Model.id_TypeInscription, 0)"
                                                    data-toggle="modal" data-target="#modalAjout">
-                                                    <i class="material-icons" style="float:right;padding-right:5px;color:#fff;text-shadow: 2px 2px #999;">
+                                                    <i class="material-icons" style="color:#fff;right:10px;top:-2px;text-shadow: 2px 2px #999;position:absolute;">
                                                         group_add
                                                     </i>
                                                 </a>
@@ -189,7 +186,7 @@
                         @Html.DropDownList("Superviseur", null, "Choisir l'enseignant", htmlAttributes: new { @class = "form-search", @id="modalAjoutEnseignant"})
                     <br/><br /><p id="modalAjoutEnseignantError" class="text-danger hide">Veuillez sélectionner un enseignant</p>
                     <span id="modalConditionConsecutif" class="hide">
-                        <p>Désirez-vous étendre la durée de cette rencontre sur 3h pour créer un jumelage avec deux rencontres consécutives ?</p>
+                        Désirez-vous étendre la durée de cette rencontre sur 3h pour créer un jumelage avec deux rencontres consécutives ?<br/>
                         <select class="form-control" id="modalConsecutif">
                             <option id="nonConsecutif" value="0">Non</option>
                             <option id="ouiConsecutif" value="1">Oui</option>
