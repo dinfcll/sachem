@@ -107,10 +107,8 @@ namespace sachem.Controllers
                 {
                     int.TryParse(Request.Form["Session"], out sess);
                 }
-                else
-                {
+                else if (Request.Form["Session"] == null)
                     sess = db.Session.Max(s => s.id_Sess);
-                }
 
                 if (!string.IsNullOrEmpty(Request.Form["TypeInscription"]))
                 {
