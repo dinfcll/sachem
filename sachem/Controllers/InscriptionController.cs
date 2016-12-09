@@ -317,6 +317,44 @@ namespace sachem.Controllers
             listeStatutCours();
             listeSession();
             return PartialView("_LigneCoursReussiEleveAide");
-        }   
+        }
+        public ActionResult EleveAide1()
+        {
+            listeCours();
+            listeStatutCours();
+            listeSession();
+            return View();
+        }
+        [HttpPost]
+        public ActionResult EleveAide1(string[][] values)
+        {
+            TempData["Echec"] = "";
+           if (values==null)
+            {
+                return RedirectToAction("Details", "DossierEtudiant", new { id = SessionBag.Current.id_Inscription});
+           }
+           else
+           {
+                    for (var i = 0; i<values.Length; i++)
+                   {
+                        if (values[i][0] != "")
+                        {
+                            var cours = new CoursSuivi();
+                            cours.id_Pers = SessionBag.Current.id_Pers;
+                            cours.id_Cours = Convert.ToInt32(values[i][0]);
+                            cours.id_Statut = Convert.ToInt32(values[i][1]);
+                            cours.id_Sess = Convert.ToInt32(values[i][2]);
+                            cours.id_College = db.p_College.FirstOrDefault(x => x.College == "Cégep de Lévis-Lauzon").id_College;
+                            if (values[i][3] != "")
+                           {
+                                cours.resultat = Convert.ToInt32(values[i][3]);
+                            }
+                            db.CoursSuivi.Add(cours);
+                           db.SaveChanges();
+                        }
+                }
+                    return RedirectToAction("Details", "DossierEtudiant", new { id = SessionBag.Current.id_Inscription });
+                }
+        }  
     }
 }
