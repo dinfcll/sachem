@@ -119,7 +119,7 @@ namespace sachem.Controllers
             else
             {
                 ViewBag.Session = Liste.ListeSession(idSess);
-                ListePersonne(idSess, idPersonne);
+                ViewBag.Personne = Liste.ListePersonne(idSess, idPersonne);
 
                 var listeInfoResp = (from c in db.Groupe
                            where c.id_Sess == (idSess == 0 ? c.id_Sess : idSess) && 
@@ -205,23 +205,6 @@ namespace sachem.Controllers
         }
         
         [HttpPost]
-        public void ListePersonne(int idSession, int idPers)
-        {
-            var lPersonne = (from p in db.Personne
-                            join c in db.Groupe on p.id_Pers equals c.id_Enseignant
-                            where (p.id_TypeUsag == (int)TypeUsagers.Enseignant || 
-                            p.id_TypeUsag == (int)TypeUsagers.Responsable) && 
-                            p.Actif == true && 
-                            c.id_Sess == (idSession == 0 ? c.id_Sess : idSession)
-                            orderby p.Nom,p.Prenom
-                            select p).Distinct();
-
-            var slPersonne = new List<SelectListItem>();
-            slPersonne.AddRange(new SelectList(lPersonne, "id_Pers", "NomPrenom", idPers));
-
-            ViewBag.Personne = slPersonne;
-        }
-
         public ActionResult Details(int? idCours, int? idSess)
         {
             m_IdPers = SessionBag.Current.id_Pers;
