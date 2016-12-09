@@ -15,8 +15,9 @@ namespace sachem.Controllers
     {
         private readonly SACHEMEntities db = new SACHEMEntities();
         private const string MSG_ERREUR_REMPLIR = "Veuillez remplir le formulaire de disponibilités.";
-        private const int HEURE_DEBUT = 8;
-        private const int HEURE_FIN = 18;
+
+        private int HEURE_DEBUT = CheckConfigHeure(System.Configuration.ConfigurationManager.AppSettings.Get("HeureDebut"), 8);
+        private int HEURE_FIN = CheckConfigHeure(System.Configuration.ConfigurationManager.AppSettings.Get("HeureFin"), 18);
         private const int DEMI_HEURE = 30;
         private const int DUREE_RENCONTRE_MINUTES = 90;
         private string[] m_Session = { "Hiver", "Été", "Automne" };
@@ -103,6 +104,12 @@ namespace sachem.Controllers
                 Jours.Add(((Semaine)i).ToString());
             }
             return Jours.ToList();
+        }
+
+        private static int CheckConfigHeure(string Heure, int defaut)
+        {
+            int result;
+            return int.TryParse(Heure, out result) ? result : defaut;
         }
 
         [NonAction]
