@@ -369,7 +369,7 @@ namespace sachem.Controllers
                 {
                     Personne utilisateur = db.Personne.AsNoTracking().Where(x => x.Courriel == courriel).FirstOrDefault();
                     utilisateur.MP = nouveaumdp;
-                    SachemIdentite.encrypterMPPersonne(ref utilisateur);
+                    utilisateur.MP = SachemIdentite.encrypterChaine( utilisateur.MP );
                     db.Entry(utilisateur).State = EntityState.Modified;
                     db.SaveChanges();
                     ViewBag.Success = Messages.I_019();
