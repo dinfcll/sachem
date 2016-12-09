@@ -100,7 +100,8 @@
             </a></p>
         </footer>
     </div>
-    <script>
+    <div id="shovel-artica" class="hide shovelartica"></div>
+    <script type="text/javascript">
         $("input[type='submit']").on("click", function () {
             window.onbeforeunload = function () {
                 $("#mainProgressBar").removeClass('hide');
@@ -114,7 +115,21 @@
             if(href.charAt(0)!="#" && bHref && !bTarget)
                 $("#mainProgressBar").removeClass('hide');
         });
-    </script>
+        $(document).keyup(function (e) {
+            if (e.which == 122) {
+                e.preventDefault();
+                if ($('#shovel-artica').hasClass('hide'))
+                {
+                    $('#shovel-artica').removeClass('hide');
+                }
+                else
+                {
+                    $('#shovel-artica').addClass('hide');
+                }                
+                return false;
+            }
+        });
+    </script> 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
