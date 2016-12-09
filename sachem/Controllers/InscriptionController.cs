@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data.Entity;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -19,9 +20,12 @@ namespace sachem.Controllers
         private int HEURE_FIN = CheckConfigHeure(System.Configuration.ConfigurationManager.AppSettings.Get("HeureFin"), 18);
         private const int DEMI_HEURE = 30;
         private const int DUREE_RENCONTRE_MINUTES = 90;
-
-        [ValidationAcces.ValidationAccesInscription]
+        private string[] m_Session = { "Hiver", "Été", "Automne" };
+        private string IDREUSSIS = "1";
+        private string IDABAN = "2";
+        private string IDECHEC = "3";
         // GET: Inscription
+        [ValidationAcces.ValidationAccesInscription]
         public ActionResult Index()
         {
             ViewBag.TypeInscription = new SelectList(db.p_TypeInscription, "id_TypeInscription", "TypeInscription");
@@ -151,8 +155,6 @@ namespace sachem.Controllers
         {
             try
             {
-                // TODO: Add delete logic here
-
                 return RedirectToAction("Index");
             }
             catch
@@ -160,5 +162,137 @@ namespace sachem.Controllers
                 return View();
             }
         }
+
+        [ValidationAcces.ValidationAccesEtu]
+        public ActionResult EleveAide1()
+        {
+            listeCours();
+            listeStatutCours();
+            listeSession();
+            return View();
+        }
+        [ValidationAcces.ValidationAccesEtu]
+        [HttpPost]
+        public ActionResult EleveAide1(string[][] values)
+        {
+            TempData["Echec"] = "";
+            if (values==null)
+            {
+                return RedirectToAction("Details", "DossierEtudiant", new { id = SessionBag.Current.id_Inscription });
+            }
+            else
+            {
+                    for (var i = 0; i < values.Length; i++)
+                    {
+                        if (values[i][0] != "")
+                        {
+                            var cours = new CoursSuivi();
+                            cours.id_Pers = SessionBag.Current.id_Pers;
+                            cours.id_Cours = Convert.ToInt32(values[i][0]);
+                            cours.id_Statut = Convert.ToInt32(values[i][1]);
+                            cours.id_Sess = Convert.ToInt32(values[i][2]);
+                            cours.id_College = db.p_College.FirstOrDefault(x => x.College == "Cégep de Lévis-Lauzon").id_College;
+                            if (values[i][3] != "")
+                            {
+                                cours.resultat = Convert.ToInt32(values[i][3]);
+                            }
+                            db.CoursSuivi.Add(cours);
+                            db.SaveChanges();
+                        }
+                    }
+                    return RedirectToAction("Details", "DossierEtudiant", new { id = SessionBag.Current.id_Inscription });
+                }
+        }
+        [NonAction]
+        private int? JourANumero(string jour)
+        {
+            switch (jour)
+            {
+                case "Lundi":
+                    return 2;
+                case "Mardi":
+                    return 3;
+                case "Mercredi":
+                    return 4;
+                case "Jeudi":
+                    return 5;
+                case "Vendredi":
+                    return 6;
+                default:
+                    return null;
+
+            }
+        }
+        [NonAction]
+        private string[] triageTableauAlphaNumerique(string[] tableau)
+        {
+            Array.Sort(tableau, StringComparer.InvariantCulture);
+            return tableau;
+        }
+        public ActionResult Tuteur()
+        {
+            listeCours();
+            listeCollege();
+            return View();
+        }
+        public ActionResult TBenevole()
+        {
+            listeCours();
+            listeCollege();
+            return View();
+        }
+        [NonAction]
+        public void listeCours()
+        {
+            var lstCrs = from c in db.Cours orderby c.Nom select c;
+            var slCrs = new List<SelectListItem>();
+            slCrs.AddRange(new SelectList(lstCrs, "id_Cours","CodeNom"));
+            ViewBag.lstCours = slCrs;
+            ViewBag.lstCours1 = slCrs;
+        }
+        [NonAction]
+        public void listeCollege()
+        {
+            var lstCol = from c in db.p_College orderby c.College select c;
+            var slCol = new List<SelectListItem>();
+            slCol.AddRange(new SelectList(lstCol, "id_College", "College"));
+            ViewBag.lstCollege = slCol;
+        }
+        [NonAction]
+        public void listeStatutCours()
+        {
+            var lstStatut = from c in db.p_StatutCours orderby c.id_Statut select c;
+            var slStatut = new List<SelectListItem>();
+            slStatut.AddRange(new SelectList(lstStatut, "id_Statut", "Statut"));
+            ViewBag.lstStatut = slStatut;
+        }
+        [NonAction]
+        public void listeSession()
+        {
+            var lstSess = from c in db.Session orderby c.id_Sess select c;
+            var slSession = new List<SelectListItem>();
+            slSession.AddRange(new SelectList(lstSess, "id_Sess", "NomSession", Session));
+            ViewBag.slSession = slSession;
+        }
+        [HttpPost]
+        public ActionResult getLigneCours()
+        {
+            listeCours();
+            listeCollege();
+            return PartialView("_LigneCoursReussi");
+        }
+        [HttpPost]
+        public ActionResult getLigneCoursEleveAide()
+        {
+            listeCours();
+            listeStatutCours();
+            listeSession();
+            return PartialView("_LigneCoursReussiEleveAide");
+        }
+        [HttpPost]
+        public string ErreurCours()
+        {
+            return Messages.I_048();
+        }      
     }
 }

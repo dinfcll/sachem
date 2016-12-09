@@ -331,6 +331,8 @@ namespace sachem.Models
         }
         public static string I_045(string NomEtudiant)
         { return $"L'étudiant {NomEtudiant} a été modifié."; }
+        public static string I_048()
+        { return $"Un cours ne peut être choisi qu'une seule fois."; }
 
         /// <summary>
         /// Le nom du collège a bien été modifié

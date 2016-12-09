@@ -1,0 +1,162 @@
+﻿@using Microsoft.AspNet.Identity
+@using sachem.Models
+
+<div class="row pageItemPadding">
+    <div class="col-md-6"><h5 class="hIns">Êtes-vous prêt à faire deux rencontres consécutives (3h)</h5></div>
+    <div class="col-md-6">
+        <div style="float:right">
+            <input id="Q3" name="Q3radio" type="radio" checked/>oui
+            <input id="Q1" name="Q3radio" type="radio" style="margin-left:30px;" />non
+        </div>
+    </div>
+</div>
+<h3 style="background-color:aliceblue">Informations spécifiques</h3>
+<h5 id="erreur" style="color:red;"></h5>
+<h5 class="hIns">Les cours dans lesquels vous aimeriez donner de l'aide sont:</h5>
+<div class="clearfix pageItemPadding">
+    <div class="col-md-9">
+        <div class="row ins-row">
+            <div class="col-md-2">1er choix</div>            
+            <div class="col-md-6">@Html.DropDownList("lstCours", null, htmlAttributes: new { @class = "form-search ins-selectcours validecours"})</div>
+            <div class="col-md-4"></div>
+            </div>
+        <div class="row ins-row">
+            <div class="col-md-2">2e choix</div>
+            <div class="col-md-6">@Html.DropDownList("lstCours", null, htmlAttributes: new { @class = "form-search ins-selectcours validecours" })</div>
+            <div class="col-md-4"></div>
+        </div>
+        <div class="row ins-row">
+            <div class="col-md-2">3e choix</div>
+            <div class="col-md-6">@Html.DropDownList("lstCours", null, htmlAttributes: new { @class = "form-search ins-selectcours validecours" })</div>
+            <div class="col-md-4"></div>
+        </div>
+    </div>
+</div>
+<hr/>
+<br />
+<p>
+    <h5 class="hIns">
+        Indiquez tous les cours de mathématiques(collégial) que vous avez suivis et réussis
+        ainsi que le cégep où ces cours ont eu lieu :
+    </h5>
+</p>
+<div id="espaceCours">
+</div>
+<div style="padding-bottom:10px">
+    <input type="button" value="Ajouter un cours" class="btn btn-default ins-btnAjouter" id="btnAjouterCours" /><br /><br />
+    <input type="button" value="Enregistrer et poursuivre" class="btn btn-default" id="btnPoursuivre" />
+    <input type="button" value="Enregistrer un brouillon" class="btn btn-default" id="btnBrouillon" />
+    <input type="button" value="Annuler" class="btn btn-default" id="btnAnnuler" />
+</div>
+
+<script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+<script type="text/javascript">
+
+    $(document).ready(function () {
+
+        listeCoursInteresse = function ()
+        {
+            var aideCours = [];
+            $(".validecours").each(function () {
+                if (aideCours.indexOf($(this).val()) == -1) {
+                    aideCours.push($(this).val());
+                }
+            });
+
+            return aideCours;
+        }
+        afficherErreur = function ()
+        {
+            $.ajax({
+                url: "/Inscription/ErreurCours",
+                type: "POST",
+                success: function (retour) {
+                    $("#erreur").html(retour);
+                }
+            });
+        }
+        listeCoursReussis = function () {
+            var infoCourCollegeNote = [];
+
+            $(".InfoCourCollege").each(function (i) {
+                infoCourCollegeNote.push([]);
+                $($(this).find(".valLignecours")).each(function (j) {
+                    infoCourCollegeNote[i][j] = $(this).val();
+                });
+            });
+
+            return infoCourCollegeNote;
+        }
+
+        validerCoursReussis = function (listeCoursReussis)
+        {
+            //RESTE À VÉRIFIER LES DOUBLONS ET LES RÉSULTATS EN INT OU DOUBLE
+            listeCoursReussis.forEach(function (element) {
+                alert(element);
+            });
+
+        }
+
+        activationInput = function ()
+        {
+            $(".btnSupprimerCours").click(function () {
+                $(this).parent().parent().remove();
+            });
+            $(".ins-selectcours").change(function () {
+                var test = $(this).val();                
+            });
+            $(".InfoCourCollege").find($(".dropDownCours")).change(function () {
+                if ($(this).val() != "") {
+                    $(this).closest(".InfoCourCollege").find($(".coursChange")).attr('disabled', 'disabled');
+                }
+                else {
+                    $(this).closest(".InfoCourCollege").find($(".coursChange")).removeAttr('disabled');
+                }
+            });
+            $(".InfoCourCollege").find($(".dropDownCollege")).change(function () {
+                if ($(this).val() != "") {
+                    $(this).closest(".InfoCourCollege").find($(".collegeChange")).attr('disabled', 'disabled');
+                }
+                else {
+                    $(this).closest(".InfoCourCollege").find($(".collegeChange")).removeAttr('disabled');
+                }
+            });
+        }
+
+        ajouterLigneCours = function () {
+            $.ajax({
+                url: "/Inscription/getLigneCours",
+                type: "POST",
+                success: function (donnees) {
+                    $("#espaceCours").append(donnees);
+                    activationInput();
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    $("#espaceCours").append(errorThrown);
+                }
+            });
+        }
+
+        ajouterLigneCours();
+        $("#btnAjouterCours").click(function (){
+            ajouterLigneCours();
+        });
+        $("#btnAnnuler").click(function () {
+            window.location.href = '@Url.Action("Index", "Inscription")';
+        });
+        $("#btnPoursuivre").click(function () {
+            var coursInteresse = listeCoursInteresse();
+
+            if (coursInteresse.length != 3) {
+                afficherErreur();
+            }
+            else
+            {
+                var coursReussis = listeCoursReussis();
+
+                var coursReussisValides = validerCoursReussis(coursReussis); 
+            }
+        });
+        
+    });
+</script>
