@@ -5,7 +5,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - Sachem</title>
+    <title>@ViewBag.Title - SACHEM</title>
     <link href="~/Content/css" rel="stylesheet" type="text/css" media="screen" />
     @Scripts.Render("~/bundles/modernizr")
     @Scripts.Render("~/Scripts/jquery-1.10.2.js")
@@ -22,7 +22,7 @@
                     <span class="icon-bar"></span>
                 </button>
                 <div class="logo">
-                    <div class="cll"><div class="sachem"></div></div>                    
+                    <div class="cll"><div class="nomSite">sachem</div></div>                    
                 </div>
                 <span style="padding-left:180px;"></span>
             </div>
@@ -100,8 +100,7 @@
             </a></p>
         </footer>
     </div>
-    <div id="shovel-artica" class="hide shovelartica"></div>
-    <script type="text/javascript">
+    <script>
         $("input[type='submit']").on("click", function () {
             window.onbeforeunload = function () {
                 $("#mainProgressBar").removeClass('hide');
@@ -115,21 +114,7 @@
             if(href.charAt(0)!="#" && bHref && !bTarget)
                 $("#mainProgressBar").removeClass('hide');
         });
-        $(document).keyup(function (e) {
-            if (e.which == 122) {
-                e.preventDefault();
-                if ($('#shovel-artica').hasClass('hide'))
-                {
-                    $('#shovel-artica').removeClass('hide');
-                }
-                else
-                {
-                    $('#shovel-artica').addClass('hide');
-                }                
-                return false;
-            }
-        });
-    </script> 
+    </script>
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)

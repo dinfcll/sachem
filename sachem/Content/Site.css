@@ -34,12 +34,22 @@
     height: 70px; 
 }
 
-.sachem {
-    background-image: url('../Images/logo-sachem.png');
-    background-position: 74px 7px;
-    background-repeat:no-repeat;
-    background-size: auto 35px;
-    height: 70px;
+@font-face {
+    font-family: 'FontDuCegep'; /*a name to be used later*/
+    src: url('../fonts/cegepLevisLauzon.otf'); /*URL to font*/
+    font-stretch:expanded;
+}
+
+.nomSite {
+    text-transform:uppercase;
+    margin-left:78px;
+    font-family:FontDuCegep;
+    font-size:26px;
+    padding-top:8px;
+    word-spacing:0px;
+    letter-spacing:2px;
+    font-weight:900;
+    color:#fff;
 }
 
 /* Override the default bootstrap behavior where horizontal description lists 
@@ -78,16 +88,6 @@ textarea {
 }
 /*table avec les rangees de differentes couleurs --fin*/
 
-.shovelartica{
-    background-image: url('../Images/500.gif');
-    width:500px;
-    height:500px;
-    position:fixed;
-    top:20%;
-    left:30%;
-    border:4px solid #444;
-    border-radius:20px;
-}
 /*drop down list de recherche*/
 .form-search
 {
