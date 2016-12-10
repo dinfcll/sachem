@@ -396,7 +396,6 @@
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
-    <Content Include="Images\500.gif" />
     <Content Include="Images\Alert.jpg" />
     <Content Include="Images\facebook.png" />
     <Content Include="Images\logo-cegep.png" />
