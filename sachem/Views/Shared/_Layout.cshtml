@@ -100,7 +100,6 @@
             </a></p>
         </footer>
     </div>
-    <div id="shovel-artica" class="hide shovelartica"></div>
     <script type="text/javascript">
         window.onbeforeunload = function () {
             $("#mainProgressBar").removeClass('hide');
@@ -108,20 +107,6 @@
         window.onload = function () {
             $("#mainProgressBar").addClass('hide');
         }
-        $(document).keyup(function (e) {
-            if (e.which == 122) {
-                e.preventDefault();
-                if ($('#shovel-artica').hasClass('hide'))
-                {
-                    $('#shovel-artica').removeClass('hide');
-                }
-                else
-                {
-                    $('#shovel-artica').addClass('hide');
-                }                
-                return false;
-            }
-        });
     </script> 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
