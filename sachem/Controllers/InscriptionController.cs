@@ -179,6 +179,7 @@ namespace sachem.Controllers
             listeSession();
             return View();
         }
+
         [HttpGet]
         public ActionResult Tuteur()
         {
@@ -330,65 +331,6 @@ namespace sachem.Controllers
         }
 
         [HttpPost]
-        public void Poursuivre(string[][] listeCoursReussis_Cours_Note, string[] listeCoursInteresses)
-        {
-            int i = 0;
-            int resultat;
-            string[] temp = new string[3];
-            List<string[]> donneesInscription = new List<string[]>();
-            bool erreur = false;
-
-            while (i < listeCoursReussis_Cours_Note.Length && !erreur)
-            {
-                temp = new string[3];
-
-                if (listeCoursReussis_Cours_Note[i][0] == "")
-                {
-                    if (listeCoursReussis_Cours_Note[i][2] == "")
-                    {
-                        erreur = true;
-                    }
-                    else
-                    {
-                        temp[0] = listeCoursReussis_Cours_Note[i][2];
-                    }
-                }
-                else
-                {
-                    temp[0] = listeCoursReussis_Cours_Note[i][0];
-                }
-
-                if (Int32.TryParse(listeCoursReussis_Cours_Note[i][1], out resultat) && (resultat >= 0 && resultat <= 100))
-                {
-                    temp[1] = listeCoursReussis_Cours_Note[i][1];
-                }
-                else
-                {
-                    erreur = true;
-                }
-                if (listeCoursReussis_Cours_Note[i][3] == "")
-                {
-                    if (listeCoursReussis_Cours_Note[i][4] == "")
-                    {
-                        erreur = true;
-                    }
-                    else
-                    {
-                        temp[2] = listeCoursReussis_Cours_Note[i][4];
-                    }
-                }
-                else
-                {
-                    temp[2] = listeCoursReussis_Cours_Note[i][4];
-                }
-
-                donneesInscription.Add(temp);
-                i++;
-            }
-        }      
-
-
-        [HttpPost]
         public void listeCours()
         {
             var lstCrs = from c in db.Cours orderby c.Nom select c;
@@ -444,15 +386,6 @@ namespace sachem.Controllers
                 }
             }
             return false;
-        }
-
-        [ValidationAcces.ValidationAccesEleve]
-        public ActionResult EleveAide1()
-        {
-            listeCours();
-            listeStatutCours();
-            listeSession();
-            return PartialView("_LigneCoursReussiEleveAide");
         }
 
         [ValidationAcces.ValidationAccesEleve]
