@@ -426,7 +426,7 @@
     <Content Include="Models\Model1.edmx.diagram">
       <DependentUpon>Model1.edmx</DependentUpon>
     </Content>
-    <Content Include="fonts\typographica.otf" />
+    <Content Include="fonts\cegepLevisLauzon.otf" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -537,9 +537,12 @@
     <Content Include="Views\Jumelage\Delete.cshtml" />
     <Content Include="Views\Inscription\_CoursReussisEleveAide.cshtml" />
     <Content Include="Views\Inscription\_LigneCoursReussiEleveAide.cshtml" />
+    <Content Include="Views\Inscription\Tuteur.cshtml" />
+    <Content Include="Views\Shared\_CoursReussis.cshtml" />
+    <Content Include="Views\Inscription\TBenevole.cshtml" />
+    <Content Include="Views\Shared\_LigneCoursReussi.cshtml" />
     <Content Include="Views\RechercheInscription\Index.cshtml" />
     <Content Include="Views\RechercheInscription\Details.cshtml" />
-    <Content Include="Views\Jumelage\Delete.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

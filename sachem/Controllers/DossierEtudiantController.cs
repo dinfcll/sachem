@@ -223,7 +223,7 @@ namespace sachem.Controllers
         }
 
         // GET: DossierEtudiant
-        [ValidationAccesTuteur]
+        [ValidationAccesEleve]
         public ActionResult Index(int? page)
         {
             noPage = (page ?? noPage);
