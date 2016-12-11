@@ -85,16 +85,6 @@ namespace sachem.Controllers
             return View(contact);
         }
 
-        [NonAction]
-        [ValidationAccesSuper]
-        private void ListeSession(int session = 0)
-        {
-            var lSessions = db.Session.AsNoTracking().OrderByDescending(y => y.Annee).ThenByDescending(x => x.id_Saison);
-            var slSession = new List<SelectListItem>();
-            slSession.AddRange(new SelectList(lSessions, "id_Sess", "NomSession", session));
-            ViewBag.id_Sess = slSession;
-        }
-
         //Méthode qui envoie a la view Edit horaire la liste de toutes les horaires d'inscription ainsi que l'horaire de la session courrante
         [ValidationAccesSuper]
         public ActionResult EditHoraire(int session = 0)
@@ -106,7 +96,7 @@ namespace sachem.Controllers
             }
             ViewBag.idSess = session;
             var lhoraire = db.p_HoraireInscription.OrderByDescending(y => y.id_Sess).Where(x => x.id_Sess == session).FirstOrDefault();
-            ListeSession(session);
+            ViewBag.id_sess = Liste.ListeSession(session);
             ViewBag.idSessStable = idZero.id_Sess;         
             return View(lhoraire);
         }
@@ -175,7 +165,7 @@ namespace sachem.Controllers
             }
             var idZero = db.Session.OrderByDescending(y => y.id_Sess).FirstOrDefault();
             ViewBag.idSess = session.id_Sess;
-            ListeSession(session.id_Sess);
+            ViewBag.id_sess = Liste.ListeSession(session.id_Sess);
             ViewBag.idSessStable = idZero.id_Sess;
             return View(HI);
         }

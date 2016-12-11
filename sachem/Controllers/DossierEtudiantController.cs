@@ -29,16 +29,6 @@ namespace sachem.Controllers
             this.dataRepository = dataRepository;
         }
 
-        [NonAction]
-        //liste des sessions disponibles en ordre d'année
-        private void ListeSession(int session = 0)
-        {
-            var lSessions = db.Session.AsNoTracking().OrderByDescending(y => y.Annee).ThenByDescending(x => x.id_Saison);
-            var slSession = new List<SelectListItem>();
-            slSession.AddRange(new SelectList(lSessions, "id_Sess", "NomSession", session));
-            ViewBag.Session = slSession;
-        }
-
         //fonctions permettant d'obtenir la liste des groupe. Appelé pour l'initialisation et la maj de la liste déroulante Groupe
         [NonAction]
         private IEnumerable<Personne> ObtenirListeSuperviseur(int session)
@@ -49,16 +39,6 @@ namespace sachem.Controllers
                                 orderby p.Nom, p.Prenom
                                 select p;
             return lstEnseignant.ToList();
-        }
-
-        //fonctions permettant d'initialiser les listes déroulantes
-        [NonAction]
-        private void ListeTypeInscription(int TypeInscription = 0)
-        {
-            var lInscriptions = db.p_TypeInscription.AsNoTracking().OrderBy(i => i.TypeInscription);
-            var slInscription = new List<SelectListItem>();
-            slInscription.AddRange(new SelectList(lInscriptions, "id_TypeInscription", "TypeInscription", TypeInscription));
-            ViewBag.Inscription = slInscription;
         }
 
         //fonctions permettant d'initialiser les listes déroulantes
@@ -193,8 +173,8 @@ namespace sachem.Controllers
                     session = Convert.ToInt32(db.Session.OrderByDescending(y => y.Annee).ThenByDescending(x => x.id_Saison).FirstOrDefault().id_Sess);
             }
 
-            ListeSession(session);
-            ListeTypeInscription(typeinscription);
+            ViewBag.Session = Liste.ListeSession(session);
+            ViewBag.Inscription = Liste.ListeTypeInscription(typeinscription);
             ListeSuperviseur(session, superviseur);
 
             //on enregistre la recherche
