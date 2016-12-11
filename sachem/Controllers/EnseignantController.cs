@@ -90,7 +90,6 @@ namespace sachem.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "id_Pers, id_Sexe, id_TypeUsag, Nom, Prenom, NomUsager, MP, ConfirmPassword, Courriel, DateNais, Actif")] Personne personne)
         {
-            bool AncienMotDePasse = false;
             Valider(personne);
             if (personne.MP != null && personne.ConfirmPassword != null)
             {
