@@ -188,7 +188,7 @@ namespace sachem.Controllers
                 }
                 db.Groupe.Remove(groupe);
                 db.SaveChanges();
-                TempData["Success"] = string.Format(Messages.I_020(groupe.NoGroupe));
+                TempData["Success"] = string.Format(Messages.GroupeSupprime(groupe.NoGroupe));
             }
 
             return RedirectToAction("Index");
@@ -300,8 +300,8 @@ namespace sachem.Controllers
 
             if (db.GroupeEtudiant.Where(x => x.id_Etudiant == idp).Where(x => x.id_Groupe == idg).FirstOrDefault() != null)
             {
-                TempData["ErrorAjoutEleve"] = Messages.I_023(db.GroupeEtudiant.Where(x => x.id_Etudiant == idp).Where(x => x.id_Groupe == idg).FirstOrDefault().Personne.Matricule7);
-                ModelState.AddModelError(string.Empty, Messages.I_023(db.GroupeEtudiant.Where(x => x.id_Etudiant == idp).Where(x => x.id_Groupe == idg).FirstOrDefault().Personne.Matricule7));
+                TempData["ErrorAjoutEleve"] = Messages.EtudiantAjouteDeuxFoisAuGroupe(db.GroupeEtudiant.Where(x => x.id_Etudiant == idp).Where(x => x.id_Groupe == idg).FirstOrDefault().Personne.Matricule7);
+                ModelState.AddModelError(string.Empty, Messages.EtudiantAjouteDeuxFoisAuGroupe(db.GroupeEtudiant.Where(x => x.id_Etudiant == idp).Where(x => x.id_Groupe == idg).FirstOrDefault().Personne.Matricule7));
             }
 
             if (ModelState.IsValid)
@@ -327,7 +327,7 @@ namespace sachem.Controllers
                     g.GroupeEtudiant.Add(ge);
 
                     db.SaveChanges();
-                    TempData["Success"] = string.Format(Messages.I_024(p.Matricule7, g.id_Groupe));
+                    TempData["Success"] = string.Format(Messages.EtudiantAjouteAuGroupe(p.Matricule7, g.id_Groupe));
                 }
 
             }
@@ -359,7 +359,7 @@ namespace sachem.Controllers
         {
             GroupeEtudiant ge = db.GroupeEtudiant.Find(id);
 
-            TempData["Success"] = string.Format(Messages.I_022(ge.Personne.Matricule7, ge.Groupe.NoGroupe));
+            TempData["Success"] = string.Format(Messages.EudiantRetireDuGroupe(ge.Personne.Matricule7, ge.Groupe.NoGroupe));
             db.GroupeEtudiant.Remove(ge);
             db.SaveChanges();
 
@@ -410,13 +410,13 @@ namespace sachem.Controllers
 
             if ( ge2 != null && ge.Groupe.id_Sess == ge2.Groupe.id_Sess && ge.id_Etudiant == ge2.id_Etudiant)
             {
-                TempData["Success"] = Messages.I_041(ge.Personne.Matricule7, g.NoGroupe, g.Cours.Nom);
+                TempData["Success"] = Messages.EtudiantDeplacementDeCoursImpossible(ge.Personne.Matricule7, g.NoGroupe, g.Cours.Nom);
             }
             else 
             {
                 ge.Groupe = g;
                 db.SaveChanges();
-                TempData["Success"] = Messages.I_040(ge.Personne.Matricule7, g.NoGroupe, g.Cours.Nom);
+                TempData["Success"] = Messages.EtudiantDeplacementDeGroupe(ge.Personne.Matricule7, g.NoGroupe, g.Cours.Nom);
             }
 
             return RedirectToAction("Index");
@@ -446,7 +446,7 @@ namespace sachem.Controllers
         {
             if (db.Groupe.Any(r => r.NoGroupe == groupe.NoGroupe && r.id_Sess == groupe.id_Sess && r.id_Cours == groupe.id_Cours))
             {
-                ModelState.AddModelError(string.Empty, Messages.I_021(groupe.NoGroupe)); 
+                ModelState.AddModelError(string.Empty, Messages.GroupeAyantLeMemeNumero(groupe.NoGroupe)); 
             }
         }
 

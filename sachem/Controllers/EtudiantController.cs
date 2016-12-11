@@ -316,7 +316,7 @@ namespace sachem.Controllers
                        orderby d.ProgrammeEtude.Code
                        select d;
             
-            TempData["Question"] = Messages.Q_002(etuprog.ProgrammeEtude.CodeNomProgramme);
+            TempData["Question"] = Messages.VraimentSupprimerProgrammeEtude(etuprog.ProgrammeEtude.CodeNomProgramme);
             var etuProgEtu = db.EtuProgEtude.Where(x => x.id_EtuProgEtude == idProg);
             if (Valider != 0)
             {
@@ -355,11 +355,11 @@ namespace sachem.Controllers
 
             if (personne.Matricule7 == null)
             {
-                ModelState.AddModelError("Matricule7", Messages.U_001); //requis
+                ModelState.AddModelError("Matricule7", Messages.ChampRequis); //requis
             }
             else if (personne.Matricule7.Length != 7 || !personne.Matricule.All(char.IsDigit)) //vérifie le matricule
             {
-                ModelState.AddModelError("Matricule7", Messages.U_004); //longueur
+                ModelState.AddModelError("Matricule7", Messages.LongueurDeSeptCaracteres); //longueur
             }
             else if (db.Personne.Any(x => x.Matricule == personne.Matricule))// Verifier si le matricule existe déja dans la BD
             {
@@ -379,8 +379,8 @@ namespace sachem.Controllers
         {
             if (s1 != s2)
             {
-                ModelState.AddModelError("ConfirmPassword", Messages.C_001);
-                TempData["Echec"] = Messages.C_001;
+                ModelState.AddModelError("ConfirmPassword", Messages.MotsDePasseDoiventEtreIdentiques);
+                TempData["Echec"] = Messages.MotsDePasseDoiventEtreIdentiques;
                 return false;
             }
             return true;

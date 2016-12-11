@@ -363,37 +363,37 @@ namespace sachem.Models
         /// Le mot de passe et la confirmation du mot de passe doivent être identiques.
         /// </summary>
         /// <returns></returns>
-        public const string C_001 = "Le mot de passe et la confirmation du mot de passe doivent être identiques.";
+        public const string MotsDePasseDoiventEtreIdentiques = "Le mot de passe et la confirmation du mot de passe doivent être identiques.";
 
         ///<summary>
         /// L'ancien mot de passe est invalide.
         /// </summary>
         /// <returns></returns>
-        public const string C_002 = "L'ancien mot de passe est invalide.";
+        public const string MauvaisAncienMotDePasse = "L'ancien mot de passe est invalide.";
 
         ///<summary>
         /// "Aucun usager associé à cette adresse courriel.
         /// </summary>
         /// <returns></returns>
-        public const string C_003 = "Aucun usager associé à cette adresse courriel.";
+        public const string AucunUsagerAvecCeCourriel = "Aucun usager associé à cette adresse courriel.";
 
         ///<summary>
         /// Cet usager n'existe pas ou le mot de passe est invalide.
         /// </summary>
         /// <returns></returns>
-        public const string C_004 = "Cet usager n'existe pas ou le mot de passe est invalide.";
+        public const string MauvaisUsagerOuMotDePasse = "Cet usager n'existe pas ou le mot de passe est invalide.";
 
         ///<summary>
         /// La date de début doit être antérieure à la date de fin
         /// </summary>
         /// <returns></returns>
-        public const string C_005 = "La date de début doit être antérieure à la date de fin.";
+        public const string ValidationDate = "La date de début doit être antérieure à la date de fin.";
 
         ///<summary>
         /// Les dates de début et de fin doivent faire partie de la session sélectionnée.
         /// </summary>
         /// <returns></returns>
-        public static string C_006 (string param1, string param2)
+        public static string DatesDansLaSession (string param1, string param2)
         { return $"Les dates de début et de fin doivent faire partie de la session {param1}{param2}."; }
 
         /// <summary>
@@ -402,12 +402,13 @@ namespace sachem.Models
         /// <param name="param1"></param>
         /// <param name="param2"></param>
         /// <returns></returns>
-        public static string C_009(string param1, string param2)
+        public static string CompleterLesChamps(string param1, string param2)
         { return $"Un des deux champs {param1}, {param2} doit être complété."; }
+
         /// <summary>
         /// Résultat requis si réussi,
         /// </summary>
-        public const string C_010 = "Le résultat est requis si le statut du cours est réussi.";
+        public const string ResultatRequisSiReussi = "Le résultat est requis si le statut du cours est réussi.";
 
 
         #endregion
@@ -418,73 +419,69 @@ namespace sachem.Models
         /// Requis
         /// </summary>
         /// <returns></returns>
-        public const string U_001 = "Requis";
+        public const string ChampRequis = "Requis";
 
         /// <summary>
         /// Format : nom@nomdomaine
         /// </summary>
         /// <returns></returns>
-        public const string U_003 = "Longueur requise : 8 caractères.";
+        public const string LongueurDeHuitCaracteres = "Longueur requise : 8 caractères.";
 
         /// <summary>
         /// Longueur requise: 7 caractères.
         /// </summary>
-        public const string U_004 = "Longueur requise: 7 caractères";
+        public const string LongueurDeSeptCaracteres = "Longueur requise: 7 caractères";
 
         /// <summary>
         /// Longueur requise: 4 caractères.
         /// </summary>
-        public const string U_005 = "Longueur requise: 4 caractères";
+        public const string LongueurDeQuatreCaracteres = "Longueur requise: 4 caractères";
 
         /// <summary>
         /// Format : AAAA
         /// </summary>
         /// <returns></returns>
-        public const string U_006 = "Format : AAAA";
+        public const string FormatAnnee = "Format : AAAA";
 
         /// <summary>
         /// Format: AAAA/MM/JJ
         /// </summary>
-        public const string U_007 = "Format: AAAA/MM/JJ";
+        public const string FormatEnDate = "Format: AAAA/MM/JJ";
 
         /// <summary>
         /// Format: nom@domaine.com
         /// </summary>
         /// <param name="Code"></param>
-        public const string U_008 = "Format: nom@nomdomaine.com";
+        public const string FormatDeCourriel = "Format: nom@nomdomaine.com";
 
         ///<summary>
         /// Format : (999) 999-9999
         /// </summary>
         /// <returns></returns>
-        public const string U_009 = "Format : (999) 999-9999";
+        public const string FormatTelephone = "Format : (999) 999-9999";
 
         ///<summary>
         /// Format : HH:MM
         /// </summary>
         /// <returns></returns>
-        public const string U_010 = "Format : HH:MM:SS";
+        public const string FormatHeureMinuteSeconde = "Format : HH:MM:SS";
 
         /// <summary>
         /// "La date indiquée doit être entre l'année 1967 et celle en cours"
         /// </summary>
         /// <returns></returns>
-        public const string U_012 = "La date indiquée doit être entre l'année 1967 et celle en cours";
-        /// <summary>
-        /// Resultat 0 à 100
-        /// </summary>
-        public const string U_011 = "Le résultat doit être de 0 à 100.";
+        public const string DatePlusHauteQueLAnneeDeFondationDuCepgep = "La date indiquée doit être entre l'année 1967 et celle en cours";
 
         /// <summary>
         /// "Longueur minimale: 6 caractères!"
         /// </summary>
         /// <returns></returns>
-        public const string U_013 = "Longueur minimale de 6 caractères.";
+        public const string LongueurDeSixCarateres = "Longueur minimale de 6 caractères.";
         /// <summary>
         /// "Veuillez entrer un nombre en 0 et 100!"
         /// </summary>
         /// <returns></returns>
-        public const string U_014 = "Veuillez entrer un nombre en 0 et 100";
+        public const string NombreEntreZeroEtCent = "Veuillez entrer un nombre en 0 et 1000";
 
         #endregion
 
@@ -494,32 +491,32 @@ namespace sachem.Models
         /// Voulez-vous vraiment supprimer le cours {0}?
         /// </summary>
         /// <param name="CodeUsager"></param>
-        /// <returns></returns>private string Q_001(string Cours)
-        public static string Q_001(string Cours)
+        /// <returns></returns>
+        public static string VraimentSupprimerCours(string Cours)
         { return $"Voulez-vous vraiment supprimer le cours {Cours}?"; }
 
         /// <summary>
         /// Voulez-vous vraiment supprimer le programme d'études {0} ?
         /// </summary>
         /// <param name="nomProgrammeEtude"></param>
-        /// <returns></returns>private string Q_002(string NomProgrammeEtude)
-        public static string Q_002(string nomProgrammeEtude)
+        /// <returns></returns>
+        public static string VraimentSupprimerProgrammeEtude(string nomProgrammeEtude)
         { return $"Voulez-vous vraiment supprimer le programme d'études {nomProgrammeEtude} ?"; }
 
         /// <summary>
         /// Voulez-vous vraiment supprimer l'enseignant {0} ?
         /// </summary>
         /// <param name="NomUsager"></param>
-        /// <returns></returns>private string Q_003(string Enseignant)
-        public static string Q_003(string Enseignant)
+        /// <returns></returns>
+        public static string VraimentSupprimerEnseignant(string Enseignant)
         { return $"Voulez-vous vraiment supprimer l'enseignant {Enseignant} ?"; }
 
         /// <summary>
         /// L'enseignant {0} a été créé. Souhaitez-vous <a href=\"Sachem/Groupes/{1}\">y associer un groupe?</a>
         /// </summary>
         /// <param name="NomUsager" name="id_Enseignant"></param>
-        /// <returns></returns>public string Q_043(string NomUsager, int id_Enseignant)
-        public static MvcHtmlString Q_004(string NomUsager, int id_Enseignant)
+        /// <returns></returns>
+        public static MvcHtmlString AjouterUnGroupeAUnEnseignant(string NomUsager, int id_Enseignant)
         {
             return MvcHtmlString.Create($"L'enseignant {NomUsager} a été créé. Souhaitez-vous <a href=\"/Groupes/Create?idEns={id_Enseignant}\">y associer un groupe?</a>"); // Note: Changé vers quel page le lien pointe.
         }
@@ -529,7 +526,7 @@ namespace sachem.Models
         /// </summary>
         /// <param name="NoGroupe"></param>
         /// <returns></returns>private string Q_006(string NoGroupe)
-        public static string Q_006(int NoGroupe)
+        public static string VraimentSupprimerGroupe(int NoGroupe)
         { return $"Voulez-vous vraiment supprimer le groupe {NoGroupe}?"; }
 
         /// <summary>

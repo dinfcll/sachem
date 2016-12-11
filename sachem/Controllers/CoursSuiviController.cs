@@ -77,14 +77,14 @@ namespace sachem.Controllers
             }
 
             if (coursSuivi.id_Cours == null && coursSuivi.autre_Cours == string.Empty || coursSuivi.id_Cours != null && coursSuivi.autre_Cours != string.Empty)
-                ModelState.AddModelError(string.Empty, Messages.C_009("Cours" , "Autre cours"));
+                ModelState.AddModelError(string.Empty, Messages.CompleterLesChamps("Cours" , "Autre cours"));
 
             if (coursSuivi.id_College == null && coursSuivi.autre_College == string.Empty || coursSuivi.id_College != null && coursSuivi.autre_College != string.Empty)
-                ModelState.AddModelError(string.Empty, Messages.C_009("Collège", "Autre collège"));
+                ModelState.AddModelError(string.Empty, Messages.CompleterLesChamps("Collège", "Autre collège"));
 
             //Verif si resultat nécéssaire et présent
             if ((coursSuivi.id_Statut == null || coursSuivi.id_Statut == 1) && coursSuivi.resultat == null)
-                ModelState.AddModelError(string.Empty, Messages.C_010);
+                ModelState.AddModelError(string.Empty, Messages.ResultatRequisSiReussi);
         }
 
         // GET: CoursSuivi/Create

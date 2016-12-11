@@ -123,11 +123,11 @@ namespace sachem.Controllers
             const int STATUT_ACCEPTE = 3;
 
             if (mdpPlain == "")
-                ModelState.AddModelError("MP", Messages.U_001);
+                ModelState.AddModelError("MP", Messages.ChampRequis);
             else
                 if (NomUsager == null)
             {
-                ModelState.AddModelError("NomUsager", Messages.U_001); 
+                ModelState.AddModelError("NomUsager", Messages.ChampRequis); 
             }
             else
                     if (Regex.IsMatch(NomUsager, @"^\d+$") && NomUsager.Length == 7) 
@@ -279,9 +279,9 @@ namespace sachem.Controllers
                 return View(personne);
 
             if (personne.Matricule7 == null)
-                ModelState.AddModelError("Matricule7", Messages.U_001); 
+                ModelState.AddModelError("Matricule7", Messages.ChampRequis); 
             else if (personne.Matricule7.Length != 7 || !personne.Matricule.All(char.IsDigit)) 
-                ModelState.AddModelError("Matricule7", Messages.U_004); 
+                ModelState.AddModelError("Matricule7", Messages.LongueurDeSeptCaracteres); 
             else if (db.Personne.Any(x => x.Matricule == personne.Matricule && x.MP != null))
                 ModelState.AddModelError(string.Empty, Messages.CompteExisteDeja()); 
             else if (!db.Personne.Any(x => x.Matricule == personne.Matricule))
@@ -381,7 +381,7 @@ namespace sachem.Controllers
             }
             else
             {
-                ModelState.AddModelError("Courriel", Messages.C_003);
+                ModelState.AddModelError("Courriel", Messages.AucunUsagerAvecCeCourriel);
             }
             return View();
         }
@@ -408,7 +408,7 @@ namespace sachem.Controllers
             string ancienmdpbd = SessionBag.Current.MP;
 
             if (personne.AncienMotDePasse == null)
-                ModelState.AddModelError("AncienMotDePasse", Messages.U_001); 
+                ModelState.AddModelError("AncienMotDePasse", Messages.ChampRequis); 
 
             if (!ConfirmeMdp(personne.MP, personne.ConfirmPassword))
                 return View(personne);
@@ -418,7 +418,7 @@ namespace sachem.Controllers
 
             if (SachemIdentite.encrypterChaine(personne.AncienMotDePasse) != ancienmdpbd)
             {
-                ModelState.AddModelError("AncienMotDePasse", Messages.C_002);
+                ModelState.AddModelError("AncienMotDePasse", Messages.MauvaisAncienMotDePasse);
                 return View(personne);
             }
             else
@@ -458,13 +458,13 @@ namespace sachem.Controllers
         {
             if (s1 == null || s2 == null)
             {
-                ModelState.AddModelError("MP", Messages.U_001);
-                ModelState.AddModelError("ConfirmPassword", Messages.U_001);
+                ModelState.AddModelError("MP", Messages.ChampRequis);
+                ModelState.AddModelError("ConfirmPassword", Messages.ChampRequis);
                 return false;
             }
             if (s1 != s2)
             {
-                ModelState.AddModelError("ConfirmPassword", Messages.C_001);
+                ModelState.AddModelError("ConfirmPassword", Messages.MotsDePasseDoiventEtreIdentiques);
                 return false;
             }
             return true;
