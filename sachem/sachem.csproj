@@ -530,16 +530,12 @@
     <Content Include="Views\Inscription\_AjoutCours.cshtml" />
     <Content Include="_Contribute\sachem.bak" />
     <Content Include="_Contribute\Sachem_Importer.csv" />
-    <Content Include="Views\Inscription\Tuteur.cshtml" />
     <Content Include="Views\Shared\_CoursReussis.cshtml" />
-    <Content Include="Views\Inscription\TBenevole.cshtml" />
     <Content Include="Views\Shared\_LigneCoursReussi.cshtml" />
     <Content Include="Views\Jumelage\Delete.cshtml" />
     <Content Include="Views\Inscription\_CoursReussisEleveAide.cshtml" />
     <Content Include="Views\Inscription\_LigneCoursReussiEleveAide.cshtml" />
-    <Content Include="Views\Inscription\Tuteur.cshtml" />
     <Content Include="Views\Shared\_CoursReussis.cshtml" />
-    <Content Include="Views\Inscription\TBenevole.cshtml" />
     <Content Include="Views\Shared\_LigneCoursReussi.cshtml" />
     <Content Include="Views\RechercheInscription\Index.cshtml" />
     <Content Include="Views\RechercheInscription\Details.cshtml" />
