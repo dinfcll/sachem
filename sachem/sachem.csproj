@@ -523,7 +523,6 @@
     <Content Include="Views\Jumelage\_JumelagesAvec.cshtml" />
     <Content Include="Views\Jumelage\_Disponibilites.cshtml" />
     <Content Include="Views\ContratEngagement\Index.cshtml" />
-    <Content Include="Views\Inscription\Tuteur.cshtml" />
     <Content Include="Views\Shared\_CoursReussis.cshtml" />
     <Content Include="Views\Inscription\TBenevole.cshtml" />
     <Content Include="Views\Shared\_LigneCoursReussi.cshtml" />
@@ -540,6 +539,7 @@
     <Content Include="Views\RechercheInscription\Index.cshtml" />
     <Content Include="Views\RechercheInscription\Details.cshtml" />
     <Content Include="Views\Shared\Deja.cshtml" />
+    <Content Include="Views\Inscription\Tuteur.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
