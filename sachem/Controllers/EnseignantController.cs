@@ -166,15 +166,6 @@ namespace sachem.Controllers
             base.Dispose(disposing);
         }
 
-        private void ListeEnseignant(int Enseignant = 0)
-        {
-            var lEnseignant = dataRepository.AllEnseignantOrdered();
-            var slEnseignant = new List<SelectListItem>();
-            slEnseignant.AddRange(new SelectList(lEnseignant, "id_Pers", "Nom", Enseignant));
-
-            ViewBag.Enseignant = slEnseignant;
-        }
-
         private bool SiEstCochee()
         {
             return !string.IsNullOrEmpty(Request.Form["Actif"]);
@@ -191,7 +182,7 @@ namespace sachem.Controllers
             }
             ViewBag.Actif = actif;
             // liste et pagination
-            ListeEnseignant(enseignant);
+            ViewBag.Enseignant = Liste.ListeEnseignant(enseignant);
 
             // Requete linq pour aller chercher les enseignants et responsables dans la BD
             var Enseignant = dataRepository.AllEnseignantResponsable(actif, ID_RESP, ID_ENSEIGNANT);
