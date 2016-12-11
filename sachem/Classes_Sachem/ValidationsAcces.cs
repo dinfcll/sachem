@@ -89,7 +89,7 @@ namespace sachem.Classes_Sachem
 
                 verifAcces(rolesAccesEtu, filterContext, pathErreurAuth);
 
-                DateTime dateActuelle = DateTime.Now.Date;
+                DateTime dateActuelle = DateTime.Now;
                 if (!ValidationDate(dateActuelle))
                 {
                     filterContext.Result = new RedirectResult(PATH_ERREUR_AUTH);
@@ -103,12 +103,25 @@ namespace sachem.Classes_Sachem
             }
             private bool ValidationDate(DateTime DateActuelle)
             {
+                TimeSpan DateActuelle_Heure = TimeSpan.FromHours(DateActuelle.Hour);
                 var Session = db.Session.GroupBy(s => s.id_Sess).Select(s => s.OrderByDescending(c => c.id_Sess).First()).Select(c => new { c.id_Sess});
                 var HoraireActuel = db.p_HoraireInscription.OrderByDescending(x => x.id_Sess).First();
-                if (!(DateActuelle > HoraireActuel.DateDebut && DateActuelle < HoraireActuel.DateFin))
+                if(DateActuelle < HoraireActuel.DateDebut && DateActuelle > HoraireActuel.DateFin)
+                {
                     return false;
+                }
+                else if (DateActuelle == HoraireActuel.DateDebut && DateActuelle_Heure < HoraireActuel.HeureDebut)
+                {
+                    return false;
+                }
+                else if (DateActuelle == HoraireActuel.DateFin && DateActuelle_Heure > HoraireActuel.HeureFin)
+                {
+                    return false;
+                }
                 else
+                {
                     return true;
+                }
             }
 
         }

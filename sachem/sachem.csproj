@@ -539,6 +539,7 @@
     <Content Include="Views\Shared\_LigneCoursReussi.cshtml" />
     <Content Include="Views\RechercheInscription\Index.cshtml" />
     <Content Include="Views\RechercheInscription\Details.cshtml" />
+    <Content Include="Views\Shared\Deja.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
