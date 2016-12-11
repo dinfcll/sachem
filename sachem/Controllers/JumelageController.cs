@@ -71,22 +71,23 @@ namespace sachem.Controllers
         {
             List<DisponibiliteStruct> listeCasesJumelageEtDisposCeluiInspecte = new List<DisponibiliteStruct>();
             DisponibiliteStruct caseDispoStruct = new DisponibiliteStruct();
-            IQueryable<Disponibilite> disposCeluiInspecte = db.Disponibilite.Where(x => x.id_Inscription == id);
-            IQueryable<Disponibilite> listeDisposDeTousLesAutres;
-            IQueryable<Jumelage> listeJumelagesCeluiInspecte;
+            IQueryable<Disponibilite> reqDisposCeluiInspecte = db.Disponibilite.Where(x => x.id_Inscription == id);
+            IQueryable<Disponibilite> reqDisposDeTousLesAutres;
+            IQueryable<Jumelage> reqJumelagesCeluiInspecte;
             List<Disponibilite> listeDisposCeluiInspecte = new List<Disponibilite>();
+            List<Jumelage> listeJumelagesCeluiInspecte = new List<Jumelage>();
 
             if (idTypeInsc == ID_INSCRIPTION_POUR_ELEVE_AIDE)
             {
-                listeJumelagesCeluiInspecte = db.Jumelage.Where(eleve => eleve.id_InscEleve == id && eleve.id_Sess == session);
-                listeDisposDeTousLesAutres = db.Disponibilite.Where(x => x.id_Inscription != id && x.Inscription.id_TypeInscription != ID_INSCRIPTION_POUR_ELEVE_AIDE);
+                reqJumelagesCeluiInspecte = db.Jumelage.Where(eleve => eleve.id_InscEleve == id && eleve.id_Sess == session);
+                reqDisposDeTousLesAutres = db.Disponibilite.Where(x => x.id_Inscription != id && x.Inscription.id_TypeInscription != ID_INSCRIPTION_POUR_ELEVE_AIDE);
             }
             else
             {
-                listeJumelagesCeluiInspecte = db.Jumelage.Where(tuteur => tuteur.id_InscrTuteur == id && tuteur.id_Sess == session);
-                listeDisposDeTousLesAutres = db.Disponibilite.Where(x => x.id_Inscription != id && x.Inscription.id_TypeInscription == ID_INSCRIPTION_POUR_ELEVE_AIDE);
+                reqJumelagesCeluiInspecte = db.Jumelage.Where(tuteur => tuteur.id_InscrTuteur == id && tuteur.id_Sess == session);
+                reqDisposDeTousLesAutres = db.Disponibilite.Where(x => x.id_Inscription != id && x.Inscription.id_TypeInscription == ID_INSCRIPTION_POUR_ELEVE_AIDE);
             }
-            foreach (var jumelageEnRouge in listeJumelagesCeluiInspecte)
+            foreach (var jumelageEnRouge in reqJumelagesCeluiInspecte)
             {
                 caseDispoStruct.Jour = jumelageEnRouge.p_Jour.Jour;
                 caseDispoStruct.Minutes = jumelageEnRouge.minutes;
@@ -122,22 +123,32 @@ namespace sachem.Controllers
             if (idCeluiInspecte != 0)
             {
                 listeDisposCeluiInspecte = db.Disponibilite.Where(x => x.id_Inscription == idCeluiInspecte).ToList();
+                int idTypeInscTemp = db.Inscription.Where(x => x.id_Inscription == idCeluiInspecte).Select(x => x.id_TypeInscription).FirstOrDefault();
+                if(idTypeInscTemp == 1)
+                {
+                    listeJumelagesCeluiInspecte = db.Jumelage.Where(x => x.id_InscEleve == idCeluiInspecte).ToList();
+                }
+                else
+                {
+                    listeJumelagesCeluiInspecte = db.Jumelage.Where(x => x.id_InscrTuteur == idCeluiInspecte).ToList();
+                }
+                
             }
-            foreach (var disponibiliteEnVert in disposCeluiInspecte)
+            foreach (var disponibiliteEnVert in reqDisposCeluiInspecte)
             {
                 compteurUsagerAvecMemeDispo = 0;
                 caseDispoStruct.EstDispoEtCompatible = false;
-                foreach (var a in listeDisposDeTousLesAutres)
+                foreach (var a in reqDisposDeTousLesAutres)
                 {
                     if (disponibiliteEnVert.id_Jour == a.id_Jour && disponibiliteEnVert.minutes == a.minutes)
                     {
                         if (!listeCasesJumelageEtDisposCeluiInspecte.Exists(x => x.Jour == a.p_Jour.Jour && x.Minutes == a.minutes))
                         {
                             compteurUsagerAvecMemeDispo++;
-                            if (idCeluiInspecte != 0 && listeDisposCeluiInspecte.Exists(x => x.p_Jour.Jour == a.p_Jour.Jour && x.minutes == a.minutes))
+                            if (idCeluiInspecte != 0 && listeDisposCeluiInspecte.Exists(x => x.p_Jour.Jour == a.p_Jour.Jour && x.minutes == a.minutes) && CaseDispoDoitEtreGrisSiJumelageAffecteDispo(listeCasesJumelageEtDisposCeluiInspecte,caseDispoStruct))
                             {
                                 caseDispoStruct.EstDispoEtCompatible = true;
-                                caseDispoStruct.EstDispoEtCompatibleEtConsecutif = disponbiliteEstElleConsecutiveDauMoins3hrs(disposCeluiInspecte.ToList(), listeDisposCeluiInspecte, a.id_Jour, a.minutes);
+                                caseDispoStruct.EstDispoEtCompatibleEtConsecutif = disponbiliteEstElleConsecutiveDauMoins3hrs(reqDisposCeluiInspecte.ToList(), listeDisposCeluiInspecte, a.id_Jour, a.minutes);
                             }
                         }
                     }

@@ -5,7 +5,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - Sachem</title>
+    <title>@ViewBag.Title - SACHEM</title>
     <link href="~/Content/css" rel="stylesheet" type="text/css" media="screen" />
     @Scripts.Render("~/bundles/modernizr")
     @Scripts.Render("~/Scripts/jquery-1.10.2.js")
@@ -22,7 +22,7 @@
                     <span class="icon-bar"></span>
                 </button>
                 <div class="logo">
-                    <div class="cll"><div class="sachem"></div></div>                    
+                    <div class="cll"><div class="nomSite">sachem</div></div>                    
                 </div>
                 <span style="padding-left:180px;"></span>
             </div>
@@ -100,21 +100,14 @@
             </a></p>
         </footer>
     </div>
-    <script>
-        $("input[type='submit']").on("click", function () {
-            window.onbeforeunload = function () {
-                $("#mainProgressBar").removeClass('hide');
-            }
-               
-        });
-        $("a").on("click", function () {
-            var href = String($(this).attr("href"));
-            var bHref = Boolean($(this).attr("href"));
-            var bTarget = Boolean($(this).attr("target"));
-            if(href.charAt(0)!="#" && bHref && !bTarget)
-                $("#mainProgressBar").removeClass('hide');
-        });
-    </script>
+    <script type="text/javascript">
+        window.onbeforeunload = function () {
+            $("#mainProgressBar").removeClass('hide');
+        }
+        window.onload = function () {
+            $("#mainProgressBar").addClass('hide');
+        }
+    </script> 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)

@@ -1,0 +1,12 @@
+﻿<!DOCTYPE html>
+@{
+    ViewBag.Title = "Inscription au service de Sachem - Élève aidé";
+}
+<div style="margin-right:15%">
+    <h2>@ViewBag.Title</h2>
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+        @Html.Partial("_CoursReussisEleveAide");
+    }
+</div>

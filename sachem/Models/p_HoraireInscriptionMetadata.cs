@@ -27,10 +27,10 @@ namespace sachem.Models
         [Required(ErrorMessage = Messages.U_001)]
         [RegularExpression(@"^[0-9]{4}-[0-9]{2}-[0-9]{2} [0-2][0-9]:[0-5][0-9]:[0-5][0-9]$|^[0-9]{4}\/[0-9]{2}\/[0-9]{2}$", ErrorMessage = Messages.U_007)]
         [DisplayFormat(DataFormatString = "{0:yyyy\\/MM\\/dd}", ApplyFormatInEditMode = true)]
-        [Display(Name = "Date de début")]
+        [Display(Name = "Date d'ouverture")]
         public System.DateTime DateDebut;
         
-        [Display(Name = "Date de fin")]
+        [Display(Name = "Date de fermeture")]
         [Required(ErrorMessage = Messages.U_001)]
         [RegularExpression(@"^[0-9]{4}-[0-9]{2}-[0-9]{2} [0-2][0-9]:[0-5][0-9]:[0-5][0-9]$|^[0-9]{4}\/[0-9]{2}\/[0-9]{2}$", ErrorMessage = Messages.U_007)]
         [DisplayFormat(DataFormatString = "{0:yyyy\\/MM\\/dd}", ApplyFormatInEditMode = true)]
