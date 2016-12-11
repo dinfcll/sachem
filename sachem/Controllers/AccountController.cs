@@ -134,7 +134,7 @@ namespace sachem.Controllers
             {
                 if (!db.Personne.Any(x => x.Matricule.Substring(2) == NomUsager))
                 {
-                    ModelState.AddModelError(string.Empty, Messages.I_017());  
+                    ModelState.AddModelError(string.Empty, Messages.ConnexionEchouee());  
                 }
                 else
                     PersonneBD = db.Personne.AsNoTracking().Where(x => x.Matricule.Substring(2) == NomUsager).FirstOrDefault();
@@ -142,7 +142,7 @@ namespace sachem.Controllers
             else
                         if (!db.Personne.Any(x => x.NomUsager == NomUsager))
             {
-                ModelState.AddModelError(string.Empty, Messages.I_017()); 
+                ModelState.AddModelError(string.Empty, Messages.ConnexionEchouee()); 
             }
             else
                 PersonneBD = db.Personne.AsNoTracking().Where(x => x.NomUsager == NomUsager).FirstOrDefault();
@@ -153,7 +153,7 @@ namespace sachem.Controllers
 
                 
                 if (PersonneBD.MP != MP)
-                    ModelState.AddModelError(string.Empty, Messages.I_017()); 
+                    ModelState.AddModelError(string.Empty, Messages.ConnexionEchouee()); 
                 if (!ModelState.IsValid)
                 {
                     PersonneBD.MP = "";
@@ -283,16 +283,16 @@ namespace sachem.Controllers
             else if (personne.Matricule7.Length != 7 || !personne.Matricule.All(char.IsDigit)) 
                 ModelState.AddModelError("Matricule7", Messages.U_004); 
             else if (db.Personne.Any(x => x.Matricule == personne.Matricule && x.MP != null))
-                ModelState.AddModelError(string.Empty, Messages.I_025()); 
+                ModelState.AddModelError(string.Empty, Messages.CompteExisteDeja()); 
             else if (!db.Personne.Any(x => x.Matricule == personne.Matricule))
-                ModelState.AddModelError(string.Empty, Messages.I_027()); 
+                ModelState.AddModelError(string.Empty, Messages.EtudiantNonInscrit()); 
             else
             {
                 
                 Personne EtudiantBD = db.Personne.AsNoTracking().Where(x => x.Matricule == personne.Matricule).FirstOrDefault();
 
                 if (personne.DateNais != EtudiantBD.DateNais || personne.id_Sexe != EtudiantBD.id_Sexe)
-                    ModelState.AddModelError(string.Empty, Messages.I_027());
+                    ModelState.AddModelError(string.Empty, Messages.EtudiantNonInscrit());
                 else
                 {
                     EtudiantBD.Courriel = personne.Courriel;
@@ -328,7 +328,7 @@ namespace sachem.Controllers
 
                     AjoutInfoConnection(EtudiantBD);
                     SessionBag.Current.id_TypeUsag = TypeUsagers.Etudiant;
-                    TempData["Success"] = Messages.I_026();
+                    TempData["Success"] = Messages.CompteCree();
                     return RedirectToAction("Index", "Inscription");
                 }
             }
@@ -372,7 +372,7 @@ namespace sachem.Controllers
                     utilisateur.MP = SachemIdentite.encrypterChaine( utilisateur.MP );
                     db.Entry(utilisateur).State = EntityState.Modified;
                     db.SaveChanges();
-                    ViewBag.Success = Messages.I_019();
+                    ViewBag.Success = Messages.MotDePasseCourriel();
                 }
                 else
                 {
@@ -431,7 +431,7 @@ namespace sachem.Controllers
                 SupprimerCookieConnexion();
                 db.Entry(utilisateur).State = EntityState.Modified;
                 db.SaveChanges();
-                ViewBag.Success = Messages.I_018();
+                ViewBag.Success = Messages.MotDePasseModifie();
                 return View(personne);
             }
         }

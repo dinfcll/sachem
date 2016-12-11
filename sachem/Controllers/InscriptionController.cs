@@ -444,7 +444,7 @@ namespace sachem.Controllers
         [HttpPost]
         public string ErreurCours()
         {
-            return Messages.I_048();
+            return Messages.CoursChoisiUneSeuleFois();
         }      
     }
 }

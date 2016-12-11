@@ -47,7 +47,7 @@ namespace sachem.Controllers
 
                     if (isFileExist)//si le fichier existe (a deja ete uploade) on arrete
                     {
-                        message = Messages.I_035(fName);
+                        message = Messages.FichierAvecLeMemeNomExisteDeja(fName);
                     }
                     else
                     {
@@ -62,7 +62,7 @@ namespace sachem.Controllers
             }
             catch (Exception ex)
             {
-                message = Messages.I_034(fName)+"\n"+ex.Message;//erreur interne-- rare
+                message = Messages.ErreurTransfertFichier(fName)+"\n"+ex.Message;//erreur interne-- rare
             }
 
             if (message.IsEmpty())

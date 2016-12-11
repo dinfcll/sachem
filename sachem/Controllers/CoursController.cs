@@ -38,7 +38,7 @@ namespace sachem.Controllers
         private void Valider([Bind(Include = "id_Cours,Code,Nom,Actif")] Cours cours)
         {
             if (dataRepository.AnyCoursWhere(r => r.Code == cours.Code && r.id_Cours != cours.id_Cours))
-                ModelState.AddModelError(string.Empty, Messages.I_002(cours.Code));
+                ModelState.AddModelError(string.Empty, Messages.CoursADejaCeCode(cours.Code));
         }
 
         [NonAction]
@@ -113,7 +113,7 @@ namespace sachem.Controllers
             {
                 dataRepository.AddCours(cours);
 
-                TempData["Success"] = string.Format(Messages.I_003(cours.Nom));
+                TempData["Success"] = string.Format(Messages.CoursEnregistre(cours.Nom));
                 return RedirectToAction("Index");
             }
 
@@ -150,7 +150,7 @@ namespace sachem.Controllers
             {
                 dataRepository.DeclareModified(cours);
 
-                TempData["Success"] = string.Format(Messages.I_003(cours.Nom));
+                TempData["Success"] = string.Format(Messages.CoursEnregistre(cours.Nom));
                 return RedirectToAction("Index");
             }
 
@@ -178,7 +178,7 @@ namespace sachem.Controllers
             var pageNumber = page ?? 1;
             if (dataRepository.AnyGroupeWhere(g => g.id_Cours == id))
             {
-                ModelState.AddModelError(string.Empty, Messages.I_001());
+                ModelState.AddModelError(string.Empty, Messages.GroupeAssocieAUnCoursNePeutEtreSupprime());
             }
 
             if (ModelState.IsValid)
@@ -187,7 +187,7 @@ namespace sachem.Controllers
 
                 dataRepository.RemoveCours(cours);
 
-                ViewBag.Success = string.Format(Messages.I_009(cours.Nom));
+                ViewBag.Success = string.Format(Messages.CoursSupprime(cours.Nom));
             }
 
             return View("Index", Rechercher().ToPagedList(pageNumber, 20));

@@ -68,12 +68,12 @@ namespace sachem.Controllers
             if (coursSuivi.id_Cours != null)
             {
                 if (dataRepository.AnyCoursSuiviWhere(r => r.id_Cours == coursSuivi.id_Cours && r.id_Pers == coursSuivi.id_Pers && r.id_Sess == coursSuivi.id_Sess) && verif)
-                    ModelState.AddModelError(string.Empty, Messages.I_036());
+                    ModelState.AddModelError(string.Empty, Messages.ImpossibleEnregistrerCoursCarExisteListeCoursSuivis());
             }
             else
             {
                 if(dataRepository.AnyCoursSuiviWhere(r => r.autre_Cours == coursSuivi.autre_Cours && r.id_Pers == coursSuivi.id_Pers && r.id_Sess == coursSuivi.id_Sess) && verif)
-                    ModelState.AddModelError(string.Empty, Messages.I_036());
+                    ModelState.AddModelError(string.Empty, Messages.ImpossibleEnregistrerCoursCarExisteListeCoursSuivis());
             }
 
             if (coursSuivi.id_Cours == null && coursSuivi.autre_Cours == string.Empty || coursSuivi.id_Cours != null && coursSuivi.autre_Cours != string.Empty)
