@@ -12,13 +12,14 @@ namespace sachem.Controllers
 {
     public class ProgrammesOffertsController : Controller
     {
-        private readonly SACHEMEntities db = new SACHEMEntities();
+        private readonly SACHEMEntities _db = new SACHEMEntities();
 
         [ValidationAccesSuper]
         public ActionResult Index(string recherche, int? page)
         {
-            int numeroPage = (page ?? 1);
+            var numeroPage = (page ?? 1);
             ViewBag.Recherche = recherche;
+
             return View("Index",Recherche(recherche).ToPagedList(numeroPage, 20));
         }
         
@@ -37,10 +38,10 @@ namespace sachem.Controllers
             Valider(programme);
             if (ModelState.IsValid)
             {               
-                db.ProgrammeEtude.Add(programme);
-                db.SaveChanges();
+                _db.ProgrammeEtude.Add(programme);
+                _db.SaveChanges();
 
-                TempData["Success"] = string.Format(Messages.I_007(programme.NomProg));
+                TempData["Success"] = string.Format(Messages.ProgrammeAvecMemeNom(programme.NomProg));
                 return RedirectToAction("Index");
             }
             return View(programme);
@@ -56,7 +57,7 @@ namespace sachem.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            var programme = db.ProgrammeEtude.Find(id);
+            var programme = _db.ProgrammeEtude.Find(id);
 
             if (programme == null)
             {
@@ -81,10 +82,10 @@ namespace sachem.Controllers
 
             if (ModelState.IsValid)
             {
-                db.Entry(programme).State = EntityState.Modified;
-                db.SaveChanges();
+                _db.Entry(programme).State = EntityState.Modified;
+                _db.SaveChanges();
 
-                TempData["Success"] = string.Format(Messages.I_007(programme.NomProg));
+                TempData["Success"] = string.Format(Messages.ProgrammeAvecMemeNom(programme.NomProg));
                 return RedirectToAction("Index");
             }
             return View(programme);
@@ -100,7 +101,7 @@ namespace sachem.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            var programme = db.ProgrammeEtude.Find(id);
+            var programme = _db.ProgrammeEtude.Find(id);
 
             if (programme == null)
             {
@@ -118,17 +119,17 @@ namespace sachem.Controllers
         {
             var pageNumber = page ?? 1;
            
-            if (db.EtuProgEtude.Any(r => r.id_ProgEtu == id))
+            if (_db.EtuProgEtude.Any(r => r.id_ProgEtu == id))
             {
-                ModelState.AddModelError(string.Empty, Messages.I_005());
+                ModelState.AddModelError(string.Empty, Messages.ProgrammeNonSupprimeCarEtudiantYEstAsoocie());
             }
 
             if (ModelState.IsValid)
             {
-                var programme = db.ProgrammeEtude.Find(id);
-                db.ProgrammeEtude.Remove(programme);
-                db.SaveChanges();
-                ViewBag.Success = string.Format(Messages.I_008(programme.NomProg));
+                var programme = _db.ProgrammeEtude.Find(id);
+                _db.ProgrammeEtude.Remove(programme);
+                _db.SaveChanges();
+                ViewBag.Success = string.Format(Messages.ProgrammeSupprime(programme.NomProg));
             }
             return View("Index", Recherche(null).ToPagedList(pageNumber, 20));
         }
@@ -137,15 +138,15 @@ namespace sachem.Controllers
         [NonAction]
         public void Valider(ProgrammeEtude programme)
         { 
-            if (db.ProgrammeEtude.Any(c => c.Code == programme.Code && c.Actif && programme.Actif && c.id_ProgEtu != programme.id_ProgEtu))
+            if (_db.ProgrammeEtude.Any(c => c.Code == programme.Code && c.Actif && programme.Actif && c.id_ProgEtu != programme.id_ProgEtu))
             {
-                ModelState.AddModelError(String.Empty, Messages.I_006(programme.Code));
+                ModelState.AddModelError(String.Empty, Messages.ProgrammeAvecCodeDejaExistant(programme.Code));
             }
-            if(db.ProgrammeEtude.Any(c => c.id_ProgEtu == programme.id_ProgEtu && c.Actif) && programme.Actif == false)
+            if(_db.ProgrammeEtude.Any(c => c.id_ProgEtu == programme.id_ProgEtu && c.Actif) && programme.Actif == false)
             { 
-                if (db.EtuProgEtude.Any(c => c.id_ProgEtu == programme.id_ProgEtu))
+                if (_db.EtuProgEtude.Any(c => c.id_ProgEtu == programme.id_ProgEtu))
                 {
-                    ModelState.AddModelError(String.Empty, "Impossible de mettre le programme inactif s'il est encore relié à des étudiants");
+                    ModelState.AddModelError(String.Empty, Messages.ImpossibleMettreProgrammeInactif());
                 }
             }
         }
@@ -154,15 +155,16 @@ namespace sachem.Controllers
         [NonAction]
         private IEnumerable<ProgrammeEtude> Recherche(string recherche)
         {
-            var programmesEtude = from c in db.ProgrammeEtude
+            var programmesEtude = from c in _db.ProgrammeEtude
                                   orderby c.Code, c.Annee
                                   select c;
 
-            if (!String.IsNullOrEmpty(recherche))
+            if (!string.IsNullOrEmpty(recherche))
             {
                 programmesEtude = programmesEtude.Where(c => c.Code.StartsWith(recherche) || c.NomProg.StartsWith(recherche)) as IOrderedQueryable<ProgrammeEtude>;
             }
-            return programmesEtude.ToList();
+
+            return programmesEtude?.ToList();
         }
     }
 }

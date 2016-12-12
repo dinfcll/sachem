@@ -1,29 +1,37 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Net;
-using System.Web;
 using System.Web.Mvc;
 using sachem.Models;
-using System.Data.Entity;
+using System.Globalization;
+
 namespace sachem.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly SACHEMEntities db = new SACHEMEntities();
+        private readonly SACHEMEntities _db = new SACHEMEntities();
 
-        public ActionResult About()
+        [NonAction]
+        public string RetourneMessageInscriptionFermee()
         {
-            ViewBag.Message = "Your application description page.";
+            var dateActuelle = DateTime.Now;
+            var horaireActuel = _db.p_HoraireInscription.OrderByDescending(x => x.id_Sess).First();
+            if (dateActuelle <= horaireActuel.DateDebut)
+            {
+                return
+                    $"Les inscriptions au SACHEM ouvriront le {horaireActuel.DateFin.ToString("D", CultureInfo.CreateSpecificCulture("fr-CA"))} à {horaireActuel.HeureDebut.Hours}h00";
+            }
 
-            return View();
+            return dateActuelle >= horaireActuel.DateFin
+                ? $"Les inscriptions au SACHEM sont terminées depuis le {horaireActuel.DateFin.ToString("D", CultureInfo.CreateSpecificCulture("fr-CA"))}. Vous pourrez vous inscrire la session prochaine."
+                : "Vous êtes probablement déconnecté, reconnectez-vous.";
         }
 
         public ActionResult Contact()
         {
             ViewBag.Message = "Nous contacter.";
-            var contact = db.p_Contact.First();
+            var contact = _db.p_Contact.First();
             contact.Telephone = SachemIdentite.RemettreTel(contact.Telephone);
+
             return View(contact);
         }
 

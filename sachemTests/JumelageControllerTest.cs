@@ -2,8 +2,6 @@
 using System.Web.Mvc;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using sachem.Controllers;
-using System.Collections.Generic;
-using sachem.Models;
 
 namespace sachemTests
 {
@@ -14,7 +12,7 @@ namespace sachemTests
         public void TestRetourneNbreJumelageEtudiant()
         {
             var jumelageController = new JumelageController();
-            var statut = "";
+            string statut;
             var i = 0;
 
             while(i <= 3)
@@ -32,9 +30,8 @@ namespace sachemTests
         public void TestRetourneListeJoursSemaine()
         {
             var jumelageController = new JumelageController();
-            List<string> joursSem;
 
-            joursSem = jumelageController.RetourneListeJoursSemaine();
+            var joursSem = jumelageController.RetourneListeJoursSemaine();
 
             Assert.AreEqual(joursSem[0], "Lundi");
             Assert.AreEqual(joursSem[1], "Mardi");

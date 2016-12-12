@@ -16,14 +16,14 @@ namespace sachem.Models
     public class CoursMetadata
     {
         [DisplayFormat(ConvertEmptyStringToNull = false)]
-        [Required(ErrorMessage = Messages.U_001)]
-        [StringLength(8, MinimumLength = 8, ErrorMessage = Messages.U_003)]
+        [Required(ErrorMessage = Messages.ChampRequis)]
+        [StringLength(8, MinimumLength = 8, ErrorMessage = Messages.LongueurDeHuitCaracteres)]
         public string Code;
 
 
         [Display(Name = "Nom du cours")]
         [DisplayFormat(ConvertEmptyStringToNull = false)]
-        [Required(ErrorMessage = Messages.U_001)]
+        [Required(ErrorMessage = Messages.ChampRequis)]
         public string Nom;
 
         [Display(Name = "Cours")]

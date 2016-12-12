@@ -2,7 +2,7 @@
 @model sachem.Models.p_HoraireInscription
 
 @{
-    ViewBag.Title = "Modifier l'horaire d'ouverture d'inscription au SACHEM";
+    ViewBag.Title = "Modifier l'horaire d'ouverture et de fermeture d'inscription";
 }
 
 <h2>@ViewBag.Title</h2>
@@ -40,6 +40,22 @@
         </div>
 
         <div class="form-group">
+            @Html.LabelFor(model => model.HeureDebut, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @if (ViewBag.idSess == ViewBag.idSessStable)
+                {
+                    @Html.EditorFor(model => model.HeureDebut, new { htmlAttributes = new { @class = "form-control", @placeholder = "hh:mm", @id = "HeureDebut" } })
+                    @Html.ValidationMessageFor(model => model.HeureDebut, "", new { @class = "text-danger" })
+                }
+                else
+                {
+                    @Html.DisplayFor(model => model.HeureDebut, new { htmlAttributes = new { @class = "form-control", @id = "HeureDebut" } })
+                }
+            </div>
+        </div>
+
+
+        <div class="form-group">
             @Html.LabelFor(model => model.DateFin, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @if (ViewBag.idSess == ViewBag.idSessStable)
@@ -50,21 +66,6 @@
                 else
                 {
                     @Html.DisplayFor(model => model.DateFin, new { htmlAttributes = new { @class = "form-control", @id = "DateFin" } })
-                }
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.HeureDebut, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @if (ViewBag.idSess == ViewBag.idSessStable)
-                {
-                    @Html.EditorFor(model => model.HeureDebut, new { htmlAttributes = new { @class = "form-control" , @placeholder = "hh:mm", @id = "HeureDebut" } })
-                    @Html.ValidationMessageFor(model => model.HeureDebut, "", new { @class = "text-danger" })
-                }
-                else
-                {
-                @Html.DisplayFor(model => model.HeureDebut, new { htmlAttributes = new { @class = "form-control", @id = "HeureDebut" } })
                 }
             </div>
         </div>

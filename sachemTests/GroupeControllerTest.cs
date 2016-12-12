@@ -2,8 +2,6 @@
 using System.Web.Mvc;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using sachem.Controllers;
-using System.Collections.Generic;
-using sachem.Models;
 
 namespace sachemTests
 {

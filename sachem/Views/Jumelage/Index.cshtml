@@ -59,5 +59,11 @@
 
     </tr>
 }
+    @if (!Model.Any())
+    {
+        <tr>
+            <td colspan="6">@sachem.Models.Messages.AucunJumelage</td>
+        </tr>
+    }
 
 </table>

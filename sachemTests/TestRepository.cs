@@ -1,21 +1,18 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
+using System.Web.Mvc;
 using sachem.Models;
 using sachem.Models.DataAccess;
-using System.Linq;
-using System.Web.Mvc;
 
 namespace sachemTests
 {
     internal class TestRepository : IDataRepository
     {
-        private readonly List<Cours> listeCours = new List<Cours>();
-        private readonly List<Personne> listePersonne = new List<Personne>();
-        private readonly List<Inscription> listeInscription = new List<Inscription>();
-        private readonly List<Personne> listeSuperviseur = new List<Personne>();
-        private readonly List<CoursSuivi> listeCoursSuivi = new List<CoursSuivi>();
+        private readonly List<Cours> _listeCours = new List<Cours>();
+        private readonly List<Inscription> _listeInscription = new List<Inscription>();
 
         public IEnumerable GetSessions()
         {
@@ -24,8 +21,8 @@ namespace sachemTests
 
         public bool AnyCoursWhere(Expression<Func<Cours, bool>> condition)
         {
-            IQueryable<Cours> NouvelleListe = listeCours.AsQueryable<Cours>();
-            return NouvelleListe.Any<Cours>(condition);
+            var nouvelleListe = _listeCours.AsQueryable();
+            return nouvelleListe.Any(condition);
         }
 
         public bool AnyGroupeWhere(Expression<Func<Groupe, bool>> condition)
@@ -50,22 +47,22 @@ namespace sachemTests
 
         public void AddCours(Cours cours)
         {
-            listeCours.Add(cours);
+            _listeCours.Add(cours);
         }
 
         public Cours FindCours(int id)
         {
-            return listeCours.Find(x => x.id_Cours == id);
+            return _listeCours.Find(x => x.id_Cours == id);
         }
 
         public void AddInscription(Inscription inscription)
         {
-            listeInscription.Add(inscription);
+            _listeInscription.Add(inscription);
         }
 
         public Inscription FindInscription(int id)
         {
-            return listeInscription.Find(x => x.id_Inscription == id);
+            return _listeInscription.Find(x => x.id_Inscription == id);
         }
 
         public void DeclareModified(Cours cours)
@@ -80,9 +77,9 @@ namespace sachemTests
 
         public Personne FindPersonne(int id)
         {
-            return listePersonne.Find(x => x.id_Pers == id);
+            return new Personne();
         }
-   
+
         public void Dispose()
         {
             throw new NotImplementedException();
@@ -90,7 +87,7 @@ namespace sachemTests
 
         public void AddCoursSuivi(CoursSuivi coursSuivi)
         {
-            listeCoursSuivi.Add(coursSuivi);
+            //Nothing
         }
 
         public IEnumerable GetCours()
@@ -132,77 +129,76 @@ namespace sachemTests
         {
             throw new NotImplementedException();
         }
-            private readonly List<Personne> listeEnseignant = new List<Personne>();
 
-            public void AddEnseignant(Personne enseignant)
-            {
-                listeEnseignant.Add(enseignant);
-            }
+        private readonly List<Personne> _listeEnseignant = new List<Personne>();
 
-            public IEnumerable<Personne> AllEnseignant()
-            {
-                throw new NotImplementedException();
-            }
+        public void AddEnseignant(Personne enseignant)
+        {
+            _listeEnseignant.Add(enseignant);
+        }
 
-            public IEnumerable<Personne> AllEnseignantOrdered()
-            {
-                throw new NotImplementedException();
-            }
+        public IEnumerable<Personne> AllEnseignant()
+        {
+            throw new NotImplementedException();
+        }
 
-            public IEnumerable<Personne> AllEnseignantResponsable(bool Actif, int id_resp, int id_ens)
-            {
-                throw new NotImplementedException();
-            }
+        public IEnumerable<Personne> AllEnseignantOrdered()
+        {
+            throw new NotImplementedException();
+        }
 
-            public bool AnyEnseignantWhere(Expression<Func<Personne, bool>> condition, Personne personne)
-            {
-                var Enseignant = listeEnseignant.Find(x => x.NomUsager == personne.NomUsager && x.id_Pers != personne.id_Pers);
-                if (Enseignant == null)
-                    return false;
-                else
-                    return true;
-            }
+        public IEnumerable<Personne> AllEnseignantResponsable(bool actif, int idResp, int idEns)
+        {
+            throw new NotImplementedException();
+        }
 
-            public bool AnyjumelageWhere(Expression<Func<Jumelage, bool>> condition)
-            {
-                throw new NotImplementedException();
-            }
+        public bool AnyEnseignantWhere(Expression<Func<Personne, bool>> condition, Personne personne)
+        {
+            var enseignant =
+                _listeEnseignant.Find(x => x.NomUsager == personne.NomUsager && x.id_Pers != personne.id_Pers);
+            return enseignant != null;
+        }
 
-            public void DeclareModified(Personne enseignant)
-            {
-                var index = listeEnseignant.FindIndex(a => a.id_Pers == enseignant.id_Pers);
-                listeEnseignant[index] = enseignant;
-            }
+        public bool AnyjumelageWhere(Expression<Func<Jumelage, bool>> condition)
+        {
+            throw new NotImplementedException();
+        }
 
-            public Personne FindEnseignant(int id)
-            {
-                return listeEnseignant.Find(x => x.id_Pers == id);
-            }
+        public void DeclareModified(Personne enseignant)
+        {
+            var index = _listeEnseignant.FindIndex(a => a.id_Pers == enseignant.id_Pers);
+            _listeEnseignant[index] = enseignant;
+        }
 
-            public SelectList liste_sexe()
-            {
-                throw new NotImplementedException();
-            }
+        public Personne FindEnseignant(int id)
+        {
+            return _listeEnseignant.Find(x => x.id_Pers == id);
+        }
 
-            public SelectList liste_sexe(Personne personne)
-            {
-                return new SelectList("femme");
-            }
+        public SelectList liste_sexe()
+        {
+            throw new NotImplementedException();
+        }
 
-            public SelectList liste_usag(int id_resp, int id_ens)
-            {
-                throw new NotImplementedException();
-            }
+        public SelectList liste_sexe(Personne personne)
+        {
+            return new SelectList("femme");
+        }
 
-            public SelectList liste_usag(Personne personne, int id_resp, int id_ens)
-            {
-                return new SelectList("Enseignant");
-            }
+        public SelectList liste_usag(int idResp, int idEns)
+        {
+            throw new NotImplementedException();
+        }
 
-            public void RemoveEnseignant(int id)
-            {
-                throw new NotImplementedException();
-            }
+        public SelectList liste_usag(Personne personne, int idResp, int idEns)
+        {
+            return new SelectList("Enseignant");
+        }
+
+        public void RemoveEnseignant(int id)
+        {
+            throw new NotImplementedException();
+        }
 
         public string FindMdp(int id)
         {
@@ -211,8 +207,8 @@ namespace sachemTests
 
         public void DeclareModifiedEns(Personne enseignant)
         {
-            var index = listeEnseignant.FindIndex(a => a.id_Pers == enseignant.id_Pers);
-            listeEnseignant[index] = enseignant;
+            var index = _listeEnseignant.FindIndex(a => a.id_Pers == enseignant.id_Pers);
+            _listeEnseignant[index] = enseignant;
         }
     }
 }

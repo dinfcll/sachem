@@ -34,16 +34,16 @@ namespace sachemTests
         [TestMethod]
         public void EditExistingCours()
         {
-            const int NO_COURS = 42;
+            const int noCours = 42;
             var testRepository = new TestRepository();
             testRepository.AddCours(new Cours { Actif = true, Code = "ABC", Groupe = new List<Groupe>(),
-                id_Cours = NO_COURS, Nom = "Josée Lainesse" });
+                id_Cours = noCours, Nom = "Josée Lainesse" });
             var coursController = new CoursController(testRepository);
 
-            var result = coursController.Edit(NO_COURS) as ViewResult;
+            var result = coursController.Edit(noCours) as ViewResult;
 
-            Assert.AreEqual(typeof(Cours), result.Model.GetType());
-            Assert.AreEqual(NO_COURS, ((Cours)result.Model).id_Cours);
+            Assert.AreEqual(typeof(Cours), result?.Model.GetType());
+            Assert.AreEqual(noCours, ((Cours)result?.Model).id_Cours);
         }
 
         [TestMethod]
@@ -60,17 +60,17 @@ namespace sachemTests
         [TestMethod]
         public void VerifierSiAjouterUnCoursPourEnsuiteLeSupprimerRedirigeALaBonneVue()
         {
-            const int ID_COURS = 69;
+            const int idCours = 69;
             var testRepository = new TestRepository();
 
-            testRepository.AddCours(new Cours { Actif = true, Code = "Test", Groupe = new List<Groupe>(), id_Cours = ID_COURS, Nom = "Patate Cosmique" });
+            testRepository.AddCours(new Cours { Actif = true, Code = "Test", Groupe = new List<Groupe>(), id_Cours = idCours, Nom = "Patate Cosmique" });
             var coursController = new CoursController(testRepository);
 
-            coursController.Create(testRepository.FindCours(ID_COURS), 0);
-            var resultSuppression = coursController.Delete(ID_COURS) as ViewResult;
+            coursController.Create(testRepository.FindCours(idCours), 0);
+            var resultSuppression = coursController.Delete(idCours) as ViewResult;
 
 
-            Assert.AreEqual("Delete", resultSuppression.ViewName);
+            Assert.AreEqual("Delete", resultSuppression?.ViewName);
         }
 
 

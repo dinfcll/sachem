@@ -28,7 +28,7 @@
             <input type="hidden" name="id_groupedepl" value="@ViewBag.idg" />
             <button style="display:inline;padding:0px;margin:0px;" type="submit" class="btn btn-link">Déplacer</button>
         }|
-        @Html.ActionLink("Conserver dans les deux groupes", "AjouterEleveGET", new { idg = @TempData["idg"], idp = @TempData["personne"], noclick = 1 })  |
+      @Html.ActionLink("Conserver dans les deux groupes", "AjouterEleveGet", new { idg = @TempData["idg"], idp = @TempData["personne"], noclick = 1 }) |
         @Html.ActionLink("Annuler", "AjouterEleve", new { idg = @TempData["idg"], page = ViewBag.page })
     </div>
 }
@@ -88,7 +88,7 @@
                 @Html.DisplayFor(modelItem => item.epe.ProgrammeEtude.CodeNomProgramme)
             </td>
             <td>
-                @Html.ActionLink("Ajouter", "AjouterEleveGET", new { idg = ViewBag.idg, idp = item.p.id_Pers })
+              @Html.ActionLink("Ajouter", "AjouterEleveGet", new { idg = ViewBag.idg, idp = item.p.id_Pers })
             </td>
         </tr>
     }

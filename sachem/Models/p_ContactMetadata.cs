@@ -16,33 +16,33 @@ namespace sachem.Models
     {
 
         [DisplayFormat(ConvertEmptyStringToNull = false)]
-        [Required(ErrorMessage = Messages.U_001)]
+        [Required(ErrorMessage = Messages.ChampRequis)]
         [Display(Name = "Prénom")]
         public string Prenom;
 
-        [Required(ErrorMessage = Messages.U_001)]
+        [Required(ErrorMessage = Messages.ChampRequis)]
         [Display(Name = "Nom")]
         public string Nom;
 
         [DataType(DataType.PhoneNumber)]
-        [RegularExpression(@"^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$", ErrorMessage = Messages.U_009)]
+        [RegularExpression(@"^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$", ErrorMessage = Messages.FormatTelephone)]
         [DisplayFormat(DataFormatString = "{0:(###) ###-####}", ApplyFormatInEditMode = true)]
         [Display(Name = "Téléphone")]
         public string Telephone;
 
-        [Required(ErrorMessage = Messages.U_001)]
+        [Required(ErrorMessage = Messages.ChampRequis)]
         [Display(Name = "Page facebook")]
         public string Facebook;
 
-        [Required(ErrorMessage = Messages.U_001)]
+        [Required(ErrorMessage = Messages.ChampRequis)]
         [Display(Name = "Site web")]
         public string SiteWeb;
 
-        [EmailAddress(ErrorMessage = Messages.U_008)]
-        [Required(ErrorMessage = Messages.U_001)]
+        [EmailAddress(ErrorMessage = Messages.FormatDeCourriel)]
+        [Required(ErrorMessage = Messages.ChampRequis)]
         public string Courriel;
 
-        [Required(ErrorMessage = Messages.U_001)]
+        [Required(ErrorMessage = Messages.ChampRequis)]
         public string Local; 
     }
 

@@ -27,7 +27,7 @@
     <div class="form-group">
         @Html.LabelFor(model => model.DateNais, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
-            @Html.EditorFor(model => model.DateNais, @"{0:yyyy\/MM\/dd}", new { htmlAttributes = new { @class = "form-control", @placeholder = "AAAA/MM/JJ", @required = "required", @title = Messages.U_001 } })
+            @Html.EditorFor(model => model.DateNais, @"{0:yyyy\/MM\/dd}", new { htmlAttributes = new { @class = "form-control", @placeholder = "AAAA/MM/JJ", @required = "required", @title = Messages.ChampRequis } })
             @Html.ValidationMessageFor(model => model.DateNais, "", new { @class = "text-danger" })
         </div>
     </div>
@@ -43,14 +43,14 @@
     <div class="form-group">
         @Html.LabelFor(model => model.Courriel, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
-            @Html.EditorFor(model => model.Courriel, new { htmlAttributes = new { @class = "form-control", @maxlength = "256", @required = "required", @title = Messages.U_001 } })
+            @Html.EditorFor(model => model.Courriel, new { htmlAttributes = new { @class = "form-control", @maxlength = "256", @required = "required", @title = Messages.ChampRequis } })
             @Html.ValidationMessageFor(model => model.Courriel, "", new { @class = "text-danger" })
         </div>
     </div>
     <div class="form-group">
         @Html.LabelFor(model => model.Telephone, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
-            @Html.EditorFor(model => model.Telephone, new { htmlAttributes = new { @class = "form-control", @placeholder = "(999) 999-9999",@maxlength = "14", @required = "required", @title = Messages.U_001 } })
+            @Html.EditorFor(model => model.Telephone, new { htmlAttributes = new { @class = "form-control", @placeholder = "(999) 999-9999",@maxlength = "14", @required = "required", @title = Messages.ChampRequis } })
             @Html.ValidationMessageFor(model => model.Telephone, "", new { @class = "text-danger" })
         </div>
     </div>
@@ -58,7 +58,7 @@
     <div class="form-group">
         @Html.LabelFor(model => model.MP, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
-            @Html.EditorFor(model => model.MP, new { htmlAttributes = new { @class = "form-control", @type = "password", @minlength = "6", @title = Messages.U_013 } })
+            @Html.EditorFor(model => model.MP, new { htmlAttributes = new { @class = "form-control", @type = "password", @minlength = "6", @title = Messages.LongueurDeSixCarateres } })
             @Html.ValidationMessageFor(model => model.MP, "", new { @class = "text-danger" })
         </div>
     </div>

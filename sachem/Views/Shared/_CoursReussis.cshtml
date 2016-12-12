@@ -2,7 +2,7 @@
 @using sachem.Models
 
 <div class="row pageItemPadding">
-    <div class="col-md-6"><h5 class="hIns">Êtes-vous prêt à faire deux rencontres consécutives (3h)</h5></div>
+    <div class="col-md-6"><h5 class="hIns">@sachem.Models.Messages.InscriptionRencontresConsecutives</h5></div>
     <div class="col-md-6">
         <div style="float:right">
             <input id="Q3" name="Q3radio" type="radio" checked/>oui
@@ -12,7 +12,7 @@
 </div>
 <h3 style="background-color:aliceblue">Informations spécifiques</h3>
 <h5 id="erreur" style="color:red;"></h5>
-<h5 class="hIns">Les cours dans lesquels vous aimeriez donner de l'aide sont:</h5>
+<h5 class="hIns">@sachem.Models.Messages.InscriptionCoursQueJaide</h5>
 <div class="clearfix pageItemPadding">
     <div class="col-md-9">
         <div class="row ins-row">
@@ -36,8 +36,7 @@
 <br />
 <p>
     <h5 class="hIns">
-        Indiquez tous les cours de mathématiques(collégial) que vous avez suivis et réussis
-        ainsi que le cégep où ces cours ont eu lieu :
+        @sachem.Models.Messages.InscriptionCoursSuivis
     </h5>
 </p>
 <div id="espaceCours">

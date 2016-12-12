@@ -1,7 +1,7 @@
 ﻿@model sachem.Models.Inscription
 
 @{
-    ViewBag.Title = "Inscription au service de Sachem";
+    ViewBag.Title = "Inscription";
 }
 <style type="text/css">
     .checkboxinscr {
@@ -47,7 +47,7 @@
             HoraireArray.push(($(this).val()));
         });
         var typeinscr = $('#TypeInscription').val();
-        var postData = { jours: HoraireArray, typeInscription: typeinscr };
+        var postData = { typeInscription: typeinscr, jours: HoraireArray };
         return postData;
         }
 
@@ -84,10 +84,10 @@
     </div>
     <h3 class="page-header">Disponibilité</h3>
     <ul>
-        <li>Indiquez vos heures de disponibilité en cliquant dans les cases appropriées.</li>
-        <li>Chaque &#10004; indique que vous êtes disponible pour une rencontre de 1h30 dans cette plage horaire</li>
-        <li>Il y aura au minimum une rencontre par semaine, soit 1h30/semaine</li>
-        <li>Inscrivez plusieurs choix pour faciliter le jumelage.</li>
+        <li>@sachem.Models.Messages.InscriptionDirectivesTableauDisponibilite1()</li>
+        <li>@sachem.Models.Messages.InscriptionDirectivesTableauDisponibilite2()</li>
+        <li>@sachem.Models.Messages.InscriptionDirectivesTableauDisponibilite3()</li>
+        <li>@sachem.Models.Messages.InscriptionDirectivesTableauDisponibilite4()</li>
     </ul>
     <form method="post" id="TabDisp">
         <table class="table-bordered table-striped col-sm-12">
@@ -133,12 +133,12 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">Confirmation plage de disponibilité</h4>
+                    <h4 class="modal-title">@sachem.Models.Messages.InscriptionConfirmationDispoTitre</h4>
                 </div>
                 <div class="modal-body">
-                    <p>Type d'inscription choisi:</p>
+                    <p>@sachem.Models.Messages.InscriptionTypeInscriptionChoisi</p>
                     <p id="typeInsc"></p>
-                    <p>vos plages de disponibilitées sélectionnées:</p> 
+                    <p>@sachem.Models.Messages.InscriptionDisposChoisis</p> 
                     <p id="plageDisp"></p>
                 </div>
                 <div class="modal-footer">

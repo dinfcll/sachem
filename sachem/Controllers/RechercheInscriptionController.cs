@@ -1,21 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using sachem.Models;
 using System.Net;
 using static sachem.Classes_Sachem.ValidationAcces;
 using System.Data.Entity;
+using sachem.Classes_Sachem;
 
 namespace sachem.Controllers
 {
     public class RechercheInscriptionController : Controller
     {
-        private readonly SACHEMEntities db = new SACHEMEntities();
+        private readonly SACHEMEntities _db = new SACHEMEntities();
 
-        const int BROUILLON = 1;
-        const int ACCEPTE = 3;
-        const int REFUSE = 5;
+        private const int Accepte = 3;
+        private const int Refuse = 5;
 
         [ValidationAccesSuper]
         public ActionResult Index()
@@ -31,59 +30,32 @@ namespace sachem.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            Inscription inscriptionPersonne = db.Inscription.Find(id);
+            Inscription inscriptionPersonne = _db.Inscription.Find(id);
             if(inscriptionPersonne == null)
             {
                 return HttpNotFound();
             }
 
-            var inscription = db.Inscription.Where(x => x.id_Pers == inscriptionPersonne.id_Pers).ToList();
+            var inscription = _db.Inscription.Where(x => x.id_Pers == inscriptionPersonne.id_Pers).ToList();
             RemplirDropList(inscription.First());
             return View(inscription);
         }
 
         [HttpPut]
-        public ActionResult ChangerStatutInscription(int id_Inscription, int id_Statut)
+        public ActionResult ChangerStatutInscription(int idInscription, int idStatut)
         {
-            var inscription = db.Inscription.FirstOrDefault(x => x.id_Inscription == id_Inscription);
-            if(inscription != null && inscription.id_Sess == db.Session.Max(s => s.id_Sess))
+            var inscription = _db.Inscription.FirstOrDefault(x => x.id_Inscription == idInscription);
+            if(inscription != null && inscription.id_Sess == _db.Session.Max(s => s.id_Sess))
             {
-                inscription.id_Statut = id_Statut;
-                db.Entry(inscription).State = EntityState.Modified;
-                db.SaveChanges();
+                inscription.id_Statut = idStatut;
+                _db.Entry(inscription).State = EntityState.Modified;
+                _db.SaveChanges();
 
                 TempData["Success"] = "Inscription modifiée avec succès!";
-                return RedirectToAction("Details","RechercheInscription",new { id = id_Inscription });
+                return RedirectToAction("Details","RechercheInscription",new { id = idInscription });
             }
-            TempData["Erreur"] = "Erreur lors de la modification de l'inscription. N'oubliez pas qu'il est impossible de modifier l'inscription des anciennes sessions.";
-            return RedirectToAction("Details", "RechercheInscription", new { id = id_Inscription });
-        }
-
-        private void ListeSession(int Session = 0)
-        {
-            var lSessions = from session in db.Session select session;
-            var slSession = new List<SelectListItem>();
-            slSession.AddRange(new SelectList(lSessions, "id_Sess", "NomSession", Session));
-
-            ViewBag.Session = slSession;
-        }
-
-        private void ListeTypeInscription(int TypeInscription = 0)
-        {
-            var lTypeInscription = from typeinscription in db.p_TypeInscription select typeinscription;
-            var slTypeInscription = new List<SelectListItem>();
-            slTypeInscription.AddRange(new SelectList(lTypeInscription, "id_TypeInscription", "TypeInscription", TypeInscription));
-
-            ViewBag.TypeInscription = slTypeInscription;
-        }
-
-        private void ListeStatut(int Statut = 0)
-        {
-            var lStatut = from statut in db.p_StatutInscription where statut.id_Statut != BROUILLON select statut;
-            var slStatut = new List<SelectListItem>();
-            slStatut.AddRange(new SelectList(lStatut, "id_Statut", "Statut", Statut));
-
-            ViewBag.Statut = slStatut;
+            TempData["Erreur"] = Messages.ErreurModificationInscription();
+            return RedirectToAction("Details", "RechercheInscription", new { id = idInscription });
         }
 
         private IEnumerable<Inscription> Rechercher()
@@ -116,10 +88,8 @@ namespace sachem.Controllers
                 {
                     int.TryParse(Request.Form["Session"], out sess);
                 }
-                else
-                {
-                    sess = db.Session.Max(s => s.id_Sess);
-                }
+                else if (Request.Form["Session"] == null)
+                    sess = _db.Session.Max(s => s.id_Sess);
 
                 if (!string.IsNullOrEmpty(Request.Form["TypeInscription"]))
                 {
@@ -132,11 +102,11 @@ namespace sachem.Controllers
                 }
             }
 
-            ListeSession(sess);
-            ListeTypeInscription(type);
-            ListeStatut(statut);
+            ViewBag.Session = Liste.ListeSession(sess);
+            ViewBag.TypeInscription = Liste.ListeTypeInscription(type);
+            ViewBag.Statut = Liste.ListeStatutInscriptionSansBrouillon(statut);
 
-            var inscription = from c in db.Inscription
+            var inscription = from c in _db.Inscription
                               where ((c.id_Sess == sess || sess == 0) && (c.id_Statut == statut || statut == 0) && (c.id_TypeInscription == type || type == 0))
                         select c;
 
@@ -148,12 +118,14 @@ namespace sachem.Controllers
 
         private void RemplirDropList(Inscription inscription)
         {
-            var lStatut = from statut in db.p_StatutInscription where statut.id_Statut == ACCEPTE || statut.id_Statut == REFUSE select statut;
-            int vraiStatut = inscription.id_Statut;
-            if(vraiStatut != REFUSE)
+            var lStatut = from statut in _db.p_StatutInscription where statut.id_Statut == Accepte || statut.id_Statut == Refuse select statut;
+            var vraiStatut = inscription.id_Statut;
+
+            if(vraiStatut != Refuse)
             {
-                vraiStatut = ACCEPTE;
+                vraiStatut = Accepte;
             }
+
             ViewBag.Liste_Statut = new SelectList(lStatut, "id_Statut", "Statut", vraiStatut);
         }
     }

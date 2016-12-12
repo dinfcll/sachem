@@ -102,7 +102,7 @@
         </tr>
     }
 </table>
-<a onclick="AjoutModal()" href="#" data-toggle="modal" data-target="#modalAjout" class="btn btn-default" style="margin-top:5px;margin-bottom:15px;">Ajouter un collège d'enseignement</a>
+<a onclick="AjoutModal()" href="#" data-toggle="modal" data-target="#modalAjout" class="btn btn-default" style="margin-top:5px;margin-bottom:15px;">@sachem.Models.Messages.CollegeAjouter</a>
 
     <table class="table">
         <tr>
@@ -128,7 +128,7 @@
     @if (!Model.Any())
     {
         <tr>
-            <td colspan="6">Aucun collège d'enseignement ne répond à ces critères</td>
+            <td colspan="6">@sachem.Models.Messages.AucunCollege</td>
         </tr>
     }
     </table>
@@ -139,10 +139,10 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">Modification du nom de collège d'enseignement.</h4>
+                    <h4 class="modal-title">@sachem.Models.Messages.CollegeModification</h4>
                 </div>
                 <div class="modal-body">
-                    <p>Nouveau nom de collège d'enseignement :</p> <input type="text" id="txtNomCollegeModif" class="form-control" /><br />
+                    <p>@sachem.Models.Messages.CollegeNouveauNom</p> <input type="text" id="txtNomCollegeModif" class="form-control" /><br />
                 </div>
                 <div class="modal-footer">
                     <button id="btnModifier" type="button" data-dismiss="modal" class="btn btn-primary">Modifier</button>
@@ -159,10 +159,10 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">Suppression d'un collège d'enseignement.</h4>
+                    <h4 class="modal-title">@sachem.Models.Messages.CollegeSuppression</h4>
                 </div>
                 <div class="modal-body">
-                    <p>Voulez-vous vraiment supprimer ce collège d'enseignement ?</p>
+                    <p>@sachem.Models.Messages.CollegeSuppressionConfirmation</p>
                 </div>
                 <div class="modal-footer">
                     <button id="btnSuppression" type="button" data-dismiss="modal" class="btn btn-primary">Supprimer</button>
@@ -179,10 +179,10 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">Ajout d'un collège d'enseignement.</h4>
+                    <h4 class="modal-title">@sachem.Models.Messages.CollegeAjout</h4>
                 </div>
                 <div class="modal-body">
-                    <p>Nom du collège d'enseignement à ajouter : </p> <input type="text" id="txtNomCollegeAjout" class="form-control" /><br />
+                    <p>@sachem.Models.Messages.CollegeAjoutNom</p> <input type="text" id="txtNomCollegeAjout" class="form-control" /><br />
                 </div>
                 <div class="modal-footer">
                     <button id="btnAjout" type="button" data-dismiss="modal" class="btn btn-primary">Ajouter</button>

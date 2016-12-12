@@ -2,8 +2,6 @@
 using System.Web.Mvc;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using sachem.Controllers;
-using System.Collections.Generic;
-using sachem.Models;
 
 namespace sachemTests
 {
@@ -13,8 +11,8 @@ namespace sachemTests
         [TestMethod]
         public void TestControllerSupprimerEtudiantNull()
         {
-            var Etudiant = new EtudiantController();
-            var resultat = Etudiant.Delete(null);
+            var etudiant = new EtudiantController();
+            var resultat = etudiant.Delete(null);
             Assert.AreEqual(typeof(HttpStatusCodeResult), resultat.GetType());
             Assert.AreEqual((int)HttpStatusCode.BadRequest, ((HttpStatusCodeResult)resultat).StatusCode);
         }

@@ -8,8 +8,7 @@
     @Html.Raw(@TempData["Echec"])
 </p>
 <h5 class="hIns">
-    Indiquez tous les cours de mathématiques(collégial) que vous avez réussis,
-    abandonnés ou échoués au cégep. Pour ceux réussis, indiquez vos résultats :
+    @sachem.Models.Messages.InscriptionCoursReussiIndication();
 </h5>
 <br />
 <div id="espaceCours">
@@ -29,7 +28,7 @@
                     <h4 class="modal-title">Erreur lors de l'enregistrement</h4>
                 </div>
                 <div class="modal-body">
-                    <p>Un resultat et un statut d'un des cours ne concorde pas. Un cours réussi doit avoir une note supérieur ou égal à 60 et un échec inférieur à 60.</p>
+                    <p>@sachem.Models.Messages.InscriptionCoursReussiErreurLorsDuChargement()</p>
                 </div>
                 <div class="modal-footer">
                     <button type="button" data-dismiss="modal" class="btn">OK</button>

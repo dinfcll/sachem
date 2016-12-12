@@ -1,8 +1,4 @@
-﻿using System.Net;
-using System.Web.Mvc;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using sachem.Controllers;
-using System.Collections.Generic;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using sachem.Models;
 
 namespace sachemTests
@@ -11,10 +7,10 @@ namespace sachemTests
     public class AccountControllerTest
     {
         [TestMethod]
-        public void EncryptionChaineShouldReturnMD5Hash()
+        public void EncryptionChaineShouldReturnMd5Hash()
         {
-            string stringSecreteAHasherEnMD5 = "SomeVeryImportantStringToHide";
-            var retour = SachemIdentite.encrypterChaine(stringSecreteAHasherEnMD5);
+            const string stringSecreteAHasherEnMd5 = "SomeVeryImportantStringToHide";
+            var retour = SachemIdentite.encrypterChaine(stringSecreteAHasherEnMd5);
             Assert.AreEqual("d1112b3d4ed431b10e30c838121d3a22", retour);
         }
     }

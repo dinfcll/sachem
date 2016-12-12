@@ -4,7 +4,6 @@
     ViewBag.Title = "Modifier étudiant";
 }
 
-@Html.Partial("_DeleteProgEtu")
 <h2>@ViewBag.Title</h2>
 @using (Html.BeginForm("Edit", "Etudiant", FormMethod.Post))
 {
@@ -22,8 +21,8 @@
         <br />
         <tr>
             <td>
-                @Html.ActionLink("Oui", "deleteProgEtu", new { idProg = TempData["id_Prog"], idPers = TempData["id_Pers"], Valider = 1 }) |
-                @Html.ActionLink("Non", "deleteProgEtu", new { idProg = TempData["id_Prog"], idPers = TempData["id_Pers"], Valider = 2 })
+              @Html.ActionLink("Oui", "DeleteProgEtu", new { idProg = TempData["id_Prog"], idPers = TempData["id_Pers"], Valider = 1 }) |
+              @Html.ActionLink("Non", "DeleteProgEtu", new { idProg = TempData["id_Prog"], idPers = TempData["id_Pers"], Valider = 2 })
             </td>
         </tr>
     }
@@ -71,29 +70,10 @@
                         {
                             <tr>
                                 <td>@Html.DisplayFor(modelItem => item.ProgrammeEtude.CodeNomProgramme)</td>
-                                <td><button id="@item.id_EtuProgEtude" type="button" class="btn btn-info btn-sm" data-toggle="modal" name="SuppProg" data-target="#myModal">Supprimer</button></td>
+                                <td><a href="#" class="btn btn-info btn-sm modal-open" id="SuppProg" onclick="ModalSupprimer('@item.ProgrammeEtude.NomProg',@Model.personne.id_Pers, @item.id_EtuProgEtude)"
+                                    data-toggle="modal" data-target="#modalSuppProg">Supprimer</a>
+                                </td>
                             </tr>
-                            <div class="container">
-                                <!-- Modal -->
-                                <div class="modal fade" id="myModal" role="dialog">
-                                    <div class="modal-dialog">
-                                        <!-- Modal content-->
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                                <h4 class="modal-title">Suppression Programme d'étude</h4>
-                                            </div>
-                                            <div class="modal-body">
-                                                <p>@sachem.Models.Messages.Q_002(item.ProgrammeEtude.NomProg)</p>
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button id="btnDeleteEtuProg" type="button" data-dismiss="modal" class="btn btn-primary">Supprimer</button>
-                                                <button type="button" data-dismiss="modal" class="btn">Annuler</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
                         }
                         </table>
                     </div>
@@ -122,4 +102,56 @@
         </div>
     </div>
 }
-<span id="IDPE" hidden style="visibility: hidden;font-size:0px;">0</span>
+
+<div class="container">
+    <!-- Modal -->
+    <div class="modal fade" id="modalSuppProg" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Suppression Programme d'étude</h4>
+                </div>
+                <div class="modal-body">
+                    <p>@sachem.Models.Messages.SupprimerCeProgrammeEtude()<span id="modalNomProg"></span>?</p>
+                </div>
+                <div class="modal-footer">
+                    <button id="btnDeleteEtuProg" type="button" data-dismiss="modal" class="btn btn-primary">Supprimer</button>
+                    <button type="button" data-dismiss="modal" class="btn">Annuler</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    function ModalSupprimer(nomProg, idPers, idProgEtu) {
+        var modal = document.getElementById("modalSuppProg");
+        var boutonSupprimer = document.getElementById("btnDeleteEtuProg");
+        $("#modalNomProg").html(nomProg);
+        modal.style.display = "block";
+        boutonSupprimer.onclick = function () {
+            Supp(idPers, idProgEtu) ;
+        }
+    }
+
+    function Supp(idPers, idProgEtu)  {
+        $.ajax({type: 'POST',
+            url:  @Html.Raw("\"/" + HttpContext.Current.Request.RequestContext.RouteData.Values["controller"].ToString() + "/ActualisePEtu\""),
+            data: {
+                idPers: idPers,
+                idProg: idProgEtu
+            },
+            datatype: "json",
+            success: function (donnees) {
+                $("#progetuTable").html("");
+                $.each(donnees, function (i, item) {
+                    var c = "<td>"+item.Code + "-" + item.NomProg+"</td>";
+                    var s = "<td><button id=\""+item.id_EtuProgEtude+"\" type=\"button\" class=\"btn btn-info btn-sm\" data-toggle=\"modal\" name=\"SuppProg\" data-target=\"#myModal\">Supprimer</button></td>";
+                    var j = $("#progetuTable").html();
+                    $("#progetuTable").html(j+"<tr>"+c+s+"</tr>");
+                });
+                window.location.reload();
+            }});
+    }
+</script>
