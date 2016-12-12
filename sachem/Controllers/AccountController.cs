@@ -15,64 +15,52 @@ namespace sachem.Controllers
     [Authorize]
     public class AccountController : Controller
     {
-        private const int PORTCOURRIEL = 587;
-        private readonly SACHEMEntities db = new SACHEMEntities();
-        public AccountController()
-        {
+        private const int Portcourriel = 587;
+        private readonly SACHEMEntities _db = new SACHEMEntities();
 
+        private void CreerCookieConnexion(string nomUsager, string motDePasse)
+        {
+            var mdpEncrypte = Crypto.Encrypt(motDePasse,
+                System.Configuration.ConfigurationManager.AppSettings.Get("CryptoKey"));
+            var maintenir = new HttpCookie("SACHEMConnexion");
+            maintenir.Values.Add("NomUsager", nomUsager);
+            maintenir.Values.Add("MP", mdpEncrypte);
+
+            maintenir.Expires = DateTime.Now.AddDays(1d);
+
+            Response.Cookies.Add(maintenir);
         }
 
-        #region fn_CookieStuff
-        #pragma warning disable 0618
-
-        [NonAction]
-        private void CreerCookieConnexion(string NomUsager, string MotDePasse)
-        {
-            string mdpEncrypte = Crypto.Encrypt(MotDePasse, System.Configuration.ConfigurationManager.AppSettings.Get("CryptoKey")); 
-            HttpCookie Maintenir = new HttpCookie("SACHEMConnexion");
-            Maintenir.Values.Add("NomUsager", NomUsager); 
-            Maintenir.Values.Add("MP", mdpEncrypte);
-
-            Maintenir.Expires = DateTime.Now.AddDays(1d);
-
-            Response.Cookies.Add(Maintenir);
-        }
-
-        [NonAction]
         private void SupprimerCookieConnexion()
         {
-            HttpCookie BiscuitPerime = new HttpCookie("SACHEMConnexion");
-            BiscuitPerime.Expires = DateTime.Now.AddDays(-1d);
-            Response.Cookies.Add(BiscuitPerime);
+            var biscuitPerime = new HttpCookie("SACHEMConnexion") {Expires = DateTime.Now.AddDays(-1d)};
+            Response.Cookies.Add(biscuitPerime);
         }
 
-        [NonAction]
         private bool CookieConnexionExiste()
         {
-            HttpCookieCollection CollectionsCookiesSACHEM = Request.Cookies;
-            HttpCookie CookieMaintenirConnexion = CollectionsCookiesSACHEM.Get("SACHEMConnexion");
+            var collectionsCookiesSachem = Request.Cookies;
+            var cookieMaintenirConnexion = collectionsCookiesSachem.Get("SACHEMConnexion");
 
-            return CookieMaintenirConnexion != null;
+            return cookieMaintenirConnexion != null;
         }
 
-        #endregion
-
-
-        #region fn_EnvoyerCourriel
-        [NonAction]
-        private bool EnvoyerCourriel(String Email, string nouveaumdp)
+        private static bool EnvoyerCourriel(string email, string nouveaumdp)
         {
-            SmtpClient client = new SmtpClient();
-            MailMessage message = new MailMessage("sachemcllmail@gmail.com", Email, "Demande de réinitialisation de mot de passe", "Voici votre nouveau mot de passe: " + nouveaumdp + " .");
-            client.Port = PORTCOURRIEL;
+            var client = new SmtpClient();
+            var message = new MailMessage("sachemcllmail@gmail.com", email,
+                "Demande de réinitialisation de mot de passe", "Voici votre nouveau mot de passe: " + nouveaumdp + " .");
+            client.Port = Portcourriel;
             client.Host = "smtp.gmail.com";
             client.EnableSsl = true;
             client.Timeout = 10000;
             client.DeliveryMethod = SmtpDeliveryMethod.Network;
             client.UseDefaultCredentials = false;
-            client.Credentials = new NetworkCredential("sachemcllmail@gmail.com", System.Configuration.ConfigurationManager.AppSettings.Get("EmailSachemMDP")); 
+            client.Credentials = new NetworkCredential("sachemcllmail@gmail.com",
+                System.Configuration.ConfigurationManager.AppSettings.Get("EmailSachemMDP"));
             message.BodyEncoding = Encoding.UTF8;
             message.DeliveryNotificationOptions = DeliveryNotificationOptions.OnFailure;
+
             try
             {
                 client.Send(message);
@@ -83,196 +71,171 @@ namespace sachem.Controllers
             }
             return true;
         }
-        #endregion
 
-
-        #region fn_Login
-        //
-        // GET: /Account/Login
         [AllowAnonymous]
         public ActionResult Login(string returnUrl)
         {
-
-            if(SachemIdentite.ObtenirTypeUsager(Session) != TypeUsagers.Aucun)
+            if (SachemIdentite.ObtenirTypeUsager(Session) != TypeUsagers.Aucun)
             {
-                return RedirectToAction("Index","DossierEtudiant",null);
+                return RedirectToAction("Index", "DossierEtudiant", null);
             }
 
             if (CookieConnexionExiste())
             {
-                Personne PersonneCookie = new Personne();
-                HttpCookie CookieMaintenirConnexion = Request.Cookies.Get("SACHEMConnexion");
-                PersonneCookie.NomUsager = CookieMaintenirConnexion["NomUsager"];
-                PersonneCookie.MP = Crypto.Decrypt(CookieMaintenirConnexion["MP"], "asdjh213498yashj2134987ash");
-                PersonneCookie.SouvenirConnexion = true;
+                var personneCookie = new Personne();
+                var cookieMaintenirConnexion = Request.Cookies.Get("SACHEMConnexion");
+                personneCookie.NomUsager = cookieMaintenirConnexion?["NomUsager"];
+                personneCookie.MP = Crypto.Decrypt(cookieMaintenirConnexion?["MP"], "asdjh213498yashj2134987ash");
+                personneCookie.SouvenirConnexion = true;
 
-                return View(PersonneCookie);
+                return View(personneCookie);
             }
 
             return View();
         }
 
-        //
-        // POST: /Account/Login
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public ActionResult Login(string NomUsager, string MP, bool SouvenirConnexion)
+        public ActionResult Login(string nomUsager, string mp, bool souvenirConnexion)
         {
-            string mdpPlain = MP;
-            Personne PersonneBD = new Personne();
-            const int STATUT_ACCEPTE = 3;
+            var mdpPlain = mp;
+            var personneBd = new Personne();
+            const int statutAccepte = 3;
 
             if (mdpPlain == "")
                 ModelState.AddModelError("MP", Messages.ChampRequis);
-            else
-                if (NomUsager == null)
+            else if (nomUsager == null)
             {
-                ModelState.AddModelError("NomUsager", Messages.ChampRequis); 
+                ModelState.AddModelError("NomUsager", Messages.ChampRequis);
             }
-            else
-                    if (Regex.IsMatch(NomUsager, @"^\d+$") && NomUsager.Length == 7) 
+            else if (Regex.IsMatch(nomUsager, @"^\d+$") && nomUsager.Length == 7)
             {
-                if (!db.Personne.Any(x => x.Matricule.Substring(2) == NomUsager))
+                if (!_db.Personne.Any(x => x.Matricule.Substring(2) == nomUsager))
                 {
-                    ModelState.AddModelError(string.Empty, Messages.ConnexionEchouee());  
+                    ModelState.AddModelError(string.Empty, Messages.ConnexionEchouee());
                 }
                 else
-                    PersonneBD = db.Personne.AsNoTracking().Where(x => x.Matricule.Substring(2) == NomUsager).FirstOrDefault();
+                    personneBd =
+                        _db.Personne.AsNoTracking().FirstOrDefault(x => x.Matricule.Substring(2) == nomUsager);
             }
-            else
-                        if (!db.Personne.Any(x => x.NomUsager == NomUsager))
+            else if (!_db.Personne.Any(x => x.NomUsager == nomUsager))
             {
-                ModelState.AddModelError(string.Empty, Messages.ConnexionEchouee()); 
+                ModelState.AddModelError(string.Empty, Messages.ConnexionEchouee());
             }
             else
-                PersonneBD = db.Personne.AsNoTracking().Where(x => x.NomUsager == NomUsager).FirstOrDefault();
+                personneBd = _db.Personne.AsNoTracking().FirstOrDefault(x => x.NomUsager == nomUsager);
+
             if (ModelState.IsValid)
             {
-                
-                MP = SachemIdentite.encrypterChaine(MP);
+                mp = SachemIdentite.encrypterChaine(mp);
 
-                
-                if (PersonneBD.MP != MP)
-                    ModelState.AddModelError(string.Empty, Messages.ConnexionEchouee()); 
+
+                if (personneBd != null && personneBd.MP != mp)
+                    ModelState.AddModelError(string.Empty, Messages.ConnexionEchouee());
+
                 if (!ModelState.IsValid)
                 {
-                    PersonneBD.MP = "";
-                    return View(PersonneBD); 
+                    if (personneBd != null)
+                    {
+                        personneBd.MP = "";
+                        return View(personneBd);
+                    }
                 }
 
-                
-                var typeinscr = (from i in db.Inscription
-                                 where i.id_Pers == PersonneBD.id_Pers
-                                 select i.id_TypeInscription).FirstOrDefault();
-                
-                var idinscr = (from i in db.Inscription
-                               where i.id_Pers == PersonneBD.id_Pers
-                               select i.id_Inscription).FirstOrDefault();
+                var typeinscr = (from i in _db.Inscription
+                    where i.id_Pers == personneBd.id_Pers
+                    select i.id_TypeInscription).FirstOrDefault();
 
-                
-                if (idinscr != 0)
-                    SessionBag.Current.id_Inscription = idinscr;
-                else
-                    SessionBag.Current.id_Inscription = 0;
+                var idinscr = (from i in _db.Inscription
+                    where i.id_Pers == personneBd.id_Pers
+                    select i.id_Inscription).FirstOrDefault();
 
-                
+
+                SessionBag.Current.id_Inscription = idinscr != 0 ? idinscr : 0;
+
+
                 if (typeinscr > 1)
                 {
                     SessionBag.Current.id_TypeUsag = TypeUsagers.Tuteur;
                 }
                 else
                 {
-                    
                     if (typeinscr == 1)
                     {
                         SessionBag.Current.id_TypeUsag = TypeUsagers.Eleve;
                     }
-                    
+
                     else
                     {
-                        SessionBag.Current.id_TypeUsag = PersonneBD.id_TypeUsag;
+                        if (personneBd != null) SessionBag.Current.id_TypeUsag = personneBd.id_TypeUsag;
                     }
                 }
 
-               
-                var idSuperviseur = (from i in db.Jumelage
-                                     where i.id_Enseignant == PersonneBD.id_Pers
-                                     select i.id_Enseignant).FirstOrDefault();
-                if (idSuperviseur != 0)
-                {
-                    SessionBag.Current.idSuperviseur = idSuperviseur;
-                }
-                else
-                    SessionBag.Current.idSuperviseur = 0;
 
-                
-                AjoutInfoConnection(PersonneBD);
-                SessionBag.Current.id_Pers = PersonneBD.id_Pers;
-                if (SouvenirConnexion)
-                    CreerCookieConnexion(NomUsager, mdpPlain);
-                else
-                    SupprimerCookieConnexion();
-                
-                if (SachemIdentite.ObtenirTypeUsager(Session) == TypeUsagers.Eleve)
+                var idSuperviseur = (from i in _db.Jumelage
+                    where i.id_Enseignant == personneBd.id_Pers
+                    select i.id_Enseignant).FirstOrDefault();
+
+                SessionBag.Current.idSuperviseur = idSuperviseur != 0 ? idSuperviseur : 0;
+
+
+                AjoutInfoConnection(personneBd);
+
+                if (personneBd != null)
                 {
-                    return RedirectToAction("Details", "DossierEtudiant", new { id = SessionBag.Current.id_Inscription });
-                }
-                else
-                {
-                    if(SachemIdentite.TypeListeProf.Contains(SachemIdentite.ObtenirTypeUsager(Session)) || SachemIdentite.ObtenirTypeUsager(Session) == TypeUsagers.Tuteur)
+                    SessionBag.Current.id_Pers = personneBd.id_Pers;
+                    if (souvenirConnexion)
+                        CreerCookieConnexion(nomUsager, mdpPlain);
+                    else
+                        SupprimerCookieConnexion();
+
+                    if (SachemIdentite.ObtenirTypeUsager(Session) == TypeUsagers.Eleve)
+                    {
+                        return RedirectToAction("Details", "DossierEtudiant", new {id = SessionBag.Current.id_Inscription});
+                    }
+
+                    if (SachemIdentite.TypeListeProf.Contains(SachemIdentite.ObtenirTypeUsager(Session)) ||
+                        SachemIdentite.ObtenirTypeUsager(Session) == TypeUsagers.Tuteur)
                     {
                         if (SachemIdentite.ObtenirTypeUsager(Session) == TypeUsagers.Super)
                         {
                             return RedirectToAction("Index", "Enseignant");
                         }
-                        else
-                        {
-                            return RedirectToAction("Index", "DossierEtudiant");
-                        }
+
+                        return RedirectToAction("Index", "DossierEtudiant");
                     }
-                    else
+
+                    var inscription = _db.Inscription.FirstOrDefault(c => c.id_Pers == personneBd.id_Pers);
+
+                    if (inscription != null && inscription.id_Inscription == statutAccepte &&
+                        inscription.ContratEngagement == false)
                     {
-                        
-                        Inscription inscription = db.Inscription.FirstOrDefault(c => c.id_Pers == PersonneBD.id_Pers);
-                        if (inscription != null && inscription.id_Inscription == STATUT_ACCEPTE && inscription.ContratEngagement == false)
-                        {
-                            return RedirectToAction("Index","ContratEngagement");
-                        }
-                        else
-                        {
-                            return RedirectToAction("Index", "Inscription");
-                        }  
+                        return RedirectToAction("Index", "ContratEngagement");
                     }
+                    return RedirectToAction("Index", "Inscription");
                 }
             }
-            return View(PersonneBD);
+            return View(personneBd);
         }
-        #endregion
 
-
-        #region fn_Register
-        //
-        // GET: /Account/Register
         [AllowAnonymous]
         public ActionResult Register()
         {
             if (SachemIdentite.ObtenirTypeUsager(Session) != TypeUsagers.Aucun)
                 return RedirectToAction("Error", "Home", null);
-            ViewBag.id_Sexe = new SelectList(db.p_Sexe, "id_Sexe", "Sexe");
+            ViewBag.id_Sexe = new SelectList(_db.p_Sexe, "id_Sexe", "Sexe");
             ViewBag.Autorisation = false;
+
             return View();
         }
 
-        //
-        // POST: /Account/Register
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        //Fortement Extrait du PAM, approuvé par J, Lainesse
         public ActionResult Register(Personne personne)
         {
-            ViewBag.id_Sexe = new SelectList(db.p_Sexe, "id_Sexe", "Sexe");
+            ViewBag.id_Sexe = new SelectList(_db.p_Sexe, "id_Sexe", "Sexe");
 
             var validation = ConfirmeMdp(personne.MP, personne.ConfirmPassword);
 
@@ -280,54 +243,48 @@ namespace sachem.Controllers
                 return View(personne);
 
             if (personne.Matricule7 == null)
-                ModelState.AddModelError("Matricule7", Messages.ChampRequis); 
-            else if (personne.Matricule7.Length != 7 || !personne.Matricule.All(char.IsDigit)) 
-                ModelState.AddModelError("Matricule7", Messages.LongueurDeSeptCaracteres); 
-            else if (db.Personne.Any(x => x.Matricule == personne.Matricule && x.MP != null))
-                ModelState.AddModelError(string.Empty, Messages.CompteExisteDeja()); 
-            else if (!db.Personne.Any(x => x.Matricule == personne.Matricule))
-                ModelState.AddModelError(string.Empty, Messages.EtudiantNonInscrit()); 
+                ModelState.AddModelError("Matricule7", Messages.ChampRequis);
+            else if (personne.Matricule7.Length != 7 || !personne.Matricule.All(char.IsDigit))
+                ModelState.AddModelError("Matricule7", Messages.LongueurDeSeptCaracteres);
+            else if (_db.Personne.Any(x => x.Matricule == personne.Matricule && x.MP != null))
+                ModelState.AddModelError(string.Empty, Messages.CompteExisteDeja());
+            else if (!_db.Personne.Any(x => x.Matricule == personne.Matricule))
+                ModelState.AddModelError(string.Empty, Messages.EtudiantNonInscrit());
             else
             {
-                
-                Personne EtudiantBD = db.Personne.AsNoTracking().Where(x => x.Matricule == personne.Matricule).FirstOrDefault();
+                var etudiantBd =
+                    _db.Personne.AsNoTracking().FirstOrDefault(x => x.Matricule == personne.Matricule);
 
-                if (personne.DateNais != EtudiantBD.DateNais || personne.id_Sexe != EtudiantBD.id_Sexe)
+                if (etudiantBd != null && (personne.DateNais != etudiantBd.DateNais || personne.id_Sexe != etudiantBd.id_Sexe))
                     ModelState.AddModelError(string.Empty, Messages.EtudiantNonInscrit());
                 else
                 {
-                    EtudiantBD.Courriel = personne.Courriel;
-                    EtudiantBD.Telephone = SachemIdentite.FormatTelephone(personne.Telephone);
-                    EtudiantBD.MP = personne.MP;
-                    EtudiantBD.ConfirmPassword = personne.ConfirmPassword;
-                    SachemIdentite.encrypterMPPersonne(ref EtudiantBD);
-
-                    db.Entry(EtudiantBD).State = EntityState.Modified;
-
-                    #region try-catch pour une ligne de code db.SaveChanges() qui marche pas, throw raise sur la date invalide AAAA/MM/DD
-                    try
+                    if (etudiantBd != null)
                     {
-                        db.SaveChanges();
-                    }
-                    catch (System.Data.Entity.Validation.DbEntityValidationException dbEx)
-                    {
-                        Exception raise = dbEx;
-                        foreach (var validationErrors in dbEx.EntityValidationErrors)
+                        etudiantBd.Courriel = personne.Courriel;
+                        etudiantBd.Telephone = SachemIdentite.FormatTelephone(personne.Telephone);
+                        etudiantBd.MP = personne.MP;
+                        etudiantBd.ConfirmPassword = personne.ConfirmPassword;
+                        SachemIdentite.encrypterMPPersonne(ref etudiantBd);
+
+                        _db.Entry(etudiantBd).State = EntityState.Modified;
+
+                        try
                         {
-                            foreach (var validationError in validationErrors.ValidationErrors)
-                            {
-                                string message = string.Format("{0}:{1}",
-                                    validationErrors.Entry.Entity.ToString(),
-                                    validationError.ErrorMessage);
-                                raise = new InvalidOperationException(message, raise);
-                            }
+                            _db.SaveChanges();
                         }
-                        throw raise;
+                        catch (System.Data.Entity.Validation.DbEntityValidationException dbEx)
+                        {
+                            var raise =
+                                (from validationErrors in dbEx.EntityValidationErrors
+                                        from validationError in validationErrors.ValidationErrors
+                                        select $"{validationErrors.Entry.Entity}:{validationError.ErrorMessage}")
+                                    .Aggregate<string, Exception>(dbEx, (current, message) => new InvalidOperationException(message, current));
+                            throw raise;
+                        }
+
+                        AjoutInfoConnection(etudiantBd);
                     }
-                    #endregion
-
-
-                    AjoutInfoConnection(EtudiantBD);
                     SessionBag.Current.id_TypeUsag = TypeUsagers.Etudiant;
                     TempData["Success"] = Messages.CompteCree();
                     return RedirectToAction("Index", "Inscription");
@@ -335,12 +292,7 @@ namespace sachem.Controllers
             }
             return View(personne);
         }
-        #endregion
 
-
-        #region fn_MdpOublie
-
-        // GET: /Account/Mot de passe oublié
         [AllowAnonymous]
         public ActionResult ForgotPassword()
         {
@@ -350,34 +302,37 @@ namespace sachem.Controllers
             return View();
         }
 
-        //
-        // POST: /Account/Mot de passe oublié
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
         public ActionResult ForgotPassword(string courriel)
         {
-            if (db.Personne.Any(y => y.Courriel == courriel && y.Actif == true))
+            if (_db.Personne.Any(y => y.Courriel == courriel && y.Actif))
             {
-                string caracterePossible = "abcdefghijkmnopqrstuvwxyzABCDEFGHJKLMNOPQRSTUVWXYZ0123456789!@$?";
-                string nouveaumdp = "";
-                Random r = new Random();
+                const string caracterePossible = "abcdefghijkmnopqrstuvwxyzABCDEFGHJKLMNOPQRSTUVWXYZ0123456789!@$?";
+                var nouveaumdp = "";
+                var r = new Random();
 
-                for (int i = 0; i < 10; i++)
+                for (var i = 0; i < 10; i++)
                     nouveaumdp = nouveaumdp + caracterePossible[r.Next(0, caracterePossible.Length)];
 
                 if (EnvoyerCourriel(courriel, nouveaumdp))
                 {
-                    Personne utilisateur = db.Personne.AsNoTracking().Where(x => x.Courriel == courriel).FirstOrDefault();
-                    utilisateur.MP = nouveaumdp;
-                    utilisateur.MP = SachemIdentite.encrypterChaine( utilisateur.MP );
-                    db.Entry(utilisateur).State = EntityState.Modified;
-                    db.SaveChanges();
+                    var utilisateur =
+                        _db.Personne.AsNoTracking().FirstOrDefault(x => x.Courriel == courriel);
+                    if (utilisateur != null)
+                    {
+                        utilisateur.MP = nouveaumdp;
+                        utilisateur.MP = SachemIdentite.encrypterChaine(utilisateur.MP);
+                        _db.Entry(utilisateur).State = EntityState.Modified;
+                    }
+                    _db.SaveChanges();
                     ViewBag.Success = Messages.MotDePasseCourriel();
                 }
                 else
                 {
-                    ModelState.AddModelError(string.Empty, Messages.EnvoiCourrielImpossiblePortBloque(PORTCOURRIEL.ToString()));
+                    ModelState.AddModelError(string.Empty,
+                        Messages.EnvoiCourrielImpossiblePortBloque(Portcourriel.ToString()));
                 }
             }
             else
@@ -386,30 +341,25 @@ namespace sachem.Controllers
             }
             return View();
         }
-        #endregion
 
-
-        #region fn_ModifMDP
-        //GET: /Account/Modifier Mot de passe
         [AllowAnonymous]
         public ActionResult ModifierPassword()
         {
-            if (SachemIdentite.ObtenirTypeUsager(Session) == TypeUsagers.Aucun) 
+            if (SachemIdentite.ObtenirTypeUsager(Session) == TypeUsagers.Aucun)
                 return RedirectToAction("Error", "Home", null);
             return View();
         }
-        //
-        // POST: /Account/Modifier Mot de Passe
+
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public ActionResult ModifierPassword(Personne personne, string Modifier, string Annuler)
+        public ActionResult ModifierPassword(Personne personne, string modifier, string annuler)
         {
             int idpersonne = SessionBag.Current.id_Pers;
             string ancienmdpbd = SessionBag.Current.MP;
 
             if (personne.AncienMotDePasse == null)
-                ModelState.AddModelError("AncienMotDePasse", Messages.ChampRequis); 
+                ModelState.AddModelError("AncienMotDePasse", Messages.ChampRequis);
 
             if (!ConfirmeMdp(personne.MP, personne.ConfirmPassword))
                 return View(personne);
@@ -422,27 +372,25 @@ namespace sachem.Controllers
                 ModelState.AddModelError("AncienMotDePasse", Messages.MauvaisAncienMotDePasse());
                 return View(personne);
             }
-            else
+
+            var utilisateur = _db.Personne.AsNoTracking().FirstOrDefault(x => x.id_Pers == idpersonne);
+
+            if (utilisateur != null)
             {
-                Personne utilisateur = db.Personne.AsNoTracking().Where(x => x.id_Pers == idpersonne).FirstOrDefault();
                 utilisateur.MP = personne.MP;
                 utilisateur.ConfirmPassword = personne.ConfirmPassword;
                 SachemIdentite.encrypterMPPersonne(ref utilisateur);
                 SessionBag.Current.MP = utilisateur.MP;
                 SupprimerCookieConnexion();
-                db.Entry(utilisateur).State = EntityState.Modified;
-                db.SaveChanges();
-                ViewBag.Success = Messages.MotDePasseModifie();
-                return View(personne);
+                _db.Entry(utilisateur).State = EntityState.Modified;
             }
+
+            _db.SaveChanges();
+            ViewBag.Success = Messages.MotDePasseModifie();
+
+            return View(personne);
         }
-        #endregion
 
-
-        #region fn_Deconnexion
-
-        //
-        // GET: /Account/LogOff
         [HttpGet]
         [AllowAnonymous]
         public ActionResult LogOff()
@@ -451,10 +399,6 @@ namespace sachem.Controllers
             return RedirectToAction("Login", "Account", null);
         }
 
-        #endregion
-
-
-        #region Fonctions secondaires
         private bool ConfirmeMdp(string s1, string s2)
         {
             if (s1 == null || s2 == null)
@@ -463,20 +407,19 @@ namespace sachem.Controllers
                 ModelState.AddModelError("ConfirmPassword", Messages.ChampRequis);
                 return false;
             }
-            if (s1 != s2)
-            {
-                ModelState.AddModelError("ConfirmPassword", Messages.MotsDePasseDoiventEtreIdentiques());
-                return false;
-            }
-            return true;
+
+            if (s1 == s2) return true;
+
+            ModelState.AddModelError("ConfirmPassword", Messages.MotsDePasseDoiventEtreIdentiques());
+            return false;
         }
-        private void AjoutInfoConnection(Personne personne)
+
+        private static void AjoutInfoConnection(Personne personne)
         {
             SessionBag.Current.NomUsager = personne.NomUsager;
             SessionBag.Current.Matricule7 = personne.Matricule7;
             SessionBag.Current.NomComplet = personne.PrenomNom;
             SessionBag.Current.MP = personne.MP;
         }
-        #endregion
     }
 }
