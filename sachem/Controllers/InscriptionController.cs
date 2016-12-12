@@ -22,9 +22,7 @@ namespace sachem.Controllers
         private const int DEMI_HEURE = 30;
         private const int DUREE_RENCONTRE_MINUTES = 90;
         private string[] m_Session = { "Hiver", "Été", "Automne" };
-        private string IDREUSSIS = "1";
-        private string IDABAN = "2";
-        private string IDECHEC = "3";
+
         // GET: Inscription
         [ValidationAcces.ValidationAccesInscription]
         public ActionResult Index()
@@ -56,7 +54,7 @@ namespace sachem.Controllers
                 int longueurTab = jours.Length;
                 string[] splitValue1;
                 DisponibiliteStruct dispo = new DisponibiliteStruct();
-                Lis­t<DisponibiliteStruct> disponibilites = new List<DisponibiliteStruct>();
+                List<DisponibiliteStruct> disponibilites = new List<DisponibiliteStruct>();
                 Array.Sort(jours, new AlphanumComparatorFast());
                 for (int i = 0; i < jours.Length; i++)
                 {
@@ -77,6 +75,7 @@ namespace sachem.Controllers
                     db.Disponibilite.Add(dispoBD);
                     db.SaveChanges();
                 }
+                SessionBag.Current.id_Inscription = typeInscription;
                 switch ((TypeInscription)typeInscription)
                 {
                     case TypeInscription.eleveAide:
@@ -95,14 +94,14 @@ namespace sachem.Controllers
                         return this.Json(new { success = false, message = MSG_ERREUR_REMPLIR });
                 }
             }
-            else 
+            else
             {
                 return this.Json(new { success = false, message = MSG_ERREUR_REMPLIR });
             }
         }
 
         [NonAction]
-        public List<string> RetourneListeJours()
+        public List<string> RetourneListeJours() //peut etre mis en commun dans la classe liste de AL avec Jumelage
         {
             List<string> Jours = new List<string>();
             for (int i = 2; i < 7; i++)
@@ -177,87 +176,7 @@ namespace sachem.Controllers
             listeSession();
             return View();
         }
-        [NonAction]
-       public void listeStatutCours()
-       {
-            var lstStatut = from c in db.p_StatutCours orderby c.id_Statut select c;
-            var slStatut = new List<SelectListItem>();
-            slStatut.AddRange(new SelectList(lstStatut, "id_Statut", "Statut"));
-            ViewBag.lstStatut = slStatut;
-        }
-        [NonAction]
-        public void listeSession()
-        {
-            var lstSess = from c in db.Session orderby c.id_Sess select c;
-            var slSession = new List<SelectListItem>();
-            slSession.AddRange(new SelectList(lstSess, "id_Sess", "NomSession", Session));
-            ViewBag.slSession = slSession;
-        }
-        public ActionResult getLigneCoursEleveAide()
-        {
-            listeCours();
-            listeStatutCours();
-            listeSession();
-            return PartialView("_LigneCoursReussiEleveAide");
-        }
-        [ValidationAcces.ValidationAccesEtu]
-        [HttpPost]
-        public ActionResult EleveAide1(string[][] values)
-        {
-            TempData["Echec"] = "";
-            if (values==null)
-            {
-                return RedirectToAction("Details", "DossierEtudiant", new { id = SessionBag.Current.id_Inscription });
-            }
-            else
-            {
-                    for (var i = 0; i < values.Length; i++)
-                    {
-                        if (values[i][0] != "")
-                        {
-                            var cours = new CoursSuivi();
-                            cours.id_Pers = SessionBag.Current.id_Pers;
-                            cours.id_Cours = Convert.ToInt32(values[i][0]);
-                            cours.id_Statut = Convert.ToInt32(values[i][1]);
-                            cours.id_Sess = Convert.ToInt32(values[i][2]);
-                            cours.id_College = db.p_College.FirstOrDefault(x => x.College == "Cégep de Lévis-Lauzon").id_College;
-                            if (values[i][3] != "")
-                            {
-                                cours.resultat = Convert.ToInt32(values[i][3]);
-                            }
-                            db.CoursSuivi.Add(cours);
-                            db.SaveChanges();
-                        }
-                    }
-                    return RedirectToAction("Details", "DossierEtudiant", new { id = SessionBag.Current.id_Inscription });
-                }
-        }
-        [NonAction]
-        private int? JourANumero(string jour)
-        {
-            switch (jour)
-            {
-                case "Lundi":
-                    return 2;
-                case "Mardi":
-                    return 3;
-                case "Mercredi":
-                    return 4;
-                case "Jeudi":
-                    return 5;
-                case "Vendredi":
-                    return 6;
-                default:
-                    return null;
 
-            }
-        }
-        [NonAction]
-        private string[] triageTableauAlphaNumerique(string[] tableau)
-        {
-            Array.Sort(tableau, StringComparer.InvariantCulture);
-            return tableau;
-        }
         [HttpGet]
         public ActionResult Tuteur()
         {
@@ -265,29 +184,36 @@ namespace sachem.Controllers
             listeCollege();
             return View();
         }
+
+        [NonAction]
+        public void listeStatutCours()
+        {
+            var lstStatut = from c in db.p_StatutCours orderby c.id_Statut select c;
+            var slStatut = new List<SelectListItem>();
+            slStatut.AddRange(new SelectList(lstStatut, "id_Statut", "Statut"));
+            ViewBag.lstStatut = slStatut;
+        }
+
+        [NonAction]
+        public void listeSession(int session=0)
+        {
+            ViewBag.slSession = Liste.ListeSession(session);
+        }
+
+        public ActionResult getLigneCoursEleveAide()
+        {
+            listeCours();
+            listeStatutCours();
+            listeSession();
+            return PartialView("_LigneCoursReussiEleveAide");
+        }
+
         [HttpGet]
         public ActionResult TBenevole()
         {
             listeCours();
             listeCollege();
             return View();
-        }
-        [HttpPost]
-        public void listeCours()
-        {
-            var lstCrs = from c in db.Cours orderby c.Nom select c;
-            var slCrs = new List<SelectListItem>();
-            slCrs.AddRange(new SelectList(lstCrs, "id_Cours", "CodeNom"));
-            ViewBag.lstCours = slCrs;
-            ViewBag.lstCours1 = slCrs;
-        }
-        [HttpPost]
-        public void listeCollege()
-        {
-            var lstCol = from c in db.p_College orderby c.College select c;
-            var slCol = new List<SelectListItem>();
-            slCol.AddRange(new SelectList(lstCol, "id_College", "College"));
-            ViewBag.lstCollege = slCol;
         }
 
         [HttpPost]
@@ -297,6 +223,7 @@ namespace sachem.Controllers
             listeCollege();
             return PartialView("_LigneCoursReussi");
         }
+
         [HttpPost]
         public string Poursuivre(string[][] values, string[] coursInteret)
         {
@@ -324,13 +251,13 @@ namespace sachem.Controllers
                         }
                         else
                         {
-                            erreur = true;    
+                            erreur = true;
                         }
-                    }                    
+                    }
                 }
                 else
                 {
-                    if(!Contient(values[i][0], donneesInscription))
+                    if (!Contient(values[i][0], donneesInscription))
                     {
                         temp[0] = values[i][0];
                     }
@@ -378,73 +305,123 @@ namespace sachem.Controllers
             int ptype = SessionBag.Current.id_Inscription;
             var InscriptionInteret = db.Inscription.Where(x => x.id_Pers == idPers).FirstOrDefault();
 
-             foreach (string[] d in donneesInscription)
-             {
-                 CoursSuivi cs = new CoursSuivi();
-                 if (d[0] == "")
-                 {
-                     cs.autre_Cours = d[0];
-                 }
-                 else
-                 {
-                     cs.id_Cours = int.Parse(d[0]);
-                 }
-                 cs.resultat = int.Parse(d[1]);
-                 if (d[2] == "")
-                 {
-                     cs.autre_College = d[2];
-                 }
-                 else
-                 {
-                     cs.id_College = int.Parse(d[2]);
-                 }
-                 cs.id_Pers = idPers;
-                 cs.id_Sess = sess;
-                 db.CoursSuivi.Add(cs);
-                 db.SaveChanges();
-             }
-
-            /*for (i=0;i<3;i++)
-            {   
-                CoursInteret ci = new CoursInteret();
-                ci.id_Inscription = InscriptionInteret.id_Inscription;
-                ci.id_Cours = Int32.Parse(coursInteret[i]);
-
-                //ci.Cours = db.Cours.Where(x => x.id_Cours == ci.id_Cours).FirstOrDefault();
-                //ci.Inscription = InscriptionInteret;
-
-                ci.Priorite = i + 1;
-                db.CoursInteret.Add(ci);
-                try
+            foreach (string[] d in donneesInscription)
+            {
+                CoursSuivi cs = new CoursSuivi();
+                if (d[0] == "")
                 {
-                    db.SaveChanges();
+                    cs.autre_Cours = d[0];
                 }
-                catch(DbUpdateException ex)
+                else
                 {
-                    Console.WriteLine(ex.Message);
+                    cs.id_Cours = int.Parse(d[0]);
                 }
-                
-            }*/
+                cs.resultat = int.Parse(d[1]);
+                if (d[2] == "")
+                {
+                    cs.autre_College = d[2];
+                }
+                else
+                {
+                    cs.id_College = int.Parse(d[2]);
+                }
+                cs.id_Pers = idPers;
+                cs.id_Sess = sess;
+                db.CoursSuivi.Add(cs);
+                db.SaveChanges();
+            }
             return "DossierEtudiant/Index";
         }
 
+        [HttpPost]
+        public void listeCours()
+        {
+            var lstCrs = from c in db.Cours orderby c.Nom select c;
+            var slCrs = new List<SelectListItem>();
+            slCrs.AddRange(new SelectList(lstCrs, "id_Cours", "CodeNom"));
+            ViewBag.lstCours = slCrs;
+            ViewBag.lstCours1 = slCrs;
+        }
+
+        [HttpPost]
+        public string ErreurCours()
+        {
+            var lstCrs = from c in db.Cours orderby c.Nom select c;
+            var slCrs = new List<SelectListItem>();
+            slCrs.AddRange(new SelectList(lstCrs, "id_Cours", "CodeNom"));
+            ViewBag.lstCours = slCrs;
+            ViewBag.lstCours1 = slCrs;
+            return Messages.CoursChoisiUneSeuleFois();
+        }
+
+        [HttpPost]
+        public void listeCollege()
+        {
+            var lstCol = from c in db.p_College orderby c.College select c;
+            var slCol = new List<SelectListItem>();
+            slCol.AddRange(new SelectList(lstCol, "id_College", "College"));
+            ViewBag.lstCollege = slCol;
+        }
+
+        [NonAction]
+        private string[] triageTableauAlphaNumerique(string[] tableau)
+        {
+            Array.Sort(tableau, StringComparer.InvariantCulture);
+            return tableau;
+        }
+
+        [NonAction]
+        public void listeSession()
+        {
+            var lstSess = from c in db.Session orderby c.id_Sess select c;
+            var slSession = new List<SelectListItem>();
+            slSession.AddRange(new SelectList(lstSess, "id_Sess", "NomSession", Session));
+            ViewBag.slSession = slSession;
+        }
 
         public bool Contient(string value, List<string[]> donneesInscription)
         {
             foreach (string[] d in donneesInscription)
             {
                 if (d[0] == value || d[2] == value)
-        {
+                {
                     return true;
                 }
             }
             return false;
         }
 
+        [ValidationAcces.ValidationAccesEleve]
         [HttpPost]
-        public string ErreurCours()
+        public ActionResult EleveAide1(string[][] values)
         {
-            return Messages.CoursChoisiUneSeuleFois();
+            TempData["Echec"] = "";
+            if (values==null)
+            {
+                return RedirectToAction("Details", "DossierEtudiant", new { id = SessionBag.Current.id_Inscription});
+            }
+            else
+            {
+                for (var i = 0; i<values.Length; i++)
+                {
+                    if (values[i][0] != "")
+                    {
+                        var cours = new CoursSuivi();
+                        cours.id_Pers = SessionBag.Current.id_Pers;
+                        cours.id_Cours = Convert.ToInt32(values[i][0]);
+                        cours.id_Statut = Convert.ToInt32(values[i][1]);
+                        cours.id_Sess = Convert.ToInt32(values[i][2]);
+                        cours.id_College = db.p_College.FirstOrDefault(x => x.College == "Cégep de Lévis-Lauzon").id_College;
+                        if (values[i][3] != "")
+                        {
+                            cours.resultat = Convert.ToInt32(values[i][3]);
+                        }
+                        db.CoursSuivi.Add(cours);
+                        db.SaveChanges();
+                    }
+                }
+                    return RedirectToAction("Details", "DossierEtudiant", new { id = SessionBag.Current.id_Inscription });
+            }
         }      
     }
 }

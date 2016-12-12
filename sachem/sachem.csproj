@@ -459,7 +459,6 @@
     <Content Include="Views\Account\ForgotPassword.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Views\Account\Register.cshtml" />
-    <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Cours\Create.cshtml" />
     <Content Include="Views\Cours\Delete.cshtml" />
@@ -523,22 +522,23 @@
     <Content Include="Views\Jumelage\_JumelagesAvec.cshtml" />
     <Content Include="Views\Jumelage\_Disponibilites.cshtml" />
     <Content Include="Views\ContratEngagement\Index.cshtml" />
-    <Content Include="Views\Inscription\Tuteur.cshtml" />
     <Content Include="Views\Shared\_CoursReussis.cshtml" />
     <Content Include="Views\Inscription\TBenevole.cshtml" />
     <Content Include="Views\Shared\_LigneCoursReussi.cshtml" />
     <Content Include="Views\Inscription\_AjoutCours.cshtml" />
     <Content Include="_Contribute\sachem.bak" />
     <Content Include="_Contribute\Sachem_Importer.csv" />
+    <Content Include="Views\Shared\_CoursReussis.cshtml" />
+    <Content Include="Views\Shared\_LigneCoursReussi.cshtml" />
+    <Content Include="Views\Jumelage\Delete.cshtml" />
     <Content Include="Views\Inscription\_CoursReussisEleveAide.cshtml" />
     <Content Include="Views\Inscription\_LigneCoursReussiEleveAide.cshtml" />
-    <Content Include="Views\Inscription\Tuteur.cshtml" />
     <Content Include="Views\Shared\_CoursReussis.cshtml" />
-    <Content Include="Views\Inscription\TBenevole.cshtml" />
     <Content Include="Views\Shared\_LigneCoursReussi.cshtml" />
     <Content Include="Views\RechercheInscription\Index.cshtml" />
     <Content Include="Views\RechercheInscription\Details.cshtml" />
     <Content Include="Views\Shared\Deja.cshtml" />
+    <Content Include="Views\Inscription\Tuteur.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

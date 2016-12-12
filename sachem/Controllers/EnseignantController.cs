@@ -27,7 +27,6 @@ namespace sachem.Controllers
             this.dataRepository = dataRepository;
         }
 
-
         [ValidationAccesSuper]
         public ActionResult Index(int? page)
         {
@@ -57,10 +56,11 @@ namespace sachem.Controllers
                 }
                 else
                 {
-                    SachemIdentite.encrypterMPPersonne(ref personne); // Encryption du mot de passe
+                    SachemIdentite.encrypterMPPersonne(ref personne);
                     dataRepository.AddEnseignant(personne);
+
                     TempData["Success"] = Messages.AjouterUnGroupeAUnEnseignant(personne.NomUsager, personne.id_Pers);
-                        // Message afficher sur la page d'index confirmant la création
+
                     return RedirectToAction("Index");
                 }
             }
@@ -94,7 +94,7 @@ namespace sachem.Controllers
             Valider(personne);
             if (personne.MP != null && personne.ConfirmPassword != null)
             {
-                SachemIdentite.encrypterMPPersonne(ref personne); // Appel de la méthode qui encrypte le mot de passe
+                SachemIdentite.encrypterMPPersonne(ref personne);
             }
             else
             {
@@ -106,7 +106,9 @@ namespace sachem.Controllers
             if (ModelState.IsValid)
             {
                 dataRepository.DeclareModifiedEns(personne);
-                TempData["Success"] = Messages.UsagerModfie(personne.NomUsager); // Message afficher sur la page d'index confirmant la modification
+
+                TempData["Success"] = Messages.UsagerModfie(personne.NomUsager);
+
                 return RedirectToAction("Index");
             }
             personne.MP = null;
@@ -140,21 +142,23 @@ namespace sachem.Controllers
         public ActionResult DeleteConfirmed(int id,int? page)
         {
             var pageNumber = page ?? 1;
-            if(dataRepository.AnyGroupeWhere(g => g.id_Enseignant == id))  // Verifier si l'enseignant est relié a un groupe
+            if(dataRepository.AnyGroupeWhere(g => g.id_Enseignant == id))
             {
                 ModelState.AddModelError(string.Empty, Messages.EnseignantNePeutEtreSupprime);
             }
-            if(dataRepository.AnyjumelageWhere(g => g.id_Enseignant == id)) // Vérifier si l'enseignant est relié a un jumelage
+            if(dataRepository.AnyjumelageWhere(g => g.id_Enseignant == id))
             {
                 ModelState.AddModelError(string.Empty, Messages.EnseignantNonSupprimeJumelagePresent());
             }
             if (ModelState.IsValid)
             {
                 Personne personne = dataRepository.FindEnseignant(id);
-                dataRepository.RemoveEnseignant(id); // retirer toute les occurences de l'enseignant
+
+                dataRepository.RemoveEnseignant(id);
                 ViewBag.Success = string.Format(Messages.EnseignantSupprime(personne.NomUsager));
+
             }
-            return View("Index", Rechercher().ToPagedList(pageNumber, 20)); // retour à index avec les divisions par page
+            return View("Index", Rechercher().ToPagedList(pageNumber, 20));
         }
 
         protected override void Dispose(bool disposing)
@@ -181,10 +185,8 @@ namespace sachem.Controllers
                 actif = Request.Form["Actif"].StartsWith("true");
             }
             ViewBag.Actif = actif;
-            // liste et pagination
             ViewBag.Enseignant = Liste.ListeEnseignant(enseignant);
 
-            // Requete linq pour aller chercher les enseignants et responsables dans la BD
             var Enseignant = dataRepository.AllEnseignantResponsable(actif, ID_RESP, ID_ENSEIGNANT);
             return Enseignant.ToList();
         }
@@ -203,17 +205,13 @@ namespace sachem.Controllers
 
         private void RemplirDropList()
         {
-            // afficher les listes déroulantes contenant le type d'usager et le sexe
             ViewBag.liste_sexe = dataRepository.liste_sexe();
-            // Permet d'afficher seulement Enseignant et Responsable du Sachem dans les valeurs possibles de la list déroulante.
             ViewBag.id_TypeUsag = dataRepository.liste_usag(ID_RESP,ID_ENSEIGNANT);
         }
 
         private void RemplirDropList(Personne personne)
         {
-            // affiche les sexes dans la dropList et sélectionne par défaut la valeur dans le paramètre personne.
             ViewBag.liste_sexe = dataRepository.liste_sexe(personne);
-            // affiche Enseignant et responsable dans la dropList et sélectionne par défaut la valeur dans le paramètre personne.
             ViewBag.id_TypeUsag = dataRepository.liste_usag(personne,ID_RESP, ID_ENSEIGNANT);
         }
     }
