@@ -16,19 +16,19 @@ namespace sachem.Controllers
         [ValidationAccesEnseignant]
         public ActionResult Index(int? page)
         {
-            noPage = page ?? noPage;
+            NoPage = page ?? NoPage;
 
-            return View(Rechercher().ToPagedList(noPage, 20));
+            return View(Rechercher().ToPagedList(NoPage, 20));
         }
 
         [ValidationAccesEnseignant]
         public ActionResult Create()
         {
-            ViewBag.id_Sexe = db.p_Sexe;
+            ViewBag.id_Sexe = Db.p_Sexe;
             ViewBag.Selected = 0;
-            ViewBag.id_TypeUsag = new SelectList(db.p_TypeUsag, "id_TypeUsag", "TypeUsag");
-            ViewBag.id_Programme = new SelectList(db.ProgrammeEtude.Where(x => x.Actif), "id_ProgEtu", "CodeNomProgramme");
-            ViewBag.id_Session = new SelectList(db.Session, "id_Sess", "NomSession");
+            ViewBag.id_TypeUsag = new SelectList(Db.p_TypeUsag, "id_TypeUsag", "TypeUsag");
+            ViewBag.id_Programme = new SelectList(Db.ProgrammeEtude.Where(x => x.Actif), "id_ProgEtu", "CodeNomProgramme");
+            ViewBag.id_Session = new SelectList(Db.Session, "id_Sess", "NomSession");
             
             return View();
         }
@@ -46,11 +46,11 @@ namespace sachem.Controllers
             personne.Matricule = AnneePremiersCaracteres + personne.Matricule;
             etuProg.personne = personne;
 
-                ViewBag.id_Sexe = db.p_Sexe;
+                ViewBag.id_Sexe = Db.p_Sexe;
                 ViewBag.Selected = 0;
-                ViewBag.id_TypeUsag = new SelectList(db.p_TypeUsag, "id_TypeUsag", "TypeUsag");
-                ViewBag.id_Programme = new SelectList(db.ProgrammeEtude.Where(x => x.Actif), "id_ProgEtu", "CodeNomProgramme");
-                ViewBag.id_Session = new SelectList(db.Session, "id_Sess", "NomSession");
+                ViewBag.id_TypeUsag = new SelectList(Db.p_TypeUsag, "id_TypeUsag", "TypeUsag");
+                ViewBag.id_Programme = new SelectList(Db.ProgrammeEtude.Where(x => x.Actif), "id_ProgEtu", "CodeNomProgramme");
+                ViewBag.id_Session = new SelectList(Db.Session, "id_Sess", "NomSession");
 
             Valider(etuProg.personne);
             if (etuProg.personne.MP == null)
@@ -72,15 +72,15 @@ namespace sachem.Controllers
                 etuprog.id_ProgEtu = int.Parse(Request.Form["id_Programme"]);
                 etuprog.id_Sess = int.Parse(Request.Form["id_Session"]);
                 etuprog.id_Etu = personne.id_Pers;
-                db.EtuProgEtude.Add(etuprog);
+                Db.EtuProgEtude.Add(etuprog);
             }
 
             if (ModelState.IsValid)
             {
                 etuProg.personne.MP = SachemIdentite.encrypterChaine(etuProg.personne.MP); 
                 etuProg.personne.ConfirmPassword = SachemIdentite.encrypterChaine(etuProg.personne.ConfirmPassword);
-                db.Personne.Add(etuProg.personne);
-                db.SaveChanges();
+                Db.Personne.Add(etuProg.personne);
+                Db.SaveChanges();
                 personne.Telephone = SachemIdentite.RemettreTel(personne.Telephone);
 
                 TempData["Success"] = Messages.EtudiantEnregistre(personne.Matricule7);
@@ -97,7 +97,7 @@ namespace sachem.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Personne personne = db.Personne.Find(id);
+            Personne personne = Db.Personne.Find(id);
             if (personne == null)
             {
                 return HttpNotFound();
@@ -108,16 +108,16 @@ namespace sachem.Controllers
                 personne.Telephone = SachemIdentite.RemettreTel(personne.Telephone);
             }
 
-            var programmes = from d in db.EtuProgEtude
+            var programmes = from d in Db.EtuProgEtude
                        where d.id_Etu == personne.id_Pers
                        orderby d.ProgrammeEtude.Code
                        select d;
 
-            ViewBag.id_Sexe = db.p_Sexe;
+            ViewBag.id_Sexe = Db.p_Sexe;
             ViewBag.Selected = personne.id_Sexe;
-            ViewBag.id_TypeUsag = new SelectList(db.p_TypeUsag, "id_TypeUsag", "TypeUsag", personne.id_TypeUsag);
-            ViewBag.id_Programme = new SelectList(db.ProgrammeEtude.Where(x=> x.Actif), "id_ProgEtu", "CodeNomProgramme");
-            ViewBag.id_Session = new SelectList(db.Session, "id_Sess", "NomSession");
+            ViewBag.id_TypeUsag = new SelectList(Db.p_TypeUsag, "id_TypeUsag", "TypeUsag", personne.id_TypeUsag);
+            ViewBag.id_Programme = new SelectList(Db.ProgrammeEtude.Where(x=> x.Actif), "id_ProgEtu", "CodeNomProgramme");
+            ViewBag.id_Session = new SelectList(Db.Session, "id_Sess", "NomSession");
             var etuProg = new PersonneEtuProgParent
             {
                 personne = personne,
@@ -131,27 +131,27 @@ namespace sachem.Controllers
         [AcceptVerbs("Get", "Post")]
         public virtual JsonResult ActualisePEtu(int idProg, int idPers, int valider = 0)
         {
-            var personne = db.Personne.Find(idPers);
-            var etuprog = db.EtuProgEtude.Find(idProg);
-            var programme = from d in db.EtuProgEtude
+            var personne = Db.Personne.Find(idPers);
+            var etuprog = Db.EtuProgEtude.Find(idProg);
+            var programme = from d in Db.EtuProgEtude
                        where d.id_Etu == personne.id_Pers
                        orderby d.ProgrammeEtude.Code
                        select d;
 
-            var etuProgEtu = db.EtuProgEtude.Where(x => x.id_EtuProgEtude == idProg);
-            if (!db.CoursSuivi.Any(c => c.id_Pers == etuprog.id_Etu && c.id_Sess == etuprog.id_Sess))
+            var etuProgEtu = Db.EtuProgEtude.Where(x => x.id_EtuProgEtude == idProg);
+            if (!Db.CoursSuivi.Any(c => c.id_Pers == etuprog.id_Etu && c.id_Sess == etuprog.id_Sess))
             {
                 TempData["Success"] = Messages.ProgrammeRetireDelaListeEtudiant(etuprog.ProgrammeEtude.CodeNomProgramme);
-                db.EtuProgEtude.RemoveRange(etuProgEtu);
-                db.SaveChanges();
+                Db.EtuProgEtude.RemoveRange(etuProgEtu);
+                Db.SaveChanges();
             }
             else
             {
                 if (programme.Count() > 1)
                 {
                     TempData["Success"] = Messages.ProgrammeRetireDelaListeEtudiant(etuprog.ProgrammeEtude.CodeNomProgramme);
-                    db.EtuProgEtude.RemoveRange(etuProgEtu);
-                    db.SaveChanges();
+                    Db.EtuProgEtude.RemoveRange(etuProgEtu);
+                    Db.SaveChanges();
                 }
                 else
                 {
@@ -164,7 +164,7 @@ namespace sachem.Controllers
 
         private IEnumerable<object> ObtenirProgEtu(int idPers)
         {
-            var ens = db.EtuProgEtude
+            var ens = Db.EtuProgEtude
                 .AsNoTracking()
                 .Where(sel => sel.id_Etu == idPers)
                 .Select(e => new { e.ProgrammeEtude.NomProg, e.id_Etu, e.id_EtuProgEtude, e.ProgrammeEtude.Code })
@@ -186,7 +186,7 @@ namespace sachem.Controllers
 
             var etuprog = new EtuProgEtude();
 
-            var prog = from d in db.EtuProgEtude
+            var prog = from d in Db.EtuProgEtude
                        where d.id_Etu == etuProg.personne.id_Pers
                        orderby d.ProgrammeEtude.Code
                        select d;
@@ -196,8 +196,8 @@ namespace sachem.Controllers
                 etuprog.id_ProgEtu = int.Parse(Request.Form["id_Programme"]);
                 etuprog.id_Sess = int.Parse(Request.Form["id_Session"]);
                 etuprog.id_Etu = personne.id_Pers;
-                db.EtuProgEtude.Add(etuprog);
-                db.SaveChanges();
+                Db.EtuProgEtude.Add(etuprog);
+                Db.SaveChanges();
             }
             if (ConfirmeMdp(personne.MP, personne.ConfirmPassword))
             {
@@ -215,7 +215,7 @@ namespace sachem.Controllers
                     }
                     else
                     {
-                        var mdp = from c in db.Personne
+                        var mdp = from c in Db.Personne
                                   where (c.id_Pers == personne.id_Pers)
                                   select c.MP;
                         personne.MP = mdp.SingleOrDefault();
@@ -226,17 +226,17 @@ namespace sachem.Controllers
 
             if (ModelState.IsValid)
             {
-                db.Entry(etuProg.personne).State = EntityState.Modified;
-                db.SaveChanges();
+                Db.Entry(etuProg.personne).State = EntityState.Modified;
+                Db.SaveChanges();
                 TempData["Success"] = Messages.EtudiantModifie(personne.NomPrenom);
                 return RedirectToAction("Index");
             }
 
-            ViewBag.id_Sexe = db.p_Sexe;
+            ViewBag.id_Sexe = Db.p_Sexe;
             ViewBag.Selected = etuProg.personne.id_Sexe;
-            ViewBag.id_TypeUsag = new SelectList(db.p_TypeUsag, "id_TypeUsag", "TypeUsag", etuProg.personne.id_TypeUsag);
-            ViewBag.id_Programme = new SelectList(db.ProgrammeEtude.Where(x => x.Actif), "id_ProgEtu", "CodeNomProgramme");
-            ViewBag.id_Session = new SelectList(db.Session, "id_Sess", "NomSession");
+            ViewBag.id_TypeUsag = new SelectList(Db.p_TypeUsag, "id_TypeUsag", "TypeUsag", etuProg.personne.id_TypeUsag);
+            ViewBag.id_Programme = new SelectList(Db.ProgrammeEtude.Where(x => x.Actif), "id_ProgEtu", "CodeNomProgramme");
+            ViewBag.id_Session = new SelectList(Db.Session, "id_Sess", "NomSession");
             return View(etuProg);
         }
 
@@ -248,7 +248,7 @@ namespace sachem.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Personne personne = db.Personne.Find(id);
+            Personne personne = Db.Personne.Find(id);
             if (personne == null)
             {
                 return HttpNotFound();
@@ -262,10 +262,10 @@ namespace sachem.Controllers
         [ValidationAccesEnseignant]
         public ActionResult DeleteConfirmed(int id,int? page)
         {
-            var personne = db.Personne.Find(id);
-            var inscription = db.Inscription.FirstOrDefault(x => x.id_Pers == personne.id_Pers);
+            var personne = Db.Personne.Find(id);
+            var inscription = Db.Inscription.FirstOrDefault(x => x.id_Pers == personne.id_Pers);
 
-            if (db.GroupeEtudiant.Any(x => x.id_Etudiant == personne.id_Pers))
+            if (Db.GroupeEtudiant.Any(x => x.id_Etudiant == personne.id_Pers))
             {
                 ModelState.AddModelError(string.Empty, Messages.EtudiantNePeutEtreSupprimeCarLieAUnGroupe());
                 TempData["Echec"] = Messages.EtudiantNePeutEtreSupprimeCarLieAUnGroupe();
@@ -273,7 +273,7 @@ namespace sachem.Controllers
              
             if (inscription != null)
             {
-                if (db.Jumelage.Any(x => x.id_InscEleve == inscription.id_Inscription))
+                if (Db.Jumelage.Any(x => x.id_InscEleve == inscription.id_Inscription))
                 {
                     ModelState.AddModelError(string.Empty, Messages.EtudiantNonSupprimeCarJumele());
                     TempData["Echec"] = Messages.EtudiantNonSupprimeCarJumele();
@@ -281,18 +281,18 @@ namespace sachem.Controllers
             }
             if (ModelState.IsValid)
             {
-                var etuProgEtu = db.EtuProgEtude.Where(x => x.id_Etu == personne.id_Pers);
-                db.EtuProgEtude.RemoveRange(etuProgEtu);
-                var groupeEtu = db.GroupeEtudiant.Where(y => y.id_Etudiant == personne.id_Pers);
-                db.GroupeEtudiant.RemoveRange(groupeEtu);
-                var jumul = db.Jumelage.Where(z => z.id_InscEleve == personne.id_Pers);
-                db.Jumelage.RemoveRange(jumul);
-                var inscri = db.Inscription.Where(a => a.id_Pers == personne.id_Pers);
-                db.Inscription.RemoveRange(inscri);
-                var coursSuiv = db.CoursSuivi.Where(b => b.id_Pers == personne.id_Pers);
-                db.CoursSuivi.RemoveRange(coursSuiv);
-                db.Personne.Remove(personne);
-                db.SaveChanges();
+                var etuProgEtu = Db.EtuProgEtude.Where(x => x.id_Etu == personne.id_Pers);
+                Db.EtuProgEtude.RemoveRange(etuProgEtu);
+                var groupeEtu = Db.GroupeEtudiant.Where(y => y.id_Etudiant == personne.id_Pers);
+                Db.GroupeEtudiant.RemoveRange(groupeEtu);
+                var jumul = Db.Jumelage.Where(z => z.id_InscEleve == personne.id_Pers);
+                Db.Jumelage.RemoveRange(jumul);
+                var inscri = Db.Inscription.Where(a => a.id_Pers == personne.id_Pers);
+                Db.Inscription.RemoveRange(inscri);
+                var coursSuiv = Db.CoursSuivi.Where(b => b.id_Pers == personne.id_Pers);
+                Db.CoursSuivi.RemoveRange(coursSuiv);
+                Db.Personne.Remove(personne);
+                Db.SaveChanges();
                 TempData["Success"] = Messages.EtudiantSupprime(personne.NomPrenom);
             }
             
@@ -301,34 +301,34 @@ namespace sachem.Controllers
 
         public ActionResult DeleteProgEtu(int idProg, int idPers, int valider = 0)
         {
-            var personne = db.Personne.Find(idPers);
-            var etuprog = db.EtuProgEtude.Find(idProg);
-            var prog = from d in db.EtuProgEtude
+            var personne = Db.Personne.Find(idPers);
+            var etuprog = Db.EtuProgEtude.Find(idProg);
+            var prog = from d in Db.EtuProgEtude
                        where d.id_Etu == personne.id_Pers
                        orderby d.ProgrammeEtude.Code
                        select d;
             
             TempData["Question"] = Messages.VraimentSupprimerProgrammeEtude(etuprog.ProgrammeEtude.CodeNomProgramme);
-            var etuProgEtu = db.EtuProgEtude.Where(x => x.id_EtuProgEtude == idProg);
+            var etuProgEtu = Db.EtuProgEtude.Where(x => x.id_EtuProgEtude == idProg);
             if (valider != 0)
             {
                 TempData["Question"] = null;
             }
             if (valider == 1)
             {
-                if (!db.CoursSuivi.Any(c => c.id_Pers == etuprog.id_Etu && c.id_Sess == etuprog.id_Sess))
+                if (!Db.CoursSuivi.Any(c => c.id_Pers == etuprog.id_Etu && c.id_Sess == etuprog.id_Sess))
                 {
                     TempData["Success"] = Messages.ProgrammeRetireDelaListeEtudiant(etuprog.ProgrammeEtude.CodeNomProgramme);
-                    db.EtuProgEtude.RemoveRange(etuProgEtu);
-                    db.SaveChanges();
+                    Db.EtuProgEtude.RemoveRange(etuProgEtu);
+                    Db.SaveChanges();
                 }
                 else
                 {
                     if (prog.Count() > 1)
                     {
                         TempData["Success"] = Messages.ProgrammeRetireDelaListeEtudiant(etuprog.ProgrammeEtude.CodeNomProgramme);
-                        db.EtuProgEtude.RemoveRange(etuProgEtu);
-                        db.SaveChanges();
+                        Db.EtuProgEtude.RemoveRange(etuProgEtu);
+                        Db.SaveChanges();
                     }
                     else
                     {
@@ -352,7 +352,7 @@ namespace sachem.Controllers
             {
                 ModelState.AddModelError("Matricule7", Messages.LongueurDeSeptCaracteres);
             }
-            else if (db.Personne.Any(x => x.Matricule == personne.Matricule))
+            else if (Db.Personne.Any(x => x.Matricule == personne.Matricule))
             {
                 ModelState.AddModelError(string.Empty, Messages.MatriculeDejaExistant(personne.Matricule));
             }
@@ -361,7 +361,7 @@ namespace sachem.Controllers
         {
             if (disposing)
             {
-                db.Dispose();
+                Db.Dispose();
             }
             base.Dispose(disposing);
         }
