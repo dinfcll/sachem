@@ -329,9 +329,7 @@ namespace sachem.Controllers
                     db.SaveChanges();
                     TempData["Success"] = string.Format(Messages.EtudiantAjouteAuGroupe(p.Matricule7, g.id_Groupe));
                 }
-
             }
-
             return RedirectToAction("AjouterEleve", new { idg = idg, page = ViewBag.page });
         }
 

@@ -124,7 +124,7 @@ namespace sachem.Controllers
             Personne personne = dataRepository.FindEnseignant((int)id);
             if(SessionBag.Current.id_pers == id)
             {
-                TempData["Error"] = Messages.ResponsableSeSupprimerLuiMeme;
+                TempData["Error"] = Messages.ResponsableSeSupprimerLuiMeme();
                 return RedirectToAction("Index", "Enseignant", null);
             }
             if (personne == null)
@@ -145,7 +145,7 @@ namespace sachem.Controllers
             }
             if(dataRepository.AnyjumelageWhere(g => g.id_Enseignant == id)) // Vérifier si l'enseignant est relié a un jumelage
             {
-                ModelState.AddModelError(string.Empty, Messages.EnseignantNonSupprimeJumelagePresent);
+                ModelState.AddModelError(string.Empty, Messages.EnseignantNonSupprimeJumelagePresent());
             }
             if (ModelState.IsValid)
             {
@@ -196,7 +196,7 @@ namespace sachem.Controllers
             }
             if (personne.MP != personne.ConfirmPassword)
             {
-                ModelState.AddModelError(string.Empty, Messages.MotsDePasseDoiventEtreIdentiques);
+                ModelState.AddModelError(string.Empty, Messages.MotsDePasseDoiventEtreIdentiques());
             }
         }
 

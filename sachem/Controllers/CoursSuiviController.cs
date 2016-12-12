@@ -55,7 +55,7 @@ namespace sachem.Controllers
 
             //Verif si resultat nécéssaire et présent
             if ((coursSuivi.id_Statut == null || coursSuivi.id_Statut == 1) && coursSuivi.resultat == null)
-                ModelState.AddModelError(string.Empty, Messages.ResultatRequisSiReussi);
+                ModelState.AddModelError(string.Empty, Messages.ResultatRequisSiReussi());
         }
 
         // GET: CoursSuivi/Create

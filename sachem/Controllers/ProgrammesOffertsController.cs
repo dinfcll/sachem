@@ -40,7 +40,7 @@ namespace sachem.Controllers
                 db.ProgrammeEtude.Add(programme);
                 db.SaveChanges();
 
-                TempData["Success"] = string.Format(Messages.I_007(programme.NomProg));
+                TempData["Success"] = string.Format(Messages.ProgrammeAvecMemeNom(programme.NomProg));
                 return RedirectToAction("Index");
             }
             return View(programme);
@@ -84,7 +84,7 @@ namespace sachem.Controllers
                 db.Entry(programme).State = EntityState.Modified;
                 db.SaveChanges();
 
-                TempData["Success"] = string.Format(Messages.I_007(programme.NomProg));
+                TempData["Success"] = string.Format(Messages.ProgrammeAvecMemeNom(programme.NomProg));
                 return RedirectToAction("Index");
             }
             return View(programme);
