@@ -52,13 +52,13 @@ namespace sachem.Controllers
             {
                 if (personne.MP == null)
                 {
-                    ModelState.AddModelError("MP", Messages.U_001);
+                    ModelState.AddModelError("MP", Messages.ChampRequis);
                 }
                 else
                 {
                     SachemIdentite.encrypterMPPersonne(ref personne); // Encryption du mot de passe
                     dataRepository.AddEnseignant(personne);
-                    TempData["Success"] = Messages.Q_004(personne.NomUsager, personne.id_Pers);
+                    TempData["Success"] = Messages.AjouterUnGroupeAUnEnseignant(personne.NomUsager, personne.id_Pers);
                         // Message afficher sur la page d'index confirmant la création
                     return RedirectToAction("Index");
                 }
@@ -90,7 +90,6 @@ namespace sachem.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "id_Pers, id_Sexe, id_TypeUsag, Nom, Prenom, NomUsager, MP, ConfirmPassword, Courriel, DateNais, Actif")] Personne personne)
         {
-            bool AncienMotDePasse = false;
             Valider(personne);
             if (personne.MP != null && personne.ConfirmPassword != null)
             {
@@ -106,7 +105,7 @@ namespace sachem.Controllers
             if (ModelState.IsValid)
             {
                 dataRepository.DeclareModifiedEns(personne);
-                TempData["Success"] = Messages.I_015(personne.NomUsager); // Message afficher sur la page d'index confirmant la modification
+                TempData["Success"] = Messages.UsagerModfie(personne.NomUsager); // Message afficher sur la page d'index confirmant la modification
                 return RedirectToAction("Index");
             }
             personne.MP = null;
@@ -125,7 +124,7 @@ namespace sachem.Controllers
             Personne personne = dataRepository.FindEnseignant((int)id);
             if(SessionBag.Current.id_pers == id)
             {
-                TempData["Error"] = Messages.I_037;
+                TempData["Error"] = Messages.ResponsableSeSupprimerLuiMeme();
                 return RedirectToAction("Index", "Enseignant", null);
             }
             if (personne == null)
@@ -142,17 +141,17 @@ namespace sachem.Controllers
             var pageNumber = page ?? 1;
             if(dataRepository.AnyGroupeWhere(g => g.id_Enseignant == id))  // Verifier si l'enseignant est relié a un groupe
             {
-                ModelState.AddModelError(string.Empty, Messages.I_012);
+                ModelState.AddModelError(string.Empty, Messages.EnseignantNePeutEtreSupprime);
             }
             if(dataRepository.AnyjumelageWhere(g => g.id_Enseignant == id)) // Vérifier si l'enseignant est relié a un jumelage
             {
-                ModelState.AddModelError(string.Empty, Messages.I_033);
+                ModelState.AddModelError(string.Empty, Messages.EnseignantNonSupprimeJumelagePresent());
             }
             if (ModelState.IsValid)
             {
                 Personne personne = dataRepository.FindEnseignant(id);
                 dataRepository.RemoveEnseignant(id); // retirer toute les occurences de l'enseignant
-                ViewBag.Success = string.Format(Messages.I_029(personne.NomUsager));
+                ViewBag.Success = string.Format(Messages.EnseignantSupprime(personne.NomUsager));
             }
             return View("Index", Rechercher().ToPagedList(pageNumber, 20)); // retour à index avec les divisions par page
         }
@@ -193,11 +192,11 @@ namespace sachem.Controllers
         {
             if (dataRepository.AnyEnseignantWhere(x => x.NomUsager == personne.NomUsager && x.id_Pers != personne.id_Pers,personne))
             {
-                ModelState.AddModelError(string.Empty, Messages.I_013(personne.NomUsager));
+                ModelState.AddModelError(string.Empty, Messages.NomEnseignantDejaExistant(personne.NomUsager));
             }
             if (personne.MP != personne.ConfirmPassword)
             {
-                ModelState.AddModelError(string.Empty, Messages.C_001);
+                ModelState.AddModelError(string.Empty, Messages.MotsDePasseDoiventEtreIdentiques());
             }
         }
 

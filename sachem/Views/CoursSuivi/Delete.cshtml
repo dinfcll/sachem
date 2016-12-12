@@ -2,18 +2,18 @@
 @using sachem.Models
 
 @{
-    ViewBag.Title = "Supprimer un cours de mathématiques antérieur";
+    ViewBag.Title = "Supprimer un cours suivi antérieur";
 }
 
 <h2>@ViewBag.Title</h2>
 
 @if (Model.autre_Cours == string.Empty || Model.autre_Cours == null)
 {
-    <h4>@sachem.Models.Messages.Q_013(Model.Cours.CodeNom)</h4>
+    <h4>@sachem.Models.Messages.VraimentSupprimerCours(Model.Cours.CodeNom)</h4>
 }
 else
 {
-    <h4>@sachem.Models.Messages.Q_013(Model.autre_Cours)</h4>
+    <h4>@sachem.Models.Messages.VraimentSupprimerCours(Model.autre_Cours)</h4>
 }
 
 @Html.ValidationSummary(true, "", new { @class = "text-danger" })

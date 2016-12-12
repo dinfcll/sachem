@@ -3,8 +3,7 @@
 
 <p>
     <h5 class="hIns">
-        Indiquez tous les cours de mathématiques(collégial) que vous avez réussis, 
-        abandonnés ou échoués au cégep. Pour ceux réussis, indiquez vos résultats :
+        @sachem.Models.Messages.InscriptionCoursReussiIndication();
     </h5>
 </p>
 <div id="espaceCours">
@@ -19,89 +18,87 @@
 <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
 <script type="text/javascript">
 
-        afficherErreur = function ()
-        {
-            $.ajax({
-                url: "/Inscription/ErreurCours",
-                type: "POST",
-                success: function (retour) {
-                    $("#erreur").html(retour);
-                }
-            });
-        }
-        listeCoursReussis = function () {
-            var infoCourCollegeNote = [];
+    afficherErreur = function ()
+    {
+        $.ajax({
+            url: "/Inscription/ErreurCours",
+            type: "POST",
+            success: function (retour) {
+                $("#erreur").html(retour);
+            }
+        });
+    }
+    listeCoursReussis = function () {
+        var infoCourCollegeNote = [];
 
-            $(".InfoCourCollege").each(function (i) {
-                infoCourCollegeNote.push([]);
-                $($(this).find(".valLignecours")).each(function (j) {
-                    infoCourCollegeNote[i][j] = $(this).val();
-                });
+        $(".InfoCourCollege").each(function (i) {
+            infoCourCollegeNote.push([]);
+            $($(this).find(".valLignecours")).each(function (j) {
+                infoCourCollegeNote[i][j] = $(this).val();
             });
+        });
 
-            return infoCourCollegeNote;
-        }
+        return infoCourCollegeNote;
+    }
 
-        validerCoursReussis = function (listeCoursReussis)
-        {
-            //RESTE À VÉRIFIER LES DOUBLONS ET LES RÉSULTATS EN INT OU DOUBLE
-            listeCoursReussis.forEach(function (element) {
-                alert(element);
-            });
+    validerCoursReussis = function (listeCoursReussis)
+    {
+        //TODO : À VÉRIFIER LES DOUBLONS ET LES RÉSULTATS EN INT OU DOUBLE
+        listeCoursReussis.forEach(function (element) {
+            alert(element);
+        });
 
-        }
+    }
 
-        activationInput = function ()
-        {
-            $(".btnSupprimerCours").click(function () {
-                $(this).parent().parent().remove();
-            });
-            $(".ins-selectcours").change(function () {
-                var test = $(this).val();
-            });
-            $(".InfoCourCollege").find($(".dropDownCours")).change(function () {
-                if ($(this).val() != "") {
-                    $(this).closest(".InfoCourCollege").find($(".coursChange")).attr('disabled', 'disabled');
-                }
-                else {
-                    $(this).closest(".InfoCourCollege").find($(".coursChange")).removeAttr('disabled');
-                }
-            });
-            $(".InfoCourCollege").find($(".dropDownCollege")).change(function () {
-                if ($(this).val() != "") {
-                    $(this).closest(".InfoCourCollege").find($(".collegeChange")).attr('disabled', 'disabled');
-                }
-                else {
-                    $(this).closest(".InfoCourCollege").find($(".collegeChange")).removeAttr('disabled');
-                }
-            });
-        }
+    activationInput = function ()
+    {
+        $(".btnSupprimerCours").click(function () {
+            $(this).parent().parent().remove();
+        });
+        $(".ins-selectcours").change(function () {
+            var test = $(this).val();
+        });
+        $(".InfoCourCollege").find($(".dropDownCours")).change(function () {
+            if ($(this).val() != "") {
+                $(this).closest(".InfoCourCollege").find($(".coursChange")).attr('disabled', 'disabled');
+            }
+            else {
+                $(this).closest(".InfoCourCollege").find($(".coursChange")).removeAttr('disabled');
+            }
+        });
+        $(".InfoCourCollege").find($(".dropDownCollege")).change(function () {
+            if ($(this).val() != "") {
+                $(this).closest(".InfoCourCollege").find($(".collegeChange")).attr('disabled', 'disabled');
+            }
+            else {
+                $(this).closest(".InfoCourCollege").find($(".collegeChange")).removeAttr('disabled');
+            }
+        });
+    }
 
-        ajouterLigneCours = function () {
-            $.ajax({
-                url: "/Inscription/getLigneCoursEleveAide",
-                type: "POST",
-                success: function (donnees) {
-                    $("#espaceCours").append(donnees);
-                    activationInput();
-                },
-                error: function (XMLHttpRequest, textStatus, errorThrown) {
-                    $("#espaceCours").append(errorThrown);
-                }
-            });
-        }
+    ajouterLigneCours = function () {
+        $.ajax({
+            url: "/Inscription/getLigneCoursEleveAide",
+            type: "POST",
+            success: function (donnees) {
+                $("#espaceCours").append(donnees);
+                activationInput();
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                $("#espaceCours").append(errorThrown);
+            }
+        });
+    }
 
+    ajouterLigneCours();
+    $("#btnAjouterCours").click(function (){
         ajouterLigneCours();
-        $("#btnAjouterCours").click(function (){
-            ajouterLigneCours();
-        });
-        $("#btnAnnuler").click(function () {
-            window.location.href = '@Url.Action("Index", "Inscription")';
-        });
-        $("#btnPoursuivre").click(function () {
-           var coursReussis = listeCoursReussis();
-           var coursReussisValides = validerCoursReussis(coursReussis);
-        });
-
+    });
+    $("#btnAnnuler").click(function () {
+        window.location.href = '@Url.Action("Index", "Inscription")';
+    });
+    $("#btnPoursuivre").click(function () {
+        var coursReussis = listeCoursReussis();
+        var coursReussisValides = validerCoursReussis(coursReussis);
     });
 </script>

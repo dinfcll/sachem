@@ -19,7 +19,7 @@ namespace sachem.Models
                 }
                 return new ValidationResult("");
             }
-            return new ValidationResult(Messages.U_001);
+            return new ValidationResult(Messages.ChampRequis);
             
         }
     }

@@ -2,7 +2,7 @@
 
     <hr />
     <div>
-        <h4>Demande d'inscription au Sachem</h4>
+        <h4>Demande d'inscription</h4>
         <table class="table">
             <tr>
                 <th class="col-sm-2">
@@ -31,18 +31,18 @@
                         @Html.DisplayFor(modelItem => item.p_StatutInscription.Statut)
                     </td>
                     <td>
-                        @Html.ActionLink("Consulter", null, null, null) @*Sprint4*@
+                        @Html.ActionLink("Consulter", null, null, null)
 
                         @if (sachem.Models.SachemIdentite.ObtenirTypeUsager(Session) == sachem.Models.TypeUsagers.Eleve || sachem.Models.SachemIdentite.ObtenirTypeUsager(Session) == sachem.Models.TypeUsagers.Tuteur)
                         {
 
-                            <span> | </span>@Html.ActionLink("Modifier", null, null, null)@*Sprint3*@
+                            <span> | </span>@Html.ActionLink("Modifier", null, null, null)
 
                         }
                         @if (sachem.Models.SachemIdentite.ObtenirTypeUsager(Session) == sachem.Models.TypeUsagers.Eleve || ViewBag.idTypeInsc == 1)
                         {
 
-                            <span> | </span>@Html.ActionLink("Modifier informations personnelles", null, null, null)@*Sprint3*@
+                            <span> | </span>@Html.ActionLink("Modifier informations personnelles", null, null, null)
 
                         }
                     </td>
@@ -51,7 +51,7 @@
             @if (!Model.Any())
             {
                 <tr>
-                    <td colspan="6">Aucune demande d'inscription</td>
+                    <td colspan="6">@sachem.Models.Messages.AucunDemandeInscriptionSansRecherche</td>
                 </tr>
             }
         </table>
