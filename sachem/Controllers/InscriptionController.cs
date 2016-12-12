@@ -22,9 +22,6 @@ namespace sachem.Controllers
         private const int DEMI_HEURE = 30;
         private const int DUREE_RENCONTRE_MINUTES = 90;
         private string[] m_Session = { "Hiver", "Été", "Automne" };
-        private string IDREUSSIS = "1";
-        private string IDABAN = "2";
-        private string IDECHEC = "3";
 
         // GET: Inscription
         [ValidationAcces.ValidationAccesInscription]
@@ -57,7 +54,7 @@ namespace sachem.Controllers
                 int longueurTab = jours.Length;
                 string[] splitValue1;
                 DisponibiliteStruct dispo = new DisponibiliteStruct();
-                Lis­t<DisponibiliteStruct> disponibilites = new List<DisponibiliteStruct>();
+                List<DisponibiliteStruct> disponibilites = new List<DisponibiliteStruct>();
                 Array.Sort(jours, new AlphanumComparatorFast());
                 for (int i = 0; i < jours.Length; i++)
                 {
@@ -195,6 +192,12 @@ namespace sachem.Controllers
             var slStatut = new List<SelectListItem>();
             slStatut.AddRange(new SelectList(lstStatut, "id_Statut", "Statut"));
             ViewBag.lstStatut = slStatut;
+        }
+
+        [NonAction]
+        public void listeSession(int session=0)
+        {
+            ViewBag.slSession = Liste.ListeSession(session);
         }
 
         public ActionResult getLigneCoursEleveAide()

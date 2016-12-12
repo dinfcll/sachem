@@ -20,41 +20,9 @@ namespace sachem.Controllers
             SelectListItem toute = new SelectListItem();
             toute.Text = "Toutes";
             toute.Value = "0";
-            var lSessions = db.Session.AsNoTracking().OrderBy(s => s.Annee).ThenBy(s => s.p_Saison.Saison);
-            var slSession = new List<SelectListItem>();
-            slSession.AddRange(new SelectList(lSessions, "id_Sess", "NomSession", Session));
+            var slSession = Liste.ListeSession();
             slSession.Insert(0,toute);
             ViewBag.SelectSession = slSession;
-
-        }
-
-        [NonAction]
-        protected IEnumerable<Cours> ObtenirListeCours(int session)
-        {
-            return db.Cours.AsNoTracking()
-                .Where(c => c.Groupe.Any(g => (g.id_Sess == session || session == 0)))
-                .OrderBy(c => c.Nom)
-                .AsEnumerable();
-        }
-
-        [NonAction]
-        private IEnumerable<Groupe> ObtenirListeGroupe(int cours, int session)
-        {
-            return db.Groupe.AsNoTracking()
-                .Where(p => (p.id_Sess == session || session == 0) && (p.id_Cours == cours || cours == 0))
-                .OrderBy(p => p.NoGroupe);
-        }
-
-        [NonAction]
-        private void ListeCours(int Cours, int session)
-        {
-            ViewBag.SelectCours = new SelectList(ObtenirListeCours(session).AsQueryable(), "id_Cours", "CodeNom", Cours);
-        }
-
-        [NonAction]
-        private void ListeGroupe(int Cours, int session, int Groupe)
-        {
-            ViewBag.SelectGroupe = new SelectList(ObtenirListeGroupe(Cours, session), "id_Groupe", "NoGroupe", Groupe);
         }
 
         /// <summary>
@@ -63,7 +31,7 @@ namespace sachem.Controllers
         [AcceptVerbs("Get", "Post")]
         public JsonResult ActualiseGroupeddl(int cours, int session)
         {
-            var a = ObtenirListeGroupe(cours, session).Select(c => new { c.id_Groupe, c.NoGroupe });
+            var a = Liste.ListeGroupeSelonSessionEtCours(cours, session).Select(c => new { c.id_Groupe, c.NoGroupe });
             return Json(a.ToList(), JsonRequestBehavior.AllowGet);
         }
 
@@ -73,7 +41,7 @@ namespace sachem.Controllers
         [AcceptVerbs("Get", "Post")]
         public virtual JsonResult ActualiseCoursddl(int session = 0)
         {
-            var a = ObtenirListeCours(session).Select(c => new { c.id_Cours, c.CodeNom });
+            var a = Liste.ListeCoursSelonSession(session).Select(c => new { c.id_Cours, c.CodeNom });
             return Json(a.ToList(), JsonRequestBehavior.AllowGet);
         }
 
@@ -164,9 +132,9 @@ namespace sachem.Controllers
                         session = db.Session.Max(s => s.id_Sess);
                 }
             }
-            ViewBag.SelectSession = Liste.ListeSession(session);
-            ListeCours(cours, session);
-            ListeGroupe(cours, session, groupe);
+            ListeSession(session);
+            ViewBag.SelectCours = new SelectList(Liste.ListeCoursSelonSession(session).AsQueryable(), "id_Cours", "CodeNom", cours);
+            ViewBag.SelectGroupe = new SelectList(Liste.ListeGroupeSelonSessionEtCours(cours, session), "id_Groupe", "NoGroupe", groupe);
 
             Session["DernRechEtu"] = matricule + ";" + session + ";" + cours + ";" + groupe + ";" + noPage;
             Session["DernRechEtuUrl"] = Request.Url.LocalPath.ToString();

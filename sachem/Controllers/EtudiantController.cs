@@ -12,7 +12,8 @@ namespace sachem.Controllers
 {
     public class EtudiantController : RechercheEtudiantController
     {
-        public const string CONSTANTE20 = "20";
+        public const string ANNEE_PREMIERS_CARACTERES = "20";
+
         [ValidationAccesEnseignant]
         public ActionResult Index(int? page)
         {
@@ -24,7 +25,7 @@ namespace sachem.Controllers
 
             return View(Rechercher().ToPagedList(noPage, 20));
         }
-        // GET: Etudiant/Details/5
+
         [ValidationAccesEnseignant]
         // GET: Etudiant/Create
         public ActionResult Create()
@@ -38,8 +39,6 @@ namespace sachem.Controllers
         }
 
         // POST: Etudiant/Create
-        // Afin de déjouer les attaques par sur-validation, activez les propriétés spécifiques que vous voulez lier. Pour 
-        // plus de détails, voir  http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         [ValidationAccesEnseignant]
@@ -50,7 +49,7 @@ namespace sachem.Controllers
             personne.id_TypeUsag = 1;
             personne.Actif = true;
             personne.Telephone = SachemIdentite.FormatTelephone(personne.Telephone);
-            personne.Matricule = CONSTANTE20 + personne.Matricule;
+            personne.Matricule = ANNEE_PREMIERS_CARACTERES + personne.Matricule;
             EtuProg.personne = personne;
 
                 ViewBag.id_Sexe = db.p_Sexe;
@@ -82,15 +81,16 @@ namespace sachem.Controllers
                 db.EtuProgEtude.Add(etuprog);
             }
 
-            // Si les données sont valides, faire l'ajout
             if (ModelState.IsValid)
             {
-                EtuProg.personne.MP = SachemIdentite.encrypterChaine(EtuProg.personne.MP); // Encryption du mot de passe
-                EtuProg.personne.ConfirmPassword = SachemIdentite.encrypterChaine(EtuProg.personne.ConfirmPassword); // Encryption du mot de passe   
+                EtuProg.personne.MP = SachemIdentite.encrypterChaine(EtuProg.personne.MP); 
+                EtuProg.personne.ConfirmPassword = SachemIdentite.encrypterChaine(EtuProg.personne.ConfirmPassword);
                 db.Personne.Add(EtuProg.personne);
                 db.SaveChanges();
                 personne.Telephone = SachemIdentite.RemettreTel(personne.Telephone);
-                TempData["Success"] = Messages.EtudiantEnregistre(personne.Matricule7); // Message afficher sur la page d'index confirmant la création
+
+                TempData["Success"] = Messages.EtudiantEnregistre(personne.Matricule7);
+                
                 return RedirectToAction("Index");
             }
              return View(EtuProg);
@@ -113,7 +113,7 @@ namespace sachem.Controllers
                 {
                     personne.Telephone = SachemIdentite.RemettreTel(personne.Telephone);
                 }
-            //retroune la liste de programme qui relié à l'élève
+
             var Prog = from d in db.EtuProgEtude
                        where d.id_Etu == personne.id_Pers
                        orderby d.ProgrammeEtude.Code
@@ -176,12 +176,9 @@ namespace sachem.Controllers
         }
 
         // POST: Etudiant/Edit/5
-        // Afin de déjouer les attaques par sur-validation, activez les propriétés spécifiques que vous voulez lier. Pour 
-        // plus de détails, voir  http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         [ValidationAccesEnseignant]
-        //Modification lorsqu'on clique sur le bouton modification / Enregistrement
         public ActionResult Edit([Bind(Include = "id_Pers,id_Sexe,id_TypeUsag,Nom,Prenom,NomUsager,Matricule7,MP,ConfirmPassword,Courriel,Telephone,DateNais,Actif")] Personne personne)
         {
             PersonneEtuProgParent EtuProg = new PersonneEtuProgParent();
@@ -191,22 +188,20 @@ namespace sachem.Controllers
             string Message = "Le mot de passe doit contenir 6 caratères";
 
             var etuprog = new EtuProgEtude();
-            //Aller chercher Programme d'étude(nom)
+
             var Prog = from d in db.EtuProgEtude
                        where d.id_Etu == EtuProg.personne.id_Pers
                        orderby d.ProgrammeEtude.Code
                        select d;
             EtuProg.EtuProgEtu = Prog.ToList();
-
-            //Ajout du programme d'étude (Si l'étudiant rajoute les champs)
-                if (Request.Form["id_Programme"] != "" && Request.Form["id_Session"] != ""&& ConfirmeMdp(personne.MP, personne.ConfirmPassword) == true)
-                  {
-                    etuprog.id_ProgEtu = Int32.Parse(Request.Form["id_Programme"]);
-                    etuprog.id_Sess = Int32.Parse(Request.Form["id_Session"]);
-                    etuprog.id_Etu = personne.id_Pers;
-                    db.EtuProgEtude.Add(etuprog);
-                    db.SaveChanges();
-                   }
+            if (Request.Form["id_Programme"] != "" && Request.Form["id_Session"] != ""&& ConfirmeMdp(personne.MP, personne.ConfirmPassword) == true)
+            {
+                etuprog.id_ProgEtu = Int32.Parse(Request.Form["id_Programme"]);
+                etuprog.id_Sess = Int32.Parse(Request.Form["id_Session"]);
+                etuprog.id_Etu = personne.id_Pers;
+                db.EtuProgEtude.Add(etuprog);
+                db.SaveChanges();
+            }
             if (ConfirmeMdp(personne.MP, personne.ConfirmPassword))
             {
                 if (personne.MP != null && personne.MP.Length < 6)
@@ -239,7 +234,7 @@ namespace sachem.Controllers
                 TempData["Success"] = Messages.EtudiantModifie(personne.NomPrenom);
                 return RedirectToAction("Index");
             }
-            //Mise à jour Viewbag
+
             ViewBag.id_Sexe = db.p_Sexe;
             ViewBag.Selected = EtuProg.personne.id_Sexe;
             ViewBag.id_TypeUsag = new SelectList(db.p_TypeUsag, "id_TypeUsag", "TypeUsag", EtuProg.personne.id_TypeUsag);
@@ -249,7 +244,6 @@ namespace sachem.Controllers
         }
 
         // GET: Etudiant/Delete/5
-        //exécuté lorsqu'un étudiant est supprimé
         [ValidationAccesEnseignant]
         public ActionResult Delete(int? id)
         {
@@ -264,6 +258,7 @@ namespace sachem.Controllers
             }
             return View(personne);
         }
+
         // POST: Etudiant/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
@@ -306,7 +301,7 @@ namespace sachem.Controllers
             }
             return RedirectToAction("Index");
         }
-        //fonction qui supprime un programme d'étude à oartir de la page modifier
+
         public ActionResult deleteProgEtu(int idProg, int idPers, int Valider = 0)
         {
             Personne personne = db.Personne.Find(idPers);
@@ -352,19 +347,17 @@ namespace sachem.Controllers
 
         private void Valider([Bind(Include = "id_Pers,id_Sexe,id_TypeUsag,Nom,Prenom,NomUsager,MP,ConfirmPassword,Courriel,DateNais,Actif")] Personne personne)
         {
-
             if (personne.Matricule7 == null)
             {
-                ModelState.AddModelError("Matricule7", Messages.ChampRequis); //requis
+                ModelState.AddModelError("Matricule7", Messages.ChampRequis);
             }
-            else if (personne.Matricule7.Length != 7 || !personne.Matricule.All(char.IsDigit)) //vérifie le matricule
+            else if (personne.Matricule7.Length != 7 || !personne.Matricule.All(char.IsDigit))
             {
-                ModelState.AddModelError("Matricule7", Messages.LongueurDeSeptCaracteres); //longueur
+                ModelState.AddModelError("Matricule7", Messages.LongueurDeSeptCaracteres);
             }
-            else if (db.Personne.Any(x => x.Matricule == personne.Matricule))// Verifier si le matricule existe déja dans la BD
+            else if (db.Personne.Any(x => x.Matricule == personne.Matricule))
             {
                 ModelState.AddModelError(string.Empty, Messages.MatriculeDejaExistant(personne.Matricule));
-
             }
         }
         protected override void Dispose(bool disposing)
