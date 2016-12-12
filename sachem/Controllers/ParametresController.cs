@@ -270,9 +270,7 @@ namespace sachem.Controllers
         private List<p_College> Formatage(IQueryable<p_College> college)
         {
             List<string> motsNonSignificatifs = new List<string> {
-                "Collège", "Cégep", "Collégial",
                 "collège", "cégep", "collégial",
-                "College", "Cegep", "Collegial",
                 "college", "cegep", "collegial",
                 "de", "la", "du", "le", "les", "des" }; 
             var collegeFormater = new List<p_College>();
@@ -281,9 +279,13 @@ namespace sachem.Controllers
             {
                 string construitPhraseEntreParentheses = "";
                 string[] splitCollege = element.College.Split(' ');
-                for (index = 0; index < splitCollege.Length-1 && motsNonSignificatifs.Exists(x => x.Equals(splitCollege[index])); index++)
-                {
+                index = 0;
+                while (index < splitCollege.Length-1 && 
+                    motsNonSignificatifs.Exists(x => x.ToUpper().Equals(splitCollege[index].ToUpper())) && 
+                    !(index > 0 && char.IsUpper(splitCollege[index][0])))
+                {                 
                     construitPhraseEntreParentheses += splitCollege[index] + " ";
+                    index++;
                 }
                 if (construitPhraseEntreParentheses.Length > 0)
                 {
