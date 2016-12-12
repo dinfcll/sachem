@@ -277,25 +277,33 @@ namespace sachem.Controllers
 
         private List<p_College> Formatage(IQueryable<p_College> college)
         {
-            List<string> motsNonSignificatifs = new List<string> { "Collège", "Cégep", "Collégial", "de", "la", "du", "le", "les", "des" };
+            List<string> motsNonSignificatifs = new List<string> {
+                "Collège", "Cégep", "Collégial",
+                "collège", "cégep", "collégial",
+                "College", "Cegep", "Collegial",
+                "college", "cegep", "collegial",
+                "de", "la", "du", "le", "les", "des" };
             string construitPhraseEntreParentheses;
             var collegeFormater = new List<p_College>();
+            int index = 0;
             foreach(var element in college)
             {
                 construitPhraseEntreParentheses = "";
                 string[] splitCollege = element.College.Split(' ');
-                for(int i = 0; i < splitCollege.Length && motsNonSignificatifs.Contains(splitCollege[i]); i++)
+                for (index = 0; index < splitCollege.Length-1 && motsNonSignificatifs.Exists(x => x.Equals(splitCollege[index])); index++)
                 {
-                    construitPhraseEntreParentheses += splitCollege[i] + " ";
-                }                
+                    construitPhraseEntreParentheses += splitCollege[index] + " ";
+                }
                 if (construitPhraseEntreParentheses.Length > 0)
                 {
-                    construitPhraseEntreParentheses = construitPhraseEntreParentheses.Remove(construitPhraseEntreParentheses.Length - 1);
-                    element.College = element.College.TrimStart(construitPhraseEntreParentheses.ToCharArray());                    
-                    if(element.College.StartsWith(" "))
+                    element.College = "";
+                    for(int i=index;i<splitCollege.Length;i++)
                     {
-                        element.College = element.College.Remove(0, 1);
+                        element.College += splitCollege[i] + " ";
                     }
+                    element.College = element.College.Remove(element.College.Length-1,1);
+                    construitPhraseEntreParentheses = construitPhraseEntreParentheses.Remove(construitPhraseEntreParentheses.Length - 1);
+                    construitPhraseEntreParentheses = char.ToUpper(construitPhraseEntreParentheses.First()) + construitPhraseEntreParentheses.Substring(1);
                     element.College += " (" + construitPhraseEntreParentheses + ")";
                     element.College = char.ToUpper(element.College.First()) + element.College.Substring(1);
                 }
