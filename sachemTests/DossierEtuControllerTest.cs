@@ -2,8 +2,6 @@
 using System.Web.Mvc;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using sachem.Controllers;
-using System.Collections.Generic;
-using sachem.Models;
 
 namespace sachemTests
 {
@@ -13,10 +11,9 @@ namespace sachemTests
         [TestMethod]
         public void DetailsAvecIdNull_DoitRetournerUn_HttpBadRequest()
         {
-            int? id = null;
             var dossierEtuController = new DossierEtudiantController();
 
-            var result = dossierEtuController.Details(id);
+            var result = dossierEtuController.Details(null);
 
             Assert.AreEqual(typeof(HttpStatusCodeResult), result.GetType());
             Assert.AreEqual((int)HttpStatusCode.BadRequest, ((HttpStatusCodeResult)result).StatusCode);

@@ -1,8 +1,5 @@
-﻿using System.Net;
-using System.Web.Mvc;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using sachem.Controllers;
-using System.Collections.Generic;
 using sachem.Models;
 
 namespace sachemTests
@@ -10,11 +7,12 @@ namespace sachemTests
     [TestClass]
     public class EnseignantControllerTest
     {
-        const int ID_PERS = 4;
-        Personne enseignant = new Personne
+        private const int IdPers = 4;
+
+        private readonly Personne _enseignant = new Personne
         {
             Actif = true,
-            id_Pers = ID_PERS,
+            id_Pers = IdPers,
             id_Sexe = 1,
             id_TypeUsag = 2,
             Nom = "Heure",
@@ -31,9 +29,9 @@ namespace sachemTests
         public void AjoutEnseignantRemplisFonctionne()
         {
             var testRepository = new TestRepository();
-            var EnsController = new EnseignantController(testRepository);
-            EnsController.Create(enseignant);
-            var rechercheEnsaignant = testRepository.FindEnseignant(enseignant.id_Pers);
+            var ensController = new EnseignantController(testRepository);
+            ensController.Create(_enseignant);
+            var rechercheEnsaignant = testRepository.FindEnseignant(_enseignant.id_Pers);
             Assert.IsNotNull(rechercheEnsaignant);
 
         }
@@ -41,11 +39,11 @@ namespace sachemTests
         public void ModifierEnseignantQuiExisteFonctionne()
         {
             var testRepository = new TestRepository();
-            var EnsController = new EnseignantController(testRepository);
-            EnsController.Create(enseignant);
-            enseignant.Nom = "patate";
-            EnsController.Edit(enseignant);
-            var rechercheEnseignant = testRepository.FindEnseignant(enseignant.id_Pers);
+            var ensController = new EnseignantController(testRepository);
+            ensController.Create(_enseignant);
+            _enseignant.Nom = "patate";
+            ensController.Edit(_enseignant);
+            var rechercheEnseignant = testRepository.FindEnseignant(_enseignant.id_Pers);
             Assert.AreEqual("patate", rechercheEnseignant.Nom);
         }
     }
