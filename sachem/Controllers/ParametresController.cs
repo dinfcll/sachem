@@ -11,6 +11,7 @@ namespace sachem.Controllers
 {
     public class ParametresController : Controller
     {
+        protected int noPage = 1;
         private const int ID_COURRIEL = 1;
         private readonly SACHEMEntities db = new SACHEMEntities();
 
@@ -249,6 +250,18 @@ namespace sachem.Controllers
 
         private IEnumerable<p_College> Recherche(string recherche)
         {
+            if (Request.RequestType == "GET" && Session["DernRechCollege"] != null && (string)Session["DernRechCollegeUrl"] == Request.Url?.LocalPath)
+            {
+                var tanciennerech = Session["DernRechCollege"].ToString().Split(';');
+                if (tanciennerech[0].Length != 0)
+                {
+                    recherche = tanciennerech[0];
+                    ViewBag.Recherche = recherche;
+                }
+            }
+
+            Session["DernRechCollege"] = recherche + ";" + noPage;
+            Session["DernRechCollegeUrl"] = Request.Url?.LocalPath;
             var college = from c in db.p_College
                           select c;
 
@@ -258,6 +271,7 @@ namespace sachem.Controllers
             {
                 collegeFormater = collegeFormater.FindAll(c => c.College.ToLower().Contains(recherche.ToLower()));
             }
+
             return collegeFormater;
         }
 
