@@ -8,6 +8,7 @@ using PagedList;
 using sachem.Models.DataAccess;
 using static sachem.Classes_Sachem.ValidationAcces;
 using System;
+using sachem.Classes_Sachem;
 
 namespace sachem.Controllers
 {
