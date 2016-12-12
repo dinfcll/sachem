@@ -43,10 +43,10 @@ namespace sachem.Controllers
             string dernRechCoursUrl = (string)Session["DernRechCoursUrl"];
             string localPath = Request.Url?.LocalPath;
 
-            if (reqType == "GET" && Session["DernRechEtu"] != null 
-                && (string)Session["DernRechEtuUrl"] == Request.Url?.LocalPath)
+            if (reqType == "GET" && Session["DernRechCours"] != null 
+                && (string)Session["DernRechCoursUrl"] == Request.Url?.LocalPath)
             {
-                var tanciennerech = Session["DernRechEtu"].ToString().Split(';');
+                var tanciennerech = Session["DernRechCours"].ToString().Split(';');
 
                 if (tanciennerech[0].Length != 0)
                 {
