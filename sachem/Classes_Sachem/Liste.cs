@@ -114,7 +114,7 @@ namespace sachem.Classes_Sachem
 
         public static List<SelectListItem> ListeStatutCours()
         {
-            var lstStatut = from c in db.p_StatutCours orderby c.id_Statut select c;
+            var lstStatut = from c in Db.p_StatutCours orderby c.id_Statut select c;
             var slStatut = new List<SelectListItem>();
             slStatut.AddRange(new SelectList(lstStatut, "id_Statut", "Statut"));
             return slStatut;
@@ -122,7 +122,7 @@ namespace sachem.Classes_Sachem
       
         public static IEnumerable<Cours> ListeCoursSelonSession(int session)
         {
-            return db.Cours.AsNoTracking()
+            return Db.Cours.AsNoTracking()
                 .Where(c => c.Groupe.Any(g => (g.id_Sess == session || session == 0)))
                 .OrderBy(c => c.Nom)
                 .AsEnumerable();
@@ -130,7 +130,7 @@ namespace sachem.Classes_Sachem
 
         public static IEnumerable<Groupe> ListeGroupeSelonSessionEtCours(int cours, int session)
         {
-            return db.Groupe.AsNoTracking()
+            return Db.Groupe.AsNoTracking()
                 .Where(p => (p.id_Sess == session || session == 0) && (p.id_Cours == cours || cours == 0))
                 .OrderBy(p => p.NoGroupe);
         }
