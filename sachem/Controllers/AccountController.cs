@@ -8,6 +8,7 @@ using System.Net;
 using System.Net.Mail;
 using System.Text;
 using System.Web;
+using sachem.Classes_Sachem;
 
 namespace sachem.Controllers
 {

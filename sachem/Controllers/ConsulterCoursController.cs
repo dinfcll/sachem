@@ -5,6 +5,7 @@ using System.Net;
 using System.Web.Mvc;
 using sachem.Models;
 using PagedList;
+using sachem.Classes_Sachem;
 
 namespace sachem.Controllers
 {

@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using sachem.Models;
 using PagedList;
+using sachem.Classes_Sachem;
 using static sachem.Classes_Sachem.ValidationAcces;
 using sachem.Models.DataAccess;
 
