@@ -5,6 +5,7 @@ using System.Linq;
 using System.Web.Mvc;
 using sachem.Models;
 using PagedList;
+using sachem.Classes_Sachem;
 using static sachem.Classes_Sachem.ValidationAcces;
 
 namespace sachem.Controllers

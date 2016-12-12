@@ -6,6 +6,7 @@ using sachem.Models;
 using System.Net;
 using static sachem.Classes_Sachem.ValidationAcces;
 using System.Data.Entity;
+using sachem.Classes_Sachem;
 
 namespace sachem.Controllers
 {
