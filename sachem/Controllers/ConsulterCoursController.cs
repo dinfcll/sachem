@@ -5,43 +5,41 @@ using System.Net;
 using System.Web.Mvc;
 using sachem.Models;
 using PagedList;
+using sachem.Classes_Sachem;
 
 namespace sachem.Controllers
 {
     public class ConsulterCoursController : Controller
     {
-        int m_IdPers;
-        int m_IdTypeUsage;
-        private readonly SACHEMEntities db = new SACHEMEntities();
+        private int _idPers;
+        private int _idTypeUsage;
+        private readonly SACHEMEntities _db = new SACHEMEntities();
 
-        List<TypeUsagers> RolesAcces = new List<TypeUsagers>() { TypeUsagers.Enseignant, TypeUsagers.Responsable, TypeUsagers.Super };
+        private readonly List<TypeUsagers> _rolesAcces = new List<TypeUsagers>() { TypeUsagers.Enseignant, TypeUsagers.Responsable, TypeUsagers.Super };
 
         public ActionResult Index(int? page)
         {
-            db.Configuration.LazyLoadingEnabled = true;
+            _db.Configuration.LazyLoadingEnabled = true;
 
             var noPage = (page ?? 1);
 
-            if (!SachemIdentite.ValiderRoleAcces(RolesAcces, Session))
+            if (!SachemIdentite.ValiderRoleAcces(_rolesAcces, Session))
             {
                 return RedirectToAction("Error", "Home", null);
             }
 
-            m_IdPers = SessionBag.Current.id_Pers;
-            m_IdTypeUsage = SessionBag.Current.id_TypeUsag;
+            _idPers = SessionBag.Current.id_Pers;
+            _idTypeUsage = SessionBag.Current.id_TypeUsag;
 
             return View(AfficherCoursAssignes().ToPagedList(noPage, 10));
         }
-        
-        [NonAction]
+
         private IEnumerable<Groupe> AfficherCoursAssignes()
         {
             var idSess = 0;
             var idPersonne = 0;
-            List<Groupe> listeCours = new List<Groupe>();
-            string reqType = Request.RequestType;
-            string dernRechCoursUrl = (string)Session["DernRechCoursUrl"];
-            string localPath = Request.Url?.LocalPath;
+            List<Groupe> listeCours;
+            var reqType = Request.RequestType;
 
             if (reqType == "GET" && Session["DernRechCours"] != null 
                 && (string)Session["DernRechCoursUrl"] == Request.Url?.LocalPath)
@@ -61,33 +59,36 @@ namespace sachem.Controllers
             }
             else
             {
-                if (!String.IsNullOrEmpty(Request.Form["Personne"]))
+                if (!string.IsNullOrEmpty(Request.Form["Personne"]))
                 {
                     idPersonne = Convert.ToInt32(Request.Form["Personne"]);
                     ViewBag.Superviseur = idPersonne;
                 }
-                else if (!String.IsNullOrEmpty(Request.Params["Personne"]))
+                else if (!string.IsNullOrEmpty(Request.Params["Personne"]))
                 {
                     idPersonne = Convert.ToInt32(Request.Params["Personne"]);
                     ViewBag.Superviseur = idPersonne;
                 }
-                if (!String.IsNullOrEmpty(Request.Form["SelectSession"]))
+                if (!string.IsNullOrEmpty(Request.Form["SelectSession"]))
                 {
                     idSess = Convert.ToInt32(Request.Form["SelectSession"]);
                     ViewBag.Session = idSess;
                 }
-                else if (!String.IsNullOrEmpty(Request.Params["Session"]))
+                else if (!string.IsNullOrEmpty(Request.Params["Session"]))
                 {
                     idSess = Convert.ToInt32(Request.Params["Session"]);
                     ViewBag.Session = idSess;
                 }
                 else if (Request.Form["Session"] == null)
                 {
-                    idSess = Convert
-                        .ToInt32(db.Session.OrderByDescending(y => y.Annee)
+                    var firstOrDefault = _db.Session.OrderByDescending(y => y.Annee)
                         .ThenByDescending(x => x.id_Saison)
-                        .FirstOrDefault()
-                        .id_Sess);
+                        .FirstOrDefault();
+
+                    if (firstOrDefault != null)
+                        idSess = Convert
+                            .ToInt32(firstOrDefault
+                                .id_Sess);
                 }
             }
 
@@ -96,13 +97,13 @@ namespace sachem.Controllers
 
             ViewBag.Sessionchoisie = idSess;
 
-            if (m_IdTypeUsage == 2)
+            if (_idTypeUsage == 2)
             {
                 ViewBag.Session = Liste.ListeSession(idSess);
 
-                var listeInfoEns = (from c in db.Groupe
-                           where (c.id_Sess == idSess && c.id_Enseignant == m_IdPers) || 
-                           (idSess == 0 && c.id_Enseignant == m_IdPers)
+                var listeInfoEns = (from c in _db.Groupe
+                           where (c.id_Sess == idSess && c.id_Enseignant == _idPers) ||
+                           (idSess == 0 && c.id_Enseignant == _idPers)
                            orderby c.NoGroupe
                            select c)
                            .GroupBy(c => c.Cours.Nom)
@@ -112,7 +113,7 @@ namespace sachem.Controllers
 
                 ViewBag.IsEnseignant = true;
 
-                listeCours = trouverCoursUniques(listeInfoEns, listeIdUniques, ViewBag.IsEnseignant);
+                listeCours = TrouverCoursUniques(listeInfoEns, listeIdUniques, ViewBag.IsEnseignant);
 
                 return listeCours.ToList();
             }
@@ -121,7 +122,7 @@ namespace sachem.Controllers
                 ViewBag.Session = Liste.ListeSession(idSess);
                 ViewBag.Personne = Liste.ListePersonne(idSess, idPersonne);
 
-                var listeInfoResp = (from c in db.Groupe
+                var listeInfoResp = (from c in _db.Groupe
                            where c.id_Sess == (idSess == 0 ? c.id_Sess : idSess) && 
                            c.id_Enseignant == (idPersonne == 0 ? c.id_Enseignant : idPersonne)
                            orderby c.NoGroupe
@@ -133,50 +134,42 @@ namespace sachem.Controllers
 
                 ViewBag.IsEnseignant = false;
 
-                listeCours = trouverCoursUniques(listeInfoResp, listeIdUniques, ViewBag.IsEnseignant);
+                listeCours = TrouverCoursUniques(listeInfoResp, listeIdUniques, ViewBag.IsEnseignant);
 
                 return listeCours.ToList();
             }
         }
 
-
-        [NonAction]
-        private List<Groupe> trouverCoursUniques(IQueryable<Groupe> listeTout, IQueryable<int> _listeIdUniques, bool isEnseignant)
+        private static List<Groupe> TrouverCoursUniques(IQueryable<Groupe> listeTout, IEnumerable<int> listeIdUniques, bool isEnseignant)
         {
-            List<Groupe> listeCours = new List<Groupe>();
-            int i = 0;
-            int compteurPos = 0;
-            int idPrec = 0;
-            var tlid = _listeIdUniques.ToList();
+            var listeCours = new List<Groupe>();
+            var idPrec = 0;
+            var tlid = listeIdUniques.ToList();
           
-            foreach(Groupe t in listeTout)
+            foreach(var t in listeTout)
             {
-                foreach (var j in tlid)
+                foreach (var id in tlid)
                 {
-                    if (t.id_Cours == tlid[i] && t.id_Cours != idPrec)
+                    if (t.id_Cours == id && t.id_Cours != idPrec)
                     {
                         idPrec = t.id_Cours;
                         if (!isEnseignant)
                         {
-                            t.nomsConcatenesProfs = trouverNomsProfs(listeTout, t.id_Cours);
+                            t.nomsConcatenesProfs = TrouverNomsProfs(listeTout, t.id_Cours);
                         }
                         listeCours.Add(t);
-                        compteurPos = i;
                     }
-                    i++;
                 }
-                i = 0;
             }
             return listeCours;
         }
 
-        [NonAction]
-        private string trouverNomsProfs(IQueryable<Groupe> _listeTout, int idCours)
+        private static string TrouverNomsProfs(IQueryable<Groupe> listeTout, int idCours)
         {
-            string nomsProfs = "";
-            List<string> listeNomsTemp = new List<string>();
+            var nomsProfs = "";
+            var listeNomsTemp = new List<string>();
 
-            var lNomsProfs = from c in _listeTout where c.id_Cours == idCours select c;
+            var lNomsProfs = from c in listeTout where c.id_Cours == idCours select c;
 
             foreach (var n in lNomsProfs)
             {
@@ -191,36 +184,20 @@ namespace sachem.Controllers
             return nomsProfs;
         }
 
-        [NonAction]
-        private bool connexionValide(int idTypeUsager)
+        private static bool ConnexionValide(int idTypeUsager)
         {
-            bool valide = false;
-
-            if (idTypeUsager == 2 || idTypeUsager == 3)
-            {
-                valide = true;
-            }
-
-            return valide;
+            return idTypeUsager == 2 || idTypeUsager == 3;
         }
         
         [HttpPost]
         public ActionResult Details(int? idCours, int? idSess)
         {
-            m_IdPers = SessionBag.Current.id_Pers;
-            m_IdTypeUsage = SessionBag.Current.id_TypeUsag;
-            IOrderedQueryable<Groupe> gr;
+            _idPers = SessionBag.Current.id_Pers;
+            _idTypeUsage = SessionBag.Current.id_TypeUsag;
 
-            if (idSess == 0)
-            {
-                ViewBag.IsSessToutes = true;
-            }
-            else
-            {
-                ViewBag.IsSessToutes = false;
-            }
+            ViewBag.IsSessToutes = idSess == 0;
 
-            if (!connexionValide(m_IdTypeUsage))
+            if (!ConnexionValide(_idTypeUsage))
             {
                 return View("~/Views/Shared/Error.cshtml");
             }
@@ -231,20 +208,21 @@ namespace sachem.Controllers
                     return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
                 }
 
-                if (m_IdTypeUsage == 2)
+                IOrderedQueryable<Groupe> gr;
+                if (_idTypeUsage == 2)
                 {
                     ViewBag.IsEnseignant = true;
 
-                    gr = from g in db.Groupe
+                    gr = from g in _db.Groupe
                          where g.id_Cours == idCours &&
-                         g.id_Enseignant == m_IdPers
+                         g.id_Enseignant == _idPers
                          orderby g.NoGroupe
                          select g;
                 }
                 else
                 {
                     ViewBag.IsEnseignant = false;
-                    gr = from g in db.Groupe
+                    gr = from g in _db.Groupe
                          where g.id_Cours == idCours
                          orderby g.NoGroupe
                          select g;
@@ -263,7 +241,7 @@ namespace sachem.Controllers
         {
             if (disposing)
             {
-                db.Dispose();
+                _db.Dispose();
             }
             base.Dispose(disposing);
         }
