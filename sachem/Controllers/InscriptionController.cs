@@ -348,7 +348,7 @@ namespace sachem.Controllers
             slCrs.AddRange(new SelectList(lstCrs, "id_Cours", "CodeNom"));
             ViewBag.lstCours = slCrs;
             ViewBag.lstCours1 = slCrs;
-            return Messages.I_048();
+            return Messages.CoursChoisiUneSeuleFois();
         }
 
         [HttpPost]
