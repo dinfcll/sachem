@@ -219,6 +219,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Classes_Sachem\Comparateur.cs" />
+    <Compile Include="Classes_Sachem\Liste.cs" />
     <Compile Include="Classes_Sachem\ValidationsAcces.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\ConsulterCoursController.cs" />
@@ -396,7 +397,6 @@
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
-    <Content Include="Images\500.gif" />
     <Content Include="Images\Alert.jpg" />
     <Content Include="Images\facebook.png" />
     <Content Include="Images\logo-cegep.png" />
@@ -427,7 +427,7 @@
     <Content Include="Models\Model1.edmx.diagram">
       <DependentUpon>Model1.edmx</DependentUpon>
     </Content>
-    <Content Include="fonts\typographica.otf" />
+    <Content Include="fonts\cegepLevisLauzon.otf" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />

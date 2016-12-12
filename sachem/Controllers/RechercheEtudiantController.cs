@@ -155,26 +155,15 @@ namespace sachem.Controllers
                         ViewBag.Groupe = groupe; 
                         champsRenseignes++;
                     }
-                    if (!String.IsNullOrEmpty(Request.Form["SelectSession"]))
+                    if (!string.IsNullOrEmpty(Request.Form["SelectSession"]))
                     {
-                        session = Convert.ToInt32(Request.Form["SelectSession"]);
-                        ViewBag.Session = session;
-                        champsRenseignes++;
+                        int.TryParse(Request.Form["SelectSession"], out session);
                     }
-                    else
-                    {
-                        if (!String.IsNullOrEmpty(Request.Params["Session"]))
-                        {
-                            session = Convert.ToInt32(Request.Params["Session"]);
-                            ViewBag.Session = session;
-                            champsRenseignes++;
-                        }
-                        else if (Request.Form["Session"] == null)
-                            session = db.Session.Max(s => s.id_Sess);
-                    }
+                    else if (Request.Form["SelectSession"] == null)
+                        session = db.Session.Max(s => s.id_Sess);
                 }
             }
-            ListeSession(session);
+            ViewBag.SelectSession = Liste.ListeSession(session);
             ListeCours(cours, session);
             ListeGroupe(cours, session, groupe);
 

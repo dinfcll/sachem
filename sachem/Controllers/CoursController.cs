@@ -6,6 +6,7 @@ using System.Net;
 using System.Web.Mvc;
 using sachem.Models;
 using PagedList;
+using sachem.Classes_Sachem;
 using sachem.Models.DataAccess;
 
 namespace sachem.Controllers
@@ -22,16 +23,6 @@ namespace sachem.Controllers
         public CoursController(IDataRepository dataRepository)
         {
             this.dataRepository = dataRepository;
-        }
-
-        [NonAction]
-        private void ListeSession(int Session = 0)
-        {
-            var lSessions = dataRepository.GetSessions();
-            var slSession = new List<SelectListItem>();
-            slSession.AddRange(new SelectList(lSessions, "id_Sess", "NomSession", Session));
-
-            ViewBag.Session = slSession;
         }
 
         [NonAction]
@@ -75,7 +66,7 @@ namespace sachem.Controllers
 
             ViewBag.Actif = actif;
 
-            ListeSession(sess);
+            ViewBag.Session = Liste.ListeSession(sess);
 
             var cours = from c in dataRepository.AllCours()
                         where (dataRepository.AnyGroupeWhere(r => r.id_Cours == c.id_Cours && r.id_Sess == sess) || sess == 0)
