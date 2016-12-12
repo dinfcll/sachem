@@ -32,7 +32,7 @@ namespace sachem.Controllers
             
             if (motDePasse != personneConnectee.MP)
             {
-                ModelState.AddModelError(string.Empty, Messages.MotsDePasseDoiventEtreIdentiques);
+                ModelState.AddModelError(string.Empty, Messages.MotsDePasseDoiventEtreIdentiques());
             }
 
             if (!confirmationSignatureContrat)
