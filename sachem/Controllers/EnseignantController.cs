@@ -1,36 +1,35 @@
 ﻿using System.Collections.Generic;
-using System.Data.Entity;
-using System.Linq;
 using System.Net;
 using System.Web.Mvc;
 using sachem.Models;
 using PagedList;
 using sachem.Models.DataAccess;
 using static sachem.Classes_Sachem.ValidationAcces;
-using System;
 using sachem.Classes_Sachem;
 
 namespace sachem.Controllers
 {
     public class EnseignantController : Controller
     {
-        private readonly IDataRepository dataRepository;
-        private const int ID_ENSEIGNANT = 2;
-        private const int ID_RESP = 3;
+        private readonly IDataRepository _dataRepository;
+        private const int IdEnseignant = 2;
+        private const int IdResp = 3;
 
         public EnseignantController()
         {
-            dataRepository = new BdRepository();
+            _dataRepository = new BdRepository();
         }
+
         public EnseignantController(IDataRepository dataRepository)
         {
-            this.dataRepository = dataRepository;
+            this._dataRepository = dataRepository;
         }
 
         [ValidationAccesSuper]
         public ActionResult Index(int? page)
         {
             var pageNumber = page ?? 1;
+
             return View(Rechercher().ToPagedList(pageNumber, 20));
         }
 
@@ -39,6 +38,7 @@ namespace sachem.Controllers
         public ActionResult Create()
         {
             RemplirDropList();
+
             return View();
         }
 
@@ -57,7 +57,7 @@ namespace sachem.Controllers
                 else
                 {
                     SachemIdentite.encrypterMPPersonne(ref personne);
-                    dataRepository.AddEnseignant(personne);
+                    _dataRepository.AddEnseignant(personne);
 
                     TempData["Success"] = Messages.AjouterUnGroupeAUnEnseignant(personne.NomUsager, personne.id_Pers);
 
@@ -65,6 +65,7 @@ namespace sachem.Controllers
                 }
             }
             RemplirDropList(personne);
+
             return View(personne);
         }
 
@@ -76,7 +77,9 @@ namespace sachem.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Personne personne = dataRepository.FindEnseignant((int)id);
+
+            var personne = _dataRepository.FindEnseignant((int)id);
+
             if (personne == null)
             {
                 return HttpNotFound();
@@ -92,20 +95,21 @@ namespace sachem.Controllers
         public ActionResult Edit([Bind(Include = "id_Pers, id_Sexe, id_TypeUsag, Nom, Prenom, NomUsager, MP, ConfirmPassword, Courriel, DateNais, Actif")] Personne personne)
         {
             Valider(personne);
+
             if (personne.MP != null && personne.ConfirmPassword != null)
             {
                 SachemIdentite.encrypterMPPersonne(ref personne);
             }
             else
             {
-                var mdp = dataRepository.FindMdp(personne.id_Pers);
+                var mdp = _dataRepository.FindMdp(personne.id_Pers);
                 personne.MP = mdp;
 
             }
             RemplirDropList(personne);
             if (ModelState.IsValid)
             {
-                dataRepository.DeclareModifiedEns(personne);
+                _dataRepository.DeclareModifiedEns(personne);
 
                 TempData["Success"] = Messages.UsagerModfie(personne.NomUsager);
 
@@ -113,6 +117,7 @@ namespace sachem.Controllers
             }
             personne.MP = null;
             personne.ConfirmPassword = null;
+
             return View(personne);
         }
 
@@ -124,7 +129,9 @@ namespace sachem.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Personne personne = dataRepository.FindEnseignant((int)id);
+
+            var personne = _dataRepository.FindEnseignant((int)id);
+
             if(SessionBag.Current.id_pers == id)
             {
                 TempData["Error"] = Messages.ResponsableSeSupprimerLuiMeme();
@@ -134,6 +141,7 @@ namespace sachem.Controllers
             {
                 return HttpNotFound();
             }
+
             return View(personne);
         }
         
@@ -142,19 +150,19 @@ namespace sachem.Controllers
         public ActionResult DeleteConfirmed(int id,int? page)
         {
             var pageNumber = page ?? 1;
-            if(dataRepository.AnyGroupeWhere(g => g.id_Enseignant == id))
+            if(_dataRepository.AnyGroupeWhere(g => g.id_Enseignant == id))
             {
                 ModelState.AddModelError(string.Empty, Messages.EnseignantNePeutEtreSupprime);
             }
-            if(dataRepository.AnyjumelageWhere(g => g.id_Enseignant == id))
+            if(_dataRepository.AnyjumelageWhere(g => g.id_Enseignant == id))
             {
                 ModelState.AddModelError(string.Empty, Messages.EnseignantNonSupprimeJumelagePresent());
             }
             if (ModelState.IsValid)
             {
-                Personne personne = dataRepository.FindEnseignant(id);
+                var personne = _dataRepository.FindEnseignant(id);
 
-                dataRepository.RemoveEnseignant(id);
+                _dataRepository.RemoveEnseignant(id);
                 ViewBag.Success = string.Format(Messages.EnseignantSupprime(personne.NomUsager));
 
             }
@@ -165,7 +173,7 @@ namespace sachem.Controllers
         {
             if (disposing)
             {
-                dataRepository.Dispose();
+                _dataRepository.Dispose();
             }
             base.Dispose(disposing);
         }
@@ -177,7 +185,6 @@ namespace sachem.Controllers
 
         private IEnumerable<Personne> Rechercher()
         {
-            var enseignant = 0;
             var actif = true;
 
             if (SiEstCochee())
@@ -185,15 +192,14 @@ namespace sachem.Controllers
                 actif = Request.Form["Actif"].StartsWith("true");
             }
             ViewBag.Actif = actif;
-            ViewBag.Enseignant = Liste.ListeEnseignant(enseignant);
+            ViewBag.Enseignant = Liste.ListeEnseignant();
 
-            var Enseignant = dataRepository.AllEnseignantResponsable(actif, ID_RESP, ID_ENSEIGNANT);
-            return Enseignant.ToList();
+            return _dataRepository.AllEnseignantResponsable(actif, IdResp, IdEnseignant);
         }
 
         private void Valider(Personne personne)
         {
-            if (dataRepository.AnyEnseignantWhere(x => x.NomUsager == personne.NomUsager && x.id_Pers != personne.id_Pers,personne))
+            if (_dataRepository.AnyEnseignantWhere(x => x.NomUsager == personne.NomUsager && x.id_Pers != personne.id_Pers,personne))
             {
                 ModelState.AddModelError(string.Empty, Messages.NomEnseignantDejaExistant(personne.NomUsager));
             }
@@ -205,14 +211,14 @@ namespace sachem.Controllers
 
         private void RemplirDropList()
         {
-            ViewBag.liste_sexe = dataRepository.liste_sexe();
-            ViewBag.id_TypeUsag = dataRepository.liste_usag(ID_RESP,ID_ENSEIGNANT);
+            ViewBag.liste_sexe = _dataRepository.liste_sexe();
+            ViewBag.id_TypeUsag = _dataRepository.liste_usag(IdResp,IdEnseignant);
         }
 
         private void RemplirDropList(Personne personne)
         {
-            ViewBag.liste_sexe = dataRepository.liste_sexe(personne);
-            ViewBag.id_TypeUsag = dataRepository.liste_usag(personne,ID_RESP, ID_ENSEIGNANT);
+            ViewBag.liste_sexe = _dataRepository.liste_sexe(personne);
+            ViewBag.id_TypeUsag = _dataRepository.liste_usag(personne,IdResp, IdEnseignant);
         }
     }
 }
