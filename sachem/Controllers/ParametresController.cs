@@ -268,10 +268,6 @@ namespace sachem.Controllers
             var collegeFormater = new List<p_College>();
             foreach(var element in college)
             {
-                if(element.College.Contains("Pocatière"))
-                {
-
-                }
                 construitPhraseEntreParentheses = "";
                 string[] splitCollege = element.College.Split(' ');
                 for(int i = 0; i < splitCollege.Length && motsNonSignificatifs.Contains(splitCollege[i]); i++)
