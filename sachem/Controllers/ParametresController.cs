@@ -31,8 +31,10 @@ namespace sachem.Controllers
             if (courriel.DateFin != null)
             {
                 if ((courriel.DateDebut - courriel.DateFin.Value).TotalDays > 0)
+                {
                     ModelState.AddModelError(string.Empty, Messages.C_005);
                 }
+            }
 
             if (ModelState.IsValid)
             {
@@ -110,17 +112,16 @@ namespace sachem.Controllers
             Session session = db.Session.Find(HI.id_Sess);
             if (id_Session.id_Sess == session.id_Sess)
             {
-                //regarde l'année
                 if (session.Annee != HI.DateDebut.Year || session.Annee != HI.DateFin.Year)
                 {
                     ModelState.AddModelError(string.Empty, Messages.C_006(session.Annee.ToString(), null));
                 }
-                //regarde si les dates sont bonnes
+
                 if ((HI.DateFin - HI.DateDebut).TotalDays < 1)
                 {
                     ModelState.AddModelError(string.Empty, Messages.C_005);
                 }
-                //Regarder si cest les bon id (ps : ca lest pas)
+
                 switch (session.p_Saison.id_Saison)
                 {
                     //Si hiver : de janvier inclus jusqua mai inclus (mois fin <= 5) pas besoin de verif la date de début
@@ -262,25 +263,31 @@ namespace sachem.Controllers
 
         private List<p_College> Formatage(IQueryable<p_College> college)
         {
-            string[] nomCollege = { "Collège de", "Collège", "Cégep de", "Cégep" };
-
-            int Indice;
+            List<string> motsNonSignificatifs = new List<string> { "Collège", "Cégep", "Collégial", "de", "la", "du", "le", "les", "des" };
+            string construitPhraseEntreParentheses;
             var collegeFormater = new List<p_College>();
-            bool Formater;
             foreach(var element in college)
             {
-                Indice = 0;
-                Formater = false;
-                while(Indice < 4 && !Formater)
+                if(element.College.Contains("Pocatière"))
                 {
-                    if (element.College.ToLower().StartsWith(nomCollege[Indice].ToLower()))
+
+                }
+                construitPhraseEntreParentheses = "";
+                string[] splitCollege = element.College.Split(' ');
+                for(int i = 0; i < splitCollege.Length && motsNonSignificatifs.Contains(splitCollege[i]); i++)
+                {
+                    construitPhraseEntreParentheses += splitCollege[i] + " ";
+                }                
+                if (construitPhraseEntreParentheses.Length > 0)
+                {
+                    construitPhraseEntreParentheses = construitPhraseEntreParentheses.Remove(construitPhraseEntreParentheses.Length - 1);
+                    element.College = element.College.TrimStart(construitPhraseEntreParentheses.ToCharArray());                    
+                    if(element.College.StartsWith(" "))
                     {
-                        element.College = element.College.Remove(0, nomCollege[Indice].Length + 1);
-                        element.College = element.College + " (" + nomCollege[Indice] + ")";
-                        element.College = char.ToUpper(element.College.First()) + element.College.Substring(1);
-                        Formater = true;
+                        element.College = element.College.Remove(0, 1);
                     }
-                    Indice++;
+                    element.College += " (" + construitPhraseEntreParentheses + ")";
+                    element.College = char.ToUpper(element.College.First()) + element.College.Substring(1);
                 }
                 collegeFormater.Add(element);
             }

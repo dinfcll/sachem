@@ -186,12 +186,9 @@ namespace sachem.Controllers
             ViewBag.lstStatut = slStatut;
         }
         [NonAction]
-        public void listeSession()
+        public void listeSession(int session=0)
         {
-            var lstSess = from c in db.Session orderby c.id_Sess select c;
-            var slSession = new List<SelectListItem>();
-            slSession.AddRange(new SelectList(lstSess, "id_Sess", "NomSession", Session));
-            ViewBag.slSession = slSession;
+            ViewBag.slSession = Liste.ListeSession(session);
         }
         public ActionResult getLigneCoursEleveAide()
         {

@@ -12,13 +12,6 @@ namespace sachem.Controllers
     {
         private readonly SACHEMEntities db = new SACHEMEntities();
 
-        public ActionResult About()
-        {
-            ViewBag.Message = "Your application description page.";
-
-            return View();
-        }
-
         public ActionResult Contact()
         {
             ViewBag.Message = "Nous contacter.";

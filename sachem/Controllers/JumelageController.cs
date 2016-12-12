@@ -58,12 +58,7 @@ namespace sachem.Controllers
         [NonAction]
         public List<string> RetourneListeJoursSemaine()
         {
-            List<string> Jours = new List<string>();
-            for (int i = (int)Semaine.Lundi; i < (int)Semaine.Samedi; i++)
-            {
-                Jours.Add(((Semaine)i).ToString());
-            }
-            return Jours.ToList();
+            return Liste.ListeJours();
         }
 
         [NonAction]
@@ -217,8 +212,6 @@ namespace sachem.Controllers
                 String.Format("{0}h{1}-{2}h{3}", case30min.Key.Hours, case30min.Key.Minutes.ToString("00"), case30min.Value.Hours, case30min.Value.Minutes.ToString("00")),
                 values);
             }
-
-
             return listeCasesRencontreAfficher;
         }
 
@@ -235,7 +228,6 @@ namespace sachem.Controllers
                     return true;
                 }
             }
-
             return false;
         }
         private bool disponbiliteEstElleConsecutiveDauMoins3hrs(List<Disponibilite> dispos, List<Disponibilite> disposCeluiInspecte, int idJour, int minutes)

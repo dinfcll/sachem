@@ -36,6 +36,21 @@ public class Liste
         return slPersonne;
     }
 
+    public static IEnumerable<Cours> ListeCoursSelonSession(int session)
+    {
+        return db.Cours.AsNoTracking()
+            .Where(c => c.Groupe.Any(g => (g.id_Sess == session || session == 0)))
+            .OrderBy(c => c.Nom)
+            .AsEnumerable();
+    }
+
+    public static IEnumerable<Groupe> ListeGroupeSelonSessionEtCours(int cours, int session)
+    {
+        return db.Groupe.AsNoTracking()
+            .Where(p => (p.id_Sess == session || session == 0) && (p.id_Cours == cours || cours == 0))
+            .OrderBy(p => p.NoGroupe);
+    }
+
     public static List<SelectListItem> ListeCours(int cours = 0)
     {
         var lCours = dataRepository.GetCours();
@@ -97,6 +112,24 @@ public class Liste
         var slStatut = new List<SelectListItem>();
         slStatut.AddRange(new SelectList(lStatut, "id_Statut", "Statut", statut));
 
+        return slStatut;
+    }
+
+    public static List<string> ListeJours()
+    {
+        List<string> Jours = new List<string>();
+        for (int i = (int)Semaine.Lundi; i < (int)Semaine.Samedi; i++)
+        {
+            Jours.Add(((Semaine)i).ToString());
+        }
+        return Jours.ToList();
+    }
+
+    public static List<SelectListItem> ListeStatutCours()
+    {
+        var lstStatut = from c in db.p_StatutCours orderby c.id_Statut select c;
+        var slStatut = new List<SelectListItem>();
+        slStatut.AddRange(new SelectList(lstStatut, "id_Statut", "Statut"));
         return slStatut;
     }
 }
