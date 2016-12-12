@@ -2,10 +2,10 @@
 
 <hr />
 <div>
-    <h4>Cours de mathématiques antérieurs</h4>
+    <h4>@sachem.Models.Messages.CoursAnterieur</h4>
 @if (sachem.Models.SachemIdentite.ObtenirTypeUsager(Session) == sachem.Models.TypeUsagers.Eleve || sachem.Models.SachemIdentite.ObtenirTypeUsager(Session) == sachem.Models.TypeUsagers.Tuteur)
 {
-    <div>@Html.ActionLink("Ajouter un cours", "Create", "CoursSuivi", new { id = ViewBag.idPers }, new { @class = "btn btn-default", @style="margin-bottom:10px;" })</div>
+    <div>@Html.ActionLink("Ajouter un cours suivi antérieur", "Create", "CoursSuivi", new { id = ViewBag.idPers }, new { @class = "btn btn-default", @style="margin-bottom:10px;" })</div>
 }
     <table class="table">
         <tr>
@@ -93,7 +93,7 @@
         @if (!Model.Any())
         {
             <tr>
-                <td colspan="6">Aucun cours</td>
+                <td colspan="6">@sachem.Models.Messages.AucunCoursSansRecherche</td>
             </tr>
         }
     </table>

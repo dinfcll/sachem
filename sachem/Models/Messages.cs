@@ -483,10 +483,18 @@ namespace sachem.Models
         public static string CompleterLesChamps(string param1, string param2)
         { return $"Un des deux champs {param1}, {param2} doit être complété."; }
 
+
         /// <summary>
-        /// Résultat requis si réussi,
+        /// Acheté
         /// </summary>
-        public const string ResultatRequisSiReussi = "Le résultat est requis si le statut du cours est réussi.";
+        /// <returns></returns>
+        public static string BonEchangeAchete = "Acheté";
+
+        /// <summary>
+        /// Pas acheté
+        /// </summary>
+        /// <returns></returns>
+        public static string BonEchangePasAchete = "Pas acheté";
         #endregion
 
         #region MessageUnitaire
@@ -512,6 +520,11 @@ namespace sachem.Models
         /// Longueur requise: 4 caractères.
         /// </summary>
         public const string LongueurDeQuatreCaracteres = "Longueur requise: 4 caractères";
+
+        /// <summary>
+        /// Résultat requis si réussi.
+        /// </summary>
+        public const string ResultatRequisSiReussi = "Le résultat est requis si le statut du cours est réussi.";
 
         /// <summary>
         /// Format : AAAA
@@ -559,6 +572,22 @@ namespace sachem.Models
         /// <returns></returns>
         public const string NombreEntreZeroEtCent = "Veuillez entrer un nombre en 0 et 1000";
 
+        /// <summary>
+        /// "Votre nom d'utilisateur est votre numéro de DA (7 chiffres)."
+        /// </summary>
+        /// <returns></returns>
+        public const string ConnexionEtudiantRestriction = "Votre nom d'utilisateur est votre numéro de DA (7 chiffres).";
+        /// <summary>
+        /// "Votre nom d'utilisateur est votre nom, suivi de la première lettre de votre prénom."
+        /// </summary>
+        /// <returns></returns>
+        public const string ConnexionEnseignantRestriction = "Votre nom d'utilisateur est votre nom, suivi de la première lettre de votre prénom.";
+        /// <summary>
+        /// "Cours de mathématiques antérieurs"
+        /// </summary>
+        /// <returns></returns>
+        public const string CoursAnterieur = "Cours de mathématiques antérieurs";
+
         #endregion
 
         #region Question
@@ -578,6 +607,14 @@ namespace sachem.Models
         /// <returns></returns>
         public static string VraimentSupprimerProgrammeEtude(string nomProgrammeEtude)
         { return $"Voulez-vous vraiment supprimer le programme d'études {nomProgrammeEtude} ?"; }
+
+        /// <summary>
+        /// Voulez-vous vraiment supprimer le programme d'études:
+        /// </summary>
+        /// <param name="nomProgrammeEtude"></param>
+        /// <returns></returns>
+        public static string SupprimerCeProgrammeEtude()
+        { return $"Voulez-vous vraiment supprimer le programme d'études:"; }
 
         /// <summary>
         /// Voulez-vous vraiment supprimer l'enseignant {0} ?
@@ -626,7 +663,7 @@ namespace sachem.Models
         /// </summary>
         /// <param name="NoGroupe"></param>
         /// <returns></returns>private string Q_009(string Matricule,string NoGroupe)
-        public static string RetirerEtudiantDUnGroupe(string Matricule,int NoGroupe)
+        public static string RetirerEtudiantDUnGroupe(string Matricule, int NoGroupe)
         { return $"Voulez-vous vraiment retirer l'étudiant {Matricule} du groupe {NoGroupe}?"; }
 
         /// <summary>
@@ -652,7 +689,7 @@ namespace sachem.Models
         public static string AnnulerOperationCollege()
         { return $"Un collège est en cours d'ajout ou de modification. Souhaitez-vous annuler cette opération?"; }
 
-        
+
         /// <summary>
         /// Voulez-vous vraiment supprimer le collège {0}?
         /// </summary>
@@ -677,7 +714,411 @@ namespace sachem.Models
         public static string VraimentSupprimerEtudiant(string NomEtudiant)
         { return $"Voulez-vous vraiment supprimer l'étudiant {NomEtudiant}"; }
 
+        /// <summary>
+        /// Combien d'heures êtes vous pret à donner à chaque semaine (1h30/élève aidé)?.
+        /// </summary>
+        /// <returns></returns>
+        public static string InscriptionCombienHeuresPretADonner()
+        { return $"Combien d'heures êtes vous pret à donner à chaque semaine (1h30/élève aidé)?"; }
+
+
+        /// <summary>
+        /// "Etes-vous certain d'annuler le téléversement?"
+        /// </summary>
+        /// <returns></returns>
+        public static string ImporterAnnulerTeleversementConfirmation()
+        { return $"Etes-vous certain d'annuler le téléversement?"; }
+
+        /// <summary>
+        /// Êtes-vous prêt à faire deux rencontres consécutives (3h)
+        /// </summary>
+        public const string InscriptionRencontresConsecutives = "Êtes-vous prêt à faire deux rencontres consécutives (3h) ?";
+
         #endregion
 
-        }
+        #region Inscription
+        /// <summary>
+        /// Un resultat et un statut d'un des cours ne concorde pas. Un cours réussi doit avoir une note supérieur ou égal à 60 et un échec inférieur à 60.
+        /// </summary>
+        /// <returns></returns>
+        public static string InscriptionCoursReussiErreurLorsDuChargement()
+        { return $"Un resultat et un statut d'un des cours ne concorde pas. Un cours réussi doit avoir une note supérieur ou égal à 60 et un échec inférieur à 60."; }
+
+        /// <summary>
+        /// Indiquez tous les cours de mathématiques(collégial) que vous avez réussis, abandonnés ou échoués au cégep. Pour ceux réussis, indiquez vos résultats :
+        /// </summary>
+        /// <returns></returns>
+        public static string InscriptionCoursReussiIndication()
+        { return $"Indiquez tous les cours de mathématiques(collégial) que vous avez réussis, abandonnés ou échoués au cégep. Pour ceux réussis, indiquez vos résultats :"; }
+
+        /// <summary>
+        /// Indiquez vos heures de disponibilité en cliquant dans les cases appropriées.
+        /// </summary>
+        /// <returns></returns>
+        public static string InscriptionDirectivesTableauDisponibilite1()
+        { return $"Indiquez vos heures de disponibilité en cliquant dans les cases appropriées."; }
+
+        /// <summary>
+        /// Chaque &#10004; indique que vous êtes disponible pour une rencontre de 1h30 dans cette plage horaire
+        /// </summary>
+        /// <returns></returns>
+        public static string InscriptionDirectivesTableauDisponibilite2()
+        { return $"Chaque &#10004; indique que vous êtes disponible pour une rencontre de 1h30 dans cette plage horaire"; }
+
+        /// <summary>
+        /// Il y aura au minimum une rencontre par semaine, soit 1h30/semaine
+        /// </summary>
+        /// <returns></returns>
+        public static string InscriptionDirectivesTableauDisponibilite3()
+        { return "Il y aura au minimum une rencontre par semaine, soit 1h30/semaine"; }
+
+        /// <summary>
+        /// Inscrivez plusieurs choix pour faciliter le jumelage.
+        /// </summary>
+        /// <returns></returns>
+        public static string InscriptionDirectivesTableauDisponibilite4()
+        { return "Inscrivez plusieurs choix pour faciliter le jumelage."; }
+
+        /// <summary>
+        /// Confirmation de vos disponibilités
+        /// </summary>
+        public const string InscriptionConfirmationDispoTitre = "Confirmation de vos disponibilités";
+
+        /// <summary>
+        /// Type d'inscription choisi:
+        /// </summary>
+        public const string InscriptionTypeInscriptionChoisi = "Type d'inscription choisi:";
+
+        /// <summary>
+        /// Vos plages de disponibilités sélectionnées sont:
+        /// </summary>
+        public const string InscriptionDisposChoisis = "Vos plages de disponibilités sélectionnées sont:";
+
+        /// <summary>
+        /// Les cours dans lesquels vous aimeriez donner de l'aide sont:
+        /// </summary>
+        public const string InscriptionCoursQueJaide = "Les cours dans lesquels vous aimeriez donner de l'aide sont:";
+
+        /// <summary>
+        /// Indiquez tous les cours de mathématiques (collégial) que vous avez suivis et réussis ainsi que le cégep où ces cours ont eu lieu :
+        /// </summary>
+        public const string InscriptionCoursSuivis = "Indiquez tous les cours de mathématiques (collégial) que vous avez suivis et réussis ainsi que le cégep où ces cours ont eu lieu :";
+
+        #endregion
+
+        #region Importer données
+        /// <summary>
+        /// Les fichers seront traités dans les prochaines dix minutes.
+        /// </summary>
+        /// <returns></returns>
+        public static string ImporterTempsDeTraitementsEnMinutes()
+        { return $"Les fichers seront traités dans les prochaines dix minutes."; }
+
+
+
+        /// <summary>
+        /// "Le fichier est trop énorme."
+        /// </summary>
+        /// <returns></returns>
+        public static string ImporterFichierTropEnorme(string filesize, string maxFilesize)
+        { return $"Le fichier est trop énorme: ({filesize}MiB). Taille maximale: {maxFilesize}MiB."; }
+
+        /// <summary>
+        /// "Les fichiers CSV seulement."
+        /// </summary>
+        /// <returns></returns>
+        public static string ImporterFichierCSVSeulement(string extension)
+        { return $"Seulement les fichiers de type {extension} sont acceptés."; }
+
+        /// <summary>
+        /// "Le serveur a répondu le code d'erreur."
+        /// </summary>
+        /// <returns></returns>
+        public static string ImporterCodeErreurServeur(string statusCode)
+        { return $"Le serveur a répondu le code d'erreur: {statusCode}."; }
+
+        /// <summary>
+        /// "Annuler le téléversement."
+        /// </summary>
+        /// <returns></returns>
+        public static string ImporterAnnulerTeleversement()
+        { return "Annuler le téléversement."; }
+
+        /// <summary>
+        /// "Effacer le fichier."
+        /// </summary>
+        /// <returns></returns>
+        public static string ImporterEffacerFichier()
+        { return "Effacer le fichier."; }
+
+        /// <summary>
+        /// "Vous ne pouvez pas téléverser plus de fichiers."
+        /// </summary>
+        /// <returns></returns>
+        public static string ImporterMaxAtteint()
+        { return "Vous ne pouvez pas téléverser plus de fichiers."; }
+
+        /// <summary>
+        /// "SVP utiliser le formulaire ci-dessous pour le téléversement de fichiers."
+        /// </summary>
+        /// <returns></returns>
+        public static string ImporterDirectivesDropZone(string extension)
+        { return $"Utiliser cette page pour téléverser le ficher de données ({extension}) reçu de l'administration du CLL."; }
+
+        /// <summary>
+        /// "Glisser le fichier ici pour le téléverser au serveur."
+        /// </summary>
+        /// <returns></returns>
+        public static string ImporterDirectivesDropZoneFichier()
+        { return "Glisser les fichiers ici ou cliquez ici pour téléverser."; }
+
+        /// <summary>
+        /// "Votre navigateur ne supporte pas la fonction glisser-déposer de fichiers."
+        /// </summary>
+        /// <returns></returns>
+        public static string ImporterNavigateurNeSupportePasDropZone()
+        { return "Votre navigateur ne supporte pas la fonction glisser-déposer de fichiers."; }
+        #endregion
+
+        #region Contrat Engagement
+        /// <summary>
+        /// "Dans le but d'assurer l'efficacité du service de tutorat offert au Sachem, vous vous engagez à:"
+        /// </summary>
+        /// <returns></returns>
+        public const string ContratJeMengageA = "Dans le but d'assurer l'efficacité du service de tutorat offert au Sachem, vous vous engagez à:";
+
+        /// <summary>
+        /// "Respecter l'horaire prévu et à aviser votre partenaire dans le cas d'un retard prévisible ou d'une absence."
+        /// </summary>
+        /// <returns></returns>
+        public const string ContratClose1 = "Respecter l'horaire prévu et à aviser votre partenaire dans le cas d'un retard prévisible ou d'une absence. Le tuteur a la responsabilité de compléter un billet d'absence.";
+
+        /// <summary>
+        /// "Reprendre dans les plus bref délais toute rencontre annulée (au plus tard lors des 2 semaines qui suivront la rencontre)."
+        /// </summary>
+        /// <returns></returns>
+        public const string ContratClose2 = "Reprendre dans les plus bref délais toute rencontre annulée (au plus tard lors des 2 semaines qui suivront la rencontre).";
+
+        /// <summary>
+        /// "Préparer vos rencontres de façon à utiliser adéquatement les périodes de tutorat."
+        /// </summary>
+        /// <returns></returns>
+        public const string ContratClose3 = "Préparer vos rencontres de façon à utiliser adéquatement les périodes de tutorat. Chacun doit fournir une certaine somme de travail entre les rencontres afin que celles-ci atteignent leur objectif. À cette fin, l'élève aidé accepte que son tuteur vérifie au début de chaque rencontre le travail effectué (exercices, résumés, etc.) depuis la rencontre précédente.";
+
+        /// <summary>
+        /// "Accepter dans les plus bref délais toute rencontre annulée"
+        /// </summary>
+        /// <returns></returns>
+        public const string ContratClose4 = "Accepter dans les plus bref délais toute rencontre annulée (au plus tard lors des 2 semaines qui suivront la rencontre).";
+
+        /// <summary>
+        /// "Aviser la sécretaire du Sachem si vous décidez d'abandonner votre cours ou le cégep, et ce, le plus tôt possible."
+        /// </summary>
+        /// <returns></returns>
+        public const string ContratClose5 = "Aviser la sécretaire du Sachem si vous décidez d'abandonner votre cours ou le cégep, et ce, le plus tôt possible.";
+
+        /// <summary>
+        /// "Aviser la sécretaire du Sachem si vous décidez d'interrompre vos rencontres de tutorat"
+        /// </summary>
+        /// <returns></returns>
+        public const string ContratClose6 = "Aviser la sécretaire du Sachem si vous décidez d'interrompre vos rencontres de tutorat, et ce, le plus tôt possible.";
+
+        /// <summary>
+        /// "Je m'engage à travailler sérieusement au Sachem, à être ponctuel et respectueux."
+        /// </summary>
+        /// <returns></returns>
+        public const string ContratClose7 = "Je m'engage à travailler sérieusement au Sachem, à être ponctuel et respectueux. De plus, je m'engage à fournir des questions à mon tuteur 48 heures à l'avance afin que celui-ci puisse se préparer adéquatement.";
+
+        /// <summary>
+        /// "Je m'engage à bien préparer mes rencontres, à être ponctuel et respectueux."
+        /// </summary>
+        /// <returns></returns>
+        public const string ContratClose8 = "Je m'engage à bien préparer mes rencontres, à être ponctuel et respectueux.";
+
+        /// <summary>
+        /// "Votre contrat d'engagement a déjà été signé."
+        /// </summary>
+        /// <returns></returns>
+        public const string ContratConfirmation = "Votre contrat d'engagement a déjà été signé.";
+
+        #endregion
+
+        #region Jumelage
+        /// <summary>
+        /// Le jumelage a bien été retiré.
+        /// </summary>
+        /// <returns></returns>
+        public static string JumelageRetire()
+        { return $"Le jumelage a bien été retiré."; }
+
+        /// <summary>
+        /// Le jumelage a bien été crée.
+        /// </summary>
+        /// <returns></returns>
+        public static string JumelageCree()
+        { return $"Le jumelage a bien été crée."; }
+
+        /// <summary>
+        /// Veuillez sélectionner un enseignant.
+        /// </summary>
+        /// <returns></returns>
+        public static string JumelageCreationDoitSelectionnerEnseignant()
+        { return $"Veuillez sélectionner un enseignant."; }
+
+        /// <summary>
+        /// Mettre fin à un jumelage
+        /// </summary>
+        /// <returns></returns>
+        public const string JumelageFinJumelage = "Mettre fin à un jumelage";
+
+        /// <summary>
+        /// Êtes-vous certain de mettre fin au jumelage entre:
+        /// </summary>
+        /// <returns></returns>
+        public static string JumelageFinJumelageEntre()
+        { return "Êtes-vous certain de mettre fin au jumelage entre:"; }
+
+        /// <summary>
+        /// Êtes-vous certain de créer au jumelage entre:
+        /// </summary>
+        /// <param name="param1"></param>
+        /// <param name="param2"></param>
+        /// <returns></returns>
+        public static string JumelageCreerJumelageEntre()
+        { return "Êtes-vous certain de créer un jumelage entre:"; }
+
+        /// <summary>
+        /// Pour la plage horaire de:
+        /// </summary>
+        /// <returns></returns>
+        public const string JumelagePlageHoraireSelectionne = "Pour la plage horaire de:";
+
+        /// <summary>
+        /// Avec comme superviseur enseignant:
+        /// </summary>
+        /// <returns></returns>
+        public const string JumelageEnseignantSelectionne = "Avec comme superviseur enseignant:";
+
+        /// <summary>
+        /// Désirez-vous étendre la durée de cette rencontre sur 3h pour créer un jumelage avec deux rencontres consécutives ?
+        /// </summary>
+        /// <returns></returns>
+        public const string JumelageCreerConsecutif = "Désirez-vous étendre la durée de cette rencontre sur 3h pour créer un jumelage avec deux rencontres consécutives ?";
+
+        #endregion
+
+        #region College
+        /// <summary>
+        /// "Ajouter un collège d'enseignement"
+        /// </summary>
+        /// <returns></returns>
+        public const string CollegeAjouter = "Ajouter un collège d'enseignement";
+        /// <summary>
+        /// "Modification du nom du collège d'enseignement."
+        /// </summary>
+        /// <returns></returns>
+        public const string CollegeModification = "Modification du nom du collège d'enseignement.";
+
+        /// <summary>
+        /// "Nouveau nom du collège d'enseignement :"
+        /// </summary>
+        /// <returns></returns>
+        public const string CollegeNouveauNom = "Nouveau nom du collège d'enseignement :";
+
+        /// <summary>
+        /// "Suppression d'un collège d'enseignement."
+        /// </summary>
+        /// <returns></returns>
+        public const string CollegeSuppression = "Suppression d'un collège d'enseignement.";
+
+        /// <summary>
+        /// "Voulez-vous vraiment supprimer ce collège d'enseignement ?"
+        /// </summary>
+        /// <returns></returns>
+        public const string CollegeSuppressionConfirmation = "Voulez-vous vraiment supprimer ce collège d'enseignement ?";
+
+        /// <summary>
+        /// "Ajouter un collège d'enseignement"
+        /// </summary>
+        /// <returns></returns>
+        public const string CollegeAjout = "Ajout d'un collège d'enseignement.";
+
+        /// <summary>
+        /// "Ajouter un collège d'enseignement"
+        /// </summary>
+        /// <returns></returns>
+        public const string CollegeAjoutNom = "Nom du collège d'enseignement à ajouter : ";
+        #endregion
+
+        #region Pages Erreur
+        #endregion
+
+        #region Recherche = Aucun
+        /// <summary>
+        /// "Aucun cours"
+        /// </summary>
+        /// <returns></returns>
+        public const string AucunCoursSansRecherche = "Aucun cours.";
+
+        /// <summary>
+        /// "Aucun demande d'inscription"
+        /// </summary>
+        /// <returns></returns>
+        public const string AucunDemandeInscriptionSansRecherche = "Aucun demande d'inscription.";
+
+        /// <summary>
+        /// "Aucun groupe ne répond à ces critères"
+        /// </summary>
+        /// <returns></returns>
+        public const string AucunGroupe = "Aucun groupe ne répond à ces critères.";
+
+        /// <summary>
+        /// "Aucun collège ne répond à ces critères"
+        /// </summary>
+        /// <returns></returns>
+        public const string AucunCollege = "Aucun collège ne répond à ces critères.";
+
+        /// <summary>
+        /// "Aucun cours ne répond à ces critères"
+        /// </summary>
+        /// <returns></returns>
+        public const string AucunCours = "Aucun cours ne répond à ces critères.";
+
+        /// <summary>
+        /// "Aucun dossier d'étudiant ne répond à ces critères"
+        /// </summary>
+        /// <returns></returns>
+        public const string AucunDossierEtudiant = "Aucun dossier d'étudiant ne répond à ces critères.";
+
+        /// <summary>
+        /// "Aucun enseignant ne répond à ces critères"
+        /// </summary>
+        /// <returns></returns>
+        public const string AucunEnseignant = "Aucun enseignant ne répond à ces critères.";
+
+        /// <summary>
+        /// "Aucun étudiant ne répond à ces critères"
+        /// </summary>
+        /// <returns></returns>
+        public const string AucunEtudiant = "Aucun étudiant ne répond à ces critères.";
+
+        /// <summary>
+        /// "Aucun jumelage ne répond à ces critères"
+        /// </summary>
+        /// <returns></returns>
+        public const string AucunJumelage = "Aucun jumelage ne répond à ces critères.";
+
+        /// <summary>
+        /// "Aucun programme d'études ne répond à ces critères"
+        /// </summary>
+        /// <returns></returns>
+        public const string AucunProgramme = "Aucun programme d'études ne répond à ces critères.";
+
+        /// <summary>
+        /// "Aucune inscription ne répond à ces critères"
+        /// </summary>
+        /// <returns></returns>
+        public const string AucunInscription = "Aucune inscription ne répond à ces critères.";
+        #endregion
+    }
 }

@@ -138,7 +138,7 @@
 {
         <dd>
             @Html.CheckBoxFor(model => model.Item1.BonEchange.Value, new { @id = "check-bon-echange" })
-            Acheté
+            @sachem.Models.Messages.BonAchatAchete()
         </dd>
 }
 else
@@ -146,13 +146,13 @@ else
     if (Model.Item1.BonEchange.Value == true)
     {
         <dd>
-            Acheté
+            @sachem.Models.Messages.BonAchatAchete()
         </dd>
     }
     else
     {
         <dd>
-            Pas acheté
+            @sachem.Models.Messages.BonAchatPasAchete()
         </dd>
     }
 }

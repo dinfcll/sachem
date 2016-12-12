@@ -1,6 +1,6 @@
 ﻿@model sachem.Models.Cours
 @{
-    ViewBag.Title = "Inscription au service Sachem - Tuteur de bénévole et rémunéré";
+    ViewBag.Title = "Inscription - Tuteur de bénévole ou rémunéré";
 }
 <div style="margin-right:15%">
     <h2>@ViewBag.Title</h2>
@@ -11,7 +11,7 @@
 
         <h3 style="background-color:aliceblue">Disponibilité</h3>
         <div class="row rowCourseReussisPadTop">
-            <div class="col-md-8"><h5 class="hIns">Combien d'heures êtes vous pret à donner à chaque semaine (1h30/élève aidé)</h5></div>
+            <div class="col-md-8"><h5 class="hIns">@sachem.Models.Messages.InscriptionCombienHeuresPretADonner()</h5></div>
             <div class="col-md-4">
                 <select style="width:300px;float:right;" class="form-search ins-select">
                     <option value="1.5">1 heure et 30 minutes par semaine</option>

@@ -60,5 +60,11 @@
             </td>
         </tr>
     }
+    @if (!Model.Any())
+    {
+        <tr>
+            <td colspan="6">@sachem.Models.Messages.AucunInscription</td>
+        </tr>
+    }
 
 </table>
