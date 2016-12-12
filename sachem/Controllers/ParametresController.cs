@@ -12,16 +12,17 @@ namespace sachem.Controllers
 {
     public class ParametresController : Controller
     {
-        protected int noPage = 1;
-        private const int ID_COURRIEL = 1;
-        private readonly SACHEMEntities db = new SACHEMEntities();
+        protected int NoPage = 1;
+        private const int IdCourriel = 1;
+        private readonly SACHEMEntities _db = new SACHEMEntities();
 
         [HttpGet]
         [ValidationAccesSuper]
         public ActionResult EditCourrier()
         {
-            var courrier = db.Courriel.First();
-            ViewBag.id_TypeCourriel = new SelectList(db.p_TypeCourriel, "id_TypeCourriel", "TypeCourriel");
+            var courrier = _db.Courriel.First();
+            ViewBag.id_TypeCourriel = new SelectList(_db.p_TypeCourriel, "id_TypeCourriel", "TypeCourriel");
+
             return View(courrier);
         }
 
@@ -29,7 +30,7 @@ namespace sachem.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult EditCourrier(Courriel courriel)
         {
-            courriel.id_TypeCourriel = ID_COURRIEL;
+            courriel.id_TypeCourriel = IdCourriel;
             if (courriel.DateFin != null)
             {
                 if ((courriel.DateDebut - courriel.DateFin.Value).TotalDays > 0)
@@ -40,8 +41,8 @@ namespace sachem.Controllers
 
             if (ModelState.IsValid)
             {
-                db.Entry(courriel).State = EntityState.Modified;
-                db.SaveChanges();
+                _db.Entry(courriel).State = EntityState.Modified;
+                _db.SaveChanges();
                 TempData["Success"] = Messages.CourrielMisAJour();
             }
             return View();
@@ -51,7 +52,7 @@ namespace sachem.Controllers
         [ValidationAccesSuper]
         public ActionResult EditContact()
         {
-            var contact = db.p_Contact.First();
+            var contact = _db.p_Contact.First();
             contact.Telephone = SachemIdentite.RemettreTel(contact.Telephone);
             return View(contact);
         }
@@ -79,8 +80,8 @@ namespace sachem.Controllers
             if (ModelState.IsValid)
             {
                 contact.Telephone = SachemIdentite.FormatTelephone(contact.Telephone);
-                db.Entry(contact).State = EntityState.Modified;
-                db.SaveChanges();
+                _db.Entry(contact).State = EntityState.Modified;
+                _db.SaveChanges();
 
                 TempData["Success"] = string.Format(Messages.NousContaterMisAJour());
                 return View(contact);
@@ -88,19 +89,19 @@ namespace sachem.Controllers
             return View(contact);
         }
 
-        //Méthode qui envoie a la view Edit horaire la liste de toutes les horaires d'inscription ainsi que l'horaire de la session courrante
         [ValidationAccesSuper]
         public ActionResult EditHoraire(int session = 0)
         {
-            var idZero = db.Session.OrderByDescending(y => y.id_Sess).FirstOrDefault();
+            var idZero = _db.Session.OrderByDescending(y => y.id_Sess).FirstOrDefault();
             if (session == 0)
             {
-                session = idZero.id_Sess;
+                if (idZero != null) session = idZero.id_Sess;
             }
             ViewBag.idSess = session;
-            var lhoraire = db.p_HoraireInscription.OrderByDescending(y => y.id_Sess).Where(x => x.id_Sess == session).FirstOrDefault();
+            var lhoraire = _db.p_HoraireInscription.OrderByDescending(y => y.id_Sess).FirstOrDefault(x => x.id_Sess == session);
             ViewBag.id_sess = Liste.ListeSession(session);
-            ViewBag.idSessStable = idZero.id_Sess;         
+            if (idZero != null) ViewBag.idSessStable = idZero.id_Sess;
+
             return View(lhoraire);
         }
 
@@ -108,18 +109,19 @@ namespace sachem.Controllers
         
         [HttpPost]
         [ValidationAccesSuper]
-        public ActionResult EditHoraire([Bind(Include = "id_Sess, DateDebut, DateFin, HeureDebut, HeureFin")] p_HoraireInscription HI)
+        public ActionResult EditHoraire([Bind(Include = "id_Sess, DateDebut, DateFin, HeureDebut, HeureFin")] p_HoraireInscription horaireInscription)
         {
-            var id_Session = db.Session.AsNoTracking().OrderByDescending(y => y.Annee).ThenByDescending(x => x.id_Saison).FirstOrDefault();
-            Session session = db.Session.Find(HI.id_Sess);
-            if (id_Session.id_Sess == session.id_Sess)
+            var idSession = _db.Session.AsNoTracking().OrderByDescending(y => y.Annee).ThenByDescending(x => x.id_Saison).FirstOrDefault();
+            var session = _db.Session.Find(horaireInscription.id_Sess);
+
+            if (idSession != null && idSession.id_Sess == session.id_Sess)
             {
-                if (session.Annee != HI.DateDebut.Year || session.Annee != HI.DateFin.Year)
+                if (session.Annee != horaireInscription.DateDebut.Year || session.Annee != horaireInscription.DateFin.Year)
                 {
                     ModelState.AddModelError(string.Empty, Messages.DatesDansLaSession(session.Annee.ToString(), null));
                 }
 
-                if ((HI.DateFin - HI.DateDebut).TotalDays < 1)
+                if ((horaireInscription.DateFin - horaireInscription.DateDebut).TotalDays < 1)
                 {
                     ModelState.AddModelError(string.Empty, Messages.ValidationDate());
                 }
@@ -129,14 +131,14 @@ namespace sachem.Controllers
                     //Si hiver : de janvier inclus jusqua mai inclus (mois fin <= 5) pas besoin de verif la date de début
                     //car on est sur que c'est la bonne année et qu'elle est avant la date de fin
                     case 1:
-                        if (HI.DateFin.Month > new DateTime(1, 5, 1).Month)
+                        if (horaireInscription.DateFin.Month > new DateTime(1, 5, 1).Month)
                         {
                             ModelState.AddModelError(string.Empty, Messages.DatesDansLaSession("d'hiver, janvier (01)", " à juin (06)"));
                         }
                         break;
                     //Si ete : de juin inclus jusqua aout inclus (si mois du début >= 6 et mois fin <= 8)
                     case 2:
-                        if (new DateTime(1, 6, 1).Month > HI.DateDebut.Month || HI.DateFin.Month > new DateTime(1, 8, 1).Month)
+                        if (new DateTime(1, 6, 1).Month > horaireInscription.DateDebut.Month || horaireInscription.DateFin.Month > new DateTime(1, 8, 1).Month)
                         {
                             ModelState.AddModelError(string.Empty, Messages.DatesDansLaSession("d'été, juin (06)", " à août (08)"));
                         }
@@ -144,7 +146,7 @@ namespace sachem.Controllers
                     //si automne: de aout inclus jusqua decembre inclus (si mois du début >= 8 et mois fin <= 12)
                     //pas besoin de verif la date de fin car on est sur que c'est la bonne année et qu'elle est apres la date de début
                     case 3:
-                        if (new DateTime(1, 8, 1).Month > HI.DateDebut.Month)
+                        if (new DateTime(1, 8, 1).Month > horaireInscription.DateDebut.Month)
                         {
                             ModelState.AddModelError(string.Empty, Messages.DatesDansLaSession("d'hiver, août (08)", " à décembre (12)"));
                         }
@@ -153,24 +155,20 @@ namespace sachem.Controllers
 
                 if (ModelState.IsValid)
                 {
-                    var SessionSurHI = db.p_HoraireInscription.AsNoTracking().FirstOrDefault(x => x.id_Sess == session.id_Sess);
-                    if (SessionSurHI == null)
-                    {
-                        db.Entry(HI).State = EntityState.Added;
-                    }
-                    else
-                    {
-                        db.Entry(HI).State = EntityState.Modified;
-                    }
+                    var sessionSurHi = _db.p_HoraireInscription.AsNoTracking().FirstOrDefault(x => x.id_Sess == session.id_Sess);
+
+                    _db.Entry(horaireInscription).State = sessionSurHi == null ? EntityState.Added : EntityState.Modified;
+
                     TempData["Success"] = string.Format(Messages.HoraireMisAJour());
-                    db.SaveChanges();
+                    _db.SaveChanges();
                 }
             }
-            var idZero = db.Session.OrderByDescending(y => y.id_Sess).FirstOrDefault();
+            var idZero = _db.Session.OrderByDescending(y => y.id_Sess).FirstOrDefault();
             ViewBag.idSess = session.id_Sess;
             ViewBag.id_sess = Liste.ListeSession(session.id_Sess);
-            ViewBag.idSessStable = idZero.id_Sess;
-            return View(HI);
+            if (idZero != null) ViewBag.idSessStable = idZero.id_Sess;
+
+            return View(horaireInscription);
         }
 
         [HttpGet]
@@ -186,14 +184,14 @@ namespace sachem.Controllers
         [ValidationAccesSuper]
         public void ModifCollege(string nomCollege, int? id)
         {
-            if (db.p_College.Any(r => r.id_College == id))
+            if (_db.p_College.Any(r => r.id_College == id))
             {
                 if (ModelState.IsValid)
                 {
-                    var college = db.p_College.Find(id);
+                    var college = _db.p_College.Find(id);
                     college.College = nomCollege;
-                    db.Entry(college).State = EntityState.Modified;
-                    db.SaveChanges();
+                    _db.Entry(college).State = EntityState.Modified;
+                    _db.SaveChanges();
                     TempData["Success"] = string.Format(Messages.CollegeModifie());
                 }
                 else
@@ -213,8 +211,8 @@ namespace sachem.Controllers
                 {
                     College = nomCollege
                 };
-                db.p_College.Add(college);
-                db.SaveChanges();
+                _db.p_College.Add(college);
+                _db.SaveChanges();
                 TempData["Success"] = string.Format(Messages.CollegeAjoute(nomCollege));
             }
             else
@@ -227,18 +225,18 @@ namespace sachem.Controllers
         [ValidationAccesSuper]
         public void DeleteCollege(int? id)
         {
-            var college = db.p_College.Find(id);
+            var college = _db.p_College.Find(id);
             if (college != null)
             {
-                db.p_College.Remove(college);
-                db.SaveChanges();
+                _db.p_College.Remove(college);
+                _db.SaveChanges();
                 TempData["Success"] = string.Format(Messages.CollegeSupprime(college.College));
             }
         }
 
         private void ValiderContact([Bind(Include = "id_Contact,Nom,Prenom,Courriel,Telephone,Poste,Facebook,SiteWeb,Local")]p_Contact contact)
         {
-            if (!db.p_Contact.Any(r => r.id_Contact == contact.id_Contact))
+            if (!_db.p_Contact.Any(r => r.id_Contact == contact.id_Contact))
                 ModelState.AddModelError(string.Empty, " ");
         }
 
@@ -254,9 +252,9 @@ namespace sachem.Controllers
                 }
             }
 
-            Session["DernRechCollege"] = recherche + ";" + noPage;
+            Session["DernRechCollege"] = recherche + ";" + NoPage;
             Session["DernRechCollegeUrl"] = Request.Url?.LocalPath;
-            var college = from c in db.p_College
+            var college = from c in _db.p_College
                           select c;
 
             var collegeFormater = Formatage(college);

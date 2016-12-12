@@ -1,6 +1,5 @@
 ﻿using static sachem.Classes_Sachem.ValidationAcces;
 using System.Collections.Generic;
-using System.Data.Entity;
 using System.Linq;
 using System.Net;
 using System.Web.Mvc;
@@ -13,26 +12,24 @@ namespace sachem.Controllers
 {
     public class CoursController : Controller
     {
-        private readonly IDataRepository dataRepository;
+        private readonly IDataRepository _dataRepository;
 
         public CoursController()
         {
-            dataRepository = new BdRepository();
+            _dataRepository = new BdRepository();
         }
 
         public CoursController(IDataRepository dataRepository)
         {
-            this.dataRepository = dataRepository;
+            this._dataRepository = dataRepository;
         }
 
-        [NonAction]
         private void Valider([Bind(Include = "id_Cours,Code,Nom,Actif")] Cours cours)
         {
-            if (dataRepository.AnyCoursWhere(r => r.Code == cours.Code && r.id_Cours != cours.id_Cours))
+            if (_dataRepository.AnyCoursWhere(r => r.Code == cours.Code && r.id_Cours != cours.id_Cours))
                 ModelState.AddModelError(string.Empty, Messages.CoursADejaCeCode(cours.Code));
         }
 
-        [NonAction]
         private IEnumerable<Cours> Rechercher()
         {
             var sess = 0;
@@ -58,7 +55,7 @@ namespace sachem.Controllers
                 if (!string.IsNullOrEmpty(Request.Form["Session"]))
                     int.TryParse(Request.Form["Session"], out sess);
                 else if (Request.Form["Session"] == null)
-                    sess = dataRepository.SessionEnCours();
+                    sess = _dataRepository.SessionEnCours();
 
                 if (!string.IsNullOrEmpty(Request.Form["Actif"]))
                     actif = Request.Form["Actif"].Contains("true");
@@ -68,8 +65,8 @@ namespace sachem.Controllers
 
             ViewBag.Session = Liste.ListeSession(sess);
 
-            var cours = from c in dataRepository.AllCours()
-                        where (dataRepository.AnyGroupeWhere(r => r.id_Cours == c.id_Cours && r.id_Sess == sess) || sess == 0)
+            var cours = from c in _dataRepository.AllCours()
+                        where (_dataRepository.AnyGroupeWhere(r => r.id_Cours == c.id_Cours && r.id_Sess == sess) || sess == 0)
                         && c.Actif == actif
                         orderby c.Code
                         select c;
@@ -102,12 +99,11 @@ namespace sachem.Controllers
 
             if (ModelState.IsValid)
             {
-                dataRepository.AddCours(cours);
+                _dataRepository.AddCours(cours);
 
                 TempData["Success"] = string.Format(Messages.CoursEnregistre(cours.Nom));
                 return RedirectToAction("Index");
             }
-
 
             return View(cours);
 
@@ -119,7 +115,7 @@ namespace sachem.Controllers
             if (id == null)
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
-            var cours = dataRepository.FindCours(id.Value);
+            var cours = _dataRepository.FindCours(id.Value);
 
             if (cours == null)
                 return HttpNotFound();
@@ -139,9 +135,10 @@ namespace sachem.Controllers
 
             if (ModelState.IsValid)
             {
-                dataRepository.DeclareModified(cours);
+                _dataRepository.DeclareModified(cours);
 
                 TempData["Success"] = string.Format(Messages.CoursEnregistre(cours.Nom));
+
                 return RedirectToAction("Index");
             }
 
@@ -154,7 +151,7 @@ namespace sachem.Controllers
             if (id == null)
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
-            var cours = dataRepository.FindCours(id.Value);
+            var cours = _dataRepository.FindCours(id.Value);
 
             if (cours == null)
                 return HttpNotFound();
@@ -167,16 +164,16 @@ namespace sachem.Controllers
         public ActionResult DeleteConfirmed(int id, int? page)
         {
             var pageNumber = page ?? 1;
-            if (dataRepository.AnyGroupeWhere(g => g.id_Cours == id))
+            if (_dataRepository.AnyGroupeWhere(g => g.id_Cours == id))
             {
                 ModelState.AddModelError(string.Empty, Messages.GroupeAssocieAUnCoursNePeutEtreSupprime());
             }
 
             if (ModelState.IsValid)
             {
-                var cours = dataRepository.FindCours(id);
+                var cours = _dataRepository.FindCours(id);
 
-                dataRepository.RemoveCours(cours);
+                _dataRepository.RemoveCours(cours);
 
                 ViewBag.Success = string.Format(Messages.CoursSupprime(cours.Nom));
             }
@@ -188,7 +185,7 @@ namespace sachem.Controllers
         {
             if (disposing)
             {
-                dataRepository.Dispose();
+                _dataRepository.Dispose();
             }
             base.Dispose(disposing);
         }
