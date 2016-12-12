@@ -28,7 +28,7 @@
 <div class="form-group">
         @Html.LabelFor(model => model.DateNais, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
-            @Html.EditorFor(model => model.DateNais, new { htmlAttributes = new { @class = "form-control", PlaceHolder = "AAAA/MM/JJ", @required = "required", @title = Messages.U_001 } })
+            @Html.EditorFor(model => model.DateNais, new { htmlAttributes = new { @class = "form-control", PlaceHolder = "AAAA/MM/JJ", @required = "required", @title = Messages.ChampRequis } })
             @Html.ValidationMessageFor(model => model.DateNais, "", new { @class = "text-danger" })
         </div>
 </div>

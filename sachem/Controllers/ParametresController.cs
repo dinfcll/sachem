@@ -194,7 +194,6 @@ namespace sachem.Controllers
         {
             if (db.p_College.Any(r => r.id_College == id))
             {
-                ValiderCollege(nomCollege);
                 if (ModelState.IsValid)
                 {
                     var college = db.p_College.Find(id);
@@ -205,7 +204,7 @@ namespace sachem.Controllers
                 }
                 else
                 {
-                   TempData["Erreur"] = "Ce collège d'enseignement existe déjà";
+                   TempData["Erreur"] = string.Format(Messages.CollegeDejaExistant());
                 }
             }
         }
@@ -214,7 +213,6 @@ namespace sachem.Controllers
         [ValidationAccesSuper]
         public void AddCollege(string nomCollege)
         {
-            ValiderCollege(nomCollege);
             if (ModelState.IsValid)
             {
                 var college = new p_College
@@ -227,7 +225,7 @@ namespace sachem.Controllers
             }
             else
             {
-                TempData["Erreur"] = "Ce collège d'enseignement existe déjà";
+                TempData["Erreur"] = string.Format(Messages.CollegeDejaExistant());
             }
         }
 
@@ -243,13 +241,7 @@ namespace sachem.Controllers
                 TempData["Success"] = string.Format(Messages.CollegeSupprime(college.College));
             }
         }
-        private void ValiderCollege(string college)
-        {
-            if (db.p_College.Any(p => p.College == college))
-            {
-                ModelState.AddModelError(string.Empty,"Ce collège d'enseignement existe déjà");
-            }
-        }
+
         private void ValiderContact([Bind(Include = "id_Contact,Nom,Prenom,Courriel,Telephone,Poste,Facebook,SiteWeb,Local")]p_Contact contact)
         {
             if (!db.p_Contact.Any(r => r.id_Contact == contact.id_Contact))

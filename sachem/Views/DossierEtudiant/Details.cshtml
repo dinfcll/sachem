@@ -169,7 +169,7 @@ else
 @Scripts.Render("~/bundles/jquery")
 <script src="~/scripts/jquery-1.10.2.min.js"></script>
 <script type="text/javascript">
-    $(document).ready(function () {    
+    $(document).ready(function () {
         $('#btn-input-field-tel').click(function () {
             var pers = document.getElementById("hidden-id-pers");
             var tel = document.getElementById("input-field-tel");
@@ -180,9 +180,9 @@ else
                     url: "/DossierEtudiant/ModifTel",
                     data: { "tel": tel.value, "pers": pers.value },
                     type: "POST",
-                    success: function () {                        
+                    success: function () {
                         $('#succes').show();
-                        document.getElementById('succes').innerText = "Le téléphone a été modifié";
+                        document.getElementById('succes').innerText = @sachem.Models.Messages.TelephoneModifie();
                         $('#erreur-tel').hide();
                     }
                 })
@@ -190,7 +190,7 @@ else
             else
             {
                 $('#erreur-tel').show();
-                document.getElementById('erreur-tel').innerText = "Le téléphone saisi est invalide";
+                document.getElementById('erreur-tel').innerText = @sachem.Models.Messages.TelephoneInvalide();
                 $('#succes').hide();
             }
         })
@@ -205,30 +205,30 @@ else
                     type: "POST",
                     success: function () {
                         $('#succes').show();
-                        document.getElementById('succes').innerText = "Le courriel a été modifié";
+                        document.getElementById('succes').innerText = @sachem.Models.Messages.CourrielModifie();
                         $('#erreur-email').hide();
                     }
                 })
             }
             else{
                 $('#erreur-email').show();
-                document.getElementById('erreur-email').innerText = "Le courriel saisi est invalide";
+                document.getElementById('erreur-email').innerText = @sachem.Models.Messages.CourrielInvalide();
                 $('#succes').hide();
             }
         })
         $('#check-bon-echange').click(function () {
             var insc = document.getElementById("hidden-id-insc");
-            var bon = $(this).prop("checked");            
+            var bon = $(this).prop("checked");
             $.ajax({
                 url: "/DossierEtudiant/ModifBon",
                 data: { "bon": bon, "insc": insc.value },
                 type: "POST",
                 success: function () {
                     $("#succes").show();
-                    if (bon == true) 
-                        document.getElementById('succes').innerText = "Le bon d'achat a été acheté";
+                    if (bon == true)
+                        document.getElementById('succes').innerText = @sachem.Models.Messages.BonAchatAchete();
                     else
-                        document.getElementById('succes').innerText = "Le bon d'achat n'a pas été acheté";
+                        document.getElementById('succes').innerText = @sachem.Models.Messages.BonAchatPasAchete();
                 }
             })
         })

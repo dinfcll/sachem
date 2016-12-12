@@ -145,7 +145,7 @@ namespace sachem.Controllers
             { 
                 if (db.EtuProgEtude.Any(c => c.id_ProgEtu == programme.id_ProgEtu))
                 {
-                    ModelState.AddModelError(String.Empty, "Impossible de mettre le programme inactif s'il est encore relié à des étudiants");
+                    ModelState.AddModelError(String.Empty, Messages.ImpossibleMettreProgrammeInactif());
                 }
             }
         }

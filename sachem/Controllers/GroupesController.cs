@@ -138,7 +138,7 @@ namespace sachem.Controllers
                     db.Groupe.Add(groupe);
                 }
                 db.SaveChanges();
-                TempData["Questions"] = string.Format(Messages.Q_008(groupe.NoGroupe));
+                TempData["Questions"] = string.Format(Messages.GroupeCreeAssocierEtudiant(groupe.NoGroupe));
                 TempData["idg"] = groupe.id_Groupe;
                 return RedirectToAction("Index");
             }
@@ -161,7 +161,7 @@ namespace sachem.Controllers
 
             if (db.GroupeEtudiant.Any(ge => ge.id_Groupe == id))
             {
-                ViewBag.Error = Messages.Q_007(groupe.NoGroupe);
+                ViewBag.Error = Messages.VraimentSupprimerGroupeAvecEtudiantsRattaches(groupe.NoGroupe);
             }
 
             if (groupe == null)
@@ -312,8 +312,8 @@ namespace sachem.Controllers
                     TempData["idGe"] = db.GroupeEtudiant.Where(x => x.id_Etudiant == idp).FirstOrDefault().id_GroupeEtudiant;
                     TempData["personne"] = p.id_Pers;
                     TempData["idgcible"] = g.NoGroupe;
-                    TempData["ErrorDep"] = Messages.Q_010(p.PrenomNom);
-                    ModelState.AddModelError(string.Empty, Messages.Q_010(p.PrenomNom));
+                    TempData["ErrorDep"] = Messages.VraimentDeplacerEtudiant(p.PrenomNom);
+                    ModelState.AddModelError(string.Empty, Messages.VraimentDeplacerEtudiant(p.PrenomNom));
                 }
 
                 if (ModelState.IsValid)

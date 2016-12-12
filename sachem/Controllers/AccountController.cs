@@ -376,7 +376,7 @@ namespace sachem.Controllers
                 }
                 else
                 {
-                    ModelState.AddModelError(string.Empty, "Problème lors de l'envoi du courriel, le port" + PORTCOURRIEL.ToString() + "est bloqué.");
+                    ModelState.AddModelError(string.Empty, Messages.EnvoiCourrielImpossiblePortBloque(PORTCOURRIEL.ToString()));
                 }
             }
             else

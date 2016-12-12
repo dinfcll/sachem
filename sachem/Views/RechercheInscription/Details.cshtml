@@ -80,7 +80,7 @@
     @Html.HttpMethodOverride(HttpVerbs.Put)
     <div class="form-actions no-color">
         @Html.HiddenFor(m => m.First().id_Inscription)
-        <span>Décision     </span>  @Html.DropDownListFor(model => model.First().id_Statut, (SelectList)ViewBag.Liste_Statut, new { @class = "form-control" }) <input type="submit" value="Enregistrer" class="btn btn-default" />
+        <span>Décision     </span>  @Html.DropDownListFor(model => model.First().id_Statut, ViewBag.Liste_Statut as SelectList, new { @class = "form-control" }) <input type="submit" value="Enregistrer" class="btn btn-default" />
         @Html.ActionLink("Acceder au jumelage", "Details", "Jumelage", new { id = Model.First().id_Inscription},null) <br /> <br />
     </div>
 }

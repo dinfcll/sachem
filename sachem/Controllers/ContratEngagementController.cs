@@ -37,7 +37,7 @@ namespace sachem.Controllers
 
             if (!confirmationSignatureContrat)
             {
-                ModelState.AddModelError(string.Empty, "Cochez la case pour signer le contrat");
+                ModelState.AddModelError(string.Empty, Messages.CaseDoitEtreCochee());
             }
 
             if (ModelState.IsValid)
