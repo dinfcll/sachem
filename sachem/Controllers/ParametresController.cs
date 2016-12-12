@@ -282,13 +282,12 @@ namespace sachem.Controllers
                 "collège", "cégep", "collégial",
                 "College", "Cegep", "Collegial",
                 "college", "cegep", "collegial",
-                "de", "la", "du", "le", "les", "des" };
-            string construitPhraseEntreParentheses;
+                "de", "la", "du", "le", "les", "des" }; 
             var collegeFormater = new List<p_College>();
-            int index = 0;
+            int index;
             foreach(var element in college)
             {
-                construitPhraseEntreParentheses = "";
+                string construitPhraseEntreParentheses = "";
                 string[] splitCollege = element.College.Split(' ');
                 for (index = 0; index < splitCollege.Length-1 && motsNonSignificatifs.Exists(x => x.Equals(splitCollege[index])); index++)
                 {
