@@ -32,12 +32,12 @@ namespace sachem.Controllers
             
             if (motDePasse != personneConnectee.MP)
             {
-                ModelState.AddModelError(string.Empty, Messages.C_001);
+                ModelState.AddModelError(string.Empty, Messages.MotsDePasseDoiventEtreIdentiques());
             }
 
             if (!confirmationSignatureContrat)
             {
-                ModelState.AddModelError(string.Empty, "Cochez la case pour signer le contrat");
+                ModelState.AddModelError(string.Empty, Messages.CaseDoitEtreCochee());
             }
 
             if (ModelState.IsValid)

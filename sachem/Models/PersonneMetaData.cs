@@ -29,12 +29,12 @@ namespace sachem.Models
     {
         [Display(Name = "Prénom")]
         [StringLength(30)]
-        [Required(ErrorMessage = Messages.U_001)]
+        [Required(ErrorMessage = Messages.ChampRequis)]
         public string Prenom;
 
         [Display(Name = "Nom")]
         [StringLength(30)]
-        [Required(ErrorMessage = Messages.U_001)]
+        [Required(ErrorMessage = Messages.ChampRequis)]
         public string Nom;
 
         [Display(Name = "Nom")]
@@ -45,13 +45,13 @@ namespace sachem.Models
         //ne tombe pas en erreur lors de la validation.
         [Display(Name = "Date de naissance")]
         //la mise en commentaire le l'expression reguliere me permet de creer des comptes
-        [RegularExpression(@"^[0-9]{4}-[0-9]{2}-[0-9]{2} [0-2][0-9]:[0-5][0-9]:[0-5][0-9]$|^[0-9]{4}\/[0-9]{2}\/[0-9]{2}$", ErrorMessage = Messages.U_007)]
+        [RegularExpression(@"^[0-9]{4}-[0-9]{2}-[0-9]{2} [0-2][0-9]:[0-5][0-9]:[0-5][0-9]$|^[0-9]{4}\/[0-9]{2}\/[0-9]{2}$", ErrorMessage = Messages.FormatEnDate)]
         [DisplayFormat(DataFormatString = "{0:yyyy\\/MM\\/dd}", ApplyFormatInEditMode = true)]
         public global::System.DateTime DateNais;
 
 
         [Display(Name = "Courriel")]
-        [EmailAddress(ErrorMessage = Messages.U_008)]
+        [EmailAddress(ErrorMessage = Messages.FormatDeCourriel)]
         [StringLength(256)]
         public string Courriel;
 
@@ -60,7 +60,7 @@ namespace sachem.Models
 
         [Display(Name = "Téléphone")]
         [DataType(DataType.PhoneNumber)]
-        [RegularExpression(@"^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$", ErrorMessage = Messages.U_009)] //Vérifie le format du tel
+        [RegularExpression(@"^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$", ErrorMessage = Messages.FormatTelephone)] //Vérifie le format du tel
         public string Telephone; //Ajout pour #Tel dans BD
 
         [Display(Name = "Nom d'utilisateur")]
@@ -73,7 +73,7 @@ namespace sachem.Models
 
         //Extrait du PAM partiellement
         [Display(Name = "No de DA")]
-        [StringLength(7, ErrorMessage = Messages.U_004)]
+        [StringLength(7, ErrorMessage = Messages.LongueurDeSeptCaracteres)]
         public string Matricule7;
 
         [DataType(DataType.Password)]
@@ -92,7 +92,7 @@ namespace sachem.Models
         public int id_TypeUsag;
 
         [Display(Name = "Sexe")]
-        [Required(ErrorMessage = Messages.U_001)]
+        [Required(ErrorMessage = Messages.ChampRequis)]
         public int id_Sexe;
 
         [Display(Name = "Nom d'utilisateur")]

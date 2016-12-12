@@ -13,4 +13,4 @@ namespace sachem.Models
         [Display(Name = "Session")]
         public string NomSession;
     }
-}
+}   

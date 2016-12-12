@@ -88,7 +88,9 @@ namespace sachem.Controllers
                 db.Personne.Add(EtuProg.personne);
                 db.SaveChanges();
                 personne.Telephone = SachemIdentite.RemettreTel(personne.Telephone);
-                TempData["Success"] = Messages.I_010(personne.Matricule7);
+
+                TempData["Success"] = Messages.EtudiantEnregistre(personne.Matricule7);
+                
                 return RedirectToAction("Index");
             }
              return View(EtuProg);
@@ -142,7 +144,7 @@ namespace sachem.Controllers
             var etuProgEtu = db.EtuProgEtude.Where(x => x.id_EtuProgEtude == idProg);
             if (!db.CoursSuivi.Any(c => c.id_Pers == etuprog.id_Etu && c.id_Sess == etuprog.id_Sess))
             {
-                TempData["Success"] = Messages.I_016(etuprog.ProgrammeEtude.CodeNomProgramme);
+                TempData["Success"] = Messages.ProgrammeRetireDelaListeEtudiant(etuprog.ProgrammeEtude.CodeNomProgramme);
                 db.EtuProgEtude.RemoveRange(etuProgEtu);
                 db.SaveChanges();
             }
@@ -150,13 +152,13 @@ namespace sachem.Controllers
             {
                 if (Programme.Count() > 1)
                 {
-                    TempData["Success"] = Messages.I_016(etuprog.ProgrammeEtude.CodeNomProgramme);
+                    TempData["Success"] = Messages.ProgrammeRetireDelaListeEtudiant(etuprog.ProgrammeEtude.CodeNomProgramme);
                     db.EtuProgEtude.RemoveRange(etuProgEtu);
                     db.SaveChanges();
                 }
                 else
                 {
-                    TempData["Echec"] = Messages.I_011(etuprog.ProgrammeEtude.CodeNomProgramme);
+                    TempData["Echec"] = Messages.ImpossibleDeRetirerProgrammeDUnEtudiant(etuprog.ProgrammeEtude.CodeNomProgramme);
                 }
             }
             var Prog = ObtenirProgEtu(idPers, Valider);
@@ -229,7 +231,7 @@ namespace sachem.Controllers
             {
                 db.Entry(EtuProg.personne).State = EntityState.Modified;
                 db.SaveChanges();
-                TempData["Success"] = Messages.I_045(personne.NomPrenom);
+                TempData["Success"] = Messages.EtudiantModifie(personne.NomPrenom);
                 return RedirectToAction("Index");
             }
 
@@ -269,16 +271,16 @@ namespace sachem.Controllers
 
             if (db.GroupeEtudiant.Any(x => x.id_Etudiant == personne.id_Pers))
             {
-                ModelState.AddModelError(string.Empty, Messages.I_014());
-                TempData["Echec"] = Messages.I_014();
+                ModelState.AddModelError(string.Empty, Messages.EtudiantNePeutEtreSupprimeCarLieAUnGroupe());
+                TempData["Echec"] = Messages.EtudiantNePeutEtreSupprimeCarLieAUnGroupe();
             }
              
             if (inscription != null)
             {
                 if (db.Jumelage.Any(x => x.id_InscEleve == inscription.id_Inscription))
                 {
-                    ModelState.AddModelError(string.Empty, Messages.I_043());
-                    TempData["Echec"] = Messages.I_043();
+                    ModelState.AddModelError(string.Empty, Messages.EtudiantNonSupprimeCarJumele());
+                    TempData["Echec"] = Messages.EtudiantNonSupprimeCarJumele();
                 }
             }
             if (ModelState.IsValid)
@@ -295,7 +297,7 @@ namespace sachem.Controllers
                 db.CoursSuivi.RemoveRange(CoursSuiv);
                 db.Personne.Remove(personne);
                 db.SaveChanges();
-                TempData["Success"] = Messages.I_028(personne.NomPrenom);
+                TempData["Success"] = Messages.EtudiantSupprime(personne.NomPrenom);
             }
             return RedirectToAction("Index");
         }
@@ -309,7 +311,7 @@ namespace sachem.Controllers
                        orderby d.ProgrammeEtude.Code
                        select d;
             
-            TempData["Question"] = Messages.Q_002(etuprog.ProgrammeEtude.CodeNomProgramme);
+            TempData["Question"] = Messages.VraimentSupprimerProgrammeEtude(etuprog.ProgrammeEtude.CodeNomProgramme);
             var etuProgEtu = db.EtuProgEtude.Where(x => x.id_EtuProgEtude == idProg);
             if (Valider != 0)
             {
@@ -319,7 +321,7 @@ namespace sachem.Controllers
             {
                 if (!db.CoursSuivi.Any(c => c.id_Pers == etuprog.id_Etu && c.id_Sess == etuprog.id_Sess))
                 {
-                    TempData["Success"] = Messages.I_016(etuprog.ProgrammeEtude.CodeNomProgramme);
+                    TempData["Success"] = Messages.ProgrammeRetireDelaListeEtudiant(etuprog.ProgrammeEtude.CodeNomProgramme);
                     db.EtuProgEtude.RemoveRange(etuProgEtu);
                     db.SaveChanges();
                 }
@@ -327,13 +329,13 @@ namespace sachem.Controllers
                 {
                     if (Prog.Count() > 1)
                     {
-                        TempData["Success"] = Messages.I_016(etuprog.ProgrammeEtude.CodeNomProgramme);
+                        TempData["Success"] = Messages.ProgrammeRetireDelaListeEtudiant(etuprog.ProgrammeEtude.CodeNomProgramme);
                         db.EtuProgEtude.RemoveRange(etuProgEtu);
                         db.SaveChanges();
                     }
                     else
                     {
-                        TempData["Echec"] = Messages.I_011(etuprog.ProgrammeEtude.CodeNomProgramme);
+                        TempData["Echec"] = Messages.ImpossibleDeRetirerProgrammeDUnEtudiant(etuprog.ProgrammeEtude.CodeNomProgramme);
                     }   
                 }
                 return RedirectToAction("Edit", "Etudiant", new { id = idPers });
@@ -347,15 +349,15 @@ namespace sachem.Controllers
         {
             if (personne.Matricule7 == null)
             {
-                ModelState.AddModelError("Matricule7", Messages.U_001);
+                ModelState.AddModelError("Matricule7", Messages.ChampRequis);
             }
             else if (personne.Matricule7.Length != 7 || !personne.Matricule.All(char.IsDigit))
             {
-                ModelState.AddModelError("Matricule7", Messages.U_004);
+                ModelState.AddModelError("Matricule7", Messages.LongueurDeSeptCaracteres);
             }
             else if (db.Personne.Any(x => x.Matricule == personne.Matricule))
             {
-                ModelState.AddModelError(string.Empty, Messages.I_004(personne.Matricule));
+                ModelState.AddModelError(string.Empty, Messages.MatriculeDejaExistant(personne.Matricule));
             }
         }
         protected override void Dispose(bool disposing)
@@ -370,8 +372,8 @@ namespace sachem.Controllers
         {
             if (s1 != s2)
             {
-                ModelState.AddModelError("ConfirmPassword", Messages.C_001);
-                TempData["Echec"] = Messages.C_001;
+                ModelState.AddModelError("ConfirmPassword", Messages.MotsDePasseDoiventEtreIdentiques());
+                TempData["Echec"] = Messages.MotsDePasseDoiventEtreIdentiques();
                 return false;
             }
             return true;

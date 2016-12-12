@@ -55,7 +55,7 @@ namespace sachem.Controllers
                 TempData["Success"] = "Inscription modifiée avec succès!";
                 return RedirectToAction("Details","RechercheInscription",new { id = id_Inscription });
             }
-            TempData["Erreur"] = "Erreur lors de la modification de l'inscription. N'oubliez pas qu'il est impossible de modifier l'inscription des anciennes sessions.";
+            TempData["Erreur"] = Messages.ErreurModificationInscription();
             return RedirectToAction("Details", "RechercheInscription", new { id = id_Inscription });
         }
 

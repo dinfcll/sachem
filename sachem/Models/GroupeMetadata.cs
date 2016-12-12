@@ -33,12 +33,12 @@ namespace sachem.Models
         public int id_Groupe;
 
         [Display(Name = "Numéro de groupe")]
-        [Range(1,9999, ErrorMessage = Messages.U_005)]
-        [Required(ErrorMessage = Messages.U_001)]
+        [Range(1,9999, ErrorMessage = Messages.LongueurDeQuatreCaracteres)]
+        [Required(ErrorMessage = Messages.ChampRequis)]
         public int NoGroupe { get; set; }
 
         [Display(Name = "Cours")]
-        [Required(ErrorMessage = Messages.U_001)]
+        [Required(ErrorMessage = Messages.ChampRequis)]
         public string id_Cours;
 
         

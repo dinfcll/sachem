@@ -33,7 +33,7 @@ namespace sachem.Controllers
             {
                 if ((courriel.DateDebut - courriel.DateFin.Value).TotalDays > 0)
                 {
-                    ModelState.AddModelError(string.Empty, Messages.C_005);
+                    ModelState.AddModelError(string.Empty, Messages.LongueurDeQuatreCaracteres);
                 }
             }
 
@@ -41,7 +41,7 @@ namespace sachem.Controllers
             {
                 db.Entry(courriel).State = EntityState.Modified;
                 db.SaveChanges();
-                TempData["Success"] = Messages.I_032();
+                TempData["Success"] = Messages.CourrielMisAJour();
             }
             return View();
         }
@@ -81,7 +81,7 @@ namespace sachem.Controllers
                 db.Entry(contact).State = EntityState.Modified;
                 db.SaveChanges();
 
-                TempData["Success"] = string.Format(Messages.I_031());
+                TempData["Success"] = string.Format(Messages.NousContaterMisAJour());
                 return View(contact);
             }
             return View(contact);
@@ -115,12 +115,12 @@ namespace sachem.Controllers
             {
                 if (session.Annee != HI.DateDebut.Year || session.Annee != HI.DateFin.Year)
                 {
-                    ModelState.AddModelError(string.Empty, Messages.C_006(session.Annee.ToString(), null));
+                    ModelState.AddModelError(string.Empty, Messages.DatesDansLaSession(session.Annee.ToString(), null));
                 }
 
                 if ((HI.DateFin - HI.DateDebut).TotalDays < 1)
                 {
-                    ModelState.AddModelError(string.Empty, Messages.C_005);
+                    ModelState.AddModelError(string.Empty, Messages.ValidationDate());
                 }
 
                 switch (session.p_Saison.id_Saison)
@@ -130,14 +130,14 @@ namespace sachem.Controllers
                     case 1:
                         if (HI.DateFin.Month > new DateTime(1, 5, 1).Month)
                         {
-                            ModelState.AddModelError(string.Empty, Messages.C_006("d'hiver, janvier (01)", " à juin (06)"));
+                            ModelState.AddModelError(string.Empty, Messages.DatesDansLaSession("d'hiver, janvier (01)", " à juin (06)"));
                         }
                         break;
                     //Si ete : de juin inclus jusqua aout inclus (si mois du début >= 6 et mois fin <= 8)
                     case 2:
                         if (new DateTime(1, 6, 1).Month > HI.DateDebut.Month || HI.DateFin.Month > new DateTime(1, 8, 1).Month)
                         {
-                            ModelState.AddModelError(string.Empty, Messages.C_006("d'été, juin (06)", " à août (08)"));
+                            ModelState.AddModelError(string.Empty, Messages.DatesDansLaSession("d'été, juin (06)", " à août (08)"));
                         }
                         break;
                     //si automne: de aout inclus jusqua decembre inclus (si mois du début >= 8 et mois fin <= 12)
@@ -145,7 +145,7 @@ namespace sachem.Controllers
                     case 3:
                         if (new DateTime(1, 8, 1).Month > HI.DateDebut.Month)
                         {
-                            ModelState.AddModelError(string.Empty, Messages.C_006("d'hiver, août (08)", " à décembre (12)"));
+                            ModelState.AddModelError(string.Empty, Messages.DatesDansLaSession("d'hiver, août (08)", " à décembre (12)"));
                         }
                         break;
                 }
@@ -161,6 +161,7 @@ namespace sachem.Controllers
                     {
                         db.Entry(HI).State = EntityState.Modified;
                     }
+                    TempData["Success"] = string.Format(Messages.HoraireMisAJour());
                     db.SaveChanges();
                 }
             }
@@ -186,18 +187,17 @@ namespace sachem.Controllers
         {
             if (db.p_College.Any(r => r.id_College == id))
             {
-                ValiderCollege(nomCollege);
                 if (ModelState.IsValid)
                 {
                     var college = db.p_College.Find(id);
                     college.College = nomCollege;
                     db.Entry(college).State = EntityState.Modified;
                     db.SaveChanges();
-                    TempData["Success"] = string.Format(Messages.I_046());
+                    TempData["Success"] = string.Format(Messages.CollegeModifie());
                 }
                 else
                 {
-                   TempData["Erreur"] = "Ce collège d'enseignement existe déjà";
+                   TempData["Erreur"] = string.Format(Messages.CollegeDejaExistant());
                 }
             }
         }
@@ -206,7 +206,6 @@ namespace sachem.Controllers
         [ValidationAccesSuper]
         public void AddCollege(string nomCollege)
         {
-            ValiderCollege(nomCollege);
             if (ModelState.IsValid)
             {
                 var college = new p_College
@@ -215,11 +214,11 @@ namespace sachem.Controllers
                 };
                 db.p_College.Add(college);
                 db.SaveChanges();
-                TempData["Success"] = string.Format(Messages.I_044(nomCollege));
+                TempData["Success"] = string.Format(Messages.CollegeAjoute(nomCollege));
             }
             else
             {
-                TempData["Erreur"] = "Ce collège d'enseignement existe déjà";
+                TempData["Erreur"] = string.Format(Messages.CollegeDejaExistant());
             }
         }
 
@@ -232,16 +231,10 @@ namespace sachem.Controllers
             {
                 db.p_College.Remove(college);
                 db.SaveChanges();
-                TempData["Success"] = string.Format(Messages.I_047(college.College));
+                TempData["Success"] = string.Format(Messages.CollegeSupprime(college.College));
             }
         }
-        private void ValiderCollege(string college)
-        {
-            if (db.p_College.Any(p => p.College == college))
-            {
-                ModelState.AddModelError(string.Empty,"Ce collège d'enseignement existe déjà");
-            }
-        }
+
         private void ValiderContact([Bind(Include = "id_Contact,Nom,Prenom,Courriel,Telephone,Poste,Facebook,SiteWeb,Local")]p_Contact contact)
         {
             if (!db.p_Contact.Any(r => r.id_Contact == contact.id_Contact))

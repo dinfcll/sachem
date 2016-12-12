@@ -376,7 +376,7 @@ namespace sachem.Controllers
                 db.SaveChanges();
             }
             
-            ViewBag.Success = "Le jumelage a été retiré.";
+            ViewBag.Success = Messages.JumelageRetire();
         }
 
         public void AjoutJumelage(int idVu, int idJumeleA, string jour, int minutes, int vuTypeInsc, int idEnseignant, int estConsecutif)
@@ -414,7 +414,7 @@ namespace sachem.Controllers
             jumCreation.consecutif = Convert.ToBoolean(estConsecutif);
             db.Jumelage.Add(jumCreation);
             db.SaveChanges();
-            ViewBag.Success = "Le jumelage a été crée.";
+            ViewBag.Success = Messages.JumelageCree();
         }
 
         [ValidationAccesEnseignant]

@@ -5,7 +5,7 @@
 <link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
 
 @{
-    ViewBag.Title = "Programmes d'étude";
+    ViewBag.Title = "Programme d'études";
     var pagedlist = (IPagedList)Model;
 }
 
@@ -27,7 +27,7 @@
         </table>
     }
 
-<div style="margin-top:5px;margin-bottom:10px;">@Html.ActionLink("Ajouter un programme d'étude", "Create", null, null, new { @class = "btn btn-default" })</div>
+<div style="margin-top:5px;margin-bottom:10px;">@Html.ActionLink("Ajouter un programme d'études", "Create", null, null, new { @class = "btn btn-default" })</div>
     
 <table class="table">
     <tr>
@@ -71,7 +71,7 @@
     @if (!Model.Any())
     {
         <tr>
-            <td colspan="6">Aucun programme d'étude ne répond à ces critères</td>
+            <td colspan="6">@sachem.Models.Messages.AucunProgramme</td>
         </tr>
     }
 </table>

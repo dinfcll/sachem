@@ -51,13 +51,15 @@ namespace sachem.Controllers
             {
                 if (personne.MP == null)
                 {
-                    ModelState.AddModelError("MP", Messages.U_001);
+                    ModelState.AddModelError("MP", Messages.ChampRequis);
                 }
                 else
                 {
                     SachemIdentite.encrypterMPPersonne(ref personne);
                     dataRepository.AddEnseignant(personne);
-                    TempData["Success"] = Messages.Q_004(personne.NomUsager, personne.id_Pers);
+
+                    TempData["Success"] = Messages.AjouterUnGroupeAUnEnseignant(personne.NomUsager, personne.id_Pers);
+
                     return RedirectToAction("Index");
                 }
             }
@@ -103,7 +105,9 @@ namespace sachem.Controllers
             if (ModelState.IsValid)
             {
                 dataRepository.DeclareModifiedEns(personne);
-                TempData["Success"] = Messages.I_015(personne.NomUsager);
+
+                TempData["Success"] = Messages.UsagerModfie(personne.NomUsager);
+
                 return RedirectToAction("Index");
             }
             personne.MP = null;
@@ -122,7 +126,7 @@ namespace sachem.Controllers
             Personne personne = dataRepository.FindEnseignant((int)id);
             if(SessionBag.Current.id_pers == id)
             {
-                TempData["Error"] = Messages.I_037;
+                TempData["Error"] = Messages.ResponsableSeSupprimerLuiMeme();
                 return RedirectToAction("Index", "Enseignant", null);
             }
             if (personne == null)
@@ -139,17 +143,19 @@ namespace sachem.Controllers
             var pageNumber = page ?? 1;
             if(dataRepository.AnyGroupeWhere(g => g.id_Enseignant == id))
             {
-                ModelState.AddModelError(string.Empty, Messages.I_012);
+                ModelState.AddModelError(string.Empty, Messages.EnseignantNePeutEtreSupprime);
             }
             if(dataRepository.AnyjumelageWhere(g => g.id_Enseignant == id))
             {
-                ModelState.AddModelError(string.Empty, Messages.I_033);
+                ModelState.AddModelError(string.Empty, Messages.EnseignantNonSupprimeJumelagePresent());
             }
             if (ModelState.IsValid)
             {
                 Personne personne = dataRepository.FindEnseignant(id);
+
                 dataRepository.RemoveEnseignant(id);
-                ViewBag.Success = string.Format(Messages.I_029(personne.NomUsager));
+                ViewBag.Success = string.Format(Messages.EnseignantSupprime(personne.NomUsager));
+
             }
             return View("Index", Rechercher().ToPagedList(pageNumber, 20));
         }
@@ -188,11 +194,11 @@ namespace sachem.Controllers
         {
             if (dataRepository.AnyEnseignantWhere(x => x.NomUsager == personne.NomUsager && x.id_Pers != personne.id_Pers,personne))
             {
-                ModelState.AddModelError(string.Empty, Messages.I_013(personne.NomUsager));
+                ModelState.AddModelError(string.Empty, Messages.NomEnseignantDejaExistant(personne.NomUsager));
             }
             if (personne.MP != personne.ConfirmPassword)
             {
-                ModelState.AddModelError(string.Empty, Messages.C_001);
+                ModelState.AddModelError(string.Empty, Messages.MotsDePasseDoiventEtreIdentiques());
             }
         }
 
