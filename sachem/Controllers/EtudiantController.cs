@@ -379,8 +379,8 @@ namespace sachem.Controllers
         {
             if (s1 != s2)
             {
-                ModelState.AddModelError("ConfirmPassword", Messages.MotsDePasseDoiventEtreIdentiques);
-                TempData["Echec"] = Messages.MotsDePasseDoiventEtreIdentiques;
+                ModelState.AddModelError("ConfirmPassword", Messages.MotsDePasseDoiventEtreIdentiques());
+                TempData["Echec"] = Messages.MotsDePasseDoiventEtreIdentiques();
                 return false;
             }
             return true;

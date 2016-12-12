@@ -381,7 +381,7 @@ namespace sachem.Controllers
             }
             else
             {
-                ModelState.AddModelError("Courriel", Messages.AucunUsagerAvecCeCourriel);
+                ModelState.AddModelError("Courriel", Messages.AucunUsagerAvecCeCourriel());
             }
             return View();
         }
@@ -418,7 +418,7 @@ namespace sachem.Controllers
 
             if (SachemIdentite.encrypterChaine(personne.AncienMotDePasse) != ancienmdpbd)
             {
-                ModelState.AddModelError("AncienMotDePasse", Messages.MauvaisAncienMotDePasse);
+                ModelState.AddModelError("AncienMotDePasse", Messages.MauvaisAncienMotDePasse());
                 return View(personne);
             }
             else
@@ -464,7 +464,7 @@ namespace sachem.Controllers
             }
             if (s1 != s2)
             {
-                ModelState.AddModelError("ConfirmPassword", Messages.MotsDePasseDoiventEtreIdentiques);
+                ModelState.AddModelError("ConfirmPassword", Messages.MotsDePasseDoiventEtreIdentiques());
                 return false;
             }
             return true;

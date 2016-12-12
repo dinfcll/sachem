@@ -119,7 +119,7 @@ namespace sachem.Controllers
                 //regarde si les dates sont bonnes
                 if ((HI.DateFin - HI.DateDebut).TotalDays < 1)
                 {
-                    ModelState.AddModelError(string.Empty, Messages.ValidationDate);
+                    ModelState.AddModelError(string.Empty, Messages.ValidationDate());
                 }
                 //Regarder si cest les bon id (ps : ca lest pas)
                 switch (session.p_Saison.id_Saison)
@@ -160,6 +160,7 @@ namespace sachem.Controllers
                     {
                         db.Entry(HI).State = EntityState.Modified;
                     }
+                    TempData["Success"] = string.Format(Messages.HoraireMisAJour());
                     db.SaveChanges();
                 }
             }
