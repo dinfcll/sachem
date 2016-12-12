@@ -55,35 +55,8 @@ namespace sachem.Controllers
                 TempData["Success"] = "Inscription modifiée avec succès!";
                 return RedirectToAction("Details","RechercheInscription",new { id = id_Inscription });
             }
-            TempData["Erreur"] = "Erreur lors de la modification de l'inscription. N'oubliez pas qu'il est impossible de modifier l'inscription des anciennes sessions.";
+            TempData["Erreur"] = Messages.ErreurModificationInscription();
             return RedirectToAction("Details", "RechercheInscription", new { id = id_Inscription });
-        }
-
-        private void ListeSession(int Session = 0)
-        {
-            var lSessions = from session in db.Session select session;
-            var slSession = new List<SelectListItem>();
-            slSession.AddRange(new SelectList(lSessions, "id_Sess", "NomSession", Session));
-
-            ViewBag.Session = slSession;
-        }
-
-        private void ListeTypeInscription(int TypeInscription = 0)
-        {
-            var lTypeInscription = from typeinscription in db.p_TypeInscription select typeinscription;
-            var slTypeInscription = new List<SelectListItem>();
-            slTypeInscription.AddRange(new SelectList(lTypeInscription, "id_TypeInscription", "TypeInscription", TypeInscription));
-
-            ViewBag.TypeInscription = slTypeInscription;
-        }
-
-        private void ListeStatut(int Statut = 0)
-        {
-            var lStatut = from statut in db.p_StatutInscription where statut.id_Statut != BROUILLON select statut;
-            var slStatut = new List<SelectListItem>();
-            slStatut.AddRange(new SelectList(lStatut, "id_Statut", "Statut", Statut));
-
-            ViewBag.Statut = slStatut;
         }
 
         private IEnumerable<Inscription> Rechercher()
@@ -116,10 +89,8 @@ namespace sachem.Controllers
                 {
                     int.TryParse(Request.Form["Session"], out sess);
                 }
-                else
-                {
+                else if (Request.Form["Session"] == null)
                     sess = db.Session.Max(s => s.id_Sess);
-                }
 
                 if (!string.IsNullOrEmpty(Request.Form["TypeInscription"]))
                 {
@@ -132,9 +103,9 @@ namespace sachem.Controllers
                 }
             }
 
-            ListeSession(sess);
-            ListeTypeInscription(type);
-            ListeStatut(statut);
+            ViewBag.Session = Liste.ListeSession(sess);
+            ViewBag.TypeInscription = Liste.ListeTypeInscription(type);
+            ViewBag.Statut = Liste.ListeStatutInscriptionSansBrouillon(statut);
 
             var inscription = from c in db.Inscription
                               where ((c.id_Sess == sess || sess == 0) && (c.id_Statut == statut || statut == 0) && (c.id_TypeInscription == type || type == 0))

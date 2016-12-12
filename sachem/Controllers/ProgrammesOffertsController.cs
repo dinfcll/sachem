@@ -40,7 +40,7 @@ namespace sachem.Controllers
                 db.ProgrammeEtude.Add(programme);
                 db.SaveChanges();
 
-                TempData["Success"] = string.Format(Messages.I_007(programme.NomProg));
+                TempData["Success"] = string.Format(Messages.ProgrammeAvecMemeNom(programme.NomProg));
                 return RedirectToAction("Index");
             }
             return View(programme);
@@ -84,7 +84,7 @@ namespace sachem.Controllers
                 db.Entry(programme).State = EntityState.Modified;
                 db.SaveChanges();
 
-                TempData["Success"] = string.Format(Messages.I_007(programme.NomProg));
+                TempData["Success"] = string.Format(Messages.ProgrammeAvecMemeNom(programme.NomProg));
                 return RedirectToAction("Index");
             }
             return View(programme);
@@ -120,7 +120,7 @@ namespace sachem.Controllers
            
             if (db.EtuProgEtude.Any(r => r.id_ProgEtu == id))
             {
-                ModelState.AddModelError(string.Empty, Messages.I_005());
+                ModelState.AddModelError(string.Empty, Messages.ProgrammeNonSupprimeCarEtudiantYEstAsoocie());
             }
 
             if (ModelState.IsValid)
@@ -128,7 +128,7 @@ namespace sachem.Controllers
                 var programme = db.ProgrammeEtude.Find(id);
                 db.ProgrammeEtude.Remove(programme);
                 db.SaveChanges();
-                ViewBag.Success = string.Format(Messages.I_008(programme.NomProg));
+                ViewBag.Success = string.Format(Messages.ProgrammeSupprime(programme.NomProg));
             }
             return View("Index", Recherche(null).ToPagedList(pageNumber, 20));
         }
@@ -139,13 +139,13 @@ namespace sachem.Controllers
         { 
             if (db.ProgrammeEtude.Any(c => c.Code == programme.Code && c.Actif && programme.Actif && c.id_ProgEtu != programme.id_ProgEtu))
             {
-                ModelState.AddModelError(String.Empty, Messages.I_006(programme.Code));
+                ModelState.AddModelError(String.Empty, Messages.ProgrammeAvecCodeDejaExistant(programme.Code));
             }
             if(db.ProgrammeEtude.Any(c => c.id_ProgEtu == programme.id_ProgEtu && c.Actif) && programme.Actif == false)
             { 
                 if (db.EtuProgEtude.Any(c => c.id_ProgEtu == programme.id_ProgEtu))
                 {
-                    ModelState.AddModelError(String.Empty, "Impossible de mettre le programme inactif s'il est encore relié à des étudiants");
+                    ModelState.AddModelError(String.Empty, Messages.ImpossibleMettreProgrammeInactif());
                 }
             }
         }

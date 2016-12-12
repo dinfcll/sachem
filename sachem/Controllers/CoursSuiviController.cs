@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using sachem.Models;
 using sachem.Models.DataAccess;
 
+
 namespace sachem.Controllers
 {
     public class CoursSuiviController : Controller
@@ -30,36 +31,6 @@ namespace sachem.Controllers
             ViewBag.id_Cours = slCours;
         }
 
-        [NonAction]
-        private void ListeCollege(int college = 0)
-        {
-            var lCollege = dataRepository.GetCollege();
-            var slCollege = new List<SelectListItem>();
-            slCollege.AddRange(new SelectList(lCollege, "id_College", "College", college));
-
-            ViewBag.id_College = slCollege;
-        }
-
-        [NonAction]
-        private void ListeStatut(int statut = 0)
-        {
-            var lStatut = dataRepository.GetStatut();
-            var slStatut = new List<SelectListItem>();
-            slStatut.AddRange(new SelectList(lStatut, "id_Statut", "Statut", statut));
-
-            ViewBag.id_Statut = slStatut;
-        }
-
-        [NonAction]
-        private void ListeSession(int session = 0)
-        {
-            var lSessions = dataRepository.GetSessions();
-            var slSession = new List<SelectListItem>();
-            slSession.AddRange(new SelectList(lSessions, "id_Sess", "NomSession", session));
-
-            ViewBag.id_Sess = slSession;
-        }
-
         //Validation des champs cours et collège
         [NonAction]
         private void Valider([Bind(Include = "id_CoursReussi,id_Sess,id_Pers,id_College,id_Statut,id_Cours,resultat,autre_Cours,autre_College")] CoursSuivi coursSuivi, bool verif = false)
@@ -68,23 +39,23 @@ namespace sachem.Controllers
             if (coursSuivi.id_Cours != null)
             {
                 if (dataRepository.AnyCoursSuiviWhere(r => r.id_Cours == coursSuivi.id_Cours && r.id_Pers == coursSuivi.id_Pers && r.id_Sess == coursSuivi.id_Sess) && verif)
-                    ModelState.AddModelError(string.Empty, Messages.I_036());
+                    ModelState.AddModelError(string.Empty, Messages.ImpossibleEnregistrerCoursCarExisteListeCoursSuivis());
             }
             else
             {
                 if(dataRepository.AnyCoursSuiviWhere(r => r.autre_Cours == coursSuivi.autre_Cours && r.id_Pers == coursSuivi.id_Pers && r.id_Sess == coursSuivi.id_Sess) && verif)
-                    ModelState.AddModelError(string.Empty, Messages.I_036());
+                    ModelState.AddModelError(string.Empty, Messages.ImpossibleEnregistrerCoursCarExisteListeCoursSuivis());
             }
 
             if (coursSuivi.id_Cours == null && coursSuivi.autre_Cours == string.Empty || coursSuivi.id_Cours != null && coursSuivi.autre_Cours != string.Empty)
-                ModelState.AddModelError(string.Empty, Messages.C_009("Cours" , "Autre cours"));
+                ModelState.AddModelError(string.Empty, Messages.CompleterLesChamps("Cours" , "Autre cours"));
 
             if (coursSuivi.id_College == null && coursSuivi.autre_College == string.Empty || coursSuivi.id_College != null && coursSuivi.autre_College != string.Empty)
-                ModelState.AddModelError(string.Empty, Messages.C_009("Collège", "Autre collège"));
+                ModelState.AddModelError(string.Empty, Messages.CompleterLesChamps("Collège", "Autre collège"));
 
             //Verif si resultat nécéssaire et présent
             if ((coursSuivi.id_Statut == null || coursSuivi.id_Statut == 1) && coursSuivi.resultat == null)
-                ModelState.AddModelError(string.Empty, Messages.C_010);
+                ModelState.AddModelError(string.Empty, Messages.ResultatRequisSiReussi);
         }
 
         // GET: CoursSuivi/Create
@@ -100,9 +71,9 @@ namespace sachem.Controllers
             ViewBag.Resultat = "Create";
 
             ListeCours();
-            ListeCollege();
-            ListeStatut();
-            ListeSession();
+            ViewBag.id_College = Liste.ListeCollege();
+            ViewBag.id_Statut = Liste.ListeStatutCours();
+            ViewBag.id_Sess = Liste.ListeSession();
             return View(cs);
         }
 
@@ -112,11 +83,11 @@ namespace sachem.Controllers
         public ActionResult Create([Bind(Include = "id_CoursReussi,id_Sess,id_College,id_Statut,id_Cours,resultat,autre_Cours,autre_College")] CoursSuivi coursSuivi, int? id)
         {
             ListeCours();
-            ListeCollege();
-            ListeStatut();
-            ListeSession();
+            ViewBag.id_College = Liste.ListeCollege();
+            ViewBag.id_Statut = Liste.ListeStatutCours();
+            ViewBag.id_Sess = Liste.ListeSession();
 
-            if(dataRepository.FindPersonne((int) id) == null)
+            if (dataRepository.FindPersonne((int) id) == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
@@ -150,19 +121,19 @@ namespace sachem.Controllers
                 ListeCours(cs.id_Cours.Value);
 
             if (cs.id_College == null)
-                ListeCollege();
+                ViewBag.id_College = Liste.ListeCollege();
             else
-                ListeCollege(cs.id_College.Value);
+                ViewBag.id_College = Liste.ListeCollege(cs.id_College.Value);
 
             if (cs.id_Statut == null)
-                ListeStatut();
+                ViewBag.id_Statut = Liste.ListeStatutCours();
             else
-                ListeStatut(cs.id_Statut.Value);
+                ViewBag.id_Statut = Liste.ListeStatutCours(cs.id_Statut.Value);
 
             if (cs.id_Sess == null)
-                ListeSession();
+                ViewBag.id_Sess = Liste.ListeSession();
             else
-                ListeSession(cs.id_Sess.Value);
+                ViewBag.id_Sess = Liste.ListeSession(cs.id_Sess.Value);
 
             ViewBag.Resultat = "Edit";
 
@@ -180,12 +151,12 @@ namespace sachem.Controllers
                 ListeCours(coursSuivi.id_Cours.Value);
 
             if (coursSuivi.id_College == null)
-                ListeCollege();
+                ViewBag.id_College = Liste.ListeCollege();
             else
-                ListeCollege(coursSuivi.id_College.Value);
+                ViewBag.id_College = Liste.ListeCollege(coursSuivi.id_College.Value);
 
-            ListeStatut(coursSuivi.id_Statut.Value);
-            ListeSession(coursSuivi.id_Sess.Value);
+            ViewBag.id_Statut = Liste.ListeStatutCours(coursSuivi.id_Statut.Value);
+            ViewBag.id_Sess = Liste.ListeSession(coursSuivi.id_Sess.Value);
 
             Valider(coursSuivi);
 

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data;
 using System.Linq;
 using System.Net;
 using System.Web.Mvc;
@@ -13,7 +12,6 @@ namespace sachem.Controllers
     {
         int m_IdPers;
         int m_IdTypeUsage;
-
         private readonly SACHEMEntities db = new SACHEMEntities();
 
         List<TypeUsagers> RolesAcces = new List<TypeUsagers>() { TypeUsagers.Enseignant, TypeUsagers.Responsable, TypeUsagers.Super };
@@ -45,10 +43,10 @@ namespace sachem.Controllers
             string dernRechCoursUrl = (string)Session["DernRechCoursUrl"];
             string localPath = Request.Url?.LocalPath;
 
-            if (reqType == "GET" && Session["DernRechEtu"] != null 
-                && (string)Session["DernRechEtuUrl"] == Request.Url?.LocalPath)
+            if (reqType == "GET" && Session["DernRechCours"] != null 
+                && (string)Session["DernRechCoursUrl"] == Request.Url?.LocalPath)
             {
-                var tanciennerech = Session["DernRechEtu"].ToString().Split(';');
+                var tanciennerech = Session["DernRechCours"].ToString().Split(';');
 
                 if (tanciennerech[0].Length != 0)
                 {
@@ -100,7 +98,7 @@ namespace sachem.Controllers
 
             if (m_IdTypeUsage == 2)
             {
-                ListeSession(idSess);
+                ViewBag.Session = Liste.ListeSession(idSess);
 
                 var listeInfoEns = (from c in db.Groupe
                            where (c.id_Sess == idSess && c.id_Enseignant == m_IdPers) || 
@@ -120,8 +118,8 @@ namespace sachem.Controllers
             }
             else
             {
-                ListeSession(idSess);
-                ListePersonne(idSess, idPersonne);
+                ViewBag.Session = Liste.ListeSession(idSess);
+                ViewBag.Personne = Liste.ListePersonne(idSess, idPersonne);
 
                 var listeInfoResp = (from c in db.Groupe
                            where c.id_Sess == (idSess == 0 ? c.id_Sess : idSess) && 
@@ -206,37 +204,7 @@ namespace sachem.Controllers
             return valide;
         }
         
-        [NonAction]
-        private void ListeSession(int _idSess = 0)
-        {
-            var lSessions = db.Session
-                .AsNoTracking()
-                .OrderBy(s => s.Annee)
-                .ThenBy(s => s.p_Saison.Saison);
-            var slSession = new List<SelectListItem>();
-            slSession.AddRange(new SelectList(lSessions, "id_Sess", "NomSession", _idSess));
-
-            ViewBag.Session = slSession;
-        }
-
         [HttpPost]
-        public void ListePersonne(int idSession, int idPers)
-        {
-            var lPersonne = (from p in db.Personne
-                            join c in db.Groupe on p.id_Pers equals c.id_Enseignant
-                            where (p.id_TypeUsag == (int)TypeUsagers.Enseignant || 
-                            p.id_TypeUsag == (int)TypeUsagers.Responsable) && 
-                            p.Actif == true && 
-                            c.id_Sess == (idSession == 0 ? c.id_Sess : idSession)
-                            orderby p.Nom,p.Prenom
-                            select p).Distinct();
-
-            var slPersonne = new List<SelectListItem>();
-            slPersonne.AddRange(new SelectList(lPersonne, "id_Pers", "NomPrenom", idPers));
-
-            ViewBag.Personne = slPersonne;
-        }
-
         public ActionResult Details(int? idCours, int? idSess)
         {
             m_IdPers = SessionBag.Current.id_Pers;

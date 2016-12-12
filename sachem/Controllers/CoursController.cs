@@ -6,6 +6,7 @@ using System.Net;
 using System.Web.Mvc;
 using sachem.Models;
 using PagedList;
+using sachem.Classes_Sachem;
 using sachem.Models.DataAccess;
 
 namespace sachem.Controllers
@@ -25,20 +26,10 @@ namespace sachem.Controllers
         }
 
         [NonAction]
-        private void ListeSession(int Session = 0)
-        {
-            var lSessions = dataRepository.GetSessions();
-            var slSession = new List<SelectListItem>();
-            slSession.AddRange(new SelectList(lSessions, "id_Sess", "NomSession", Session));
-
-            ViewBag.Session = slSession;
-        }
-
-        [NonAction]
         private void Valider([Bind(Include = "id_Cours,Code,Nom,Actif")] Cours cours)
         {
             if (dataRepository.AnyCoursWhere(r => r.Code == cours.Code && r.id_Cours != cours.id_Cours))
-                ModelState.AddModelError(string.Empty, Messages.I_002(cours.Code));
+                ModelState.AddModelError(string.Empty, Messages.CoursADejaCeCode(cours.Code));
         }
 
         [NonAction]
@@ -75,7 +66,7 @@ namespace sachem.Controllers
 
             ViewBag.Actif = actif;
 
-            ListeSession(sess);
+            ViewBag.Session = Liste.ListeSession(sess);
 
             var cours = from c in dataRepository.AllCours()
                         where (dataRepository.AnyGroupeWhere(r => r.id_Cours == c.id_Cours && r.id_Sess == sess) || sess == 0)
@@ -113,7 +104,7 @@ namespace sachem.Controllers
             {
                 dataRepository.AddCours(cours);
 
-                TempData["Success"] = string.Format(Messages.I_003(cours.Nom));
+                TempData["Success"] = string.Format(Messages.CoursEnregistre(cours.Nom));
                 return RedirectToAction("Index");
             }
 
@@ -150,7 +141,7 @@ namespace sachem.Controllers
             {
                 dataRepository.DeclareModified(cours);
 
-                TempData["Success"] = string.Format(Messages.I_003(cours.Nom));
+                TempData["Success"] = string.Format(Messages.CoursEnregistre(cours.Nom));
                 return RedirectToAction("Index");
             }
 
@@ -178,7 +169,7 @@ namespace sachem.Controllers
             var pageNumber = page ?? 1;
             if (dataRepository.AnyGroupeWhere(g => g.id_Cours == id))
             {
-                ModelState.AddModelError(string.Empty, Messages.I_001());
+                ModelState.AddModelError(string.Empty, Messages.GroupeAssocieAUnCoursNePeutEtreSupprime());
             }
 
             if (ModelState.IsValid)
@@ -187,7 +178,7 @@ namespace sachem.Controllers
 
                 dataRepository.RemoveCours(cours);
 
-                ViewBag.Success = string.Format(Messages.I_009(cours.Nom));
+                ViewBag.Success = string.Format(Messages.CoursSupprime(cours.Nom));
             }
 
             return View("Index", Rechercher().ToPagedList(pageNumber, 20));

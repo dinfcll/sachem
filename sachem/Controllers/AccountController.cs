@@ -123,18 +123,18 @@ namespace sachem.Controllers
             const int STATUT_ACCEPTE = 3;
 
             if (mdpPlain == "")
-                ModelState.AddModelError("MP", Messages.U_001);
+                ModelState.AddModelError("MP", Messages.ChampRequis);
             else
                 if (NomUsager == null)
             {
-                ModelState.AddModelError("NomUsager", Messages.U_001); 
+                ModelState.AddModelError("NomUsager", Messages.ChampRequis); 
             }
             else
                     if (Regex.IsMatch(NomUsager, @"^\d+$") && NomUsager.Length == 7) 
             {
                 if (!db.Personne.Any(x => x.Matricule.Substring(2) == NomUsager))
                 {
-                    ModelState.AddModelError(string.Empty, Messages.I_017());  
+                    ModelState.AddModelError(string.Empty, Messages.ConnexionEchouee());  
                 }
                 else
                     PersonneBD = db.Personne.AsNoTracking().Where(x => x.Matricule.Substring(2) == NomUsager).FirstOrDefault();
@@ -142,7 +142,7 @@ namespace sachem.Controllers
             else
                         if (!db.Personne.Any(x => x.NomUsager == NomUsager))
             {
-                ModelState.AddModelError(string.Empty, Messages.I_017()); 
+                ModelState.AddModelError(string.Empty, Messages.ConnexionEchouee()); 
             }
             else
                 PersonneBD = db.Personne.AsNoTracking().Where(x => x.NomUsager == NomUsager).FirstOrDefault();
@@ -153,7 +153,7 @@ namespace sachem.Controllers
 
                 
                 if (PersonneBD.MP != MP)
-                    ModelState.AddModelError(string.Empty, Messages.I_017()); 
+                    ModelState.AddModelError(string.Empty, Messages.ConnexionEchouee()); 
                 if (!ModelState.IsValid)
                 {
                     PersonneBD.MP = "";
@@ -279,20 +279,20 @@ namespace sachem.Controllers
                 return View(personne);
 
             if (personne.Matricule7 == null)
-                ModelState.AddModelError("Matricule7", Messages.U_001); 
+                ModelState.AddModelError("Matricule7", Messages.ChampRequis); 
             else if (personne.Matricule7.Length != 7 || !personne.Matricule.All(char.IsDigit)) 
-                ModelState.AddModelError("Matricule7", Messages.U_004); 
+                ModelState.AddModelError("Matricule7", Messages.LongueurDeSeptCaracteres); 
             else if (db.Personne.Any(x => x.Matricule == personne.Matricule && x.MP != null))
-                ModelState.AddModelError(string.Empty, Messages.I_025()); 
+                ModelState.AddModelError(string.Empty, Messages.CompteExisteDeja()); 
             else if (!db.Personne.Any(x => x.Matricule == personne.Matricule))
-                ModelState.AddModelError(string.Empty, Messages.I_027()); 
+                ModelState.AddModelError(string.Empty, Messages.EtudiantNonInscrit()); 
             else
             {
                 
                 Personne EtudiantBD = db.Personne.AsNoTracking().Where(x => x.Matricule == personne.Matricule).FirstOrDefault();
 
                 if (personne.DateNais != EtudiantBD.DateNais || personne.id_Sexe != EtudiantBD.id_Sexe)
-                    ModelState.AddModelError(string.Empty, Messages.I_027());
+                    ModelState.AddModelError(string.Empty, Messages.EtudiantNonInscrit());
                 else
                 {
                     EtudiantBD.Courriel = personne.Courriel;
@@ -328,7 +328,7 @@ namespace sachem.Controllers
 
                     AjoutInfoConnection(EtudiantBD);
                     SessionBag.Current.id_TypeUsag = TypeUsagers.Etudiant;
-                    TempData["Success"] = Messages.I_026();
+                    TempData["Success"] = Messages.CompteCree();
                     return RedirectToAction("Index", "Inscription");
                 }
             }
@@ -372,16 +372,16 @@ namespace sachem.Controllers
                     utilisateur.MP = SachemIdentite.encrypterChaine( utilisateur.MP );
                     db.Entry(utilisateur).State = EntityState.Modified;
                     db.SaveChanges();
-                    ViewBag.Success = Messages.I_019();
+                    ViewBag.Success = Messages.MotDePasseCourriel();
                 }
                 else
                 {
-                    ModelState.AddModelError(string.Empty, "Problème lors de l'envoi du courriel, le port" + PORTCOURRIEL.ToString() + "est bloqué.");
+                    ModelState.AddModelError(string.Empty, Messages.EnvoiCourrielImpossiblePortBloque(PORTCOURRIEL.ToString()));
                 }
             }
             else
             {
-                ModelState.AddModelError("Courriel", Messages.C_003);
+                ModelState.AddModelError("Courriel", Messages.AucunUsagerAvecCeCourriel());
             }
             return View();
         }
@@ -408,7 +408,7 @@ namespace sachem.Controllers
             string ancienmdpbd = SessionBag.Current.MP;
 
             if (personne.AncienMotDePasse == null)
-                ModelState.AddModelError("AncienMotDePasse", Messages.U_001); 
+                ModelState.AddModelError("AncienMotDePasse", Messages.ChampRequis); 
 
             if (!ConfirmeMdp(personne.MP, personne.ConfirmPassword))
                 return View(personne);
@@ -418,7 +418,7 @@ namespace sachem.Controllers
 
             if (SachemIdentite.encrypterChaine(personne.AncienMotDePasse) != ancienmdpbd)
             {
-                ModelState.AddModelError("AncienMotDePasse", Messages.C_002);
+                ModelState.AddModelError("AncienMotDePasse", Messages.MauvaisAncienMotDePasse());
                 return View(personne);
             }
             else
@@ -431,7 +431,7 @@ namespace sachem.Controllers
                 SupprimerCookieConnexion();
                 db.Entry(utilisateur).State = EntityState.Modified;
                 db.SaveChanges();
-                ViewBag.Success = Messages.I_018();
+                ViewBag.Success = Messages.MotDePasseModifie();
                 return View(personne);
             }
         }
@@ -458,13 +458,13 @@ namespace sachem.Controllers
         {
             if (s1 == null || s2 == null)
             {
-                ModelState.AddModelError("MP", Messages.U_001);
-                ModelState.AddModelError("ConfirmPassword", Messages.U_001);
+                ModelState.AddModelError("MP", Messages.ChampRequis);
+                ModelState.AddModelError("ConfirmPassword", Messages.ChampRequis);
                 return false;
             }
             if (s1 != s2)
             {
-                ModelState.AddModelError("ConfirmPassword", Messages.C_001);
+                ModelState.AddModelError("ConfirmPassword", Messages.MotsDePasseDoiventEtreIdentiques());
                 return false;
             }
             return true;

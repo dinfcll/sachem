@@ -178,15 +178,15 @@
                 </div>
                 <div class="modal-body">
                     <p>
-                        Êtes-vous certain de créer un jumelage entre:<br /><b><span id="modalAjoutVu"></span></b> (<span id="modalAjoutTypeEleveVu"></span>) et
+                        @sachem.Models.Messages.JumelageCreerJumelageEntre()<br /><b><span id="modalAjoutVu"></span></b> (<span id="modalAjoutTypeEleveVu"></span>) et
                         <b><span id="modalAjoutJumeleA"></span></b> (<span id="modalAjoutTypeEleveJumeleA"></span>)
                     </p>
-                    <p>Pour la plage horaire de:<br /><b><span id="modalPlageHoraire"></span></b></p>
-                    <p>Avec comme superviseur enseignant:</p>
+                    <p>@sachem.Models.Messages.JumelagePlageHoraireSelectionne<br /><b><span id="modalPlageHoraire"></span></b></p>
+                    <p>@sachem.Models.Messages.JumelageEnseignantSelectionne</p>
                         @Html.DropDownList("Superviseur", null, "Choisir l'enseignant", htmlAttributes: new { @class = "form-search", @id="modalAjoutEnseignant"})
-                    <br/><br /><p id="modalAjoutEnseignantError" class="text-danger hide">Veuillez sélectionner un enseignant</p>
+                    <br/><br /><p id="modalAjoutEnseignantError" class="text-danger hide">@sachem.Models.Messages.JumelageCreationDoitSelectionnerEnseignant()</p>
                     <span id="modalConditionConsecutif" class="hide">
-                        Désirez-vous étendre la durée de cette rencontre sur 3h pour créer un jumelage avec deux rencontres consécutives ?<br/>
+                        @sachem.Models.Messages.JumelageCreerConsecutif<br/>
                         <select class="form-control" id="modalConsecutif">
                             <option id="nonConsecutif" value="0">Non</option>
                             <option id="ouiConsecutif" value="1">Oui</option>

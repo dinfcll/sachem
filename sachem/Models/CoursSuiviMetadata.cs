@@ -36,7 +36,7 @@ namespace sachem.Models
 
         [Display(Name = "Résultat (%)")]
         [DisplayFormat(DataFormatString = @"{0:#\%}", ApplyFormatInEditMode = true)]
-        [Range(0, 100 , ErrorMessage = Messages.U_011)]
+        [Range(0, 100 , ErrorMessage = Messages.NombreEntreZeroEtCent)]
         public int resultat;
     }
 }
