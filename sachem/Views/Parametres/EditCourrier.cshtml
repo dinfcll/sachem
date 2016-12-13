@@ -41,7 +41,7 @@
         </div>        
 
         <div class="form-group">
-            @Html.LabelFor(model => model.DateDebut, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.DateDebut, new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.DateDebut, new { htmlAttributes = new { @class = "form-control", placeholer = "AAAA/MM/JJ" } })
                 @Html.ValidationMessageFor(model => model.DateDebut, "", new { @class = "text-danger" })
@@ -49,7 +49,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.DateFin, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.DateFin, new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.DateFin, new { htmlAttributes = new { @class = "form-control", placeholer = "AAAA/MM/JJ" } })
                 @Html.ValidationMessageFor(model => model.DateFin, "", new { @class = "text-danger" })
@@ -57,7 +57,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.Titre, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.Titre, new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.Titre, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.Titre, "", new { @class = "text-danger" })
@@ -65,7 +65,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.Courriel1, htmlAttributes: new { @class = "control-label col-md-2", rows = 40 })
+            @Html.LabelFor(model => model.Courriel1, new { @class = "control-label col-md-2", rows = 40 })
             <div class="col-md-10">
                 @Html.TextAreaFor(model=> model.Courriel1, new { htmlAttributes = new { @class = "form-control",  } })
                 @Html.ValidationMessageFor(model => model.Courriel1, "", new { @class = "text-danger" })

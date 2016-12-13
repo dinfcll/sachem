@@ -1063,6 +1063,54 @@ namespace sachem.Models
         #endregion
 
         #region Pages Erreur
+        
+        /// <summary>
+        /// Pour toute question, réferrez-vous à un enseignant de mathématiques.
+        /// </summary>
+        /// <returns></returns>
+        public const string ErreurOptionSupplementaire = "Pour toute question, réferrez-vous à un enseignant de mathématiques.";
+
+        /// <summary>
+        /// Voici les causes probables de ce problème :
+        /// </summary>
+        /// <returns></returns>
+        public const string ErreurCausesPossibles = "Voici les causes probables de ce problème :";
+
+        /// <summary>
+        /// L'inscription au SACHEM est présentement fermée
+        /// </summary>
+        /// <returns></returns>
+        public const string ErreurFermeTitre = "L'inscription au SACHEM est présentement fermée";
+
+        /// <summary>
+        /// Votre inscription est déjà complétée
+        /// </summary>
+        /// <returns></returns>
+        public const string ErreurDejaTitre = "Votre inscription est déjà complétée";
+
+        /// <summary>
+        /// Vous pouvez la modifier à partir de votre profil.
+        /// </summary>
+        /// <returns></returns>
+        public const string ErreurDejaCause = "Vous pouvez la modifier à partir de votre profil.";
+
+        /// <summary>
+        /// Vous n'êtes pas connecté au site. Sélectionnez "Se connecter" pour vous connecter et réessayez.
+        /// </summary>
+        /// <returns></returns>
+        public const string Erreur404Cause1 = "Vous n'êtes pas connecté au site. Sélectionnez \"Se connecter\" pour vous connecter et réessayez.";
+
+        /// <summary>
+        /// Vous tentez d'accéder à une page qui est réservée à un autre type d'usager que le vôtre.
+        /// </summary>
+        /// <returns></returns>
+        public const string Erreur404Cause2 = "Vous tentez d'accéder à une page qui est réservée à un autre type d'usager que le vôtre.";
+
+        /// <summary>
+        /// Votre session sur le site a expiré à cause d'une trop grande période d'inactivité. Reconnectez-vous et réessayez.
+        /// </summary>
+        /// <returns></returns>
+        public const string Erreur404Cause3 = "Votre session sur le site a expiré à cause d'une trop grande période d'inactivité. Reconnectez-vous et réessayez.";
         #endregion
 
         #region Recherche = Aucun
