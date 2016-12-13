@@ -191,7 +191,7 @@ namespace sachem.Controllers
             return Rechercher();
         }
 
-        [ValidationAccesEleve]
+        [ValidationAccesTuteur]
         public ActionResult Index(int? page)
         {
             NoPage = (page ?? NoPage);

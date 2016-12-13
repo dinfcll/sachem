@@ -26,14 +26,14 @@
         }
         modal.style.display = "block";
         boutonAjout.onclick = function () {
-            Ajout(idVu, idJumeleA, jour, minutes, vuTypeInsc, estConsecutif);
+            Ajout(idVu, idJumeleA, jour, minutes, vuTypeInsc);
         }
     }
 
-    function Ajout(idVu, idJumeleA, jour, minutes, vuTypeInsc, estConsecutif) {
+    function Ajout(idVu, idJumeleA, jour, minutes, vuTypeInsc) {
         var estConsecutif = document.getElementById("modalConsecutif").value;
         var idEnseignant = document.getElementById("modalAjoutEnseignant").value;
-        if(idEnseignant!="")
+        if(idEnseignant!=="")
         {        
             $("#modalAjout").modal("hide");
             $.ajax({
@@ -46,14 +46,13 @@
             });
             
         }
-        else
-        {
-            $("#modalAjoutEnseignantError").removeClass("hide")
+        else {
+            $("#modalAjoutEnseignantError").removeClass("hide");
         }
     }
 </script>
 
-@if (listeJumeleursPotentiels.Count() > 0)
+@if (listeJumeleursPotentiels.Any())
 {
     <h4 class="page-header">Jumelages possibles</h4>
 
@@ -97,11 +96,11 @@
                             <th class="col-sm-2 text-center" style="height:30px;font-weight:bold;color:white;background-color:#666;">@jour</th>
                         }
                     </tr>
-                    @{ Dictionary<string, List<DisponibiliteStruct>> ListeDispoUsagerDeTableauDisponibilite =
+                    @{ Dictionary<string, List<DisponibiliteStruct>> listeDispoUsagerDeTableauDisponibilite =
               ((sachem.Controllers.JumelageController)this.ViewContext.Controller)
-              .RetourneDisponibiliteJumelageUsager(@j.id_Inscription, @j.id_TypeInscription, @j.id_Sess, Model.id_Inscription); }
+              .RetourneDisponibiliteJumelageUsager(j.id_Inscription, j.id_TypeInscription, j.id_Sess, Model.id_Inscription); }
                     @{
-                        foreach (var v in ListeDispoUsagerDeTableauDisponibilite)
+                        foreach (var v in listeDispoUsagerDeTableauDisponibilite)
                         {
                             <tr>
                                 <td class="text-center">

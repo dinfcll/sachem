@@ -765,11 +765,11 @@ namespace sachem.Models
         { return $"Indiquez vos heures de disponibilité en cliquant dans les cases appropriées."; }
 
         /// <summary>
-        /// Chaque &#10004; indique que vous êtes disponible pour une rencontre de 1h30 dans cette plage horaire
+        /// Chaque ✓ indique que vous êtes disponible pour une rencontre de 1h30 dans cette plage horaire
         /// </summary>
         /// <returns></returns>
         public static string InscriptionDirectivesTableauDisponibilite2()
-        { return $"Chaque &#10004; indique que vous êtes disponible pour une rencontre de 1h30 dans cette plage horaire"; }
+        { return $"Chaque ✓ indique que vous êtes disponible pour une rencontre de 1h30 dans cette plage horaire"; }
 
         /// <summary>
         /// Il y aura au minimum une rencontre par semaine, soit 1h30/semaine
@@ -796,9 +796,20 @@ namespace sachem.Models
         public const string InscriptionTypeInscriptionChoisi = "Type d'inscription choisi:";
 
         /// <summary>
+        /// Type d'inscription choisi:
+        /// </summary>
+        public const string InscriptionTypeInscriptionChoisiAlert = "Veuillez choisir un type d'inscription";
+
+        /// <summary>
         /// Vos plages de disponibilités sélectionnées sont:
         /// </summary>
         public const string InscriptionDisposChoisis = "Vos plages de disponibilités sélectionnées sont:";
+
+        /// <summary>
+        /// Veuillez remplir le formulaire de disponibilités.
+        /// </summary>
+        public const string InscriptionRemplirFormulaireDisposErreur =
+            "Veuillez remplir le formulaire de disponibilités.";
 
         /// <summary>
         /// Les cours dans lesquels vous aimeriez donner de l'aide sont:

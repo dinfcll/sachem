@@ -11,7 +11,7 @@ namespace sachem.Controllers
     public class InscriptionController : Controller
     {
         private readonly SACHEMEntities _db = new SACHEMEntities();
-        private const string MsgErreurRemplir = "Veuillez remplir le formulaire de disponibilités.";
+        private const string MsgErreurRemplir = Messages.InscriptionRemplirFormulaireDisposErreur;
 
         private readonly int _heureDebut = CheckConfigHeure(ConfigurationManager.AppSettings.Get("HeureDebut"), 8);
         private readonly int _heureFin = CheckConfigHeure(ConfigurationManager.AppSettings.Get("HeureFin"), 18);
@@ -56,7 +56,6 @@ namespace sachem.Controllers
                 Array.Sort(jours, new AlphanumComparatorFast());
                 foreach (var jour in jours)
                 {
-                    //TODO: Valider si les heures se suivent, formatter pour demander confirmation à l'utilisateur.
                     var splitValue1 = jour.Split('-');
                     dispo.Minutes = int.Parse(splitValue1[1]);
                     dispo.Jour = splitValue1[0];
