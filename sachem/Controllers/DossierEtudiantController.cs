@@ -7,7 +7,6 @@ using System.Web.Mvc;
 using sachem.Models;
 using PagedList;
 using sachem.Classes_Sachem;
-using static sachem.Classes_Sachem.ValidationAcces;
 using sachem.Models.DataAccess;
 
 namespace sachem.Controllers
@@ -191,14 +190,14 @@ namespace sachem.Controllers
             return Rechercher();
         }
 
-        [ValidationAccesEleve]
+        [ValidationAcces.ValidationAccesEleve]
         public ActionResult Index(int? page)
         {
             NoPage = (page ?? NoPage);
             return View(Rechercher().ToPagedList(NoPage, 20));
         }
 
-        [ValidationAccesEleve]
+        [ValidationAcces.ValidationAccesEleve]
         public ActionResult Details(int? id)
         {
             if (id == null)
@@ -228,7 +227,7 @@ namespace sachem.Controllers
         }
         
         [HttpPost]
-        [ValidationAccesTuteur]
+        [ValidationAcces.ValidationAccesTuteur]
         public void ModifBon(bool bon, string insc)
         {
             var idInscription = Convert.ToInt32(insc);
@@ -242,7 +241,7 @@ namespace sachem.Controllers
         }
 
         [HttpPost]
-        [ValidationAccesEleve]
+        [ValidationAcces.ValidationAccesEleve]
         public void ModifEmail(string email, string pers)
         {
             var idPers = Convert.ToInt32(pers);
@@ -256,7 +255,7 @@ namespace sachem.Controllers
         }
 
         [HttpPost]
-        [ValidationAccesEleve]
+        [ValidationAcces.ValidationAccesEleve]
         public void ModifTel(string tel, string pers)
         {
             var idPers = Convert.ToInt32(pers);

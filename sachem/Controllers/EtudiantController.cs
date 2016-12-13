@@ -3,7 +3,7 @@ using System.Net;
 using System.Web.Mvc;
 using sachem.Models;
 using PagedList;
-using static sachem.Classes_Sachem.ValidationAcces;
+using sachem.Classes_Sachem;
 using System.Data.Entity;
 using System.Collections.Generic;
 
@@ -13,7 +13,7 @@ namespace sachem.Controllers
     {
         public const string AnneePremiersCaracteres = "20";
 
-        [ValidationAccesEnseignant]
+        [ValidationAcces.ValidationAccesEnseignant]
         public ActionResult Index(int? page)
         {
             NoPage = page ?? NoPage;
@@ -21,7 +21,7 @@ namespace sachem.Controllers
             return View(Rechercher().ToPagedList(NoPage, 20));
         }
 
-        [ValidationAccesEnseignant]
+        [ValidationAcces.ValidationAccesEnseignant]
         public ActionResult Create()
         {
             ViewBag.id_Sexe = Db.p_Sexe;
@@ -35,7 +35,7 @@ namespace sachem.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [ValidationAccesEnseignant]
+        [ValidationAcces.ValidationAccesEnseignant]
         public ActionResult Create([Bind(Include = "id_Pers,id_Sexe,id_TypeUsag,Nom,Prenom,Matricule,MP,ConfirmPassword,Courriel,Telephone,DateNais")] Personne personne,int? page)
         {
             var etuProg = new PersonneEtuProgParent();
@@ -90,7 +90,7 @@ namespace sachem.Controllers
              return View(etuProg);
         }
         // GET: Etudiant/Edit/5
-        [ValidationAccesEnseignant]
+        [ValidationAcces.ValidationAccesEnseignant]
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -175,7 +175,7 @@ namespace sachem.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [ValidationAccesEnseignant]
+        [ValidationAcces.ValidationAccesEnseignant]
         public ActionResult Edit([Bind(Include = "id_Pers,id_Sexe,id_TypeUsag,Nom,Prenom,NomUsager,Matricule7,MP,ConfirmPassword,Courriel,Telephone,DateNais,Actif")] Personne personne)
         {
             var etuProg = new PersonneEtuProgParent();
@@ -241,7 +241,7 @@ namespace sachem.Controllers
         }
 
         // GET: Etudiant/Delete/5
-        [ValidationAccesEnseignant]
+        [ValidationAcces.ValidationAccesEnseignant]
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -259,7 +259,7 @@ namespace sachem.Controllers
         // POST: Etudiant/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        [ValidationAccesEnseignant]
+        [ValidationAcces.ValidationAccesEnseignant]
         public ActionResult DeleteConfirmed(int id,int? page)
         {
             var personne = Db.Personne.Find(id);

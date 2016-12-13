@@ -4,7 +4,6 @@ using System.Web.Mvc;
 using sachem.Models;
 using PagedList;
 using sachem.Models.DataAccess;
-using static sachem.Classes_Sachem.ValidationAcces;
 using sachem.Classes_Sachem;
 
 namespace sachem.Controllers
@@ -25,7 +24,7 @@ namespace sachem.Controllers
             this._dataRepository = dataRepository;
         }
 
-        [ValidationAccesSuper]
+        [ValidationAcces.ValidationAccesSuper]
         public ActionResult Index(int? page)
         {
             var pageNumber = page ?? 1;
@@ -34,7 +33,7 @@ namespace sachem.Controllers
         }
 
         [HttpGet]
-        [ValidationAccesSuper]
+        [ValidationAcces.ValidationAccesSuper]
         public ActionResult Create()
         {
             RemplirDropList();
@@ -70,7 +69,7 @@ namespace sachem.Controllers
         }
 
         [HttpGet]
-        [ValidationAccesSuper]
+        [ValidationAcces.ValidationAccesSuper]
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -122,7 +121,7 @@ namespace sachem.Controllers
         }
 
         [HttpGet]
-        [ValidationAccesSuper]
+        [ValidationAcces.ValidationAccesSuper]
         public ActionResult Delete(int? id)
         {
             if (id == null)

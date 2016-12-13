@@ -18,6 +18,7 @@ namespace sachem.Controllers
         private const int DemiHeure = 30;
         private const int DureeRencontreMinutes = 90;
 
+       
         [ValidationAcces.ValidationAccesInscription]
         public ActionResult Index()
         {
@@ -26,8 +27,8 @@ namespace sachem.Controllers
             return View();
         }
 
-        [ValidationAcces.ValidationAccesInscription]
         [HttpPost]
+        [ValidationAcces.ValidationAccesInscription]        
         public ActionResult Index(int typeInscription, string[] jours )
         {
             int idPers = SessionBag.Current.id_Pers;
@@ -389,6 +390,15 @@ namespace sachem.Controllers
                 }
             }
             return RedirectToAction("Details", "DossierEtudiant", new { id = SessionBag.Current.id_Inscription });
-        }      
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                _db.Dispose();
+            }
+            base.Dispose(disposing);
+        }
     }
 }

@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Web.Mvc;
 using sachem.Models;
-using static sachem.Classes_Sachem.ValidationAcces;
+using sachem.Classes_Sachem;
 
 namespace sachem.Controllers
 {
@@ -10,7 +10,7 @@ namespace sachem.Controllers
     {
         private readonly SACHEMEntities _db = new SACHEMEntities();
 
-        [ValidationAccesEtu]
+        [ValidationAcces.ValidationAccesEtu]
         public ActionResult Index()
         {
             int idDeLaPersonneConnectee = SessionBag.Current.id_Pers;

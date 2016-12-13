@@ -165,10 +165,9 @@ namespace sachem.Controllers
                     {
                         SessionBag.Current.id_TypeUsag = TypeUsagers.Eleve;
                     }
-
                     else
                     {
-                        if (personneBd != null) SessionBag.Current.id_TypeUsag = personneBd.id_TypeUsag;
+                        if (personneBd != null) SessionBag.Current.id_TypeUsag = TypeUsagers.Etudiant;
                     }
                 }
 
@@ -277,15 +276,15 @@ namespace sachem.Controllers
                         {
                             var raise =
                                 (from validationErrors in dbEx.EntityValidationErrors
-                                        from validationError in validationErrors.ValidationErrors
-                                        select $"{validationErrors.Entry.Entity}:{validationError.ErrorMessage}")
+                                 from validationError in validationErrors.ValidationErrors
+                                 select $"{validationErrors.Entry.Entity}:{validationError.ErrorMessage}")
                                     .Aggregate<string, Exception>(dbEx, (current, message) => new InvalidOperationException(message, current));
                             throw raise;
                         }
 
                         AjoutInfoConnection(etudiantBd);
                     }
-                    SessionBag.Current.id_TypeUsag = TypeUsagers.Etudiant;
+                    SessionBag.Current.id_TypeUsag = TypeUsagers.Aucun;
                     TempData["Success"] = Messages.CompteCree();
                     return RedirectToAction("Index", "Inscription");
                 }

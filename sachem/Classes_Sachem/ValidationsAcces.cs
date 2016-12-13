@@ -17,6 +17,7 @@ namespace sachem.Classes_Sachem
         private static readonly List<TypeUsagers> RolesAccesTuteur = new List<TypeUsagers> { TypeUsagers.Responsable, TypeUsagers.Super, TypeUsagers.Enseignant, TypeUsagers.Tuteur };
         private static readonly List<TypeUsagers> RolesAccesEleve = new List<TypeUsagers> { TypeUsagers.Responsable, TypeUsagers.Super, TypeUsagers.Enseignant, TypeUsagers.Tuteur, TypeUsagers.Eleve };
         private static readonly List<TypeUsagers> RolesAccesEtu = new List<TypeUsagers> { TypeUsagers.Etudiant };
+        private static readonly List<TypeUsagers> RolesAccesAucun = new List<TypeUsagers> { TypeUsagers.Aucun };
 
         private static void VerifAcces(List<TypeUsagers> listeRoles, ActionExecutingContext filterContext, string redirectTo)
         {
@@ -86,9 +87,12 @@ namespace sachem.Classes_Sachem
                 {
                     filterContext.Result = new RedirectResult(_pathLogin);
                     base.OnActionExecuting(filterContext);
+                    VerifAcces(RolesAccesAucun, filterContext, _pathErreurAuth);
                 }
-
-                VerifAcces(RolesAccesEtu, filterContext, _pathErreurFerme);
+                else
+                {
+                    VerifAcces(RolesAccesEtu, filterContext, _pathErreurFerme);
+                }                        
 
                 if (!ValidationDate())
                 {

@@ -1,5 +1,4 @@
-﻿using static sachem.Classes_Sachem.ValidationAcces;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Web.Mvc;
@@ -77,7 +76,7 @@ namespace sachem.Controllers
             return cours.ToList();
         }
 
-        [ValidationAccesSuper]
+        [ValidationAcces.ValidationAccesSuper]
         public ActionResult Index(int? page)
         {
             var pageNumber = page ?? 1;
@@ -85,7 +84,7 @@ namespace sachem.Controllers
             return View(Rechercher().ToPagedList(pageNumber, 20));
         }
 
-        [ValidationAccesSuper]
+        [ValidationAcces.ValidationAccesSuper]
         public ActionResult Create()
         {
             return View();
@@ -109,7 +108,7 @@ namespace sachem.Controllers
 
         }
 
-        [ValidationAccesSuper]
+        [ValidationAcces.ValidationAccesSuper]
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -145,7 +144,7 @@ namespace sachem.Controllers
             return View(cours);
         }
 
-        [ValidationAccesSuper]
+        [ValidationAcces.ValidationAccesSuper]
         public ActionResult Delete(int? id)
         {
             if (id == null)
