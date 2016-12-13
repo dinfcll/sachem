@@ -6,7 +6,6 @@ using System.Web.Mvc;
 using sachem.Models;
 using PagedList;
 using sachem.Classes_Sachem;
-using static sachem.Classes_Sachem.ValidationAcces;
 
 namespace sachem.Controllers
 {
@@ -391,7 +390,7 @@ namespace sachem.Controllers
             ViewBag.Success = Messages.JumelageCree();
         }
 
-        [ValidationAccesEnseignant]
+        [ValidationAcces.ValidationAccesEnseignant]
         public ActionResult Index(int? page)
         {
             NoPage = (page ?? NoPage);
@@ -486,7 +485,7 @@ namespace sachem.Controllers
             ViewBag.Superviseur = new SelectList(ObtenirListeSuperviseur(), "id_Pers", "NomPrenom", superviseur);
         }
 
-        [ValidationAccesEnseignant]
+        [ValidationAcces.ValidationAccesEnseignant]
         public ActionResult Details(int? id)
         {
             if (id == null)
