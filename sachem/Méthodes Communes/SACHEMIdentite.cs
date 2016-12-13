@@ -230,6 +230,16 @@ namespace sachem.Models
             return slInscription;
         }
 
+        public static List<SelectListItem> ListeInscription(int inscription = 0)
+        {
+            var lInscription = from c in Db.Inscription                              
+                               select c;
+            var slInscription = new List<SelectListItem>();
+            slInscription.AddRange(new SelectList(lInscription, "id_Inscription", "Inscription", inscription));
+
+            return slInscription;
+        }
+
         public static List<SelectListItem> ListeStatutInscriptionSansBrouillon(int statut = 0)
         {
             var lStatut = from s in Db.p_StatutInscription where s.id_Statut != Brouillon select s;
