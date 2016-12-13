@@ -257,6 +257,13 @@ namespace sachem.Models
         { return $"Le courriel a été mis à jour."; }
 
         /// <summary>
+        /// Le courriel a été ajouté
+        /// </summary>
+        /// <returns></returns>
+        public static string CourrielCree()
+        { return $"Le courriel a été ajouté."; }
+
+        /// <summary>
         /// Enseignant présent dans un jumelage
         /// </summary>
         /// <returns></returns>
@@ -498,6 +505,12 @@ namespace sachem.Models
         /// </summary>
         /// <returns></returns>
         public static string BonEchangePasAchete = "Pas acheté";
+
+        /// <summary>
+        /// Voici les mots clés pour personnaliser votre courriel
+        /// </summary>
+        /// <returns></returns>
+        public static string CourrierVarsPourReinitialisation = "Voici les mots clés pour personnaliser votre courriel";
         #endregion
 
         #region MessageUnitaire

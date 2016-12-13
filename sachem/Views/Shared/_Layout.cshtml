@@ -9,52 +9,56 @@
     @Styles.Render("~/Content/css")
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
           rel="stylesheet">
+    @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+        
 </head>
 <body>
-    <div class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <div class="logo">
-                    <div class="cll"><div class="nomSite">sachem</div></div>                    
-                </div>
-                <span style="padding-left:180px;"></span>
+<div class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <div class="logo">
+                <div class="cll"><div class="nomSite">sachem</div></div>                    
             </div>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <!--Si c'est un étudiant.-->
-                    @if (SachemIdentite.ObtenirTypeUsager(Session) == TypeUsagers.Eleve || SachemIdentite.ObtenirTypeUsager(Session) == TypeUsagers.Tuteur)
-                    {
-                        <li>
-                            @Html.ActionLink("Mon Dossier", "Details", "DossierEtudiant", new { id = SessionBag.Current.id_Inscription } , null)
-                        </li>
-                    }
+            <span style="padding-left:180px;"></span>
+        </div>
+        <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+                <!--Si c'est un étudiant.-->
+                @if (SachemIdentite.ObtenirTypeUsager(Session) == TypeUsagers.Eleve || SachemIdentite.ObtenirTypeUsager(Session) == TypeUsagers.Tuteur)
+                {
+                    <li>
+                        @Html.ActionLink("Mon Dossier", "Details", "DossierEtudiant", new { id = SessionBag.Current.id_Inscription } , null)
+                    </li>
+                }
                     
-                        <!--Si c'est un tuteur.-->
-                        @if (SachemIdentite.ObtenirTypeUsager(Session) == TypeUsagers.Tuteur)
-                        {
-                            <li>
-                                @Html.ActionLink("Dossier étudiant", "Index", "DossierEtudiant")
-                            </li>
-                        }
+                <!--Si c'est un tuteur.-->
+                @if (SachemIdentite.ObtenirTypeUsager(Session) == TypeUsagers.Tuteur)
+                {
+                    <li>
+                        @Html.ActionLink("Dossier étudiant", "Index", "DossierEtudiant")
+                    </li>
+                }
 
-                    <!--Si c'est un Enseignant et +.-->
-                   @if (SachemIdentite.TypeListeProf.Contains(SachemIdentite.ObtenirTypeUsager(Session)))
-                   {
+                <!--Si c'est un Enseignant et +.-->
+                @if (SachemIdentite.TypeListeProf.Contains(SachemIdentite.ObtenirTypeUsager(Session)))
+                {
                     <li>
                         @Html.ActionLink("Dossier étudiant", "Index", "DossierEtudiant")
                     </li>
                     <li>
                         @Html.ActionLink("Cours enseignés", "Index", "ConsulterCours")
                     </li>
-                        <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Administration <b class="caret"></b> </a>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Administration <b class="caret"></b> </a>
 
-                            <ul class="dropdown-menu">
+                        <ul class="dropdown-menu">
                             @if (SachemIdentite.TypeListeAdmin.Contains(SachemIdentite.ObtenirTypeUsager(Session)))
                             {
                                 <li>@Html.ActionLink("Collège", "EditCollege", "Parametres")</li>
@@ -63,8 +67,8 @@
                                 <li>@Html.ActionLink("Courriel de confirmation", "EditCourrier", "Parametres")</li>
                                 <li>@Html.ActionLink("Enseignants", "Index", "Enseignant")</li>
                             }
-                                <li>@Html.ActionLink("Étudiants", "Index", "Etudiant")</li>
-                                <li>@Html.ActionLink("Groupes", "Index", "Groupes")</li>
+                            <li>@Html.ActionLink("Étudiants", "Index", "Etudiant")</li>
+                            <li>@Html.ActionLink("Groupes", "Index", "Groupes")</li>
                             @if (SachemIdentite.TypeListeAdmin.Contains(SachemIdentite.ObtenirTypeUsager(Session)))
                             {
                                 <li>@Html.ActionLink("Horaire d'inscription", "EditHoraire", "Parametres")</li>
@@ -73,42 +77,35 @@
                                 <li>@Html.ActionLink("Programmes offerts", "Index", "ProgrammesOfferts")</li>
                                 <li>@Html.ActionLink("Importer données", "Index", "Importer")</li>
                             }
-                            </ul>
-                        </li>
-                    } 
-                </ul>
-                @Html.Partial("_LoginPartial")
-            </div>
+                        </ul>
+                    </li>
+                } 
+            </ul>
+            @Html.Partial("_LoginPartial")
         </div>
     </div>
-    <div class="container body-content">
-        <div class="progres hide" id="mainProgressBar">
-            <div class="indeterminate"></div>
-        </div>
-        @RenderBody()
-        <hr />
-        <footer>
-            <p>&copy; @DateTime.Now.Year - SACHEM -
+</div>
+<div class="container body-content">
+    <div class="progres hide" id="mainProgressBar">
+        <div class="indeterminate"></div>
+    </div>
+    @RenderBody()
+    <hr />
+    <footer>
+        <p>&copy; @DateTime.Now.Year - SACHEM -
             <a href="@Url.Action("Contact", "Home")">
                 <span class="glyphicon glyphicon-phone"></span><span>&nbsp; Nous contacter</span>
             </a></p>
-        </footer>
-    </div>
-    
-    @section Scripts{
-        @Scripts.Render("~/bundles/modernizr")
-        @Scripts.Render("~/bundles/jquery")
-        @Scripts.Render("~/bundles/bootstrap")
-        <script type="text/javascript">
-            window.onbeforeunload = function () {
-                $("#mainProgressBar").removeClass('hide');
-            }
-            window.onload = function () {
-                $("#mainProgressBar").addClass('hide');
-            }
-        </script> 
+    </footer>
+</div>
+<script type="text/javascript">
+    window.onbeforeunload = function () {
+        $("#mainProgressBar").removeClass('hide');
     }
-
-    @RenderSection("scripts", false)
+    window.onload = function () {
+        $("#mainProgressBar").addClass('hide');
+    }
+</script>
+@RenderSection("scripts", false)
 </body>
 </html>

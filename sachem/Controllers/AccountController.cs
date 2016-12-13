@@ -45,11 +45,15 @@ namespace sachem.Controllers
             return cookieMaintenirConnexion != null;
         }
 
-        private static bool EnvoyerCourriel(string email, string nouveaumdp)
+        private bool EnvoyerCourriel(string email, string nouveauMdp, string nomEtudiant)
         {
             var client = new SmtpClient();
-            var message = new MailMessage("sachemcllmail@gmail.com", email,
-                "Demande de réinitialisation de mot de passe", "Voici votre nouveau mot de passe: " + nouveaumdp + " .");
+            var reqBdCourrielReinitialisation = _db.Courriel.Where(x => x.id_TypeCourriel == 2);
+            var contenuCourriel = reqBdCourrielReinitialisation.Select(x => x.Courriel1).FirstOrDefault();
+            contenuCourriel = contenuCourriel?.Replace("$PrenomNomEtudiant", nomEtudiant).Replace("$NouveauMotDePasse",nouveauMdp);
+            var message = new MailMessage("sachemcllmail@gmail.com", email, 
+                reqBdCourrielReinitialisation.Select(x => x.Titre).FirstOrDefault(),
+                contenuCourriel);
             client.Port = Portcourriel;
             client.Host = "smtp.gmail.com";
             client.EnableSsl = true;
@@ -304,19 +308,19 @@ namespace sachem.Controllers
             if (reqBdPersonne.Any(y => y.Courriel == courriel && y.Actif))
             {
                 const string caracterePossible = "abcdefghijkmnopqrstuvwxyzABCDEFGHJKLMNOPQRSTUVWXYZ0123456789!@$?";
-                var nouveaumdp = "";
+                var nouveauMdp = "";
                 var r = new Random();
 
                 for (var i = 0; i < 10; i++)
-                    nouveaumdp = nouveaumdp + caracterePossible[r.Next(0, caracterePossible.Length)];
+                    nouveauMdp = nouveauMdp + caracterePossible[r.Next(0, caracterePossible.Length)];
 
-                if (EnvoyerCourriel(courriel, nouveaumdp))
+                if (EnvoyerCourriel(courriel, nouveauMdp, reqBdPersonne.Select(x => x.PrenomNom).FirstOrDefault()))
                 {
                     var utilisateur =
                         reqBdPersonne.AsNoTracking().FirstOrDefault(x => x.Courriel == courriel);
                     if (utilisateur != null)
                     {
-                        utilisateur.MP = nouveaumdp;
+                        utilisateur.MP = nouveauMdp;
                         utilisateur.MP = SachemIdentite.encrypterChaine(utilisateur.MP);
                         _db.Entry(utilisateur).State = EntityState.Modified;
                     }

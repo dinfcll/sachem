@@ -52,5 +52,6 @@ namespace sachem.Models
         public virtual ICollection<Jumelage> Jumelage1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ReponseQuestion> ReponseQuestion { get; set; }
+        public virtual CoursInteret CoursInteret1 { get; set; }
     }
 }

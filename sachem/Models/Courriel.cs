@@ -18,7 +18,7 @@ namespace sachem.Models
         public int id_TypeCourriel { get; set; }
         public string Titre { get; set; }
         public string Courriel1 { get; set; }
-        public System.DateTime DateDebut { get; set; }
+        public Nullable<System.DateTime> DateDebut { get; set; }
         public Nullable<System.DateTime> DateFin { get; set; }
     
         public virtual p_TypeCourriel p_TypeCourriel { get; set; }

@@ -33,13 +33,13 @@ namespace sachem.Models
         [Display(Name = "Date de début")]
         [RegularExpression(@"^[0-9]{4}-[0-9]{2}-[0-9]{2} [0-2][0-9]:[0-5][0-9]:[0-5][0-9]$|^[0-9]{4}\/[0-9]{2}\/[0-9]{2}$", ErrorMessage = Messages.FormatEnDate)]
         [DisplayFormat(DataFormatString = "{0:yyyy\\/MM\\/dd}", ApplyFormatInEditMode = true)]
-        public System.DateTime DateDebut { get; set; }
+        public DateTime? DateDebut { get; set; }
 
         
         [Display(Name = "Date de fin")]
         [RegularExpression(@"^[0-9]{4}-[0-9]{2}-[0-9]{2} [0-2][0-9]:[0-5][0-9]:[0-5][0-9]$|^[0-9]{4}\/[0-9]{2}\/[0-9]{2}$", ErrorMessage = Messages.FormatEnDate)]
         [DisplayFormat(DataFormatString = "{0:yyyy\\/MM\\/dd}", ApplyFormatInEditMode = true)]
-        public Nullable<System.DateTime> DateFin { get; set; }
+        public DateTime? DateFin { get; set; }
 
         [Display(Name = "Type de courriel")]
         public virtual int p_TypeCourriel { get; set; }

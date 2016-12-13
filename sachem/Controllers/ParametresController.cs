@@ -12,27 +12,31 @@ namespace sachem.Controllers
     public class ParametresController : Controller
     {
         protected int NoPage = 1;
-        private const int IdCourriel = 1;
         private readonly SACHEMEntities _db = new SACHEMEntities();
 
         [HttpGet]
         [ValidationAcces.ValidationAccesSuper]
-        public ActionResult EditCourrier()
+        public ActionResult EditCourrier(int courriel = 0)
         {
-            var courrier = _db.Courriel.First();
-            ViewBag.id_TypeCourriel = new SelectList(_db.p_TypeCourriel, "id_TypeCourriel", "TypeCourriel");
+            var idZero = _db.p_TypeCourriel.OrderBy(y => y.id_TypeCourriel).FirstOrDefault();
+            if (courriel == 0)
+            {
+                if (idZero != null) courriel = idZero.id_TypeCourriel;
+            }
+            var lcourriel = _db.Courriel.OrderBy(y => y.id_TypeCourriel).FirstOrDefault(x => x.id_TypeCourriel == courriel);
+            ViewBag.id_TypeCourriel = Liste.ListeTypesCourriels(courriel);
 
-            return View(courrier);
+            return View(lcourriel);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult EditCourrier(Courriel courriel)
         {
-            courriel.id_TypeCourriel = IdCourriel;
-            if (courriel.DateFin != null)
+            var reqBdCourriel = _db.Courriel.AsNoTracking();
+            if (courriel.DateFin != null && courriel.DateDebut !=null)
             {
-                if ((courriel.DateDebut - courriel.DateFin.Value).TotalDays > 0)
+                if (courriel.DateDebut.Value.Subtract(courriel.DateFin.Value.TimeOfDay).TimeOfDay.Days>0)
                 {
                     ModelState.AddModelError(string.Empty, Messages.LongueurDeQuatreCaracteres);
                 }
@@ -40,11 +44,25 @@ namespace sachem.Controllers
 
             if (ModelState.IsValid)
             {
-                _db.Entry(courriel).State = EntityState.Modified;
-                _db.SaveChanges();
-                TempData["Success"] = Messages.CourrielMisAJour();
+                if (reqBdCourriel.ToList().Exists(x => x.id_TypeCourriel == courriel.id_TypeCourriel))
+                {
+                    courriel.id_Courriel = reqBdCourriel
+                        .Where(x => x.id_TypeCourriel == courriel.id_TypeCourriel)
+                        .Select(x => x.id_Courriel)
+                        .FirstOrDefault();
+                    _db.Entry(courriel).State = EntityState.Modified;
+                    _db.SaveChanges();
+                    TempData["Success"] = Messages.CourrielMisAJour();
+                }
+                else
+                {
+                    _db.Entry(courriel).State = EntityState.Added;
+                    _db.SaveChanges();
+                    TempData["Success"] = Messages.CourrielCree();
+                }
             }
-            return View();
+            ViewBag.id_TypeCourriel = Liste.ListeTypesCourriels(courriel.id_TypeCourriel);
+            return View(courriel);
         }
 
         [HttpGet]

@@ -26,28 +26,28 @@
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Personne.NomPrenom)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Personne.Matricule7)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.p_TypeInscription.TypeInscription)
-        </td>
-        <td>
-            @{
-                var count = ((sachem.Controllers.JumelageController) ViewContext.Controller).RetourneNbreJumelageEtudiant(item.p_TypeInscription.id_TypeInscription == 1 ? item.Jumelage.Count : item.Jumelage1.Count);
-            }
-            @(count)
-        </td>
-        <td>
-            @Html.ActionLink("Accéder", "Details", new { id=item.id_Inscription })
-        </td>
-    </tr>
-}
+    @foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Personne.NomPrenom)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Personne.Matricule7)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.p_TypeInscription.TypeInscription)
+            </td>
+            <td>
+                @{
+                    var count = ((sachem.Controllers.JumelageController) ViewContext.Controller).RetourneNbreJumelageEtudiant(item.p_TypeInscription.id_TypeInscription == 1 ? item.Jumelage.Count : item.Jumelage1.Count);
+                }
+                @(count)
+            </td>
+            <td>
+                @Html.ActionLink("Accéder", "Details", new { id=item.id_Inscription })
+            </td>
+        </tr>
+    }
     @if (!Model.Any())
     {
         <tr>
