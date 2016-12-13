@@ -6,7 +6,6 @@ using sachem.Classes_Sachem;
 using sachem.Models;
 using sachem.Models.DataAccess;
 
-
 namespace sachem.Controllers
 {
     public class CoursSuiviController : Controller

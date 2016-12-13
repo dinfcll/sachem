@@ -5,7 +5,7 @@ using System.Net;
 using System.Web.Mvc;
 using PagedList;
 using sachem.Models;
-using static sachem.Classes_Sachem.ValidationAcces;
+using sachem.Classes_Sachem;
 
 namespace sachem.Controllers
 {
@@ -47,7 +47,7 @@ namespace sachem.Controllers
             return Json(actuens.ToList(), JsonRequestBehavior.AllowGet);
         }
 
-        [ValidationAccesEnseignant]
+        [ValidationAcces.ValidationAccesEnseignant]
         public ActionResult Index(int? id,int? page)
         {
             var pageNumber = page ?? 1;
@@ -56,7 +56,7 @@ namespace sachem.Controllers
             return View(Rechercher(id).ToPagedList(pageNumber, 20));
         }
 
-        [ValidationAccesEnseignant]
+        [ValidationAcces.ValidationAccesEnseignant]
         public ActionResult Create(int? idEns)
         {
             int? idPers = (int?) Session["id_Pers"] ?? -1;
@@ -78,7 +78,7 @@ namespace sachem.Controllers
             return CreateEdit(groupe, true);
         }
 
-        [ValidationAccesEnseignant]
+        [ValidationAcces.ValidationAccesEnseignant]
         public ActionResult Edit(int? id)
         {
             var idPers = (int?) Session["id_Pers"] ?? -1;
@@ -113,7 +113,7 @@ namespace sachem.Controllers
             return CreateEdit(groupe);
         }
 
-        [ValidationAccesEnseignant]
+        [ValidationAcces.ValidationAccesEnseignant]
         private ActionResult CreateEdit([Bind(Include = "id_Groupe,id_Cours,id_Sess,id_Enseignant,NoGroupe")] Groupe groupe, bool ajouter = false)
         {
             groupe.id_Enseignant = groupe.id_Enseignant ?? SessionBag.Current.id_Pers;
@@ -141,7 +141,7 @@ namespace sachem.Controllers
             return View(groupe);
         }
 
-        [ValidationAccesEnseignant]
+        [ValidationAcces.ValidationAccesEnseignant]
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -164,7 +164,7 @@ namespace sachem.Controllers
 
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        [ValidationAccesEnseignant]
+        [ValidationAcces.ValidationAccesEnseignant]
         public ActionResult DeleteConfirmed(int id)
         {
             var groupe = _db.Groupe.Find(id);
@@ -259,7 +259,7 @@ namespace sachem.Controllers
             base.Dispose(disposing);
         }
 
-        [ValidationAccesEnseignant]
+        [ValidationAcces.ValidationAccesEnseignant]
         public ActionResult AjouterEleve(int idg, int? page)
         {
             ViewBag.idg = idg;
@@ -273,7 +273,7 @@ namespace sachem.Controllers
         }
 
         [HttpGet]
-        [ValidationAccesEnseignant]
+        [ValidationAcces.ValidationAccesEnseignant]
         public ActionResult AjouterEleveGet(int idg, int idp,int noclick = 0)
         {
             var g = _db.Groupe.Find(idg);
@@ -329,7 +329,7 @@ namespace sachem.Controllers
             return RedirectToAction("AjouterEleve", new { idg, ViewBag.page });
         }
 
-        [ValidationAccesEnseignant]
+        [ValidationAcces.ValidationAccesEnseignant]
         public ActionResult DeleteEleve(int? id)
         {
             if (id == null)
@@ -348,7 +348,7 @@ namespace sachem.Controllers
         // POST: Groupes/Delete/5
         [HttpPost, ActionName("DeleteEleve")]
         [ValidateAntiForgeryToken]
-        [ValidationAccesEnseignant]
+        [ValidationAcces.ValidationAccesEnseignant]
         public ActionResult DeleteEleveConfirmed(int id)
         {
             GroupeEtudiant ge = _db.GroupeEtudiant.Find(id);
@@ -360,7 +360,7 @@ namespace sachem.Controllers
             return RedirectToAction("Index");
         }
 
-        [ValidationAccesEnseignant]
+        [ValidationAcces.ValidationAccesEnseignant]
         public ActionResult Deplacer(int? id)
         {
             if (id == null)
@@ -384,7 +384,7 @@ namespace sachem.Controllers
 
         [HttpPost, ActionName("Deplacer")]
         [ValidateAntiForgeryToken]
-        [ValidationAccesEnseignant]
+        [ValidationAcces.ValidationAccesEnseignant]
         public ActionResult DeplacerConfirmed(int? id)
         {
             int idgretu, idg;

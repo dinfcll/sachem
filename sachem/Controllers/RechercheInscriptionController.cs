@@ -3,7 +3,6 @@ using System.Linq;
 using System.Web.Mvc;
 using sachem.Models;
 using System.Net;
-using static sachem.Classes_Sachem.ValidationAcces;
 using System.Data.Entity;
 using sachem.Classes_Sachem;
 
@@ -16,13 +15,13 @@ namespace sachem.Controllers
         private const int Accepte = 3;
         private const int Refuse = 5;
 
-        [ValidationAccesSuper]
+        [ValidationAcces.ValidationAccesSuper]
         public ActionResult Index()
         {
             return View(Rechercher());
         }
 
-        [ValidationAccesSuper]
+        [ValidationAcces.ValidationAccesSuper]
         public ActionResult Details(int? id)
         {
             if (id == null)

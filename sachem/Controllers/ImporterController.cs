@@ -4,7 +4,7 @@ using System.IO;
 using System.Web.Mvc;
 using System.Web.WebPages;
 using sachem.Models;
-using static sachem.Classes_Sachem.ValidationAcces;
+using sachem.Classes_Sachem;
 
 namespace sachem.Controllers
 {
@@ -15,7 +15,7 @@ namespace sachem.Controllers
         private const int Maxfilesize = 20;
         private const string Fileextension = ".csv";
 
-        [ValidationAccesSuper]
+        [ValidationAcces.ValidationAccesSuper]
         public ActionResult Index()
         {
             ViewBag.MAXFILES = Maxfiles;
