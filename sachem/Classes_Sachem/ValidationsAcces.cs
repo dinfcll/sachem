@@ -9,6 +9,9 @@ namespace sachem.Classes_Sachem
     public abstract class ValidationAcces
     {
         private static string _pathErreurAuth = "/Home/Error";
+        private static string _pathErreurDeja = "/Home/Deja";
+        private static string _pathLogin = "/Account/Login";
+        private static string _pathErreurFerme = "/Home/Ferme";
         private static readonly List<TypeUsagers> RolesAccesSuper = new List<TypeUsagers> { TypeUsagers.Responsable, TypeUsagers.Super };
         private static readonly List<TypeUsagers> RolesAccesEnseignant = new List<TypeUsagers> { TypeUsagers.Enseignant, TypeUsagers.Responsable, TypeUsagers.Super };
         private static readonly List<TypeUsagers> RolesAccesTuteur = new List<TypeUsagers> { TypeUsagers.Responsable, TypeUsagers.Super, TypeUsagers.Enseignant, TypeUsagers.Tuteur };
@@ -75,38 +78,37 @@ namespace sachem.Classes_Sachem
         public class ValidationAccesInscription : ActionFilterAttribute
         {
             private readonly SACHEMEntities _db = new SACHEMEntities();
-            private readonly int? _id = SessionBag.Current.id_Pers;
-            public const string PathErreurDeja = "/Home/Deja";
-            
-            public override void OnActionExecuting(ActionExecutingContext filterContext)
-            {
-                _pathErreurAuth = "/Home/Ferme";
+            private readonly int? _id = SessionBag.Current.id_Pers;           
 
+            public override void OnActionExecuting(ActionExecutingContext filterContext)
+            {               
                 if (_id == null)
                 {
-                    filterContext.Result = new RedirectResult("/Account/Login");
+                    filterContext.Result = new RedirectResult(_pathLogin);
+                    base.OnActionExecuting(filterContext);
                 }
 
-                VerifAcces(RolesAccesEtu, filterContext, _pathErreurAuth);
+                VerifAcces(RolesAccesEtu, filterContext, _pathErreurFerme);
 
-                var dateActuelle = DateTime.Now;
-
-                if (!ValidationDate(dateActuelle))
+                if (!ValidationDate())
                 {
-                    filterContext.Result = new RedirectResult(_pathErreurAuth);
+                    filterContext.Result = new RedirectResult(_pathErreurFerme);
                 }
 
                 var inscriptionExistante = _db.Inscription.Any(x => x.id_Pers == _id);
                 if(inscriptionExistante)
                 {
-                    filterContext.Result = new RedirectResult(PathErreurDeja);
+                    filterContext.Result = new RedirectResult(_pathErreurDeja);
                 }
             }
-            private bool ValidationDate(DateTime dateActuelle)
+            private bool ValidationDate()
             {
-                var horaireActuel = _db.p_HoraireInscription.OrderByDescending(x => x.id_Sess).First();
-
-                return dateActuelle > horaireActuel.DateDebut && dateActuelle < horaireActuel.DateFin;
+                var dateActuelle = DateTime.Now;
+                var heureActuelle = dateActuelle.TimeOfDay;
+                var db_horaire =_db.p_HoraireInscription.OrderByDescending(x => x.id_Sess).First();
+                return (dateActuelle >= db_horaire.DateDebut && dateActuelle <= db_horaire.DateFin) ||
+                    (dateActuelle == db_horaire.DateDebut && heureActuelle.Hours > db_horaire.HeureDebut.Hours) ||
+                    (dateActuelle == db_horaire.DateFin && heureActuelle.Hours < db_horaire.HeureFin.Hours);
             }
 
         }
