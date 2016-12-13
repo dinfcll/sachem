@@ -109,10 +109,10 @@ namespace sachem.Classes_Sachem
             {
                 var dateActuelle = DateTime.Now;
                 var heureActuelle = dateActuelle.TimeOfDay;
-                var db_horaire =_db.p_HoraireInscription.OrderByDescending(x => x.id_Sess).First();
-                return (dateActuelle >= db_horaire.DateDebut && dateActuelle <= db_horaire.DateFin) ||
-                    (dateActuelle == db_horaire.DateDebut && heureActuelle.Hours > db_horaire.HeureDebut.Hours) ||
-                    (dateActuelle == db_horaire.DateFin && heureActuelle.Hours < db_horaire.HeureFin.Hours);
+                var dbHoraire =_db.p_HoraireInscription.OrderByDescending(x => x.id_Sess).First();
+                return (dateActuelle >= dbHoraire.DateDebut && dateActuelle <= dbHoraire.DateFin) ||
+                    (dateActuelle == dbHoraire.DateDebut && heureActuelle.Hours > dbHoraire.HeureDebut.Hours) ||
+                    (dateActuelle == dbHoraire.DateFin && heureActuelle.Hours < dbHoraire.HeureFin.Hours);
             }
 
         }

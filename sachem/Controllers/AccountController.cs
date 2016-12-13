@@ -101,6 +101,9 @@ namespace sachem.Controllers
         {
             var mdpPlain = mp;
             var personneBd = new Personne();
+            var reqBdPersonne =
+                _db.Personne.AsNoTracking()
+                    .Where(x => x.NomUsager == nomUsager || x.Matricule.Substring(2) == nomUsager);
             const int statutAccepte = 3;
 
             if (mdpPlain == "")
@@ -111,20 +114,22 @@ namespace sachem.Controllers
             }
             else if (Regex.IsMatch(nomUsager, @"^\d+$") && nomUsager.Length == 7)
             {
-                if (!_db.Personne.Any(x => x.Matricule.Substring(2) == nomUsager))
+                if (reqBdPersonne.Any(x => x.Matricule.Substring(2) == nomUsager))
                 {
                     ModelState.AddModelError(string.Empty, Messages.ConnexionEchouee());
                 }
                 else
-                    personneBd =
-                        _db.Personne.AsNoTracking().FirstOrDefault(x => x.Matricule.Substring(2) == nomUsager);
+                {
+                    personneBd = reqBdPersonne.AsNoTracking().FirstOrDefault(x => x.Matricule.Substring(2) == nomUsager);
+                }
+                    
             }
-            else if (!_db.Personne.Any(x => x.NomUsager == nomUsager))
+            else if (!reqBdPersonne.Any(x => x.NomUsager == nomUsager))
             {
                 ModelState.AddModelError(string.Empty, Messages.ConnexionEchouee());
             }
             else
-                personneBd = _db.Personne.AsNoTracking().FirstOrDefault(x => x.NomUsager == nomUsager);
+                personneBd = reqBdPersonne.AsNoTracking().FirstOrDefault(x => x.NomUsager == nomUsager);
 
             if (ModelState.IsValid)
             {
@@ -143,77 +148,72 @@ namespace sachem.Controllers
                     }
                 }
 
-                var typeinscr = (from i in _db.Inscription
-                    where i.id_Pers == personneBd.id_Pers
-                    select i.id_TypeInscription).FirstOrDefault();
+                if (personneBd == null) return View(personneBd);
 
-                var idinscr = (from i in _db.Inscription
-                    where i.id_Pers == personneBd.id_Pers
-                    select i.id_Inscription).FirstOrDefault();
+                var reqBdInscription = _db.Inscription.AsNoTracking().Where(i => i.id_Pers == personneBd.id_Pers);
 
+                var typeinscr = reqBdInscription.Select(i => i.id_TypeInscription).FirstOrDefault();
+                var idinscr = reqBdInscription.Select(i => i.id_Inscription).FirstOrDefault();
 
                 SessionBag.Current.id_Inscription = idinscr != 0 ? idinscr : 0;
 
-
-                if (typeinscr > 1)
+                if (personneBd.id_TypeUsag == 1)
                 {
-                    SessionBag.Current.id_TypeUsag = TypeUsagers.Tuteur;
-                }
-                else
-                {
-                    if (typeinscr == 1)
+                    if (typeinscr > 1)
                     {
-                        SessionBag.Current.id_TypeUsag = TypeUsagers.Eleve;
+                        SessionBag.Current.id_TypeUsag = TypeUsagers.Tuteur;
                     }
                     else
                     {
-                        if (personneBd != null) SessionBag.Current.id_TypeUsag = TypeUsagers.Etudiant;
+                        SessionBag.Current.id_TypeUsag = typeinscr == 1 ? TypeUsagers.Eleve : TypeUsagers.Etudiant;
                     }
                 }
+                else
+                {
+                    SessionBag.Current.id_TypeUsag = personneBd.id_TypeUsag;
+                }
 
-
-                var idSuperviseur = (from i in _db.Jumelage
-                    where i.id_Enseignant == personneBd.id_Pers
-                    select i.id_Enseignant).FirstOrDefault();
+                var idSuperviseur =
+                    _db.Jumelage.AsNoTracking()
+                        .Where(j => j.id_Enseignant == personneBd.id_Pers)
+                        .Select(j => j.id_Enseignant)
+                        .FirstOrDefault();
 
                 SessionBag.Current.idSuperviseur = idSuperviseur != 0 ? idSuperviseur : 0;
 
 
                 AjoutInfoConnection(personneBd);
 
-                if (personneBd != null)
+                SessionBag.Current.id_Pers = personneBd.id_Pers;
+                if (souvenirConnexion)
+                    CreerCookieConnexion(nomUsager, mdpPlain);
+                else
+                    SupprimerCookieConnexion();
+
+                if (SachemIdentite.ObtenirTypeUsager(Session) == TypeUsagers.Eleve)
                 {
-                    SessionBag.Current.id_Pers = personneBd.id_Pers;
-                    if (souvenirConnexion)
-                        CreerCookieConnexion(nomUsager, mdpPlain);
-                    else
-                        SupprimerCookieConnexion();
-
-                    if (SachemIdentite.ObtenirTypeUsager(Session) == TypeUsagers.Eleve)
-                    {
-                        return RedirectToAction("Details", "DossierEtudiant", new {id = SessionBag.Current.id_Inscription});
-                    }
-
-                    if (SachemIdentite.TypeListeProf.Contains(SachemIdentite.ObtenirTypeUsager(Session)) ||
-                        SachemIdentite.ObtenirTypeUsager(Session) == TypeUsagers.Tuteur)
-                    {
-                        if (SachemIdentite.ObtenirTypeUsager(Session) == TypeUsagers.Super)
-                        {
-                            return RedirectToAction("Index", "Enseignant");
-                        }
-
-                        return RedirectToAction("Index", "DossierEtudiant");
-                    }
-
-                    var inscription = _db.Inscription.FirstOrDefault(c => c.id_Pers == personneBd.id_Pers);
-
-                    if (inscription != null && inscription.id_Inscription == statutAccepte &&
-                        inscription.ContratEngagement == false)
-                    {
-                        return RedirectToAction("Index", "ContratEngagement");
-                    }
-                    return RedirectToAction("Index", "Inscription");
+                    return RedirectToAction("Details", "DossierEtudiant", new {id = SessionBag.Current.id_Inscription});
                 }
+
+                if (SachemIdentite.TypeListeProf.Contains(SachemIdentite.ObtenirTypeUsager(Session)) ||
+                    SachemIdentite.ObtenirTypeUsager(Session) == TypeUsagers.Tuteur)
+                {
+                    if (SachemIdentite.ObtenirTypeUsager(Session) == TypeUsagers.Super)
+                    {
+                        return RedirectToAction("Index", "Enseignant");
+                    }
+
+                    return RedirectToAction("Index", "DossierEtudiant");
+                }
+
+                var inscription = reqBdInscription.FirstOrDefault();
+
+                if (inscription != null && inscription.id_Inscription == statutAccepte &&
+                    inscription.ContratEngagement == false)
+                {
+                    return RedirectToAction("Index", "ContratEngagement");
+                }
+                return RedirectToAction("Index", "Inscription");
             }
             return View(personneBd);
         }
@@ -235,7 +235,7 @@ namespace sachem.Controllers
         public ActionResult Register(Personne personne)
         {
             ViewBag.id_Sexe = new SelectList(_db.p_Sexe, "id_Sexe", "Sexe");
-
+            var reqBdPersonne = _db.Personne.AsNoTracking().Where(x => x.Matricule == personne.Matricule);
             var validation = ConfirmeMdp(personne.MP, personne.ConfirmPassword);
 
             if (!validation)
@@ -245,14 +245,14 @@ namespace sachem.Controllers
                 ModelState.AddModelError("Matricule7", Messages.ChampRequis);
             else if (personne.Matricule7.Length != 7 || !personne.Matricule.All(char.IsDigit))
                 ModelState.AddModelError("Matricule7", Messages.LongueurDeSeptCaracteres);
-            else if (_db.Personne.Any(x => x.Matricule == personne.Matricule && x.MP != null))
+            else if (reqBdPersonne.Any(x => x.Matricule == personne.Matricule && x.MP != null))
                 ModelState.AddModelError(string.Empty, Messages.CompteExisteDeja());
-            else if (!_db.Personne.Any(x => x.Matricule == personne.Matricule))
+            else if (reqBdPersonne.Any(x => x.Matricule == personne.Matricule))
                 ModelState.AddModelError(string.Empty, Messages.EtudiantNonInscrit());
             else
             {
                 var etudiantBd =
-                    _db.Personne.AsNoTracking().FirstOrDefault(x => x.Matricule == personne.Matricule);
+                    reqBdPersonne.AsNoTracking().FirstOrDefault(x => x.Matricule == personne.Matricule);
 
                 if (etudiantBd != null && (personne.DateNais != etudiantBd.DateNais || personne.id_Sexe != etudiantBd.id_Sexe))
                     ModelState.AddModelError(string.Empty, Messages.EtudiantNonInscrit());
@@ -306,7 +306,8 @@ namespace sachem.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult ForgotPassword(string courriel)
         {
-            if (_db.Personne.Any(y => y.Courriel == courriel && y.Actif))
+            var reqBdPersonne = _db.Personne.AsNoTracking().Where(x => x.Courriel == courriel);
+            if (reqBdPersonne.Any(y => y.Courriel == courriel && y.Actif))
             {
                 const string caracterePossible = "abcdefghijkmnopqrstuvwxyzABCDEFGHJKLMNOPQRSTUVWXYZ0123456789!@$?";
                 var nouveaumdp = "";
@@ -318,7 +319,7 @@ namespace sachem.Controllers
                 if (EnvoyerCourriel(courriel, nouveaumdp))
                 {
                     var utilisateur =
-                        _db.Personne.AsNoTracking().FirstOrDefault(x => x.Courriel == courriel);
+                        reqBdPersonne.AsNoTracking().FirstOrDefault(x => x.Courriel == courriel);
                     if (utilisateur != null)
                     {
                         utilisateur.MP = nouveaumdp;
