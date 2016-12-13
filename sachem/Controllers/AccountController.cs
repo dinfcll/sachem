@@ -102,8 +102,8 @@ namespace sachem.Controllers
             var mdpPlain = mp;
             var personneBd = new Personne();
             var reqBdPersonne =
-                _db.Personne.AsNoTracking()
-                    .Where(x => x.NomUsager == nomUsager || x.Matricule.Substring(2) == nomUsager);
+                _db.Personne
+                    .Where(x=> x.Matricule.Substring(2) == nomUsager || x.NomUsager == nomUsager);
             const int statutAccepte = 3;
 
             if (mdpPlain == "")
@@ -116,106 +116,100 @@ namespace sachem.Controllers
             {
                 if (reqBdPersonne.Any(x => x.Matricule.Substring(2) == nomUsager))
                 {
-                    ModelState.AddModelError(string.Empty, Messages.ConnexionEchouee());
+                    personneBd = reqBdPersonne.AsNoTracking().FirstOrDefault(x => x.Matricule.Substring(2) == nomUsager);
                 }
                 else
                 {
-                    personneBd = reqBdPersonne.AsNoTracking().FirstOrDefault(x => x.Matricule.Substring(2) == nomUsager);
+                    ModelState.AddModelError(string.Empty, Messages.ConnexionEchouee());
                 }
                     
             }
-            else if (!reqBdPersonne.Any(x => x.NomUsager == nomUsager))
+            else if (reqBdPersonne.Any(x => x.NomUsager == nomUsager))
+            {
+                personneBd = reqBdPersonne.AsNoTracking().FirstOrDefault(x => x.NomUsager == nomUsager);
+            }
+            else
             {
                 ModelState.AddModelError(string.Empty, Messages.ConnexionEchouee());
             }
-            else
-                personneBd = reqBdPersonne.AsNoTracking().FirstOrDefault(x => x.NomUsager == nomUsager);
 
-            if (ModelState.IsValid)
+            mp = SachemIdentite.encrypterChaine(mp);
+
+            if (personneBd != null && personneBd.MP != mp)
+                ModelState.AddModelError(string.Empty, Messages.ConnexionEchouee());
+
+            if (personneBd == null) return View();
+
+            if (!ModelState.IsValid)
             {
-                mp = SachemIdentite.encrypterChaine(mp);
-
-
-                if (personneBd != null && personneBd.MP != mp)
-                    ModelState.AddModelError(string.Empty, Messages.ConnexionEchouee());
-
-                if (!ModelState.IsValid)
-                {
-                    if (personneBd != null)
-                    {
-                        personneBd.MP = "";
-                        return View(personneBd);
-                    }
-                }
-
-                if (personneBd == null) return View(personneBd);
-
-                var reqBdInscription = _db.Inscription.AsNoTracking().Where(i => i.id_Pers == personneBd.id_Pers);
-
-                var typeinscr = reqBdInscription.Select(i => i.id_TypeInscription).FirstOrDefault();
-                var idinscr = reqBdInscription.Select(i => i.id_Inscription).FirstOrDefault();
-
-                SessionBag.Current.id_Inscription = idinscr != 0 ? idinscr : 0;
-
-                if (personneBd.id_TypeUsag == 1)
-                {
-                    if (typeinscr > 1)
-                    {
-                        SessionBag.Current.id_TypeUsag = TypeUsagers.Tuteur;
-                    }
-                    else
-                    {
-                        SessionBag.Current.id_TypeUsag = typeinscr == 1 ? TypeUsagers.Eleve : TypeUsagers.Etudiant;
-                    }
-                }
-                else
-                {
-                    SessionBag.Current.id_TypeUsag = personneBd.id_TypeUsag;
-                }
-
-                var idSuperviseur =
-                    _db.Jumelage.AsNoTracking()
-                        .Where(j => j.id_Enseignant == personneBd.id_Pers)
-                        .Select(j => j.id_Enseignant)
-                        .FirstOrDefault();
-
-                SessionBag.Current.idSuperviseur = idSuperviseur != 0 ? idSuperviseur : 0;
-
-
-                AjoutInfoConnection(personneBd);
-
-                SessionBag.Current.id_Pers = personneBd.id_Pers;
-                if (souvenirConnexion)
-                    CreerCookieConnexion(nomUsager, mdpPlain);
-                else
-                    SupprimerCookieConnexion();
-
-                if (SachemIdentite.ObtenirTypeUsager(Session) == TypeUsagers.Eleve)
-                {
-                    return RedirectToAction("Details", "DossierEtudiant", new {id = SessionBag.Current.id_Inscription});
-                }
-
-                if (SachemIdentite.TypeListeProf.Contains(SachemIdentite.ObtenirTypeUsager(Session)) ||
-                    SachemIdentite.ObtenirTypeUsager(Session) == TypeUsagers.Tuteur)
-                {
-                    if (SachemIdentite.ObtenirTypeUsager(Session) == TypeUsagers.Super)
-                    {
-                        return RedirectToAction("Index", "Enseignant");
-                    }
-
-                    return RedirectToAction("Index", "DossierEtudiant");
-                }
-
-                var inscription = reqBdInscription.FirstOrDefault();
-
-                if (inscription != null && inscription.id_Inscription == statutAccepte &&
-                    inscription.ContratEngagement == false)
-                {
-                    return RedirectToAction("Index", "ContratEngagement");
-                }
-                return RedirectToAction("Index", "Inscription");
+                personneBd.MP = "";
+                return View(personneBd);
             }
-            return View(personneBd);
+
+            var reqBdInscription = _db.Inscription.AsNoTracking().Where(i => i.id_Pers == personneBd.id_Pers);
+
+            var typeinscr = reqBdInscription.Select(i => i.id_TypeInscription).FirstOrDefault();
+            var idinscr = reqBdInscription.Select(i => i.id_Inscription).FirstOrDefault();
+
+            SessionBag.Current.id_Inscription = idinscr != 0 ? idinscr : 0;
+
+            if (personneBd.id_TypeUsag == 1)
+            {
+                if (typeinscr > 1)
+                {
+                    SessionBag.Current.id_TypeUsag = TypeUsagers.Tuteur;
+                }
+                else
+                {
+                    SessionBag.Current.id_TypeUsag = typeinscr == 1 ? TypeUsagers.Eleve : TypeUsagers.Etudiant;
+                }
+            }
+            else
+            {
+                SessionBag.Current.id_TypeUsag = personneBd.id_TypeUsag;
+            }
+
+            var idSuperviseur =
+                _db.Jumelage.AsNoTracking()
+                    .Where(j => j.id_Enseignant == personneBd.id_Pers)
+                    .Select(j => j.id_Enseignant)
+                    .FirstOrDefault();
+
+            SessionBag.Current.idSuperviseur = idSuperviseur != 0 ? idSuperviseur : 0;
+
+
+            AjoutInfoConnection(personneBd);
+
+            SessionBag.Current.id_Pers = personneBd.id_Pers;
+            if (souvenirConnexion)
+                CreerCookieConnexion(nomUsager, mdpPlain);
+            else
+                SupprimerCookieConnexion();
+
+            if (SachemIdentite.ObtenirTypeUsager(Session) == TypeUsagers.Eleve)
+            {
+                return RedirectToAction("Details", "DossierEtudiant", new {id = SessionBag.Current.id_Inscription});
+            }
+
+            if (SachemIdentite.TypeListeProf.Contains(SachemIdentite.ObtenirTypeUsager(Session)) ||
+                SachemIdentite.ObtenirTypeUsager(Session) == TypeUsagers.Tuteur)
+            {
+                if (SachemIdentite.ObtenirTypeUsager(Session) == TypeUsagers.Super)
+                {
+                    return RedirectToAction("Index", "Enseignant");
+                }
+
+                return RedirectToAction("Index", "DossierEtudiant");
+            }
+
+            var inscription = reqBdInscription.FirstOrDefault();
+
+            if (inscription != null && inscription.id_Inscription == statutAccepte &&
+                inscription.ContratEngagement == false)
+            {
+                return RedirectToAction("Index", "ContratEngagement");
+            }
+            return RedirectToAction("Index", "Inscription");
         }
 
         [AllowAnonymous]
