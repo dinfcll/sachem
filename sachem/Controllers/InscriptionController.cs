@@ -90,21 +90,10 @@ namespace sachem.Controllers
                         SessionBag.Current.id_TypeUsag = TypeUsagers.Tuteur;
                         return RedirectToAction("Benevole");
                     default:
-                        return this.Json(new { success = false, message = MsgErreurRemplir });
+                        return Json(new { success = false, message = MsgErreurRemplir });
                 }
             }
-            return this.Json(new { success = false, message = MsgErreurRemplir });
-        }
-
-        [NonAction]
-        public List<string> RetourneListeJours() //peut etre mis en commun dans la classe liste de AL avec Jumelage
-        {
-            var jours = new List<string>();
-            for (var i = 2; i < 7; i++)
-            {
-                jours.Add(((Semaine)i).ToString());
-            }
-            return jours.ToList();
+            return Json(new { success = false, message = MsgErreurRemplir });
         }
 
         private static int CheckConfigHeure(string heure, int defaut)

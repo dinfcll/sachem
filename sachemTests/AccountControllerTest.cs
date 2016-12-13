@@ -10,7 +10,7 @@ namespace sachemTests
         public void EncryptionChaineShouldReturnMd5Hash()
         {
             const string stringSecreteAHasherEnMd5 = "SomeVeryImportantStringToHide";
-            var retour = SachemIdentite.encrypterChaine(stringSecreteAHasherEnMd5);
+            var retour = SachemIdentite.EncrypterChaine(stringSecreteAHasherEnMd5);
             Assert.AreEqual("d1112b3d4ed431b10e30c838121d3a22", retour);
         }
     }

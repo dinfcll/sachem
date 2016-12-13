@@ -55,7 +55,7 @@ namespace sachem.Controllers
                 }
                 else
                 {
-                    SachemIdentite.encrypterMPPersonne(ref personne);
+                    SachemIdentite.EncrypterMpPersonne(ref personne);
                     _dataRepository.AddEnseignant(personne);
 
                     TempData["Success"] = Messages.AjouterUnGroupeAUnEnseignant(personne.NomUsager, personne.id_Pers);
@@ -97,7 +97,7 @@ namespace sachem.Controllers
 
             if (personne.MP != null && personne.ConfirmPassword != null)
             {
-                SachemIdentite.encrypterMPPersonne(ref personne);
+                SachemIdentite.EncrypterMpPersonne(ref personne);
             }
             else
             {
