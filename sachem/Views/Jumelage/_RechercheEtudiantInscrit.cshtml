@@ -1,6 +1,4 @@
-﻿@using sachem.Models
-
-<h4>Recherche</h4>
+﻿<h4>Recherche</h4>
 
 <table class="table-condensed">
     <tr>
@@ -8,13 +6,13 @@
             Session :
         </td>
         <td>
-            @Html.DropDownList("Session", null, "Toutes", htmlAttributes: new { @class = "form-search" })
+            @Html.DropDownList("Session", null, "Toutes", new { @class = "form-search" })
         </td>
         <td>
             Type d'inscription :
         </td>
         <td>
-            @Html.DropDownList("Inscription", null, "Tous", htmlAttributes: new { @class = "form-search" })
+            @Html.DropDownList("Inscription", null, "Tous", new { @class = "form-search" })
         </td>
         <td>
             <input type="submit" value="Rechercher" class="btn btn-default" style="margin-top:5px;margin-bottom:10px;"/>

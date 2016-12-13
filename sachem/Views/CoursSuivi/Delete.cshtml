@@ -1,5 +1,5 @@
-﻿@model sachem.Models.CoursSuivi
-@using sachem.Models
+﻿@using sachem.Models
+@model CoursSuivi
 
 @{
     ViewBag.Title = "Supprimer un cours suivi antérieur";
@@ -7,13 +7,13 @@
 
 <h2>@ViewBag.Title</h2>
 
-@if (Model.autre_Cours == string.Empty || Model.autre_Cours == null)
+@if (string.IsNullOrEmpty(Model.autre_Cours))
 {
-    <h4>@sachem.Models.Messages.VraimentSupprimerCours(Model.Cours.CodeNom)</h4>
+    <h4>@Messages.VraimentSupprimerCours(Model.Cours.CodeNom)</h4>
 }
 else
 {
-    <h4>@sachem.Models.Messages.VraimentSupprimerCours(Model.autre_Cours)</h4>
+    <h4>@Messages.VraimentSupprimerCours(Model.autre_Cours)</h4>
 }
 
 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
@@ -25,14 +25,7 @@ else
             @Html.DisplayNameFor(model => model.id_Cours)
         </dt>
         <dd>
-            @if (Model.autre_Cours == string.Empty || Model.autre_Cours == null)
-            {
-                @Html.DisplayFor(modelItem => Model.Cours.CodeNom)
-            }
-            else
-            {
-                @Html.DisplayFor(modelItem => Model.autre_Cours)
-            }
+            @(string.IsNullOrEmpty(Model.autre_Cours) ? Html.DisplayFor(modelItem => Model.Cours.CodeNom) : Html.DisplayFor(modelItem => Model.autre_Cours))
         </dd>
         <dt>
             @Html.DisplayNameFor(model => model.id_Sess)
@@ -42,7 +35,7 @@ else
             @Html.DisplayFor(model => model.Session.NomSession)
         </dd>
 
-@if (sachem.Models.SachemIdentite.ObtenirTypeUsager(Session) == sachem.Models.TypeUsagers.Eleve)
+@if (SachemIdentite.ObtenirTypeUsager(Session) == TypeUsagers.Eleve)
 {
         <dt>
             @Html.DisplayNameFor(model => model.id_Statut)
@@ -69,7 +62,6 @@ else
             @Html.HiddenFor(m => m.id_CoursReussi)
             <input type="submit" value="Supprimer" class="btn btn-default" />
             @Html.ActionLink("Annuler", "Details", "DossierEtudiant", new { id = SessionBag.Current.id_Inscription }, new { @class = "btn btn-default" })
-            @Html.Partial("_Footer", Model)
         </div>
     }
 </div>

@@ -1,8 +1,6 @@
-﻿@using Microsoft.AspNet.Identity
-@using sachem.Models
+﻿@using sachem.Models
 @if (SessionBag.Current.NomComplet !=null)
 {
-    string NomComplet = SessionBag.Current.NomComplet;
     using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
     {
         @Html.AntiForgeryToken()
@@ -33,7 +31,6 @@
                     </li>
                 </ul>
             </li>
-
         </ul>
     }
 }

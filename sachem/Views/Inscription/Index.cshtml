@@ -3,19 +3,6 @@
 @{
     ViewBag.Title = "Inscription";
 }
-<style type="text/css">
-    .checkboxinscr {
-    -webkit-appearance:none;
-    width:30px;
-    height:30px;
-    background:white;
-    border-radius:5px;
-    border:2px solid #555;
-}
-.checkboxinscr:checked {
-    background: #abd;
-}
-</style>
 <script>
     function suivant() {
         var typeinscr = $('#TypeInscription').val();
@@ -26,7 +13,7 @@
             var boutonOk = document.getElementById('btnOk');
             var confirmHoraire = "";
             $.each(postData.jours,
-                function(nom, disp) {
+                function (nom, disp) {
                     var date = new Date(0, 0, 0, 0, 0, 0, 0);
                     date.setMinutes(parseInt(disp.substring(disp.indexOf("-") + 1, disp.lentgh)));
                     var heureMin = date.toTimeString().substring(0, 5);
@@ -34,7 +21,8 @@
                     var heureMax = date.toTimeString().substring(0, 5);
                     disp = disp.substring(0, disp.indexOf("-")) + " " + heureMin + " - " + heureMax;
                     confirmHoraire += disp + ", ";
-                })
+                });
+
             confirmHoraire = confirmHoraire.substring(0, confirmHoraire.toString().length - 2) + ".";
             document.getElementById("plageDisp").innerText = confirmHoraire;
             document.getElementById("typeInsc").innerText = $('#TypeInscription :selected').text();
@@ -49,12 +37,12 @@
     }
 
     function getDisp() {
-        var HoraireArray = [];
+        var horaireArray = [];
         $('[name="horaireCheckbox"]:checked').each(function () {
-            HoraireArray.push(($(this).val()));
+            horaireArray.push(($(this).val()));
         });
         var typeinscr = $('#TypeInscription').val();
-        var postData = { typeInscription: typeinscr, jours: HoraireArray };
+        var postData = { typeInscription: typeinscr, jours: horaireArray };
         return postData;
         }
 
@@ -98,7 +86,7 @@
     </ul>
     <form method="post" id="TabDisp">
         <table class="table-bordered table-striped col-sm-12">
-            @{ List<string> jours = ((sachem.Controllers.InscriptionController)this.ViewContext.Controller).RetourneListeJours(); }
+            @{ var jours = ((sachem.Controllers.InscriptionController)ViewContext.Controller).RetourneListeJours(); }
             <tr>
                 <th class="col-sm-2 text-center" style="height:30px;font-weight:bold;color:white;background-color:#666;">Heures</th>
                 @foreach (string jour in jours)
@@ -106,7 +94,7 @@
                     <th class="col-sm-2 text-center" style="height:30px;font-weight:bold;color:white;background-color:#666;">@jour</th>
                 }
             </tr>
-            @{ Dictionary<string, List<string>> listeLabelValueDeTableauDisponibilite = ((sachem.Controllers.InscriptionController)this.ViewContext.Controller).RetourneTableauDisponibilite(); }
+            @{ var listeLabelValueDeTableauDisponibilite = ((sachem.Controllers.InscriptionController)ViewContext.Controller).RetourneTableauDisponibilite(); }
             @{foreach (var v in listeLabelValueDeTableauDisponibilite)
                 {
                     <tr>

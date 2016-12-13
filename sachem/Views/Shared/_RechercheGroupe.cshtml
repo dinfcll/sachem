@@ -1,14 +1,12 @@
-﻿<script src="~/Scripts/jquery-1.10.2.js"></script>
-
-<script type="text/javascript">
+﻿<script type="text/javascript">
     $(document).ready(function () {
         $("#Sessions").change(function () {
             var vSession = $("#Sessions").val();
-            if ($("#Enseignants").is(':disabled') == false)
+            if (!$("#Enseignants").is(':disabled'))
             {
                 $.ajax({
                     type: 'POST',
-                    url:  @Html.Raw("\"/" + HttpContext.Current.Request.RequestContext.RouteData.Values["controller"].ToString() + "/ActualiseEnseignant\""),
+                    url:  @Html.Raw("\"/" + HttpContext.Current.Request.RequestContext.RouteData.Values["controller"] + "/ActualiseEnseignant\""),
                     data: {
                         session: vSession
                     },

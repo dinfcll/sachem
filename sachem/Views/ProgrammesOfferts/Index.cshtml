@@ -1,12 +1,7 @@
-﻿﻿@model IEnumerable<sachem.Models.ProgrammeEtude>
-@using PagedList
-@using PagedList.Mvc;
-@using System.Linq
-<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+﻿@model PagedList.IPagedList < sachem.Models.ProgrammeEtude > 
 
 @{
     ViewBag.Title = "Programme d'études";
-    var pagedlist = (IPagedList)Model;
 }
 
 <h2>@ViewBag.Title</h2>
@@ -32,16 +27,16 @@
 <table class="table">
     <tr>
         <th class="col-sm-1">
-            @Html.DisplayNameFor(model => model.Code)
+            @Html.DisplayNameFor(model => model.First().Code)
         </th>
         <th class="col-sm-1">
-            @Html.DisplayNameFor(model => model.Annee)
+            @Html.DisplayNameFor(model => model.First().Annee)
         </th>
         <th class="col-sm-7">
-            @Html.DisplayNameFor(model => model.NomProg)
+            @Html.DisplayNameFor(model => model.First().NomProg)
         </th>
         <th class="col-sm-1">
-            @Html.DisplayNameFor(model => model.Actif)
+            @Html.DisplayNameFor(model => model.First().Actif)
         </th>
         <th class="col-sm-2"></th>
     </tr>
@@ -75,13 +70,4 @@
         </tr>
     }
 </table>
-
-@if (pagedlist.PageCount > 0)
-{
-    <div>
-        <div>
-            Page @(pagedlist.PageCount < pagedlist.PageNumber ? 0 : pagedlist.PageNumber) sur @pagedlist.PageCount
-        </div>
-        @Html.PagedListPager(pagedlist, page => Url.Action("Index", "ProgrammesOfferts", new {recherche = ViewBag.Recherche, page = page}))
-    </div>
-}
+@Html.Partial("_PageRecherche", Model)

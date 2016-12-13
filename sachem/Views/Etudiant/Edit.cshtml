@@ -137,7 +137,7 @@
 
     function Supp(idPers, idProgEtu)  {
         $.ajax({type: 'POST',
-            url:  @Html.Raw("\"/" + HttpContext.Current.Request.RequestContext.RouteData.Values["controller"].ToString() + "/ActualisePEtu\""),
+            url:  @Html.Raw("\"/" + HttpContext.Current.Request.RequestContext.RouteData.Values["controller"] + "/ActualisePEtu\""),
             data: {
                 idPers: idPers,
                 idProg: idProgEtu

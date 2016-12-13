@@ -1,11 +1,10 @@
-﻿@model sachem.Models.Inscription 
-@using sachem.Models
-@using sachem.Controllers
-@{ List<Inscription> listeJumeleursPotentiels = ((sachem.Controllers.JumelageController)this.ViewContext.Controller)
+﻿@using sachem.Models
+@model Inscription
+
+@{ var listeJumeleursPotentiels = ((sachem.Controllers.JumelageController)ViewContext.Controller)
                                     .RetourneJumeleursPotentiels(Model.id_Inscription, Model.id_TypeInscription, Model.id_Sess);
-    int k = 0; }
-@Scripts.Render("~/bundles/jquery")
-<script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+    var k = 0; }
+
 <script type="text/javascript">
     function AjoutModal(jour, minutes, idVu, idJumeleA, nomJumeleA, nomVu, typeEleveJumeleA, typeEleveVu, plageHoraire, vuTypeInsc, estConsecutif) {
         var modal = document.getElementById("modalAjout");

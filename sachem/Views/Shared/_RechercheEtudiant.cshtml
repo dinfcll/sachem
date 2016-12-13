@@ -1,6 +1,4 @@
-﻿<script src="~/Scripts/jquery-1.10.2.js"></script>
-
-<script type="text/javascript">
+﻿<script type="text/javascript">
     $(document).ready(function () {
         $("#SelectSession").change(function () {
             var vSession = $('#SelectSession').val();
@@ -8,7 +6,7 @@
             $.ajax({
                 type: 'POST',
                 url:
-                    @Html.Raw("\"/" + HttpContext.Current.Request.RequestContext.RouteData.Values["controller"].ToString() + "/ActualiseCoursddl\""),
+                    @Html.Raw("\"/" + HttpContext.Current.Request.RequestContext.RouteData.Values["controller"] + "/ActualiseCoursddl\""),
                 data: {
                     session: vSession
                 },
@@ -41,7 +39,7 @@
                 }
             });
 
-            var vCours = $('#SelectCours').val()
+            var vCours = $('#SelectCours').val();
 
             $.ajax({
                 type: 'POST',
@@ -75,7 +73,7 @@
 
         $("#SelectCours").change(function () {
             var vSession = $('#SelectSession').val();
-            var vCours = $('#SelectCours').val()
+            var vCours = $('#SelectCours').val();
 
             $.ajax({
                 type: 'POST',
@@ -102,16 +100,10 @@
 
                         }));
                     });
-
                 }
             });
         });
-
-
-
-
     });
-
 </script>
 
 <div class="form-inline">
@@ -121,14 +113,14 @@
     <table class="table-condensed">
         <tr>
             <td>No de DA :</td>
-            <td>@Html.Editor("Matricule", new { htmlAttributes = new { @class = "form-control", @maxlength = "7" } })</td>
-            <td><b><u>ou</u></b></td>
+            <td>@Html.Editor("Matricule", new { htmlAttributes = new { @class = "form-control", maxlength = "7" } })</td>
+            <td><span style="font-weight: bold; text-decoration: underline;">ou</span></td>
             <td>Session :</td>
-            <td>@Html.DropDownList("SelectSession", null, "Toutes", htmlAttributes: new { @class = "form-search" })</td>
+            <td>@Html.DropDownList("SelectSession", null, "Toutes", new { @class = "form-search" })</td>
             <td>Cours :</td>
-            <td>@Html.DropDownList("SelectCours", null, "Tous", htmlAttributes: new { @class = "form-search" })</td>
+            <td>@Html.DropDownList("SelectCours", null, "Tous", new { @class = "form-search" })</td>
             <td>Groupe :</td>
-            <td>@Html.DropDownList("SelectGroupe", null, "Tous", htmlAttributes: new { @class = "form-search" })</td>
+            <td>@Html.DropDownList("SelectGroupe", null, "Tous", new { @class = "form-search" })</td>
             <td><input type="submit" value="Rechercher" class="form-search" /></td>
         </tr>
     </table>

@@ -1,38 +1,29 @@
-﻿
-<style type="text/css">
-    .dropDownSess {
-        width: 150px;
-    }
-    .dropDownStatut {
-        width: 120px;
-    }
-</style>
-<div class="clearfix rowCourseReussisPadTop InfoCourCollege">
+﻿<div class="clearfix rowCourseReussisPadTop InfoCourCollege">
     <br />
     <div class="row">
         <div class="col-lg-6">
             <div class="input-group">
-                <span class="input-group-addon" id="basic-addon1">Cours</span>
-                @Html.DropDownList("lstCours", null, "Aucun cours suivi au Cégep", htmlAttributes: new { @class = "form-search ins-selectcours valLignecours dropDownCours" })
+                <span class="input-group-addon basic-addon1">Cours</span>
+                @Html.DropDownList("lstCours", null, "Aucun cours suivi au Cégep", new { @class = "form-search ins-selectcours valLignecours dropDownCours" })
             </div>
         </div>
         <div class="col-lg-6">
             <div class="input-group">
-                <span class="input-group-addon" id="basic-addon2">Statut</span>
-                @Html.DropDownList("lstStatut", null, htmlAttributes: new { @class = "form-search ins-selectcollege valLignecours dropDownStatut" })
+                <span class="input-group-addon basic-addon2">Statut</span>
+                @Html.DropDownList("lstStatut", null, new { @class = "form-search ins-selectcollege valLignecours dropDownStatut" })
             </div>
         </div>
     </div>
     <div class="row">
         <div class="col-lg-6">
             <div class="input-group">
-                <span class="input-group-addon" id="basic-addon1">Session</span>
-                @Html.DropDownList("slSession", null, htmlAttributes: new { @class = "form-search ins-selectcollege valLignecours dropDownSess" })
+                <span class="input-group-addon basic-addon1">Session</span>
+                @Html.DropDownList("slSession", null, new { @class = "form-search ins-selectcollege valLignecours dropDownSess" })
             </div>
         </div>
         <div class="col-lg-6">
             <div class="input-group">
-                <span class="input-group-addon" id="basic-addon2">Résultat</span>
+                <span class="input-group-addon basic-addon2">Résultat</span>
                 <input type="text" class="form-control text-box single-line ins-text-box valLignecours" placeholder="Résultat" />
             </div>
         </div>

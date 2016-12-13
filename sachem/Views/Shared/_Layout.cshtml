@@ -7,8 +7,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - SACHEM</title>
     @Styles.Render("~/Content/css")
-    @Scripts.Render("~/bundles/modernizr")
-    @Scripts.Render("~/Scripts/jquery-1.10.2.js")
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
           rel="stylesheet">
 </head>
@@ -28,10 +26,6 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    @*On accède à la présente session afin de voir si l'on peut afficher certains éléments*@
-                    <!--Ces liens sont à changer selon les controlleurs/vues des équipes.-->
-
-                    
                     <!--Si c'est un étudiant.-->
                     @if (SachemIdentite.ObtenirTypeUsager(Session) == TypeUsagers.Eleve || SachemIdentite.ObtenirTypeUsager(Session) == TypeUsagers.Tuteur)
                     {
@@ -40,7 +34,7 @@
                         </li>
                     }
                     
-                        <!--Si c'est un tuteur.TODO: restriction tuteur-->
+                        <!--Si c'est un tuteur.-->
                         @if (SachemIdentite.ObtenirTypeUsager(Session) == TypeUsagers.Tuteur)
                         {
                             <li>
@@ -100,16 +94,21 @@
             </a></p>
         </footer>
     </div>
-    <script type="text/javascript">
-        window.onbeforeunload = function () {
-            $("#mainProgressBar").removeClass('hide');
-        }
-        window.onload = function () {
-            $("#mainProgressBar").addClass('hide');
-        }
-    </script> 
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/bootstrap")
-    @RenderSection("scripts", required: false)
+    
+    @section Scripts{
+        @Scripts.Render("~/bundles/modernizr")
+        @Scripts.Render("~/bundles/jquery")
+        @Scripts.Render("~/bundles/bootstrap")
+        <script type="text/javascript">
+            window.onbeforeunload = function () {
+                $("#mainProgressBar").removeClass('hide');
+            }
+            window.onload = function () {
+                $("#mainProgressBar").addClass('hide');
+            }
+        </script> 
+    }
+
+    @RenderSection("scripts", false)
 </body>
 </html>

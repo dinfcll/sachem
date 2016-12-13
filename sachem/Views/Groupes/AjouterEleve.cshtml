@@ -26,13 +26,13 @@
             @Html.AntiForgeryToken()
             <input type="hidden" name="idGroupeEtudiant" value="@TempData["idGe"]" />
             <input type="hidden" name="id_groupedepl" value="@ViewBag.idg" />
-            <button style="display:inline;padding:0px;margin:0px;" type="submit" class="btn btn-link">Déplacer</button>
+            <button style="display:inline;padding:0;margin:0;" type="submit" class="btn btn-link">Déplacer</button>
         }|
-      @Html.ActionLink("Conserver dans les deux groupes", "AjouterEleveGet", new { idg = @TempData["idg"], idp = @TempData["personne"], noclick = 1 }) |
-        @Html.ActionLink("Annuler", "AjouterEleve", new { idg = @TempData["idg"], page = ViewBag.page })
+      @Html.ActionLink("Conserver dans les deux groupes", "AjouterEleveGet", new { idg = TempData["idg"], idp = TempData["personne"], noclick = 1 }) |
+        @Html.ActionLink("Annuler", "AjouterEleve", new { idg = TempData["idg"], ViewBag.page })
     </div>
 }
-@using (Html.BeginForm("AjouterEleve", "Groupes", new {idg = ViewBag.idg}, FormMethod.Post, new {@class = "form-inline", role = "form"}))
+@using (Html.BeginForm("AjouterEleve", "Groupes", new {ViewBag.idg}, FormMethod.Post, new {@class = "form-inline", role = "form"}))
 {
     <p>
         <h4>Recherche</h4>
@@ -88,7 +88,7 @@
                 @Html.DisplayFor(modelItem => item.epe.ProgrammeEtude.CodeNomProgramme)
             </td>
             <td>
-              @Html.ActionLink("Ajouter", "AjouterEleveGet", new { idg = ViewBag.idg, idp = item.p.id_Pers })
+              @Html.ActionLink("Ajouter", "AjouterEleveGet", new { ViewBag.idg, idp = item.p.id_Pers })
             </td>
         </tr>
     }
@@ -100,7 +100,7 @@
     <div>
         Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) sur @Model.PageCount
         <div>
-            @Html.PagedListPager(Model, page => Url.Action("AjouterEleve", new { idg = ViewBag.idg, page }))
+            @Html.PagedListPager(Model, page => Url.Action("AjouterEleve", new { ViewBag.idg, page }))
         </div>
     </div>
 }

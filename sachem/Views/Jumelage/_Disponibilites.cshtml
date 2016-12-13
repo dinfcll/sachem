@@ -1,9 +1,8 @@
-﻿@model sachem.Models.Inscription
-@using sachem.Models;
-@using sachem.Controllers;
+﻿@using sachem.Models;
+@model Inscription
 
 <table class="table-bordered table-striped col-sm-12">
-    @{ List<string> jours = ((sachem.Controllers.JumelageController)this.ViewContext.Controller)
+    @{ var jours = ((sachem.Controllers.JumelageController)ViewContext.Controller)
             .RetourneListeJoursSemaine();}
     <tr>
         <th class="col-sm-2 text-center" style="height:30px;font-weight:bold;color:white;background-color:#666;">Heures</th>
@@ -12,11 +11,11 @@
             <th class="col-sm-2 text-center" style="height:30px;font-weight:bold;color:white;background-color:#666;">@jour</th>
         }
     </tr>
-    @{ Dictionary<string, List<DisponibiliteStruct>> ListeDispoUsagerDeTableauDisponibilite = 
-            ((sachem.Controllers.JumelageController)this.ViewContext.Controller)
+    @{ var listeDispoUsagerDeTableauDisponibilite = 
+            ((sachem.Controllers.JumelageController)ViewContext.Controller)
             .RetourneDisponibiliteJumelageUsager(Model.id_Inscription, Model.id_TypeInscription, Model.id_Sess, 0); }
     @{
-        foreach (var v in ListeDispoUsagerDeTableauDisponibilite)
+        foreach (var v in listeDispoUsagerDeTableauDisponibilite)
         {
             <tr>
                 <td class="text-center">

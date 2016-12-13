@@ -1,8 +1,7 @@
-﻿
-@model sachem.Models.Groupe
+﻿@model sachem.Models.Groupe
 
 @{
-    ViewBag.Title = "Supprimer groupe";
+    ViewBag.Title = "Supprimer un groupe";
 }
 
 <h2>@ViewBag.Title</h2>
@@ -52,10 +51,8 @@
         
             if ((string)ViewBag.Error != null)
             {
-                @ViewBag.Error;
+                @ViewBag.Error
             }
-
-        
 
         <div class="form-actions no-color">
              <input type="submit" value="Supprimer" class="btn btn-default"/>

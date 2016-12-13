@@ -1,5 +1,5 @@
-﻿<link rel="stylesheet" href="~/Scripts/dropzone/dropzone.css"/>
-<script src="~/Scripts/dropzone/dropzone.js"></script>
+﻿@Styles.Render("~/Content/dropzonescss")
+@Scripts.Render("~/bundles/dropzonescripts")
 
 @{
     ViewBag.Title = "Importation de données";
@@ -9,16 +9,17 @@
 <h5>@sachem.Models.Messages.ImporterDirectivesDropZone(ViewBag.FILEEXTENSION)</h5>
 
 <div class="jumbotron">
-    <form action="~/Importer/SaveUploadedFile" method="post" enctype="multipart/form-data" class="dropzone" id="dropzoneForm">
+    @using (Html.BeginForm("SaveUploadedFile", "Importer", FormMethod.Post, new { @class = "dropzone", id = "dropzoneForm", enctype = "multipart/form-data"}))
+    {
         <div class="dz-message">
-            @sachem.Models.Messages.ImporterDirectivesDropZoneFichier()<br />
+            @sachem.Models.Messages.ImporterDirectivesDropZoneFichier()<br/>
             <h5>@sachem.Models.Messages.ImporterTempsDeTraitementsEnMinutes()</h5>
         </div>
         <div class="fallback">
-            <input name="file" type="file" multiple />
-            <input type="submit" value="Upload" />
+            <input name="file" type="file" multiple/>
+            <input type="submit" value="Upload"/>
         </div>
-    </form>
+    }
 </div>
 
 <script>
@@ -29,7 +30,7 @@
         dictFallbackMessage: '@sachem.Models.Messages.ImporterNavigateurNeSupportePasDropZone()',
         dictFallbackText: '@sachem.Models.Messages.ImporterDirectivesDropZone(ViewBag.FILEEXTENSION)',
         dictFileTooBig: '@sachem.Models.Messages.ImporterFichierTropEnorme("{{filesize}}", "{{maxFilesize}}")',
-        dictInvalidFileType: '@sachem.Models.Messages.ImporterFichierCSVSeulement(ViewBag.FILEEXTENSION)',
+        dictInvalidFileType: '@sachem.Models.Messages.ImporterFichierCsvSeulement(ViewBag.FILEEXTENSION)',
         dictResponseError: '@sachem.Models.Messages.ImporterCodeErreurServeur("{{statusCode}}")',
         dictCancelUpload: '@sachem.Models.Messages.ImporterAnnulerTeleversement()',
         dictCancelUploadConfirmation: '@sachem.Models.Messages.ImporterAnnulerTeleversementConfirmation()',

@@ -1,5 +1,4 @@
-﻿@using PagedList.Mvc;
-@model PagedList.IPagedList<sachem.Models.p_College>
+﻿@model PagedList.IPagedList<sachem.Models.p_College>
 @{
     ViewBag.Title = "Collèges d'enseignement";
 }
@@ -14,10 +13,6 @@
     @TempData["Erreur"]
 </p>
 
-@Scripts.Render("~/bundles/jquery")
-
-
-<script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
 <script type="text/javascript">
     function ModifModal(id) {
         var modal = document.getElementById("modalModification");
@@ -27,10 +22,10 @@
         modal.style.display = "block";
         boutonModif.onclick = function() {
             var nomCollege = document.getElementById("txtNomCollegeModif").value;
-            if(nomCollege!=""){
-            Modifier(id, nomCollege);
+            if(nomCollege!==""){
+                Modifier(id, nomCollege);
+            }
         }
-    }
     }
 
     function SuppressionModal(id) {
@@ -48,22 +43,22 @@
         modal.style.display = "block";
         boutonAjout.onclick = function () {
             var nomCollege = document.getElementById("txtNomCollegeAjout").value;
-            if(nomCollege!=""){
-            Ajout(nomCollege)
+            if(nomCollege!=="") {
+                Ajout(nomCollege);
+            }
         }
-    }
     }
 
     function Suppression(id) {
-            $.ajax({
+        $.ajax({
             url: "/Parametres/DeleteCollege",
             data: { "id": id },
             type: "POST",
             success: function() {
                 location.reload(true);
             }
-            });
-        }
+        });
+    }
 
     function Modifier(id, nouveauNomCollege) {
         $.ajax({
@@ -72,7 +67,7 @@
             type: "POST",
             success: function(){
                 location.reload(true);
-    }
+            }
         });
     }
 
@@ -192,13 +187,4 @@
         </div>
     </div>
 </div>
-
-@if (Model.PageCount > 0)
-{
-    <div>
-        Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) sur @Model.PageCount
-        <div>
-            @Html.PagedListPager(Model, page => Url.Action("EditCollege", new { page }))
-        </div>
-    </div>
-}
+@Html.Partial("_PageRecherche", Model)

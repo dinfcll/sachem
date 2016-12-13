@@ -1,14 +1,12 @@
-﻿@using Microsoft.AspNet.Identity
-@using sachem.Models
-
+﻿@using sachem.Models
 
 <h3 style="background-color:aliceblue">Informations spécifiques</h3>
 <h5 id="erreur" style="color:red;"></h5>
 <p class="text-danger">
-    @Html.Raw(@TempData["Echec"])
+    @Html.Raw(TempData["Echec"])
 </p>
 <h5 class="hIns">
-    @sachem.Models.Messages.InscriptionCoursReussiIndication();
+    @Messages.InscriptionCoursReussiIndication();
 </h5>
 <br />
 <div id="espaceCours">
@@ -28,7 +26,7 @@
                     <h4 class="modal-title">Erreur lors de l'enregistrement</h4>
                 </div>
                 <div class="modal-body">
-                    <p>@sachem.Models.Messages.InscriptionCoursReussiErreurLorsDuChargement()</p>
+                    <p>@Messages.InscriptionCoursReussiErreurLorsDuChargement()</p>
                 </div>
                 <div class="modal-footer">
                     <button type="button" data-dismiss="modal" class="btn">OK</button>
@@ -37,7 +35,6 @@
         </div>
     </div>
 </div>
-<script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
 <script type="text/javascript">
         afficherErreur = function ()
         {
@@ -54,9 +51,6 @@
             $(".btnSupprimerCours").click(function () {
                 $(this).parent().parent().remove();
             });
-            $(".ins-selectcours").change(function () {
-                var test = $(this).val();
-            });
         }
         listeCoursReussis = function () {
             var infoCourCollegeNote = [];
@@ -71,37 +65,28 @@
             return infoCourCollegeNote;
         }
         coherenceStatutResultat = function() {
-            var resultat = 0;
+            var resultat;
             var retour = true;
             var values = listeCoursReussis();
-            var IDREUSSIS = "1";
-            var IDECHEC = "3";
-            for (i in values)
-            {
-                resultat = values[i][3];
-                if (values[i][0] != "")
-                {
-                    if (values[i][1] == IDREUSSIS)
-                    {
-                        if (resultat < 60)
-                        {
-                            retour = false;
-                        }
-                    }
-                    else
-                    {
-                        if (values[i][1] == IDECHEC)
-                        {
-                            if (resultat >= 60)
-                            {
+            var idreussis = "1";
+            var idechec = "3";
+            for (var i in values) {
+                if (values.hasOwnProperty(i)) {
+                    resultat = values[i][3];
+                    if (values[i][0] !== "") {
+                        if (values[i][1] === idreussis) {
+                            if (resultat < 60) {
                                 retour = false;
                             }
-                        }
-                        else
-                        {
-                            if (resultat != 0)
-                            {
-                                retour = false;
+                        } else {
+                            if (values[i][1] === idechec) {
+                                if (resultat >= 60) {
+                                    retour = false;
+                                }
+                            } else {
+                                if (resultat !== 0) {
+                                    retour = false;
+                                }
                             }
                         }
                     }
@@ -117,7 +102,7 @@
                     $("#espaceCours").append(donnees);
                     activationInput();
                 },
-                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                error: function (xmlHttpRequest, textStatus, errorThrown) {
                     $("#espaceCours").append(errorThrown);
                 }
             });

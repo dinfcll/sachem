@@ -1,8 +1,4 @@
-﻿@model System.Web.Mvc.HandleErrorInfo
-@using sachem.Controllers
-
-@{ string Message = ((sachem.Controllers.HomeController)this.ViewContext.Controller)
-                                                                  .RetourneMessageInscriptionFermee(); }
+﻿@{ var message = ((sachem.Controllers.HomeController)this.ViewContext.Controller).RetourneMessageInscriptionFermee(); }
 
 @{
     ViewBag.Title = "Inscription";
@@ -16,7 +12,7 @@
     </li>
     <li>
         <ul>
-            <li>@Message</li>
+            <li>@message</li>
             <li>Pour toute question, réferrez-vous à un enseignant de mathématiques.</li>
         </ul>
     </li>

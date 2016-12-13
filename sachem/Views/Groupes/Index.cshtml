@@ -4,8 +4,6 @@
     ViewBag.Title = "Groupes";
 }
 
-<script src="~/Scripts/jquery-1.10.2.js"></script>
-
 <h2>@ViewBag.Title</h2>
 
 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
@@ -24,8 +22,8 @@
 
             <tr>
                 <td>
-                    @Html.ActionLink("Oui", "AjouterEleve", new { idg = @TempData["idg"] ,page = ViewBag.page}) |
-                    @Html.ActionLink("Non", "Index", new { idg = @TempData["idg"]}) 
+                    @Html.ActionLink("Oui", "AjouterEleve", new { idg = TempData["idg"] , ViewBag.page}) |
+                    @Html.ActionLink("Non", "Index", new { idg = TempData["idg"]}) 
                 </td>
             </tr>
 
@@ -36,20 +34,20 @@
     <table class="table-condensed">
         <tr>
             <td>Session :</td>
-            <td>@Html.DropDownList("Sessions", null, "Toutes", htmlAttributes: new { @class = "form-search" })</td>
+            <td>@Html.DropDownList("Sessions", null, "Toutes", new { @class = "form-search" })</td>
             <td>Enseignant :</td>
             <td>
                 @if (ViewBag.Disabled != null && ViewBag.Disabled == "")
                     {
-                    @Html.DropDownList("Enseignants", null, "Tous", htmlAttributes: new { @class = "form-search" })
+                    @Html.DropDownList("Enseignants", null, "Tous", new { @class = "form-search" })
                 }
                 else
                 {
-                    @Html.DropDownList("Enseignants", null, htmlAttributes: new { @disabled = ViewBag.Disabled, @class = "form-search" })
+                    @Html.DropDownList("Enseignants", null, new { disabled = ViewBag.Disabled, @class = "form-search" })
                 }
             </td>
             <td>Cours :</td>
-            <td>@Html.DropDownList("Cours", null, "Tous", htmlAttributes: new { @class = "form-search" })</td>
+            <td>@Html.DropDownList("Cours", null, "Tous", new { @class = "form-search" })</td>
             <td><input type="submit" value="Rechercher" class="form-search" /></td>
         </tr>
     </table>

@@ -1,11 +1,8 @@
-﻿@model sachem.Models.Inscription
-@using sachem.Models
-@using sachem.Controllers
-@{ IQueryable<Inscription> listeJumeleurs = ((sachem.Controllers.JumelageController)this.ViewContext.Controller)
+﻿@using sachem.Models
+@model Inscription
+@{ var listeJumeleurs = ((sachem.Controllers.JumelageController)ViewContext.Controller)
                                                   .RetourneJumeleurs(Model.id_Inscription, Model.id_TypeInscription, Model.id_Sess);
  }
-@Scripts.Render("~/bundles/jquery")
-<script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
 <script type="text/javascript">
     function RetirerModal(idVu, idJumeleA, vuTypeInsc, nomVu, nomJumeleA) {
         var modal = document.getElementById("modalRetirer");
@@ -28,7 +25,7 @@
         });
     }
 </script>
-@if (listeJumeleurs.Count() > 0)
+@if (listeJumeleurs.Any())
 {
 <h4 class="page-header">Jumelé à</h4>
 
@@ -41,9 +38,9 @@
     </tr>
     @foreach (var j in listeJumeleurs)
     {
-        List<string> plageHoraire = ((sachem.Controllers.JumelageController)this.ViewContext.Controller)
+        var plageHoraire = ((sachem.Controllers.JumelageController)ViewContext.Controller)
                                                       .RetournePlageHoraireChaqueJumeleur(Model.id_Inscription, Model.id_TypeInscription, Model.id_Sess, j.id_Inscription);
-        foreach(string p in plageHoraire)
+        foreach(var p in plageHoraire)
         {
             <tr>        
                 <td>@j.Personne.NomPrenom</td>
@@ -64,12 +61,12 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">@sachem.Models.Messages.JumelageFinJumelage</h4>
+                    <h4 class="modal-title">@Messages.JumelageFinJumelage</h4>
                 </div>
                 <div class="modal-body">
                     <p>
-                        @sachem.Models.Messages.JumelageFinJumelageEntre();<br/><b><span id="modalRetirerVu"></span></b> et <b><span id="modalRetirerJumeleA"></span></b>?
-</p>
+                        @Messages.JumelageFinJumelageEntre();<br/><b><span id="modalRetirerVu"></span></b> et <b><span id="modalRetirerJumeleA"></span></b>?
+                    </p>
                 </div>
                 <div class="modal-footer">
                     <button id="btnRetirer" type="button" data-dismiss="modal" class="btn btn-primary">Retirer le jumelage</button>

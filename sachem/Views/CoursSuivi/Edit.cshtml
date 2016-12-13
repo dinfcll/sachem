@@ -6,7 +6,6 @@
 
 <h2>@ViewBag.Title</h2>
 
-
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
@@ -19,5 +18,3 @@
         @Html.Partial("_CoursSuivi", Model)
     </div>
 }
-
-@Html.Partial("_Footer", Model)

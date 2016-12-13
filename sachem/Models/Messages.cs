@@ -1,6 +1,4 @@
-﻿using System;
-using System.Diagnostics;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 
 namespace sachem.Models
 {
@@ -18,18 +16,18 @@ namespace sachem.Models
         /// <summary>
         /// Il existe déjà un cours ayant le code {0}.
         /// </summary>
-        /// <param name="Code"></param>
+        /// <param name="code"></param>
         /// <returns></returns>
-        public static string CoursADejaCeCode(string Code)
-        { return $"Il existe déjà un cours ayant le code {Code}."; }
+        public static string CoursADejaCeCode(string code)
+        { return $"Il existe déjà un cours ayant le code {code}."; }
 
         /// <summary>
         /// Le cours {0} a été enregistré.
         /// </summary>
-        /// <param name="Cours"></param>
+        /// <param name="cours"></param>
         /// <returns></returns>private string I_003(string cours)
-        public static string CoursEnregistre(string Cours)
-        { return $"Le cours {Cours} a été enregistré."; }
+        public static string CoursEnregistre(string cours)
+        { return $"Le cours {cours} a été enregistré."; }
 
         /// <summary>
         /// Impossible d'enregistrer cet étudiant. Il existe déja im tudiant ayant le matricule {0}.
@@ -75,26 +73,26 @@ namespace sachem.Models
         /// <summary>
         /// Le cours {0} a été supprimé.
         /// </summary>
-        /// <param name="Cours"></param>
+        /// <param name="cours"></param>
         /// <returns></returns>
-        public static string CoursSupprime(string Cours)
-        { return $"Le cours {Cours} a été supprimé."; }
+        public static string CoursSupprime(string cours)
+        { return $"Le cours {cours} a été supprimé."; }
 
         /// <summary>
         /// L'étudiant {0} a été enregistré.
         /// </summary>
-        /// <param name="Etudiant"></param>
+        /// <param name="etudiant"></param>
         /// <returns></returns>
-        public static string EtudiantEnregistre(string Etudiant)
-        { return $"L'étudiant {Etudiant} a été enregistré."; }
+        public static string EtudiantEnregistre(string etudiant)
+        { return $"L'étudiant {etudiant} a été enregistré."; }
 
         /// <summary>
         /// Impossible de retirer le programme d'étude {0} des programmes suivis par l'étudiant.
         /// </summary>
-        /// <param name="Programme"></param>
+        /// <param name="programme"></param>
         /// <returns></returns>
-        public static string ImpossibleDeRetirerProgrammeDUnEtudiant(string Programme)
-        { return $"Impossible de retirer le programme d'étude {Programme} des programmes suivis par l'étudiant."; }
+        public static string ImpossibleDeRetirerProgrammeDUnEtudiant(string programme)
+        { return $"Impossible de retirer le programme d'étude {programme} des programmes suivis par l'étudiant."; }
 
         /// <summary>
         /// L'enseignant ne peut être supprimé car il est relié à un cours.
@@ -105,10 +103,10 @@ namespace sachem.Models
         /// <summary>
         /// Impossible d’enregistrer cet enseignant. Il existe déjà un enseignant ayant le nom d'usager {0}.
         /// </summary>
-        /// <param name="NomUsager"></param>
+        /// <param name="nomUsager"></param>
         /// <returns></returns>
-        public static string NomEnseignantDejaExistant(string NomUsager)
-        { return $"Impossible d’enregistrer cet enseignant. Il existe déjà un enseignant ayant le nom d'usager {NomUsager}."; }
+        public static string NomEnseignantDejaExistant(string nomUsager)
+        { return $"Impossible d’enregistrer cet enseignant. Il existe déjà un enseignant ayant le nom d'usager {nomUsager}."; }
 
         /// <summary>
         /// L'étudiant ne peut être supprimé, car il est associé à un groupe.
@@ -120,18 +118,18 @@ namespace sachem.Models
         /// <summary>
         /// L'usager {0} a été modifié.
         /// </summary>
-        /// <param name="NomUsager"></param>
+        /// <param name="nomUsager"></param>
         /// <returns></returns>
-        public static string UsagerModfie(string NomUsager)
-        { return $"L'usager {NomUsager} a été modifié."; }
+        public static string UsagerModfie(string nomUsager)
+        { return $"L'usager {nomUsager} a été modifié."; }
 
         /// <summary>
         /// Le programme d'étude {0} a été retiré de la liste des programmes suivis par l'étudiant.
         /// </summary>
-        /// <param name="Programme"></param>
+        /// <param name="programme"></param>
         /// <returns></returns>
-        public static string ProgrammeRetireDelaListeEtudiant(string Programme)
-        { return $"Le programme d'étude {Programme} a été retiré de la liste des programmes suivis par l'étudiant."; }
+        public static string ProgrammeRetireDelaListeEtudiant(string programme)
+        { return $"Le programme d'étude {programme} a été retiré de la liste des programmes suivis par l'étudiant."; }
 
         //Comptes/Connexion
         /// <summary>
@@ -160,44 +158,44 @@ namespace sachem.Models
         /// <summary>
         /// Le groupe {0} a été supprimé.
         /// </summary>
-        /// <param name="NoGroupe"></param>
+        /// <param name="noGroupe"></param>
         /// <returns></returns>
-        public static string GroupeSupprime(int NoGroupe)
-        { return $"Le groupe {NoGroupe} a été supprimé."; }
+        public static string GroupeSupprime(int noGroupe)
+        { return $"Le groupe {noGroupe} a été supprimé."; }
 
         /// <summary>
         /// Impossible d'enregistrer ce groupe. Il existe déjà un groupe ayant le numéro {0}.
         /// </summary>
-        /// <param name="NoGroupe"></param>
+        /// <param name="noGroupe"></param>
         /// <returns></returns>
-        public static string GroupeAyantLeMemeNumero(int NoGroupe)
-        { return $"Impossible d'enregistrer ce groupe. Il existe déjà un groupe ayant le numéro {NoGroupe}."; }
+        public static string GroupeAyantLeMemeNumero(int noGroupe)
+        { return $"Impossible d'enregistrer ce groupe. Il existe déjà un groupe ayant le numéro {noGroupe}."; }
 
         /// <summary>
         /// L'étudiant {0} a été retiré du groupe {1}.
         /// </summary>
-        /// <param name="Matricule"></param>
-        /// <param name="NoGroupe"></param>
+        /// <param name="matricule"></param>
+        /// <param name="noGroupe"></param>
         /// <returns></returns>
-        public static string EudiantRetireDuGroupe(string Matricule, int NoGroupe)
-        { return $"L'étudiant {Matricule} a été retiré du groupe {NoGroupe}."; }
+        public static string EudiantRetireDuGroupe(string matricule, int noGroupe)
+        { return $"L'étudiant {matricule} a été retiré du groupe {noGroupe}."; }
 
         /// <summary>
         /// Impossible d'ajouter l'étudiant {0} au groupe puisqu'il en fait déjà partie.
         /// </summary>
-        /// <param name="Matricule"></param>
+        /// <param name="matricule"></param>
         /// <returns></returns>
-        public static string EtudiantAjouteDeuxFoisAuGroupe(string Matricule)
-        { return $"Impossible d'ajouter l'étudiant {Matricule} au groupe puisqu'il en fait déjà partie."; }
+        public static string EtudiantAjouteDeuxFoisAuGroupe(string matricule)
+        { return $"Impossible d'ajouter l'étudiant {matricule} au groupe puisqu'il en fait déjà partie."; }
 
         /// <summary>
         /// L'étudiant {0} a été ajouté au groupe {1}.
         /// </summary>
-        /// <param name="Matricule"></param>
-        /// <param name="IdGroupe"></param>
+        /// <param name="matricule"></param>
+        /// <param name="idGroupe"></param>
         /// <returns></returns>
-        public static string EtudiantAjouteAuGroupe(string Matricule, int IdGroupe)
-        { return $"L'étudiant {Matricule} a été ajouté au groupe {IdGroupe}."; }
+        public static string EtudiantAjouteAuGroupe(string matricule, int idGroupe)
+        { return $"L'étudiant {matricule} a été ajouté au groupe {idGroupe}."; }
 
         /// <summary>
         /// Un compte existe déjà pour cet étudiant.
@@ -223,18 +221,18 @@ namespace sachem.Models
         /// <summary>
         /// L'étudiant {0} a été supprimé.
         /// </summary>
-        /// <param name="Etudiant"></param>
+        /// <param name="etudiant"></param>
         /// <returns></returns>
-        public static string EtudiantSupprime(string Etudiant)
-        { return $"L'étudiant {Etudiant} a été supprimé."; }
+        public static string EtudiantSupprime(string etudiant)
+        { return $"L'étudiant {etudiant} a été supprimé."; }
 
         /// <summary>
         /// L'enseignant {0} a été supprimer.
         /// </summary>
-        /// <param name="Enseignant"></param>
+        /// <param name="enseignant"></param>
         /// <returns></returns>
-        public static string EnseignantSupprime(string Enseignant)
-        { return $"L'enseignant {Enseignant} a été supprimé."; }
+        public static string EnseignantSupprime(string enseignant)
+        { return $"L'enseignant {enseignant} a été supprimé."; }
 
         /// <summary>
         /// L’horaire d’inscription au SACHEM a été mis à jour.
@@ -268,18 +266,18 @@ namespace sachem.Models
         /// <summary>
         /// Erreur lors du transfert de fichier {0}.
         /// </summary>
-        /// <param name="Fichier"></param>
+        /// <param name="fichier"></param>
         /// <returns></returns>
-        public static string ErreurTransfertFichier(string Fichier)
-        { return $"Erreur lors du transfert du fichier {Fichier}."; }
+        public static string ErreurTransfertFichier(string fichier)
+        { return $"Erreur lors du transfert du fichier {fichier}."; }
 
         /// <summary>
         /// Un fichier {0} de même nom est déjà présent sur le serveur.
         /// </summary>
-        /// <param name="Fichier"></param>
+        /// <param name="fichier"></param>
         /// <returns></returns>
-        public static string FichierAvecLeMemeNomExisteDeja(string Fichier)
-        { return $"Un fichier {Fichier} de même nom est déjà présent sur le serveur."; }
+        public static string FichierAvecLeMemeNomExisteDeja(string fichier)
+        { return $"Un fichier {fichier} de même nom est déjà présent sur le serveur."; }
 
         /// <summary>
         /// Impossible d’enregistrer ce cours. Il existe déjà dans votre liste de cours suivis antérieurement.
@@ -298,22 +296,22 @@ namespace sachem.Models
         /// <summary>
         /// L'étudiant {Matricule} a été déplacé au groupe {IdGroupe} du cours {NomCours}.
         /// </summary>
-        /// <param name="Matricule"></param> 
-        /// <param name="IdGroupe"></param>
-        /// <param name="NomCours"></param>
+        /// <param name="matricule"></param> 
+        /// <param name="idGroupe"></param>
+        /// <param name="nomCours"></param>
         /// <returns></returns>
-        public static string EtudiantDeplacementDeGroupe(string Matricule, int IdGroupe, string NomCours)
-        { return $"L'étudiant {Matricule} a été déplacé au groupe {IdGroupe} du cours {NomCours}."; }
+        public static string EtudiantDeplacementDeGroupe(string matricule, int idGroupe, string nomCours)
+        { return $"L'étudiant {matricule} a été déplacé au groupe {idGroupe} du cours {nomCours}."; }
 
         /// <summary>
         /// L'étudiant {0} ne peut pas être déplacé au groupe {1} du cours {2},car il y est déjà!
         /// </summary>
-        /// <param name="Matricule"></param>
-        /// <param name="IdGroupe"></param>
-        /// <param name="NomCours"></param>
+        /// <param name="matricule"></param>
+        /// <param name="idGroupe"></param>
+        /// <param name="nomCours"></param>
         /// <returns></returns>
-        public static string EtudiantDeplacementDeCoursImpossible(string Matricule, int IdGroupe, string NomCours)
-        { return $"L'étudiant {Matricule} ne peut pas être déplacé au groupe {IdGroupe} du cours {NomCours}, car il y est déjà."; }
+        public static string EtudiantDeplacementDeCoursImpossible(string matricule, int idGroupe, string nomCours)
+        { return $"L'étudiant {matricule} ne peut pas être déplacé au groupe {idGroupe} du cours {nomCours}, car il y est déjà."; }
 
         /// <summary>
         /// L'étudiant ne peut être supprimé s'il est jumelé
@@ -325,18 +323,18 @@ namespace sachem.Models
         /// <summary>
         /// Le collège {0} a été ajouté
         /// </summary>
-        /// <param name="NomCollege"></param>
+        /// <param name="nomCollege"></param>
         /// <returns></returns>
-        public static string CollegeAjoute(string NomCollege)
-        { return $"Le collège {NomCollege} a été ajouté."; }
+        public static string CollegeAjoute(string nomCollege)
+        { return $"Le collège {nomCollege} a été ajouté."; }
 
         /// <summary>
         /// L'étudiant {0} a été modifié.
         /// </summary>
-        /// <param name="NomEtudiant"></param>
+        /// <param name="nomEtudiant"></param>
         /// <returns></returns>
-        public static string EtudiantModifie(string NomEtudiant)
-        { return $"L'étudiant {NomEtudiant} a été modifié."; }
+        public static string EtudiantModifie(string nomEtudiant)
+        { return $"L'étudiant {nomEtudiant} a été modifié."; }
 
         /// <summary>
         /// Un cours ne peut être choisi qu'une seule fois.
@@ -355,18 +353,18 @@ namespace sachem.Models
         /// <summary>
         /// Le collège {0} a bien été supprimé
         /// </summary>
-        /// <param name="NomCollege"></param>
+        /// <param name="nomCollege"></param>
         /// <returns></returns>
-        public static string CollegeSupprime(string NomCollege)
-        { return $"Le collège {NomCollege} a bien été supprimé."; }
+        public static string CollegeSupprime(string nomCollege)
+        { return $"Le collège {nomCollege} a bien été supprimé."; }
         
         /// <summary>
         /// Problème lors de l'envoi du courriel, le port {0} est bloqué.
         /// </summary>
-        /// <param name="NumeroPort></param>
+        /// <param name="numeroPort"></param>
         /// <returns></returns>
-        public static string EnvoiCourrielImpossiblePortBloque(string NumeroPort)
-        { return $"Problème lors de l'envoi du courriel, le port {NumeroPort} est bloqué."; }
+        public static string EnvoiCourrielImpossiblePortBloque(string numeroPort)
+        { return $"Problème lors de l'envoi du courriel, le port {numeroPort} est bloqué."; }
 
         /// <summary>
         /// Cochez la case pour signer le contrat.
@@ -473,11 +471,11 @@ namespace sachem.Models
         ///<summary>
         /// Les dates de début et de fin doivent faire partie de la session sélectionnée.
         /// </summary>
-        /// <param name="DateDebut"></param>
-        /// <param name="DateFin"></param>
+        /// <param name="dateDebut"></param>
+        /// <param name="dateFin"></param>
         /// <returns></returns>
-        public static string DatesDansLaSession (string DateDebut, string DateFin)
-        { return $"Les dates de début et de fin doivent faire partie de la session. {DateDebut} et {DateFin}."; }
+        public static string DatesDansLaSession (string dateDebut, string dateFin)
+        { return $"Les dates de début et de fin doivent faire partie de la session. {dateDebut} et {dateFin}."; }
 
         /// <summary>
         /// Un des deux champs {0}, {1} doit être complété.
@@ -602,10 +600,10 @@ namespace sachem.Models
         /// <summary>
         /// Voulez-vous vraiment supprimer le cours {0}?
         /// </summary>
-        /// <param name="Cours"></param>
+        /// <param name="cours"></param>
         /// <returns></returns>
-        public static string VraimentSupprimerCours(string Cours)
-        { return $"Voulez-vous vraiment supprimer le cours {Cours}?"; }
+        public static string VraimentSupprimerCours(string cours)
+        { return $"Voulez-vous vraiment supprimer le cours {cours}?"; }
 
         /// <summary>
         /// Voulez-vous vraiment supprimer le programme d'études {0} ?
@@ -618,7 +616,6 @@ namespace sachem.Models
         /// <summary>
         /// Voulez-vous vraiment supprimer le programme d'études:
         /// </summary>
-        /// <param name="nomProgrammeEtude"></param>
         /// <returns></returns>
         public static string SupprimerCeProgrammeEtude()
         { return $"Voulez-vous vraiment supprimer le programme d'études:"; }
@@ -626,68 +623,68 @@ namespace sachem.Models
         /// <summary>
         /// Voulez-vous vraiment supprimer l'enseignant {0} ?
         /// </summary>
-        /// <param name="Enseignant"></param>
+        /// <param name="enseignant"></param>
         /// <returns></returns>
-        public static string VraimentSupprimerEnseignant(string Enseignant)
-        { return $"Voulez-vous vraiment supprimer l'enseignant {Enseignant} ?"; }
+        public static string VraimentSupprimerEnseignant(string enseignant)
+        { return $"Voulez-vous vraiment supprimer l'enseignant {enseignant} ?"; }
 
         /// <summary>
-        /// L'enseignant {0} a été créé. Souhaitez-vous <a href=\"Sachem/Groupes/{1}\">y associer un groupe?</a>
+        /// L'enseignant {0} a été créé. Souhaitez-vous y associer un groupe?
         /// </summary>
-        /// <param name="NomUsager"></param>
-        /// <param name="id_Enseignant"></param>
+        /// <param name="nomUsager"></param>
+        /// <param name="idEnseignant"></param>
         /// <returns></returns>
-        public static MvcHtmlString AjouterUnGroupeAUnEnseignant(string NomUsager, int id_Enseignant)
-        { return MvcHtmlString.Create($"L'enseignant {NomUsager} a été créé. Souhaitez-vous <a href=\"/Groupes/Create?idEns={id_Enseignant}\">y associer un groupe?</a>");}
+        public static MvcHtmlString AjouterUnGroupeAUnEnseignant(string nomUsager, int idEnseignant)
+        { return MvcHtmlString.Create($"L'enseignant {nomUsager} a été créé. Souhaitez-vous <a href=\"/Groupes/Create?idEns={idEnseignant}\">y associer un groupe?</a>");}
 
         /// <summary>
         /// Voulez-vous vraiment supprimer le groupe {0}?
         /// </summary>
-        /// <param name="NoGroupe"></param>
+        /// <param name="noGroupe"></param>
         /// <returns></returns>
-        public static string VraimentSupprimerGroupe(int NoGroupe)
-        { return $"Voulez-vous vraiment supprimer le groupe {NoGroupe}?"; }
+        public static string VraimentSupprimerGroupe(int noGroupe)
+        { return $"Voulez-vous vraiment supprimer le groupe {noGroupe}?"; }
 
         /// <summary>
         /// Des étudiants sont rattachés au groupe {0} Souhaitez-vous le supprimer définitivement?
         /// </summary>
-        /// <param name="NoGroupe"></param>
+        /// <param name="noGroupe"></param>
         /// <returns></returns>
-        public static string VraimentSupprimerGroupeAvecEtudiantsRattaches(int NoGroupe)
-        { return $"Des étudiants sont rattachés au groupe {NoGroupe}. Souhaitez-vous le supprimer définitivement?"; }
+        public static string VraimentSupprimerGroupeAvecEtudiantsRattaches(int noGroupe)
+        { return $"Des étudiants sont rattachés au groupe {noGroupe}. Souhaitez-vous le supprimer définitivement?"; }
 
         /// <summary>
         /// Le groupe {0} a été créé. Souhaitez-vous y associer des étudiants?
         /// </summary>
-        /// <param name="NoGroupe"></param>
+        /// <param name="noGroupe"></param>
         /// <returns></returns>
-        public static string GroupeCreeAssocierEtudiant(int NoGroupe)
-        { return $"Le groupe {NoGroupe} a été créé. Souhaitez-vous y associer des étudiants?"; }
+        public static string GroupeCreeAssocierEtudiant(int noGroupe)
+        { return $"Le groupe {noGroupe} a été créé. Souhaitez-vous y associer des étudiants?"; }
 
         /// <summary>
         /// Voulez-vous vraiment retirer l'étudiant {0} du groupe {1}?
         /// </summary>
-        /// <param name="Matricule"></param>
-        /// <param name="NoGroupe"></param>
+        /// <param name="matricule"></param>
+        /// <param name="noGroupe"></param>
         /// <returns></returns>
-        public static string RetirerEtudiantDUnGroupe(string Matricule,int NoGroupe)
-        { return $"Voulez-vous vraiment retirer l'étudiant {Matricule} du groupe {NoGroupe}?"; }
+        public static string RetirerEtudiantDUnGroupe(string matricule,int noGroupe)
+        { return $"Voulez-vous vraiment retirer l'étudiant {matricule} du groupe {noGroupe}?"; }
 
         /// <summary>
         /// L'étudiant {0} est déjà inscrit à un cours. Voulez-vous le déplacer? 
         /// </summary>
-        /// <param name="PrenomNom"></param>
+        /// <param name="prenomNom"></param>
         /// <returns></returns>
-        public static string VraimentDeplacerEtudiant(string PrenomNom)
-        { return $"L'étudiant {PrenomNom} est déjà inscrit à un cours. Voulez-vous le déplacer?"; }
+        public static string VraimentDeplacerEtudiant(string prenomNom)
+        { return $"L'étudiant {prenomNom} est déjà inscrit à un cours. Voulez-vous le déplacer?"; }
         
         /// <summary>
         /// Voulez-vous vraiment supprimer le cours {0} de votre liste de cours suivis?
         /// </summary>
-        /// <param name="Cours"></param>
+        /// <param name="cours"></param>
         /// <returns></returns>
-        public static string SupprimerCoursListeSuivis(string Cours)
-        { return $"Voulez-vous vraiment supprimer le cours {Cours} de votre liste de cours suivis?"; }
+        public static string SupprimerCoursListeSuivis(string cours)
+        { return $"Voulez-vous vraiment supprimer le cours {cours} de votre liste de cours suivis?"; }
 
         /// <summary>
         /// Un collège est en cours d'ajout ou de modification. Souhaitez-vous annuler cette opération?
@@ -700,10 +697,10 @@ namespace sachem.Models
         /// <summary>
         /// Voulez-vous vraiment supprimer le collège {0}?
         /// </summary>
-        /// <param name="College"></param>
+        /// <param name="college"></param>
         /// <returns></returns>
-        public static string VraimentSupprimerCollege(string College)
-        { return $"Voulez-vous vraiment supprimer le collège {College}?"; }
+        public static string VraimentSupprimerCollege(string college)
+        { return $"Voulez-vous vraiment supprimer le collège {college}?"; }
 
         /// <summary>
         /// Voulez-vous vraiment mettre fin à ce jumelage?
@@ -715,10 +712,10 @@ namespace sachem.Models
         /// <summary>
         /// Voulez-vous vraiment supprimer l'étudiant {0} ?
         /// </summary>
-        /// <param name="NomEtudiant"></param>
+        /// <param name="nomEtudiant"></param>
         /// <returns></returns>
-        public static string VraimentSupprimerEtudiant(string NomEtudiant)
-        { return $"Voulez-vous vraiment supprimer l'étudiant {NomEtudiant}?"; }
+        public static string VraimentSupprimerEtudiant(string nomEtudiant)
+        { return $"Voulez-vous vraiment supprimer l'étudiant {nomEtudiant}?"; }
 
         /// <summary>
         /// Combien d'heures êtes vous pret à donner à chaque semaine (1h30/élève aidé)?.
@@ -844,7 +841,7 @@ namespace sachem.Models
         /// "Les fichiers CSV seulement."
         /// </summary>
         /// <returns></returns>
-        public static string ImporterFichierCSVSeulement(string extension)
+        public static string ImporterFichierCsvSeulement(string extension)
         { return $"Seulement les fichiers de type {extension} sont acceptés."; }
 
         /// <summary>
@@ -998,8 +995,6 @@ namespace sachem.Models
         /// <summary>
         /// Êtes-vous certain de créer au jumelage entre:
         /// </summary>
-        /// <param name="param1"></param>
-        /// <param name="param2"></param>
         /// <returns></returns>
         public static string JumelageCreerJumelageEntre()
         { return "Êtes-vous certain de créer un jumelage entre:"; }

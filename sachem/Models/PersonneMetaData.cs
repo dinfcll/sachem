@@ -47,7 +47,7 @@ namespace sachem.Models
         //la mise en commentaire le l'expression reguliere me permet de creer des comptes
         [RegularExpression(@"^[0-9]{4}-[0-9]{2}-[0-9]{2} [0-2][0-9]:[0-5][0-9]:[0-5][0-9]$|^[0-9]{4}\/[0-9]{2}\/[0-9]{2}$", ErrorMessage = Messages.FormatEnDate)]
         [DisplayFormat(DataFormatString = "{0:yyyy\\/MM\\/dd}", ApplyFormatInEditMode = true)]
-        public global::System.DateTime DateNais;
+        public DateTime DateNais;
 
 
         [Display(Name = "Courriel")]

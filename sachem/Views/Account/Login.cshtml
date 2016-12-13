@@ -1,9 +1,7 @@
-﻿@using sachem.Models
-@model sachem.Models.Personne
+﻿@model sachem.Models.Personne
 @{
     ViewBag.Title = "Connexion au SACHEM";
 }
-<style>#btn-forgottenpswd { font-size:120%;font-weight: bolder;height:34px; } #input-pswd { float:left;width:245px; }</style>
 
 <h2>@ViewBag.Title.</h2>
 
@@ -30,7 +28,7 @@
                 <div class="col-md-9">
                     <div>
                         @Html.EditorFor(model => model.MP, new { htmlAttributes = new { @class = "form-control", @type = "password", @id = "input-pswd" } })
-                        @Html.ActionLink("?", "ForgotPassword", null, new { @class = "btn btn-default", @id = "btn-forgottenpswd" })
+                        @Html.ActionLink("?", "ForgotPassword", null, new { @class = "btn btn-default", @id = "login-btn-forgottenpswd" })
                     </div>
                     @Html.ValidationMessageFor(model => model.MP, "", new { @class = "text-danger" })
                 </div>
@@ -58,10 +56,3 @@
         </div>
     }
 </div>
-
-
-
-
-@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
-}

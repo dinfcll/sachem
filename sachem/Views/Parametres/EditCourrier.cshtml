@@ -1,13 +1,12 @@
-﻿@model sachem.Models.Courriel
+﻿@model Courriel
 @using sachem.Models
 @using System.Web.Mvc.Html
 @{
     ViewBag.Title = "Modifier courriel";
 }
-
+@Scripts.Render("~/bundles/tinymce")
 <h2>@ViewBag.Title</h2>
 @*Merci à Rion Williams et au site http://rion.io/2014/09/30/integrating-tinymce-into-an-mvc-5-project/ pour le code sur TinyMCE*@
-<script src="~/scripts/tinymce/tinymce.min.js"></script>
 <script type="text/javascript">
         tinyMCE.init({
             mode: "textareas",
@@ -19,7 +18,7 @@
             theme_advanced_toolbar_location: "top",
             theme_advanced_toolbar_align: "left",
             theme_advanced_statusbar_location: "bottom",
-            theme_advanced_resizing: true,
+            theme_advanced_resizing: true
         });
 </script>
 @using (Html.BeginForm("EditCourrier", "Parametres", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
@@ -44,7 +43,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.DateDebut, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.DateDebut, new { htmlAttributes = new { @class = "form-control", @placeholer = "AAAA/MM/JJ" } })
+                @Html.EditorFor(model => model.DateDebut, new { htmlAttributes = new { @class = "form-control", placeholer = "AAAA/MM/JJ" } })
                 @Html.ValidationMessageFor(model => model.DateDebut, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -52,7 +51,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.DateFin, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.DateFin, new { htmlAttributes = new { @class = "form-control", @placeholer = "AAAA/MM/JJ" } })
+                @Html.EditorFor(model => model.DateFin, new { htmlAttributes = new { @class = "form-control", placeholer = "AAAA/MM/JJ" } })
                 @Html.ValidationMessageFor(model => model.DateFin, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -66,9 +65,9 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.Courriel1, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.Courriel1, htmlAttributes: new { @class = "control-label col-md-2", rows = 40 })
             <div class="col-md-10">
-                @Html.TextAreaFor(model=> model.Courriel1, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.TextAreaFor(model=> model.Courriel1, new { htmlAttributes = new { @class = "form-control",  } })
                 @Html.ValidationMessageFor(model => model.Courriel1, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -80,8 +79,4 @@
             </div>
         </div>
     </div>
-}
-
-@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
 }

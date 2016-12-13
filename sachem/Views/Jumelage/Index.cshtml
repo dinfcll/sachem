@@ -38,25 +38,14 @@
             @Html.DisplayFor(modelItem => item.p_TypeInscription.TypeInscription)
         </td>
         <td>
-            @{  String count;
-                if (item.p_TypeInscription.id_TypeInscription == 1)
-                        {
-                    count = ((sachem.Controllers.JumelageController)this.ViewContext.Controller).RetourneNbreJumelageEtudiant(item.Jumelage.Count());
-                }
-                else
-                {
-                    count = ((sachem.Controllers.JumelageController)this.ViewContext.Controller).RetourneNbreJumelageEtudiant(item.Jumelage1.Count());
-                        }
-                    }
+            @{
+                var count = ((sachem.Controllers.JumelageController) ViewContext.Controller).RetourneNbreJumelageEtudiant(item.p_TypeInscription.id_TypeInscription == 1 ? item.Jumelage.Count : item.Jumelage1.Count);
+            }
             @(count)
         </td>
-
-
         <td>
             @Html.ActionLink("Accéder", "Details", new { id=item.id_Inscription })
         </td>
-
-
     </tr>
 }
     @if (!Model.Any())

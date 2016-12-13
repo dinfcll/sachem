@@ -27,34 +27,9 @@
         </dt>
 
         <dd>
-            @{  String count;
-                if (Model.p_TypeInscription.id_TypeInscription == 1)
-                {
-                    count = ((sachem.Controllers.JumelageController)this.ViewContext.Controller).RetourneNbreJumelageEtudiant(Model.Jumelage.Count());
-                }
-                else
-                {
-                    count = ((sachem.Controllers.JumelageController)this.ViewContext.Controller).RetourneNbreJumelageEtudiant(Model.Jumelage1.Count());
-                }
-            }
+            @{var count = ((sachem.Controllers.JumelageController) ViewContext.Controller).RetourneNbreJumelageEtudiant(Model.p_TypeInscription.id_TypeInscription == 1 ? Model.Jumelage.Count: Model.Jumelage1.Count);}
             @(count)
         </dd>
-        @*<dt>Doit afficher d'autres resultats lorsque les autres features seront prets (ceux des questionnaires)</dt>
-    <dt>
-        @Html.Label("[WIP FORMULAIRE] Nombre d'heures que l'étudiant est prêt à faire par semaine ( 1 rencontre = 1h30)")
-    </dt>
-
-    <dd>
-        @Html.Label("[WIP FORMULAIRE] Reponse - 3hrs")
-    </dd>
-
-    <dt>
-        @Html.Label("[WIP FORMULAIRE] Etudiant est-il prêt à faire deux rencontres de suite")
-    </dt>
-
-    <dd>
-        @Html.Label("[WIP FORMULAIRE] Reponse - Oui")
-    </dd>*@
     </dl>
     <dl class="dl-horizontal col-sm-12">
         <dt>
@@ -106,12 +81,11 @@
     @Html.Partial("_Disponibilites")
 }
 
-@*if futur sur: etudiant veut etre encore jumeler, afficher la zone de jumelage possible*@
 @using (Html.BeginForm("Details", "Jumelage", FormMethod.Post, new { @class = "form-inline", role = "form" }))
 {
     @Html.Partial("_JumelagesPossibles")
 }
-@*else*@
+
 @using (Html.BeginForm("Details", "Jumelage", FormMethod.Post, new { @class = "form-inline", role = "form" }))
 {
     @Html.Partial("_JumelagesAvec")

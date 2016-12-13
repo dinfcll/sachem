@@ -104,12 +104,12 @@ namespace sachem.Classes_Sachem
       
         public static List<string> ListeJours()
         {
-            List<string> Jours = new List<string>();
+            List<string> jours = new List<string>();
             for (int i = (int)Semaine.Lundi; i < (int)Semaine.Samedi; i++)
             {
-                Jours.Add(((Semaine)i).ToString());
+                jours.Add(((Semaine)i).ToString());
             }
-            return Jours.ToList();
+            return jours.ToList();
         }
 
         public static List<SelectListItem> ListeStatutCours()
