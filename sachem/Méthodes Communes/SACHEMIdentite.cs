@@ -265,11 +265,16 @@ namespace sachem.Models
         }
     }
 
-    public class MotDePasse
+    public class AutreMethode
     {
-        public bool VerificationMotDePasseEtConfirmation(string MotDePasse, string MotDePasseConfirmation)
+        public bool VerificationMotDePasseEtConfirmation(string motDePasse, string motDePasseConfirmation)
         {
-            return MotDePasse == MotDePasseConfirmation;
+            return motDePasse == motDePasseConfirmation;
+        }
+
+        public HttpStatusCodeResult CheckSiIdEstNull(int? id)
+        {
+            return id == null ? new HttpStatusCodeResult(HttpStatusCode.BadRequest) : null;
         }
     }
 }
