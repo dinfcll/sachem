@@ -12,9 +12,6 @@ using sachem.Models.DataAccess;
 namespace sachem.Models
 {
     public enum TypeUsagers { Aucun = 0, Etudiant = 1, Enseignant = 2, Responsable = 3, Super = 4, Eleve = 5, Tuteur = 6 } //Enum contenant les types d'usagers du SACHEM
-
-    
-
     
     public class SachemIdentite
     {
@@ -58,7 +55,7 @@ namespace sachem.Models
 
         public static string FormatTelephone(string s)
         {
-            var charsToRemove = new string[] { ".", "-", "(", " ", ")" };
+            var charsToRemove = new[] { ".", "-", "(", " ", ")" };
             return charsToRemove.Aggregate(s, (current, c) => current.Replace(c, string.Empty));
         }
         
@@ -79,10 +76,10 @@ namespace sachem.Models
         }
 
         //Permet l'encryption d'une chaine 
-        public static string EncrypterChaine(string Chaine)
+        public static string EncrypterChaine(string chaine)
         {
             var provider = new MD5CryptoServiceProvider();
-            var buffer = Encoding.UTF8.GetBytes(Chaine);
+            var buffer = Encoding.UTF8.GetBytes(chaine);
             return BitConverter.ToString(provider.ComputeHash(buffer)).Replace("-", "").ToLower();
         }
     }
