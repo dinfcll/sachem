@@ -22,7 +22,7 @@ namespace sachem.Controllers
         [HttpPost]
         public ActionResult Index(string motDePasse, bool confirmationSignatureContrat, [Bind(Include = "id_Inscription")] Inscription inscription)
         {
-            motDePasse = SachemIdentite.encrypterChaine(motDePasse);
+            motDePasse = SachemIdentite.EncrypterChaine(motDePasse);
             int idDeLaPersonneConnectee = SessionBag.Current.id_Pers;
             var personneConnectee = _db.Personne.Find(idDeLaPersonneConnectee);
 

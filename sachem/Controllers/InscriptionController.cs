@@ -22,7 +22,7 @@ namespace sachem.Controllers
         [ValidationAcces.ValidationAccesInscription]
         public ActionResult Index()
         {
-            ViewBag.TypeInscription = new SelectList(_db.p_TypeInscription, "id_TypeInscription", "TypeInscription");
+            ViewBag.TypeInscription = Liste.ListeTypeInscription();
 
             return View();
         }
@@ -32,7 +32,7 @@ namespace sachem.Controllers
         public ActionResult Index(int typeInscription, string[] jours )
         {
             int idPers = SessionBag.Current.id_Pers;
-            ViewBag.TypeInscription = new SelectList(_db.p_TypeInscription, "id_TypeInscription", "TypeInscription");
+            ViewBag.TypeInscription = Liste.ListeTypeInscription();
             var sessionActuelle = _db.Session.AsNoTracking().OrderByDescending(y => y.Annee).ThenByDescending(x => x.id_Saison).FirstOrDefault();
             if (sessionActuelle != null)
             {
@@ -95,9 +95,14 @@ namespace sachem.Controllers
         }
 
         [NonAction]
-        public List<string> RetourneListeJours()
+        public List<string> RetourneListeJours() //peut etre mis en commun dans la classe liste de AL avec Jumelage
         {
-            return Liste.ListeJours();
+            var jours = new List<string>();
+            for (var i = 2; i < 7; i++)
+            {
+                jours.Add(((Semaine)i).ToString());
+            }
+            return jours.ToList();
         }
 
         private static int CheckConfigHeure(string heure, int defaut)
@@ -140,31 +145,28 @@ namespace sachem.Controllers
         [ValidationAcces.ValidationAccesEtu]
         public ActionResult EleveAide1()
         {
-            ListeCours();
-            ListeStatutCours();
-            ListeSession();
+            ViewBag.lstCours = Liste.ListeCours();
+            ViewBag.lstCours1 = Liste.ListeCours();
+            ViewBag.lstStatut = Liste.ListeStatutCours();
+            ViewBag.slSession = Liste.ListeSession();
             return View();
         }
 
         [HttpGet]
         public ActionResult Tuteur()
         {
-            ListeCours();
-            ListeCollege();
+            ViewBag.lstCours = Liste.ListeCours();
+            ViewBag.lstCours1 = Liste.ListeCours();
+            ViewBag.lstCollege = Liste.ListeCollege();
             return View();
-        }
-
-        [NonAction]
-        public void ListeStatutCours()
-        {
-            ViewBag.lstStatut = Liste.ListeStatutCours();
         }
 
         public ActionResult GetLigneCoursEleveAide()
         {
-            ListeCours();
-            ListeStatutCours();
-            ListeSession();
+            ViewBag.lstCours = Liste.ListeCours();
+            ViewBag.lstCours1 = Liste.ListeCours();
+            ViewBag.lstStatut = Liste.ListeStatutCours();
+            ViewBag.slSession = Liste.ListeSession();
 
             return PartialView("_LigneCoursReussiEleveAide");
         }
@@ -172,8 +174,9 @@ namespace sachem.Controllers
         [HttpGet]
         public ActionResult Benevole()
         {
-            ListeCours();
-            ListeCollege();
+            ViewBag.lstCours = Liste.ListeCours();
+            ViewBag.lstCours1 = Liste.ListeCours();
+            ViewBag.lstCollege = Liste.ListeCollege();
 
             return View();
         }
@@ -181,8 +184,9 @@ namespace sachem.Controllers
         [HttpPost]
         public ActionResult GetLigneCours()
         {
-            ListeCours();
-            ListeCollege();
+            ViewBag.lstCours = Liste.ListeCours();
+            ViewBag.lstCours1 = Liste.ListeCours();
+            ViewBag.lstCollege = Liste.ListeCollege();
 
             return PartialView("_LigneCoursReussi");
         }
@@ -295,28 +299,10 @@ namespace sachem.Controllers
         }
 
         [HttpPost]
-        public void ListeCours()
-        {
-            ViewBag.lstCours = Liste.ListeCours();
-        }
-
-        [HttpPost]
         public string ErreurCours()
         {
             ViewBag.lstCours = Liste.ListeCours();
             return Messages.CoursChoisiUneSeuleFois();
-        }
-
-        [HttpPost]
-        public void ListeCollege()
-        {
-            ViewBag.lstCollege = Liste.ListeCollege();
-        }
-
-        [NonAction]
-        public void ListeSession()
-        {
-            ViewBag.slSession = Liste.ListeSession();
         }
 
         public bool Contient(string value, List<string[]> donneesInscription)

@@ -29,7 +29,7 @@ namespace sachem.Models.DataAccess
 
         public IEnumerable GetStatut()
         {
-            return db.p_StatutCours.AsNoTracking();
+            return db.p_StatutCours.AsNoTracking().OrderBy(c => c.id_Statut);
         }
 
         public System.Linq.IQueryable<int> GetSpecificInscription(int id)

@@ -137,7 +137,7 @@ namespace sachem.Controllers
                 ModelState.AddModelError(string.Empty, Messages.ConnexionEchouee());
             }
 
-            mp = SachemIdentite.encrypterChaine(mp);
+            mp = SachemIdentite.EncrypterChaine(mp);
 
             if (personneBd != null && personneBd.MP != mp)
                 ModelState.AddModelError(string.Empty, Messages.ConnexionEchouee());
@@ -262,7 +262,7 @@ namespace sachem.Controllers
                         etudiantBd.Telephone = SachemIdentite.FormatTelephone(personne.Telephone);
                         etudiantBd.MP = personne.MP;
                         etudiantBd.ConfirmPassword = personne.ConfirmPassword;
-                        SachemIdentite.encrypterMPPersonne(ref etudiantBd);
+                        SachemIdentite.EncrypterMpPersonne(ref etudiantBd);
 
                         _db.Entry(etudiantBd).State = EntityState.Modified;
 
@@ -365,7 +365,7 @@ namespace sachem.Controllers
             if (personne.AncienMotDePasse == null || personne.MP == null || personne.ConfirmPassword == null)
                 return View(personne);
 
-            if (SachemIdentite.encrypterChaine(personne.AncienMotDePasse) != ancienmdpbd)
+            if (SachemIdentite.EncrypterChaine(personne.AncienMotDePasse) != ancienmdpbd)
             {
                 ModelState.AddModelError("AncienMotDePasse", Messages.MauvaisAncienMotDePasse());
                 return View(personne);
@@ -377,7 +377,7 @@ namespace sachem.Controllers
             {
                 utilisateur.MP = personne.MP;
                 utilisateur.ConfirmPassword = personne.ConfirmPassword;
-                SachemIdentite.encrypterMPPersonne(ref utilisateur);
+                SachemIdentite.EncrypterMpPersonne(ref utilisateur);
                 SessionBag.Current.MP = utilisateur.MP;
                 SupprimerCookieConnexion();
                 _db.Entry(utilisateur).State = EntityState.Modified;

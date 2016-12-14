@@ -275,7 +275,6 @@ namespace sachem.Controllers
                 _db.Dispose();
             }
             base.Dispose(disposing);
-        }
-        
+        }  
     }
 }

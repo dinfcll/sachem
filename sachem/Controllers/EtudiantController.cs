@@ -77,8 +77,8 @@ namespace sachem.Controllers
 
             if (ModelState.IsValid)
             {
-                etuProg.personne.MP = SachemIdentite.encrypterChaine(etuProg.personne.MP); 
-                etuProg.personne.ConfirmPassword = SachemIdentite.encrypterChaine(etuProg.personne.ConfirmPassword);
+                etuProg.personne.MP = SachemIdentite.EncrypterChaine(etuProg.personne.MP); 
+                etuProg.personne.ConfirmPassword = SachemIdentite.EncrypterChaine(etuProg.personne.ConfirmPassword);
                 Db.Personne.Add(etuProg.personne);
                 Db.SaveChanges();
                 personne.Telephone = SachemIdentite.RemettreTel(personne.Telephone);
@@ -210,8 +210,8 @@ namespace sachem.Controllers
                 {
                     if (personne.MP != null && personne.ConfirmPassword != null)
                     {
-                        etuProg.personne.MP = SachemIdentite.encrypterChaine(etuProg.personne.MP);
-                        etuProg.personne.ConfirmPassword = SachemIdentite.encrypterChaine(etuProg.personne.ConfirmPassword); 
+                        etuProg.personne.MP = SachemIdentite.EncrypterChaine(etuProg.personne.MP);
+                        etuProg.personne.ConfirmPassword = SachemIdentite.EncrypterChaine(etuProg.personne.ConfirmPassword); 
                     }
                     else
                     {
