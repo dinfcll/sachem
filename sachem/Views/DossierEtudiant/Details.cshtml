@@ -82,23 +82,24 @@
                 if (string.IsNullOrEmpty(Model.Item1.Personne.Telephone))
                 {
                     @Html.EditorFor(model => model.Item1.Personne.Telephone, new
-               {
-                   htmlAttributes = new
-                   {
-                       @class = "form-control",
-                       id = "de-input-field-tel",
-                       required = "required",
-                       placeholder = "(999) 999-9999",
-                       minlength = "10",
-                       maxlength = "14",
-                       type = "tel",
-                       Value = Model.Item1.Personne.Telephone
-                   }
-               })
+                    {
+                        htmlAttributes = new
+                        {
+                            @class = "form-control",
+                            id = "de-input-field-tel",
+                            required = "required",
+                            placeholder = "(999) 999-9999",
+                            minlength = "10",
+                            maxlength = "14",
+                            type = "tel",
+                            Value = Model.Item1.Personne.Telephone
+                        }
+                    })
                 }
                 else
                 {
-                    @Html.EditorFor(model => model.Item1.Personne.Telephone, new{
+                    @Html.EditorFor(model => model.Item1.Personne.Telephone, new
+                    {
                         htmlAttributes = new
                         {
                             @class = "form-control",
@@ -109,10 +110,11 @@
                             maxlength = "14",
                             type = "tel",
                             Value = $"{Convert.ToInt64(Model.Item1.Personne.Telephone):(###) ###-####}"
-                        }})
+                        }
+                    })
                 }
 
-                    <button type="button" id="de-btn-input-field-tel" class="btn btn-default">
+                <button type="button" id="de-btn-input-field-tel" class="btn btn-default">
                         <i class="material-icons" id="de-btn-input-field-icon">build</i>
                     </button>
                     <div id="erreur-tel" style="color:#b94a48;display:none;"></div>
