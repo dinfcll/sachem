@@ -5,31 +5,42 @@
 }
 <script>
     function suivant() {
-        var typeinscr = $('#TypeInscription').val();
-        if (typeinscr !== "Choisir") {
+        var idTypeInscChoisi = $('#TypeInscription :selected').val();
+        if (idTypeInscChoisi !== "Choisir") {
             $('#modalTypeInscriptionErreur').addClass("hide");
             var postData = getDisp();
             var modal = document.getElementById('ConfirmDisp');
             var boutonOk = document.getElementById('btnOk');
             var confirmHoraire = "";
-            $.each(postData.jours,
-                function (nom, disp) {
-                    var date = new Date(0, 0, 0, 0, 0, 0, 0);
-                    date.setMinutes(parseInt(disp.substring(disp.indexOf("-") + 1, disp.lentgh)));
-                    var heureMin = date.toTimeString().substring(0, 5);
-                    date.setMinutes(date.getMinutes() + 90);
-                    var heureMax = date.toTimeString().substring(0, 5);
-                    disp = disp.substring(0, disp.indexOf("-")) + " " + heureMin + " - " + heureMax;
-                    confirmHoraire += disp + ", ";
-                });
 
-            confirmHoraire = confirmHoraire.substring(0, confirmHoraire.toString().length - 2) + ".";
+            $.ajax({
+                url: "/Inscription/FormattageDesDisposPourModal",
+                data: postData,
+                type: "POST",
+                traditional: true,
+                dataType: 'json',
+                success: function (data) {
+                    document.getElementById("plageDisp").innerText = data;
+                }
+            });
+
+            //$.each(postData.jours,
+            //    function (nom, disp) {
+            //        var date = new Date(0, 0, 0, 0, 0, 0, 0);
+            //        date.setMinutes(parseInt(disp.substring(disp.indexOf("-") + 1, disp.lentgh)));
+            //        var heureMin = date.toTimeString().substring(0, 5);
+            //        date.setMinutes(date.getMinutes() + 90);
+            //        var heureMax = date.toTimeString().substring(0, 5);
+            //        disp = disp.substring(0, disp.indexOf("-")) + " " + heureMin + " - " + heureMax;
+            //        confirmHoraire += disp + ", ";
+            //    });
+            //confirmHoraire = confirmHoraire.substring(0, confirmHoraire.toString().length - 2) + ".";
             document.getElementById("plageDisp").innerText = confirmHoraire;
             document.getElementById("typeInsc").innerText = $('#TypeInscription :selected').text();
             modal.style.display = 'block';
 
             boutonOk.onclick = function() {
-                envoie();
+                envoie(postData);
             }
         } else {
             $('#modalTypeInscriptionErreur').removeClass("hide");
@@ -46,8 +57,7 @@
         return postData;
         }
 
-    function envoie() {
-        var postData = getDisp();
+    function envoie(postData) {
         $.ajax({
             url: "/Inscription/Index",
             data: postData,

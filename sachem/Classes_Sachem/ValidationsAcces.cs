@@ -78,12 +78,12 @@ namespace sachem.Classes_Sachem
 
         public class ValidationAccesInscription : ActionFilterAttribute
         {
-            private readonly SACHEMEntities _db = new SACHEMEntities();
-            private readonly int? _id = SessionBag.Current.id_Pers;           
+            private readonly SACHEMEntities _db = new SACHEMEntities();          
 
             public override void OnActionExecuting(ActionExecutingContext filterContext)
-            {               
-                if (_id == null)
+            {
+                int id = SessionBag.Current.id_Pers;
+                if (id == 0)
                 {
                     filterContext.Result = new RedirectResult(_pathLogin);
                     base.OnActionExecuting(filterContext);
@@ -99,7 +99,7 @@ namespace sachem.Classes_Sachem
                     filterContext.Result = new RedirectResult(_pathErreurFerme);
                 }
 
-                var inscriptionExistante = _db.Inscription.Any(x => x.id_Pers == _id);
+                var inscriptionExistante = _db.Inscription.Any(x => x.id_Pers == id);
                 if(inscriptionExistante)
                 {
                     filterContext.Result = new RedirectResult(_pathErreurDeja);

@@ -79,7 +79,7 @@ namespace sachem.Controllers
         [AllowAnonymous]
         public ActionResult Login(string returnUrl)
         {
-            if (SachemIdentite.ObtenirTypeUsager(Session) != TypeUsagers.Aucun)
+            if (SachemIdentite.ObtenirTypeUsager(Session) != TypeUsagers.Aucun && SachemIdentite.ObtenirTypeUsager(Session) != TypeUsagers.Etudiant)
             {
                 return RedirectToAction("Index", "DossierEtudiant", null);
             }
@@ -245,7 +245,7 @@ namespace sachem.Controllers
                 ModelState.AddModelError("Matricule7", Messages.LongueurDeSeptCaracteres);
             else if (reqBdPersonne.Any(x => x.Matricule == personne.Matricule && x.MP != null))
                 ModelState.AddModelError(string.Empty, Messages.CompteExisteDeja());
-            else if (reqBdPersonne.Any(x => x.Matricule == personne.Matricule))
+            else if (reqBdPersonne.Any(x => x.Matricule != personne.Matricule))
                 ModelState.AddModelError(string.Empty, Messages.EtudiantNonInscrit());
             else
             {
@@ -282,7 +282,7 @@ namespace sachem.Controllers
 
                         AjoutInfoConnection(etudiantBd);
                     }
-                    SessionBag.Current.id_TypeUsag = TypeUsagers.Aucun;
+                    SessionBag.Current.id_TypeUsag = TypeUsagers.Etudiant;
                     TempData["Success"] = Messages.CompteCree();
                     return RedirectToAction("Index", "Inscription");
                 }
@@ -418,6 +418,7 @@ namespace sachem.Controllers
             SessionBag.Current.Matricule7 = personne.Matricule7;
             SessionBag.Current.NomComplet = personne.PrenomNom;
             SessionBag.Current.MP = personne.MP;
+            SessionBag.Current.id_Pers = personne.id_Pers;
         }
     }
 }

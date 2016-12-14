@@ -359,6 +359,48 @@ namespace sachem.Controllers
             return RedirectToAction("Details", "DossierEtudiant", new { id = SessionBag.Current.id_Inscription });
         }
 
+        [HttpPost]
+        public ActionResult FormattageDesDisposPourModal(int typeInscription, string[] jours)
+        {
+            var retour = "";
+            var lRetour = new List<string>();
+            var lCases = new List<DisponibiliteStruct>();
+            var derniereCase = 0;
+            foreach (var j in jours)
+            {
+                var laCase = new DisponibiliteStruct
+                {
+                    Jour = j.Substring(0, j.IndexOf('-') - 1),
+                    Minutes = Convert.ToInt32(j.Substring(j.IndexOf('-') + 1, j.Length-1)),
+                    HeureDebut = TimeSpan.FromMinutes(Convert.ToInt32(j.Substring(j.IndexOf('-') + 1, j.Length-1)))
+                };
+                laCase.HeureFin = laCase.HeureDebut + TimeSpan.FromMinutes(90);
+                if (laCase.Minutes.Equals(derniereCase+DemiHeure))
+                {
+                    var premiereHeureDispoDeJournee = laCase.Minutes;
+                    while (!lCases.Exists(x => x.Minutes == premiereHeureDispoDeJournee && x.Jour == laCase.Jour))
+                    {
+                        premiereHeureDispoDeJournee -= DemiHeure;
+                    }
+                    var laCaseRetiree = lCases.Find(x => x.Jour == laCase.Jour && x.Minutes == premiereHeureDispoDeJournee);
+                    lCases.Remove(laCaseRetiree);
+                    laCase.HeureDebut = laCaseRetiree.HeureDebut;
+                }
+                lCases.Add(laCase);
+                derniereCase = laCase.Minutes;
+            }
+            foreach (var c in lCases.OrderBy(x=>x.Jour).ThenBy(x=>x.HeureDebut))
+            {
+                lRetour.Add(
+                    $"{c.Jour} de {c.HeureDebut.Hours}h{c.HeureDebut.Minutes:00} à {c.HeureFin.Hours}h{c.HeureFin.Minutes:00}");
+            }
+            foreach (var s in lRetour)
+            {
+                retour += "<p>" + s + "</p>";
+            }
+            return Json(new { success = true, data = retour });
+        }
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)
