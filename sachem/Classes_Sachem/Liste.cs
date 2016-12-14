@@ -21,6 +21,11 @@ namespace sachem.Classes_Sachem
             return slSession;
         }
 
+        public static SelectList ListeSexe()
+        {
+            return new SelectList(_db.p_Sexe, "id_Sexe", "Sexe");
+        }
+
         public static List<SelectListItem> ListePersonne(int idSession, int idPers)
         {
             var lPersonne = (from p in _db.Personne

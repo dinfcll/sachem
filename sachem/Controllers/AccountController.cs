@@ -221,7 +221,7 @@ namespace sachem.Controllers
         {
             if (SachemIdentite.ObtenirTypeUsager(Session) != TypeUsagers.Aucun)
                 return RedirectToAction("Error", "Home", null);
-            ViewBag.id_Sexe = new SelectList(_db.p_Sexe, "id_Sexe", "Sexe");
+            ViewBag.id_Sexe = Liste.ListeSexe();
             ViewBag.Autorisation = false;
 
             return View();
@@ -232,7 +232,7 @@ namespace sachem.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Register(Personne personne)
         {
-            ViewBag.id_Sexe = new SelectList(_db.p_Sexe, "id_Sexe", "Sexe");
+            ViewBag.id_Sexe = Liste.ListeSexe();
             var reqBdPersonne = _db.Personne.AsNoTracking().Where(x => x.Matricule == personne.Matricule);
             var validation = ConfirmeMdp(personne.MP, personne.ConfirmPassword);
 
