@@ -49,7 +49,7 @@ namespace sachem.Models
 
         public static bool ValiderRoleAcces(List<TypeUsagers> listeRoles, HttpSessionStateBase session)
         {
-            var idRole = (session["id_TypeUsag"] == null ? 0 : (int)session["id_TypeUsag"]);
+            var idRole = (int)session["id_TypeUsag"];
             return listeRoles.Contains((TypeUsagers)idRole);
         }
 
