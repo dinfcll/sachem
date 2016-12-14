@@ -9,7 +9,7 @@ namespace sachem.Classes_Sachem
     public class Liste
     {
         private static readonly IDataRepository DataRepository = new BdRepository();
-        private static readonly SACHEMEntities _db = new SACHEMEntities();
+        private static readonly SACHEMEntities Db = new SACHEMEntities();
         private const int Brouillon = 2;
 
         public static List<SelectListItem> ListeSession(int session = 0)
@@ -23,13 +23,13 @@ namespace sachem.Classes_Sachem
 
         public static SelectList ListeSexe()
         {
-            return new SelectList(_db.p_Sexe, "id_Sexe", "Sexe");
+            return new SelectList(Db.p_Sexe, "id_Sexe", "Sexe");
         }
 
         public static List<SelectListItem> ListePersonne(int idSession, int idPers)
         {
-            var lPersonne = (from p in _db.Personne
-                join c in _db.Groupe on p.id_Pers equals c.id_Enseignant
+            var lPersonne = (from p in Db.Personne
+                join c in Db.Groupe on p.id_Pers equals c.id_Enseignant
                 where (p.id_TypeUsag == (int) TypeUsagers.Enseignant ||
                        p.id_TypeUsag == (int) TypeUsagers.Responsable) &&
                       p.Actif &&
@@ -80,7 +80,7 @@ namespace sachem.Classes_Sachem
 
         public static List<SelectListItem> ListeSuperviseur(int superviseur = 0)
         {
-            var lstEnseignant = from p in _db.Personne
+            var lstEnseignant = from p in Db.Personne
                 where p.id_TypeUsag == 2 && p.Actif
                 orderby p.Nom, p.Prenom
                 select p;
@@ -91,7 +91,7 @@ namespace sachem.Classes_Sachem
 
         public static List<SelectListItem> ListeTypeInscription(int typeInscription = 0)
         {
-            var lInscriptions = _db.p_TypeInscription.AsNoTracking().OrderBy(i => i.TypeInscription);
+            var lInscriptions = Db.p_TypeInscription.AsNoTracking().OrderBy(i => i.TypeInscription);
             var slInscription = new List<SelectListItem>();
             slInscription.AddRange(new SelectList(lInscriptions, "id_TypeInscription", "TypeInscription", typeInscription));
 
@@ -100,7 +100,7 @@ namespace sachem.Classes_Sachem
 
         public static List<SelectListItem> ListeStatutInscriptionSansBrouillon(int statut = 0)
         {
-            var lStatut = from s in _db.p_StatutInscription where s.id_Statut != Brouillon select s;
+            var lStatut = from s in Db.p_StatutInscription where s.id_Statut != Brouillon select s;
             var slStatut = new List<SelectListItem>();
             slStatut.AddRange(new SelectList(lStatut, "id_Statut", "Statut", statut));
 
@@ -119,7 +119,7 @@ namespace sachem.Classes_Sachem
 
         public static List<SelectListItem> ListeStatutCours()
         {
-            var lstStatut = from c in _db.p_StatutCours orderby c.id_Statut select c;
+            var lstStatut = from c in Db.p_StatutCours orderby c.id_Statut select c;
             var slStatut = new List<SelectListItem>();
             slStatut.AddRange(new SelectList(lstStatut, "id_Statut", "Statut"));
             return slStatut;
@@ -127,7 +127,7 @@ namespace sachem.Classes_Sachem
       
         public static IEnumerable<Cours> ListeCoursSelonSession(int session)
         {
-            return _db.Cours.AsNoTracking()
+            return Db.Cours.AsNoTracking()
                 .Where(c => c.Groupe.Any(g => (g.id_Sess == session || session == 0)))
                 .OrderBy(c => c.Nom)
                 .AsEnumerable();
@@ -135,14 +135,14 @@ namespace sachem.Classes_Sachem
 
         public static IEnumerable<Groupe> ListeGroupeSelonSessionEtCours(int cours, int session)
         {
-            return _db.Groupe.AsNoTracking()
+            return Db.Groupe.AsNoTracking()
                 .Where(p => (p.id_Sess == session || session == 0) && (p.id_Cours == cours || cours == 0))
                 .OrderBy(p => p.NoGroupe);
         }
 
         public static List<SelectListItem> ListeTypesCourriels(int typeCourriel = 0)
         {
-            var lCourriel = _db.p_TypeCourriel.AsNoTracking().OrderBy(i => i.id_TypeCourriel);
+            var lCourriel = Db.p_TypeCourriel.AsNoTracking().OrderBy(i => i.id_TypeCourriel);
             var slCourriel = new List<SelectListItem>();
             slCourriel.AddRange(new SelectList(lCourriel, "id_TypeCourriel", "TypeCourriel", typeCourriel));
 
