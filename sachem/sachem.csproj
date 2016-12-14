@@ -528,7 +528,6 @@
     <Content Include="_Contribute\Sachem_Importer.csv" />
     <Content Include="Views\Shared\_CoursReussis.cshtml" />
     <Content Include="Views\Shared\_LigneCoursReussi.cshtml" />
-    <Content Include="Views\Jumelage\Delete.cshtml" />
     <Content Include="Views\Inscription\_CoursReussisEleveAide.cshtml" />
     <Content Include="Views\Inscription\_LigneCoursReussiEleveAide.cshtml" />
     <Content Include="Views\Shared\_CoursReussis.cshtml" />
