@@ -510,7 +510,7 @@ namespace sachem.Models
         /// Voici les mots clés pour personnaliser votre courriel
         /// </summary>
         /// <returns></returns>
-        public static string CourrierVarsPourReinitialisation = "Voici les mots clés pour personnaliser votre courriel";
+        public static string CourrielVarsPourPersonnaliser = "Voici les mots clés pour personnaliser votre courriel";
         #endregion
 
         #region MessageUnitaire

@@ -66,21 +66,20 @@
             </div>
             <div class="col-md-5">
                 <div class="form-groug">
-                    @if (Model.id_TypeCourriel == 2)
-                    {
-                        <h4>@sachem.Models.Messages.CourrierVarsPourReinitialisation</h4>
-                        <p>
-                            <b>$PrenomNomEtudiant</b>: Affiche au destinataire son prénom et nom.<br />
-                            <b>$NouveauMotDePasse</b>: Affiche le nouveau mot de passe au destinataire, après une réinitialisation.
-                        </p>
-                    }
+                        <h4>@sachem.Models.Messages.CourrielVarsPourPersonnaliser</h4>
+                        <p><b>$PrenomNomEtudiant</b>: Affiche au destinataire son prénom et nom.</p>
+                        @if (Model.id_TypeCourriel == 2)
+                        {
+                            <p><b>$NouveauMotDePasse</b>: Affiche le nouveau mot de passe au destinataire, après une réinitialisation.</p>
+                        }
+                    
                 </div>
             </div>
         </div>
         <div class="col-md-12">
 
             <div class="form-group">
-                @Html.LabelFor(model => model.Courriel1, new { @class = "control-label col-md-2", rows = 40 })
+                @Html.LabelFor(model => model.Courriel1, new { @class = "control-label col-md-2" })
                 <div class="col-md-8">
                     @Html.TextAreaFor(model => model.Courriel1, new { htmlAttributes = new { @class = "form-control", } })
                     @Html.ValidationMessageFor(model => model.Courriel1, "", new { @class = "text-danger" })
