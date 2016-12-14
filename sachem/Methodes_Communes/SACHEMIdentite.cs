@@ -49,7 +49,7 @@ namespace sachem.Models
 
         public static bool ValiderRoleAcces(List<TypeUsagers> listeRoles, HttpSessionStateBase session)
         {
-            int idRole = (int?) session["id_TypeUsag"] ?? 0;
+            var idRole = (session["id_TypeUsag"] == null ? 0 : (int)session["id_TypeUsag"]);
             return listeRoles.Contains((TypeUsagers)idRole);
         }
 
@@ -60,7 +60,6 @@ namespace sachem.Models
         }
         
         public static string RemettreTel(string a)
-
         {
             var modif = a.Insert(0, "(");
             modif = modif.Insert(4, ")");
@@ -121,7 +120,7 @@ namespace sachem.Models
         public override bool TryGetIndex(GetIndexBinder
                binder, object[] indexes, out object result)
         {
-            int index = (int)indexes[0];
+            var index = (int)indexes[0];
             result = Session[index];
             return result != null;
         }
@@ -145,6 +144,11 @@ namespace sachem.Models
         private static readonly IDataRepository DataRepository = new BdRepository();
         private static readonly SACHEMEntities Db = new SACHEMEntities();
         private const int Brouillon = 2;
+
+        public static SelectList ListeSexe()
+        {
+            return new SelectList(Db.p_Sexe, "id_Sexe", "Sexe");
+        }
 
         public static List<SelectListItem> ListeSession(int session = 0)
         {
@@ -269,6 +273,23 @@ namespace sachem.Models
             return Db.Groupe.AsNoTracking()
                 .Where(p => (p.id_Sess == session || session == 0) && (p.id_Cours == cours || cours == 0))
                 .OrderBy(p => p.NoGroupe);
+        }
+
+        public static List<SelectListItem> ListeStatutCours()
+        {
+            var lstStatut = from c in Db.p_StatutCours orderby c.id_Statut select c;
+            var slStatut = new List<SelectListItem>();
+            slStatut.AddRange(new SelectList(lstStatut, "id_Statut", "Statut"));
+            return slStatut;
+        }
+
+        public static List<SelectListItem> ListeTypesCourriels(int typeCourriel = 0)
+        {
+            var lCourriel = Db.p_TypeCourriel.AsNoTracking().OrderBy(i => i.id_TypeCourriel);
+            var slCourriel = new List<SelectListItem>();
+            slCourriel.AddRange(new SelectList(lCourriel, "id_TypeCourriel", "TypeCourriel", typeCourriel));
+
+            return slCourriel;
         }
     }
 

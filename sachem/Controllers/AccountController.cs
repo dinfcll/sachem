@@ -321,7 +321,7 @@ namespace sachem.Controllers
                     if (utilisateur != null)
                     {
                         utilisateur.MP = nouveauMdp;
-                        utilisateur.MP = SachemIdentite.encrypterChaine(utilisateur.MP);
+                        utilisateur.MP = SachemIdentite.EncrypterChaine(utilisateur.MP);
                         _db.Entry(utilisateur).State = EntityState.Modified;
                     }
                     _db.SaveChanges();
