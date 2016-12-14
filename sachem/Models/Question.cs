@@ -23,7 +23,7 @@ namespace sachem.Models
         public int id_Question { get; set; }
         public int id_Section { get; set; }
         public int id_TypeResultat { get; set; }
-        public Nullable<int> Ordre { get; set; }
+        public int? Ordre { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ChoixReponse> ChoixReponse { get; set; }

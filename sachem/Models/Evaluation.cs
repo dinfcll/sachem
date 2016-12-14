@@ -9,9 +9,6 @@
 
 namespace sachem.Models
 {
-    using System;
-    using System.Collections.Generic;
-    
     public partial class Evaluation
     {
         public int id_Evaluation { get; set; }

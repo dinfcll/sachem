@@ -23,10 +23,10 @@ namespace sachem.Controllers
             {
                 if (idZero != null) courriel = idZero.id_TypeCourriel;
             }
-            var lcourriel = _db.Courriel.OrderBy(y => y.id_TypeCourriel).FirstOrDefault(x => x.id_TypeCourriel == courriel);
+            var reqCourriel = _db.Courriel.OrderBy(y => y.id_TypeCourriel).FirstOrDefault(x => x.id_TypeCourriel == courriel);
             ViewBag.id_TypeCourriel = Liste.ListeTypesCourriels(courriel);
 
-            return View(lcourriel);
+            return View(reqCourriel);
         }
 
         [HttpPost]

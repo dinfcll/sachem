@@ -9,9 +9,6 @@
 
 namespace sachem.Models
 {
-    using System;
-    using System.Collections.Generic;
-    
     public partial class Compteur
     {
         public int id_Compteur { get; set; }

@@ -20,8 +20,8 @@ namespace sachem.Models
         public int id_Sess { get; set; }
         public int id_Enseignant { get; set; }
         public int id_Jour { get; set; }
-        public System.DateTime DateDebut { get; set; }
-        public Nullable<System.DateTime> DateFin { get; set; }
+        public DateTime DateDebut { get; set; }
+        public DateTime? DateFin { get; set; }
         public int minutes { get; set; }
         public bool consecutif { get; set; }
     

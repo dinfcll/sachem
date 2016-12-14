@@ -9,15 +9,13 @@
 
 namespace sachem.Models
 {
-    using System;
-    using System.Collections.Generic;
     
     public partial class ReponseQuestion
     {
         public int id_RepQuest { get; set; }
-        public Nullable<int> id_Inscription { get; set; }
-        public Nullable<int> id_Suivi { get; set; }
-        public Nullable<int> id_ChoixRep { get; set; }
+        public int? id_Inscription { get; set; }
+        public int? id_Suivi { get; set; }
+        public int? id_ChoixRep { get; set; }
         public string ReponseTexte { get; set; }
         public System.DateTime DateReponse { get; set; }
         public bool Transmis { get; set; }

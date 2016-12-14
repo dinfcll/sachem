@@ -9,7 +9,6 @@
 
 namespace sachem.Models
 {
-    using System;
     using System.Collections.Generic;
     
     public partial class ChoixReponse
@@ -17,7 +16,7 @@ namespace sachem.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public ChoixReponse()
         {
-            this.ReponseQuestion = new HashSet<ReponseQuestion>();
+            ReponseQuestion = new HashSet<ReponseQuestion>();
         }
     
         public int id_ChoixRep { get; set; }

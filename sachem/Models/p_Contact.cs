@@ -9,8 +9,6 @@
 
 namespace sachem.Models
 {
-    using System;
-    using System.Collections.Generic;
     
     public partial class p_Contact
     {
@@ -19,7 +17,7 @@ namespace sachem.Models
         public string Prenom { get; set; }
         public string Courriel { get; set; }
         public string Telephone { get; set; }
-        public Nullable<int> Poste { get; set; }
+        public int? Poste { get; set; }
         public string Facebook { get; set; }
         public string SiteWeb { get; set; }
         public string Local { get; set; }

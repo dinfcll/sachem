@@ -22,12 +22,12 @@ namespace sachem.Models
     
         public int id_Suivi { get; set; }
         public int id_Jumelage { get; set; }
-        public Nullable<int> id_Correcteur { get; set; }
+        public int? id_Correcteur { get; set; }
         public int NoSemaine { get; set; }
         public bool Transmis { get; set; }
         public string Correction { get; set; }
-        public Nullable<System.DateTime> DateCorrection { get; set; }
-        public Nullable<bool> TransmisCorrige { get; set; }
+        public DateTime? DateCorrection { get; set; }
+        public bool? TransmisCorrige { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ReponseQuestion> ReponseQuestion { get; set; }

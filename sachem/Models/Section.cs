@@ -9,7 +9,6 @@
 
 namespace sachem.Models
 {
-    using System;
     using System.Collections.Generic;
     
     public partial class Section
@@ -21,7 +20,7 @@ namespace sachem.Models
         }
     
         public int id_Section { get; set; }
-        public Nullable<int> id_SectionParent { get; set; }
+        public int? id_SectionParent { get; set; }
         public int id_Formulaire { get; set; }
         public string Titre { get; set; }
         public int Ordre { get; set; }

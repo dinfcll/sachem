@@ -10,15 +10,14 @@
 namespace sachem.Models
 {
     using System;
-    using System.Collections.Generic;
     
     public partial class p_HoraireInscription
     {
         public int id_Sess { get; set; }
-        public System.TimeSpan HeureDebut { get; set; }
-        public System.TimeSpan HeureFin { get; set; }
-        public System.DateTime DateDebut { get; set; }
-        public System.DateTime DateFin { get; set; }
+        public TimeSpan HeureDebut { get; set; }
+        public TimeSpan HeureFin { get; set; }
+        public DateTime DateDebut { get; set; }
+        public DateTime DateFin { get; set; }
     
         public virtual Session Session { get; set; }
     }

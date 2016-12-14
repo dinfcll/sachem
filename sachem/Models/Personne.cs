@@ -26,7 +26,7 @@ namespace sachem.Models
         }
     
         public int id_Pers { get; set; }
-        public Nullable<int> id_Sexe { get; set; }
+        public int? id_Sexe { get; set; }
         public int id_TypeUsag { get; set; }
         public string Nom { get; set; }
         public string Prenom { get; set; }
@@ -35,7 +35,7 @@ namespace sachem.Models
         public string MP { get; set; }
         public string Courriel { get; set; }
         public string Telephone { get; set; }
-        public Nullable<System.DateTime> DateNais { get; set; }
+        public DateTime? DateNais { get; set; }
         public bool Actif { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
