@@ -155,20 +155,6 @@ namespace sachem.Models
             return new SelectList(DataRepository.GetSessions(), "id_Sess", "NomSession", session);
         }
 
-        public static SelectList ListeSessionPlusToutesAvecValeur(int session = 0)
-        {
-            var toute = new SelectListItem
-            {
-                Text = Messages.Toutes,
-                Value = "0"
-            };
-            var lSession = ListeSession();
-            var slSession = new List<SelectListItem>();
-            slSession.AddRange(lSession);
-            slSession.Insert(0, toute);
-            return new SelectList(slSession,"id_Sess", "NomSession", session);
-        }
-
         public static SelectList ListePersonne(int idSession, int idPers)
         {
             var lPersonne = (from p in Db.Personne
@@ -185,20 +171,6 @@ namespace sachem.Models
         public static SelectList ListeCours(int cours = 0)
         {
             return new SelectList(DataRepository.GetCours(), "id_Cours", "CodeNom", cours);
-        }
-
-        public static SelectList ListeCoursPlusAucunCoursCegep(int cours = 0)
-        {
-            var lCours = ListeCours();
-            var toute = new SelectListItem
-            {
-                Text = Messages.AucunCoursSuiviCegep,
-                Value = "0"
-            };
-            var slCours = new List<SelectListItem>();
-            slCours.AddRange(lCours);
-            slCours.Insert(0, toute);
-            return new SelectList(slCours, "id_Cours", "CodeNom", cours);
         }
 
         public static SelectList ListeCollege(int college = 0)

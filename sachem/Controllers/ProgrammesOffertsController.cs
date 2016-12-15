@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using sachem.Models;
@@ -41,7 +40,7 @@ namespace sachem.Controllers
                 _db.ProgrammeEtude.Add(programme);
                 _db.SaveChanges();
 
-                TempData["Success"] = string.Format(Messages.ProgrammeAvecMemeNom(programme.NomProg));
+                TempData["Success"] = string.Format(Messages.ProgrammeEnregistre(programme.NomProg));
                 return RedirectToAction("Index");
             }
             return View(programme);
@@ -85,7 +84,7 @@ namespace sachem.Controllers
                 _db.Entry(programme).State = EntityState.Modified;
                 _db.SaveChanges();
 
-                TempData["Success"] = string.Format(Messages.ProgrammeAvecMemeNom(programme.NomProg));
+                TempData["Success"] = string.Format(Messages.ProgrammeEnregistre(programme.NomProg));
                 return RedirectToAction("Index");
             }
             return View(programme);
@@ -121,7 +120,7 @@ namespace sachem.Controllers
            
             if (_db.EtuProgEtude.Any(r => r.id_ProgEtu == id))
             {
-                ModelState.AddModelError(string.Empty, Messages.ProgrammeNonSupprimeCarEtudiantYEstAsoocie());
+                ModelState.AddModelError(string.Empty, Messages.ProgrammeSupprimerErreurEtudiantAssocie);
             }
 
             if (ModelState.IsValid)
@@ -140,13 +139,13 @@ namespace sachem.Controllers
         { 
             if (_db.ProgrammeEtude.Any(c => c.Code == programme.Code && c.Actif && programme.Actif && c.id_ProgEtu != programme.id_ProgEtu))
             {
-                ModelState.AddModelError(String.Empty, Messages.ProgrammeAvecCodeDejaExistant(programme.Code));
+                ModelState.AddModelError(string.Empty, Messages.ProgrammeAjouterErreurExisteDeja(programme.Code));
             }
             if(_db.ProgrammeEtude.Any(c => c.id_ProgEtu == programme.id_ProgEtu && c.Actif) && programme.Actif == false)
             { 
                 if (_db.EtuProgEtude.Any(c => c.id_ProgEtu == programme.id_ProgEtu))
                 {
-                    ModelState.AddModelError(String.Empty, Messages.ImpossibleMettreProgrammeInactif());
+                    ModelState.AddModelError(string.Empty, Messages.ProgrammeInactifErreur);
                 }
             }
         }

@@ -1,4 +1,4 @@
-﻿@model sachem.Models.Courriel
+﻿@model Courriel
 @using System.Web.Mvc.Html
 @using sachem.Models
 @{
@@ -34,7 +34,7 @@
         <div class="col-md-12 row">
             <div class="col-md-5">
                 <div class="form-group">
-                    @Html.LabelFor(model => model.p_TypeCourriel.TypeCourriel, new { @class = "control-label col-md-5" })
+                    @Html.LabelFor(model => model.id_TypeCourriel, new { @class = "control-label col-md-5" })
                     <div class="col-md-7">
                         @Html.DropDownList("id_TypeCourriel", null, null, new { @class = "form-search", id = "ddlTypeCourriel" })
                         @Html.ValidationMessageFor(model => model.id_TypeCourriel, "", new { @class = "text-danger" })

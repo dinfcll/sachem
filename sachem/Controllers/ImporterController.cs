@@ -46,7 +46,7 @@ namespace sachem.Controllers
 
                         if (isFileExist)
                         {
-                            message = Messages.FichierAvecLeMemeNomExisteDeja(fName);
+                            message = Messages.ImporterFichierAvecLeMemeNomExisteDeja(fName);
                         }
                         else
                         {
@@ -64,7 +64,7 @@ namespace sachem.Controllers
             }
             catch (Exception ex)
             {
-                message = Messages.ErreurTransfertFichier(fName)+"\n"+ex.Message;
+                message = Messages.ImporterErreurTransfertFichier(fName)+"\n"+ex.Message;
             }
 
             if (message.IsEmpty())

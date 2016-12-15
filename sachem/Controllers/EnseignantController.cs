@@ -21,7 +21,7 @@ namespace sachem.Controllers
 
         public EnseignantController(IDataRepository dataRepository)
         {
-            this._dataRepository = dataRepository;
+            _dataRepository = dataRepository;
         }
 
         [ValidationAcces.ValidationAccesSuper]
@@ -58,7 +58,7 @@ namespace sachem.Controllers
                     SachemIdentite.EncrypterMpPersonne(ref personne);
                     _dataRepository.AddEnseignant(personne);
 
-                    TempData["Success"] = Messages.AjouterUnGroupeAUnEnseignant(personne.NomUsager, personne.id_Pers);
+                    TempData["Success"] = Messages.EnseignantAjouterUnGroupeAEnseignant(personne.NomUsager, personne.id_Pers);
 
                     return RedirectToAction("Index");
                 }
@@ -110,7 +110,7 @@ namespace sachem.Controllers
             {
                 _dataRepository.DeclareModifiedEns(personne);
 
-                TempData["Success"] = Messages.UsagerModfie(personne.NomUsager);
+                TempData["Success"] = Messages.EnseignantModifierUsagerModfie(personne.NomUsager);
 
                 return RedirectToAction("Index");
             }
@@ -133,7 +133,7 @@ namespace sachem.Controllers
 
             if(SessionBag.Current.id_pers == id)
             {
-                TempData["Error"] = Messages.ResponsableSeSupprimerLuiMeme();
+                TempData["Error"] = Messages.EnseignantSupprimerErreurLuiMeme;
                 return RedirectToAction("Index", "Enseignant", null);
             }
             if (personne == null)
@@ -151,11 +151,11 @@ namespace sachem.Controllers
             var pageNumber = page ?? 1;
             if(_dataRepository.AnyGroupeWhere(g => g.id_Enseignant == id))
             {
-                ModelState.AddModelError(string.Empty, Messages.EnseignantNePeutEtreSupprime);
+                ModelState.AddModelError(string.Empty, Messages.EnseignantSupprimerErreurLierCours);
             }
             if(_dataRepository.AnyjumelageWhere(g => g.id_Enseignant == id))
             {
-                ModelState.AddModelError(string.Empty, Messages.EnseignantNonSupprimeJumelagePresent());
+                ModelState.AddModelError(string.Empty, Messages.EnseignantSupprimerErreurJumelagePresent);
             }
             if (ModelState.IsValid)
             {
@@ -200,11 +200,11 @@ namespace sachem.Controllers
         {
             if (_dataRepository.AnyEnseignantWhere(x => x.NomUsager == personne.NomUsager && x.id_Pers != personne.id_Pers,personne))
             {
-                ModelState.AddModelError(string.Empty, Messages.NomEnseignantDejaExistant(personne.NomUsager));
+                ModelState.AddModelError(string.Empty, Messages.EnseignantAjouterErreurExisteDeja(personne.NomUsager));
             }
             if (personne.MP != personne.ConfirmPassword)
             {
-                ModelState.AddModelError(string.Empty, Messages.MotsDePasseDoiventEtreIdentiques());
+                ModelState.AddModelError(string.Empty, Messages.MotsDePasseDoiventEtreIdentiques);
             }
         }
 

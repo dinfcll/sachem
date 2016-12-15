@@ -124,7 +124,7 @@ namespace sachem.Controllers
                 }
                 else
                 {
-                    ModelState.AddModelError(string.Empty, Messages.ConnexionEchouee());
+                    ModelState.AddModelError(string.Empty, Messages.AccountConnexionErreur);
                 }
                     
             }
@@ -134,13 +134,13 @@ namespace sachem.Controllers
             }
             else
             {
-                ModelState.AddModelError(string.Empty, Messages.ConnexionEchouee());
+                ModelState.AddModelError(string.Empty, Messages.AccountConnexionErreur);
             }
 
             mp = SachemIdentite.EncrypterChaine(mp);
 
             if (personneBd != null && personneBd.MP != mp)
-                ModelState.AddModelError(string.Empty, Messages.ConnexionEchouee());
+                ModelState.AddModelError(string.Empty, Messages.AccountConnexionErreur);
 
             if (personneBd == null) return View();
 
@@ -244,16 +244,16 @@ namespace sachem.Controllers
             else if (personne.Matricule7.Length != 7 || !personne.Matricule.All(char.IsDigit))
                 ModelState.AddModelError("Matricule7", Messages.LongueurDeSeptCaracteres);
             else if (reqBdPersonne.Any(x => x.Matricule == personne.Matricule && x.MP != null))
-                ModelState.AddModelError(string.Empty, Messages.CompteExisteDeja());
+                ModelState.AddModelError(string.Empty, Messages.AccountExisteDeja);
             else if (reqBdPersonne.Any(x => x.Matricule != personne.Matricule))
-                ModelState.AddModelError(string.Empty, Messages.EtudiantNonInscrit());
+                ModelState.AddModelError(string.Empty, Messages.AccountCreerErreurEtudiantNonInscrit);
             else
             {
                 var etudiantBd =
                     reqBdPersonne.AsNoTracking().FirstOrDefault(x => x.Matricule == personne.Matricule);
 
                 if (etudiantBd != null && (personne.DateNais != etudiantBd.DateNais || personne.id_Sexe != etudiantBd.id_Sexe))
-                    ModelState.AddModelError(string.Empty, Messages.EtudiantNonInscrit());
+                    ModelState.AddModelError(string.Empty, Messages.AccountCreerErreurEtudiantNonInscrit);
                 else
                 {
                     if (etudiantBd != null)
@@ -283,7 +283,7 @@ namespace sachem.Controllers
                         AjoutInfoConnection(etudiantBd);
                     }
                     SessionBag.Current.id_TypeUsag = TypeUsagers.Etudiant;
-                    TempData["Success"] = Messages.CompteCree();
+                    TempData["Success"] = Messages.AccountCree;
                     return RedirectToAction("Index", "Inscription");
                 }
             }
@@ -325,17 +325,17 @@ namespace sachem.Controllers
                         _db.Entry(utilisateur).State = EntityState.Modified;
                     }
                     _db.SaveChanges();
-                    ViewBag.Success = Messages.MotDePasseCourriel();
+                    ViewBag.Success = Messages.AccountEnvoieMotDePasseParCourriel;
                 }
                 else
                 {
                     ModelState.AddModelError(string.Empty,
-                        Messages.EnvoiCourrielImpossiblePortBloque(Portcourriel.ToString()));
+                        Messages.AccountEnvoiCourrielImpossiblePortBloque(Portcourriel.ToString()));
                 }
             }
             else
             {
-                ModelState.AddModelError("Courriel", Messages.AucunUsagerAvecCeCourriel());
+                ModelState.AddModelError("Courriel", Messages.AccountForgotPasswordErreurAucunUsager);
             }
             return View();
         }
@@ -367,7 +367,7 @@ namespace sachem.Controllers
 
             if (SachemIdentite.EncrypterChaine(personne.AncienMotDePasse) != ancienmdpbd)
             {
-                ModelState.AddModelError("AncienMotDePasse", Messages.MauvaisAncienMotDePasse());
+                ModelState.AddModelError("AncienMotDePasse", Messages.AccountPasswordErreurAncienMotDePasseInvalide);
                 return View(personne);
             }
 
@@ -384,7 +384,7 @@ namespace sachem.Controllers
             }
 
             _db.SaveChanges();
-            ViewBag.Success = Messages.MotDePasseModifie();
+            ViewBag.Success = Messages.AccountMotDePasseModifie;
 
             return View(personne);
         }
@@ -408,7 +408,7 @@ namespace sachem.Controllers
 
             if (s1 == s2) return true;
 
-            ModelState.AddModelError("ConfirmPassword", Messages.MotsDePasseDoiventEtreIdentiques());
+            ModelState.AddModelError("ConfirmPassword", Messages.MotsDePasseDoiventEtreIdentiques);
             return false;
         }
 

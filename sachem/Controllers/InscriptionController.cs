@@ -140,7 +140,7 @@ namespace sachem.Controllers
         [ValidationAcces.ValidationAccesEtu]
         public ActionResult EleveAide1()
         {
-            ViewBag.lstCours = Liste.ListeCoursPlusAucunCoursCegep();
+            ViewBag.lstCours = Liste.ListeCours();
             ViewBag.lstCours1 = Liste.ListeCours();
             ViewBag.lstStatut = Liste.ListeStatutCours();
             ViewBag.slSession = Liste.ListeSession();
@@ -150,7 +150,7 @@ namespace sachem.Controllers
         [HttpGet]
         public ActionResult Tuteur()
         {
-            ViewBag.lstCours = Liste.ListeCoursPlusAucunCoursCegep();
+            ViewBag.lstCours = Liste.ListeCours();
             ViewBag.lstCours1 = Liste.ListeCours();
             ViewBag.lstCollege = Liste.ListeCollege();
             return View();
@@ -158,7 +158,7 @@ namespace sachem.Controllers
 
         public ActionResult GetLigneCoursEleveAide()
         {
-            ViewBag.lstCours = Liste.ListeCoursPlusAucunCoursCegep();
+            ViewBag.lstCours = Liste.ListeCours();
             ViewBag.lstCours1 = Liste.ListeCours();
             ViewBag.lstStatut = Liste.ListeStatutCours();
             ViewBag.slSession = Liste.ListeSession();
@@ -169,7 +169,7 @@ namespace sachem.Controllers
         [HttpGet]
         public ActionResult Benevole()
         {
-            ViewBag.lstCours = Liste.ListeCoursPlusAucunCoursCegep();
+            ViewBag.lstCours = Liste.ListeCours();
             ViewBag.lstCours1 = Liste.ListeCours();
             ViewBag.lstCollege = Liste.ListeCollege();
 
@@ -179,7 +179,7 @@ namespace sachem.Controllers
         [HttpPost]
         public ActionResult GetLigneCours()
         {
-            ViewBag.lstCours = Liste.ListeCoursPlusAucunCoursCegep();
+            ViewBag.lstCours = Liste.ListeCours();
             ViewBag.lstCours1 = Liste.ListeCours();
             ViewBag.lstCollege = Liste.ListeCollege();
 
@@ -296,8 +296,8 @@ namespace sachem.Controllers
         [HttpPost]
         public string ErreurCours()
         {
-            ViewBag.lstCours = Liste.ListeCoursPlusAucunCoursCegep();
-            return Messages.CoursChoisiUneSeuleFois();
+            ViewBag.lstCours = Liste.ListeCours();
+            return Messages.InscriptionCoursChoisiUneSeuleFois;
         }
 
         public bool Contient(string value, List<string[]> donneesInscription)

@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
-using sachem.Classes_Sachem;
 using sachem.Models;
 
 namespace sachem.Controllers
@@ -12,12 +11,6 @@ namespace sachem.Controllers
         protected readonly SACHEMEntities Db = new SACHEMEntities();
 
         protected int NoPage = 1;
-
-        [NonAction]
-        private void ListeSession()
-        {
-            ViewBag.SelectSession = Liste.ListeSessionPlusToutesAvecValeur();
-        }
 
         [AcceptVerbs("Get", "Post")]
         public JsonResult ActualiseGroupeddl(int cours, int session)
@@ -112,7 +105,7 @@ namespace sachem.Controllers
                         session = Db.Session.Max(s => s.id_Sess);
                 }
             }
-            ListeSession();
+            ViewBag.SelectSession = Liste.ListeSession();
             ViewBag.SelectCours = new SelectList(Liste.ListeCoursSelonSession(session).AsQueryable(), "id_Cours", "CodeNom", cours);
             ViewBag.SelectGroupe = new SelectList(Liste.ListeGroupeSelonSessionEtCours(cours, session), "id_Groupe", "NoGroupe", groupe);
 

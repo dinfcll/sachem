@@ -20,13 +20,13 @@ namespace sachem.Controllers
 
         public CoursController(IDataRepository dataRepository)
         {
-            this._dataRepository = dataRepository;
+            _dataRepository = dataRepository;
         }
 
         private void Valider([Bind(Include = "id_Cours,Code,Nom,Actif")] Cours cours)
         {
             if (_dataRepository.AnyCoursWhere(r => r.Code == cours.Code && r.id_Cours != cours.id_Cours))
-                ModelState.AddModelError(string.Empty, Messages.CoursADejaCeCode(cours.Code));
+                ModelState.AddModelError(string.Empty, Messages.CoursAjouterErreurCodeExisteDeja(cours.Code));
         }
 
         private IEnumerable<Cours> Rechercher()
@@ -165,7 +165,7 @@ namespace sachem.Controllers
             var pageNumber = page ?? 1;
             if (_dataRepository.AnyGroupeWhere(g => g.id_Cours == id))
             {
-                ModelState.AddModelError(string.Empty, Messages.GroupeAssocieAUnCoursNePeutEtreSupprime());
+                ModelState.AddModelError(string.Empty, Messages.CoursSupprimerErreurGroupeAssocie);
             }
 
             if (ModelState.IsValid)

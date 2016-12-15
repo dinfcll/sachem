@@ -4,412 +4,9 @@ namespace sachem.Models
 {
     public class Messages
     {
-
         public const string NomDuSite = "Sachem";
 
-        #region messagesInformatifs
-
-        /// <summary>
-        /// Un groupe est associé à ce cours. Le cours ne peut être supprimé.
-        /// </summary>
-        /// <returns></returns>
-        public static string GroupeAssocieAUnCoursNePeutEtreSupprime()
-        { return "Un groupe est associé à ce cours. Le cours ne peut être supprimé."; }
-
-        /// <summary>
-        /// Il existe déjà un cours ayant le code {0}.
-        /// </summary>
-        /// <param name="code"></param>
-        /// <returns></returns>
-        public static string CoursADejaCeCode(string code)
-        { return $"Il existe déjà un cours ayant le code {code}."; }
-
-        /// <summary>
-        /// Le cours {0} a été enregistré.
-        /// </summary>
-        /// <param name="cours"></param>
-        /// <returns></returns>private string I_003(string cours)
-        public static string CoursEnregistre(string cours)
-        { return $"Le cours {cours} a été enregistré."; }
-
-        /// <summary>
-        /// Impossible d'enregistrer cet étudiant. Il existe déja im tudiant ayant le matricule {0}.
-        /// </summary>
-        /// <param name="matricule"></param>
-        /// <returns></returns>
-        public static string MatriculeDejaExistant(string matricule)
-        { return $"Impossible d'enregistrer cet étudiant. Il existe déja un étudiant ayant le matricule {matricule}."; }
-
-
-        /// <summary>
-        /// Un étudiant est associé à ce programme d'études. Ce programme ne peut être supprimé.
-        /// </summary>
-        /// <returns></returns>
-        public static string ProgrammeNonSupprimeCarEtudiantYEstAsoocie()
-        { return $"Un étudiant est associé à ce programme d'études. Ce programme ne peut être supprimé."; }
-
-        /// <summary>
-        /// Impossible d'enregistrer ce programme d'études. Il existe déjà un programme ayant le code {0}.
-        /// </summary>
-        /// <param name="code"></param>
-        /// <returns></returns>
-        public static string ProgrammeAvecCodeDejaExistant(string code)
-        { return $"Impossible d'enregistrer ce programme d'études. Il existe déjà un programme ayant le code {code}."; }
-
-        ///<summary>
-        /// Le programme d'études {0} a été enregistré
-        /// </summary>
-        ///<param name="nomProgrammeEtude"></param>
-        /// <returns></returns>
-        public static string ProgrammeAvecMemeNom(string nomProgrammeEtude)
-        { return $"Le programme d'études {nomProgrammeEtude} a été enregistré."; }
-
-        ///<summary>
-        /// Le programme d'études {0} a été supprimé
-        /// </summary>
-        /// <param name="nomProgrammeEtude"></param>
-        /// <returns></returns>
-        public static  string ProgrammeSupprime(string nomProgrammeEtude)
-        {  return $"Le programme d'études {nomProgrammeEtude} a été supprimé."; }
-
-
-        /// <summary>
-        /// Le cours {0} a été supprimé.
-        /// </summary>
-        /// <param name="cours"></param>
-        /// <returns></returns>
-        public static string CoursSupprime(string cours)
-        { return $"Le cours {cours} a été supprimé."; }
-
-        /// <summary>
-        /// L'étudiant {0} a été enregistré.
-        /// </summary>
-        /// <param name="etudiant"></param>
-        /// <returns></returns>
-        public static string EtudiantEnregistre(string etudiant)
-        { return $"L'étudiant {etudiant} a été enregistré."; }
-
-        /// <summary>
-        /// Impossible de retirer le programme d'étude {0} des programmes suivis par l'étudiant.
-        /// </summary>
-        /// <param name="programme"></param>
-        /// <returns></returns>
-        public static string ImpossibleDeRetirerProgrammeDUnEtudiant(string programme)
-        { return $"Impossible de retirer le programme d'étude {programme} des programmes suivis par l'étudiant."; }
-
-        /// <summary>
-        /// L'enseignant ne peut être supprimé car il est relié à un cours.
-        /// </summary>
-        /// <returns></returns>
-        public const string EnseignantNePeutEtreSupprime = "L'enseignant ne peut être supprimé car il est relié à un cours.";
-
-        /// <summary>
-        /// Impossible d’enregistrer cet enseignant. Il existe déjà un enseignant ayant le nom d'usager {0}.
-        /// </summary>
-        /// <param name="nomUsager"></param>
-        /// <returns></returns>
-        public static string NomEnseignantDejaExistant(string nomUsager)
-        { return $"Impossible d’enregistrer cet enseignant. Il existe déjà un enseignant ayant le nom d'usager {nomUsager}."; }
-
-        /// <summary>
-        /// L'étudiant ne peut être supprimé, car il est associé à un groupe.
-        /// </summary>
-        /// <returns></returns>
-        public static string EtudiantNePeutEtreSupprimeCarLieAUnGroupe()
-        { return "L'étudiant ne peut être supprimé, car il est associé à un groupe."; }
-
-        /// <summary>
-        /// L'usager {0} a été modifié.
-        /// </summary>
-        /// 
-        /// <param name="nomUsager"></param>
-        /// <returns></returns>
-        public static string UsagerModfie(string nomUsager)
-        { return $"L'usager {nomUsager} a été modifié."; }
-
-        /// <summary>
-        /// Le programme d'étude {0} a été retiré de la liste des programmes suivis par l'étudiant.
-        /// </summary>
-        /// <param name="programme"></param>
-        /// <returns></returns>
-        public static string ProgrammeRetireDelaListeEtudiant(string programme)
-        { return $"Le programme d'étude {programme} a été retiré de la liste des programmes suivis par l'étudiant."; }
-
-        //Comptes/Connexion
-        /// <summary>
-        /// Votre tentative de connexion a échoué. Réessayez.
-        /// </summary>
-        /// <returns></returns>
-        public static string ConnexionEchouee()
-        { return $"Votre tentative de connexion a échouée. Réessayez."; }
-
-        /// <summary>
-        /// Mot de passe modifié
-        /// </summary>
-        /// <returns></returns>
-        public static string MotDePasseModifie()
-        { return $"Mot de passe modifié"; }
-
-        /// <summary>
-        /// Votre mot de passe a été envoyé à votre adresse courriel.
-        /// </summary>
-        /// <returns></returns>
-        public static string MotDePasseCourriel()
-        { return $"Votre mot de passe a été envoyé à votre adresse courriel."; }
-
-        // Groupes
-
-
-
-        /// <summary>
-        /// Un compte existe déjà pour cet étudiant.
-        /// </summary>
-        /// <returns></returns>
-        public static string CompteExisteDeja()
-        { return $"Un compte existe déjà pour cet étudiant."; }
-
-        /// <summary>
-        /// Le compte a été créé. Vous pouvez maintenant vous connecter.
-        /// </summary>
-        /// <returns></returns>
-        public static string CompteCree()
-        { return $"Le compte a été créé. Vous pouvez maintenant vous inscrire au Sachem."; }
-
-        /// <summary>
-        /// Aucun étudiant ne correspond aux données saisies. Vous devez être inscrit à un cours offert par le département de mathématiques.
-        /// </summary>
-        /// <returns></returns>
-        public static string EtudiantNonInscrit()
-        { return $"Aucun étudiant ne correspond aux données saisies. Vous devez être inscrit à un cours offert par le département de mathématiques."; }
-       
-        /// <summary>
-        /// L'étudiant {0} a été supprimé.
-        /// </summary>
-        /// <param name="etudiant"></param>
-        /// <returns></returns>
-        public static string EtudiantSupprime(string etudiant)
-        { return $"L'étudiant {etudiant} a été supprimé."; }
-
-        /// <summary>
-        /// L'enseignant {0} a été supprimer.
-        /// </summary>
-        /// <param name="enseignant"></param>
-        /// <returns></returns>
-        public static string EnseignantSupprime(string enseignant)
-        { return $"L'enseignant {enseignant} a été supprimé."; }
-
-        /// <summary>
-        /// L’horaire d’inscription au SACHEM a été mis à jour.
-        /// </summary>
-        /// <returns></returns>
-        public static string HoraireMisAJour()
-        { return $"L’horaire d’inscription au SACHEM a été mis à jour."; }
-
-
-        ///<summary>
-        /// L’information de la section « Nous contacter » a été mise à jour.
-        /// </summary>
-        /// <returns></returns>
-        public static string NousContaterMisAJour()
-        { return $"L’information de la section « Nous contacter » a été mise à jour."; }
-
-        /// <summary>
-        /// Le courriel a été mis à jour
-        /// </summary>
-        /// <returns></returns>
-        public static string CourrielMisAJour()
-        { return $"Le courriel a été mis à jour."; }
-
-        /// <summary>
-        /// Le courriel a été ajouté
-        /// </summary>
-        /// <returns></returns>
-        public static string CourrielCree()
-        { return $"Le courriel a été ajouté."; }
-
-        /// <summary>
-        /// Enseignant présent dans un jumelage
-        /// </summary>
-        /// <returns></returns>
-        public static string EnseignantNonSupprimeJumelagePresent()
-        { return $"L'enseignant ne peut être supprimé car il est encore présent dans un jumelage."; }
-
-        /// <summary>
-        /// Erreur lors du transfert de fichier {0}.
-        /// </summary>
-        /// <param name="fichier"></param>
-        /// <returns></returns>
-        public static string ErreurTransfertFichier(string fichier)
-        { return $"Erreur lors du transfert du fichier {fichier}."; }
-
-        /// <summary>
-        /// Un fichier {0} de même nom est déjà présent sur le serveur.
-        /// </summary>
-        /// <param name="fichier"></param>
-        /// <returns></returns>
-        public static string FichierAvecLeMemeNomExisteDeja(string fichier)
-        { return $"Un fichier {fichier} de même nom est déjà présent sur le serveur."; }
-
-        /// <summary>
-        /// Impossible d’enregistrer ce cours. Il existe déjà dans votre liste de cours suivis antérieurement.
-        /// </summary>
-        /// <returns></returns>
-        public static string ImpossibleEnregistrerCoursCarExisteListeCoursSuivis()
-        { return "Impossible d’enregistrer ce cours. Il existe déjà dans votre liste de cours suivis antérieurement."; }
-
-        /// <summary>
-        /// Un responsable ne peut pas se supprimer lui-même
-        /// </summary>
-        /// <returns></returns>
-        public static string ResponsableSeSupprimerLuiMeme()
-        { return $"Un responsable ne peut pas se supprimer lui-même."; }
-
-        /// <summary>
-        /// L'étudiant ne peut être supprimé s'il est jumelé
-        /// </summary>
-        /// <returns></returns>
-        public static string EtudiantNonSupprimeCarJumele()
-        { return $"L'étudiant ne peut être supprimé s'il est jumelé."; }
-
-        /// <summary>
-        /// Le collège {0} a été ajouté
-        /// </summary>
-        /// <param name="nomCollege"></param>
-        /// <returns></returns>
-        public static string CollegeAjoute(string nomCollege)
-        { return $"Le collège {nomCollege} a été ajouté."; }
-
-        /// <summary>
-        /// L'étudiant {0} a été modifié.
-        /// </summary>
-        /// <param name="nomEtudiant"></param>
-        /// <returns></returns>
-        public static string EtudiantModifie(string nomEtudiant)
-        { return $"L'étudiant {nomEtudiant} a été modifié."; }
-
-        /// <summary>
-        /// Un cours ne peut être choisi qu'une seule fois.
-        /// </summary>
-        /// <returns></returns>
-        public static string CoursChoisiUneSeuleFois()
-        { return $"Un cours ne peut être choisi qu'une seule fois."; }
-
-        /// <summary>
-        /// Le nom du collège a bien été modifié
-        /// </summary>
-        /// <returns></returns>
-        public static string CollegeModifie()
-        { return "Le nom du collège a bien été modifié."; }
-
-        /// <summary>
-        /// Le collège {0} a bien été supprimé
-        /// </summary>
-        /// <param name="nomCollege"></param>
-        /// <returns></returns>
-        public static string CollegeSupprime(string nomCollege)
-        { return $"Le collège {nomCollege} a bien été supprimé."; }
-        
-        /// <summary>
-        /// Problème lors de l'envoi du courriel, le port {0} est bloqué.
-        /// </summary>
-        /// <param name="numeroPort"></param>
-        /// <returns></returns>
-        public static string EnvoiCourrielImpossiblePortBloque(string numeroPort)
-        { return $"Problème lors de l'envoi du courriel, le port {numeroPort} est bloqué."; }
-
-        /// <summary>
-        /// Cochez la case pour signer le contrat.
-        /// </summary>
-        /// <returns></returns>
-        public static string CaseDoitEtreCochee()
-        { return $"Cochez la case pour signer le contrat."; }
-
-
-        /// <summary>
-        /// Ce collège d'enseignement existe déjà.
-        /// </summary>
-        /// <returns></returns>
-        public static string CollegeDejaExistant()
-        { return $"Ce collège d'enseignement existe déjà."; }
-
-        /// <summary>
-        /// Impossible de mettre le programme inactif s'il est encore relié à des étudiants.
-        /// </summary>
-        /// <returns></returns>
-        public static string ImpossibleMettreProgrammeInactif()
-        { return $"Impossible de mettre le programme inactif s'il est encore relié à des étudiants."; }
-
-        /// <summary>
-        /// Erreur lors de la modification de l'inscription. N'oubliez pas qu'il est impossible de modifier l'inscription des anciennes sessions.
-        /// </summary>
-        /// <returns></returns>
-        public static string ErreurModificationInscription()
-        { return $"Erreur lors de la modification de l'inscription. N'oubliez pas qu'il est impossible de modifier l'inscription des anciennes sessions."; }
-        #endregion
-
-
-
-
-
-
-        #region MessageContexte
-
-        ///<summary>
-        /// Le mot de passe et la confirmation du mot de passe doivent être identiques.
-        /// </summary>
-        /// <returns></returns>
-        public static string MotsDePasseDoiventEtreIdentiques()
-        { return $"Le mot de passe et la confirmation du mot de passe doivent être identiques."; }
-
-        ///<summary>
-        /// L'ancien mot de passe est invalide.
-        /// </summary>
-        /// <returns></returns>
-        public static string MauvaisAncienMotDePasse()
-        { return $"L'ancien mot de passe est invalide.";}
-
-        ///<summary>
-        /// Aucun usager associé à cette adresse courriel.
-        /// </summary>
-        /// <returns></returns>
-        public static string AucunUsagerAvecCeCourriel()
-        { return $"Aucun usager associé à cette adresse courriel."; }
-
-        ///<summary>
-        /// La date de début doit être antérieure à la date de fin
-        /// </summary>
-        /// <returns></returns>
-        public static string ValidationDate()
-        { return $"La date de début doit être antérieure à la date de fin."; } 
-
-        ///<summary>
-        /// Les dates de début et de fin doivent faire partie de la session sélectionnée.
-        /// </summary>
-        /// <param name="dateDebut"></param>
-        /// <param name="dateFin"></param>
-        /// <returns></returns>
-        public static string DatesDansLaSession (string dateDebut, string dateFin)
-        { return $"Les dates de début et de fin doivent faire partie de la session. {dateDebut} et {dateFin}."; }
-
-        /// <summary>
-        /// Un des deux champs {0}, {1} doit être complété.
-        /// </summary>
-        /// <param name="param1"></param>
-        /// <param name="param2"></param>
-        /// <returns></returns>
-        public static string CompleterLesChamps(string param1, string param2)
-        { return $"Un des deux champs {param1}, {param2} doit être complété."; }
-
-        public static string BonEchangeAchete = "Acheté";
-
-        public static string BonEchangePasAchete = "Pas acheté";
-
-        public static string CourrielVarsPourPersonnaliser = "Voici les mots clés pour personnaliser votre courriel";
-        #endregion
-
-
-
-
+        public const string MotsDePasseDoiventEtreIdentiques="Le mot de passe et la confirmation du mot de passe doivent être identiques.";
 
 
         #region MessageUnitaire
@@ -455,74 +52,9 @@ namespace sachem.Models
         #endregion
 
 
-
-
-
-        #region Question
-
-
-
-
-        /// <summary>
-        /// L'enseignant {0} a été créé. Souhaitez-vous y associer un groupe?
-        /// </summary>
-        /// <param name="nomUsager"></param>
-        /// <param name="idEnseignant"></param>
-        /// <returns></returns>
-        public static MvcHtmlString AjouterUnGroupeAUnEnseignant(string nomUsager, int idEnseignant)
-        { return MvcHtmlString.Create($"L'enseignant {nomUsager} a été créé. Souhaitez-vous <a href=\"/Groupes/Create?idEns={idEnseignant}\">y associer un groupe?</a>");}
-   
-        /// <summary>
-        /// Voulez-vous vraiment supprimer le cours {0} de votre liste de cours suivis?
-        /// </summary>
-        /// <param name="cours"></param>
-        /// <returns></returns>
-        public static string SupprimerCoursListeSuivis(string cours)
-        { return $"Voulez-vous vraiment supprimer le cours {cours} de votre liste de cours suivis?"; }
-
-        /// <summary>
-        /// Un collège est en cours d'ajout ou de modification. Souhaitez-vous annuler cette opération?
-        /// </summary>
-        /// <returns></returns>
-        public static string AnnulerOperationCollege()
-        { return $"Un collège est en cours d'ajout ou de modification. Souhaitez-vous annuler cette opération?"; }
-
-
-        /// <summary>
-        /// Voulez-vous vraiment supprimer le collège {0}?
-        /// </summary>
-        /// <param name="college"></param>
-        /// <returns></returns>
-        public static string VraimentSupprimerCollege(string college)
-        { return $"Voulez-vous vraiment supprimer le collège {college}?"; }
-
-        /// <summary>
-        /// Voulez-vous vraiment mettre fin à ce jumelage?
-        /// </summary>
-        /// <returns></returns>
-        public static string VraimentMettreFinJumelage()
-        { return $"Voulez-vous vraiment mettre fin à ce jumelage?"; }
-
-
-        /// <summary>
-        /// "Etes-vous certain d'annuler le téléversement?"
-        /// </summary>
-        /// <returns></returns>
-        public static string ImporterAnnulerTeleversementConfirmation()
-        { return $"Etes-vous certain d'annuler le téléversement?"; }
-
-        /// <summary>
-        /// Êtes-vous prêt à faire deux rencontres consécutives (3h)
-        /// </summary>
-        public const string InscriptionRencontresConsecutives = "Êtes-vous prêt à faire deux rencontres consécutives (3h) ?";
-
-        #endregion
-
-
-
-
-
         #region Inscription
+
+        public static string InscriptionRechercheModifierInscriptionErreur = "Erreur lors de la modification de l'inscription. N'oubliez pas qu'il est impossible de modifier l'inscription des anciennes sessions.";
 
         public const string InscriptionCoursReussiErreurLorsDuChargement = "Un resultat et un statut d'un des cours ne concorde pas. Un cours réussi doit avoir une note supérieur ou égal à 60 et un échec inférieur à 60.";
 
@@ -552,13 +84,13 @@ namespace sachem.Models
 
         public const string InscriptionCombienHeuresPretADonner = "Combien d'heures êtes vous pret à donner à chaque semaine (1h30/élève aidé)?";
 
+        public const string InscriptionCoursChoisiUneSeuleFois = "Un cours ne peut être choisi qu'une seule fois.";
 
         public const string InscriptionRechercheTitre = "Détails de l'inscription";
 
+        public const string InscriptionRencontresConsecutives = "Êtes-vous prêt à faire deux rencontres consécutives (3h) ?";
+
         #endregion
-
-
-
 
 
         #region Importer données
@@ -596,6 +128,24 @@ namespace sachem.Models
         public static string ImporterDirectivesDropZone(string extension)
         { return $"Utiliser cette page pour téléverser le ficher de données ({extension}) reçu de l'administration du CLL."; }
 
+        /// <summary>
+        /// Un fichier {0} de même nom est déjà présent sur le serveur.
+        /// </summary>
+        /// <param name="fichier"></param>
+        /// <returns></returns>
+        public static string ImporterFichierAvecLeMemeNomExisteDeja(string fichier)
+        { return $"Un fichier {fichier} de même nom est déjà présent sur le serveur."; }
+
+        /// <summary>
+        /// Erreur lors du transfert de fichier {0}.
+        /// </summary>
+        /// <param name="fichier"></param>
+        /// <returns></returns>
+        public static string ImporterErreurTransfertFichier(string fichier)
+        { return $"Erreur lors du transfert du fichier {fichier}."; }
+
+        public const string ImporterAnnulerTeleversementConfirmation = "Etes-vous certain d'annuler le téléversement?";
+
         public const string ImporterTitre = "Importation de données";
 
         public const string ImporterAnnulerTeleversement = "Annuler le téléversement.";
@@ -612,10 +162,9 @@ namespace sachem.Models
         #endregion
 
 
-
-
-
         #region Contrat Engagement
+
+        public const string ContratCaseDoitEtreCochee = "Cochez la case pour signer le contrat.";
 
         public const string ContratTitre = "Contrat d'engagement";
 
@@ -642,11 +191,32 @@ namespace sachem.Models
         #endregion
 
 
-
-
-
         #region Account
 
+        /// <summary>
+        /// Problème lors de l'envoi du courriel, le port {0} est bloqué.
+        /// </summary>
+        /// <param name="numeroPort"></param>
+        /// <returns></returns>
+        public static string AccountEnvoiCourrielImpossiblePortBloque(string numeroPort)
+        { return $"Problème lors de l'envoi du courriel, le port {numeroPort} est bloqué."; }
+
+        public const string AccountPasswordErreurAncienMotDePasseInvalide = "L'ancien mot de passe est invalide.";
+
+        public const string AccountForgotPasswordErreurAucunUsager="Aucun usager associé à cette adresse courriel.";
+
+        public const string AccountEnvoieMotDePasseParCourriel = "Votre mot de passe a été envoyé à votre adresse courriel.";
+
+        public const string AccountConnexionErreur = "Votre tentative de connexion a échouée. Réessayez.";
+
+        public const string AccountMotDePasseModifie = "Mot de passe modifié";
+
+        public const string AccountExisteDeja = "Un compte existe déjà pour cet étudiant.";
+
+        public const string AccountCree = "Le compte a été créé. Vous pouvez maintenant vous inscrire au Sachem.";
+
+        public const string AccountCreerErreurEtudiantNonInscrit = "Aucun étudiant ne correspond aux données saisies. Vous devez être inscrit à un cours offert par le département de mathématiques.";
+        
         public const string AccountForgotPasswordEntrerCourriel = "Veuiller entrer le courriel rattaché à votre compte.";
 
         public const string AccountForgotPasswordEntrerCourrielExplication = "Nous vous enverrons un courriel contenant les renseignements sur votre mot de passe.";
@@ -676,9 +246,6 @@ namespace sachem.Models
         #endregion
 
 
-
-
-
         #region Consulter cours
 
         public const string ConsulterCoursDetailsTitre = "Détails du cours";
@@ -694,10 +261,14 @@ namespace sachem.Models
         #endregion
 
 
-
-
-
         #region Jumelage
+
+        public static MvcHtmlString JumelageSupprimerQuestion()
+        {
+            return
+                MvcHtmlString.Create(
+                    $"Êtes-vous certain de mettre fin au jumelage entre: <br/><b><span id='modalRetirerVu'></span></b> et <b><span id='modalRetirerJumeleA'></span></b>?");
+        }
 
         public const string Jumele = "Jumelé";
 
@@ -714,8 +285,6 @@ namespace sachem.Models
         public const string JumelageSupprimerJumelage = "Mettre fin à un jumelage";
 
         public const string JumelageAjouterJumelage = "Ajouter un jumelage";
-
-        public const string JumelageSupprimerQuestion = "Êtes-vous certain de mettre fin au jumelage entre: <br/><b><span id='modalRetirerVu'></span></b> et <b><span id='modalRetirerJumeleA'></span></b>?";
 
         public const string JumelageAjouterQuestion = "Êtes-vous certain de créer un jumelage entre ";
 
@@ -738,6 +307,10 @@ namespace sachem.Models
 
         public const string ProgrammeCodeOuNom = "Code ou nom de programme";
 
+        public const string ProgrammeInactifErreur = "Impossible de mettre le programme inactif s'il est encore relié à des étudiants.";
+
+        public static string ProgrammeSupprimerErreurEtudiantAssocie = "Un étudiant est associé à ce programme d'études. Ce programme ne peut être supprimé.";
+
         /// <summary>
         /// Voulez-vous vraiment supprimer le programme d'études {0} ?
         /// </summary>
@@ -745,8 +318,32 @@ namespace sachem.Models
         /// <returns></returns>
         public static string ProgrammeSupprimerQuestion(string nomProgrammeEtude)
         { return $"Voulez-vous vraiment supprimer le programme d'études {nomProgrammeEtude} ?"; }
-        #endregion
+        
+        /// <summary>
+        /// Impossible d'enregistrer ce programme d'études. Il existe déjà un programme ayant le code {0}.
+        /// </summary>
+        /// <param name="code"></param>
+        /// <returns></returns>
+        public static string ProgrammeAjouterErreurExisteDeja(string code)
+        { return $"Impossible d'enregistrer ce programme d'études. Il existe déjà un programme ayant le code {code}."; }
 
+        ///<summary>
+        /// Le programme d'études {0} a été enregistré
+        /// </summary>
+        ///<param name="nomProgrammeEtude"></param>
+        /// <returns></returns>
+        public static string ProgrammeEnregistre(string nomProgrammeEtude)
+        { return $"Le programme d'études {nomProgrammeEtude} a été enregistré."; }
+
+        ///<summary>
+        /// Le programme d'études {0} a été supprimé
+        /// </summary>
+        /// <param name="nomProgrammeEtude"></param>
+        /// <returns></returns>
+        public static string ProgrammeSupprime(string nomProgrammeEtude)
+        { return $"Le programme d'études {nomProgrammeEtude} a été supprimé."; }
+        
+        #endregion
 
 
         #region Parametres - college - contact - courriel - horaire
@@ -759,28 +356,66 @@ namespace sachem.Models
 
         public const string CollegeNouveauNom = "Nouveau nom du collège d'enseignement:";
 
+        public const string CollegeNom = "Nom du collège d'enseignement:";
+
         public const string CollegeSupprimer = "Suppression d'un collège d'enseignement.";
 
         public const string CollegeSupprimerConfirmation = "Voulez-vous vraiment supprimer ce collège d'enseignement ?";
 
         public const string CollegeAjouterNom = "Nom du collège d'enseignement à ajouter: ";
 
+        /// <summary>
+        /// Le collège {0} a été ajouté
+        /// </summary>
+        /// <param name="nomCollege"></param>
+        /// <returns></returns>
+        public static string CollegeAjoute(string nomCollege)
+        { return $"Le collège {nomCollege} a été ajouté."; }
 
+        public const string CollegeModifie = "Le nom du collège a bien été modifié.";
+
+        /// <summary>
+        /// Le collège {0} a bien été supprimé
+        /// </summary>
+        /// <param name="nomCollege"></param>
+        /// <returns></returns>
+        public static string CollegeSupprime(string nomCollege)
+        { return $"Le collège {nomCollege} a bien été supprimé."; }
+
+        public const string CollegeDejaExistant = "Ce collège d'enseignement existe déjà.";
 
         public const string ContactTitre = "Modifier les informations de la page 'Nous contacter'";
 
+        public const string ContactMisAJour="L’information de la section « Nous contacter » a été mise à jour.";
 
         public const string CourrielTitre = "Modifier courriel";
 
         public const string CourrielVarPrenomNom = "Affiche au destinataire son prénom et nom.";
 
-        public const string CourrielVarNouveauPasse =
-            "Affiche le nouveau mot de passe au destinataire, après une réinitialisation.";
+        public const string CourrielVarNouveauPasse ="Affiche le nouveau mot de passe au destinataire, après une réinitialisation.";
 
+        public const string CourrielVarsPourPersonnaliser = "Voici les mots clés pour personnaliser votre courriel";
 
+        public const string CourrielCree="Le courriel a été ajouté.";
+
+        public const string CourrielMisAJour="Le courriel a été mis à jour.";
+        
         public const string HoraireTitre = "Modifier l'horaire d'ouverture et de fermeture d'inscription";
 
-#endregion
+        public const string HoraireMisAJour="L’horaire d’inscription au SACHEM a été mis à jour.";
+
+        public const string HoraireValidationDate = "La date de début doit être antérieure à la date de fin.";
+        
+        ///<summary>
+        /// Les dates de début et de fin doivent faire partie de la session sélectionnée.
+        /// </summary>
+        /// <param name="dateDebut"></param>
+        /// <param name="dateFin"></param>
+        /// <returns></returns>
+        public static string HoraireDatesRestriction(string dateDebut, string dateFin)
+        { return $"Les dates de début et de fin doivent faire partie de la session. {dateDebut} et {dateFin}."; }
+
+        #endregion
 
 
         #region Cours
@@ -798,12 +433,40 @@ namespace sachem.Models
         /// <returns></returns>
         public static string CoursSupprimerQuestionSupprimerCours(string cours)
         { return $"Voulez-vous vraiment supprimer le cours {cours}?"; }
+
+        /// <summary>
+        /// Le cours {0} a été supprimé.
+        /// </summary>
+        /// <param name="cours"></param>
+        /// <returns></returns>
+        public static string CoursSupprime(string cours)
+        { return $"Le cours {cours} a été supprimé."; }
+
+        public const string CoursSupprimerErreurGroupeAssocie="Un groupe est associé à ce cours. Le cours ne peut être supprimé.";
+
+        /// <summary>
+        /// Il existe déjà un cours ayant le code {0}.
+        /// </summary>
+        /// <param name="code"></param>
+        /// <returns></returns>
+        public static string CoursAjouterErreurCodeExisteDeja(string code)
+        { return $"Il existe déjà un cours ayant le code {code}."; }
+
+        /// <summary>
+        /// Le cours {0} a été enregistré.
+        /// </summary>
+        /// <param name="cours"></param>
+        /// <returns></returns>private string I_003(string cours)
+        public static string CoursEnregistre(string cours)
+        { return $"Le cours {cours} a été enregistré."; }
+
         #endregion
 
 
-
-
         #region Cours suivis
+
+        public const string CoursSuiviAjouterErreurExisteDeja="Impossible d’ajouter ce cours. Il existe déjà dans votre liste de cours suivis antérieurement.";
+
 
         public const string CoursSuiviAjouterTitre = "Ajouter un cours suivi antérieur";
 
@@ -811,11 +474,22 @@ namespace sachem.Models
 
         public const string CoursSuiviSupprimerTitre = "Supprimer un cours suivi antérieur";
 
+        /// <summary>
+        /// Un des deux champs {0}, {1} doit être complété.
+        /// </summary>
+        /// <param name="param1"></param>
+        /// <param name="param2"></param>
+        /// <returns></returns>
+        public static string CoursSuiviCompleterLesChamps(string param1, string param2)
+        { return $"Un des deux champs {param1}, {param2} doit être complété."; }
+
         #endregion
 
 
-
         #region Dossier etudiant
+        public const string BonEchangeAchete = "Acheté";
+
+        public const string BonEchangePasAchete = "Pas acheté";
 
         public const string DossierEtudiantTitre = "Dossier de l'étudiant";
 
@@ -847,7 +521,6 @@ namespace sachem.Models
         #endregion
 
 
-
         #region Enseignant
 
         /// <summary>
@@ -858,19 +531,89 @@ namespace sachem.Models
         public static string EnseignantSupprimerQuestionSupprimerEnseignant(string enseignant)
         { return $"Voulez-vous vraiment supprimer l'enseignant {enseignant} ?"; }
 
+        public const string EnseignantSupprimerErreurJumelagePresent="L'enseignant ne peut être supprimé car il est encore présent dans un jumelage.";
+
+        public const string EnseignantSupprimerErreurLuiMeme="Un responsable ne peut pas se supprimer lui-même.";
+
+        public const string EnseignantSupprimerErreurLierCours = "L'enseignant ne peut être supprimé car il est relié à un cours.";
+
+        /// <summary>
+        /// Impossible d’enregistrer cet enseignant. Il existe déjà un enseignant ayant le nom d'usager {0}.
+        /// </summary>
+        /// <param name="nomUsager"></param>
+        /// <returns></returns>
+        public static string EnseignantAjouterErreurExisteDeja(string nomUsager)
+        { return $"Impossible d’enregistrer cet enseignant. Il existe déjà un enseignant ayant le nom d'usager {nomUsager}."; }
+
+        /// <summary>
+        /// L'usager {0} a été modifié.
+        /// </summary>
+        /// 
+        /// <param name="nomUsager"></param>
+        /// <returns></returns>
+        public static string EnseignantModifierUsagerModfie(string nomUsager)
+        { return $"L'usager {nomUsager} a été modifié."; }
+
+        /// <summary>
+        /// L'enseignant {0} a été créé. Souhaitez-vous y associer un groupe?
+        /// </summary>
+        /// <param name="nomUsager"></param>
+        /// <param name="idEnseignant"></param>
+        /// <returns></returns>
+        public static MvcHtmlString EnseignantAjouterUnGroupeAEnseignant(string nomUsager, int idEnseignant)
+        { return MvcHtmlString.Create($"L'enseignant {nomUsager} a été créé. Souhaitez-vous <a href=\"/Groupes/Create?idEns={idEnseignant}\">y associer un groupe?</a>"); }
+
+        /// <summary>
+        /// L'enseignant {0} a été supprimé.
+        /// </summary>
+        /// <param name="enseignant"></param>
+        /// <returns></returns>
+        public static string EnseignantSupprime(string enseignant)
+        { return $"L'enseignant {enseignant} a été supprimé."; }
+
         public const string EnseignantAjouterTitre = "Ajouter un enseignant";
 
         public const string EnseignantModifierTitre = "Modifier un enseignant";
 
         public const string EnseignantSupprimerTitre = "Supprimer un enseignant";
 
-
         #endregion
 
 
-
-
         #region Etudiant
+
+
+        /// <summary>
+        /// Impossible d'enregistrer cet étudiant. Il existe déja im tudiant ayant le matricule {0}.
+        /// </summary>
+        /// <param name="matricule"></param>
+        /// <returns></returns>
+        public static string EtudiantAjouterErreurMatriculeExisteDeja(string matricule)
+        { return $"Impossible d'enregistrer cet étudiant. Il existe déja un étudiant ayant le matricule {matricule}."; }
+
+        /// <summary>
+        /// L'étudiant {0} a été enregistré.
+        /// </summary>
+        /// <param name="etudiant"></param>
+        /// <returns></returns>
+        public static string EtudiantEnregistre(string etudiant)
+        { return $"L'étudiant {etudiant} a été enregistré."; }
+
+        /// <summary>
+        /// Impossible de retirer le programme d'étude {0} des programmes suivis par l'étudiant.
+        /// </summary>
+        /// <param name="programme"></param>
+        /// <returns></returns>
+        public static string EtudiantProgrammeSupprimerErreur(string programme)
+        { return $"Impossible de retirer le programme d'étude {programme} des programmes suivis par l'étudiant."; }
+        
+        /// <summary>
+        /// Le programme d'étude {0} a été retiré de la liste des programmes suivis par l'étudiant.
+        /// </summary>
+        /// <param name="programme"></param>
+        /// <returns></returns>
+        public static string EtudiantProgrammeSupprimerListeEtudiant(string programme)
+        { return $"Le programme d'étude {programme} a été retiré de la liste des programmes suivis par l'étudiant."; }
 
         /// <summary>
         /// Voulez-vous vraiment supprimer l'étudiant {0} ?
@@ -880,6 +623,26 @@ namespace sachem.Models
         public static string EtudiantSupprimerQuestionSupprimerEtudiant(string etudiant)
         { return $"Voulez-vous vraiment supprimer l'étudiant {etudiant} ?"; }
 
+        /// <summary>
+        /// L'étudiant {0} a été supprimé.
+        /// </summary>
+        /// <param name="etudiant"></param>
+        /// <returns></returns>
+        public static string EtudiantSupprime(string etudiant)
+        { return $"L'étudiant {etudiant} a été supprimé."; }
+
+        /// <summary>
+        /// L'étudiant {0} a été modifié.
+        /// </summary>
+        /// <param name="nomEtudiant"></param>
+        /// <returns></returns>
+        public static string EtudiantModifie(string nomEtudiant)
+        { return $"L'étudiant {nomEtudiant} a été modifié."; }
+
+        public const string EtudiantSupprimerErreurLierGroupe = "L'étudiant ne peut être supprimé, car il est associé à un groupe.";
+
+        public const string EtudiantSupprimerErreurJumele="L'étudiant ne peut être supprimé s'il est jumelé.";
+
         public const string EtudiantAjouterTitre = "Ajouter un étudiant";
 
         public const string EtudiantModifierTitre = "Modifier un étudiant";
@@ -888,9 +651,17 @@ namespace sachem.Models
 
         public const string EtudiantProgrammeEtudeSupprimerTitre = "Supprimer un programme d'étude";
 
-        public const string EtudiantProgrammeEtudeQuestionSupprimerProgramme = "Voulez-vous vraiment supprimer le programme d'études:";
-        #endregion
+        public const string EtudiantProgrammeEtudeQuestionSupprimerProgrammeSansCode = "Voulez-vous vraiment supprimer le programme d'études:";
 
+        /// <summary>
+        /// Voulez-vous vraiment supprimer le programme d'études {0}
+        /// </summary>
+        /// <param name="code"></param>
+        /// <returns></returns>
+        public static string EtudiantProgrammeEtudeQuestionSupprimerProgramme(string code)
+        { return $"Voulez-vous vraiment supprimer le programme d'études {code}?"; }
+
+        #endregion
 
 
         #region Groupes
@@ -1025,7 +796,6 @@ namespace sachem.Models
         #endregion
 
 
-
         #region Pages Erreur
 
         public const string ErreurOptionSupplementaire = "Pour toute question, réferrez-vous à un enseignant de mathématiques.";
@@ -1049,11 +819,14 @@ namespace sachem.Models
         #region Nous contacter
 
         public const string ContacterTitre = "Nous Contacter";
-        public const string ContacterPersonneRessource = "Personne à contacter";
-        public const string ContacterFacebook = "La page Facebook du SACHEM";
-        public const string ContacterSiteWeb = "Site web du service d'aide";
-        #endregion
 
+        public const string ContacterPersonneRessource = "Personne à contacter";
+
+        public const string ContacterFacebook = "La page Facebook du SACHEM";
+
+        public const string ContacterSiteWeb = "Site web du service d'aide";
+
+        #endregion
 
 
         #region Recherche = Aucun
@@ -1080,10 +853,6 @@ namespace sachem.Models
 
         public const string AucunInscription = "Aucune inscription ne répond à ces critères.";
         #endregion
-
-
-
-
 
 
         #region Mots
@@ -1201,13 +970,12 @@ namespace sachem.Models
         public const string Administration = "Administration";
 
         public const string PremierChoix = "Premier choix";
+
         public const string DeuxiemeChoix = "Deuxième choix";
+
         public const string TroisiemeChoix = "Troisième choix";
 
         #endregion
-
-
-
 
 
         #region boutons et liens longs (voir zone mots pour ceux courts)
@@ -1239,6 +1007,5 @@ namespace sachem.Models
         public const string PageIndisponible = "Page indisponible";
 
         #endregion
-
     }
 }

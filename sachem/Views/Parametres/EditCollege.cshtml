@@ -92,7 +92,7 @@
     @using (Html.BeginForm("EditCollege", "Parametres", FormMethod.Get, new { @class = "form-inline", role = "form" }))
     {
         <tr>
-            <td>Nom de collège :</td>
+            <td>@Messages.CollegeNom</td>
             <td>@Html.Editor("Recherche", new { htmlAttributes = new { @class = "form-control" } })</td>
             <td><input type="submit" value="Rechercher" class="form-search"/></td>
         </tr>

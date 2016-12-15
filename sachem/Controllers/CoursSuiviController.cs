@@ -1,8 +1,6 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Net;
 using System.Web.Mvc;
-using sachem.Classes_Sachem;
 using sachem.Models;
 using sachem.Models.DataAccess;
 
@@ -18,7 +16,7 @@ namespace sachem.Controllers
 
         public CoursSuiviController(IDataRepository dataRepository)
         {
-            this._dataRepository = dataRepository;
+            _dataRepository = dataRepository;
         }
 
         private void Valider([Bind(Include = "id_CoursReussi,id_Sess,id_Pers,id_College,id_Statut,id_Cours,resultat,autre_Cours,autre_College")] CoursSuivi coursSuivi, bool verif = false)
@@ -29,7 +27,7 @@ namespace sachem.Controllers
                                                             r.id_Pers == coursSuivi.id_Pers &&
                                                             r.id_Sess == coursSuivi.id_Sess) && verif)
                     ModelState.AddModelError(string.Empty,
-                        Messages.ImpossibleEnregistrerCoursCarExisteListeCoursSuivis());
+                        Messages.CoursSuiviAjouterErreurExisteDeja);
             }
             else
             {
@@ -37,20 +35,20 @@ namespace sachem.Controllers
                                                            r.id_Pers == coursSuivi.id_Pers &&
                                                            r.id_Sess == coursSuivi.id_Sess) && verif)
                     ModelState.AddModelError(string.Empty,
-                        Messages.ImpossibleEnregistrerCoursCarExisteListeCoursSuivis());
+                        Messages.CoursSuiviAjouterErreurExisteDeja);
             }
 
             if (coursSuivi.id_Cours == null &&
                 coursSuivi.autre_Cours == string.Empty ||
                 coursSuivi.id_Cours != null &&
                 coursSuivi.autre_Cours != string.Empty)
-                ModelState.AddModelError(string.Empty, Messages.CompleterLesChamps("Cours" , "Autre cours"));
+                ModelState.AddModelError(string.Empty, Messages.CoursSuiviCompleterLesChamps("Cours" , "Autre cours"));
 
             if (coursSuivi.id_College == null &&
                 coursSuivi.autre_College == string.Empty ||
                 coursSuivi.id_College != null &&
                 coursSuivi.autre_College != string.Empty)
-                ModelState.AddModelError(string.Empty, Messages.CompleterLesChamps("Collège", "Autre collège"));
+                ModelState.AddModelError(string.Empty, Messages.CoursSuiviCompleterLesChamps("Collège", "Autre collège"));
 
             if ((coursSuivi.id_Statut == null || coursSuivi.id_Statut == 1) && coursSuivi.resultat == null)
                 ModelState.AddModelError(string.Empty, Messages.ResultatRequisSiReussi);

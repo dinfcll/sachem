@@ -20,7 +20,7 @@
         <tr>
             <td>@Messages.Session :</td>
             <td>@Html.DropDownList("Session", null, Messages.Toutes, new { @class = "form-search" })</td>
-            <td>@Html.DisplayFor(model => model.FirstOrDefault().Actif) :</td>
+            <td>@Messages.Actif :</td>
             <td>@Html.CheckBox("Actif", (bool)ViewBag.Actif)</td>
             <td><input type="submit" value="@Messages.Rechercher" class="form-search" /></td>
         </tr>

@@ -346,7 +346,7 @@ namespace sachem.Controllers
                 _db.SaveChanges();
             }
 
-            ViewBag.Success = "no"; //Messages.JumelageRetire();
+            ViewBag.Success = Messages.JumelageSupprime;
         }
 
         public void AjoutJumelage(int idVu, int idJumeleA, string jour, int minutes, int vuTypeInsc, int idEnseignant, int estConsecutif)
@@ -383,7 +383,7 @@ namespace sachem.Controllers
             _db.Jumelage.Add(jumCreation);
             _db.SaveChanges();
 
-            ViewBag.Success = "no"; //Messages.JumelageCree();
+            ViewBag.Success = Messages.JumelageAjoute;
         }
 
         [ValidationAcces.ValidationAccesEnseignant]

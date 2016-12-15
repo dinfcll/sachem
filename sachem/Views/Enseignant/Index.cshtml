@@ -19,7 +19,7 @@
 @using (Html.BeginForm("Index", "Enseignant", FormMethod.Post, new { @class = "form-inline", role = "form" }))
 { 
     <div class="form-group">
-        @Html.DisplayFor(model => model.FirstOrDefault().Actif) :
+        @Messages.Actif :
         @Html.CheckBox("Actif", (bool)ViewBag.Actif)
     </div>
         <div class="form-group">
@@ -30,7 +30,7 @@
     <table class="table">
         <tr>
             <th class="col-sm-5">
-                @Html.DisplayNameFor(model => model.First().Nom)
+                @Html.DisplayNameFor(model => model.First().NomPrenom)
             </th>
             <th class="col-sm-2">
                 @Html.DisplayNameFor(model => model.First().NomUsager)

@@ -6,7 +6,7 @@
                 @Messages.Cours:
             </div>
             <div class="col-md-6">
-                @Html.DropDownList("lstCours", null, Messages.VeuillezChoisir, new { @class = "form-search ins-selectcours valLignecours dropDownCours" })
+                @Html.DropDownList("lstCours", null, Messages.VeuillezChoisir, new { @class = "form-search ins-selectcours valLignecours", name="dropDownCours" })
             </div>
             <div class="col-md-4">
                 <input type="text" class="form-control text-box single-line ins-text-box valLignecours result" /><span style="float:right">%</span>               
@@ -25,7 +25,7 @@
                 @Messages.College:
             </div>
             <div class="col-md-6">
-                @Html.DropDownList("lstCollege", null, Messages.VeuillezChoisir, new { @class = "form-search ins-selectcollege valLignecours dropDownCollege" })
+                @Html.DropDownList("lstCollege", null, Messages.VeuillezChoisir, new { @class = "form-search ins-selectcollege valLignecours", name = "dropDownCollege" })
             </div>
         </div>
         <div class="row ins-row">

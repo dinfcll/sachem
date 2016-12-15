@@ -31,12 +31,12 @@ namespace sachem.Controllers
             
             if (motDePasse != personneConnectee.MP)
             {
-                ModelState.AddModelError(string.Empty, Messages.MotsDePasseDoiventEtreIdentiques());
+                ModelState.AddModelError(string.Empty, Messages.MotsDePasseDoiventEtreIdentiques);
             }
 
             if (!confirmationSignatureContrat)
             {
-                ModelState.AddModelError(string.Empty, Messages.CaseDoitEtreCochee());
+                ModelState.AddModelError(string.Empty, Messages.ContratCaseDoitEtreCochee);
             }
 
             if (ModelState.IsValid)

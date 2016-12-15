@@ -15,17 +15,17 @@
     <div class="col-md-9">
         <div class="row ins-row">
             <div class="col-md-2">@Messages.PremierChoix</div>            
-            <div class="col-md-6">@Html.DropDownList("lstCours", null, Messages.VeuillezChoisir, new { @class = "form-search ins-selectcours validecours"})</div>
+            <div class="col-md-6">@Html.DropDownList("lstCours", null, Messages.VeuillezChoisir, new { @class = "form-search ins-selectcours", name = "validecours" })</div>
             <div class="col-md-4"></div>
             </div>
         <div class="row ins-row">
             <div class="col-md-2">@Messages.DeuxiemeChoix</div>
-            <div class="col-md-6">@Html.DropDownList("lstCours", null, Messages.VeuillezChoisir, new { @class = "form-search ins-selectcours validecours" })</div>
+            <div class="col-md-6">@Html.DropDownList("lstCours", null, Messages.VeuillezChoisir, new { @class = "form-search ins-selectcours", name = "validecours" })</div>
             <div class="col-md-4"></div>
         </div>
         <div class="row ins-row">
             <div class="col-md-2">@Messages.TroisiemeChoix</div>
-            <div class="col-md-6">@Html.DropDownList("lstCours", null, Messages.VeuillezChoisir, new { @class = "form-search ins-selectcours validecours" })</div>
+            <div class="col-md-6">@Html.DropDownList("lstCours", null, Messages.VeuillezChoisir, new { @class = "form-search ins-selectcours", name = "validecours" })</div>
             <div class="col-md-4"></div>
         </div>
     </div>
@@ -41,7 +41,7 @@
         var listeCoursInteresse = function ()
         {
             var aideCours = new Array();
-            $(".validecours").each(function () {
+            $(["validecours"]).each(function () {
                 if (aideCours.indexOf($(this).val()) === -1) {
                     aideCours.push($(this).val());
                 }

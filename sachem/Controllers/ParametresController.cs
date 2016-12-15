@@ -52,13 +52,13 @@ namespace sachem.Controllers
                         .FirstOrDefault();
                     _db.Entry(courriel).State = EntityState.Modified;
                     _db.SaveChanges();
-                    TempData["Success"] = Messages.CourrielMisAJour();
+                    TempData["Success"] = Messages.CourrielMisAJour;
                 }
                 else
                 {
                     _db.Entry(courriel).State = EntityState.Added;
                     _db.SaveChanges();
-                    TempData["Success"] = Messages.CourrielCree();
+                    TempData["Success"] = Messages.CourrielCree;
                 }
             }
             ViewBag.id_TypeCourriel = Liste.ListeTypesCourriels(courriel.id_TypeCourriel);
@@ -100,7 +100,7 @@ namespace sachem.Controllers
                 _db.Entry(contact).State = EntityState.Modified;
                 _db.SaveChanges();
 
-                TempData["Success"] = string.Format(Messages.NousContaterMisAJour());
+                TempData["Success"] = string.Format(Messages.ContactMisAJour);
                 return View(contact);
             }
             return View(contact);
@@ -135,12 +135,12 @@ namespace sachem.Controllers
             {
                 if (session.Annee != horaireInscription.DateDebut.Year || session.Annee != horaireInscription.DateFin.Year)
                 {
-                    ModelState.AddModelError(string.Empty, Messages.DatesDansLaSession(session.Annee.ToString(), null));
+                    ModelState.AddModelError(string.Empty, Messages.HoraireDatesRestriction(session.Annee.ToString(), null));
                 }
 
                 if ((horaireInscription.DateFin - horaireInscription.DateDebut).TotalDays < 1)
                 {
-                    ModelState.AddModelError(string.Empty, Messages.ValidationDate());
+                    ModelState.AddModelError(string.Empty, Messages.HoraireValidationDate);
                 }
 
                 switch (session.p_Saison.id_Saison)
@@ -150,14 +150,14 @@ namespace sachem.Controllers
                     case 1:
                         if (horaireInscription.DateFin.Month > new DateTime(1, 5, 1).Month)
                         {
-                            ModelState.AddModelError(string.Empty, Messages.DatesDansLaSession("d'hiver, janvier (01)", " à juin (06)"));
+                            ModelState.AddModelError(string.Empty, Messages.HoraireDatesRestriction("d'hiver, janvier (01)", " à juin (06)"));
                         }
                         break;
                     //Si ete : de juin inclus jusqua aout inclus (si mois du début >= 6 et mois fin <= 8)
                     case 2:
                         if (new DateTime(1, 6, 1).Month > horaireInscription.DateDebut.Month || horaireInscription.DateFin.Month > new DateTime(1, 8, 1).Month)
                         {
-                            ModelState.AddModelError(string.Empty, Messages.DatesDansLaSession("d'été, juin (06)", " à août (08)"));
+                            ModelState.AddModelError(string.Empty, Messages.HoraireDatesRestriction("d'été, juin (06)", " à août (08)"));
                         }
                         break;
                     //si automne: de aout inclus jusqua decembre inclus (si mois du début >= 8 et mois fin <= 12)
@@ -165,7 +165,7 @@ namespace sachem.Controllers
                     case 3:
                         if (new DateTime(1, 8, 1).Month > horaireInscription.DateDebut.Month)
                         {
-                            ModelState.AddModelError(string.Empty, Messages.DatesDansLaSession("d'hiver, août (08)", " à décembre (12)"));
+                            ModelState.AddModelError(string.Empty, Messages.HoraireDatesRestriction("d'hiver, août (08)", " à décembre (12)"));
                         }
                         break;
                 }
@@ -176,7 +176,7 @@ namespace sachem.Controllers
 
                     _db.Entry(horaireInscription).State = sessionSurHi == null ? EntityState.Added : EntityState.Modified;
 
-                    TempData["Success"] = string.Format(Messages.HoraireMisAJour());
+                    TempData["Success"] = string.Format(Messages.HoraireMisAJour);
                     _db.SaveChanges();
                 }
             }
@@ -209,11 +209,11 @@ namespace sachem.Controllers
                     college.College = nomCollege;
                     _db.Entry(college).State = EntityState.Modified;
                     _db.SaveChanges();
-                    TempData["Success"] = string.Format(Messages.CollegeModifie());
+                    TempData["Success"] = string.Format(Messages.CollegeModifie);
                 }
                 else
                 {
-                   TempData["Erreur"] = string.Format(Messages.CollegeDejaExistant());
+                   TempData["Erreur"] = string.Format(Messages.CollegeDejaExistant);
                 }
             }
         }
@@ -234,7 +234,7 @@ namespace sachem.Controllers
             }
             else
             {
-                TempData["Erreur"] = string.Format(Messages.CollegeDejaExistant());
+                TempData["Erreur"] = string.Format(Messages.CollegeDejaExistant);
             }
         }
 
