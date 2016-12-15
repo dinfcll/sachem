@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Web.Mvc;
 using sachem.Models;
-using sachem.Classes_Sachem;
+using sachem.Methodes_Communes;
 
 namespace sachem.Controllers
 {

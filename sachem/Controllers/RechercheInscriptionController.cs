@@ -4,7 +4,8 @@ using System.Web.Mvc;
 using sachem.Models;
 using System.Net;
 using System.Data.Entity;
-using sachem.Classes_Sachem;
+using sachem.Methodes_Communes;
+using sachem.Models.DataAccess;
 
 namespace sachem.Controllers
 {
@@ -14,7 +15,17 @@ namespace sachem.Controllers
 
         private const int Accepte = 3;
         private const int Refuse = 5;
+        private readonly IDataRepository _dataRepository;
 
+        public RechercheInscriptionController(IDataRepository dataRepository)
+        {
+            _dataRepository = dataRepository;
+        }
+
+        public RechercheInscriptionController()
+        {
+            _dataRepository = new BdRepository();
+        }
         [ValidationAcces.ValidationAccesSuper]
         public ActionResult Index()
         {
@@ -101,9 +112,9 @@ namespace sachem.Controllers
                 }
             }
 
-            ViewBag.Session = Liste.ListeSession(sess);
-            ViewBag.TypeInscription = Liste.ListeTypeInscription(type);
-            ViewBag.Statut = Liste.ListeStatutInscriptionSansBrouillon(statut);
+            ViewBag.Session = _dataRepository.ListeSession(sess);
+            ViewBag.TypeInscription = _dataRepository.ListeTypeInscription(type);
+            ViewBag.Statut = _dataRepository.ListeStatutInscriptionSansBrouillon(statut);
 
             var inscription = from c in _db.Inscription
                               where ((c.id_Sess == sess || sess == 0) && (c.id_Statut == statut || statut == 0) && (c.id_TypeInscription == type || type == 0))
@@ -126,6 +137,15 @@ namespace sachem.Controllers
             }
 
             ViewBag.Liste_Statut = new SelectList(lStatut, "id_Statut", "Statut", vraiStatut);
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                _dataRepository.Dispose();
+            }
+            base.Dispose(disposing);
         }
     }
 }

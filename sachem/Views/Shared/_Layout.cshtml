@@ -1,4 +1,5 @@
-﻿@using sachem.Models
+﻿@using sachem.Methodes_Communes
+@using sachem.Models
 <!DOCTYPE html>
 <html>
 <head>
@@ -34,7 +35,7 @@
                 @if (SachemIdentite.ObtenirTypeUsager(Session) == TypeUsagers.Eleve || SachemIdentite.ObtenirTypeUsager(Session) == TypeUsagers.Tuteur)
                 {
                     <li>
-                        @Html.ActionLink(Messages.DossierEtudiantMonTitre, "Details", "DossierEtudiant", new { id = SessionBag.Current.id_Inscription } , null)
+                        @Html.ActionLink(Messages.DossierEtudiantMon, "Details", "DossierEtudiant", new { id = SessionBag.Current.id_Inscription } , null)
                     </li>
                 }
                     
@@ -42,7 +43,7 @@
                 @if (SachemIdentite.ObtenirTypeUsager(Session) == TypeUsagers.Tuteur)
                 {
                     <li>
-                        @Html.ActionLink(Messages.DossierEtudiantTitre, "Index", "DossierEtudiant")
+                        @Html.ActionLink(Messages.DossierEtudiant, "Index", "DossierEtudiant")
                     </li>
                 }
 
@@ -50,7 +51,7 @@
                 @if (SachemIdentite.TypeListeProf.Contains(SachemIdentite.ObtenirTypeUsager(Session)))
                 {
                     <li>
-                        @Html.ActionLink(Messages.DossierEtudiantTitre, "Index", "DossierEtudiant")
+                        @Html.ActionLink(Messages.DossierEtudiant, "Index", "DossierEtudiant")
                     </li>
                     <li>
                         @Html.ActionLink(Messages.CoursEnseignes, "Index", "ConsulterCours")

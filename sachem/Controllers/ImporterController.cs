@@ -3,8 +3,8 @@ using System.Configuration;
 using System.IO;
 using System.Web.Mvc;
 using System.Web.WebPages;
+using sachem.Methodes_Communes;
 using sachem.Models;
-using sachem.Classes_Sachem;
 
 namespace sachem.Controllers
 {

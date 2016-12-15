@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
 using System.Web.Mvc;
-using sachem.Classes_Sachem;
+using sachem.Methodes_Communes;
 using sachem.Models;
+using sachem.Models.DataAccess;
 
 namespace sachem.Controllers
 {
@@ -17,12 +18,22 @@ namespace sachem.Controllers
         private readonly int _heureFin = CheckConfigHeure(ConfigurationManager.AppSettings.Get("HeureFin"), 18);
         private const int DemiHeure = 30;
         private const int DureeRencontreMinutes = 90;
+        private readonly IDataRepository _dataRepository;
 
-       
+        public InscriptionController(IDataRepository dataRepository)
+        {
+            _dataRepository = dataRepository;
+        }
+
+        public InscriptionController()
+        {
+            _dataRepository = new BdRepository();
+        }
+
         [ValidationAcces.ValidationAccesInscription]
         public ActionResult Index()
         {
-            ViewBag.TypeInscription = Liste.ListeTypeInscription();
+            ViewBag.TypeInscription = _dataRepository.ListeTypeInscription();
 
             return View();
         }
@@ -32,7 +43,7 @@ namespace sachem.Controllers
         public ActionResult Index(int typeInscription, string[] jours )
         {
             int idPers = SessionBag.Current.id_Pers;
-            ViewBag.TypeInscription = Liste.ListeTypeInscription();
+            ViewBag.TypeInscription = _dataRepository.ListeTypeInscription();
             var sessionActuelle = _db.Session.AsNoTracking().OrderByDescending(y => y.Annee).ThenByDescending(x => x.id_Saison).FirstOrDefault();
             if (sessionActuelle != null)
             {
@@ -97,7 +108,7 @@ namespace sachem.Controllers
         [NonAction]
         public List<string> RetourneListeJours()
         {
-            return Liste.ListeJours();
+            return _dataRepository.ListeJours();
         }
 
         private static int CheckConfigHeure(string heure, int defaut)
@@ -140,28 +151,28 @@ namespace sachem.Controllers
         [ValidationAcces.ValidationAccesEtu]
         public ActionResult EleveAide1()
         {
-            ViewBag.lstCours = Liste.ListeCours();
-            ViewBag.lstCours1 = Liste.ListeCours();
-            ViewBag.lstStatut = Liste.ListeStatutCours();
-            ViewBag.slSession = Liste.ListeSession();
+            ViewBag.lstCours = _dataRepository.ListeCours();
+            ViewBag.lstCours1 = _dataRepository.ListeCours();
+            ViewBag.lstStatut = _dataRepository.ListeStatutCours();
+            ViewBag.slSession = _dataRepository.ListeSession();
             return View();
         }
 
         [HttpGet]
         public ActionResult Tuteur()
         {
-            ViewBag.lstCours = Liste.ListeCours();
-            ViewBag.lstCours1 = Liste.ListeCours();
-            ViewBag.lstCollege = Liste.ListeCollege();
+            ViewBag.lstCours = _dataRepository.ListeCours();
+            ViewBag.lstCours1 = _dataRepository.ListeCours();
+            ViewBag.lstCollege = _dataRepository.ListeCollege();
             return View();
         }
 
         public ActionResult GetLigneCoursEleveAide()
         {
-            ViewBag.lstCours = Liste.ListeCours();
-            ViewBag.lstCours1 = Liste.ListeCours();
-            ViewBag.lstStatut = Liste.ListeStatutCours();
-            ViewBag.slSession = Liste.ListeSession();
+            ViewBag.lstCours = _dataRepository.ListeCours();
+            ViewBag.lstCours1 = _dataRepository.ListeCours();
+            ViewBag.lstStatut = _dataRepository.ListeStatutCours();
+            ViewBag.slSession = _dataRepository.ListeSession();
 
             return PartialView("_LigneCoursReussiEleveAide");
         }
@@ -169,9 +180,9 @@ namespace sachem.Controllers
         [HttpGet]
         public ActionResult Benevole()
         {
-            ViewBag.lstCours = Liste.ListeCours();
-            ViewBag.lstCours1 = Liste.ListeCours();
-            ViewBag.lstCollege = Liste.ListeCollege();
+            ViewBag.lstCours = _dataRepository.ListeCours();
+            ViewBag.lstCours1 = _dataRepository.ListeCours();
+            ViewBag.lstCollege = _dataRepository.ListeCollege();
 
             return View();
         }
@@ -179,9 +190,9 @@ namespace sachem.Controllers
         [HttpPost]
         public ActionResult GetLigneCours()
         {
-            ViewBag.lstCours = Liste.ListeCours();
-            ViewBag.lstCours1 = Liste.ListeCours();
-            ViewBag.lstCollege = Liste.ListeCollege();
+            ViewBag.lstCours = _dataRepository.ListeCours();
+            ViewBag.lstCours1 = _dataRepository.ListeCours();
+            ViewBag.lstCollege = _dataRepository.ListeCollege();
 
             return PartialView("_LigneCoursReussi");
         }
@@ -296,7 +307,7 @@ namespace sachem.Controllers
         [HttpPost]
         public string ErreurCours()
         {
-            ViewBag.lstCours = Liste.ListeCours();
+            ViewBag.lstCours = _dataRepository.ListeCours();
             return Messages.InscriptionCoursChoisiUneSeuleFois;
         }
 
@@ -386,7 +397,7 @@ namespace sachem.Controllers
         {
             if (disposing)
             {
-                _db.Dispose();
+                _dataRepository.Dispose();
             }
             base.Dispose(disposing);
         }

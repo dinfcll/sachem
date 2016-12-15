@@ -5,7 +5,7 @@ using sachem.Models;
 using PagedList;
 using System.Net;
 using System.Data.Entity;
-using sachem.Classes_Sachem;
+using sachem.Methodes_Communes;
 
 namespace sachem.Controllers
 {

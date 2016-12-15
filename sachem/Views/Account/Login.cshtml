@@ -1,7 +1,7 @@
 ﻿@using sachem.Models
 @model Personne
 @{
-    ViewBag.Title = Messages.AccountLoginTitre;
+    ViewBag.Title = Messages.Connexion;
 }
 
 <h2>@ViewBag.Title.</h2>
@@ -45,7 +45,7 @@
             <div class="form-group">
                 <div class="col-md-offset-3 col-md-9">
                     <input type="submit" value="@Messages.Connexion" class="btn btn-default" style="width:100%;" />
-                    <div style="margin-top:15px;margin-left:5px;">@Messages.AccountLoginPasDeCompte @Html.ActionLink(Messages.AccountLoginSinscrire, "Register")</div>
+                    <div style="margin-top:15px;margin-left:5px;">@Messages.AccountLoginPasDeCompte @Html.ActionLink(Messages.InscrivezVous, "Register")</div>
                 </div>
             </div>
         </div>

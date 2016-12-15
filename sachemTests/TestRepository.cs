@@ -175,26 +175,6 @@ namespace sachemTests
             return _listeEnseignant.Find(x => x.id_Pers == id);
         }
 
-        public SelectList liste_sexe()
-        {
-            throw new NotImplementedException();
-        }
-
-        public SelectList liste_sexe(Personne personne)
-        {
-            return new SelectList("femme");
-        }
-
-        public SelectList liste_usag(int idResp, int idEns)
-        {
-            throw new NotImplementedException();
-        }
-
-        public SelectList liste_usag(Personne personne, int idResp, int idEns)
-        {
-            return new SelectList("Enseignant");
-        }
-
         public void RemoveEnseignant(int id)
         {
             throw new NotImplementedException();
@@ -209,6 +189,91 @@ namespace sachemTests
         {
             var index = _listeEnseignant.FindIndex(a => a.id_Pers == enseignant.id_Pers);
             _listeEnseignant[index] = enseignant;
+        }
+
+        public SelectList ListeTypeUsager(int idResp, int idEns)
+        {
+            throw new NotImplementedException();
+        }
+
+        public SelectList ListeSexe(int sexe = 0)
+        {
+            throw new NotImplementedException();
+        }
+
+        public SelectList ListeSession(int session = 0)
+        {
+            throw new NotImplementedException();
+        }
+
+        public SelectList ListePersonne(int idSession, int idPers)
+        {
+            throw new NotImplementedException();
+        }
+
+        public SelectList ListeCours(int cours = 0)
+        {
+            throw new NotImplementedException();
+        }
+
+        public SelectList ListeCollege(int college = 0)
+        {
+            throw new NotImplementedException();
+        }
+
+        public SelectList ListeStatutCours(int statut = 0)
+        {
+            throw new NotImplementedException();
+        }
+
+        public SelectList ListeEnseignant(int enseignant = 0)
+        {
+            throw new NotImplementedException();
+        }
+
+        public SelectList ListeSuperviseur(int superviseur = 0)
+        {
+            throw new NotImplementedException();
+        }
+
+        public SelectList ListeTypeInscription(int typeInscription = 0)
+        {
+            throw new NotImplementedException();
+        }
+
+        public SelectList ListeInscription(int inscription = 0)
+        {
+            throw new NotImplementedException();
+        }
+
+        public SelectList ListeStatutInscriptionSansBrouillon(int statut = 0)
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<string> ListeJours()
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<Cours> ListeCoursSelonSession(int session)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<Groupe> ListeGroupeSelonSessionEtCours(int cours, int session)
+        {
+            throw new NotImplementedException();
+        }
+
+        public SelectList ListeStatutCours()
+        {
+            throw new NotImplementedException();
+        }
+
+        public SelectList ListeTypesCourriels(int typeCourriel = 0)
+        {
+            throw new NotImplementedException();
         }
     }
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using sachem.Models;
+using sachem.Models.DataAccess;
 
 namespace sachem.Controllers
 {
@@ -11,18 +12,29 @@ namespace sachem.Controllers
         protected readonly SACHEMEntities Db = new SACHEMEntities();
 
         protected int NoPage = 1;
+        protected readonly IDataRepository DataRepository;
+
+        public RechercheEtudiantController(IDataRepository dataRepository)
+        {
+            DataRepository = dataRepository;
+        }
+
+        public RechercheEtudiantController()
+        {
+            DataRepository = new BdRepository();
+        }
 
         [AcceptVerbs("Get", "Post")]
         public JsonResult ActualiseGroupeddl(int cours, int session)
         {
-            var a = Liste.ListeGroupeSelonSessionEtCours(cours, session).Select(c => new { c.id_Groupe, c.NoGroupe });
+            var a = DataRepository.ListeGroupeSelonSessionEtCours(cours, session).Select(c => new { c.id_Groupe, c.NoGroupe });
             return Json(a.ToList(), JsonRequestBehavior.AllowGet);
         }
 
         [AcceptVerbs("Get", "Post")]
         public virtual JsonResult ActualiseCoursddl(int session = 0)
         {
-            var a = Liste.ListeCoursSelonSession(session).Select(c => new { c.id_Cours, c.CodeNom });
+            var a = DataRepository.ListeCoursSelonSession(session).Select(c => new { c.id_Cours, c.CodeNom });
             return Json(a.ToList(), JsonRequestBehavior.AllowGet);
         }
 
@@ -105,9 +117,9 @@ namespace sachem.Controllers
                         session = Db.Session.Max(s => s.id_Sess);
                 }
             }
-            ViewBag.SelectSession = Liste.ListeSession();
-            ViewBag.SelectCours = new SelectList(Liste.ListeCoursSelonSession(session).AsQueryable(), "id_Cours", "CodeNom", cours);
-            ViewBag.SelectGroupe = new SelectList(Liste.ListeGroupeSelonSessionEtCours(cours, session), "id_Groupe", "NoGroupe", groupe);
+            ViewBag.SelectSession = DataRepository.ListeSession();
+            ViewBag.SelectCours = new SelectList(DataRepository.ListeCoursSelonSession(session).AsQueryable(), "id_Cours", "CodeNom", cours);
+            ViewBag.SelectGroupe = new SelectList(DataRepository.ListeGroupeSelonSessionEtCours(cours, session), "id_Groupe", "NoGroupe", groupe);
 
             Session["DernRechEtu"] = matricule + ";" + session + ";" + cours + ";" + groupe + ";" + NoPage;
             if (Request.Url != null) Session["DernRechEtuUrl"] = Request.Url.LocalPath;
@@ -149,6 +161,15 @@ namespace sachem.Controllers
         protected IEnumerable<PersonneProgEtu> Rechercher(int? page)
         {
             return Rechercher();
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                DataRepository.Dispose();
+            }
+            base.Dispose(disposing);
         }
     }
 }

@@ -3,9 +3,9 @@ using System.Net;
 using System.Web.Mvc;
 using sachem.Models;
 using PagedList;
-using sachem.Classes_Sachem;
 using System.Data.Entity;
 using System.Collections.Generic;
+using sachem.Methodes_Communes;
 
 namespace sachem.Controllers
 {
@@ -24,10 +24,10 @@ namespace sachem.Controllers
         [ValidationAcces.ValidationAccesEnseignant]
         public ActionResult Create()
         {
-            ViewBag.id_Sexe = Liste.ListeSexe();
+            ViewBag.id_Sexe = DataRepository.ListeSexe();
             ViewBag.id_TypeUsag = new SelectList(Db.p_TypeUsag, "id_TypeUsag", "TypeUsag");
             ViewBag.id_Programme = new SelectList(Db.ProgrammeEtude.Where(x => x.Actif), "id_ProgEtu", "CodeNomProgramme");
-            ViewBag.id_Session = Liste.ListeSession();
+            ViewBag.id_Session = DataRepository.ListeSession();
             
             return View();
         }
@@ -45,10 +45,10 @@ namespace sachem.Controllers
             personne.Matricule = AnneePremiersCaracteres + personne.Matricule;
             etuProg.personne = personne;
 
-            ViewBag.id_Sexe = Liste.ListeSexe();
+            ViewBag.id_Sexe = DataRepository.ListeSexe();
             ViewBag.id_TypeUsag = new SelectList(Db.p_TypeUsag, "id_TypeUsag", "TypeUsag");
             ViewBag.id_Programme = new SelectList(Db.ProgrammeEtude.Where(x => x.Actif), "id_ProgEtu", "CodeNomProgramme");
-            ViewBag.id_Session = Liste.ListeSession();
+            ViewBag.id_Session = DataRepository.ListeSession();
 
             Valider(etuProg.personne);
             if (etuProg.personne.MP == null)
@@ -113,10 +113,10 @@ namespace sachem.Controllers
             {
                 sexe = personne.id_Sexe.Value;
             }
-            ViewBag.id_Sexe = Liste.ListeSexe(sexe);
+            ViewBag.id_Sexe = DataRepository.ListeSexe(sexe);
             ViewBag.id_TypeUsag = new SelectList(Db.p_TypeUsag, "id_TypeUsag", "TypeUsag", personne.id_TypeUsag);
             ViewBag.id_Programme = new SelectList(Db.ProgrammeEtude.Where(x=> x.Actif), "id_ProgEtu", "CodeNomProgramme");
-            ViewBag.id_Session = Liste.ListeSession();
+            ViewBag.id_Session = DataRepository.ListeSession();
             var etuProg = new PersonneEtuProgParent
             {
                 personne = personne,
@@ -237,10 +237,10 @@ namespace sachem.Controllers
                 return RedirectToAction("Index");
             }
 
-            ViewBag.id_Sexe = Liste.ListeSexe(sexe);
+            ViewBag.id_Sexe = DataRepository.ListeSexe(sexe);
             ViewBag.id_TypeUsag = new SelectList(Db.p_TypeUsag, "id_TypeUsag", "TypeUsag", etuProg.personne.id_TypeUsag);
             ViewBag.id_Programme = new SelectList(Db.ProgrammeEtude.Where(x => x.Actif), "id_ProgEtu", "CodeNomProgramme");
-            ViewBag.id_Session = Liste.ListeSession();
+            ViewBag.id_Session = DataRepository.ListeSession();
             return View(etuProg);
         }
 
@@ -361,14 +361,7 @@ namespace sachem.Controllers
                 ModelState.AddModelError(string.Empty, Messages.EtudiantAjouterErreurMatriculeExisteDeja(personne.Matricule));
             }
         }
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                Db.Dispose();
-            }
-            base.Dispose(disposing);
-        }
+
         private bool ConfirmeMdp(string s1, string s2)
         {
             if (s1 == s2) return true;

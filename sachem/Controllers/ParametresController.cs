@@ -5,7 +5,8 @@ using System.Linq;
 using System.Web.Mvc;
 using sachem.Models;
 using PagedList;
-using sachem.Classes_Sachem;
+using sachem.Methodes_Communes;
+using sachem.Models.DataAccess;
 
 namespace sachem.Controllers
 {
@@ -13,6 +14,17 @@ namespace sachem.Controllers
     {
         protected int NoPage = 1;
         private readonly SACHEMEntities _db = new SACHEMEntities();
+        private readonly IDataRepository _dataRepository;
+
+        public ParametresController(IDataRepository dataRepository)
+        {
+            _dataRepository = dataRepository;
+        }
+
+        public ParametresController()
+        {
+            _dataRepository = new BdRepository();
+        }
 
         [HttpGet]
         [ValidationAcces.ValidationAccesSuper]
@@ -24,7 +36,7 @@ namespace sachem.Controllers
                 if (idZero != null) courriel = idZero.id_TypeCourriel;
             }
             var reqCourriel = _db.Courriel.OrderBy(y => y.id_TypeCourriel).FirstOrDefault(x => x.id_TypeCourriel == courriel);
-            ViewBag.id_TypeCourriel = Liste.ListeTypesCourriels(courriel);
+            ViewBag.id_TypeCourriel = _dataRepository.ListeTypesCourriels(courriel);
 
             return View(reqCourriel);
         }
@@ -61,7 +73,7 @@ namespace sachem.Controllers
                     TempData["Success"] = Messages.CourrielCree;
                 }
             }
-            ViewBag.id_TypeCourriel = Liste.ListeTypesCourriels(courriel.id_TypeCourriel);
+            ViewBag.id_TypeCourriel = _dataRepository.ListeTypesCourriels(courriel.id_TypeCourriel);
             return View(courriel);
         }
 
@@ -116,7 +128,7 @@ namespace sachem.Controllers
             }
             ViewBag.idSess = session;
             var lhoraire = _db.p_HoraireInscription.OrderByDescending(y => y.id_Sess).FirstOrDefault(x => x.id_Sess == session);
-            ViewBag.id_sess = Liste.ListeSession(session);
+            ViewBag.id_sess = _dataRepository.ListeSession(session);
             if (idZero != null) ViewBag.idSessStable = idZero.id_Sess;
 
             return View(lhoraire);
@@ -143,31 +155,30 @@ namespace sachem.Controllers
                     ModelState.AddModelError(string.Empty, Messages.HoraireValidationDate);
                 }
 
-                switch (session.p_Saison.id_Saison)
+                if (session.p_Saison.id_Saison == 1)
                 {
-                    //Si hiver : de janvier inclus jusqua mai inclus (mois fin <= 5) pas besoin de verif la date de début
-                    //car on est sur que c'est la bonne année et qu'elle est avant la date de fin
-                    case 1:
-                        if (horaireInscription.DateFin.Month > new DateTime(1, 5, 1).Month)
-                        {
-                            ModelState.AddModelError(string.Empty, Messages.HoraireDatesRestriction("d'hiver, janvier (01)", " à juin (06)"));
-                        }
-                        break;
-                    //Si ete : de juin inclus jusqua aout inclus (si mois du début >= 6 et mois fin <= 8)
-                    case 2:
-                        if (new DateTime(1, 6, 1).Month > horaireInscription.DateDebut.Month || horaireInscription.DateFin.Month > new DateTime(1, 8, 1).Month)
-                        {
-                            ModelState.AddModelError(string.Empty, Messages.HoraireDatesRestriction("d'été, juin (06)", " à août (08)"));
-                        }
-                        break;
-                    //si automne: de aout inclus jusqua decembre inclus (si mois du début >= 8 et mois fin <= 12)
-                    //pas besoin de verif la date de fin car on est sur que c'est la bonne année et qu'elle est apres la date de début
-                    case 3:
-                        if (new DateTime(1, 8, 1).Month > horaireInscription.DateDebut.Month)
-                        {
-                            ModelState.AddModelError(string.Empty, Messages.HoraireDatesRestriction("d'hiver, août (08)", " à décembre (12)"));
-                        }
-                        break;
+                    if (horaireInscription.DateFin.Month > new DateTime(1, 5, 1).Month)
+                    {
+                        ModelState.AddModelError(string.Empty,
+                            Messages.HoraireDatesRestriction("d'hiver, janvier (01)", " à juin (06)"));
+                    }
+                }
+                else if (session.p_Saison.id_Saison == 2)
+                {
+                    if (new DateTime(1, 6, 1).Month > horaireInscription.DateDebut.Month ||
+                        horaireInscription.DateFin.Month > new DateTime(1, 8, 1).Month)
+                    {
+                        ModelState.AddModelError(string.Empty,
+                            Messages.HoraireDatesRestriction("d'été, juin (06)", " à août (08)"));
+                    }
+                }
+                else if (session.p_Saison.id_Saison == 3)
+                {
+                    if (new DateTime(1, 8, 1).Month > horaireInscription.DateDebut.Month)
+                    {
+                        ModelState.AddModelError(string.Empty,
+                            Messages.HoraireDatesRestriction("d'hiver, août (08)", " à décembre (12)"));
+                    }
                 }
 
                 if (ModelState.IsValid)
@@ -182,7 +193,7 @@ namespace sachem.Controllers
             }
             var idZero = _db.Session.OrderByDescending(y => y.id_Sess).FirstOrDefault();
             ViewBag.idSess = session.id_Sess;
-            ViewBag.id_sess = Liste.ListeSession(session.id_Sess);
+            ViewBag.id_sess = _dataRepository.ListeSession(session.id_Sess);
             if (idZero != null) ViewBag.idSessStable = idZero.id_Sess;
 
             return View(horaireInscription);
@@ -201,20 +212,18 @@ namespace sachem.Controllers
         [ValidationAcces.ValidationAccesSuper]
         public void ModifCollege(string nomCollege, int? id)
         {
-            if (_db.p_College.Any(r => r.id_College == id))
+            if (!_db.p_College.Any(r => r.id_College == id)) return;
+            if (ModelState.IsValid)
             {
-                if (ModelState.IsValid)
-                {
-                    var college = _db.p_College.Find(id);
-                    college.College = nomCollege;
-                    _db.Entry(college).State = EntityState.Modified;
-                    _db.SaveChanges();
-                    TempData["Success"] = string.Format(Messages.CollegeModifie);
-                }
-                else
-                {
-                   TempData["Erreur"] = string.Format(Messages.CollegeDejaExistant);
-                }
+                var college = _db.p_College.Find(id);
+                college.College = nomCollege;
+                _db.Entry(college).State = EntityState.Modified;
+                _db.SaveChanges();
+                TempData["Success"] = string.Format(Messages.CollegeModifie);
+            }
+            else
+            {
+                TempData["Erreur"] = string.Format(Messages.CollegeDejaExistant);
             }
         }
 
@@ -276,7 +285,7 @@ namespace sachem.Controllers
 
             var collegeFormater = Formatage(college);
 
-            if (!String.IsNullOrEmpty(recherche))
+            if (!string.IsNullOrEmpty(recherche))
             {
                 collegeFormater = collegeFormater.FindAll(c => c.College.ToLower().Contains(recherche.ToLower()));
             }
@@ -284,9 +293,9 @@ namespace sachem.Controllers
             return collegeFormater;
         }
 
-        private List<p_College> Formatage(IQueryable<p_College> college)
+        private static List<p_College> Formatage(IEnumerable<p_College> college)
         {
-            List<string> motsNonSignificatifs = new List<string> {
+            var motsNonSignificatifs = new List<string> {
                 "collège", "cégep", "collégial",
                 "college", "cegep", "collegial",
                 "de", "la", "du", "le", "les", "des" }; 
@@ -294,8 +303,8 @@ namespace sachem.Controllers
             int index;
             foreach(var element in college)
             {
-                string construitPhraseEntreParentheses = "";
-                string[] splitCollege = element.College.Split(' ');
+                var construitPhraseEntreParentheses = "";
+                var splitCollege = element.College.Split(' ');
                 index = 0;
                 while (index < splitCollege.Length-1 && 
                     motsNonSignificatifs.Exists(x => x.ToUpper().Equals(splitCollege[index].ToUpper())) && 
@@ -307,7 +316,7 @@ namespace sachem.Controllers
                 if (construitPhraseEntreParentheses.Length > 0)
                 {
                     element.College = "";
-                    for(int i=index;i<splitCollege.Length;i++)
+                    for(var i=index;i<splitCollege.Length;i++)
                     {
                         element.College += splitCollege[i] + " ";
                     }
@@ -320,6 +329,15 @@ namespace sachem.Controllers
                 collegeFormater.Add(element);
             }
             return collegeFormater.OrderBy(x => x.College).ToList();
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                _dataRepository.Dispose();
+            }
+            base.Dispose(disposing);
         }
     }
 }

@@ -8,7 +8,8 @@ using System.Net;
 using System.Net.Mail;
 using System.Text;
 using System.Web;
-using sachem.Classes_Sachem;
+using sachem.Methodes_Communes;
+using sachem.Models.DataAccess;
 
 namespace sachem.Controllers
 {
@@ -17,6 +18,17 @@ namespace sachem.Controllers
     {
         private const int Portcourriel = 587;
         private readonly SACHEMEntities _db = new SACHEMEntities();
+        private readonly IDataRepository _dataRepository;
+
+        public AccountController(IDataRepository dataRepository)
+        {
+            _dataRepository = dataRepository;
+        }
+
+        public AccountController()
+        {
+            _dataRepository = new BdRepository();
+        }
 
         private void CreerCookieConnexion(string nomUsager, string motDePasse)
         {
@@ -221,7 +233,7 @@ namespace sachem.Controllers
         {
             if (SachemIdentite.ObtenirTypeUsager(Session) != TypeUsagers.Aucun)
                 return RedirectToAction("Error", "Home", null);
-            ViewBag.id_Sexe = Liste.ListeSexe();
+            ViewBag.id_Sexe = _dataRepository.ListeSexe();
             ViewBag.Autorisation = false;
 
             return View();
@@ -232,7 +244,7 @@ namespace sachem.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Register(Personne personne)
         {
-            ViewBag.id_Sexe = Liste.ListeSexe();
+            ViewBag.id_Sexe = _dataRepository.ListeSexe();
             var reqBdPersonne = _db.Personne.AsNoTracking().Where(x => x.Matricule == personne.Matricule);
             var validation = ConfirmeMdp(personne.MP, personne.ConfirmPassword);
 
@@ -419,6 +431,15 @@ namespace sachem.Controllers
             SessionBag.Current.NomComplet = personne.PrenomNom;
             SessionBag.Current.MP = personne.MP;
             SessionBag.Current.id_Pers = personne.id_Pers;
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                _dataRepository.Dispose();
+            }
+            base.Dispose(disposing);
         }
     }
 }

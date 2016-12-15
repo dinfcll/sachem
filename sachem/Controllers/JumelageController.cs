@@ -5,7 +5,8 @@ using System.Net;
 using System.Web.Mvc;
 using sachem.Models;
 using PagedList;
-using sachem.Classes_Sachem;
+using sachem.Methodes_Communes;
+using sachem.Models.DataAccess;
 
 namespace sachem.Controllers
 {
@@ -18,6 +19,17 @@ namespace sachem.Controllers
         private const int IdInscriptionPourEleveAide = 1;
         private readonly SACHEMEntities _db = new SACHEMEntities();
         protected int NoPage = 1;
+        private readonly IDataRepository _dataRepository;
+
+        public JumelageController(IDataRepository dataRepository)
+        {
+            _dataRepository = dataRepository;
+        }
+
+        public JumelageController()
+        {
+            _dataRepository = new BdRepository();
+        }
 
         [NonAction]
         public string RetourneNbreJumelageEtudiant(int count)
@@ -42,7 +54,7 @@ namespace sachem.Controllers
         [NonAction]
         public List<string> RetourneListeJoursSemaine()
         {
-            return Liste.ListeJours();
+            return _dataRepository.ListeJours();
         }
 
         [NonAction]
@@ -450,8 +462,8 @@ namespace sachem.Controllers
                 }
             }
 
-            ViewBag.Session = Liste.ListeSession(session);
-            ViewBag.Inscription = Liste.ListeTypeInscription(typeinscription);
+            ViewBag.Session = _dataRepository.ListeSession(session);
+            ViewBag.Inscription = _dataRepository.ListeTypeInscription(typeinscription);
 
             Session["DernRechEtu"] = session + ";" + typeinscription + ";" + NoPage;
             if (Request.Url != null) Session["DernRechEtuUrl"] = Request.Url.LocalPath;
@@ -502,7 +514,7 @@ namespace sachem.Controllers
         {
             if (disposing)
             {
-                _db.Dispose();
+                _dataRepository.Dispose();
             }
             base.Dispose(disposing);
         }

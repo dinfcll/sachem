@@ -6,7 +6,7 @@ using System.Net;
 using System.Web.Mvc;
 using sachem.Models;
 using PagedList;
-using sachem.Classes_Sachem;
+using sachem.Methodes_Communes;
 using sachem.Models.DataAccess;
 
 namespace sachem.Controllers
@@ -24,7 +24,7 @@ namespace sachem.Controllers
 
         public DossierEtudiantController(IDataRepository dataRepository)
         {
-            this._dataRepository = dataRepository;
+            _dataRepository = dataRepository;
         }
 
         private IEnumerable<Personne> ObtenirListeSuperviseur(int session)
@@ -163,8 +163,8 @@ namespace sachem.Controllers
                     session = Convert.ToInt32(_db.Session.OrderByDescending(y => y.Annee).ThenByDescending(x => x.id_Saison).FirstOrDefault().id_Sess);
             }
 
-            ViewBag.Session = Liste.ListeSession(session);
-            ViewBag.Inscription = Liste.ListeTypeInscription(typeinscription);
+            ViewBag.Session = _dataRepository.ListeSession(session);
+            ViewBag.Inscription = _dataRepository.ListeTypeInscription(typeinscription);
             ListeSuperviseur(session, superviseur);
 
             Session["DernRechEtu"] = matricule + ";" + session + ";" + typeinscription + ";" + superviseur + ";" + NoPage;

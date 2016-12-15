@@ -5,7 +5,8 @@ using System.Net;
 using System.Web.Mvc;
 using sachem.Models;
 using PagedList;
-using sachem.Classes_Sachem;
+using sachem.Methodes_Communes;
+using sachem.Models.DataAccess;
 
 namespace sachem.Controllers
 {
@@ -14,6 +15,17 @@ namespace sachem.Controllers
         private int _idPers;
         private int _idTypeUsage;
         private readonly SACHEMEntities _db = new SACHEMEntities();
+        private readonly IDataRepository _dataRepository;
+
+        public ConsulterCoursController(IDataRepository dataRepository)
+        {
+            _dataRepository = dataRepository;
+        }
+
+        public ConsulterCoursController()
+        {
+            _dataRepository = new BdRepository();
+        }
 
         private readonly List<TypeUsagers> _rolesAcces = new List<TypeUsagers>() { TypeUsagers.Enseignant, TypeUsagers.Responsable, TypeUsagers.Super };
 
@@ -100,7 +112,7 @@ namespace sachem.Controllers
 
             if (_idTypeUsage == 2)
             {
-                ViewBag.Session = Liste.ListeSession(idSess);
+                ViewBag.Session = _dataRepository.ListeSession(idSess);
 
                 var listeInfoEns = (from c in _db.Groupe
                            where (c.id_Sess == idSess && c.id_Enseignant == _idPers) ||
@@ -120,8 +132,8 @@ namespace sachem.Controllers
             }
             else
             {
-                ViewBag.Session = Liste.ListeSession(idSess);
-                ViewBag.Personne = Liste.ListePersonne(idSess, idPersonne);
+                ViewBag.Session = _dataRepository.ListeSession(idSess);
+                ViewBag.Personne = _dataRepository.ListePersonne(idSess, idPersonne);
 
                 var listeInfoResp = (from c in _db.Groupe
                            where c.id_Sess == (idSess == 0 ? c.id_Sess : idSess) && 
@@ -233,13 +245,13 @@ namespace sachem.Controllers
             }
 
             return View(gr.ToList());
-        }       
-        
-       protected override void Dispose(bool disposing)
+        }
+
+        protected override void Dispose(bool disposing)
         {
             if (disposing)
             {
-                _db.Dispose();
+                _dataRepository.Dispose();
             }
             base.Dispose(disposing);
         }

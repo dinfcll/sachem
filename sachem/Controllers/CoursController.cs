@@ -4,7 +4,7 @@ using System.Net;
 using System.Web.Mvc;
 using sachem.Models;
 using PagedList;
-using sachem.Classes_Sachem;
+using sachem.Methodes_Communes;
 using sachem.Models.DataAccess;
 
 namespace sachem.Controllers
@@ -62,7 +62,7 @@ namespace sachem.Controllers
 
             ViewBag.Actif = actif;
 
-            ViewBag.Session = Liste.ListeSession(sess);
+            ViewBag.Session = _dataRepository.ListeSession(sess);
 
             var cours = from c in _dataRepository.AllCours()
                         where (_dataRepository.AnyGroupeWhere(r => r.id_Cours == c.id_Cours && r.id_Sess == sess) || sess == 0)

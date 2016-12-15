@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using System.Net;
 using System.Web.Mvc;
+using sachem.Methodes_Communes;
 using sachem.Models;
 using sachem.Models.DataAccess;
 
@@ -66,10 +67,10 @@ namespace sachem.Controllers
             ViewBag.idPers = id;
             ViewBag.Resultat = "Create";
 
-            ViewBag.id_Cours = Liste.ListeCours();
-            ViewBag.id_College = Liste.ListeCollege();
-            ViewBag.id_Statut = Liste.ListeStatutCours();
-            ViewBag.id_Sess = Liste.ListeSession();
+            ViewBag.id_Cours = _dataRepository.ListeCours();
+            ViewBag.id_College = _dataRepository.ListeCollege();
+            ViewBag.id_Statut = _dataRepository.ListeStatutCours();
+            ViewBag.id_Sess = _dataRepository.ListeSession();
 
             return View(cs);
         }
@@ -78,10 +79,10 @@ namespace sachem.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "id_CoursReussi,id_Sess,id_College,id_Statut,id_Cours,resultat,autre_Cours,autre_College")] CoursSuivi coursSuivi, int? id)
         {
-            ViewBag.id_Cours = Liste.ListeCours();
-            ViewBag.id_College = Liste.ListeCollege();
-            ViewBag.id_Statut = Liste.ListeStatutCours();
-            ViewBag.id_Sess = Liste.ListeSession();
+            ViewBag.id_Cours = _dataRepository.ListeCours();
+            ViewBag.id_College = _dataRepository.ListeCollege();
+            ViewBag.id_Statut = _dataRepository.ListeStatutCours();
+            ViewBag.id_Sess = _dataRepository.ListeSession();
 
             if (id != null && _dataRepository.FindPersonne((int) id) == null)
             {
@@ -116,12 +117,12 @@ namespace sachem.Controllers
             RemplirCollege(cs.id_College);
 
             ViewBag.id_Statut = cs.id_Statut == null
-                ? Liste.ListeStatutCours()
-                : Liste.ListeStatutCours(cs.id_Statut.Value);
+                ? _dataRepository.ListeStatutCours()
+                : _dataRepository.ListeStatutCours(cs.id_Statut.Value);
 
             ViewBag.id_Sess = cs.id_Sess == null
-                ? Liste.ListeSession()
-                : Liste.ListeSession(cs.id_Sess.Value);
+                ? _dataRepository.ListeSession()
+                : _dataRepository.ListeSession(cs.id_Sess.Value);
 
             ViewBag.Resultat = "Edit";
 
@@ -135,8 +136,8 @@ namespace sachem.Controllers
             RemplirCour(coursSuivi.id_Cours);
             RemplirCollege(coursSuivi.id_College);
 
-            if (coursSuivi.id_Statut != null) ViewBag.id_Statut = Liste.ListeStatutCours(coursSuivi.id_Statut.Value);
-            if (coursSuivi.id_Sess != null) ViewBag.id_Sess = Liste.ListeSession(coursSuivi.id_Sess.Value);
+            if (coursSuivi.id_Statut != null) ViewBag.id_Statut = _dataRepository.ListeStatutCours(coursSuivi.id_Statut.Value);
+            if (coursSuivi.id_Sess != null) ViewBag.id_Sess = _dataRepository.ListeSession(coursSuivi.id_Sess.Value);
 
             Valider(coursSuivi);
 
@@ -192,15 +193,15 @@ namespace sachem.Controllers
         private void RemplirCour(int? idCours)
         {
             ViewBag.id_Cours = idCours == null
-               ? Liste.ListeCours()
-               : Liste.ListeCours(idCours.Value);
+               ? _dataRepository.ListeCours()
+               : _dataRepository.ListeCours(idCours.Value);
         }
 
         private void RemplirCollege(int? idCollege)
         {
             ViewBag.id_College = idCollege == null
-               ? Liste.ListeCours()
-               : Liste.ListeCours(idCollege.Value);
+               ? _dataRepository.ListeCours()
+               : _dataRepository.ListeCours(idCollege.Value);
         }
     }
 }

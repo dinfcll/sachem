@@ -1,15 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Web;
-using System.Security.Cryptography;
-using System.Text;
 using System.Dynamic;
 using System.Linq;
-using System.Web.Mvc;
 using System.Net;
+using System.Security.Cryptography;
+using System.Text;
+using System.Web;
+using System.Web.Mvc;
+using sachem.Models;
 using sachem.Models.DataAccess;
 
-namespace sachem.Models
+namespace sachem.Methodes_Communes
 {
     public enum TypeUsagers { Aucun = 0, Etudiant = 1, Enseignant = 2, Responsable = 3, Super = 4, Eleve = 5, Tuteur = 6 } //Enum contenant les types d'usagers du SACHEM
     
@@ -100,10 +101,7 @@ namespace sachem.Models
         {
         }
 
-        private HttpSessionStateBase Session
-        {
-            get { return new HttpSessionStateWrapper(HttpContext.Current.Session); }
-        }
+        private HttpSessionStateBase Session => new HttpSessionStateWrapper(HttpContext.Current.Session);
 
         public override bool TryGetMember(GetMemberBinder binder, out object result)
         {
@@ -133,123 +131,7 @@ namespace sachem.Models
             return true;
         }
 
-        public static dynamic Current
-        {
-            get { return sessionBag; }
-        }
-    }
-
-    public class Liste
-    {
-        private static readonly IDataRepository DataRepository = new BdRepository();
-        private static readonly SACHEMEntities Db = new SACHEMEntities();
-        private const int Brouillon = 2;
-
-        public static SelectList ListeSexe(int sexe=0)
-        {
-            return new SelectList(Db.p_Sexe, "id_Sexe", "Sexe", sexe);
-        }
-
-        public static SelectList ListeSession(int session = 0)
-        {
-            return new SelectList(DataRepository.GetSessions(), "id_Sess", "NomSession", session);
-        }
-
-        public static SelectList ListePersonne(int idSession, int idPers)
-        {
-            var lPersonne = (from p in Db.Personne
-                             join c in Db.Groupe on p.id_Pers equals c.id_Enseignant
-                             where (p.id_TypeUsag == (int)TypeUsagers.Enseignant ||
-                                    p.id_TypeUsag == (int)TypeUsagers.Responsable) &&
-                                   p.Actif &&
-                                   c.id_Sess == (idSession == 0 ? c.id_Sess : idSession)
-                             orderby p.Nom, p.Prenom
-                             select p).Distinct();
-            return new SelectList(lPersonne, "id_Pers", "NomPrenom", idPers);
-        }
-
-        public static SelectList ListeCours(int cours = 0)
-        {
-            return new SelectList(DataRepository.GetCours(), "id_Cours", "CodeNom", cours);
-        }
-
-        public static SelectList ListeCollege(int college = 0)
-        {
-            return new SelectList(DataRepository.GetCollege(), "id_College", "College", college);
-        }
-
-        public static SelectList ListeStatutCours(int statut = 0)
-        { 
-            return new SelectList(DataRepository.GetStatut(), "id_Statut", "Statut", statut);
-        }
-
-        public static SelectList ListeEnseignant(int enseignant = 0)
-        {
-            return new SelectList(DataRepository.AllEnseignantOrdered(), "id_Pers", "Nom", enseignant);
-        }
-
-        public static SelectList ListeSuperviseur(int superviseur = 0)
-        {
-            var lstEnseignant = from p in Db.Personne
-                                where p.id_TypeUsag == 2 && p.Actif
-                                orderby p.Nom, p.Prenom
-                                select p;
-            return new SelectList(lstEnseignant, "id_Pers", "NomPrenom", superviseur);
-        }
-
-        public static SelectList ListeTypeInscription(int typeInscription = 0)
-        {
-            return new SelectList(Db.p_TypeInscription.AsNoTracking().OrderBy(i => i.TypeInscription), "id_TypeInscription", "TypeInscription", typeInscription);
-        }
-
-        public static SelectList ListeInscription(int inscription = 0)
-        {
-            var lInscription = from c in Db.Inscription select c;
-            return new SelectList(lInscription, "id_Inscription", "Inscription", inscription);
-        }
-
-        public static SelectList ListeStatutInscriptionSansBrouillon(int statut = 0)
-        {
-            var lStatut = from s in Db.p_StatutInscription where s.id_Statut != Brouillon select s;
-            return new SelectList(lStatut, "id_Statut", "Statut", statut);
-        }
-
-        public static List<string> ListeJours()
-        {
-            var jours = new List<string>();
-            for (var i = (int)Semaine.Lundi; i < (int)Semaine.Samedi; i++)
-            {
-                jours.Add(((Semaine)i).ToString());
-            }
-            return jours.ToList();
-        }
-
-        public static IEnumerable<Cours> ListeCoursSelonSession(int session)
-        {
-            return Db.Cours.AsNoTracking()
-                .Where(c => c.Groupe.Any(g => (g.id_Sess == session || session == 0)))
-                .OrderBy(c => c.Nom)
-                .AsEnumerable();
-        }
-
-        public static IEnumerable<Groupe> ListeGroupeSelonSessionEtCours(int cours, int session)
-        {
-            return Db.Groupe.AsNoTracking()
-                .Where(p => (p.id_Sess == session || session == 0) && (p.id_Cours == cours || cours == 0))
-                .OrderBy(p => p.NoGroupe);
-        }
-
-        public static SelectList ListeStatutCours()
-        {
-            var lstStatut = from c in Db.p_StatutCours orderby c.id_Statut select c;
-            return new SelectList(lstStatut, "id_Statut", "Statut");
-        }
-
-        public static SelectList ListeTypesCourriels(int typeCourriel = 0)
-        {
-            var lCourriel = Db.p_TypeCourriel.AsNoTracking().OrderBy(i => i.id_TypeCourriel);
-            return new SelectList(lCourriel, "id_TypeCourriel", "TypeCourriel", typeCourriel);
-        }
+        public static dynamic Current => sessionBag;
     }
 
     public class AutreMethode

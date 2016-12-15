@@ -4,7 +4,7 @@ using System.Web.Mvc;
 using sachem.Models;
 using PagedList;
 using sachem.Models.DataAccess;
-using sachem.Classes_Sachem;
+using sachem.Methodes_Communes;
 
 namespace sachem.Controllers
 {
@@ -191,7 +191,7 @@ namespace sachem.Controllers
                 actif = Request.Form["Actif"].StartsWith("true");
             }
             ViewBag.Actif = actif;
-            ViewBag.Enseignant = Liste.ListeEnseignant();
+            ViewBag.Enseignant = _dataRepository.ListeEnseignant();
 
             return _dataRepository.AllEnseignantResponsable(actif, IdResp, IdEnseignant);
         }
@@ -210,14 +210,14 @@ namespace sachem.Controllers
 
         private void RemplirDropList()
         {
-            ViewBag.liste_sexe = _dataRepository.liste_sexe();
-            ViewBag.id_TypeUsag = _dataRepository.liste_usag(IdResp,IdEnseignant);
+            ViewBag.liste_sexe = _dataRepository.ListeSexe();
+            ViewBag.id_TypeUsag = _dataRepository.ListeTypeUsager(IdResp,IdEnseignant);
         }
 
         private void RemplirDropList(Personne personne)
         {
-            ViewBag.liste_sexe = _dataRepository.liste_sexe(personne);
-            ViewBag.id_TypeUsag = _dataRepository.liste_usag(personne,IdResp, IdEnseignant);
+            if (personne.id_Sexe != null) ViewBag.liste_sexe = _dataRepository.ListeSexe(personne.id_Sexe.Value);
+            ViewBag.id_TypeUsag = _dataRepository.ListeTypeUsager(IdResp, IdEnseignant);
         }
     }
 }

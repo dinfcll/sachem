@@ -1,8 +1,9 @@
-﻿@using sachem.Models
+﻿@using sachem.Methodes_Communes
+@using sachem.Models
 @model Tuple<Inscription, IEnumerable<CoursSuivi>, IEnumerable<Inscription>>
 
 @{
-    ViewBag.Title = SessionBag.Current.id_Pers == Model.Item1.id_Pers ? Messages.DossierEtudiantMonTitre : Messages.DossierEtudiantTitre;
+    ViewBag.Title = SessionBag.Current.id_Pers == Model.Item1.id_Pers ? Messages.DossierEtudiantMon : Messages.DossierEtudiant;
 }
 
 

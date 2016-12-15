@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web.Mvc;
 using sachem.Models;
 
-namespace sachem.Classes_Sachem
+namespace sachem.Methodes_Communes
 {
     public abstract class ValidationAcces
     {

@@ -59,14 +59,6 @@ namespace sachem.Models.DataAccess
 
         IEnumerable<Personne> AllEnseignant();
 
-        SelectList liste_sexe();
-
-        SelectList liste_sexe(Personne personne);
-
-        SelectList liste_usag(int id_resp, int id_ens);
-
-        SelectList liste_usag(Personne personne, int id_resp, int id_ens);
-
         IEnumerable<Personne> AllEnseignantOrdered();
 
         IEnumerable<Personne> AllEnseignantResponsable(bool Actif, int id_resp, int id_ens);
@@ -78,6 +70,41 @@ namespace sachem.Models.DataAccess
         void DeclareModifiedEns(Personne enseignant);
 
         void RemoveEnseignant(int id);
+
+        SelectList ListeTypeUsager(int idResp, int idEns);
+
+        SelectList ListeSexe(int sexe = 0);
+
+        SelectList ListeSession(int session = 0);
+
+        SelectList ListePersonne(int idSession, int idPers);
+
+        SelectList ListeCours(int cours = 0);
+
+        SelectList ListeCollege(int college = 0);
+
+        SelectList ListeStatutCours(int statut = 0);
+
+        SelectList ListeEnseignant(int enseignant = 0);
+
+        SelectList ListeSuperviseur(int superviseur = 0);
+
+        SelectList ListeTypeInscription(int typeInscription = 0);
+
+        SelectList ListeInscription(int inscription = 0);
+
+        SelectList ListeStatutInscriptionSansBrouillon(int statut = 0);
+
+        List<string> ListeJours();
+
+        IEnumerable<Cours> ListeCoursSelonSession(int session);
+
+        IEnumerable<Groupe> ListeGroupeSelonSessionEtCours(int cours, int session);
+
+        SelectList ListeStatutCours();
+
+
+        SelectList ListeTypesCourriels(int typeCourriel = 0);
 
         void Dispose();       
 

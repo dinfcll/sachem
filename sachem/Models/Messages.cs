@@ -5,48 +5,29 @@ namespace sachem.Models
     public class Messages
     {
         public const string NomDuSite = "Sachem";
-
-        public const string MotsDePasseDoiventEtreIdentiques="Le mot de passe et la confirmation du mot de passe doivent être identiques.";
-
+        public const string MotsDePasseDoiventEtreIdentiques=
+            "Le mot de passe et la confirmation du mot de passe doivent être identiques.";
 
         #region MessageUnitaire
 
         public const string ChampRequis = "Requis.";
-
         public const string LongueurDeHuitCaracteres = "Longueur requise : 8 caractères.";
-
         public const string LongueurDeSeptCaracteres = "Longueur requise: 7 caractères.";
-
         public const string LongueurDeQuatreCaracteres = "Longueur requise: 4 caractères";
-
         public const string ResultatRequisSiReussi = "Le résultat est requis si le statut du cours est réussi.";
-
         public const string FormatAnnee = "Format : AAAA";
-
         public const string PlaceHolderDate = "AAAA/MM/JJ";
-
         public const string FormatEnDate = "Format: AAAA/MM/JJ";
-
         public const string FormatDeCourriel = "Format: nom@nomdomaine.com";
-
         public const string FormatTelephone = "Format : (999) 999-9999";
-
         public const string PlaceHolderTelephone = "(999) 999-9999";
-
         public const string PlaceHolderMotDePasseSecondeSaisie = "Confirmer le mot de passe";
-
         public const string FormatHeureMinuteSeconde = "Format : HH:MM:SS";
-
         public const string PlaceHolderHeure = "HH:MM:SS";
-
         public const string DatePlusHauteQueLAnneeDeFondationDuCegep = "La date indiquée doit être entre l'année 1967 et celle en cours.";
-
         public const string LongueurDeSixCarateres = "Longueur minimale de 6 caractères.";
-
         public const string NombreEntreZeroEtCent = "Veuillez entrer un nombre en 0 et 1000.";
-
         public const string ErreurLorsEnregistrement = "Erreur lors de l'enregistrement";
-
         public const string AucunCoursSuiviCegep = "Aucun cours suivi au Cégep";
 
         #endregion
@@ -54,40 +35,29 @@ namespace sachem.Models
 
         #region Inscription
 
-        public static string InscriptionRechercheModifierInscriptionErreur = "Erreur lors de la modification de l'inscription. N'oubliez pas qu'il est impossible de modifier l'inscription des anciennes sessions.";
-
-        public const string InscriptionCoursReussiErreurLorsDuChargement = "Un resultat et un statut d'un des cours ne concorde pas. Un cours réussi doit avoir une note supérieur ou égal à 60 et un échec inférieur à 60.";
-
-        public const string InscriptionCoursReussiIndication = "Indiquez tous les cours de mathématiques(collégial) que vous avez réussis, abandonnés ou échoués au cégep. Pour ceux réussis, indiquez vos résultats :";
-
+        public const string InscriptionRechercheModifierInscriptionErreur = 
+            "Erreur lors de la modification de l'inscription. N'oubliez pas qu'il est impossible de modifier l'inscription des anciennes sessions.";
+        public const string InscriptionCoursReussiErreurLorsDuChargement = 
+            "Un resultat et un statut d'un des cours ne concorde pas. Un cours réussi doit avoir une note supérieur " +
+            "ou égal à 60 et un échec inférieur à 60.";
+        public const string InscriptionCoursReussiIndication = 
+            "Indiquez tous les cours de mathématiques(collégial) que vous avez réussis, abandonnés ou échoués au cégep. " +
+            "Pour ceux réussis, indiquez vos résultats :";
         public const string InscriptionDirectivesTableauDisponibilite1 = "Indiquez vos heures de disponibilité en cliquant dans les cases appropriées.";
-
-        public const string InscriptionDirectivesTableauDisponibilite2 = "Chaque ✓ indique que vous êtes disponible pour une rencontre de 1h30 dans cette plage horaire";
-        
+        public const string InscriptionDirectivesTableauDisponibilite2 = 
+            "Chaque ✓ indique que vous êtes disponible pour une rencontre de 1h30 dans cette plage horaire";
         public const string InscriptionDirectivesTableauDisponibilite3 = "Il y aura au minimum une rencontre par semaine, soit 1h30/semaine";
-        
         public const string InscriptionDirectivesTableauDisponibilite4 = "Inscrivez plusieurs choix pour faciliter le jumelage.";
-        
         public const string InscriptionConfirmationDispoTitre = "Confirmation de vos disponibilités";
-
         public const string InscriptionTypeInscriptionChoisi = "Type d'inscription choisi:";
-
         public const string InscriptionTypeInscriptionChoisiAlert = "Veuillez choisir un type d'inscription";
-
         public const string InscriptionDisposChoisis = "Vos plages de disponibilités sélectionnées sont:";
-
         public const string InscriptionRemplirFormulaireDisposErreur = "Veuillez remplir le formulaire de disponibilités.";
-
         public const string InscriptionCoursQueJaide = "Les cours dans lesquels vous aimeriez donner de l'aide sont:";
-
-        public const string InscriptionCoursSuivis = "Indiquez tous les cours de mathématiques (collégial) que vous avez suivis et réussis ainsi que le cégep où ces cours ont eu lieu :";
-
+        public const string InscriptionCoursSuivis = "Indiquez tous les cours de mathématiques (collégial) que vous avez suivis et réussis ainsi " +
+                                                     "que le cégep où ces cours ont eu lieu :";
         public const string InscriptionCombienHeuresPretADonner = "Combien d'heures êtes vous pret à donner à chaque semaine (1h30/élève aidé)?";
-
         public const string InscriptionCoursChoisiUneSeuleFois = "Un cours ne peut être choisi qu'une seule fois.";
-
-        public const string InscriptionRechercheTitre = "Détails de l'inscription";
-
         public const string InscriptionRencontresConsecutives = "Êtes-vous prêt à faire deux rencontres consécutives (3h) ?";
 
         #endregion
@@ -145,47 +115,35 @@ namespace sachem.Models
         { return $"Erreur lors du transfert du fichier {fichier}."; }
 
         public const string ImporterAnnulerTeleversementConfirmation = "Etes-vous certain d'annuler le téléversement?";
-
         public const string ImporterTitre = "Importation de données";
-
-        public const string ImporterAnnulerTeleversement = "Annuler le téléversement.";
-
-        public const string ImporterEffacerFichier = "Effacer le fichier.";
-
         public const string ImporterMaxAtteint = "Vous ne pouvez pas téléverser plus de fichiers.";
-
         public const string ImporterTempsDeTraitementsEnMinutes = "Les fichers seront traités dans les prochaines dix minutes.";
-       
         public const string ImporterDirectivesDropZoneFichier = "Glisser les fichiers ici ou cliquez ici pour téléverser.";
-
         public const string ImporterNavigateurNeSupportePasDropZone = "Votre navigateur ne supporte pas la fonction glisser-déposer de fichiers.";
+
         #endregion
 
 
         #region Contrat Engagement
 
         public const string ContratCaseDoitEtreCochee = "Cochez la case pour signer le contrat.";
-
         public const string ContratTitre = "Contrat d'engagement";
-
         public const string ContratJeMengageA = "Dans le but d'assurer l'efficacité du service de tutorat offert au Sachem, vous vous engagez à:";
-
-        public const string ContratClause1 = "Respecter l'horaire prévu et à aviser votre partenaire dans le cas d'un retard prévisible ou d'une absence. Le tuteur a la responsabilité de compléter un billet d'absence.";
-
-        public const string ContratClause2 = "Reprendre dans les plus bref délais toute rencontre annulée (au plus tard lors des 2 semaines qui suivront la rencontre).";
-
-        public const string ContratClause3 = "Préparer vos rencontres de façon à utiliser adéquatement les périodes de tutorat. Chacun doit fournir une certaine somme de travail entre les rencontres afin que celles-ci atteignent leur objectif. À cette fin, l'élève aidé accepte que son tuteur vérifie au début de chaque rencontre le travail effectué (exercices, résumés, etc.) depuis la rencontre précédente.";
-
-        public const string ContratClause4 = "Accepter dans les plus bref délais toute rencontre annulée (au plus tard lors des 2 semaines qui suivront la rencontre).";
-
+        public const string ContratClause1 = "Respecter l'horaire prévu et à aviser votre partenaire dans le cas d'un retard prévisible " +
+                                             "ou d'une absence. Le tuteur a la responsabilité de compléter un billet d'absence.";
+        public const string ContratClause2 = "Reprendre dans les plus bref délais toute rencontre annulée " +
+                                             "(au plus tard lors des 2 semaines qui suivront la rencontre).";
+        public const string ContratClause3 = "Préparer vos rencontres de façon à utiliser adéquatement les périodes de tutorat. Chacun doit " +
+                                             "fournir une certaine somme de travail entre les rencontres afin que celles-ci atteignent leur " +
+                                             "objectif. À cette fin, l'élève aidé accepte que son tuteur vérifie au début de chaque rencontre " +
+                                             "le travail effectué (exercices, résumés, etc.) depuis la rencontre précédente.";
+        public const string ContratClause4 = "Accepter dans les plus bref délais toute rencontre annulée " +
+                                             "(au plus tard lors des 2 semaines qui suivront la rencontre).";
         public const string ContratClause5 = "Aviser la sécretaire du Sachem si vous décidez d'abandonner votre cours ou le cégep, et ce, le plus tôt possible.";
-
         public const string ContratClause6 = "Aviser la sécretaire du Sachem si vous décidez d'interrompre vos rencontres de tutorat, et ce, le plus tôt possible.";
-
-        public const string ContratClause7 = "Je m'engage à travailler sérieusement au Sachem, à être ponctuel et respectueux. De plus, je m'engage à fournir des questions à mon tuteur 48 heures à l'avance afin que celui-ci puisse se préparer adéquatement.";
-
+        public const string ContratClause7 = "Je m'engage à travailler sérieusement au Sachem, à être ponctuel et respectueux. De plus, je m'engage à " +
+                                             "fournir des questions à mon tuteur 48 heures à l'avance afin que celui-ci puisse se préparer adéquatement.";
         public const string ContratClause8 = "Je m'engage à bien préparer mes rencontres, à être ponctuel et respectueux.";
-
         public const string ContratConfirmation = "Votre contrat d'engagement a déjà été signé.";
 
         #endregion
@@ -202,45 +160,23 @@ namespace sachem.Models
         { return $"Problème lors de l'envoi du courriel, le port {numeroPort} est bloqué."; }
 
         public const string AccountPasswordErreurAncienMotDePasseInvalide = "L'ancien mot de passe est invalide.";
-
         public const string AccountForgotPasswordErreurAucunUsager="Aucun usager associé à cette adresse courriel.";
-
         public const string AccountEnvoieMotDePasseParCourriel = "Votre mot de passe a été envoyé à votre adresse courriel.";
-
         public const string AccountConnexionErreur = "Votre tentative de connexion a échouée. Réessayez.";
-
         public const string AccountMotDePasseModifie = "Mot de passe modifié";
-
         public const string AccountExisteDeja = "Un compte existe déjà pour cet étudiant.";
-
         public const string AccountCree = "Le compte a été créé. Vous pouvez maintenant vous inscrire au Sachem.";
-
-        public const string AccountCreerErreurEtudiantNonInscrit = "Aucun étudiant ne correspond aux données saisies. Vous devez être inscrit à un cours offert par le département de mathématiques.";
-        
+        public const string AccountCreerErreurEtudiantNonInscrit = 
+            "Aucun étudiant ne correspond aux données saisies. Vous devez être inscrit à un cours offert par le département de mathématiques.";
         public const string AccountForgotPasswordEntrerCourriel = "Veuiller entrer le courriel rattaché à votre compte.";
-
-        public const string AccountForgotPasswordEntrerCourrielExplication = "Nous vous enverrons un courriel contenant les renseignements sur votre mot de passe.";
-
+        public const string AccountForgotPasswordEntrerCourrielExplication = 
+            "Nous vous enverrons un courriel contenant les renseignements sur votre mot de passe.";
         public const string AccountForgotPasswordTitre = "Mot de passe oublié";
-
-        public const string AccountLoginTitre = "Connexion";
-
         public const string AccountLoginUtiliserCompteConnexion = "Utilisez un compte pour vous connecter.";
-
         public const string AccountLoginPasDeCompte = "Vous n'avez pas de compte? ";
-
-        public const string AccountLoginSinscrire = "Inscrivez-vous";
-
         public const string AccountLoginConnexionEtudiantRestriction = "Votre nom d'utilisateur est votre numéro de DA (7 chiffres).";
-
         public const string AccountLoginConnexionEnseignantRestriction = "Votre nom d'utilisateur est votre nom, suivi de la première lettre de votre prénom.";
-
-        public const string AccountPasswordTitre = "Modifier le mot de passe";
-
         public const string AccountPasswordUtiliserFormulaire = "Utilisez le formulaire ci-dessous pour changer votre mot de passe.";
-
-        public const string AccountPasswordInfosCompte = "Informations de compte";
-
         public const string AccountRegisterTitre = "Ouverture du compte";
 
         #endregion
@@ -249,13 +185,8 @@ namespace sachem.Models
         #region Consulter cours
 
         public const string ConsulterCoursDetailsTitre = "Détails du cours";
-
         public const string ConsulterCoursDetailsNombreEtu = "Nombre d'étudiants";
-
         public const string ConsulterCoursDetailsModifierGroupe = "Modifier groupe";
-
-        public const string ConsulterCoursDetailsRetourRecherche = "Retour à la recherche des cours";
-
         public const string ConsulterCoursIndexTitre = "Consulter cours";
 
         #endregion
@@ -291,27 +222,13 @@ namespace sachem.Models
                     $"</p>");
         }
 
-        public const string Jumele = "Jumelé";
-
-        public const string JumeleA = "Jumelé à";
-
-        public const string JumelagePossible = "Jumelages possibles";
-
         public const string JumelageSupprime = "Le jumelage a bien été retiré.";
-
         public const string JumelageAjoute = "Le jumelage a bien été crée.";
-
         public const string JumelageAjouterErreurSelectionnerEnseignant = "Veuillez sélectionner un enseignant.";
-
         public const string JumelageSupprimerJumelage = "Mettre fin à un jumelage";
-
         public const string JumelageAjouterJumelage = "Ajouter un jumelage";
-
-        public const string JumelageAjouterQuestionPlageHoraire = "";
-
-        public const string JumelageAjouterQuestionEnseignant = "";
-
-        public const string JumelageAjouterQuestionConsecutif = "Désirez-vous étendre la durée de cette rencontre sur 3h pour créer un jumelage avec deux rencontres consécutives ?";
+        public const string JumelageAjouterQuestionConsecutif = "Désirez-vous étendre la durée de cette rencontre sur 3h " +
+                                                                "pour créer un jumelage avec deux rencontres consécutives ?";
 
         #endregion
 
@@ -319,16 +236,12 @@ namespace sachem.Models
         #region Programmes Offerts
 
         public const string ProgrammesAjouterTitre = "Ajouter un programme d'étude";
-
         public const string ProgrammesSupprimerTitre = "Supprimer un programme d'étude";
-
         public const string ProgrammesModifierTitre = "Modifier un programme d'étude";
-
         public const string ProgrammeCodeOuNom = "Code ou nom de programme";
-
         public const string ProgrammeInactifErreur = "Impossible de mettre le programme inactif s'il est encore relié à des étudiants.";
-
-        public static string ProgrammeSupprimerErreurEtudiantAssocie = "Un étudiant est associé à ce programme d'études. Ce programme ne peut être supprimé.";
+        public static string ProgrammeSupprimerErreurEtudiantAssocie = "Un étudiant est associé à ce programme d'études. " +
+                                                                       "Ce programme ne peut être supprimé.";
 
         /// <summary>
         /// Voulez-vous vraiment supprimer le programme d'études {0} ?
@@ -361,70 +274,12 @@ namespace sachem.Models
         /// <returns></returns>
         public static string ProgrammeSupprime(string nomProgrammeEtude)
         { return $"Le programme d'études {nomProgrammeEtude} a été supprimé."; }
-        
+
         #endregion
 
 
         #region Parametres - college - contact - courriel - horaire
 
-        public const string CollegeTitre = "Collèges d'enseignement";
-
-        public const string CollegeAjouter = "Ajouter un collège d'enseignement";
-
-        public const string CollegeModifier = "Modifier le nom du collège d'enseignement.";
-
-        public const string CollegeNouveauNom = "Nouveau nom du collège d'enseignement:";
-
-        public const string CollegeNom = "Nom du collège d'enseignement:";
-
-        public const string CollegeSupprimer = "Suppression d'un collège d'enseignement.";
-
-        public const string CollegeSupprimerConfirmation = "Voulez-vous vraiment supprimer ce collège d'enseignement ?";
-
-        public const string CollegeAjouterNom = "Nom du collège d'enseignement à ajouter: ";
-
-        /// <summary>
-        /// Le collège {0} a été ajouté
-        /// </summary>
-        /// <param name="nomCollege"></param>
-        /// <returns></returns>
-        public static string CollegeAjoute(string nomCollege)
-        { return $"Le collège {nomCollege} a été ajouté."; }
-
-        public const string CollegeModifie = "Le nom du collège a bien été modifié.";
-
-        /// <summary>
-        /// Le collège {0} a bien été supprimé
-        /// </summary>
-        /// <param name="nomCollege"></param>
-        /// <returns></returns>
-        public static string CollegeSupprime(string nomCollege)
-        { return $"Le collège {nomCollege} a bien été supprimé."; }
-
-        public const string CollegeDejaExistant = "Ce collège d'enseignement existe déjà.";
-
-        public const string ContactTitre = "Modifier les informations de la page 'Nous contacter'";
-
-        public const string ContactMisAJour="L’information de la section « Nous contacter » a été mise à jour.";
-
-        public const string CourrielTitre = "Modifier courriel";
-
-        public const string CourrielVarPrenomNom = "Affiche au destinataire son prénom et nom.";
-
-        public const string CourrielVarNouveauPasse ="Affiche le nouveau mot de passe au destinataire, après une réinitialisation.";
-
-        public const string CourrielVarsPourPersonnaliser = "Voici les mots clés pour personnaliser votre courriel";
-
-        public const string CourrielCree="Le courriel a été ajouté.";
-
-        public const string CourrielMisAJour="Le courriel a été mis à jour.";
-        
-        public const string HoraireTitre = "Modifier l'horaire d'ouverture et de fermeture d'inscription";
-
-        public const string HoraireMisAJour="L’horaire d’inscription au SACHEM a été mis à jour.";
-
-        public const string HoraireValidationDate = "La date de début doit être antérieure à la date de fin.";
-        
         ///<summary>
         /// Les dates de début et de fin doivent faire partie de la session sélectionnée.
         /// </summary>
@@ -434,17 +289,52 @@ namespace sachem.Models
         public static string HoraireDatesRestriction(string dateDebut, string dateFin)
         { return $"Les dates de début et de fin doivent faire partie de la session. {dateDebut} et {dateFin}."; }
 
+        /// <summary>
+        /// Le collège {0} a été ajouté
+        /// </summary>
+        /// <param name="nomCollege"></param>
+        /// <returns></returns>
+        public static string CollegeAjoute(string nomCollege)
+        { return $"Le collège {nomCollege} a été ajouté."; }
+
+        /// <summary>
+        /// Le collège {0} a bien été supprimé
+        /// </summary>
+        /// <param name="nomCollege"></param>
+        /// <returns></returns>
+        public static string CollegeSupprime(string nomCollege)
+        { return $"Le collège {nomCollege} a bien été supprimé."; }
+
+        public const string CollegeTitre = "Collèges d'enseignement";
+        public const string CollegeAjouter = "Ajouter un collège d'enseignement";
+        public const string CollegeModifier = "Modifier le nom du collège d'enseignement.";
+        public const string CollegeNom = "Nom du collège d'enseignement:";
+        public const string CollegeSupprimer = "Supprimer un collège d'enseignement.";
+        public const string CollegeModifie = "Le nom du collège a bien été modifié.";
+        public const string CollegeSupprimerConfirmation = "Voulez-vous vraiment supprimer ce collège d'enseignement ?";
+        public const string CollegeDejaExistant = "Ce collège d'enseignement existe déjà.";
+
+        public const string ContactTitre = "Modifier les informations de la page 'Nous contacter'";
+        public const string ContactMisAJour="L’information de la section « Nous contacter » a été mise à jour.";
+
+        public const string CourrielTitre = "Modifier courriel";
+        public const string CourrielVarPrenomNom = "Affiche au destinataire son prénom et nom.";
+        public const string CourrielVarNouveauPasse ="Affiche le nouveau mot de passe au destinataire, après une réinitialisation.";
+        public const string CourrielVarsPourPersonnaliser = "Voici les mots clés pour personnaliser votre courriel";
+        public const string CourrielCree="Le courriel a été ajouté.";
+        public const string CourrielMisAJour="Le courriel a été mis à jour.";
+
+        public const string HoraireTitre = "Modifier l'horaire d'ouverture et de fermeture d'inscription";
+        public const string HoraireMisAJour="L’horaire d’inscription au SACHEM a été mis à jour.";
+        public const string HoraireValidationDate = "La date de début doit être antérieure à la date de fin.";
+        
+
+
         #endregion
 
 
         #region Cours
 
-        public const string CoursAjouterTitre = "Ajouter un cours";
-
-        public const string CoursModifierTitre = "Modifier un cours";
-
-        public const string CoursSupprimerTitre = "Supprimer un cours";
-        
         /// <summary>
         /// Voulez-vous vraiment supprimer le cours {0}?
         /// </summary>
@@ -460,8 +350,6 @@ namespace sachem.Models
         /// <returns></returns>
         public static string CoursSupprime(string cours)
         { return $"Le cours {cours} a été supprimé."; }
-
-        public const string CoursSupprimerErreurGroupeAssocie="Un groupe est associé à ce cours. Le cours ne peut être supprimé.";
 
         /// <summary>
         /// Il existe déjà un cours ayant le code {0}.
@@ -479,19 +367,15 @@ namespace sachem.Models
         public static string CoursEnregistre(string cours)
         { return $"Le cours {cours} a été enregistré."; }
 
+        public const string CoursAjouterTitre = "Ajouter un cours";
+        public const string CoursModifierTitre = "Modifier un cours";
+        public const string CoursSupprimerTitre = "Supprimer un cours";
+        public const string CoursSupprimerErreurGroupeAssocie = "Un groupe est associé à ce cours. Le cours ne peut être supprimé.";
+
         #endregion
 
 
         #region Cours suivis
-
-        public const string CoursSuiviAjouterErreurExisteDeja="Impossible d’ajouter ce cours. Il existe déjà dans votre liste de cours suivis antérieurement.";
-
-
-        public const string CoursSuiviAjouterTitre = "Ajouter un cours suivi antérieur";
-
-        public const string CoursSuiviModifierTitre = "Modifier un cours suivi antérieur";
-
-        public const string CoursSuiviSupprimerTitre = "Supprimer un cours suivi antérieur";
 
         /// <summary>
         /// Un des deux champs {0}, {1} doit être complété.
@@ -502,40 +386,29 @@ namespace sachem.Models
         public static string CoursSuiviCompleterLesChamps(string param1, string param2)
         { return $"Un des deux champs {param1}, {param2} doit être complété."; }
 
+        public const string CoursSuiviAjouterErreurExisteDeja=
+            "Impossible d’ajouter ce cours, puisqu'il est présent dans votre liste de cours suivis antérieurement.";
+        public const string CoursSuiviAjouterTitre = "Ajouter un cours suivi antérieur";
+        public const string CoursSuiviModifierTitre = "Modifier un cours suivi antérieur";
+        public const string CoursSuiviSupprimerTitre = "Supprimer un cours suivi antérieur";
+
+
         #endregion
 
 
         #region Dossier etudiant
-        public const string BonEchangeAchete = "Acheté";
-
-        public const string BonEchangePasAchete = "Pas acheté";
-
-        public const string DossierEtudiantTitre = "Dossier de l'étudiant";
-
-        public const string DossierEtudiantMonTitre = "Mon Dossier";
 
         public const string DossierEtudiantRechercheTitre = "Recherche des dossiers d'étudiant";
-
         public const string DossierEtudiantCoursAnterieur = "Cours de mathématiques suivis antérieurement";
-
         public const string DossierEtudiantAjouterCoursAnterieur = "Ajouter un cours suivi antérieur";
-
         public const string DossierEtudiantDemandeInscription = "Demande d'inscription";
-
         public const string DossierEtudiantIdentificationEtu = "Identification de l'étudiant";
-
         public const string DossierEtudiantBonAchatAchete = "Le bon d'achat a été acheté.";
-
         public const string DossierEtudiantBonAchatPasAchete = "Le bon d'achat n'a pas été acheté.";
-
         public const string DossierEtudiantTelephoneModifieSucces = "Le numéro de téléphone a été modifié.";
-
         public const string DossierEtudiantTelephoneModifieErreur = "Le numéro de téléphone saisi est invalide.";
-
         public const string DossierEtudiantCourrielModifieSucces = "L'adresse courriel a été modifiée.";
-
         public const string DossierEtudiantCourrielModifieErreur = "L'adresse courriel saisie est invalide.";
-
 
         #endregion
 
@@ -877,121 +750,70 @@ namespace sachem.Models
         #region Mots
 
         public const string Ok = "Ok";
-
         public const string Oui = "Oui";
-
         public const string Non = "Non";
-
         public const string Cours = "Cours";
-
         public const string Groupe = "Groupe";
-
         public const string Groupes = "Groupes";
-
         public const string Contact = "Contact";
-
         public const string College = "Collège";
-
         public const string Courriel = "Courriel de confirmation";
-
         public const string Horaire = "Horaire d'inscription";
-
         public const string CoursEnseignes = "Cours enseignés";
-
         public const string Enseignant = "Enseignant";
-
         public const string Enseignants = "Enseignants";
-
         public const string Etudiants = "Étudiants";
-
         public const string Inscription = "Inscription";
-
         public const string Jumelage = "Jumelage";
-
         public const string Jumelages = "Jumelages";
-
         public const string Recherche = "Recherche";
-
         public const string Superviseur = "Superviseur";
-
         public const string ProgrammeEtude = "Programme d'étude";
-
         public const string Session = "Session";
-
         public const string Statut = "Statut";
-
         public const string Resultat = "Résultat";
-
         public const string PlageHoraire = "Plage horaire";
-
         public const string MotDePasse = "Mot de passe";
-
         public const string Confirmation = "Confirmation";
-
         public const string Deconnexion = "Déconnexion";
-
         public const string SeConnecter = "Se connecter";
-
         public const string Annuler = "Annuler";
-
         public const string Autre = "Autre";
-
         public const string Ajouter = "Ajouter";
-
         public const string Heures = "Heures";
-
+        public const string Jumele = "Jumelé";
+        public const string JumeleA = "Jumelé à";
+        public const string Achete = "Acheté";
+        public const string PasAchete = "Pas acheté";
+        public const string DossierEtudiant = "Dossier de l'étudiant";
+        public const string DossierEtudiantMon = "Mon Dossier";
+        public const string JumelagePossible = "Jumelages possibles";
         public const string Deplacer = "Déplacer";
-
         public const string Disponibilites = "Disponibilités";
-
         public const string TuteurEleveAide = "Tuteur élève aidé";
-
         public const string TuteurCours = "Tuteur de cours";
-
         public const string TuteurBenevole = "Tuteur bénévole";
-
         public const string TuteurRemunere = "Tuteur rémunéré";
-
         public const string Valider = "Valider";
-
         public const string Connexion = "Connexion";
-
         public const string Consulter = "Consulter";
-
         public const string Sinscrire = "S’inscrire";
-
         public const string Rechercher = "Rechercher";
-
         public const string Decision = "Décision";
-
         public const string Enregistrer = "Enregistrer";
-
         public const string Supprimer = "Supprimer";
-
         public const string NousContacter = "Nous Contacter";
-
         public const string TypeInscription = "Type d'inscription";
-
         public const string Actif = "Actif";
-
         public const string Toutes = "Toutes";
-
         public const string Tous = "Tous";
-
         public const string Modifier = "Modifier";
-
         public const string NoDa = "No DA";
-
         public const string Prenom = "Prénom";
-
         public const string Nom = "Nom";
-
         public const string Administration = "Administration";
-
         public const string PremierChoix = "Premier choix";
-
         public const string DeuxiemeChoix = "Deuxième choix";
-
         public const string TroisiemeChoix = "Troisième choix";
 
         #endregion
@@ -1000,29 +822,20 @@ namespace sachem.Models
         #region boutons et liens longs (voir zone mots pour ceux courts)
 
         public const string EnregistrerPoursuivre = "Enregistrer et poursuivre";
-
         public const string EnregistrerBrouillon = "Enregistrer un brouillon";
-
         public const string ModifierMotPasse = "Modifier le mot de passe";
-
         public const string RetourMonDossierEtudiant = "Retourner à mon dossier";
-
         public const string VeuillezChoisir = "-- Veuillez choisir --";
-
         public const string RetourRecherche = "Retourner à la recherche";
-
+        public const string InfosCompte = "Informations de compte";
+        public const string InscrivezVous = "Inscrivez-vous";
         public const string RetourEnArriere = "Retourner en arrière";
-
         public const string RetourDetailsGroupe = "Retourner au détails du groupe";
-
         public const string ModifierInfosPerso = "Modifier informations";
-
         public const string ConsulterGroupesEnseignant = "Consulter les groupes de l'enseignant";
-
         public const string IdentificationEtudiant = "Identification de l'étudiant";
-
         public const string InformationsSpecifiques = "Informations spécifiques";
-
+        public const string DetailsInscription = "Détails de l'inscription";
         public const string PageIndisponible = "Page indisponible";
 
         #endregion
