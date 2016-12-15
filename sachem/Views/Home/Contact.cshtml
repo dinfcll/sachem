@@ -1,29 +1,28 @@
-﻿@model sachem.Models.p_Contact
+﻿@using sachem.Models
+@model p_Contact
 @{
-    ViewBag.Title = "Nous contacter";
+    ViewBag.Title = Messages.ContacterTitre;
 }
 <h2>@ViewBag.Title.</h2>       
 
     <div class="form-horizontal">
 
         <div class="form-group">
-             <b>Personne à contacter : </b> @Html.DisplayFor(model => model.Prenom) @Html.DisplayFor(model => model.Nom)
+             <b>@Messages.ContacterPersonneRessource: </b> @Html.DisplayFor(model => model.Prenom) @Html.DisplayFor(model => model.Nom)
         </div>
 
         <div class="form-group">
-             <b>Numéro de téléphone : </b>@Html.DisplayFor(model => model.Telephone) 
+             <b>@Html.LabelFor(model => model.Telephone): </b>@Html.DisplayFor(model => model.Telephone) 
             @if(Model.Poste !=null)
             {
                 <span>#</span>@Html.DisplayFor(model => model.Poste)
             }
         </div>
         <div class="form-group">
-            <b>Local : </b>@Html.DisplayFor(model => model.Local)
+            <b>@Html.LabelFor(model => model.Local): </b>@Html.DisplayFor(model => model.Local)
         </div>
         <div class="form-group">
-            <a href=@Model.Facebook title="Notre page facebook" target="_blank"><img src="~/Images/facebook.png" width="50" height="50" /></a>
-            <a href=@Model.SiteWeb title="Site web du service d'aide" target="_blank"><img src="~/Images/www.png" width="50" height="50" /></a>
+            <a href=@Model.Facebook title="@Messages.ContacterFacebook" target="_blank"><img src="~/Images/facebook.png" width="50" height="50" /></a>
+            <a href=@Model.SiteWeb title="@Messages.ContacterSiteWeb" target="_blank"><img src="~/Images/www.png" width="50" height="50" /></a>
         </div>
-        
     </div>
-

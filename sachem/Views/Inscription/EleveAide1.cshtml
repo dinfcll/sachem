@@ -1,8 +1,11 @@
-﻿@{
-    ViewBag.Title = "Inscription - Élève aidé";
+﻿@using sachem.Models
+@{
+    ViewBag.Title = Messages.Inscription;
 }
 <div style="margin-right:15%">
     <h2>@ViewBag.Title</h2>
+    <h4>@Messages.TuteurEleveAide</h4>
+
     @using (Html.BeginForm())
     {
         @Html.AntiForgeryToken()

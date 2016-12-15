@@ -1,7 +1,8 @@
-﻿@model IEnumerable<sachem.Models.Groupe>
+﻿@model IEnumerable<Groupe>
+@using sachem.Models
 
 @{
-    ViewBag.Title = "Détails du cours";
+    ViewBag.Title = Messages.ConsulterCoursDetailsTitre;
 }
 
 <h2>@ViewBag.Title</h2>
@@ -31,158 +32,99 @@
 
         <dd>
             @Html.DisplayFor(model => model.ElementAt(0).Cours.Actif)
-        </dd>
-       
-        <h4>Groupes</h4>     
+        </dd> 
 
     </dl>
+
+    <h4>@Messages.Groupes</h4> 
     
-    
-    <table class="table">
-        
-        @if (ViewBag.IsEnseignant) //si enseignant
+    @{
+        var thSession = 0;
+        int thNoGroupe;
+        var thEnseignant = 0;
+        int thNombreEtu;
+        if (ViewBag.IsEnseignant)
         {
             if (ViewBag.IsSessToutes)
             {
-            <tr>
-                <th class="col-sm-2">
-                    @Html.DisplayNameFor(model => model.Session)
-                </th>
-                <th class="col-sm-4">
-                    @Html.DisplayNameFor(model => model.NoGroupe)
-                </th>
-                <th class="col-sm-4">
-                    Nombre d'étudiants
-                </th>
-                <th class="col-sm-2"></th>
-            </tr>
-
-                foreach (var item in Model)
-                {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Session.NomSession)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.NoGroupe)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.GroupeEtudiant.Count)
-                    </td>
-                    <td>
-                        @Html.ActionLink("Modifier groupe", $"../Groupes/Edit", new { id = item.id_Groupe })
-                    </td>
-                </tr>
-                }
+                thSession = 2;
+                thNoGroupe = 4;
+                thNombreEtu = 4;
             }
             else
             {
-                <tr>
-                    <th class="col-sm-5">
-                        @Html.DisplayNameFor(model => model.NoGroupe)
-                    </th>
-                    <th class="col-sm-5">
-                        Nombre d'étudiants
-                    </th>
-                    <th class="col-sm-2"></th>
-                </tr>
-
-                foreach (var item in Model)
-                {
-                    <tr>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.NoGroupe)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.GroupeEtudiant.Count)
-                        </td>
-                        <td>
-                            @Html.ActionLink("Modifier groupe", $"../Groupes/Edit", new { id = item.id_Groupe })
-                        </td>
-                    </tr>
-                }
+                thNoGroupe = 5;
+                thNombreEtu = 5;
             }
-
         }
-        else //si responsable
+        else
         {
             if (ViewBag.IsSessToutes)
             {
-            <tr>
-                <th class="col-sm-1">
-                    @Html.DisplayNameFor(model => model.Session)
-                </th>
-                <th class="col-sm-2">
-                    @Html.DisplayNameFor(model => model.NoGroupe)
-                </th>
-                <th class="col-sm-5">
-                    Enseignant
-                </th>
-                <th class="col-sm-2">
-                    Nombre d'étudiants
-                </th>
-                <th class="col-sm-2"></th>
-            </tr>
-
-                foreach (var item in Model)
-                {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Session.NomSession)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.NoGroupe)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Personne.NomPrenom)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.GroupeEtudiant.Count)
-                    </td>
-                    <td>
-                        @Html.ActionLink("Modifier groupe", $"../Groupes/Edit", new { id = item.id_Groupe })
-                    </td>
-                </tr>
-                }
+                thSession = 1;
+                thNoGroupe = 2;
+                thEnseignant = 5;
+                thNombreEtu = 2;
             }
             else
             {
-                <tr>
-                    <th class="col-sm-2">
-                        @Html.DisplayNameFor(model => model.NoGroupe)
-                    </th>
-                    <th class="col-sm-6">
-                        Enseignant
-                    </th>
-                    <th class="col-sm-2">
-                        Nombre d'étudiants
-                    </th>
-                    <th class="col-sm-2"></th>
-                </tr>
+                thNoGroupe = 2;
+                thEnseignant = 6;
+                thNombreEtu = 2;
+            }
+        }
 
-                foreach (var item in Model)
+        <table class="table">
+            <tr>
+                @if (thSession != 0)
                 {
-                    <tr>
+                    <th class="col-sm-@thSession">
+                        @Html.DisplayNameFor(model => model.Session)
+                    </th>
+                }
+                <th class="col-sm-@thNoGroupe">
+                    @Html.DisplayNameFor(model => model.NoGroupe)
+                </th>
+                @if (thEnseignant != 0)
+                {
+                    <th class="col-sm-@thEnseignant">
+                        @Messages.Enseignant
+                    </th>
+                }
+                <th class="col-sm-@thNombreEtu">
+                    @Messages.ConsulterCoursDetailsNombreEtu
+                </th>
+                <th class="col-sm-2"></th>
+            </tr>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    @if (thSession != 0)
+                    {
                         <td>
-                            @Html.DisplayFor(modelItem => item.NoGroupe)
+                            @Html.DisplayFor(modelItem => item.Session.NomSession)
                         </td>
+                    }
+                    <td>
+                        @Html.DisplayFor(modelItem => item.NoGroupe)
+                    </td>
+                    @if (thEnseignant != 0)
+                    {
                         <td>
                             @Html.DisplayFor(modelItem => item.Personne.NomPrenom)
                         </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.GroupeEtudiant.Count)
-                        </td>
-                        <td>
-                            @Html.ActionLink("Modifier groupe", $"../Groupes/Edit", new { id = item.id_Groupe })
-                        </td>
-                    </tr>
-                }
+                    }
+                    <td>
+                        @Html.DisplayFor(modelItem => item.GroupeEtudiant.Count)
+                    </td>
+                    <td>
+                        @Html.ActionLink(Messages.ConsulterCoursDetailsModifierGroupe, $"../Groupes/Edit", new {id = item.id_Groupe})
+                    </td>
+                </tr>
             }
-        }
-
-    </table>
-
+        </table>
+    }
 </div>
 <p>
-    @Html.ActionLink("Retour à la recherche des cours", "Index")
+    @Html.ActionLink(Messages.ConsulterCoursDetailsRetourRecherche, "Index")
 </p>

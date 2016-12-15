@@ -21,12 +21,12 @@
                 <ul class="dropdown-menu">
                     <li>
                         <a href="@Url.Action("ModifierPassword", "Account")">
-                            <span class="glyphicon glyphicon-cog"></span><span>&nbsp;Modifier mot de passe</span>
+                            <span class="glyphicon glyphicon-cog"></span><span>&nbsp; @Messages.ModifierMotPasse</span>
                         </a>
                     </li>
                     <li>
                         <a href="@Url.Action("LogOff", "Account")">
-                            <span class="glyphicon glyphicon-log-out"></span><span>&nbsp; Déconnexion</span>
+                            <span class="glyphicon glyphicon-log-out"></span><span>&nbsp; @Messages.Deconnexion</span>
                         </a>
                     </li>
                 </ul>
@@ -39,12 +39,12 @@ else
 <ul class="nav navbar-nav navbar-right">
     <li>
         <a href="@Url.Action("Register", "Account")">
-            <span class="glyphicon glyphicon-user"></span><span>&nbsp; S’inscrire</span>
+            <span class="glyphicon glyphicon-user"></span><span>&nbsp; @Messages.Sinscrire</span>
         </a>
     </li>
     <li>
         <a href="@Url.Action("Login", "Account")">
-            <span class="glyphicon glyphicon-log-in"></span><span>&nbsp; Se connecter</span>
+            <span class="glyphicon glyphicon-log-in"></span><span>&nbsp; @Messages.SeConnecter</span>
         </a>
     </li>
 </ul>

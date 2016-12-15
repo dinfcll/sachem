@@ -1,7 +1,8 @@
-﻿@model PagedList.IPagedList<sachem.Models.Cours>
+﻿@model PagedList.IPagedList<Cours>
+@using sachem.Models
 
 @{
-    ViewBag.Title = "Cours";
+    ViewBag.Title = Messages.Cours;
 }
 
 <h2>@ViewBag.Title</h2>
@@ -14,19 +15,19 @@
 
 @using (Html.BeginForm("Index", "Cours", FormMethod.Post, new { @class = "form-inline", role = "form" }))
 {
-    <h4>Recherche</h4>
+    <h4>@Messages.Recherche</h4>
     <table class="table-condensed">
         <tr>
-            <td>Session :</td>
-            <td>@Html.DropDownList("Session", null, "Toutes", htmlAttributes: new { @class = "form-search" })</td>
-            <td>Actif :</td>
+            <td>@Messages.Session :</td>
+            <td>@Html.DropDownList("Session", null, Messages.Toutes, new { @class = "form-search" })</td>
+            <td>@Html.DisplayFor(model => model.FirstOrDefault().Actif) :</td>
             <td>@Html.CheckBox("Actif", (bool)ViewBag.Actif)</td>
-            <td><input type="submit" value="Rechercher" class="form-search" /></td>
+            <td><input type="submit" value="@Messages.Rechercher" class="form-search" /></td>
         </tr>
     </table>
 }
 
-<div style="margin-top:5px;margin-bottom:10px;">@Html.ActionLink("Ajouter un cours", "Create", null, null, new { @class = "btn btn-default" })</div>
+<div style="margin-top:5px;margin-bottom:10px;">@Html.ActionLink(Messages.CoursAjouterTitre, "Create", null, null, new { @class = "btn btn-default" })</div>
 
 <table class="table">
     <tr>
@@ -57,8 +58,8 @@
             </td>
 
             <td>
-                @Html.ActionLink("Modifier", "Edit", new { id = item.id_Cours }) |
-                @Html.ActionLink("Supprimer", "Delete", new { id = item.id_Cours })
+                @Html.ActionLink(Messages.Modifier, "Edit", new { id = item.id_Cours }) |
+                @Html.ActionLink(Messages.Supprimer, "Delete", new { id = item.id_Cours })
             </td>
         </tr>
     }
@@ -66,7 +67,7 @@
     @if (!Model.Any())
     {
         <tr>
-            <td colspan="6">@sachem.Models.Messages.AucunCours</td>
+            <td colspan="6">@Messages.AucunCours</td>
         </tr>
     }
 

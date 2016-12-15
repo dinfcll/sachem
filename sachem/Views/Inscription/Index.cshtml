@@ -1,7 +1,8 @@
-﻿@model sachem.Models.Inscription
+﻿@using sachem.Models
+@model Inscription
 
 @{
-    ViewBag.Title = "Inscription";
+    ViewBag.Title = Messages.Inscription;
 }
 <script>
     function suivant() {
@@ -83,22 +84,22 @@
     <div class="form-groug">
         @Html.LabelFor(model => model.id_TypeInscription, new { @class = "control-label col-md-2" })
         <div class="col-md-10">
-            @Html.DropDownList("TypeInscription", null, "Choisir", new { @class = "form-control" })
-            <p id="modalTypeInscriptionErreur" class="text-danger hide">@sachem.Models.Messages.InscriptionTypeInscriptionChoisiAlert</p>
+            @Html.DropDownList("TypeInscription", null, @Messages.VeuillezChoisir, new { @class = "form-control" })
+            <p id="modalTypeInscriptionErreur" class="text-danger hide">@Messages.InscriptionTypeInscriptionChoisiAlert</p>
         </div>
     </div>
-    <h3 class="page-header">Disponibilité</h3>
+    <h3 class="page-header">@Messages.Disponibilites</h3>
     <ul>
-        <li>@sachem.Models.Messages.InscriptionDirectivesTableauDisponibilite1()</li>
-        <li>@sachem.Models.Messages.InscriptionDirectivesTableauDisponibilite2()</li>
-        <li>@sachem.Models.Messages.InscriptionDirectivesTableauDisponibilite3()</li>
-        <li>@sachem.Models.Messages.InscriptionDirectivesTableauDisponibilite4()</li>
+        <li>@Messages.InscriptionDirectivesTableauDisponibilite1</li>
+        <li>@Messages.InscriptionDirectivesTableauDisponibilite2</li>
+        <li>@Messages.InscriptionDirectivesTableauDisponibilite3</li>
+        <li>@Messages.InscriptionDirectivesTableauDisponibilite4</li>
     </ul>
     <form method="post" id="TabDisp">
         <table class="table-bordered table-striped col-sm-12">
             @{ var jours = ((sachem.Controllers.InscriptionController)ViewContext.Controller).RetourneListeJours(); }
             <tr>
-                <th class="col-sm-2 text-center" style="height:30px;font-weight:bold;color:white;background-color:#666;">Heures</th>
+                <th class="col-sm-2 text-center" style="height:30px;font-weight:bold;color:white;background-color:#666;">@Messages.Heures</th>
                 @foreach (string jour in jours)
                 {
                     <th class="col-sm-2 text-center" style="height:30px;font-weight:bold;color:white;background-color:#666;">@jour</th>
@@ -138,17 +139,17 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">@sachem.Models.Messages.InscriptionConfirmationDispoTitre</h4>
+                    <h4 class="modal-title">@Messages.InscriptionConfirmationDispoTitre</h4>
                 </div>
                 <div class="modal-body">
-                        <p><b>@sachem.Models.Messages.InscriptionTypeInscriptionChoisi</b></p>
+                        <p><b>@Messages.InscriptionTypeInscriptionChoisi</b></p>
                         <p id="typeInsc"></p>
-                        <p><b>@sachem.Models.Messages.InscriptionDisposChoisis</b></p>
+                        <p><b>@Messages.InscriptionDisposChoisis</b></p>
                         <p id="plageDisp"></p>
                 </div>
                 <div class="modal-footer">
-                    <button id="btnOk" type="button" data-dismiss="modal" class="btn btn-primary">Confirmer</button>
-                    <button type="button" data-dismiss="modal" class="btn">Annuler</button>
+                    <button id="btnOk" type="button" data-dismiss="modal" class="btn btn-primary">@Messages.Valider</button>
+                    <button type="button" data-dismiss="modal" class="btn">@Messages.Annuler</button>
                 </div>
             </div>
         </div>

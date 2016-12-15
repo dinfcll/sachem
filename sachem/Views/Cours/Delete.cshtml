@@ -1,12 +1,13 @@
-﻿@model sachem.Models.Cours
+﻿@using sachem.Models
+@model Cours
 
 @{
-    ViewBag.Title = "Supprimer cours";
+    ViewBag.Title = Messages.CoursSupprimerTitre;
 }
 
 <h2>@ViewBag.Title</h2>
 
-<h3>@sachem.Models.Messages.VraimentSupprimerCours(Model.Code)</h3>
+<h3>@Messages.CoursSupprimerQuestionSupprimerCours(Model.Code)</h3>
 <div>
     <dl class="dl-horizontal">
         <dt>
@@ -39,8 +40,8 @@
         @Html.AntiForgeryToken()
 
         <div class="form-actions no-color">
-            <input type="submit" value="Supprimer" class="btn btn-default" />
-            @Html.ActionLink("Annuler", "Index", null, null, new { @class = "btn btn-default" })
+            <input type="submit" value="@Messages.Supprimer" class="btn btn-default" />
+            @Html.ActionLink(Messages.Annuler, "Index", null, null, new { @class = "btn btn-default" })
         </div>
     }
 </div>

@@ -2,7 +2,7 @@
 @model PersonneEtuProgParent
 
 <div class="form-group">
-    @Html.LabelFor(model => model.personne.Nom, htmlAttributes: new { @class = "control-label col-md-2" })
+    @Html.LabelFor(model => model.personne.Nom, new { @class = "control-label col-md-2" })
     <div class="col-md-10">
         @Html.EditorFor(model => model.personne.Nom, new { htmlAttributes = new { @class = "form-control" } })
         @Html.ValidationMessageFor(model => model.personne.Nom, "", new { @class = "text-danger" })
@@ -10,37 +10,51 @@
 </div>
 
 <div class="form-group">
-    @Html.LabelFor(model => model.personne.Prenom, htmlAttributes: new { @class = "control-label col-md-2" })
+    @Html.LabelFor(model => model.personne.Prenom, new { @class = "control-label col-md-2" })
     <div class="col-md-10">
         @Html.EditorFor(model => model.personne.Prenom, new { htmlAttributes = new { @class = "form-control" } })
         @Html.ValidationMessageFor(model => model.personne.Prenom, "", new { @class = "text-danger" })
     </div>
 </div>
 <div class="form-group">
-    @Html.LabelFor(model => model.personne.id_Sexe, htmlAttributes: new { @class = "control-label col-md-2" })
+    @Html.LabelFor(model => model.personne.id_Sexe, new { @class = "control-label col-md-2" })
     <div class="col-md-10">
-        @Html.DropDownListFor(model => model.personne.id_Sexe, new SelectList(ViewBag.id_Sexe, "id_Sexe", "Sexe", ViewBag.Selected),"Choisir", new { @class = "form-control" })
+        @Html.DropDownList("id_Sexe", null, Messages.VeuillezChoisir, new { @class = "form-control" })
         @Html.ValidationMessageFor(model => model.personne.id_Sexe, "", new { @class = "text-danger" })
     </div>
 </div>
 <div class="form-group">
-    @Html.LabelFor(model => model.personne.DateNais, "Date de naissance", htmlAttributes: new { @class = "control-label col-md-2" })
+    @Html.LabelFor(model => model.personne.DateNais, "Date de naissance", new { @class = "control-label col-md-2" })
     <div class="col-md-10">
-        @Html.EditorFor(model => model.personne.DateNais, new { htmlAttributes = new { @class = "form-control", @placeholder = "AAAA/MM/JJ", @required = "required", @title = Messages.ChampRequis } })
+        @Html.EditorFor(model => model.personne.DateNais, new { htmlAttributes = new { @class = "form-control", placeholder = Messages.PlaceHolderDate, required = "required", title = Messages.ChampRequis } })
         @Html.ValidationMessageFor(model => model.personne.DateNais, "", new { @class = "text-danger" })
     </div>
 </div>
 <div class="form-group">
-    @Html.LabelFor(model => model.personne.Courriel, htmlAttributes: new { @class = "control-label col-md-2" })
+    @Html.LabelFor(model => model.personne.Courriel, new { @class = "control-label col-md-2" })
     <div class="col-md-10">
-        @Html.EditorFor(model => model.personne.Courriel, new { htmlAttributes = new { @class = "form-control", required = "required", @title = Messages.ChampRequis, @maxlength = "256" } })
+        @Html.EditorFor(model => model.personne.Courriel, new { htmlAttributes = new { @class = "form-control", required = "required", title = Messages.ChampRequis, maxlength = "256" } })
         @Html.ValidationMessageFor(model => model.personne.Courriel, "", new { @class = "text-danger" })
     </div>
 </div>
 <div class="form-group">
-    @Html.LabelFor(model => model.personne.Telephone, htmlAttributes: new { @class = "control-label col-md-2" })
+    @Html.LabelFor(model => model.personne.Telephone, new { @class = "control-label col-md-2" })
     <div class="col-md-10">
-        @Html.EditorFor(model => model.personne.Telephone, new { htmlAttributes = new { @class = "form-control", @placeholder = "(999) 999-9999", @maxlength = "14", @required = "required", @title = Messages.ChampRequis } })
+        @Html.EditorFor(model => model.personne.Telephone, new { htmlAttributes = new { @class = "form-control", placeholder = Messages.PlaceHolderTelephone, maxlength = "14", required = "required", title = Messages.ChampRequis } })
         @Html.ValidationMessageFor(model => model.personne.Telephone, "", new { @class = "text-danger" })
+    </div>
+</div>
+<div class="form-group">
+    @Html.LabelFor(model => model.personne.MP, new { @class = "control-label col-md-2" })
+    <div class="col-md-10">
+        @Html.PasswordFor(model => model.personne.MP, new { @class = "form-control", minlength = "6", title = Messages.LongueurDeSixCarateres })
+        @Html.ValidationMessageFor(model => model.personne.MP, "", new { @class = "text-danger" })
+    </div>
+</div>
+<div class="form-group">
+    @Html.LabelFor(model => model.personne.ConfirmPassword, new { @class = "control-label col-md-2" })
+    <div class="col-md-10">
+        @Html.PasswordFor(model => model.personne.ConfirmPassword, new { @class = "form-control" })
+        @Html.ValidationMessageFor(model => model.personne.ConfirmPassword, "", new { @class = "text-danger" })
     </div>
 </div>

@@ -1,17 +1,18 @@
-﻿@{
-    ViewBag.Title = "Inscription";
+﻿@using sachem.Models
+@{
+    ViewBag.Title = Messages.Inscription;
 }
 <br />
-<h2>@ViewBag.Title - Vous êtes déjà inscrit</h2>
+<h2>@ViewBag.Title</h2>
 <br />
 <ul style="list-style:none">
     <li>
-        <h4>@sachem.Models.Messages.ErreurDejaTitre</h4>
+        <h4>@Messages.ErreurDejaTitre</h4>
     </li>
     <li>
         <ul>
-            <li>@sachem.Models.Messages.ErreurDejaCause</li>
-            <li>@sachem.Models.Messages.ErreurOptionSupplementaire</li>
+            <li>@Messages.ErreurDejaCause</li>
+            <li>@Messages.ErreurOptionSupplementaire</li>
         </ul>
     </li>
 </ul>

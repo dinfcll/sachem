@@ -200,7 +200,7 @@ namespace sachem.Controllers
 
         private void RemplirCollege(int? idCollege)
         {
-            ViewBag.id_Cours = idCollege == null
+            ViewBag.id_College = idCollege == null
                ? Liste.ListeCours()
                : Liste.ListeCours(idCollege.Value);
         }

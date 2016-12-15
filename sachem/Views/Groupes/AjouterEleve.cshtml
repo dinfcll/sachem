@@ -1,8 +1,8 @@
-﻿@using PagedList.Mvc
-@model PagedList.IPagedList<sachem.Models.PersEtuProg>
+﻿@using sachem.Models
+@model PagedList.IPagedList<PersEtuProg>
 
 @{
-    ViewBag.Title = "Ajouter des étudiants au groupe";
+    ViewBag.Title = Messages.GroupesAjouterEtudiantTitre;
 }
 
 <h2>@ViewBag.Title</h2>
@@ -26,33 +26,33 @@
             @Html.AntiForgeryToken()
             <input type="hidden" name="idGroupeEtudiant" value="@TempData["idGe"]" />
             <input type="hidden" name="id_groupedepl" value="@ViewBag.idg" />
-            <button style="display:inline;padding:0;margin:0;" type="submit" class="btn btn-link">Déplacer</button>
+            <button style="display:inline;padding:0;margin:0;" type="submit" class="btn btn-link">@Messages.GroupesEtudiantDeplacer</button>
         }|
-      @Html.ActionLink("Conserver dans les deux groupes", "AjouterEleveGet", new { idg = TempData["idg"], idp = TempData["personne"], noclick = 1 }) |
-        @Html.ActionLink("Annuler", "AjouterEleve", new { idg = TempData["idg"], ViewBag.page })
+      @Html.ActionLink(Messages.GroupesEtudiantsAjouter, "AjouterEleveGet", new { idg = TempData["idg"], idp = TempData["personne"], noclick = 1 }) |
+        @Html.ActionLink(Messages.Annuler, "AjouterEleve", new { idg = TempData["idg"], ViewBag.page })
     </div>
 }
 @using (Html.BeginForm("AjouterEleve", "Groupes", new {ViewBag.idg}, FormMethod.Post, new {@class = "form-inline", role = "form"}))
 {
     <p>
-        <h4>Recherche</h4>
+        <h4>@Messages.Recherche</h4>
     </p>
     <table class="table-condensed" style="margin-bottom:10px;">
         <tr>
-            <td>Matricule</td>
+            <td>@Html.DisplayNameFor(model => model.FirstOrDefault().p.Matricule)</td>
             <td>@Html.Editor("Matricule", new {htmlAttributes = new {@class = "form-control"}})</td>
-            <td>Nom</td>
+            <td>@Html.DisplayNameFor(model => model.FirstOrDefault().p.Nom)</td>
             <td>@Html.Editor("Nom", new { htmlAttributes = new { @class = "form-control" } })</td>
-            <td>Prénom</td>
+            <td>@Html.DisplayNameFor(model => model.FirstOrDefault().p.Prenom)</td>
             <td>@Html.Editor("Prenom", new { htmlAttributes = new { @class = "form-control" } })</td>
-            <td><input type="submit" value="Rechercher" class="form-search" /></td>
+            <td><input type="submit" value="@Messages.Rechercher" class="form-search" /></td>
         </tr>
     </table>
 }
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.FirstOrDefault().p.Nom)
+            @Html.DisplayNameFor(model => model.FirstOrDefault().p.NomPrenom)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.FirstOrDefault().p.Matricule)
@@ -88,22 +88,15 @@
                 @Html.DisplayFor(modelItem => item.epe.ProgrammeEtude.CodeNomProgramme)
             </td>
             <td>
-              @Html.ActionLink("Ajouter", "AjouterEleveGet", new { ViewBag.idg, idp = item.p.id_Pers })
+              @Html.ActionLink(Messages.Ajouter, "AjouterEleveGet", new { ViewBag.idg, idp = item.p.id_Pers })
             </td>
         </tr>
     }
 
 </table>
 
-@if (Model.PageCount > 0)
-{
-    <div>
-        Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) sur @Model.PageCount
-        <div>
-            @Html.PagedListPager(Model, page => Url.Action("AjouterEleve", new { ViewBag.idg, page }))
-        </div>
-    </div>
-}
+@Html.Partial("_PageRecherche", Model)
+
 <div>
-    @Html.ActionLink("Retour à la modification des groupes", "Edit", new { id = ViewBag.idg })
+    @Html.ActionLink(Messages.RetourDetailsGroupe, "Edit", new { id = ViewBag.idg })
 </div>

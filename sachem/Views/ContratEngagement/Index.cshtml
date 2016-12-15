@@ -2,7 +2,7 @@
 @model Inscription
 
 @{
-    ViewBag.Title = "Contrat d'engagement";
+    ViewBag.Title = Messages.ContratTitre;
     var typeUsager = SachemIdentite.ObtenirTypeUsager(Session);
 }
 
@@ -13,12 +13,12 @@
 <h3>@Messages.ContratJeMengageA</h3><br />
 <div class="form-group">
     <ul>
-        <li>@Messages.ContratClose1</li>
-        <li>@Messages.ContratClose2</li>
-        <li>@Messages.ContratClose3</li>
-        <li>@Messages.ContratClose4</li>
-        <li>@Messages.ContratClose5</li>
-        <li>@Messages.ContratClose6</li>
+        <li>@Messages.ContratClause1</li>
+        <li>@Messages.ContratClause2</li>
+        <li>@Messages.ContratClause3</li>
+        <li>@Messages.ContratClause4</li>
+        <li>@Messages.ContratClause5</li>
+        <li>@Messages.ContratClause6</li>
     </ul>
 </div>
 
@@ -32,21 +32,21 @@
         {
             if (typeUsager == TypeUsagers.Tuteur)
             {
-                <span>@Messages.ContratClose8</span>
+                <span>@Messages.ContratClause8</span>
             }
         }
         else
         {
-            <span>@Messages.ContratClose7</span>
+            <span>@Messages.ContratClause7</span>
         }
 
-        <h3 style="background-color: aliceblue; text-align: center; height: 32px">Confirmation</h3>
+        <h3 style="background-color: aliceblue; text-align: center; height: 32px">@Messages.Confirmation</h3>
         <table class="table-condensed">
         <tr>
-            <td>Mot de passe </td>
+            <td>@Messages.MotDePasse</td>
             <td>@Html.Editor("motDePasse", new {htmlAttributes = new {@class = "form-control", type = "password", required = Messages.ChampRequis } })
-            <td><input type="submit" value="Enregistrer" class="btn btn-default"/></td>
-            <td><input type="button" value="Annuler" onclick="location.href = '@Url.Action("LogOff", "Account")'" class="btn btn-default"/></td>
+            <td><input type="submit" value="@Messages.Enregistrer" class="btn btn-default"/></td>
+            <td><input type="button" value="@Messages.Annuler" onclick="location.href = '@Url.Action("LogOff", "Account")'" class="btn btn-default"/></td>
         </tr>
     </table>
     }

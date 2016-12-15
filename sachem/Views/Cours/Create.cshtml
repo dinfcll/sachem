@@ -1,22 +1,18 @@
-﻿@model sachem.Models.Cours
+﻿@using sachem.Models
+@model Cours
 
 @{
-    ViewBag.Title = "Ajouter cours";
+    ViewBag.Title = Messages.CoursAjouterTitre;
 }
 
 <h2>@ViewBag.Title</h2>
 
 @using (Html.BeginForm("Create", "Cours", FormMethod.Post))
 {
-
     @Html.AntiForgeryToken()
 
     <div class="form-horizontal">
-
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-
         @Html.Partial("_Cours")
-
-
     </div>
 }

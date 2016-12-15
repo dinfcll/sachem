@@ -1,4 +1,5 @@
-﻿<script type="text/javascript">
+﻿@using sachem.Models
+<script type="text/javascript">
     $(document).ready(function () {
         $("#SelectSession").change(function () {
             var vSession = $('#SelectSession').val();
@@ -19,13 +20,13 @@
                     $("#SelectCours").empty();
                     $('#SelectCours').append($('<option>', {
                         value: 0,
-                        text: 'Tous'
+                        text: '@Messages.Tous'
                     }));
 
                     $("#SelectGroupe").empty();
                     $('#SelectGroupe').append($('<option>', {
                         value: 0,
-                        text: 'Tous'
+                        text: '@Messages.Tous'
                     }));
 
                     $.each(donnees, function (i, item) {
@@ -56,7 +57,7 @@
                     $("#SelectGroupe").empty();
                     $('#SelectGroupe').append($('<option>', {
                         value: 0,
-                        text: 'Tous'
+                        text: '@Messages.Tous'
                     }));
 
                     $.each(donnees, function (i, item) {
@@ -108,20 +109,20 @@
 
 <div class="form-inline">
 
-    <h4>Recherche</h4>
+    <h4>@Messages.Recherche</h4>
 
-    <table class="table-condensed">
+    <table class="table-condensed col-md-12">
         <tr>
-            <td>No de DA :</td>
-            <td>@Html.Editor("Matricule", new { htmlAttributes = new { @class = "form-control", maxlength = "7" } })</td>
-            <td><span style="font-weight: bold; text-decoration: underline;">ou</span></td>
-            <td>Session :</td>
-            <td>@Html.DropDownList("SelectSession", null, "Toutes", new { @class = "form-search" })</td>
-            <td>Cours :</td>
-            <td>@Html.DropDownList("SelectCours", null, "Tous", new { @class = "form-search" })</td>
-            <td>Groupe :</td>
-            <td>@Html.DropDownList("SelectGroupe", null, "Tous", new { @class = "form-search" })</td>
-            <td><input type="submit" value="Rechercher" class="form-search" /></td>
+            <td class="col-md-1">@Messages.NoDa:</td>
+            <td class="col-md-1">@Html.Editor("Matricule", new { htmlAttributes = new { @class = "form-control", maxlength = "7" } })
+                <span style="font-weight: bold; text-decoration: underline;">ou</span></td>
+            <td class="col-md-1">@Messages.Session:</td>
+            <td class="col-md-2">@Html.DropDownList("SelectSession", null, Messages.Toutes, new { @class = "form-search" })</td>
+            <td class="col-md-1">@Messages.Cours:</td>
+            <td class="col-md-2">@Html.DropDownList("SelectCours", null, Messages.Tous, new { @class = "form-search" })</td>
+            <td class="col-md-1">@Messages.Groupe:</td>
+            <td class="col-md-2">@Html.DropDownList("SelectGroupe", null, Messages.Tous, new { @class = "form-search" })</td>
+            <td class="col-md-1"><input type="submit" value="@Messages.Rechercher" class="form-search" /></td>
         </tr>
     </table>
 

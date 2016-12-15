@@ -1,19 +1,19 @@
-﻿@model sachem.Models.Personne
+﻿@using sachem.Models
+@model Personne
 
 @{
-    ViewBag.Title = "Supprimer enseignant";
+    ViewBag.Title = Messages.EnseignantSupprimerTitre; ;
 }
 
 <h2>@ViewBag.Title</h2>
 
-<h3>@sachem.Models.Messages.VraimentSupprimerEnseignant(Model.NomUsager)</h3>
+<h3>@Messages.EnseignantSupprimerQuestionSupprimerEnseignant(Model.NomUsager)</h3>
 <div>
     <hr />
     <dl class="dl-horizontal">
         <dt>
             @Html.DisplayNameFor(model => model.Nom)
         </dt>
-
 
         <dd>
             @Html.DisplayFor(model => model.Nom), @Html.DisplayFor(model => model.Prenom)
@@ -49,8 +49,8 @@
         @Html.AntiForgeryToken()
 
         <div class="form-actions no-color">
-            <input type="submit" value="Supprimer" class="btn btn-default" />
-            @Html.ActionLink("Annuler", "Index", null, null, new { @class = "btn btn-default" })
+            <input type="submit" value="@Messages.Supprimer" class="btn btn-default" />
+            @Html.ActionLink(Messages.Annuler, "Index", null, null, new { @class = "btn btn-default" })
         </div>
     }
 </div>

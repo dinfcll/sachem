@@ -1,7 +1,8 @@
-﻿@model sachem.Models.Groupe
+﻿@using sachem.Models
+@model Groupe
 
 @{
-    ViewBag.Title = "Modifier un groupe";
+    ViewBag.Title = Messages.GroupesModifierTitre;
 }
 
 <h2>@ViewBag.Title</h2>
@@ -20,7 +21,7 @@
     </div>
 }
 
-<div style="margin-top:5px;margin-bottom:10px;">@Html.ActionLink("Ajouter un étudiant au groupe", "AjouterEleve", "Groupes", new { idg = Model.id_Groupe }, new { @class = "btn btn-default" })</div>
+<div style="margin-top:5px;margin-bottom:10px;">@Html.ActionLink(Messages.GroupesAjouterEtudiantTitre, "AjouterEleve", "Groupes", new { idg = Model.id_Groupe }, new { @class = "btn btn-default" })</div>
 <table class="table">
     <tr>
         <th class="col-sm-7">
@@ -54,11 +55,11 @@
                 @Html.DisplayFor(modelItem => item.Personne.p_Sexe.Sexe)
             </td>
             <td>
-                @if (ViewBag.Disabled != null && ViewBag.Disabled == "")
+                @if (ViewBag.Disabled == "")
                 {
-                    @Html.ActionLink("Déplacer", "Deplacer", new { id = item.id_GroupeEtudiant }) <span> | </span>
+                    @Html.ActionLink(Messages.Deplacer, "Deplacer", new { id = item.id_GroupeEtudiant }) <span> | </span>
                 }
-                @Html.ActionLink("Supprimer", "DeleteEleve", new { id = item.id_GroupeEtudiant })
+                @Html.ActionLink(Messages.Supprimer, "DeleteEleve", new { id = item.id_GroupeEtudiant })
             </td>
         </tr>
     }

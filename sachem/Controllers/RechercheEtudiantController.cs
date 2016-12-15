@@ -16,14 +16,7 @@ namespace sachem.Controllers
         [NonAction]
         private void ListeSession()
         {
-            var toute = new SelectListItem
-            {
-                Text = "Toutes",
-                Value = "0"
-            };
-            var slSession = Liste.ListeSession();
-            slSession.Insert(0,toute);
-            ViewBag.SelectSession = slSession;
+            ViewBag.SelectSession = Liste.ListeSessionPlusToutesAvecValeur();
         }
 
         [AcceptVerbs("Get", "Post")]

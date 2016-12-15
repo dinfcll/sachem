@@ -1,12 +1,14 @@
 ﻿@using sachem.Models;
 @model Inscription
 
+<h4 class="page-header">@Messages.Disponibilites</h4>
+
 <table class="table-bordered table-striped col-sm-12">
     @{ var jours = ((sachem.Controllers.JumelageController)ViewContext.Controller)
             .RetourneListeJoursSemaine();}
     <tr>
-        <th class="col-sm-2 text-center" style="height:30px;font-weight:bold;color:white;background-color:#666;">Heures</th>
-        @foreach (string jour in jours)
+        <th class="col-sm-2 text-center" style="height:30px;font-weight:bold;color:white;background-color:#666;">@Messages.Heures</th>
+        @foreach (var jour in jours)
         {
             <th class="col-sm-2 text-center" style="height:30px;font-weight:bold;color:white;background-color:#666;">@jour</th>
         }
@@ -27,7 +29,7 @@
                     {
                         if (!w.EstConsecutiveDonc3hrs)
                         {
-                            <td class="text-center" style="background-color:#e57373;" id="@w.NomCase" name="@w.NomCase">Jumelé</td>
+                            <td class="text-center" style="background-color:#e57373;" id="@w.NomCase" name="@w.NomCase">@Messages.Jumele</td>
                         }
                         else
                         {

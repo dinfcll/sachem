@@ -1,7 +1,8 @@
-﻿@model sachem.Models.ProgrammeEtude
+﻿@using sachem.Models
+@model ProgrammeEtude
 
 @{
-    ViewBag.Title = "Ajouter un programme d'études";
+    ViewBag.Title = Messages.ProgrammesAjouterTitre;
 }
 
 <h2>@ViewBag.Title</h2>
@@ -11,10 +12,7 @@
     @Html.AntiForgeryToken()
 
     <div class="form-horizontal">
-
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-
         @Html.Partial("_ProgrammesOfferts")
-
     </div>
 }

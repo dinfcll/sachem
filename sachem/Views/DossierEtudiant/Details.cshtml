@@ -1,8 +1,10 @@
-﻿@model Tuple<sachem.Models.Inscription, IEnumerable<sachem.Models.CoursSuivi>, IEnumerable<sachem.Models.Inscription>>
+﻿@using sachem.Models
+@model Tuple<Inscription, IEnumerable<CoursSuivi>, IEnumerable<Inscription>>
 
 @{
-    ViewBag.Title = "Dossier de l'étudiant";
+    ViewBag.Title = SessionBag.Current.id_Pers == Model.Item1.id_Pers ? Messages.DossierEtudiantMonTitre : Messages.DossierEtudiantTitre;
 }
+
 
 <h2>@ViewBag.Title</h2>
 
@@ -11,7 +13,7 @@
 {
     @Html.AntiForgeryToken()
 <div>
-    <h4>Identification de l'étudiant</h4>
+    <h4>@Messages.DossierEtudiantIdentificationEtu</h4>
     <hr />
     <dl class="dl-horizontal">
         @Html.HiddenFor(model => model.Item1.Personne.id_Pers, new { id = "hidden-id-pers" })
@@ -45,8 +47,8 @@
         </dt>
 
         <dd>
-            @if (sachem.Models.SachemIdentite.ObtenirTypeUsager(Session) == sachem.Models.TypeUsagers.Tuteur
-        || sachem.Models.SachemIdentite.ObtenirTypeUsager(Session) == sachem.Models.TypeUsagers.Eleve)
+            @if (SachemIdentite.ObtenirTypeUsager(Session) == TypeUsagers.Tuteur
+        || SachemIdentite.ObtenirTypeUsager(Session) == TypeUsagers.Eleve)
             {
                 @Html.EditorFor(model => model.Item1.Personne.Courriel, new
            {
@@ -75,8 +77,8 @@
         </dt>
 
         <dd>
-            @if (sachem.Models.SachemIdentite.ObtenirTypeUsager(Session) == sachem.Models.TypeUsagers.Tuteur
-                    || sachem.Models.SachemIdentite.ObtenirTypeUsager(Session) == sachem.Models.TypeUsagers.Eleve)
+            @if (SachemIdentite.ObtenirTypeUsager(Session) == TypeUsagers.Tuteur
+                    || SachemIdentite.ObtenirTypeUsager(Session) == TypeUsagers.Eleve)
             {
 
                 if (string.IsNullOrEmpty(Model.Item1.Personne.Telephone))
@@ -88,7 +90,7 @@
                             @class = "form-control",
                             id = "de-input-field-tel",
                             required = "required",
-                            placeholder = "(999) 999-9999",
+                            placeholder = Messages.PlaceHolderTelephone,
                             minlength = "10",
                             maxlength = "14",
                             type = "tel",
@@ -105,7 +107,7 @@
                             @class = "form-control",
                             id = "de-input-field-tel",
                             required = "required",
-                            placeholder = "(999) 999-9999",
+                            placeholder = Messages.PlaceHolderTelephone,
                             minlength = "10",
                             maxlength = "14",
                             type = "tel",
@@ -129,17 +131,16 @@
         </dd>
     </dl>
 
-@if (sachem.Models.SachemIdentite.ObtenirTypeUsager(Session) == sachem.Models.TypeUsagers.Eleve || ViewBag.idTypeInsc == 1)
+@if (SachemIdentite.ObtenirTypeUsager(Session) == TypeUsagers.Eleve || ViewBag.idTypeInsc == 1)
 {
     <dl class="dl-horizontal">
         <dt>
             @Html.DisplayNameFor(model => model.Item1.BonEchange)
         </dt>
-@if (sachem.Models.SachemIdentite.TypeListeProf.Contains(sachem.Models.SachemIdentite.ObtenirTypeUsager(Session)))
+@if (SachemIdentite.TypeListeProf.Contains(SachemIdentite.ObtenirTypeUsager(Session)))
 {
         <dd>
             @Html.CheckBoxFor(model => model.Item1.BonEchange.Value, new { id = "check-bon-echange" })
-            @sachem.Models.Messages.BonAchatAchete()
         </dd>
 }
 else
@@ -147,20 +148,20 @@ else
     if (Model.Item1.BonEchange != null && Model.Item1.BonEchange.Value)
     {
         <dd>
-            @sachem.Models.Messages.BonAchatAchete()
+            @Messages.DossierEtudiantBonAchatAchete
         </dd>
     }
     else
     {
         <dd>
-            @sachem.Models.Messages.BonAchatPasAchete()
+            @Messages.DossierEtudiantBonAchatPasAchete
         </dd>
     }
 }
     </dl>
 }
-     @if (sachem.Models.SachemIdentite.ObtenirTypeUsager(Session) != sachem.Models.TypeUsagers.Eleve)
-     {     <div style="margin-top:10px;">@Html.ActionLink("Retourner à la recherche", "Index", "DossierEtudiant", null)</div> }
+     @if (SachemIdentite.ObtenirTypeUsager(Session) != TypeUsagers.Eleve)
+     {     <div style="margin-top:10px;">@Html.ActionLink(Messages.RetourRecherche, "Index", "DossierEtudiant", null)</div> }
 
     @Html.Partial("_CoursAnterieur", Model.Item2)
 
@@ -171,7 +172,7 @@ else
 <script type="text/javascript">
     $(document).ready(function () {
         $('#de-btn-input-field-tel')
-            .click(function() {
+            .click(function () {
                 var pers = document.getElementById("hidden-id-pers");
                 var tel = document.getElementById("de-input-field-tel");
                 var pattern10 = new RegExp(/^\d{10}$/);
@@ -181,20 +182,20 @@ else
                         url: "/DossierEtudiant/ModifTel",
                         data: { "tel": tel.value, "pers": pers.value },
                         type: "POST",
-                        success: function() {
+                        success: function () {
                             $('#succes').show();
-                            document.getElementById('succes').innerText = @sachem.Models.Messages.TelephoneModifie();
+                            $('#succes').html("@Messages.DossierEtudiantTelephoneModifieSucces").text();
                             $('#erreur-tel').hide();
                         }
                     });
                 } else {
                     $('#erreur-tel').show();
-                    document.getElementById('erreur-tel').innerText = @sachem.Models.Messages.TelephoneInvalide();
+                    $('#erreur-tel').html("@Messages.DossierEtudiantTelephoneModifieErreur").text();
                     $('#succes').hide();
                 }
             });
         $('#de-btn-input-field-email')
-            .click(function() {
+            .click(function () {
                 var pers = document.getElementById("hidden-id-pers");
                 var email = document.getElementById("de-input-field-email");
                 var pattern = new
@@ -204,32 +205,32 @@ else
                         url: "/DossierEtudiant/ModifEmail",
                         data: { "email": email.value, "pers": pers.value },
                         type: "POST",
-                        success: function() {
+                        success: function () {
                             $('#succes').show();
-                            document.getElementById('succes').innerText = @sachem.Models.Messages.CourrielModifie();
+                            $('#succes').html("@Messages.DossierEtudiantCourrielModifieSucces").text();
                             $('#erreur-email').hide();
                         }
                     });
                 } else {
                     $('#erreur-email').show();
-                    document.getElementById('erreur-email').innerText = @sachem.Models.Messages.CourrielInvalide();
+                    $('#erreur-email').html("@Messages.DossierEtudiantCourrielModifieErreur").text();
                     $('#succes').hide();
                 }
             });
         $('#check-bon-echange')
-            .click(function() {
+            .click(function () {
                 var insc = document.getElementById("hidden-id-insc");
                 var bon = $(this).prop("checked");
                 $.ajax({
                     url: "/DossierEtudiant/ModifBon",
                     data: { "bon": bon, "insc": insc.value },
                     type: "POST",
-                    success: function() {
+                    success: function () {
                         $("#succes").show();
                         if (bon === true)
-                            document.getElementById('succes').innerText = @sachem.Models.Messages.BonAchatAchete();
+                            $('#succes').html("@Messages.DossierEtudiantBonAchatAchete").text();
                         else
-                            document.getElementById('succes').innerText = @sachem.Models.Messages.BonAchatPasAchete();
+                            $('#succes').html("@Messages.DossierEtudiantBonAchatPasAchete").text();
                     }
                 });
             });

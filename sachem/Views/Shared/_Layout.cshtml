@@ -24,7 +24,7 @@
                 <span class="icon-bar"></span>
             </button>
             <div class="logo">
-                <div class="cll"><div class="nomSite">sachem</div></div>                    
+                <div class="cll"><div class="nomSite">@Messages.NomDuSite</div></div>                    
             </div>
             <span style="padding-left:180px;"></span>
         </div>
@@ -34,7 +34,7 @@
                 @if (SachemIdentite.ObtenirTypeUsager(Session) == TypeUsagers.Eleve || SachemIdentite.ObtenirTypeUsager(Session) == TypeUsagers.Tuteur)
                 {
                     <li>
-                        @Html.ActionLink("Mon Dossier", "Details", "DossierEtudiant", new { id = SessionBag.Current.id_Inscription } , null)
+                        @Html.ActionLink(Messages.DossierEtudiantMonTitre, "Details", "DossierEtudiant", new { id = SessionBag.Current.id_Inscription } , null)
                     </li>
                 }
                     
@@ -42,7 +42,7 @@
                 @if (SachemIdentite.ObtenirTypeUsager(Session) == TypeUsagers.Tuteur)
                 {
                     <li>
-                        @Html.ActionLink("Dossier étudiant", "Index", "DossierEtudiant")
+                        @Html.ActionLink(Messages.DossierEtudiantTitre, "Index", "DossierEtudiant")
                     </li>
                 }
 
@@ -50,32 +50,32 @@
                 @if (SachemIdentite.TypeListeProf.Contains(SachemIdentite.ObtenirTypeUsager(Session)))
                 {
                     <li>
-                        @Html.ActionLink("Dossier étudiant", "Index", "DossierEtudiant")
+                        @Html.ActionLink(Messages.DossierEtudiantTitre, "Index", "DossierEtudiant")
                     </li>
                     <li>
-                        @Html.ActionLink("Cours enseignés", "Index", "ConsulterCours")
+                        @Html.ActionLink(Messages.CoursEnseignes, "Index", "ConsulterCours")
                     </li>
                     <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Administration <b class="caret"></b> </a>
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">@Messages.Administration <b class="caret"></b></a>
 
                         <ul class="dropdown-menu">
                             @if (SachemIdentite.TypeListeAdmin.Contains(SachemIdentite.ObtenirTypeUsager(Session)))
                             {
-                                <li>@Html.ActionLink("Collège", "EditCollege", "Parametres")</li>
-                                <li>@Html.ActionLink("Contact", "EditContact", "Parametres")</li>
-                                <li>@Html.ActionLink("Cours", "Index", "Cours")</li>
-                                <li>@Html.ActionLink("Courriel de confirmation", "EditCourrier", "Parametres")</li>
-                                <li>@Html.ActionLink("Enseignants", "Index", "Enseignant")</li>
+                                <li>@Html.ActionLink(Messages.College, "EditCollege", "Parametres")</li>
+                                <li>@Html.ActionLink(Messages.Contact, "EditContact", "Parametres")</li>
+                                <li>@Html.ActionLink(Messages.Cours, "Index", "Cours")</li>
+                                <li>@Html.ActionLink(Messages.Courriel, "EditCourrier", "Parametres")</li>
+                                <li>@Html.ActionLink(Messages.Enseignants, "Index", "Enseignant")</li>
                             }
-                            <li>@Html.ActionLink("Étudiants", "Index", "Etudiant")</li>
-                            <li>@Html.ActionLink("Groupes", "Index", "Groupes")</li>
+                            <li>@Html.ActionLink(Messages.Etudiants, "Index", "Etudiant")</li>
+                            <li>@Html.ActionLink(Messages.Groupes, "Index", "Groupes")</li>
                             @if (SachemIdentite.TypeListeAdmin.Contains(SachemIdentite.ObtenirTypeUsager(Session)))
                             {
-                                <li>@Html.ActionLink("Horaire d'inscription", "EditHoraire", "Parametres")</li>
-                                <li>@Html.ActionLink("Inscription", "Index", "RechercheInscription")</li>
-                                <li>@Html.ActionLink("Jumelages", "Index", "Jumelage")</li>
-                                <li>@Html.ActionLink("Programmes offerts", "Index", "ProgrammesOfferts")</li>
-                                <li>@Html.ActionLink("Importer données", "Index", "Importer")</li>
+                                <li>@Html.ActionLink(Messages.Horaire, "EditHoraire", "Parametres")</li>
+                                <li>@Html.ActionLink(Messages.Inscription, "Index", "RechercheInscription")</li>
+                                <li>@Html.ActionLink(Messages.Jumelages, "Index", "Jumelage")</li>
+                                <li>@Html.ActionLink(Messages.ProgrammeEtude, "Index", "ProgrammesOfferts")</li>
+                                <li>@Html.ActionLink(Messages.ImporterTitre, "Index", "Importer")</li>
                             }
                         </ul>
                     </li>
@@ -92,9 +92,9 @@
     @RenderBody()
     <hr />
     <footer>
-        <p>&copy; @DateTime.Now.Year - SACHEM -
+        <p>&copy; @DateTime.Now.Year - @Messages.NomDuSite.ToUpper() -
             <a href="@Url.Action("Contact", "Home")">
-                <span class="glyphicon glyphicon-phone"></span><span>&nbsp; Nous contacter</span>
+                <span class="glyphicon glyphicon-phone"></span><span>&nbsp; @Messages.NousContacter</span>
             </a></p>
     </footer>
 </div>

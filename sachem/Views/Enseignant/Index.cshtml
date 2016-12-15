@@ -1,11 +1,12 @@
-﻿@model PagedList.IPagedList<sachem.Models.Personne>
+﻿@using sachem.Models
+@model PagedList.IPagedList<Personne>
 
 @{
-    ViewBag.Title = "Enseignants";
+    ViewBag.Title = Messages.Enseignants;
 }
 
 <h2>@ViewBag.Title</h2>
-<h4>Recherche</h4>
+<h4>@Messages.Recherche</h4>
 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 <p class="text-success">
     @Html.ViewBag.Success
@@ -18,14 +19,14 @@
 @using (Html.BeginForm("Index", "Enseignant", FormMethod.Post, new { @class = "form-inline", role = "form" }))
 { 
     <div class="form-group">
-        Actif :
+        @Html.DisplayFor(model => model.FirstOrDefault().Actif) :
         @Html.CheckBox("Actif", (bool)ViewBag.Actif)
     </div>
         <div class="form-group">
-            <input type="submit" value="Rechercher" class="form-search  " />
+            <input type="submit" value="@Messages.Rechercher" class="form-search  " />
     </div>
 }
-<div style="margin-top:10px;margin-bottom:10px;">@Html.ActionLink("Ajouter un enseignant", "Create", null, null, new { @class = "btn btn-default" })</div>
+<div style="margin-top:10px;margin-bottom:10px;">@Html.ActionLink(Messages.EnseignantAjouterTitre, "Create", null, null, new { @class = "btn btn-default" })</div>
     <table class="table">
         <tr>
             <th class="col-sm-5">
@@ -60,15 +61,15 @@
                     @Html.DisplayFor(modelItem => item.Actif)
                 </td>
                 <td>
-                    @Html.ActionLink("Modifier", "Edit", new { id = item.id_Pers }) |
-                    @Html.ActionLink("Supprimer", "Delete", new { id = item.id_Pers })
+                    @Html.ActionLink(Messages.Modifier, "Edit", new { id = item.id_Pers }) |
+                    @Html.ActionLink(Messages.Supprimer, "Delete", new { id = item.id_Pers })
                 </td>
             </tr>
         }
         @if (!Model.Any())
         {
             <tr>
-                <td colspan="6">@sachem.Models.Messages.AucunEnseignant</td>
+                <td colspan="6">@Messages.AucunEnseignant</td>
             </tr>
         }
 

@@ -17,6 +17,7 @@ namespace sachem.Controllers
 
         private readonly List<TypeUsagers> _rolesAcces = new List<TypeUsagers>() { TypeUsagers.Enseignant, TypeUsagers.Responsable, TypeUsagers.Super };
 
+        [ValidationAcces.ValidationAccesEnseignant]
         public ActionResult Index(int? page)
         {
             _db.Configuration.LazyLoadingEnabled = true;
@@ -189,7 +190,7 @@ namespace sachem.Controllers
             return idTypeUsager == 2 || idTypeUsager == 3;
         }
         
-        [HttpPost]
+        [ValidationAcces.ValidationAccesEnseignant]
         public ActionResult Details(int? idCours, int? idSess)
         {
             _idPers = SessionBag.Current.id_Pers;
@@ -201,40 +202,37 @@ namespace sachem.Controllers
             {
                 return View("~/Views/Shared/Error.cshtml");
             }
+            if (idCours == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            IOrderedQueryable<Groupe> gr;
+            if (_idTypeUsage == 2)
+            {
+                ViewBag.IsEnseignant = true;
+
+                gr = from g in _db.Groupe
+                    where g.id_Cours == idCours &&
+                          g.id_Enseignant == _idPers
+                    orderby g.NoGroupe
+                    select g;
+            }
             else
             {
-                if (idCours == null)
-                {
-                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-                }
-
-                IOrderedQueryable<Groupe> gr;
-                if (_idTypeUsage == 2)
-                {
-                    ViewBag.IsEnseignant = true;
-
-                    gr = from g in _db.Groupe
-                         where g.id_Cours == idCours &&
-                         g.id_Enseignant == _idPers
-                         orderby g.NoGroupe
-                         select g;
-                }
-                else
-                {
-                    ViewBag.IsEnseignant = false;
-                    gr = from g in _db.Groupe
-                         where g.id_Cours == idCours
-                         orderby g.NoGroupe
-                         select g;
-                }
-
-                if (!gr.Any())
-                {
-                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-                }
-
-                return View(gr.ToList());
+                ViewBag.IsEnseignant = false;
+                gr = from g in _db.Groupe
+                    where g.id_Cours == idCours
+                    orderby g.NoGroupe
+                    select g;
             }
+
+            if (!gr.Any())
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            return View(gr.ToList());
         }       
         
        protected override void Dispose(bool disposing)

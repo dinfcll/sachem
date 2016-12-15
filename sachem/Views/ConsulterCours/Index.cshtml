@@ -1,100 +1,92 @@
-﻿@model PagedList.IPagedList<sachem.Models.Groupe>
+﻿@model PagedList.IPagedList<Groupe>
+@using sachem.Models
 
 @{
-    ViewBag.Title = "Consulter cours";
+    ViewBag.Title = Messages.ConsulterCoursIndexTitre;
 }
 
 <h2>@ViewBag.Title</h2>
     
 @using (Html.BeginForm("Index", "ConsulterCours", FormMethod.Post, new {@class = "form-inline", role = "form"}))
 {
-    <h4>Recherche</h4>
+    <h4>@Messages.Recherche</h4>
 
     <table class="table-condensed">
         <tr>
-            <td>Session :</td>
-            <td>@Html.DropDownList("Session", null, "Toutes", htmlAttributes: new { @class = "form-search" })</td>
+            <td>@Html.DisplayFor(model => model.FirstOrDefault().Session) :</td>
+            <td>@Html.DropDownList("Session", null, Messages.Toutes, new { @class = "form-search" })</td>
             @if (!ViewBag.IsEnseignant)
                 {
-                <td> Enseignant : </td>
-                <td> @Html.DropDownList("Personne", null, "Tous", htmlAttributes: new { @class = "form-search" })</td>
+                <td> @Messages.Enseignant : </td>
+                <td> @Html.DropDownList("Personne", null, Messages.Tous, new { @class = "form-search" })</td>
                 }
-            <td><input type="submit" value="Rechercher" class="form-search" /></td>
+            <td><input type="submit" value=@Messages.Rechercher class="form-search" /></td>
         </tr>
     </table>
     <br/>
 }
+@{
+    int thNomCours;
+    var thCoursActif = 0;
+    var thEnseignant = 0;
+    if (ViewBag.IsEnseignant)
+    {
+        thNomCours = 10;
+    }
+    else
+    {
+        thNomCours = 5;
+        thCoursActif = 1;
+        thEnseignant = 4;
+    }
+}
 <table class="table">
-        @if(ViewBag.IsEnseignant)
-         {
-             <tr>
-                 <th class="col-sm-1">
-                     @Html.DisplayNameFor(model => model.FirstOrDefault().Cours.Code)
-                 </th>
-                 <th class="col-sm-9">
-                     @Html.DisplayNameFor(model => model.FirstOrDefault().Cours.Nom)
-                 </th>
-                 <th class="col-sm-2"></th>
-             </tr>
+    <tr>
+        <th class="col-sm-1">
+            @Html.DisplayNameFor(model => model.FirstOrDefault().Cours.Code)
+        </th>
+        <th class="col-sm-@thNomCours">
+            @Html.DisplayNameFor(model => model.FirstOrDefault().Cours.Nom)
+        </th>
+        @if (thCoursActif != 0)
+        {
+            <th class="col-sm-@thCoursActif">
+                @Html.DisplayNameFor(model => model.FirstOrDefault().Cours.Actif)
+            </th>
+        }
+        @if (thEnseignant != 0)
+        {
+            <th class="col-sm-@thEnseignant">
+                @Messages.Enseignant;
+            </th>
+        }
+        <th class="col-sm-1"></th>
+    </tr>
 
-             foreach (var item in Model)
-             {
-                 <tr>
-                     <td>
-                         @Html.DisplayFor(modelItem => item.Cours.Code)
-                     </td>
-                     <td>
-                         @Html.DisplayFor(modelItem => item.Cours.Nom)
-                     </td>
-                     <td>
-                         @Html.ActionLink("Consulter", "Details", new {idCours = item.id_Cours, idSess = ViewBag.Sessionchoisie})
-                     </td>
-                 </tr>
-             }
-         }
-         else
-         {
-             <tr>
-                 <th class="col-sm-1">
-                     @Html.DisplayNameFor(model => model.FirstOrDefault().Cours.Code)
-                 </th>
-                 <th class="col-sm-5">
-                     @Html.DisplayNameFor(model => model.FirstOrDefault().Cours.Nom)
-                 </th>
-                 <th class="col-sm-1">
-                     @Html.DisplayNameFor(model => model.FirstOrDefault().Cours.Actif)
-                 </th>
-                 <th class="col-sm-4">
-                     Enseignant
-                 </th>
-                 <th class="col-sm-1"></th>
-             </tr>
-
-        foreach (var item in Model)
-             {
-                 <tr>
-                     <td>
-                         @Html.DisplayFor(model => item.Cours.Code)
-                     </td>
-                     <td>
-                         @Html.DisplayFor(model => item.Cours.Nom)
-                     </td>
-                     <td>
-                         @Html.DisplayFor(model => item.Cours.Actif)
-                     </td>
-                     <td>
-                         @Html.DisplayFor(model => item.nomsConcatenesProfs)
-                     </td>
-                     <td>
-                         @Html.ActionLink("Consulter", "Details", new {idCours = item.id_Cours, idSess = ViewBag.Sessionchoisie})
-                     </td>
-                 </tr>
-             }
-         }
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(model => item.Cours.Code)
+            </td>
+            <td>
+                @Html.DisplayFor(model => item.Cours.Nom)
+            </td>
+            <td>
+                @Html.DisplayFor(model => item.Cours.Actif)
+            </td>
+            <td>
+                @Html.DisplayFor(model => item.nomsConcatenesProfs)
+            </td>
+            <td>
+                @Html.ActionLink(Messages.Consulter, "Details", new {idCours = item.id_Cours, idSess = ViewBag.Sessionchoisie})
+            </td>
+        </tr>
+    }
     @if (!Model.Any())
     {
         <tr>
-            <td colspan="6">@sachem.Models.Messages.AucunCours</td>
+            <td colspan="6">@Messages.AucunCours</td>
         </tr>
     }
 </table>

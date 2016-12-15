@@ -1,6 +1,7 @@
-﻿@model IEnumerable<sachem.Models.Inscription>
+﻿@using sachem.Models
+@model IEnumerable<Inscription>
 @{
-    ViewBag.Title = "Jumelage";
+    ViewBag.Title = Messages.Jumelage;
 }
 <h2>@ViewBag.Title</h2>
 
@@ -44,15 +45,14 @@
                 @(count)
             </td>
             <td>
-                @Html.ActionLink("Accéder", "Details", new { id=item.id_Inscription })
+                @Html.ActionLink(Messages.Consulter, "Details", new { id=item.id_Inscription })
             </td>
         </tr>
     }
     @if (!Model.Any())
     {
         <tr>
-            <td colspan="6">@sachem.Models.Messages.AucunJumelage</td>
+            <td colspan="6">@Messages.AucunJumelage</td>
         </tr>
     }
-
 </table>

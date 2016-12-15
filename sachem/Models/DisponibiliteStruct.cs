@@ -11,6 +11,8 @@ namespace sachem.Models
 
         public string NomCase { get; set; }
 
+        public string NomCaseComplete { get; set; }
+
         public TimeSpan HeureDebut { get; set; }
 
         public TimeSpan HeureFin { get; set; }

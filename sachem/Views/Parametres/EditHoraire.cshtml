@@ -1,7 +1,8 @@
-﻿@model sachem.Models.p_HoraireInscription
+﻿@using sachem.Models
+@model p_HoraireInscription
 
 @{
-    ViewBag.Title = "Modifier l'horaire d'ouverture et de fermeture d'inscription";
+    ViewBag.Title = Messages.HoraireTitre;
 }
 
 <h2>@ViewBag.Title</h2>
@@ -28,7 +29,7 @@
             <div class="col-md-10">
                 @if (ViewBag.idSess == ViewBag.idSessStable)
                 {
-                    @Html.EditorFor(model => model.DateDebut, new { htmlAttributes = new { @class = "form-control", placeholder = "AAAA/MM/JJ", id="DateDebut"} })
+                    @Html.EditorFor(model => model.DateDebut, new { htmlAttributes = new { @class = "form-control", placeholder = Messages.PlaceHolderDate, id="DateDebut", title = Messages.FormatEnDate } })
                     @Html.ValidationMessageFor(model => model.DateDebut, "", new { @class = "text-danger" })
                 }
                 else
@@ -43,7 +44,7 @@
             <div class="col-md-10">
                 @if (ViewBag.idSess == ViewBag.idSessStable)
                 {
-                    @Html.EditorFor(model => model.HeureDebut, new { htmlAttributes = new { @class = "form-control", placeholder = "hh:mm", id = "HeureDebut" } })
+                    @Html.EditorFor(model => model.HeureDebut, new { htmlAttributes = new { @class = "form-control", placeholder = Messages.PlaceHolderHeure, id = "HeureDebut", title = Messages.FormatHeureMinuteSeconde } })
                     @Html.ValidationMessageFor(model => model.HeureDebut, "", new { @class = "text-danger" })
                 }
                 else
@@ -59,7 +60,7 @@
             <div class="col-md-10">
                 @if (ViewBag.idSess == ViewBag.idSessStable)
                 {
-                    @Html.EditorFor(model => model.DateFin, new { htmlAttributes = new { @class = "form-control", placeholder = "AAAA/MM/JJ", id = "DateFin" } })
+                    @Html.EditorFor(model => model.DateFin, new { htmlAttributes = new { @class = "form-control", placeholder = Messages.PlaceHolderDate, id = "DateFin", title = Messages.FormatEnDate } })
                     @Html.ValidationMessageFor(model => model.DateFin, "", new { @class = "text-danger" })
                 }
                 else
@@ -74,7 +75,7 @@
             <div class="col-md-10">
                 @if (ViewBag.idSess == ViewBag.idSessStable)
                 {
-                    @Html.EditorFor(model => model.HeureFin, new { htmlAttributes = new { @class = "form-control", placeholder = "hh:mm", id = "HeureFin" } })
+                    @Html.EditorFor(model => model.HeureFin, new { htmlAttributes = new { @class = "form-control", placeholder = Messages.PlaceHolderHeure, id = "HeureFin", title = Messages.FormatHeureMinuteSeconde } })
                     @Html.ValidationMessageFor(model => model.HeureFin, "", new { @class = "text-danger" })
                 }
                 else
@@ -87,19 +88,17 @@
         {
             <div class="form-group">
                 <div class="col-md-offset-2 col-md-10">
-                    <input type="submit" value="Enregistrer" class="btn btn-default" />
-                    @Html.ActionLink("Annuler", "Index", "DossierEtudiant", null, new { @class = "btn btn-default" })
+                    <input type="submit" value="@Messages.Enregistrer" class="btn btn-default" />
+                    @Html.ActionLink(Messages.Annuler, "Index", "DossierEtudiant", null, new { @class = "btn btn-default" })
                 </div>
             </div>
         }
     </div>
 }
-
 <script type="text/javascript">
     $(document).ready(function () {
         $("#ddlSession").change(function () {
             var id = $(this).val();
-
             window.location.href = "/Parametres/EditHoraire?session=" + id;
             console.log("text");
         });

@@ -1,15 +1,16 @@
-﻿@model sachem.Models.Cours
+﻿@using sachem.Models
+@model Cours
 @{
-    ViewBag.Title = "Inscription - Tuteur de cours";
+    ViewBag.Title = Messages.Inscription;
 }
 <div style="margin-right:15%">
     <h2>@ViewBag.Title</h2>
-
+    <h4>@Messages.TuteurCours</h4>
     @using (Html.BeginForm())
     {
         @Html.AntiForgeryToken()
 
-        <h3 style="background-color:aliceblue">Disponibilité</h3>
+        <h3 style="background-color:aliceblue">@Messages.Disponibilites</h3>
 
         @Html.Partial("_CoursReussis")
 
@@ -17,5 +18,5 @@
 </div>
 
 <div>
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink(Messages.RetourEnArriere, "Index")
 </div>

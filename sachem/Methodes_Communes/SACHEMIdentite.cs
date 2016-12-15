@@ -49,7 +49,7 @@ namespace sachem.Models
 
         public static bool ValiderRoleAcces(List<TypeUsagers> listeRoles, HttpSessionStateBase session)
         {
-            var idRole = (int)session["id_TypeUsag"];
+            var idRole = session["id_TypeUsag"] == null ? 0 : (int)session["id_TypeUsag"]; //ne pas modifier
             return listeRoles.Contains((TypeUsagers)idRole);
         }
 
@@ -145,21 +145,31 @@ namespace sachem.Models
         private static readonly SACHEMEntities Db = new SACHEMEntities();
         private const int Brouillon = 2;
 
-        public static SelectList ListeSexe()
+        public static SelectList ListeSexe(int sexe=0)
         {
-            return new SelectList(Db.p_Sexe, "id_Sexe", "Sexe");
+            return new SelectList(Db.p_Sexe, "id_Sexe", "Sexe", sexe);
         }
 
-        public static List<SelectListItem> ListeSession(int session = 0)
+        public static SelectList ListeSession(int session = 0)
         {
-            var lSessions = DataRepository.GetSessions();
+            return new SelectList(DataRepository.GetSessions(), "id_Sess", "NomSession", session);
+        }
+
+        public static SelectList ListeSessionPlusToutesAvecValeur(int session = 0)
+        {
+            var toute = new SelectListItem
+            {
+                Text = Messages.Toutes,
+                Value = "0"
+            };
+            var lSession = ListeSession();
             var slSession = new List<SelectListItem>();
-            slSession.AddRange(new SelectList(lSessions, "id_Sess", "NomSession", session));
-
-            return slSession;
+            slSession.AddRange(lSession);
+            slSession.Insert(0, toute);
+            return new SelectList(slSession,"id_Sess", "NomSession", session);
         }
 
-        public static List<SelectListItem> ListePersonne(int idSession, int idPers)
+        public static SelectList ListePersonne(int idSession, int idPers)
         {
             var lPersonne = (from p in Db.Personne
                              join c in Db.Groupe on p.id_Pers equals c.id_Enseignant
@@ -169,85 +179,67 @@ namespace sachem.Models
                                    c.id_Sess == (idSession == 0 ? c.id_Sess : idSession)
                              orderby p.Nom, p.Prenom
                              select p).Distinct();
-
-            var slPersonne = new List<SelectListItem>();
-            slPersonne.AddRange(new SelectList(lPersonne, "id_Pers", "NomPrenom", idPers));
-
-            return slPersonne;
+            return new SelectList(lPersonne, "id_Pers", "NomPrenom", idPers);
         }
 
-        public static List<SelectListItem> ListeCours(int cours = 0)
+        public static SelectList ListeCours(int cours = 0)
         {
-            var lCours = DataRepository.GetCours();
+            return new SelectList(DataRepository.GetCours(), "id_Cours", "CodeNom", cours);
+        }
+
+        public static SelectList ListeCoursPlusAucunCoursCegep(int cours = 0)
+        {
+            var lCours = ListeCours();
+            var toute = new SelectListItem
+            {
+                Text = Messages.AucunCoursSuiviCegep,
+                Value = "0"
+            };
             var slCours = new List<SelectListItem>();
-            slCours.AddRange(new SelectList(lCours, "id_Cours", "CodeNom", cours));
-            return slCours;
+            slCours.AddRange(lCours);
+            slCours.Insert(0, toute);
+            return new SelectList(slCours, "id_Cours", "CodeNom", cours);
         }
 
-        public static List<SelectListItem> ListeCollege(int college = 0)
+        public static SelectList ListeCollege(int college = 0)
         {
-            var lCollege = DataRepository.GetCollege();
-            var slCollege = new List<SelectListItem>();
-            slCollege.AddRange(new SelectList(lCollege, "id_College", "College", college));
-
-            return slCollege;
+            return new SelectList(DataRepository.GetCollege(), "id_College", "College", college);
         }
 
-        public static List<SelectListItem> ListeStatutCours(int statut = 0)
+        public static SelectList ListeStatutCours(int statut = 0)
+        { 
+            return new SelectList(DataRepository.GetStatut(), "id_Statut", "Statut", statut);
+        }
+
+        public static SelectList ListeEnseignant(int enseignant = 0)
         {
-            var lStatut = DataRepository.GetStatut();
-            var slStatut = new List<SelectListItem>();
-            slStatut.AddRange(new SelectList(lStatut, "id_Statut", "Statut", statut));
-
-            return slStatut;
+            return new SelectList(DataRepository.AllEnseignantOrdered(), "id_Pers", "Nom", enseignant);
         }
 
-        public static List<SelectListItem> ListeEnseignant(int enseignant = 0)
-        {
-            var lEnseignant = DataRepository.AllEnseignantOrdered();
-            var slEnseignant = new List<SelectListItem>();
-            slEnseignant.AddRange(new SelectList(lEnseignant, "id_Pers", "Nom", enseignant));
-
-            return slEnseignant;
-        }
-
-        public static List<SelectListItem> ListeSuperviseur(int superviseur = 0)
+        public static SelectList ListeSuperviseur(int superviseur = 0)
         {
             var lstEnseignant = from p in Db.Personne
                                 where p.id_TypeUsag == 2 && p.Actif
                                 orderby p.Nom, p.Prenom
                                 select p;
-            var slEnseignant = new List<SelectListItem>();
-            slEnseignant.AddRange(new SelectList(lstEnseignant, "id_Pers", "NomPrenom", superviseur));
-            return slEnseignant;
+            return new SelectList(lstEnseignant, "id_Pers", "NomPrenom", superviseur);
         }
 
-        public static List<SelectListItem> ListeTypeInscription(int typeInscription = 0)
+        public static SelectList ListeTypeInscription(int typeInscription = 0)
         {
-            var lInscriptions = Db.p_TypeInscription.AsNoTracking().OrderBy(i => i.TypeInscription);
-            var slInscription = new List<SelectListItem>();
-            slInscription.AddRange(new SelectList(lInscriptions, "id_TypeInscription", "TypeInscription", typeInscription));
-
-            return slInscription;
+            return new SelectList(Db.p_TypeInscription.AsNoTracking().OrderBy(i => i.TypeInscription), "id_TypeInscription", "TypeInscription", typeInscription);
         }
 
-        public static List<SelectListItem> ListeInscription(int inscription = 0)
+        public static SelectList ListeInscription(int inscription = 0)
         {
-            var lInscription = from c in Db.Inscription                              
-                               select c;
-            var slInscription = new List<SelectListItem>();
-            slInscription.AddRange(new SelectList(lInscription, "id_Inscription", "Inscription", inscription));
-
-            return slInscription;
+            var lInscription = from c in Db.Inscription select c;
+            return new SelectList(lInscription, "id_Inscription", "Inscription", inscription);
         }
 
-        public static List<SelectListItem> ListeStatutInscriptionSansBrouillon(int statut = 0)
+        public static SelectList ListeStatutInscriptionSansBrouillon(int statut = 0)
         {
             var lStatut = from s in Db.p_StatutInscription where s.id_Statut != Brouillon select s;
-            var slStatut = new List<SelectListItem>();
-            slStatut.AddRange(new SelectList(lStatut, "id_Statut", "Statut", statut));
-
-            return slStatut;
+            return new SelectList(lStatut, "id_Statut", "Statut", statut);
         }
 
         public static List<string> ListeJours()
@@ -275,21 +267,16 @@ namespace sachem.Models
                 .OrderBy(p => p.NoGroupe);
         }
 
-        public static List<SelectListItem> ListeStatutCours()
+        public static SelectList ListeStatutCours()
         {
             var lstStatut = from c in Db.p_StatutCours orderby c.id_Statut select c;
-            var slStatut = new List<SelectListItem>();
-            slStatut.AddRange(new SelectList(lstStatut, "id_Statut", "Statut"));
-            return slStatut;
+            return new SelectList(lstStatut, "id_Statut", "Statut");
         }
 
-        public static List<SelectListItem> ListeTypesCourriels(int typeCourriel = 0)
+        public static SelectList ListeTypesCourriels(int typeCourriel = 0)
         {
             var lCourriel = Db.p_TypeCourriel.AsNoTracking().OrderBy(i => i.id_TypeCourriel);
-            var slCourriel = new List<SelectListItem>();
-            slCourriel.AddRange(new SelectList(lCourriel, "id_TypeCourriel", "TypeCourriel", typeCourriel));
-
-            return slCourriel;
+            return new SelectList(lCourriel, "id_TypeCourriel", "TypeCourriel", typeCourriel);
         }
     }
 

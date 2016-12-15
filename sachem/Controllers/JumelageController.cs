@@ -74,6 +74,9 @@ namespace sachem.Controllers
                 caseDispoStruct.EstDispo = false;
                 caseDispoStruct.EstDispoMaisJumele = true;
                 caseDispoStruct.EstDispoEtCompatible = false;
+                caseDispoStruct.HeureDebut = TimeSpan.FromMinutes(caseDispoStruct.Minutes);
+                caseDispoStruct.HeureFin = caseDispoStruct.HeureDebut + TimeSpan.FromMinutes(DureeRencontreMinutes);
+                caseDispoStruct.NomCaseComplete = $"{caseDispoStruct.Jour} de {caseDispoStruct.HeureDebut.Hours}h{caseDispoStruct.HeureDebut.Minutes:00} à {caseDispoStruct.HeureFin.Hours}h{caseDispoStruct.HeureFin.Minutes:00}";
                 caseDispoStruct.EstDispoEtCompatibleEtConsecutif = false;
                 if (Convert.ToBoolean(!jumelageEnRouge.consecutif))
                 {
@@ -84,7 +87,7 @@ namespace sachem.Controllers
                 {
                     caseDispoStruct.EstConsecutiveDonc3hrs = false;
                     listeCasesJumelageEtDisposCeluiInspecte.Add(caseDispoStruct);
-                    for (int k = DemiHeure; k <= DureeRencontreMinutes; k += DemiHeure)
+                    for (var k = DemiHeure; k <= DureeRencontreMinutes; k += DemiHeure)
                     {
                         caseDispoStruct.Minutes = jumelageEnRouge.minutes + k;
                         caseDispoStruct.NomCase = caseDispoStruct.Jour + "-" + caseDispoStruct.Minutes;
@@ -98,15 +101,7 @@ namespace sachem.Controllers
 
             if (idCeluiInspecte != 0)
             {
-                listeDisposCeluiInspecte = _db.Disponibilite.Where(x => x.id_Inscription == idCeluiInspecte).ToList();
-                var idTypeInscTemp = _db.Inscription.Where(x => x.id_Inscription == idCeluiInspecte).Select(x => x.id_TypeInscription).FirstOrDefault();
-                if(idTypeInscTemp == 1)
-                {
-                }
-                else
-                {
-                }
-                
+                listeDisposCeluiInspecte = _db.Disponibilite.Where(x => x.id_Inscription == idCeluiInspecte).ToList();                
             }
             foreach (var disponibiliteEnVert in reqDisposCeluiInspecte)
             {
@@ -132,6 +127,9 @@ namespace sachem.Controllers
                 caseDispoStruct.NomCase = disponibiliteEnVert.p_Jour.Jour + "-" + disponibiliteEnVert.minutes;
                 caseDispoStruct.NbreUsagerMemeDispo = compteurUsagerAvecMemeDispo;
                 caseDispoStruct.EstDispo = true;
+                caseDispoStruct.HeureDebut = TimeSpan.FromMinutes(caseDispoStruct.Minutes);
+                caseDispoStruct.HeureFin = caseDispoStruct.HeureDebut + TimeSpan.FromMinutes(DureeRencontreMinutes);
+                caseDispoStruct.NomCaseComplete = $"{caseDispoStruct.Jour} de {caseDispoStruct.HeureDebut.Hours}h{caseDispoStruct.HeureDebut.Minutes:00} à {caseDispoStruct.HeureFin.Hours}h{caseDispoStruct.HeureFin.Minutes:00}";
                 caseDispoStruct.EstDispoMaisJumele = CaseDispoDoitEtreGrisSiJumelageAffecteDispo(listeCasesJumelageEtDisposCeluiInspecte, caseDispoStruct);
                 listeCasesJumelageEtDisposCeluiInspecte.Add(caseDispoStruct);
             }
@@ -196,13 +194,11 @@ namespace sachem.Controllers
 
         private static bool CaseDispoDoitEtreGrisSiJumelageAffecteDispo(List<DisponibiliteStruct> listeCasesJumelageEtDisposCeluiInspecte, DisponibiliteStruct caseDispoStruct)
         {
-            const int rencontre = 90;
-
-            for (var demiHeure = -(rencontre-30); demiHeure < rencontre; demiHeure+=30)
+            for (var demiHeure = -(DureeRencontreMinutes-30); demiHeure < DureeRencontreMinutes; demiHeure+=30)
             {
                 if(listeCasesJumelageEtDisposCeluiInspecte.Exists(
                         x => x.Jour == caseDispoStruct.Jour && 
-                        x.EstDispo == false && (x.Minutes + demiHeure) == caseDispoStruct.Minutes))
+                        x.EstDispo == false && x.Minutes + demiHeure == caseDispoStruct.Minutes))
                 {
                     return true;
                 }
@@ -349,8 +345,8 @@ namespace sachem.Controllers
                 _db.Jumelage.Remove(jumRetirer);
                 _db.SaveChanges();
             }
-            
-            ViewBag.Success = Messages.JumelageRetire();
+
+            ViewBag.Success = "no"; //Messages.JumelageRetire();
         }
 
         public void AjoutJumelage(int idVu, int idJumeleA, string jour, int minutes, int vuTypeInsc, int idEnseignant, int estConsecutif)
@@ -387,7 +383,7 @@ namespace sachem.Controllers
             _db.Jumelage.Add(jumCreation);
             _db.SaveChanges();
 
-            ViewBag.Success = Messages.JumelageCree();
+            ViewBag.Success = "no"; //Messages.JumelageCree();
         }
 
         [ValidationAcces.ValidationAccesEnseignant]

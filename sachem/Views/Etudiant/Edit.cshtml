@@ -1,18 +1,19 @@
-﻿@model sachem.Models.PersonneEtuProgParent
+﻿@using sachem.Models
+@model PersonneEtuProgParent
 
 @{
-    ViewBag.Title = "Modifier étudiant";
+    ViewBag.Title = Messages.EtudiantModifierTitre;
 }
 
 <h2>@ViewBag.Title</h2>
 @using (Html.BeginForm("Edit", "Etudiant", FormMethod.Post))
 {
     <p class="text-success">
-        @Html.Raw(@TempData["Success"])
+        @Html.Raw(TempData["Success"])
     </p>
 
     <p class="text-danger">
-        @Html.Raw(@TempData["Echec"])
+        @Html.Raw(TempData["Echec"])
     </p>
 
     if ((string)TempData["Question"] != null)
@@ -21,39 +22,29 @@
         <br />
         <tr>
             <td>
-              @Html.ActionLink("Oui", "DeleteProgEtu", new { idProg = TempData["id_Prog"], idPers = TempData["id_Pers"], Valider = 1 }) |
-              @Html.ActionLink("Non", "DeleteProgEtu", new { idProg = TempData["id_Prog"], idPers = TempData["id_Pers"], Valider = 2 })
+              @Html.ActionLink(Messages.Oui, "DeleteProgEtu", new { idProg = TempData["id_Prog"], idPers = TempData["id_Pers"], Valider = 1 }) |
+              @Html.ActionLink(Messages.Non, "DeleteProgEtu", new { idProg = TempData["id_Prog"], idPers = TempData["id_Pers"], Valider = 2 })
             </td>
         </tr>
     }
     @Html.AntiForgeryToken()
     <div class="form-horizontal">
         <hr />
-        @Html.Partial("_Etudiant")
+
         @Html.HiddenFor(model => model.personne.id_Pers)
+
         <div class="form-group">
-            @Html.LabelFor(model => model.personne.Matricule, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.personne.Matricule, new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.personne.Matricule7, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
                 @Html.ValidationMessageFor(model => model.personne.Matricule, "", new { @class = "text-danger" })
             </div>
         </div>
+
+        @Html.Partial("_Etudiant")
+
         <div class="form-group">
-            @Html.LabelFor(model => model.personne.MP, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.PasswordFor(model => model.personne.MP, new { @class = "form-control", placeholder = "Mot de passe", @Value = String.Empty, @minlength = "6", @title = "Longueur minimale de 6 charactère." })
-                @Html.ValidationMessageFor(model => model.personne.MP, "", new { @class = "text-danger" })
-            </div>
-        </div>
-        <div class="form-group">
-            @Html.LabelFor(model => model.personne.ConfirmPassword, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.PasswordFor(model => model.personne.ConfirmPassword, new { @class = "form-control", placeholder = "Confirmation du mot de passe", @Value = "", @minlength = "6", @title = "Longueur minimale de 6 charactère." })
-                @Html.ValidationMessageFor(model => model.personne.ConfirmPassword, "", new { @class = "text-danger" })
-            </div>
-        </div>
-        <div class="form-group">
-            @Html.LabelFor(model => model.personne.Actif, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.personne.Actif, new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 <div class="checkbox">
                     @Html.EditorFor(model => model.personne.Actif)
@@ -62,7 +53,7 @@
             </div>
         </div>
         <div class="form-group">
-            @Html.Label("Programme d'étude", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.personne.ProgEtu, new { @class = "control-label col-md-2" })
             <div style="margin-top:7px;">
                 <div style="margin-left:210px;">
                     <table id="progetuTable">
@@ -71,7 +62,7 @@
                             <tr>
                                 <td>@Html.DisplayFor(modelItem => item.ProgrammeEtude.CodeNomProgramme)</td>
                                 <td><a href="#" class="btn btn-info btn-sm modal-open" id="SuppProg" onclick="ModalSupprimer('@item.ProgrammeEtude.NomProg',@Model.personne.id_Pers, @item.id_EtuProgEtude)"
-                                    data-toggle="modal" data-target="#modalSuppProg">Supprimer</a>
+                                    data-toggle="modal" data-target="#modalSuppProg">@Messages.Supprimer</a>
                                 </td>
                             </tr>
                         }
@@ -83,21 +74,21 @@
         <h4>Ajouter un programme d'étude</h4>
         <hr>
         <div class="form-group">
-            @Html.Label("Programme d'étude", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.personne.ProgEtu, new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.DropDownList("id_Programme", null, "Choisir", htmlAttributes: new { @class = "form-control" })
+                @Html.DropDownList("id_Programme", null, Messages.VeuillezChoisir, new { @class = "form-control" })
             </div>
         </div>
         <div class="form-group">
-            @Html.Label("Session", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.Label(Messages.Session, new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.DropDownList("id_Session", null, "Choisir", htmlAttributes: new { @class = "form-control" })
+                @Html.DropDownList("id_Session", null, Messages.VeuillezChoisir, new { @class = "form-control" })
             </div>
         </div>
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10 ">
-                <input type="submit" value="Enregistrer" class="btn btn-default" />
-                @Html.ActionLink("Retour à la recherche", "Index", null, null, new { @class = "btn btn-default" })
+                <input type="submit" value="@Messages.Enregistrer" class="btn btn-default" />
+                @Html.ActionLink(Messages.Annuler, "Index", null, null, new { @class = "btn btn-default" })
             </div>
         </div>
     </div>
@@ -111,14 +102,14 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">Suppression Programme d'étude</h4>
+                    <h4 class="modal-title">@Messages.EtudiantProgrammeEtudeSupprimerTitre</h4>
                 </div>
                 <div class="modal-body">
-                    <p>@sachem.Models.Messages.SupprimerCeProgrammeEtude()<span id="modalNomProg"></span>?</p>
+                    <p>@Messages.EtudiantProgrammeEtudeQuestionSupprimerProgramme<span id="modalNomProg"></span>?</p>
                 </div>
                 <div class="modal-footer">
-                    <button id="btnDeleteEtuProg" type="button" data-dismiss="modal" class="btn btn-primary">Supprimer</button>
-                    <button type="button" data-dismiss="modal" class="btn">Annuler</button>
+                    <button id="btnDeleteEtuProg" type="button" data-dismiss="modal" class="btn btn-primary">@Messages.Supprimer</button>
+                    <button type="button" data-dismiss="modal" class="btn">@Messages.Annuler</button>
                 </div>
             </div>
         </div>
@@ -147,7 +138,7 @@
                 $("#progetuTable").html("");
                 $.each(donnees, function (i, item) {
                     var c = "<td>"+item.Code + "-" + item.NomProg+"</td>";
-                    var s = "<td><button id=\""+item.id_EtuProgEtude+"\" type=\"button\" class=\"btn btn-info btn-sm\" data-toggle=\"modal\" name=\"SuppProg\" data-target=\"#myModal\">Supprimer</button></td>";
+                    var s = "<td><button id=\""+item.id_EtuProgEtude+"\" type=\"button\" class=\"btn btn-info btn-sm\" data-toggle=\"modal\" name=\"SuppProg\" data-target=\"#myModal\">@Messages.Supprimer</button></td>";
                     var j = $("#progetuTable").html();
                     $("#progetuTable").html(j+"<tr>"+c+s+"</tr>");
                 });

@@ -2,18 +2,18 @@
 @model CoursSuivi
 
 @{
-    ViewBag.Title = "Supprimer un cours suivi antérieur";
+    ViewBag.Title = Messages.CoursSuiviSupprimerTitre;
 }
 
 <h2>@ViewBag.Title</h2>
 
 @if (string.IsNullOrEmpty(Model.autre_Cours))
 {
-    <h4>@Messages.VraimentSupprimerCours(Model.Cours.CodeNom)</h4>
+    <h4>@Messages.CoursSupprimerQuestionSupprimerCours(Model.Cours.CodeNom)</h4>
 }
 else
 {
-    <h4>@Messages.VraimentSupprimerCours(Model.autre_Cours)</h4>
+    <h4>@Messages.CoursSupprimerQuestionSupprimerCours(Model.autre_Cours)</h4>
 }
 
 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
@@ -60,8 +60,8 @@ else
 
         <div class="form-actions no-color">            
             @Html.HiddenFor(m => m.id_CoursReussi)
-            <input type="submit" value="Supprimer" class="btn btn-default" />
-            @Html.ActionLink("Annuler", "Details", "DossierEtudiant", new { id = SessionBag.Current.id_Inscription }, new { @class = "btn btn-default" })
+            <input type="submit" value="@Messages.Supprimer" class="btn btn-default" />
+            @Html.ActionLink(Messages.Annuler, "Details", "DossierEtudiant", new { id = SessionBag.Current.id_Inscription }, new { @class = "btn btn-default" })
         </div>
     }
 </div>

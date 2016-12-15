@@ -2,7 +2,7 @@
 @model Personne
 
 @{
-    ViewBag.Title = "Premier Accès";
+    ViewBag.Title = Messages.AccountRegisterTitre;
 }
 
 <h2>@ViewBag.Title</h2>
@@ -10,7 +10,6 @@
 <p class="text-success">
     @Html.ViewBag.Success
 </p>
-
 
 @using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
 {
@@ -29,7 +28,7 @@
     <div class="form-group">
         @Html.LabelFor(model => model.DateNais, new { @class = "control-label col-md-2" })
         <div class="col-md-10">
-            @Html.EditorFor(model => model.DateNais, $"{0:yyyy\\/MM\\/dd}", new { htmlAttributes = new { @class = "form-control", placeholder = "AAAA/MM/JJ", required = "required", title = Messages.ChampRequis } })
+            @Html.EditorFor(model => model.DateNais, $"{0:yyyy\\/MM\\/dd}", new { htmlAttributes = new { @class = "form-control", placeholder = Messages.PlaceHolderDate, required = "required", title = Messages.ChampRequis } })
             @Html.ValidationMessageFor(model => model.DateNais, "", new { @class = "text-danger" })
         </div>
     </div>
@@ -52,7 +51,7 @@
     <div class="form-group">
         @Html.LabelFor(model => model.Telephone, new { @class = "control-label col-md-2" })
         <div class="col-md-10">
-            @Html.EditorFor(model => model.Telephone, new { htmlAttributes = new { @class = "form-control", placeholder = "(999) 999-9999",maxlength = "14", required = "required", title = Messages.ChampRequis } })
+            @Html.EditorFor(model => model.Telephone, new { htmlAttributes = new { @class = "form-control", placeholder = Messages.PlaceHolderTelephone,maxlength = "14", required = "required", title = Messages.ChampRequis } })
             @Html.ValidationMessageFor(model => model.Telephone, "", new { @class = "text-danger" })
         </div>
     </div>
@@ -74,8 +73,8 @@
     </div>
     <div class="form-group">
         <div class="col-md-offset-2 col-md-10">
-            <input type="submit" class="btn btn-default" value="S’inscrire" />
-            @Html.ActionLink("Annuler", "Login", null, null, new { @class = "btn btn-default" })
+            <input type="submit" class="btn btn-default" value="@Messages.Sinscrire"/>
+            @Html.ActionLink(Messages.Annuler, "Login", null, null, new { @class = "btn btn-default" })
         </div>
     </div>
 }

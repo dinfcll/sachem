@@ -1,7 +1,8 @@
-﻿@model sachem.Models.Inscription
+﻿@using sachem.Models
+@model Inscription
 
 @{
-    ViewBag.Title = "Jumelage";
+    ViewBag.Title = Messages.Jumelage;
 }
 
 <h2>@ViewBag.Title</h2>
@@ -12,7 +13,7 @@
     @ViewBag.Erreur
 </p>
 <div>
-    <h4 class="page-header">Identification de l'étudiant</h4>
+    <h4 class="page-header">@Messages.IdentificationEtudiant</h4>
     <dl class="dl-horizontal col-sm-6" style="right:0;margin-top:0;position:absolute;">
         <dt>
             @Html.DisplayNameFor(model => model.p_TypeInscription.TypeInscription)
@@ -77,7 +78,6 @@
 
 @using (Html.BeginForm("Details", "Jumelage", FormMethod.Post, new { @class = "form-inline", role = "form" }))
 {
-    <h4 class="page-header">Disponibilités</h4>
     @Html.Partial("_Disponibilites")
 }
 

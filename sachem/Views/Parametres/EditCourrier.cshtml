@@ -1,7 +1,8 @@
 ﻿@model sachem.Models.Courriel
 @using System.Web.Mvc.Html
+@using sachem.Models
 @{
-    ViewBag.Title = "Modifier courriel";
+    ViewBag.Title = Messages.CourrielTitre;
 }
 @Scripts.Render("~/bundles/tinymce")
 <h2>@ViewBag.Title</h2>
@@ -43,7 +44,7 @@
                 <div class="form-group">
                     @Html.LabelFor(model => model.DateDebut, new { @class = "control-label col-md-5" })
                     <div class="col-md-7">
-                        @Html.EditorFor(model => model.DateDebut, new { htmlAttributes = new { @class = "form-control", placeholer = "AAAA/MM/JJ" } })
+                        @Html.EditorFor(model => model.DateDebut, new { htmlAttributes = new { @class = "form-control", placeholer = "AAAA/MM/JJ", title = Messages.FormatEnDate } })
                         @Html.ValidationMessageFor(model => model.DateDebut, "", new { @class = "text-danger" })
                     </div>
                 </div>
@@ -51,7 +52,7 @@
                 <div class="form-group">
                     @Html.LabelFor(model => model.DateFin, new { @class = "control-label col-md-5" })
                     <div class="col-md-7">
-                        @Html.EditorFor(model => model.DateFin, new { htmlAttributes = new { @class = "form-control", placeholer = "AAAA/MM/JJ" } })
+                        @Html.EditorFor(model => model.DateFin, new { htmlAttributes = new { @class = "form-control", placeholer = "AAAA/MM/JJ", title = Messages.FormatEnDate } })
                         @Html.ValidationMessageFor(model => model.DateFin, "", new { @class = "text-danger" })
                     </div>
                 </div>
@@ -66,11 +67,11 @@
             </div>
             <div class="col-md-5">
                 <div class="form-groug">
-                        <h4>@sachem.Models.Messages.CourrielVarsPourPersonnaliser</h4>
-                        <p><b>$PrenomNomEtudiant</b>: Affiche au destinataire son prénom et nom.</p>
+                        <h4>@Messages.CourrielVarsPourPersonnaliser</h4>
+                        <p><b>$PrenomNomEtudiant</b>: @Messages.CourrielVarPrenomNom</p>
                         @if (Model.id_TypeCourriel == 2)
                         {
-                            <p><b>$NouveauMotDePasse</b>: Affiche le nouveau mot de passe au destinataire, après une réinitialisation.</p>
+                            <p><b>$NouveauMotDePasse</b>: @Messages.CourrielVarNouveauPasse</p>
                         }
                     
                 </div>
@@ -95,13 +96,10 @@
         </div>
 
     }
-
-
 <script type="text/javascript">
     $(document).ready(function () {
         $("#ddlTypeCourriel").change(function () {
             var id = $(this).val();
-
             window.location.href = "/Parametres/EditCourrier?courriel=" + id;
             console.log("text");
         });

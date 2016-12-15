@@ -1,7 +1,8 @@
-﻿@model PagedList.IPagedList<sachem.Models.Groupe>
+﻿@using sachem.Models
+@model PagedList.IPagedList<Groupe>
 
 @{
-    ViewBag.Title = "Groupes";
+    ViewBag.Title = Messages.Groupes;
 }
 
 <h2>@ViewBag.Title</h2>
@@ -22,38 +23,31 @@
 
             <tr>
                 <td>
-                    @Html.ActionLink("Oui", "AjouterEleve", new { idg = TempData["idg"] , ViewBag.page}) |
-                    @Html.ActionLink("Non", "Index", new { idg = TempData["idg"]}) 
+                    @Html.ActionLink(Messages.Oui, "AjouterEleve", new { idg = TempData["idg"] , ViewBag.page}) |
+                    @Html.ActionLink(Messages.Non, "Index", new { idg = TempData["idg"]}) 
                 </td>
             </tr>
 
     }
 
-   <h4>Recherche</h4>
+   <h4>@Messages.Recherche</h4>
 
     <table class="table-condensed">
         <tr>
-            <td>Session :</td>
-            <td>@Html.DropDownList("Sessions", null, "Toutes", new { @class = "form-search" })</td>
-            <td>Enseignant :</td>
+            <td>@Html.DisplayFor(model => model.FirstOrDefault().Session) :</td>
+            <td>@Html.DropDownList("Sessions", null, Messages.Toutes, new { @class = "form-search" })</td>
+            <td>@Messages.Enseignant :</td>
             <td>
-                @if (ViewBag.Disabled != null && ViewBag.Disabled == "")
-                    {
-                    @Html.DropDownList("Enseignants", null, "Tous", new { @class = "form-search" })
-                }
-                else
-                {
-                    @Html.DropDownList("Enseignants", null, new { disabled = ViewBag.Disabled, @class = "form-search" })
-                }
+                @(ViewBag.Disabled == "" ? Html.DropDownList("Enseignants", null, Messages.Tous, new {@class = "form-search"}) : Html.DropDownList("Enseignants", null, new {disabled = ViewBag.Disabled, @class = "form-search"}))
             </td>
-            <td>Cours :</td>
-            <td>@Html.DropDownList("Cours", null, "Tous", new { @class = "form-search" })</td>
-            <td><input type="submit" value="Rechercher" class="form-search" /></td>
+            <td>@Html.DisplayFor(model => model.FirstOrDefault().Cours) :</td>
+            <td>@Html.DropDownList("Cours", null, Messages.Tous, new { @class = "form-search" })</td>
+            <td><input type="submit" value="@Messages.Rechercher" class="form-search" /></td>
         </tr>
     </table>
 }
 
-<div style="margin-top:5px;margin-bottom:10px;">@Html.ActionLink("Ajouter un groupe", "Create", null, null, new { @class = "btn btn-default" })</div>
+<div style="margin-top:5px;margin-bottom:10px;">@Html.ActionLink(Messages.GroupesAjouterTitre, "Create", null, null, new { @class = "btn btn-default" })</div>
     
 <table class="table">
     <tr>
@@ -93,15 +87,15 @@
             @item.GroupeEtudiant.Count
         </td>
         <td>
-            @Html.ActionLink("Modifier", "Edit", new {id = item.id_Groupe}) |
-            @Html.ActionLink("Supprimer", "Delete", new {id = item.id_Groupe})
+            @Html.ActionLink(Messages.Modifier, "Edit", new {id = item.id_Groupe}) |
+            @Html.ActionLink(Messages.Supprimer, "Delete", new {id = item.id_Groupe})
         </td>
     </tr>
 }
 @if (!Model.Any())
 {
     <tr>
-        <td colspan="6">@sachem.Models.Messages.AucunGroupe</td>
+        <td colspan="6">@Messages.AucunGroupe</td>
     </tr>
 }
 </table>

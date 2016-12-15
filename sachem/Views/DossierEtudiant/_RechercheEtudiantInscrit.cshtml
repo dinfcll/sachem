@@ -1,29 +1,29 @@
 ﻿@using sachem.Models
-<h4>Recherche</h4>
+<h4>@Messages.Recherche</h4>
 
 <table class="table-condensed">
     <tr>
         <td>
-            Session :
+            @Messages.Session :
         </td><td>
-            @Html.DropDownList("Session", null, "Toutes", htmlAttributes: new { @class = "form-search" })
+            @Html.DropDownList("Session", null, Messages.Toutes,new { @class = "form-search" })
         </td>
         
         <td>
-            Type d'inscription :
+            @Messages.TypeInscription :
         </td>
         
         <!--Si c'est tuteur-->
 @if (SachemIdentite.ObtenirTypeUsager(Session) == TypeUsagers.Tuteur)
 {
         <td>
-            @Html.DropDownList("Inscription", null, "Tous", htmlAttributes: new { @class = "form-search", disabled="disabled" })   
+            @Html.DropDownList("Inscription", null, Messages.Tous, new { @class = "form-search", disabled="disabled" })   
         </td>
 }
 else
 {
     <td>
-        @Html.DropDownList("Inscription", null, "Tous", htmlAttributes: new { @class = "form-search" })
+        @Html.DropDownList("Inscription", null, Messages.Tous, new { @class = "form-search" })
     </td>
 }
 <!--Si c'est AUTRE que tuteur-->
@@ -31,33 +31,33 @@ else
 @if (SachemIdentite.ObtenirTypeUsager(Session) == TypeUsagers.Enseignant || SachemIdentite.ObtenirTypeUsager(Session) == TypeUsagers.Responsable || SachemIdentite.ObtenirTypeUsager(Session) == TypeUsagers.Super)
 {
          <td>
-            Superviseur :
+            @Messages.Superviseur :
         </td>
             <td>
-                @Html.DropDownList("Superviseur", null, "Tous", htmlAttributes: new { @class = "form-search" })
+                @Html.DropDownList("Superviseur", null, Messages.Tous, new { @class = "form-search" })
             </td>
 }
     </tr>
     <tr>
         <td>
-            No de DA :
+            @Messages.NoDa :
         </td><td>
-            @Html.Editor("Matricule", new { htmlAttributes = new { @class = "form-control", @maxlength = "7" } })
+            @Html.Editor("Matricule", new { htmlAttributes = new { @class = "form-control", maxlength = "7" } })
         </td>
         <td>
-            Prénom :
+            @Messages.Prenom :
         </td><td>
             @Html.Editor("Prenom", new { htmlAttributes = new { @class = "form-control"} })
         </td>
         <td>
-            Nom :
+            @Messages.Nom :
         </td><td>
             @Html.Editor("Nom", new { htmlAttributes = new { @class = "form-control"} })
         </td>
     </tr>
     <tr>
         <td>
-            <input type="submit" value="Rechercher" class="btn btn-default" style="margin-top:5px;margin-bottom:10px;"/>
+            <input type="submit" value="@Messages.Rechercher" class="btn btn-default" style="margin-top:5px;margin-bottom:10px;"/>
         </td>
     </tr>
 </table>

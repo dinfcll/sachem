@@ -27,13 +27,13 @@
 </script>
 @if (listeJumeleurs.Any())
 {
-<h4 class="page-header">Jumelé à</h4>
+<h4 class="page-header">@Messages.JumeleA</h4>
 
 <table class="table table-striped col-sm-12">
     <tr>
-        <th class="col-sm-5">Nom</th>
-        <th class="col-sm-1">No de DA</th>
-        <th class="col-sm-3">Plage horaire</th>
+        <th class="col-sm-5">@Html.LabelFor(model => model.Personne.NomPrenom)</th>
+        <th class="col-sm-1">@Html.LabelFor(model => model.Personne.Matricule7)</th>
+        <th class="col-sm-3">@Messages.PlageHoraire</th>
         <th class="col-sm-3"></th>
     </tr>
     @foreach (var j in listeJumeleurs)
@@ -46,9 +46,9 @@
                 <td>@j.Personne.NomPrenom</td>
                 <td>@j.Personne.Matricule7</td>
                 <td>@p</td>
-                <td><a href=@j.id_Inscription>Accéder</a> | 
+                <td><a href=@j.id_Inscription>@Messages.Consulter</a> | 
                     <a href="#" onclick="RetirerModal(@Model.id_Inscription,@j.id_Inscription,@Model.id_TypeInscription,'@Model.Personne.PrenomNom','@j.Personne.PrenomNom')"
-                       data-toggle="modal" data-target="#modalRetirer">Mettre fin à ce jumelage
+                       data-toggle="modal" data-target="#modalRetirer">@Messages.JumelageSupprimerJumelage
                     </a></td>                
             </tr>
         }
@@ -61,16 +61,16 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">@Messages.JumelageFinJumelage</h4>
+                    <h4 class="modal-title">@Messages.JumelageSupprimerJumelage</h4>
                 </div>
                 <div class="modal-body">
                     <p>
-                        @Messages.JumelageFinJumelageEntre();<br/><b><span id="modalRetirerVu"></span></b> et <b><span id="modalRetirerJumeleA"></span></b>?
+                        @Messages.JumelageSupprimerQuestion;
                     </p>
                 </div>
                 <div class="modal-footer">
-                    <button id="btnRetirer" type="button" data-dismiss="modal" class="btn btn-primary">Retirer le jumelage</button>
-                    <button type="button" data-dismiss="modal" class="btn">Annuler</button>
+                    <button id="btnRetirer" type="button" data-dismiss="modal" class="btn btn-primary">@Messages.Supprimer</button>
+                    <button type="button" data-dismiss="modal" class="btn">@Messages.Annuler</button>
                 </div>
             </div>
         </div>

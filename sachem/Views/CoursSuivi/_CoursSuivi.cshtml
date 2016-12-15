@@ -5,7 +5,7 @@
 <div class="form-group">
     @Html.LabelFor(model => model.id_Cours, new {@class = "control-label col-md-2"})
     <div class="col-md-10">
-        @Html.DropDownList("id_Cours", null , "--- Veuillez choisir un cours ---", new { @class = "form-control" })
+        @Html.DropDownList("id_Cours", null, Messages.VeuillezChoisir, new { @class = "form-control" })
         @Html.ValidationMessageFor(model => model.id_Cours, "", new {@class = "text-danger"})
     </div>
 </div>
@@ -23,7 +23,7 @@
     <div class="form-group">
         @Html.LabelFor(model => model.id_College, new { @class = "control-label col-md-2" })
         <div class="col-md-10">
-            @Html.DropDownList("id_College", null, "--- Veuillez choisir un collège ---", new { @class = "form-control" })
+            @Html.DropDownList("id_College", null, Messages.VeuillezChoisir, new { @class = "form-control" })
             @Html.ValidationMessageFor(model => model.id_College, "", new { @class = "text-danger" })
         </div>
     </div>
@@ -40,7 +40,7 @@
 <div class="form-group">
     @Html.LabelFor(model => model.id_Sess, new { @class = "control-label col-md-2" })
     <div class="col-md-10">
-        @Html.DropDownList("id_Sess" , null, new { @class = "form-control" })
+        @Html.DropDownList("id_Sess" , null, Messages.VeuillezChoisir, new { @class = "form-control" })
         @Html.ValidationMessageFor(model => model.id_Sess, "", new { @class = "text-danger" })
     </div>
 </div>
@@ -50,7 +50,7 @@
 <div class="form-group">
     @Html.LabelFor(model => model.id_Statut, new { @class = "control-label col-md-2" })
     <div class="col-md-10">
-            @Html.DropDownList("id_Statut", null, new { @class = "form-control" })
+            @Html.DropDownList("id_Statut", null, Messages.VeuillezChoisir, new { @class = "form-control" })
             @Html.ValidationMessageFor(model => model.id_Statut, "", new { @class = "text-danger" })
     </div>
 </div>
@@ -66,7 +66,7 @@
 
 <div class="form-group">
     <div class="col-md-offset-2 col-md-10">
-        <input type="submit" value="Enregistrer" class="btn btn-default new { id = ViewBag.idPers }" />
-        @Html.ActionLink("Annuler", "Details", "DossierEtudiant", new { id = SessionBag.Current.id_Inscription }, new { @class = "btn btn-default" })
+        <input type="submit" value="@Messages.Enregistrer" class="btn btn-default new { id = ViewBag.idPers }" />
+        @Html.ActionLink(Messages.Annuler, "Details", "DossierEtudiant", new { id = SessionBag.Current.id_Inscription }, new { @class = "btn btn-default" })
     </div>
 </div>

@@ -1,7 +1,8 @@
-﻿@model IEnumerable<sachem.Models.Inscription>
+﻿@using sachem.Models
+@model IEnumerable<Inscription>
 
 @{
-    ViewBag.Title = "Inscription";
+    ViewBag.Title = Messages.Inscription;
 }
 
 <h2>@ViewBag.Title</h2>
@@ -11,33 +12,33 @@
     <h4>Recherche</h4>
     <table class="table-condensed">
         <tr>
-            <td>Session :</td>
-            <td>@Html.DropDownList("Session", null, "Toutes", htmlAttributes: new { @class = "form-search" })</td>
-            <td>Type d'inscription :</td>
-            <td>@Html.DropDownList("TypeInscription", null, "Toutes", htmlAttributes: new { @class = "form-search" })</td>
-            <td>Statut :</td>
-            <td>@Html.DropDownList("Statut", null, "Toutes", htmlAttributes: new { @class = "form-search" })</td>
-            <td><input type="submit" value="Rechercher" class="form-search" /></td>
+            <td>@Messages.Session:</td>
+            <td>@Html.DropDownList("Session", null, Messages.Toutes, new { @class = "form-search" })</td>
+            <td>@Html.LabelFor(model => model.First().p_TypeInscription.TypeInscription):</td>
+            <td>@Html.DropDownList("TypeInscription", null, Messages.Tous, new { @class = "form-search" })</td>
+            <td>@Html.DisplayNameFor(model => model.First().p_StatutInscription.Statut)):</td>
+            <td>@Html.DropDownList("Statut", null, Messages.Tous, new { @class = "form-search" })</td>
+            <td><input type="submit" value="@Messages.Rechercher" class="form-search" /></td>
         </tr>
     </table>
 }
 
 <table class="table">
     <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Personne.Nom)
+        <th  class="col-sm-5">
+            @Html.DisplayNameFor(model => model.Personne.NomPrenom)
         </th>
-        <th>
+        <th class="col-sm-2">
             @Html.DisplayNameFor(model => model.Personne.Matricule7)
         </th>
-        <th>
+        <th class="col-sm-1">
             @Html.DisplayNameFor(model => model.p_StatutInscription.Statut)
         </th>
-        <th>
+        <th class="col-sm-2">
             @Html.DisplayNameFor(model => model.p_TypeInscription.TypeInscription)
         </th>
 
-        <th></th>
+        <th class="col-sm-2"></th>
     </tr>
 
     @foreach (var item in Model) {
@@ -56,15 +57,14 @@
             </td>
 
             <td>
-                @Html.ActionLink("Accéder à l'inscription", "Details", new {id = item.id_Inscription})
+                @Html.ActionLink(Messages.Consulter, "Details", new {id = item.id_Inscription})
             </td>
         </tr>
     }
     @if (!Model.Any())
     {
         <tr>
-            <td colspan="6">@sachem.Models.Messages.AucunInscription</td>
+            <td colspan="6">@Messages.AucunInscription</td>
         </tr>
     }
-
 </table>

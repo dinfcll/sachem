@@ -1,8 +1,9 @@
-﻿@model IEnumerable<sachem.Models.Inscription>
+﻿@using sachem.Models
+@model IEnumerable<Inscription>
 
     <hr />
     <div>
-        <h4>Demande d'inscription</h4>
+        <h4>@Messages.DossierEtudiantDemandeInscription</h4>
         <table class="table">
             <tr>
                 <th class="col-sm-2">
@@ -31,18 +32,18 @@
                         @Html.DisplayFor(modelItem => item.p_StatutInscription.Statut)
                     </td>
                     <td>
-                        @Html.ActionLink("Consulter", null, null, null)
+                        @Html.ActionLink(Messages.Consulter, null, null, null)
 
-                        @if (sachem.Models.SachemIdentite.ObtenirTypeUsager(Session) == sachem.Models.TypeUsagers.Eleve || sachem.Models.SachemIdentite.ObtenirTypeUsager(Session) == sachem.Models.TypeUsagers.Tuteur)
+                        @if (SachemIdentite.ObtenirTypeUsager(Session) == TypeUsagers.Eleve || SachemIdentite.ObtenirTypeUsager(Session) == TypeUsagers.Tuteur)
                         {
 
-                            <span> | </span>@Html.ActionLink("Modifier", null, null, null)
+                            <span> | </span>@Html.ActionLink(Messages.Modifier, null, null, null)
 
                         }
-                        @if (sachem.Models.SachemIdentite.ObtenirTypeUsager(Session) == sachem.Models.TypeUsagers.Eleve || ViewBag.idTypeInsc == 1)
+                        @if (SachemIdentite.ObtenirTypeUsager(Session) == TypeUsagers.Eleve || ViewBag.idTypeInsc == 1)
                         {
 
-                            <span> | </span>@Html.ActionLink("Modifier informations personnelles", null, null, null)
+                            <span> | </span>@Html.ActionLink(Messages.ModifierInfosPerso, null, null, null)
 
                         }
                     </td>
@@ -51,7 +52,7 @@
             @if (!Model.Any())
             {
                 <tr>
-                    <td colspan="6">@sachem.Models.Messages.AucunDemandeInscriptionSansRecherche</td>
+                    <td colspan="6">@Messages.AucunDemandeInscriptionSansRecherche</td>
                 </tr>
             }
         </table>

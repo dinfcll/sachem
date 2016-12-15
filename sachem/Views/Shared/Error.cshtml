@@ -1,19 +1,20 @@
-﻿@{
-    ViewBag.Title = "Page indisponible";
+﻿@using sachem.Models
+@{
+    ViewBag.Title = Messages.PageIndisponible;
 }
 <br />
 <h2><img src="~/Images/Alert.jpg" height="25" style="vertical-align:initial" /> @ViewBag.Title</h2>
 <br />
 <ul style="list-style:none">
     <li>
-        <h4>@sachem.Models.Messages.ErreurCausesPossibles</h4>
+        <h4>@Messages.ErreurCausesPossibles</h4>
     </li>
     <li>
         <ul>
-            <li>@sachem.Models.Messages.Erreur404Cause1</li>
-            <li>@sachem.Models.Messages.Erreur404Cause2</li>
-            <li>@sachem.Models.Messages.Erreur404Cause3</li>
-            <li>@sachem.Models.Messages.ErreurOptionSupplementaire</li>
+            <li>@Messages.Erreur404Cause1</li>
+            <li>@Messages.Erreur404Cause2</li>
+            <li>@Messages.Erreur404Cause3</li>
+            <li>@Messages.ErreurOptionSupplementaire</li>
         </ul>
     </li>
 </ul>

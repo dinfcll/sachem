@@ -1,19 +1,20 @@
-﻿@Styles.Render("~/Content/dropzonescss")
+﻿@using sachem.Models
+@Styles.Render("~/Content/dropzonescss")
 @Scripts.Render("~/bundles/dropzonescripts")
 
 @{
-    ViewBag.Title = "Importation de données";
+    ViewBag.Title = Messages.ImporterTitre;
 }
 
 <h2>@ViewBag.Title</h2>
-<h5>@sachem.Models.Messages.ImporterDirectivesDropZone(ViewBag.FILEEXTENSION)</h5>
+<h5>@Messages.ImporterDirectivesDropZone(ViewBag.FILEEXTENSION)</h5>
 
 <div class="jumbotron">
     @using (Html.BeginForm("SaveUploadedFile", "Importer", FormMethod.Post, new { @class = "dropzone", id = "dropzoneForm", enctype = "multipart/form-data"}))
     {
         <div class="dz-message">
-            @sachem.Models.Messages.ImporterDirectivesDropZoneFichier()<br/>
-            <h5>@sachem.Models.Messages.ImporterTempsDeTraitementsEnMinutes()</h5>
+            @Messages.ImporterDirectivesDropZoneFichier<br/>
+            <h5>@Messages.ImporterTempsDeTraitementsEnMinutes</h5>
         </div>
         <div class="fallback">
             <input name="file" type="file" multiple/>
@@ -26,33 +27,33 @@
     Dropzone.options.dropzoneForm = {
         maxFilesize: '@(ViewBag.MAXFILESIZE)',
         acceptedFiles: '@(ViewBag.FILEEXTENSION)',
-        dictDefaultMessage: '@sachem.Models.Messages.ImporterDirectivesDropZoneFichier()',
-        dictFallbackMessage: '@sachem.Models.Messages.ImporterNavigateurNeSupportePasDropZone()',
-        dictFallbackText: '@sachem.Models.Messages.ImporterDirectivesDropZone(ViewBag.FILEEXTENSION)',
-        dictFileTooBig: '@sachem.Models.Messages.ImporterFichierTropEnorme("{{filesize}}", "{{maxFilesize}}")',
-        dictInvalidFileType: '@sachem.Models.Messages.ImporterFichierCsvSeulement(ViewBag.FILEEXTENSION)',
-        dictResponseError: '@sachem.Models.Messages.ImporterCodeErreurServeur("{{statusCode}}")',
-        dictCancelUpload: '@sachem.Models.Messages.ImporterAnnulerTeleversement()',
-        dictCancelUploadConfirmation: '@sachem.Models.Messages.ImporterAnnulerTeleversementConfirmation()',
-        dictRemoveFile: '@sachem.Models.Messages.ImporterEffacerFichier()',
-        dictMaxFilesExceeded: '@sachem.Models.Messages.ImporterMaxAtteint()',
+        dictDefaultMessage: '@Messages.ImporterDirectivesDropZoneFichier',
+        dictFallbackMessage: '@Messages.ImporterNavigateurNeSupportePasDropZone',
+        dictFallbackText: '@Messages.ImporterDirectivesDropZone(ViewBag.FILEEXTENSION)',
+        dictFileTooBig: '@Messages.ImporterFichierTropEnorme("{{filesize}}", "{{maxFilesize}}")',
+        dictInvalidFileType: '@Messages.ImporterFichierCsvSeulement(ViewBag.FILEEXTENSION)',
+        dictResponseError: '@Messages.ImporterCodeErreurServeur("{{statusCode}}")',
+        dictCancelUpload: '@Messages.ImporterAnnulerTeleversement',
+        dictCancelUploadConfirmation: '@Messages.ImporterAnnulerTeleversementConfirmation()',
+        dictRemoveFile: '@Messages.ImporterEffacerFichier',
+        dictMaxFilesExceeded: '@Messages.ImporterMaxAtteint',
         maxFiles: '@(ViewBag.MAXFILES)',
 
         init: function () {
-                this.on('error', function (file, response) {
-                    var errorMessage = response.errorMessage;
+            this.on('error', function (file, response) {
+                var errorMessage = response.errorMessage;
                 $(file.previewElement).find('.dz-error-message').text(errorMessage);
-                });
+            });
 
-                this.on('error', function (file, response) {
-                    var errorMessage = response.errorMessage;
+            this.on('error', function (file, response) {
+                var errorMessage = response.errorMessage;
                 $(file.previewElement).find('.dz-error-message').text(errorMessage);
-                });
+            });
 
-                this.on('success', function (file, response) {
-                    var successMessage = response.successMessage;
+            this.on('success', function (file, response) {
+                var successMessage = response.successMessage;
                 $(file.previewElement).find('.dz-success-message').text(successMessage);
-                });
-            }
-        };
+            });
+        }
+    };
 </script>

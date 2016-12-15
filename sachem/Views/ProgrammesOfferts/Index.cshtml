@@ -1,7 +1,8 @@
-﻿@model PagedList.IPagedList < sachem.Models.ProgrammeEtude > 
+﻿@using sachem.Models
+@model PagedList.IPagedList <ProgrammeEtude> 
 
 @{
-    ViewBag.Title = "Programme d'études";
+    ViewBag.Title = Messages.ProgrammeEtude;
 }
 
 <h2>@ViewBag.Title</h2>
@@ -15,14 +16,14 @@
     {
         <table class="table-condensed">
             <tr>
-                <td>Code ou nom de programme</td>
+                <td>@Messages.ProgrammeCodeOuNom</td>
                 <td>@Html.Editor("Recherche", new { htmlAttributes = new { @class = "form-control" } })</td>
-                <td><input type="submit" value="Rechercher" class="form-search" /></td>
+                <td><input type="submit" value="@Messages.Rechercher" class="form-search" /></td>
             </tr>
         </table>
     }
 
-<div style="margin-top:5px;margin-bottom:10px;">@Html.ActionLink("Ajouter un programme d'études", "Create", null, null, new { @class = "btn btn-default" })</div>
+<div style="margin-top:5px;margin-bottom:10px;">@Html.ActionLink(Messages.ProgrammesAjouterTitre, "Create", null, null, new { @class = "btn btn-default" })</div>
     
 <table class="table">
     <tr>
@@ -57,8 +58,8 @@
                 @Html.DisplayFor(modelItem => item.Actif)
             </td>
             <td>
-                @Html.ActionLink("Modifier", "Edit", new { id = item.id_ProgEtu }) |
-                @Html.ActionLink("Supprimer", "Delete", new { id = item.id_ProgEtu })
+                @Html.ActionLink(Messages.Modifier, "Edit", new { id = item.id_ProgEtu }) |
+                @Html.ActionLink(Messages.Supprimer, "Delete", new { id = item.id_ProgEtu })
             </td>
         </tr>
     }
@@ -66,7 +67,7 @@
     @if (!Model.Any())
     {
         <tr>
-            <td colspan="6">@sachem.Models.Messages.AucunProgramme</td>
+            <td colspan="6">@Messages.AucunProgramme</td>
         </tr>
     }
 </table>
