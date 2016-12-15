@@ -167,13 +167,8 @@
                     <h4 class="modal-title">@Messages.JumelageAjouterJumelage</h4>
                 </div>
                 <div class="modal-body">
-                    <p>
-                        @Messages.JumelageAjouterQuestion<br /><b><span id="modalAjoutVu"></span></b> (<span id="modalAjoutTypeEleveVu"></span>) et
-                        <b><span id="modalAjoutJumeleA"></span></b> (<span id="modalAjoutTypeEleveJumeleA"></span>)
-                    </p>
-                    <p>@Messages.JumelageAjouterQuestionPlageHoraire<br /><b><span id="modalPlageHoraire"></span></b></p>
-                    <p>@Messages.JumelageAjouterQuestionEnseignant</p>
-                        @Html.DropDownList("Superviseur", null, "Choisir l'enseignant",new { @class = "form-search", id="modalAjoutEnseignant"})
+                    @Messages.JumelageAjouterQuestion()
+                    @Html.DropDownList("Superviseur", null, "Choisir l'enseignant",new { @class = "form-search", id="modalAjoutEnseignant"})
                     <br/><br /><p id="modalAjoutEnseignantError" class="text-danger hide">@Messages.JumelageAjouterErreurSelectionnerEnseignant</p>
                     <span id="modalConditionConsecutif" class="hide">
                         @Messages.JumelageAjouterQuestionConsecutif<br/>
@@ -181,8 +176,7 @@
                             <option id="nonConsecutif" value="0">@Messages.Non</option>
                             <option id="ouiConsecutif" value="1">@Messages.Oui</option>
                         </select>
-                    </span>    
-                            
+                    </span>
                 </div>
                 <div class="modal-footer">
                     <button id="btnAjout" type="button" class="btn btn-primary">@Messages.Ajouter</button>

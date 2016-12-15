@@ -267,7 +267,28 @@ namespace sachem.Models
         {
             return
                 MvcHtmlString.Create(
-                    $"Êtes-vous certain de mettre fin au jumelage entre: <br/><b><span id='modalRetirerVu'></span></b> et <b><span id='modalRetirerJumeleA'></span></b>?");
+                    $"Êtes-vous certain de mettre fin au jumelage entre: " +
+                    $"<br/><b><span id='modalRetirerVu'></span></b>" +
+                    $" et " +
+                    $"<b><span id='modalRetirerJumeleA'></span></b>" +
+                    $"?");
+        }
+
+        public static MvcHtmlString JumelageAjouterQuestion()
+        {
+            return
+                MvcHtmlString.Create(
+                    $"<p>" +
+                    $"Êtes-vous certain de créer un jumelage entre: " +
+                    $"<br /><b><span id='modalAjoutVu'></span></b> (<span id='modalAjoutTypeEleveVu'></span>)" +
+                    $" et " +
+                    $"<b><span id ='modalAjoutJumeleA'></span></b> (<span id='modalAjoutTypeEleveJumeleA'></span>)" +
+                    $"?" +
+                    $"</p><p>" +
+                    $"Pour la plage horaire de:" +
+                    $"<br /><b><span id='modalPlageHoraire'></span></b></p><p>" +
+                    $"Avec comme superviseur enseignant:" +
+                    $"</p>");
         }
 
         public const string Jumele = "Jumelé";
@@ -286,11 +307,9 @@ namespace sachem.Models
 
         public const string JumelageAjouterJumelage = "Ajouter un jumelage";
 
-        public const string JumelageAjouterQuestion = "Êtes-vous certain de créer un jumelage entre ";
+        public const string JumelageAjouterQuestionPlageHoraire = "";
 
-        public const string JumelageAjouterQuestionPlageHoraire = "Pour la plage horaire de:";
-
-        public const string JumelageAjouterQuestionEnseignant = "Avec comme superviseur enseignant:";
+        public const string JumelageAjouterQuestionEnseignant = "";
 
         public const string JumelageAjouterQuestionConsecutif = "Désirez-vous étendre la durée de cette rencontre sur 3h pour créer un jumelage avec deux rencontres consécutives ?";
 
