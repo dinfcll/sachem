@@ -147,7 +147,7 @@ namespace sachemTests
             throw new NotImplementedException();
         }
 
-        public IEnumerable<Personne> AllEnseignantResponsable(bool actif, int idResp, int idEns)
+        public IEnumerable<Personne> AllEnseignantResponsable(bool actif)
         {
             throw new NotImplementedException();
         }
@@ -185,7 +185,7 @@ namespace sachemTests
             _listeEnseignant[index] = enseignant;
         }
 
-        public SelectList ListeTypeUsager(int idResp, int idEns)
+        public SelectList ListeTypeUsager(int idTypeUsager)
         {
             throw new NotImplementedException();
         }

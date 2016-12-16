@@ -6,12 +6,24 @@ using PagedList;
 using System.Data.Entity;
 using System.Collections.Generic;
 using sachem.Methodes_Communes;
+using sachem.Models.DataAccess;
 
 namespace sachem.Controllers
 {
     public class EtudiantController : RechercheEtudiantController
     {
         public const string AnneePremiersCaracteres = "20";
+        private readonly IDataRepository _dataRepository;
+
+        public EtudiantController()
+        {
+            _dataRepository = new BdRepository();
+        }
+
+        public EtudiantController(IDataRepository dataRepository)
+        {
+            _dataRepository = dataRepository;
+        }
 
         [ValidationAcces.ValidationAccesEnseignant]
         public ActionResult Index(int? page)
@@ -35,7 +47,7 @@ namespace sachem.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [ValidationAcces.ValidationAccesEnseignant]
-        public ActionResult Create([Bind(Include = "id_Pers,id_Sexe,id_TypeUsag,Nom,Prenom,Matricule,MP,ConfirmPassword,Courriel,Telephone,DateNais")] Personne personne,int? page)
+        public ActionResult Create([Bind(Include = "id_Pers,id_Sexe,id_TypeUsag,Nom,Prenom,Matricule,MP,ConfirmPassword,Courriel,Telephone,DateNais")] Personne personne)//,int? page
         {
             var etuProg = new PersonneEtuProgParent();
 
@@ -357,6 +369,15 @@ namespace sachem.Controllers
             ModelState.AddModelError("ConfirmPassword", Messages.MotsDePasseDoiventEtreIdentiques);
             TempData["Echec"] = Messages.MotsDePasseDoiventEtreIdentiques;
             return false;
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                _dataRepository.Dispose();
+            }
+            base.Dispose(disposing);
         }
     }
 }

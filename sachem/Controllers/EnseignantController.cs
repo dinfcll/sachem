@@ -11,8 +11,6 @@ namespace sachem.Controllers
     public class EnseignantController : Controller
     {
         private readonly IDataRepository _dataRepository;
-        private const int IdEnseignant = 2;
-        private const int IdResp = 3;
 
         public EnseignantController()
         {
@@ -43,7 +41,7 @@ namespace sachem.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "id_Pers,id_Sexe,id_TypeUsag,Nom,Prenom,NomUsager,MP,ConfirmPassword,Courriel,DateNais,Actif")] Personne personne)
+        public ActionResult Create(Personne personne)
         {
             Valider(personne);
             
@@ -91,7 +89,7 @@ namespace sachem.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "id_Pers, Nom, Prenom, NomUsager, MP, ConfirmPassword, Courriel, DateNais, id_TypeUsag, id_Sexe, Actif")] Personne personne)
+        public ActionResult Edit(Personne personne)
         {
             Valider(personne);
             if (personne.MP != null && personne.ConfirmPassword != null)
@@ -102,9 +100,8 @@ namespace sachem.Controllers
             {
                 var mdp = _dataRepository.FindMdp(personne.id_Pers);
                 personne.MP = mdp;
-
             }
-            RemplirDropList(personne);
+            
             if (ModelState.IsValid)
             {
                 _dataRepository.DeclareModifiedEns(personne);
@@ -113,8 +110,9 @@ namespace sachem.Controllers
 
                 return RedirectToAction("Index");
             }
-            personne.MP = null;
-            personne.ConfirmPassword = null;
+            RemplirDropList(personne);
+            personne.MP = "";
+            personne.ConfirmPassword = "";
 
             return View(personne);
         }
@@ -192,7 +190,7 @@ namespace sachem.Controllers
             ViewBag.Actif = actif;
             ViewBag.Enseignant = _dataRepository.ListeEnseignant();
 
-            return _dataRepository.AllEnseignantResponsable(actif, IdResp, IdEnseignant);
+            return _dataRepository.AllEnseignantResponsable(actif);
         }
 
         private void Valider(Personne personne)
@@ -210,13 +208,13 @@ namespace sachem.Controllers
         private void RemplirDropList()
         {
             ViewBag.id_Sexe = _dataRepository.ListeSexe();
-            ViewBag.id_TypeUsag = _dataRepository.ListeTypeUsager(IdResp,IdEnseignant);
+            ViewBag.id_TypeUsag = _dataRepository.ListeTypeUsager();
         }
 
         private void RemplirDropList(Personne personne)
         {
             ViewBag.id_Sexe = _dataRepository.ListeSexe(personne.id_Sexe);
-            ViewBag.id_TypeUsag = _dataRepository.ListeTypeUsager(IdResp, IdEnseignant);
+            ViewBag.id_TypeUsag = _dataRepository.ListeTypeUsager(personne.id_TypeUsag);
         }
     }
 }

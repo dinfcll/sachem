@@ -101,7 +101,8 @@ namespace sachem.Controllers
                 var personneCookie = new Personne();
                 var cookieMaintenirConnexion = Request.Cookies.Get("SACHEMConnexion");
                 personneCookie.NomUsager = cookieMaintenirConnexion?["NomUsager"];
-                personneCookie.MP = Crypto.Decrypt(cookieMaintenirConnexion?["MP"], "asdjh213498yashj2134987ash");
+                personneCookie.MP = Crypto.Decrypt(cookieMaintenirConnexion?["MP"], 
+                    System.Configuration.ConfigurationManager.AppSettings.Get("CryptoKey"));
                 personneCookie.SouvenirConnexion = true;
 
                 return View(personneCookie);

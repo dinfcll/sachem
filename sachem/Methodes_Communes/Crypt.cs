@@ -47,6 +47,7 @@ namespace sachem.Methodes_Communes
             var memoryStream = new MemoryStream(cipherTextBytes);
             var cryptoStream = new CryptoStream(memoryStream, decryptor, CryptoStreamMode.Read);
             var plainTextBytes = new byte[cipherTextBytes.Length];
+            cryptoStream.Read(plainTextBytes, 0, plainTextBytes.Length);
             memoryStream.Close();
             cryptoStream.Close();
 

@@ -42,9 +42,11 @@ namespace sachemTests
             var ensController = new EnseignantController(testRepository);
             ensController.Create(_enseignant);
             _enseignant.Nom = "patate";
+            _enseignant.NomUsager = "patatet";
             ensController.Edit(_enseignant);
             var rechercheEnseignant = testRepository.FindEnseignant(_enseignant.id_Pers);
             Assert.AreEqual("patate", rechercheEnseignant.Nom);
+            Assert.AreEqual("patatet", rechercheEnseignant.NomUsager);
         }
     }
 }

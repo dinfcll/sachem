@@ -61,7 +61,7 @@ namespace sachem.Models.DataAccess
 
         IEnumerable<Personne> AllEnseignantOrdered();
 
-        IEnumerable<Personne> AllEnseignantResponsable(bool Actif, int id_resp, int id_ens);
+        IEnumerable<Personne> AllEnseignantResponsable(bool actif);
 
         void AddEnseignant(Personne enseignant);
 
@@ -71,7 +71,7 @@ namespace sachem.Models.DataAccess
 
         void RemoveEnseignant(int id);
 
-        SelectList ListeTypeUsager(int idResp, int idEns);
+        SelectList ListeTypeUsager(int idTypeUsager=0);
 
         SelectList ListeSexe(int? sexe = 0);
 

@@ -13,6 +13,8 @@ namespace sachem.Models.DataAccess
     {
         private readonly SACHEMEntities _db = new SACHEMEntities();
         private const int Brouillon = 2;
+        private const int IdTypeUsagerResp = 3;
+        private const int IdTypeUsagerEnseignant = 2;
 
         public IEnumerable GetSessions()
         {
@@ -185,10 +187,10 @@ namespace sachem.Models.DataAccess
             return _db.Personne.Where(c => c.id_TypeUsag == 2);
         }
 
-        public IEnumerable<Personne> AllEnseignantResponsable(bool actif, int idResp, int idEns)
+        public IEnumerable<Personne> AllEnseignantResponsable(bool actif)
         {
             var enseignant = from c in _db.Personne
-                where (c.id_TypeUsag == idEns || c.id_TypeUsag == idResp)
+                where (c.id_TypeUsag == IdTypeUsagerEnseignant || c.id_TypeUsag == IdTypeUsagerResp)
                       && c.Actif == actif
                 orderby c.Nom, c.Prenom
                 select c;
@@ -229,10 +231,12 @@ namespace sachem.Models.DataAccess
             return mdp;
         }
 
-        public SelectList ListeTypeUsager(int idResp, int idEns)
+        public SelectList ListeTypeUsager(int idTypeUsager = 0)
         {
-            return new SelectList(_db.p_TypeUsag.Where(x => x.id_TypeUsag == idEns || x.id_TypeUsag == idResp),
-                "id_TypeUsag", "TypeUsag");
+            var req = _db.p_TypeUsag.Where(x => x.id_TypeUsag == IdTypeUsagerEnseignant || 
+            x.id_TypeUsag == IdTypeUsagerResp);
+            return new SelectList(req, "id_TypeUsag", "TypeUsag", 
+                req.Select(x=>x.id_TypeUsag== idTypeUsager));
         }
 
         public SelectList ListeSexe(int? sexe = 0)
