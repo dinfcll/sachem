@@ -235,8 +235,9 @@ namespace sachem.Models.DataAccess
                 "id_TypeUsag", "TypeUsag");
         }
 
-        public SelectList ListeSexe(int sexe = 0)
+        public SelectList ListeSexe(int? sexe = 0)
         {
+            if (sexe == null) sexe = 0;
             return new SelectList(_db.p_Sexe, "id_Sexe", "Sexe", sexe);
         }
 

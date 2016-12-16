@@ -8,7 +8,6 @@ using System.Text;
 using System.Web;
 using System.Web.Mvc;
 using sachem.Models;
-using sachem.Models.DataAccess;
 
 namespace sachem.Methodes_Communes
 {

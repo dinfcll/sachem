@@ -164,12 +164,6 @@ namespace sachemTests
             throw new NotImplementedException();
         }
 
-        public void DeclareModified(Personne enseignant)
-        {
-            var index = _listeEnseignant.FindIndex(a => a.id_Pers == enseignant.id_Pers);
-            _listeEnseignant[index] = enseignant;
-        }
-
         public Personne FindEnseignant(int id)
         {
             return _listeEnseignant.Find(x => x.id_Pers == id);
@@ -196,7 +190,7 @@ namespace sachemTests
             throw new NotImplementedException();
         }
 
-        public SelectList ListeSexe(int sexe = 0)
+        public SelectList ListeSexe(int? sexe = 0)
         {
             throw new NotImplementedException();
         }

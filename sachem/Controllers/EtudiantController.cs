@@ -88,7 +88,6 @@ namespace sachem.Controllers
         [ValidationAcces.ValidationAccesEnseignant]
         public ActionResult Edit(int? id)
         {
-            var sexe = 0;
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -109,11 +108,7 @@ namespace sachem.Controllers
                        orderby d.ProgrammeEtude.Code
                        select d;
 
-            if (personne.id_Sexe != null)
-            {
-                sexe = personne.id_Sexe.Value;
-            }
-            ViewBag.id_Sexe = DataRepository.ListeSexe(sexe);
+            ViewBag.id_Sexe = DataRepository.ListeSexe(personne.id_Sexe);
             ViewBag.id_TypeUsag = new SelectList(Db.p_TypeUsag, "id_TypeUsag", "TypeUsag", personne.id_TypeUsag);
             ViewBag.id_Programme = new SelectList(Db.ProgrammeEtude.Where(x=> x.Actif), "id_ProgEtu", "CodeNomProgramme");
             ViewBag.id_Session = DataRepository.ListeSession();
@@ -177,7 +172,6 @@ namespace sachem.Controllers
         [ValidationAcces.ValidationAccesEnseignant]
         public ActionResult Edit([Bind(Include = "id_Pers,id_Sexe,id_TypeUsag,Nom,Prenom,NomUsager,Matricule7,MP,ConfirmPassword,Courriel,Telephone,DateNais,Actif")] Personne personne)
         {
-            var sexe = 0;
             var etuProg = new PersonneEtuProgParent();
             personne.id_TypeUsag = 1;
             personne.Telephone = SachemIdentite.FormatTelephone(personne.Telephone);
@@ -224,11 +218,6 @@ namespace sachem.Controllers
                 }
             }
 
-            if (etuProg.personne.id_Sexe != null)
-            {
-                sexe = etuProg.personne.id_Sexe.Value;
-            }
-
             if (ModelState.IsValid)
             {
                 Db.Entry(etuProg.personne).State = EntityState.Modified;
@@ -237,7 +226,7 @@ namespace sachem.Controllers
                 return RedirectToAction("Index");
             }
 
-            ViewBag.id_Sexe = DataRepository.ListeSexe(sexe);
+            ViewBag.id_Sexe = DataRepository.ListeSexe(personne.id_Sexe);
             ViewBag.id_TypeUsag = new SelectList(Db.p_TypeUsag, "id_TypeUsag", "TypeUsag", etuProg.personne.id_TypeUsag);
             ViewBag.id_Programme = new SelectList(Db.ProgrammeEtude.Where(x => x.Actif), "id_ProgEtu", "CodeNomProgramme");
             ViewBag.id_Session = DataRepository.ListeSession();

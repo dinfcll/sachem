@@ -91,10 +91,9 @@ namespace sachem.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "id_Pers, id_Sexe, id_TypeUsag, Nom, Prenom, NomUsager, MP, ConfirmPassword, Courriel, DateNais, Actif")] Personne personne)
+        public ActionResult Edit([Bind(Include = "id_Pers, Nom, Prenom, NomUsager, MP, ConfirmPassword, Courriel, DateNais, id_TypeUsag, id_Sexe, Actif")] Personne personne)
         {
             Valider(personne);
-
             if (personne.MP != null && personne.ConfirmPassword != null)
             {
                 SachemIdentite.EncrypterMpPersonne(ref personne);
@@ -210,13 +209,13 @@ namespace sachem.Controllers
 
         private void RemplirDropList()
         {
-            ViewBag.liste_sexe = _dataRepository.ListeSexe();
+            ViewBag.id_Sexe = _dataRepository.ListeSexe();
             ViewBag.id_TypeUsag = _dataRepository.ListeTypeUsager(IdResp,IdEnseignant);
         }
 
         private void RemplirDropList(Personne personne)
         {
-            if (personne.id_Sexe != null) ViewBag.liste_sexe = _dataRepository.ListeSexe(personne.id_Sexe.Value);
+            ViewBag.id_Sexe = _dataRepository.ListeSexe(personne.id_Sexe);
             ViewBag.id_TypeUsag = _dataRepository.ListeTypeUsager(IdResp, IdEnseignant);
         }
     }

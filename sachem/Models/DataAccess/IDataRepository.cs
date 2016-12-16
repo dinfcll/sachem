@@ -73,7 +73,7 @@ namespace sachem.Models.DataAccess
 
         SelectList ListeTypeUsager(int idResp, int idEns);
 
-        SelectList ListeSexe(int sexe = 0);
+        SelectList ListeSexe(int? sexe = 0);
 
         SelectList ListeSession(int session = 0);
 
