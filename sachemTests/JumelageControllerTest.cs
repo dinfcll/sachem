@@ -44,11 +44,14 @@ namespace sachemTests
         public void ShowNullInscription()
         {
             var jumelageController = new JumelageController();
-
+            var test = new TestRepository();
+            
             var result = jumelageController.Details(null);
+            var jumelage = test.FindJumelage(-1);
 
             Assert.AreEqual(typeof(HttpStatusCodeResult), result.GetType());
             Assert.AreEqual((int)HttpStatusCode.BadRequest, ((HttpStatusCodeResult)result).StatusCode);
+            Assert.IsNull(jumelage);
         }
 
 

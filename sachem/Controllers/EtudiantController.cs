@@ -3,7 +3,6 @@ using System.Net;
 using System.Web.Mvc;
 using sachem.Models;
 using PagedList;
-using System.Data.Entity;
 using System.Collections.Generic;
 using sachem.Methodes_Communes;
 using sachem.Models.DataAccess;
@@ -47,7 +46,7 @@ namespace sachem.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [ValidationAcces.ValidationAccesEnseignant]
-        public ActionResult Create(Personne personne)//,int? page
+        public ActionResult Create(Personne personne)//int? page
         {
             var etuProg = new PersonneEtuProgParent();
 

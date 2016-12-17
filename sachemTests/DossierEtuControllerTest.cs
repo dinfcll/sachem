@@ -12,11 +12,14 @@ namespace sachemTests
         public void DetailsAvecIdNull_DoitRetournerUn_HttpBadRequest()
         {
             var dossierEtuController = new DossierEtudiantController();
+            var test = new TestRepository();
 
             var result = dossierEtuController.Details(null);
+            var etudiant = test.FindPersonne(-1);
 
             Assert.AreEqual(typeof(HttpStatusCodeResult), result.GetType());
             Assert.AreEqual((int)HttpStatusCode.BadRequest, ((HttpStatusCodeResult)result).StatusCode);
+            Assert.IsNull(etudiant);
         }
 
         [TestMethod]

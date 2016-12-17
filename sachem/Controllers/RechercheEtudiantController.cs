@@ -96,7 +96,7 @@ namespace sachem.Controllers
                         cours = Convert.ToInt32(Request.Form["SelectCours"]);
                         ViewBag.Cours = cours;
                     }
-                    else if (!String.IsNullOrEmpty(Request.Params["Cours"]))
+                    else if (!string.IsNullOrEmpty(Request.Params["Cours"]))
                     {
                         cours = Convert.ToInt32(Request.Params["Cours"]);
                         ViewBag.Cours = cours;

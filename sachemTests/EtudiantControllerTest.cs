@@ -31,7 +31,11 @@ namespace sachemTests
         public void TestControllerSupprimerEtudiantNull()
         {
             var etudiant = new EtudiantController();
+            var test = new TestRepository();
+
             var resultat = etudiant.Delete(null);
+            test.RemovePersonne(null);
+
             Assert.AreEqual(typeof(HttpStatusCodeResult), resultat.GetType());
             Assert.AreEqual((int)HttpStatusCode.BadRequest, ((HttpStatusCodeResult)resultat).StatusCode);
         }

@@ -1037,15 +1037,13 @@ namespace sachem.Models.DataAccess
         #region Liste
         public SelectList ListeTypeUsager(int idTypeUsager = 0)
         {
-            var req = _db.p_TypeUsag.Where(x => x.id_TypeUsag == IdTypeUsagerEnseignant || 
-            x.id_TypeUsag == IdTypeUsagerResp);
-            return new SelectList(req, "id_TypeUsag", "TypeUsag", 
-                req.Select(x=>x.id_TypeUsag== idTypeUsager));
+            return new SelectList(AllTypeUsag(), "id_TypeUsag", "TypeUsag", 
+                idTypeUsager);
         }
         public SelectList ListeSexe(int? sexe = 0)
         {
             if (sexe == null) sexe = 0;
-            return new SelectList(_db.p_Sexe, "id_Sexe", "Sexe", sexe);
+            return new SelectList(AllSexe(), "id_Sexe", "Sexe", sexe);
         }
         public SelectList ListeSession(int session = 0)
         {

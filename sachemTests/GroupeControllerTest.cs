@@ -2,6 +2,7 @@
 using System.Web.Mvc;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using sachem.Controllers;
+using sachem.Models;
 
 namespace sachemTests
 {
@@ -22,7 +23,11 @@ namespace sachemTests
         public void DeleteGroupeNull()
         {
             var controller = new GroupesController();
+            var test = new TestRepository();
+
             var result = controller.Delete(null);
+            test.RemoveGroupe(null);
+
             Assert.AreEqual((int)HttpStatusCode.BadRequest, ((HttpStatusCodeResult)result).StatusCode);
         }
     }
