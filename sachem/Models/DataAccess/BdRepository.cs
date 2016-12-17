@@ -846,7 +846,6 @@ namespace sachem.Models.DataAccess
         {
             return new SelectList(AllSession(), "id_Sess", "NomSession", session);
         }
-        
         public SelectList ListeCours(int cours = 0)
         {
             return new SelectList(AllCours(), "id_Cours", "CodeNom", cours);

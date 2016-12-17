@@ -759,7 +759,7 @@ namespace sachemTests
         //Fin Remove
 
         //Debut Liste
-        public SelectList ListeTypeUsager(int idTypeUsager)
+        public SelectList ListeTypeUsager(int idTypeUsager = 0)
         {
             throw new NotImplementedException();
         }
@@ -768,10 +768,6 @@ namespace sachemTests
             throw new NotImplementedException();
         }
         public SelectList ListeSession(int session = 0)
-        {
-            throw new NotImplementedException();
-        }
-        public SelectList ListeEnseignantEtREsponsable(int idSession, int idPers)
         {
             throw new NotImplementedException();
         }
@@ -791,11 +787,15 @@ namespace sachemTests
         {
             throw new NotImplementedException();
         }
-        public SelectList ListeEnseignant(int enseignant = 0)
+        public SelectList ListeEtudiants(int id = 0)
         {
             throw new NotImplementedException();
         }
-        public SelectList ListeSuperviseur(int superviseur = 0)
+        public SelectList ListeEnseignant(int id = 0)
+        {
+            throw new NotImplementedException();
+        }
+        public SelectList ListeEnseignantEtResponsable(int id = 0)
         {
             throw new NotImplementedException();
         }
@@ -811,23 +811,15 @@ namespace sachemTests
         {
             throw new NotImplementedException();
         }
-        public List<string> ListeJours()
-        {
-            throw new NotImplementedException();
-        }
-        public IEnumerable<Cours> ListeCoursSelonSession(int session)
-        {
-            throw new NotImplementedException();
-        }
-        public IEnumerable<Groupe> ListeGroupeSelonSessionEtCours(int cours, int session)
-        {
-            throw new NotImplementedException();
-        }
         public SelectList ListeStatutCours()
         {
             throw new NotImplementedException();
         }
         public SelectList ListeTypesCourriels(int typeCourriel = 0)
+        {
+            throw new NotImplementedException();
+        }
+        public List<string> ListeJours()
         {
             throw new NotImplementedException();
         }

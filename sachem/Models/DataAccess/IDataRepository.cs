@@ -213,16 +213,16 @@ namespace sachem.Models.DataAccess
         //Fin Remove
 
         //Debut Liste
-        SelectList ListeTypeUsager(int idTypeUsager=0);
+        SelectList ListeTypeUsager(int idTypeUsager = 0);
         SelectList ListeSexe(int? sexe = 0);
         SelectList ListeSession(int session = 0);
-        SelectList ListeEnseignantEtREsponsable(int idSession, int idPers);
         SelectList ListeCours(int cours = 0);
         SelectList ListeCollege(int college = 0);
         SelectList ListeStatutCours(int statut = 0);
         SelectList ListeProgrammmeCode(bool actif = true);
-        SelectList ListeEnseignant(int enseignant = 0);
-        SelectList ListeSuperviseur(int superviseur = 0);
+        SelectList ListeEtudiants(int id = 0);
+        SelectList ListeEnseignant(int id = 0);
+        SelectList ListeEnseignantEtResponsable(int id = 0);
         SelectList ListeTypeInscription(int typeInscription = 0);
         SelectList ListeInscription(int inscription = 0);
         SelectList ListeStatutInscriptionSansBrouillon(int statut = 0);
