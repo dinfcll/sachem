@@ -37,8 +37,8 @@ namespace sachem.Controllers
         public ActionResult Create()
         {
             ViewBag.id_Sexe = DataRepository.ListeSexe();
-            ViewBag.id_TypeUsag = new SelectList(Db.p_TypeUsag, "id_TypeUsag", "TypeUsag");
-            ViewBag.id_Programme = new SelectList(Db.ProgrammeEtude.Where(x => x.Actif), "id_ProgEtu", "CodeNomProgramme");
+            ViewBag.id_TypeUsag = DataRepository.ListeTypeUsager();
+            ViewBag.id_Programme = DataRepository.ListeProgrammmeCode();
             ViewBag.id_Session = DataRepository.ListeSession();
             
             return View();
@@ -47,7 +47,7 @@ namespace sachem.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [ValidationAcces.ValidationAccesEnseignant]
-        public ActionResult Create([Bind(Include = "id_Pers,id_Sexe,id_TypeUsag,Nom,Prenom,Matricule,MP,ConfirmPassword,Courriel,Telephone,DateNais")] Personne personne)//,int? page
+        public ActionResult Create(Personne personne)//,int? page
         {
             var etuProg = new PersonneEtuProgParent();
 
@@ -58,8 +58,8 @@ namespace sachem.Controllers
             etuProg.personne = personne;
 
             ViewBag.id_Sexe = DataRepository.ListeSexe();
-            ViewBag.id_TypeUsag = new SelectList(Db.p_TypeUsag, "id_TypeUsag", "TypeUsag");
-            ViewBag.id_Programme = new SelectList(Db.ProgrammeEtude.Where(x => x.Actif), "id_ProgEtu", "CodeNomProgramme");
+            ViewBag.id_TypeUsag = DataRepository.ListeTypeUsager();
+            ViewBag.id_Programme = DataRepository.ListeProgrammmeCode();
             ViewBag.id_Session = DataRepository.ListeSession();
 
             Valider(etuProg.personne);
@@ -104,7 +104,7 @@ namespace sachem.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            var personne = Db.Personne.Find(id);
+            var personne = _dataRepository.FindPersonne(id.Value);
             if (personne == null)
             {
                 return HttpNotFound();
@@ -121,8 +121,8 @@ namespace sachem.Controllers
                        select d;
 
             ViewBag.id_Sexe = DataRepository.ListeSexe(personne.id_Sexe);
-            ViewBag.id_TypeUsag = new SelectList(Db.p_TypeUsag, "id_TypeUsag", "TypeUsag", personne.id_TypeUsag);
-            ViewBag.id_Programme = new SelectList(Db.ProgrammeEtude.Where(x=> x.Actif), "id_ProgEtu", "CodeNomProgramme");
+            ViewBag.id_TypeUsag = DataRepository.ListeTypeUsager(personne.id_TypeUsag);
+            ViewBag.id_Programme = DataRepository.ListeProgrammmeCode();
             ViewBag.id_Session = DataRepository.ListeSession();
             var etuProg = new PersonneEtuProgParent
             {
@@ -182,7 +182,7 @@ namespace sachem.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [ValidationAcces.ValidationAccesEnseignant]
-        public ActionResult Edit([Bind(Include = "id_Pers,id_Sexe,id_TypeUsag,Nom,Prenom,NomUsager,Matricule7,MP,ConfirmPassword,Courriel,Telephone,DateNais,Actif")] Personne personne)
+        public ActionResult Edit(Personne personne)
         {
             var etuProg = new PersonneEtuProgParent();
             personne.id_TypeUsag = 1;
@@ -347,7 +347,7 @@ namespace sachem.Controllers
             return RedirectToAction("Edit", "Etudiant", new { id = idPers });
          }
 
-        private void Valider([Bind(Include = "id_Pers,id_Sexe,id_TypeUsag,Nom,Prenom,NomUsager,MP,ConfirmPassword,Courriel,DateNais,Actif")] Personne personne)
+        private void Valider(Personne personne)
         {
             if (personne.Matricule7 == null)
             {

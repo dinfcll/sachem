@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
@@ -15,212 +14,10 @@ namespace sachem.Models.DataAccess
         private const int Brouillon = 2;
         private const int IdTypeUsagerResp = 3;
         private const int IdTypeUsagerEnseignant = 2;
-
-        public IEnumerable GetSessions()
-        {
-            return _db.Session.AsNoTracking().OrderBy(s => s.Annee).ThenBy(s => s.p_Saison.Saison);
-        }
-
-        public IEnumerable GetCours()
-        {
-            return _db.Cours.AsNoTracking().OrderBy(c => c.Code);
-        }
-
-        public IEnumerable GetCollege()
-        {
-            return _db.p_College.AsNoTracking().OrderBy(n => n.College);
-        }
-
-        public IEnumerable GetStatut()
-        {
-            return _db.p_StatutCours.AsNoTracking().OrderBy(c => c.id_Statut);
-        }
-
-        public IQueryable<int> GetSpecificInscription(int id)
-        {
-            return from d in _db.Inscription where d.id_Pers == id select d.id_Inscription;
-        }
-
-        public bool AnyCoursWhere(Expression<Func<Cours, bool>> condition)
-        {
-            return _db.Cours.Any(condition);
-        }
-
-        public bool AnyGroupeWhere(Expression<Func<Groupe, bool>> condition)
-        {
-            return _db.Groupe.Any(condition);
-        }
-
-
-        public bool AnyCoursSuiviWhere(Expression<Func<CoursSuivi, bool>> condition)
-        {
-            return _db.CoursSuivi.Any(condition);
-        }
-
         public int SessionEnCours()
         {
             return _db.Session.Max(s => s.id_Sess);
         }
-
-        public IEnumerable<Cours> AllCours()
-        {
-            return _db.Cours;
-        }
-
-        public void AddCours(Cours cours)
-        {
-            _db.Cours.Add(cours);
-            _db.SaveChanges();
-        }
-
-        public void AddCoursSuivi(CoursSuivi coursSuivi)
-        {
-            _db.CoursSuivi.Add(coursSuivi);
-            _db.SaveChanges();
-        }
-
-        public Cours FindCours(int id)
-        {
-            return _db.Cours.Find(id);
-        }
-
-        public CoursSuivi FindCoursSuivi(int id)
-        {
-            return _db.CoursSuivi.Find(id);
-        }
-
-        public Personne FindPersonne(int id)
-        {
-            return _db.Personne.Find(id);
-        }
-
-        public void DeclareModified(Cours cours)
-        {
-            _db.Entry(cours).State = EntityState.Modified;
-            _db.SaveChanges();
-        }
-
-        public void ModifyCoursSuivi(CoursSuivi coursSuivi)
-        {
-            _db.Entry(coursSuivi).State = EntityState.Modified;
-            _db.SaveChanges();
-        }
-
-        public void RemoveCours(Cours cours)
-        {
-            _db.Cours.Remove(cours);
-            _db.SaveChanges();
-        }
-
-        public IQueryable<Personne> IndexPersonne()
-        {
-            return _db.Personne.Include(p => p.p_Sexe).Include(p => p.p_TypeUsag);
-        }
-
-        public IEnumerable<p_Sexe> AllSexe()
-        {
-            return _db.p_Sexe;
-        }
-
-        public IEnumerable<p_TypeUsag> AllTypeUsag()
-        {
-            return _db.p_TypeUsag;
-        }
-
-        public void DeclareModifiedPers(Personne pers)
-        {
-            _db.Entry(pers).State = EntityState.Modified;
-            _db.SaveChanges();
-        }
-
-        public void AddPersonne(Personne pers)
-        {
-            _db.Personne.Add(pers);
-            _db.SaveChanges();
-        }
-
-        public void RemovePersonne(Personne pers)
-        {
-            _db.Personne.Remove(pers);
-            _db.SaveChanges();
-        }
-
-        public void RemoveCoursSuivi(CoursSuivi coursSuivi)
-        {
-            _db.CoursSuivi.Remove(coursSuivi);
-            _db.SaveChanges();
-        }
-
-        public void Dispose()
-        {
-            _db.Dispose();
-        }
-
-        public void AddInscription(Inscription inscription)
-        {
-            _db.Inscription.Add(inscription);
-            _db.SaveChanges();
-        }
-
-        public Inscription FindInscription(int id)
-        {
-            return _db.Inscription.Find(id);
-        }
-
-        public IEnumerable<Personne> AllEnseignantOrdered()
-        {
-            return _db.Personne.AsNoTracking().OrderBy(p => p.Nom).ThenBy(p => p.Prenom);
-        }
-
-        public bool AnyEnseignantWhere(Expression<Func<Personne, bool>> condition, Personne personne)
-        {
-            return _db.Personne.Any(condition);
-        }
-
-        public bool AnyjumelageWhere(Expression<Func<Jumelage, bool>> condition)
-        {
-            return _db.Jumelage.Any(condition);
-        }
-
-        public IEnumerable<Personne> AllEnseignant()
-        {
-            return _db.Personne.Where(c => c.id_TypeUsag == 2);
-        }
-
-        public IEnumerable<Personne> AllEnseignantResponsable(bool actif)
-        {
-            var enseignant = from c in _db.Personne
-                where (c.id_TypeUsag == IdTypeUsagerEnseignant || c.id_TypeUsag == IdTypeUsagerResp)
-                      && c.Actif == actif
-                orderby c.Nom, c.Prenom
-                select c;
-            return enseignant;
-        }
-
-        public void AddEnseignant(Personne enseignant)
-        {
-            _db.Personne.Add(enseignant);
-            _db.SaveChanges();
-        }
-
-        public Personne FindEnseignant(int id)
-        {
-            return _db.Personne.Find(id);
-        }
-
-        public void DeclareModifiedEns(Personne enseignant)
-        {
-            _db.Entry(enseignant).State = EntityState.Modified;
-            _db.SaveChanges();
-        }
-
-        public void RemoveEnseignant(int id)
-        {
-            var suppPersonne = _db.Personne.Where(x => x.id_Pers == id);
-            _db.Personne.RemoveRange(suppPersonne);
-            _db.SaveChanges();
-        }
-
         public string FindMdp(int id)
         {
             var personne = _db.Personne.FirstOrDefault(x => x.id_Pers == id);
@@ -231,6 +28,808 @@ namespace sachem.Models.DataAccess
             return mdp;
         }
 
+        //Debut Any - If found
+
+        public bool AnyChoixReponse(Expression<Func<ChoixReponse, bool>> condition)
+        {
+            return _db.ChoixReponse.Any(condition);
+        }
+        public bool AnyCourriel(Expression<Func<Courriel, bool>> condition)
+        {
+            return _db.Courriel.Any(condition);
+        }
+        public bool AnyCours(Expression<Func<Cours, bool>> condition)
+        {
+            return _db.Cours.Any(condition);
+        }
+        public bool AnyCoursInteret(Expression<Func<CoursInteret, bool>> condition)
+        {
+            return _db.CoursInteret.Any(condition);
+        }
+        public bool AnyCoursSuivi(Expression<Func<CoursSuivi, bool>> condition)
+        {
+            return _db.CoursSuivi.Any(condition);
+        }
+        public bool AnyDisponibilite(Expression<Func<Disponibilite, bool>> condition)
+        {
+            return _db.Disponibilite.Any(condition);
+        }
+        public bool AnyEtuProgEtude(Expression<Func<EtuProgEtude, bool>> condition)
+        {
+            return _db.EtuProgEtude.Any(condition);
+        }
+        public bool AnyEvaluation(Expression<Func<Evaluation, bool>> condition)
+        {
+            return _db.Evaluation.Any(condition);
+        }
+        public bool AnyFormulaire(Expression<Func<Formulaire, bool>> condition)
+        {
+            return _db.Formulaire.Any(condition);
+        }
+        public bool AnyGroupe(Expression<Func<Groupe, bool>> condition)
+        {
+            return _db.Groupe.Any(condition);
+        }
+        public bool AnyGroupeEtudiant(Expression<Func<GroupeEtudiant, bool>> condition)
+        {
+            return _db.GroupeEtudiant.Any(condition);
+        }
+        public bool AnyInscription(Expression<Func<Inscription, bool>> condition)
+        {
+            return _db.Inscription.Any(condition);
+        }
+        public bool AnyJumelage(Expression<Func<Jumelage, bool>> condition)
+        {
+            return _db.Jumelage.Any(condition);
+        }
+        public bool AnyPersonne(Expression<Func<Personne, bool>> condition)
+        {
+            return _db.Personne.Any(condition);
+        }
+        public bool AnyProgrammeEtude(Expression<Func<ProgrammeEtude, bool>> condition)
+        {
+            return _db.ProgrammeEtude.Any(condition);
+        }
+        public bool AnyQuestion(Expression<Func<Question, bool>> condition)
+        {
+            return _db.Question.Any(condition);
+        }
+        public bool AnyReponseQuestion(Expression<Func<ReponseQuestion, bool>> condition)
+        {
+            return _db.ReponseQuestion.Any(condition);
+        }
+        public bool AnySection(Expression<Func<Section, bool>> condition)
+        {
+            return _db.Section.Any(condition);
+        }
+        public bool AnySession(Expression<Func<Session, bool>> condition)
+        {
+            return _db.Session.Any(condition);
+        }
+        public bool AnySuivi(Expression<Func<Suivi, bool>> condition)
+        {
+            return _db.Suivi.Any(condition);
+        }
+            //Any - sur table parametres
+        public bool AnyCollege(Expression<Func<p_College, bool>> condition)
+        {
+            return _db.p_College.Any(condition);
+        }
+        public bool AnyContact(Expression<Func<p_Contact, bool>> condition)
+        {
+            return _db.p_Contact.Any(condition);
+        }
+        public bool AnyHoraireInscription(Expression<Func<p_HoraireInscription, bool>> condition)
+        {
+            return _db.p_HoraireInscription.Any(condition);
+        }
+        public bool AnyJour(Expression<Func<p_Jour, bool>> condition)
+        {
+            return _db.p_Jour.Any(condition);
+        }
+        public bool AnySaison(Expression<Func<p_Saison, bool>> condition)
+        {
+            return _db.p_Saison.Any(condition);
+        }
+        public bool AnySexe(Expression<Func<p_Sexe, bool>> condition)
+        {
+            return _db.p_Sexe.Any(condition);
+        }
+        public bool AnyStatutCours(Expression<Func<p_StatutCours, bool>> condition)
+        {
+            return _db.p_StatutCours.Any(condition);
+        }
+        public bool AnyStatutInscription(Expression<Func<p_StatutInscription, bool>> condition)
+        {
+            return _db.p_StatutInscription.Any(condition);
+        }
+        public bool AnyTypeCourriel(Expression<Func<p_TypeCourriel, bool>> condition)
+        {
+            return _db.p_TypeCourriel.Any(condition);
+        }
+        public bool AnyTypeFormulaire(Expression<Func<p_TypeFormulaire, bool>> condition)
+        {
+            return _db.p_TypeFormulaire.Any(condition);
+        }
+        public bool AnyTypeInscription(Expression<Func<p_TypeInscription, bool>> condition)
+        {
+            return _db.p_TypeInscription.Any(condition);
+        }
+        public bool AnyTypeResultat(Expression<Func<p_TypeResultat, bool>> condition)
+        {
+            return _db.p_TypeResultat.Any(condition);
+        }
+        public bool AnyTypeUsag(Expression<Func<p_TypeUsag, bool>> condition)
+        {
+            return _db.p_TypeUsag.Any(condition);
+        }
+        //Fin Any
+
+        //Debut Get - Where
+        public IEnumerable<ChoixReponse> GetChoixReponse(Expression<Func<ChoixReponse, bool>> condition)
+        {
+            return _db.ChoixReponse.Where(condition);
+        }
+        public IEnumerable<Courriel> GetCourriel(Expression<Func<Courriel, bool>> condition)
+        {
+            return _db.Courriel.Where(condition);
+        }
+        public IEnumerable<Cours> GetCours(Expression<Func<Cours, bool>> condition)
+        {
+            return _db.Cours.Where(condition);
+        }
+        public IEnumerable<CoursInteret> GetCoursInteret(Expression<Func<CoursInteret, bool>> condition)
+        {
+            return _db.CoursInteret.Where(condition);
+        }
+        public IEnumerable<CoursSuivi> GetCoursSuivi(Expression<Func<CoursSuivi, bool>> condition)
+        {
+            return _db.CoursSuivi.Where(condition);
+        }
+        public IEnumerable<Disponibilite> GetDisponibilite(Expression<Func<Disponibilite, bool>> condition)
+        {
+            return _db.Disponibilite.Where(condition);
+        }
+        public IEnumerable<EtuProgEtude> GetEtuProgEtude(Expression<Func<EtuProgEtude, bool>> condition)
+        {
+            return _db.EtuProgEtude.Where(condition);
+        }
+        public IEnumerable<Evaluation> GetEvaluation(Expression<Func<Evaluation, bool>> condition)
+        {
+            return _db.Evaluation.Where(condition);
+        }
+        public IEnumerable<Formulaire> GetFormulaire(Expression<Func<Formulaire, bool>> condition)
+        {
+            return _db.Formulaire.Where(condition);
+        }
+        public IEnumerable<Groupe> GetGroupe(Expression<Func<Groupe, bool>> condition)
+        {
+            return _db.Groupe.Where(condition);
+        }
+        public IEnumerable<GroupeEtudiant> GetGroupeEtudiant(Expression<Func<GroupeEtudiant, bool>> condition)
+        {
+            return _db.GroupeEtudiant.Where(condition);
+        }
+        public IEnumerable<Inscription> GetInscription(Expression<Func<Inscription, bool>> condition)
+        {
+            return _db.Inscription.Where(condition);
+        }
+        public IEnumerable<Jumelage> GetJumelage(Expression<Func<Jumelage, bool>> condition)
+        {
+            return _db.Jumelage.Where(condition);
+        }
+        public IEnumerable<Personne> GetPersonne(Expression<Func<Personne, bool>> condition)
+        {
+            return _db.Personne.Where(condition);
+        }
+        public IEnumerable<ProgrammeEtude> GetProgrammeEtude(Expression<Func<ProgrammeEtude, bool>> condition)
+        {
+            return _db.ProgrammeEtude.Where(condition);
+        }
+        public IEnumerable<Question> GetQuestion(Expression<Func<Question, bool>> condition)
+        {
+            return _db.Question.Where(condition);
+        }
+        public IEnumerable<ReponseQuestion> GetReponseQuestion(Expression<Func<ReponseQuestion, bool>> condition)
+        {
+            return _db.ReponseQuestion.Where(condition);
+        }
+        public IEnumerable<Section> GetSection(Expression<Func<Section, bool>> condition)
+        {
+            return _db.Section.Where(condition);
+        }
+        public IEnumerable<Session> GetSession(Expression<Func<Session, bool>> condition)
+        {
+            return _db.Session.Where(condition);
+        }
+        public IEnumerable<Suivi> GetSuivi(Expression<Func<Suivi, bool>> condition)
+        {
+            return _db.Suivi.Where(condition);
+        }
+            //Get - sur table parametres
+        public IEnumerable<p_College> GetCollege(Expression<Func<p_College, bool>> condition)
+        {
+            return _db.p_College.Where(condition);
+        }
+        public IEnumerable<p_Contact> GetContact(Expression<Func<p_Contact, bool>> condition)
+        {
+            return _db.p_Contact.Where(condition);
+        }
+        public IEnumerable<p_HoraireInscription> GetHoraireInscription(Expression<Func<p_HoraireInscription, bool>> condition)
+        {
+            return _db.p_HoraireInscription.Where(condition);
+        }
+        public IEnumerable<p_Jour> GetJour(Expression<Func<p_Jour, bool>> condition)
+        {
+            return _db.p_Jour.Where(condition);
+        }
+        public IEnumerable<p_Saison> GetSaison(Expression<Func<p_Saison, bool>> condition)
+        {
+            return _db.p_Saison.Where(condition);
+        }
+        public IEnumerable<p_Sexe> GetSexe(Expression<Func<p_Sexe, bool>> condition)
+        {
+            return _db.p_Sexe.Where(condition);
+        }
+        public IEnumerable<p_StatutCours> GetStatutCours(Expression<Func<p_StatutCours, bool>> condition)
+        {
+            return _db.p_StatutCours.Where(condition);
+        }
+        public IEnumerable<p_StatutInscription> GetStatutInscription(Expression<Func<p_StatutInscription, bool>> condition)
+        {
+            return _db.p_StatutInscription.Where(condition);
+        }
+        public IEnumerable<p_TypeCourriel> GetTypeCourriel(Expression<Func<p_TypeCourriel, bool>> condition)
+        {
+            return _db.p_TypeCourriel.Where(condition);
+        }
+        public IEnumerable<p_TypeFormulaire> GetTypeFormulaire(Expression<Func<p_TypeFormulaire, bool>> condition)
+        {
+            return _db.p_TypeFormulaire.Where(condition);
+        }
+        public IEnumerable<p_TypeInscription> GetTypeInscription(Expression<Func<p_TypeInscription, bool>> condition)
+        {
+            return _db.p_TypeInscription.Where(condition);
+        }
+        public IEnumerable<p_TypeResultat> GetTypeResultat(Expression<Func<p_TypeResultat, bool>> condition)
+        {
+            return _db.p_TypeResultat.Where(condition);
+        }
+        public IEnumerable<p_TypeUsag> GetTypeUsag(Expression<Func<p_TypeUsag, bool>> condition)
+        {
+            return _db.p_TypeUsag.Where(condition);
+        }
+        //Fin Where
+
+        //Debut All
+        public IEnumerable<ChoixReponse> AllChoixReponse()
+        {
+            return _db.ChoixReponse;
+        }
+        public IEnumerable<Courriel> AllCourriel()
+        {
+            return _db.Courriel;
+        }
+        public IEnumerable<Cours> AllCours()
+        {
+            return _db.Cours;
+        }
+        public IEnumerable<CoursInteret> AllCoursInteret()
+        {
+            return _db.CoursInteret;
+        }
+        public IEnumerable<CoursSuivi> AllCoursSuivi()
+        {
+            return _db.CoursSuivi;
+        }
+        public IEnumerable<Disponibilite> AllDisponibilite()
+        {
+            return _db.Disponibilite;
+        }
+        public IEnumerable<EtuProgEtude> AllEtuProgEtude()
+        {
+            return _db.EtuProgEtude;
+        }
+        public IEnumerable<Evaluation> AllEvaluation()
+        {
+            return _db.Evaluation;
+        }
+        public IEnumerable<Formulaire> AllFormulaire()
+        {
+            return _db.Formulaire;
+        }
+        public IEnumerable<Groupe> AllGroupe()
+        {
+            return _db.Groupe;
+        }
+        public IEnumerable<GroupeEtudiant> AllGroupeEtudiant()
+        {
+            return _db.GroupeEtudiant;
+        }
+        public IEnumerable<Inscription> AllInscription()
+        {
+            return _db.Inscription;
+        }
+        public IEnumerable<Jumelage> AllJumelage()
+        {
+            return _db.Jumelage;
+        }
+        public IEnumerable<Personne> AllPersonne()
+        {
+            return _db.Personne;
+        }
+        public IEnumerable<ProgrammeEtude> AllProgrammeEtude()
+        {
+            return _db.ProgrammeEtude;
+        }
+        public IEnumerable<Question> AllQuestion()
+        {
+            return _db.Question;
+        }
+        public IEnumerable<ReponseQuestion> AllReponseQuestion()
+        {
+            return _db.ReponseQuestion;
+        }
+        public IEnumerable<Section> AllSection()
+        {
+            return _db.Section;
+        }
+        public IEnumerable<Session> AllSession()
+        {
+            return _db.Session;
+        }
+        public IEnumerable<Suivi> AllSuivi()
+        {
+            return _db.Suivi;
+        }
+            //All - sur table parametres
+        public IEnumerable<p_College> AllCollege()
+        {
+            return _db.p_College;
+        }
+        public IEnumerable<p_Contact> AllContact()
+        {
+            return _db.p_Contact;
+        }
+        public IEnumerable<p_HoraireInscription> AllHoraireInscription()
+        {
+            return _db.p_HoraireInscription;
+        }
+        public IEnumerable<p_Jour> AllJour()
+        {
+            return _db.p_Jour;
+        }
+        public IEnumerable<p_Saison> AllSaison()
+        {
+            return _db.p_Saison;
+        }
+        public IEnumerable<p_Sexe> AllSexe()
+        {
+            return _db.p_Sexe;
+        }
+        public IEnumerable<p_StatutCours> AllStatutCours()
+        {
+            return _db.p_StatutCours;
+        }
+        public IEnumerable<p_StatutInscription> AllStatutInscription()
+        {
+            return _db.p_StatutInscription;
+        }
+        public IEnumerable<p_TypeCourriel> AllTypeCourriel()
+        {
+            return _db.p_TypeCourriel;
+        }
+        public IEnumerable<p_TypeFormulaire> AllTypeFormulaire()
+        {
+            return _db.p_TypeFormulaire;
+        }
+        public IEnumerable<p_TypeInscription> AllTypeInscription()
+        {
+            return _db.p_TypeInscription;
+        }
+        public IEnumerable<p_TypeResultat> AllTypeResultat()
+        {
+            return _db.p_TypeResultat;
+        }
+        public IEnumerable<p_TypeUsag> AllTypeUsag()
+        {
+            return _db.p_TypeUsag;
+        }
+        //Fin All
+
+        //Debut Find
+        public ChoixReponse FindChoixReponse(int id)
+        {
+            return _db.ChoixReponse.Find(id);
+        }
+        public Courriel FindCourriel(int id)
+        {
+            return _db.Courriel.Find(id);
+        }
+        public Cours FindCours(int id)
+        {
+            return _db.Cours.Find(id);
+        }
+        public CoursInteret FindCoursInteret(int id)
+        {
+            return _db.CoursInteret.Find(id);
+        }
+        public CoursSuivi FindCoursSuivi(int id)
+        {
+            return _db.CoursSuivi.Find(id);
+        }
+        public Disponibilite FindDisponibilite(int id)
+        {
+            return _db.Disponibilite.Find(id);
+        }
+        public EtuProgEtude FindEtuProgEtude(int id)
+        {
+            return _db.EtuProgEtude.Find(id);
+        }
+        public Evaluation FindEvaluation(int id)
+        {
+            return _db.Evaluation.Find(id);
+        }
+        public Formulaire FindFormulaire(int id)
+        {
+            return _db.Formulaire.Find(id);
+        }
+        public Groupe FindGroupe(int id)
+        {
+            return _db.Groupe.Find(id);
+        }
+        public GroupeEtudiant FindGroupeEtudiant(int id)
+        {
+            return _db.GroupeEtudiant.Find(id);
+        }
+        public Inscription FindInscription(int id)
+        {
+            return _db.Inscription.Find(id);
+        }
+        public Jumelage FindJumelage(int id)
+        {
+            return _db.Jumelage.Find(id);
+        }
+        public Personne FindPersonne(int id)
+        {
+            return _db.Personne.Find(id);
+        }
+        public ProgrammeEtude FindProgrammeEtude(int id)
+        {
+            return _db.ProgrammeEtude.Find(id);
+        }
+        public Question FindQuestion(int id)
+        {
+            return _db.Question.Find(id);
+        }
+        public ReponseQuestion FindReponseQuestion(int id)
+        {
+            return _db.ReponseQuestion.Find(id);
+        }
+        public Section FindSection(int id)
+        {
+            return _db.Section.Find(id);
+        }
+        public Session FindSession(int id)
+        {
+            return _db.Session.Find(id);
+        }
+        public Suivi FindSuivi(int id)
+        {
+            return _db.Suivi.Find(id);
+        }
+        //Fin Find
+
+        //Debut Add
+        public void AddChoixReponse(ChoixReponse itemToAdd)
+        {
+            _db.ChoixReponse.Add(itemToAdd);
+            _db.SaveChanges();
+        }
+        public void AddCourriel(Courriel itemToAdd)
+        {
+            _db.Courriel.Add(itemToAdd);
+            _db.SaveChanges();
+        }
+        public void AddCours(Cours itemToAdd)
+        {
+            _db.Cours.Add(itemToAdd);
+            _db.SaveChanges();
+        }
+        public void AddCoursInteret(CoursInteret itemToAdd)
+        {
+            _db.CoursInteret.Add(itemToAdd);
+            _db.SaveChanges();
+        }
+        public void AddCoursSuivi(CoursSuivi itemToAdd)
+        {
+            _db.CoursSuivi.Add(itemToAdd);
+            _db.SaveChanges();
+        }
+        public void AddDisponibilite(Disponibilite itemToAdd)
+        {
+            _db.Disponibilite.Add(itemToAdd);
+            _db.SaveChanges();
+        }
+        public void AddEtuProgEtude(EtuProgEtude itemToAdd)
+        {
+            _db.EtuProgEtude.Add(itemToAdd);
+            _db.SaveChanges();
+        }
+        public void AddEvaluation(Evaluation itemToAdd)
+        {
+            _db.Evaluation.Add(itemToAdd);
+            _db.SaveChanges();
+        }
+        public void AddFormulaire(Formulaire itemToAdd)
+        {
+            _db.Formulaire.Add(itemToAdd);
+            _db.SaveChanges();
+        }
+        public void AddGroupe(Groupe itemToAdd)
+        {
+            _db.Groupe.Add(itemToAdd);
+            _db.SaveChanges();
+        }
+        public void AddGroupeEtudiant(GroupeEtudiant itemToAdd)
+        {
+            _db.GroupeEtudiant.Add(itemToAdd);
+            _db.SaveChanges();
+        }
+        public void AddInscription(Inscription itemToAdd)
+        {
+            _db.Inscription.Add(itemToAdd);
+            _db.SaveChanges();
+        }
+        public void AddJumelage(Jumelage itemToAdd)
+        {
+            _db.Jumelage.Add(itemToAdd);
+            _db.SaveChanges();
+        }
+        public void AddPersonne(Personne itemToAdd)
+        {
+            _db.Personne.Add(itemToAdd);
+            _db.SaveChanges();
+        }
+        public void AddProgrammeEtude(ProgrammeEtude itemToAdd)
+        {
+            _db.ProgrammeEtude.Add(itemToAdd);
+            _db.SaveChanges();
+        }
+        public void AddQuestion(Question itemToAdd)
+        {
+            _db.Question.Add(itemToAdd);
+            _db.SaveChanges();
+        }
+        public void AddReponseQuestion(ReponseQuestion itemToAdd)
+        {
+            _db.ReponseQuestion.Add(itemToAdd);
+            _db.SaveChanges();
+        }
+        public void AddSection(Section itemToAdd)
+        {
+            _db.Section.Add(itemToAdd);
+            _db.SaveChanges();
+        }
+        public void AddSession(Session itemToAdd)
+        {
+            _db.Session.Add(itemToAdd);
+            _db.SaveChanges();
+        }
+        public void AddSuivi(Suivi itemToAdd)
+        {
+            _db.Suivi.Add(itemToAdd);
+            _db.SaveChanges();
+        }
+        //Fin Add
+
+        //Debut Edit
+        public void EditChoixReponse(ChoixReponse itemToEdit)
+        {
+            _db.Entry(itemToEdit).State = EntityState.Modified;
+            _db.SaveChanges();
+        }
+        public void EditCourriel(Courriel itemToEdit)
+        {
+            _db.Entry(itemToEdit).State = EntityState.Modified;
+            _db.SaveChanges();
+        }
+        public void EditCours(Cours itemToEdit)
+        {
+            _db.Entry(itemToEdit).State = EntityState.Modified;
+            _db.SaveChanges();
+        }
+        public void EditCoursInteret(CoursInteret itemToEdit)
+        {
+            _db.Entry(itemToEdit).State = EntityState.Modified;
+            _db.SaveChanges();
+        }
+        public void EditCoursSuivi(CoursSuivi itemToEdit)
+        {
+            _db.Entry(itemToEdit).State = EntityState.Modified;
+            _db.SaveChanges();
+        }
+        public void EditDisponibilite(Disponibilite itemToEdit)
+        {
+            _db.Entry(itemToEdit).State = EntityState.Modified;
+            _db.SaveChanges();
+        }
+        public void EditEtuProgEtude(EtuProgEtude itemToEdit)
+        {
+            _db.Entry(itemToEdit).State = EntityState.Modified;
+            _db.SaveChanges();
+        }
+        public void EditEvaluation(Evaluation itemToEdit)
+        {
+            _db.Entry(itemToEdit).State = EntityState.Modified;
+            _db.SaveChanges();
+        }
+        public void EditFormulaire(Formulaire itemToEdit)
+        {
+            _db.Entry(itemToEdit).State = EntityState.Modified;
+            _db.SaveChanges();
+        }
+        public void EditGroupe(Groupe itemToEdit)
+        {
+            _db.Entry(itemToEdit).State = EntityState.Modified;
+            _db.SaveChanges();
+        }
+        public void EditGroupeEtudiant(GroupeEtudiant itemToEdit)
+        {
+            _db.Entry(itemToEdit).State = EntityState.Modified;
+            _db.SaveChanges();
+        }
+        public void EditInscription(Inscription itemToEdit)
+        {
+            _db.Entry(itemToEdit).State = EntityState.Modified;
+            _db.SaveChanges();
+        }
+        public void EditJumelage(Jumelage itemToEdit)
+        {
+            _db.Entry(itemToEdit).State = EntityState.Modified;
+            _db.SaveChanges();
+        }
+        public void EditPersonne(Personne itemToEdit)
+        {
+            _db.Entry(itemToEdit).State = EntityState.Modified;
+            _db.SaveChanges();
+        }
+        public void EditProgrammeEtude(ProgrammeEtude itemToEdit)
+        {
+            _db.Entry(itemToEdit).State = EntityState.Modified;
+            _db.SaveChanges();
+        }
+        public void EditQuestion(Question itemToEdit)
+        {
+            _db.Entry(itemToEdit).State = EntityState.Modified;
+            _db.SaveChanges();
+        }
+        public void EditReponseQuestion(ReponseQuestion itemToEdit)
+        {
+            _db.Entry(itemToEdit).State = EntityState.Modified;
+            _db.SaveChanges();
+        }
+        public void EditSection(Section itemToEdit)
+        {
+            _db.Entry(itemToEdit).State = EntityState.Modified;
+            _db.SaveChanges();
+        }
+        public void EditSession(Session itemToEdit)
+        {
+            _db.Entry(itemToEdit).State = EntityState.Modified;
+            _db.SaveChanges();
+        }
+        public void EditSuivi(Suivi itemToEdit)
+        {
+            _db.Entry(itemToEdit).State = EntityState.Modified;
+            _db.SaveChanges();
+        }
+        //Fin Edit
+
+        //Debut Remove
+        public void RemoveChoixReponse(ChoixReponse itemToRemove)
+        {
+            _db.ChoixReponse.Remove(itemToRemove);
+            _db.SaveChanges();
+        }
+        public void RemoveCourriel(Courriel itemToRemove)
+        {
+            _db.Courriel.Remove(itemToRemove);
+            _db.SaveChanges();
+        }
+        public void RemoveCours(Cours itemToRemove)
+        {
+            _db.Cours.Remove(itemToRemove);
+            _db.SaveChanges();
+        }
+        public void RemoveCoursInteret(CoursInteret itemToRemove)
+        {
+            _db.CoursInteret.Remove(itemToRemove);
+            _db.SaveChanges();
+        }
+        public void RemoveCoursSuivi(CoursSuivi itemToRemove)
+        {
+            _db.CoursSuivi.Remove(itemToRemove);
+            _db.SaveChanges();
+        }
+        public void RemoveDisponibilite(Disponibilite itemToRemove)
+        {
+            _db.Disponibilite.Remove(itemToRemove);
+            _db.SaveChanges();
+        }
+        public void RemoveEtuProgEtude(EtuProgEtude itemToRemove)
+        {
+            _db.EtuProgEtude.Remove(itemToRemove);
+            _db.SaveChanges();
+        }
+        public void RemoveEvaluation(Evaluation itemToRemove)
+        {
+            _db.Evaluation.Remove(itemToRemove);
+            _db.SaveChanges();
+        }
+        public void RemoveFormulaire(Formulaire itemToRemove)
+        {
+            _db.Formulaire.Remove(itemToRemove);
+            _db.SaveChanges();
+        }
+        public void RemoveGroupe(Groupe itemToRemove)
+        {
+            _db.Groupe.Remove(itemToRemove);
+            _db.SaveChanges();
+        }
+        public void RemoveGroupeEtudiant(GroupeEtudiant itemToRemove)
+        {
+            _db.GroupeEtudiant.Remove(itemToRemove);
+            _db.SaveChanges();
+        }
+        public void RemoveInscription(Inscription itemToRemove)
+        {
+            _db.Inscription.Remove(itemToRemove);
+            _db.SaveChanges();
+        }
+        public void RemoveJumelage(Jumelage itemToRemove)
+        {
+            _db.Jumelage.Remove(itemToRemove);
+            _db.SaveChanges();
+        }
+        public void RemovePersonne(Personne itemToRemove)
+        {
+            _db.Personne.Remove(itemToRemove);
+            _db.SaveChanges();
+        }
+        public void RemoveProgrammeEtude(ProgrammeEtude itemToRemove)
+        {
+            _db.ProgrammeEtude.Remove(itemToRemove);
+            _db.SaveChanges();
+        }
+        public void RemoveQuestion(Question itemToRemove)
+        {
+            _db.Question.Remove(itemToRemove);
+            _db.SaveChanges();
+        }
+        public void RemoveReponseQuestion(ReponseQuestion itemToRemove)
+        {
+            _db.ReponseQuestion.Remove(itemToRemove);
+            _db.SaveChanges();
+        }
+        public void RemoveSection(Section itemToRemove)
+        {
+            _db.Section.Remove(itemToRemove);
+            _db.SaveChanges();
+        }
+        public void RemoveSession(Session itemToRemove)
+        {
+            _db.Session.Remove(itemToRemove);
+            _db.SaveChanges();
+        }
+        public void RemoveSuivi(Suivi itemToRemove)
+        {
+            _db.Suivi.Remove(itemToRemove);
+            _db.SaveChanges();
+        }
+        //Fin Remove
+
+        //Debut Liste
         public SelectList ListeTypeUsager(int idTypeUsager = 0)
         {
             var req = _db.p_TypeUsag.Where(x => x.id_TypeUsag == IdTypeUsagerEnseignant || 
@@ -238,113 +837,87 @@ namespace sachem.Models.DataAccess
             return new SelectList(req, "id_TypeUsag", "TypeUsag", 
                 req.Select(x=>x.id_TypeUsag== idTypeUsager));
         }
-
         public SelectList ListeSexe(int? sexe = 0)
         {
             if (sexe == null) sexe = 0;
             return new SelectList(_db.p_Sexe, "id_Sexe", "Sexe", sexe);
         }
-
         public SelectList ListeSession(int session = 0)
         {
-            return new SelectList(GetSessions(), "id_Sess", "NomSession", session);
+            return new SelectList(AllSession(), "id_Sess", "NomSession", session);
         }
-
-        public SelectList ListePersonne(int idSession, int idPers)
-        {
-            var lPersonne = (from p in _db.Personne
-                join c in _db.Groupe on p.id_Pers equals c.id_Enseignant
-                where (p.id_TypeUsag == (int) TypeUsagers.Enseignant ||
-                       p.id_TypeUsag == (int) TypeUsagers.Responsable) &&
-                      p.Actif &&
-                      c.id_Sess == (idSession == 0 ? c.id_Sess : idSession)
-                orderby p.Nom, p.Prenom
-                select p).Distinct();
-            return new SelectList(lPersonne, "id_Pers", "NomPrenom", idPers);
-        }
-
+        
         public SelectList ListeCours(int cours = 0)
         {
-            return new SelectList(GetCours(), "id_Cours", "CodeNom", cours);
+            return new SelectList(AllCours(), "id_Cours", "CodeNom", cours);
         }
-
         public SelectList ListeCollege(int college = 0)
         {
-            return new SelectList(GetCollege(), "id_College", "College", college);
+            return new SelectList(AllCollege(), "id_College", "College", college);
         }
-
         public SelectList ListeStatutCours(int statut = 0)
         {
-            return new SelectList(GetStatut(), "id_Statut", "Statut", statut);
+            return new SelectList(AllStatutCours(), "id_Statut", "Statut", statut);
         }
-
-        public SelectList ListeEnseignant(int enseignant = 0)
+        public SelectList ListeProgrammmeCode(bool actif = true)
         {
-            return new SelectList(AllEnseignantOrdered(), "id_Pers", "Nom", enseignant);
+            return new SelectList(GetProgrammeEtude(x => x.Actif), "id_ProgEtu", "CodeNomProgramme");
         }
-
-        public SelectList ListeSuperviseur(int superviseur = 0)
+        public SelectList ListeEtudiants(int id = 0)
         {
-            var lstEnseignant = from p in _db.Personne
-                where p.id_TypeUsag == 2 && p.Actif
-                orderby p.Nom, p.Prenom
-                select p;
-            return new SelectList(lstEnseignant, "id_Pers", "NomPrenom", superviseur);
+            return new SelectList(GetPersonne(x=>x.id_TypeUsag == (int)TypeUsagers.Etudiant)
+                .OrderBy(x=>x.Nom)
+                .ThenBy(x=>x.Prenom), "id_Pers", "Nom", id);
         }
-
+        public SelectList ListeEnseignant(int id = 0)
+        {
+            return new SelectList(GetPersonne(x => x.id_TypeUsag == (int)TypeUsagers.Enseignant && x.Actif)
+                .OrderBy(x => x.Nom)
+                .ThenBy(x => x.Prenom), "id_Pers", "NomPrenom", id);
+        }
+        public SelectList ListeEnseignantEtResponsable(int id = 0)
+        {
+            return new SelectList(GetPersonne(x => x.id_TypeUsag == (int)TypeUsagers.Enseignant && x.Actif
+            || x.id_TypeUsag == (int)TypeUsagers.Responsable)
+                .OrderBy(x => x.Nom)
+                .ThenBy(x => x.Prenom), "id_Pers", "NomPrenom", id);
+        }
         public SelectList ListeTypeInscription(int typeInscription = 0)
         {
-            return new SelectList(_db.p_TypeInscription.AsNoTracking().OrderBy(i => i.TypeInscription),
-                "id_TypeInscription", "TypeInscription", typeInscription);
+            return new SelectList(AllTypeInscription(), "id_TypeInscription", "TypeInscription", typeInscription);
         }
-
         public SelectList ListeInscription(int inscription = 0)
         {
-            var lInscription = from c in _db.Inscription select c;
-            return new SelectList(lInscription, "id_Inscription", "Inscription", inscription);
+            return new SelectList(AllInscription(), "id_Inscription", "Inscription", inscription);
         }
-
         public SelectList ListeStatutInscriptionSansBrouillon(int statut = 0)
         {
-            var lStatut = from s in _db.p_StatutInscription where s.id_Statut != Brouillon select s;
-            return new SelectList(lStatut, "id_Statut", "Statut", statut);
+            return new SelectList(_db.p_StatutInscription.Where(x => x.id_Statut != Brouillon), "id_Statut", "Statut", statut);
         }
-
+        public SelectList ListeStatutCours()
+        {
+            return new SelectList(_db.p_StatutCours
+                .OrderBy(x=>x.id_Statut), "id_Statut", "Statut");
+        }
+        public SelectList ListeTypesCourriels(int typeCourriel = 0)
+        {
+            return new SelectList(_db.p_TypeCourriel.AsNoTracking()
+                .OrderBy(i => i.id_TypeCourriel), "id_TypeCourriel", "TypeCourriel", typeCourriel);
+        }
         public List<string> ListeJours()
         {
             var jours = new List<string>();
-            for (var i = (int) Semaine.Lundi; i < (int) Semaine.Samedi; i++)
+            for (var i = (int)Semaine.Lundi; i < (int)Semaine.Samedi; i++)
             {
-                jours.Add(((Semaine) i).ToString());
+                jours.Add(((Semaine)i).ToString());
             }
             return jours.ToList();
         }
+        //Fin Liste
 
-        public IEnumerable<Cours> ListeCoursSelonSession(int session)
+        public void Dispose()
         {
-            return _db.Cours.AsNoTracking()
-                .Where(c => c.Groupe.Any(g => (g.id_Sess == session || session == 0)))
-                .OrderBy(c => c.Nom)
-                .AsEnumerable();
-        }
-
-        public IEnumerable<Groupe> ListeGroupeSelonSessionEtCours(int cours, int session)
-        {
-            return _db.Groupe.AsNoTracking()
-                .Where(p => (p.id_Sess == session || session == 0) && (p.id_Cours == cours || cours == 0))
-                .OrderBy(p => p.NoGroupe);
-        }
-
-        public SelectList ListeStatutCours()
-        {
-            var lstStatut = from c in _db.p_StatutCours orderby c.id_Statut select c;
-            return new SelectList(lstStatut, "id_Statut", "Statut");
-        }
-
-        public SelectList ListeTypesCourriels(int typeCourriel = 0)
-        {
-            var lCourriel = _db.p_TypeCourriel.AsNoTracking().OrderBy(i => i.id_TypeCourriel);
-            return new SelectList(lCourriel, "id_TypeCourriel", "TypeCourriel", typeCourriel);
+            _db.Dispose();
         }
     }
 }

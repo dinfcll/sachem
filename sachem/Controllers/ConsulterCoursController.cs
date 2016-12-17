@@ -133,7 +133,7 @@ namespace sachem.Controllers
             else
             {
                 ViewBag.Session = _dataRepository.ListeSession(idSess);
-                ViewBag.Personne = _dataRepository.ListePersonne(idSess, idPersonne);
+                ViewBag.Personne = _dataRepository.ListeEnseignantEtREsponsable(idSess, idPersonne);
 
                 var listeInfoResp = (from c in _db.Groupe
                            where c.id_Sess == (idSess == 0 ? c.id_Sess : idSess) && 

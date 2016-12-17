@@ -25,7 +25,7 @@ namespace sachem.Controllers
 
         private void Valider([Bind(Include = "id_Cours,Code,Nom,Actif")] Cours cours)
         {
-            if (_dataRepository.AnyCoursWhere(r => r.Code == cours.Code && r.id_Cours != cours.id_Cours))
+            if (_dataRepository.AnyCours(r => r.Code == cours.Code && r.id_Cours != cours.id_Cours))
                 ModelState.AddModelError(string.Empty, Messages.CoursAjouterErreurCodeExisteDeja(cours.Code));
         }
 
@@ -65,7 +65,7 @@ namespace sachem.Controllers
             ViewBag.Session = _dataRepository.ListeSession(sess);
 
             var cours = from c in _dataRepository.AllCours()
-                        where (_dataRepository.AnyGroupeWhere(r => r.id_Cours == c.id_Cours && r.id_Sess == sess) || sess == 0)
+                        where (_dataRepository.AnyGroupe(r => r.id_Cours == c.id_Cours && r.id_Sess == sess) || sess == 0)
                         && c.Actif == actif
                         orderby c.Code
                         select c;
@@ -134,7 +134,7 @@ namespace sachem.Controllers
 
             if (ModelState.IsValid)
             {
-                _dataRepository.DeclareModified(cours);
+                _dataRepository.EditCours(cours);
 
                 TempData["Success"] = string.Format(Messages.CoursEnregistre(cours.Nom));
 
@@ -163,7 +163,7 @@ namespace sachem.Controllers
         public ActionResult DeleteConfirmed(int id, int? page)
         {
             var pageNumber = page ?? 1;
-            if (_dataRepository.AnyGroupeWhere(g => g.id_Cours == id))
+            if (_dataRepository.AnyGroupe(g => g.id_Cours == id))
             {
                 ModelState.AddModelError(string.Empty, Messages.CoursSupprimerErreurGroupeAssocie);
             }

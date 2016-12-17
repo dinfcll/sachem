@@ -54,7 +54,7 @@ namespace sachem.Controllers
                 else
                 {
                     SachemIdentite.EncrypterMpPersonne(ref personne);
-                    _dataRepository.AddEnseignant(personne);
+                    _dataRepository.AddPersonne(personne);
 
                     TempData["Success"] = Messages.EnseignantAjouterUnGroupeAEnseignant(personne.NomUsager, personne.id_Pers);
 
@@ -75,7 +75,7 @@ namespace sachem.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            var personne = _dataRepository.FindEnseignant((int)id);
+            var personne = _dataRepository.FindPersonne((int)id);
 
             if (personne == null)
             {
@@ -104,7 +104,7 @@ namespace sachem.Controllers
             
             if (ModelState.IsValid)
             {
-                _dataRepository.DeclareModifiedEns(personne);
+                _dataRepository.EditPersonne(personne);
 
                 TempData["Success"] = Messages.EnseignantModifierUsagerModfie(personne.NomUsager);
 
@@ -126,7 +126,7 @@ namespace sachem.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            var personne = _dataRepository.FindEnseignant((int)id);
+            var personne = _dataRepository.FindPersonne((int)id);
 
             if(SessionBag.Current.id_pers == id)
             {
@@ -146,19 +146,19 @@ namespace sachem.Controllers
         public ActionResult DeleteConfirmed(int id,int? page)
         {
             var pageNumber = page ?? 1;
-            if(_dataRepository.AnyGroupeWhere(g => g.id_Enseignant == id))
+            if(_dataRepository.AnyGroupe(g => g.id_Enseignant == id))
             {
                 ModelState.AddModelError(string.Empty, Messages.EnseignantSupprimerErreurLierCours);
             }
-            if(_dataRepository.AnyjumelageWhere(g => g.id_Enseignant == id))
+            if(_dataRepository.AnyJumelage(g => g.id_Enseignant == id))
             {
                 ModelState.AddModelError(string.Empty, Messages.EnseignantSupprimerErreurJumelagePresent);
             }
             if (ModelState.IsValid)
             {
-                var personne = _dataRepository.FindEnseignant(id);
+                var personne = _dataRepository.FindPersonne(id);
 
-                _dataRepository.RemoveEnseignant(id);
+                _dataRepository.RemovePersonne(personne);
                 ViewBag.Success = string.Format(Messages.EnseignantSupprime(personne.NomUsager));
 
             }
@@ -195,7 +195,7 @@ namespace sachem.Controllers
 
         private void Valider(Personne personne)
         {
-            if (_dataRepository.AnyEnseignantWhere(x => x.NomUsager == personne.NomUsager && x.id_Pers != personne.id_Pers,personne))
+            if (_dataRepository.AnyPersonne(x => x.NomUsager == personne.NomUsager && x.id_Pers != personne.id_Pers))
             {
                 ModelState.AddModelError(string.Empty, Messages.EnseignantAjouterErreurExisteDeja(personne.NomUsager));
             }

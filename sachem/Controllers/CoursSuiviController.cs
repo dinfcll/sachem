@@ -24,7 +24,7 @@ namespace sachem.Controllers
         {
             if (coursSuivi.id_Cours != null)
             {
-                if (_dataRepository.AnyCoursSuiviWhere(r => r.id_Cours == coursSuivi.id_Cours &&
+                if (_dataRepository.AnyCoursSuivi(r => r.id_Cours == coursSuivi.id_Cours &&
                                                             r.id_Pers == coursSuivi.id_Pers &&
                                                             r.id_Sess == coursSuivi.id_Sess) && verif)
                     ModelState.AddModelError(string.Empty,
@@ -32,7 +32,7 @@ namespace sachem.Controllers
             }
             else
             {
-                if(_dataRepository.AnyCoursSuiviWhere(r => r.autre_Cours == coursSuivi.autre_Cours &&
+                if(_dataRepository.AnyCoursSuivi(r => r.autre_Cours == coursSuivi.autre_Cours &&
                                                            r.id_Pers == coursSuivi.id_Pers &&
                                                            r.id_Sess == coursSuivi.id_Sess) && verif)
                     ModelState.AddModelError(string.Empty,
@@ -143,7 +143,7 @@ namespace sachem.Controllers
 
             if (ModelState.IsValid)
             {
-                _dataRepository.ModifyCoursSuivi(coursSuivi);
+                _dataRepository.EditCoursSuivi(coursSuivi);
                 return RedirectToAction("Details", "DossierEtudiant", new { id = SessionBag.Current.id_Inscription });
             }
 
@@ -164,7 +164,7 @@ namespace sachem.Controllers
                 return HttpNotFound();
             }
 
-            var vInscription = _dataRepository.GetSpecificInscription(cs.id_Pers);
+            var vInscription = _dataRepository.GetInscriptionId(cs.id_Pers);
 
             ViewBag.id_insc = vInscription.First();
 

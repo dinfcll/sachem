@@ -42,7 +42,7 @@ namespace sachemTests
             var testRepository = new TestRepository();
             var ensController = new EtudiantController(testRepository);
             ensController.Create(_etudiant);
-            var rechercheEnsaignant = testRepository.FindEnseignant(_etudiant.id_Pers);
+            var rechercheEnsaignant = testRepository.FindPersonne(_etudiant.id_Pers);
             Assert.IsNotNull(rechercheEnsaignant);
 
         }
@@ -54,7 +54,7 @@ namespace sachemTests
             etuController.Create(_etudiant);
             _etudiant.Nom = "Wallet";
             etuController.Edit(_etudiant);
-            var rechercheEtudiant = testRepository.FindEnseignant(_etudiant.id_Pers);
+            var rechercheEtudiant = testRepository.FindPersonne(_etudiant.id_Pers);
             Assert.AreEqual("Wallet", rechercheEtudiant.Nom);
         }
     }

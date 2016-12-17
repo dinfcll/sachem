@@ -27,14 +27,18 @@ namespace sachem.Controllers
         [AcceptVerbs("Get", "Post")]
         public JsonResult ActualiseGroupeddl(int cours, int session)
         {
-            var a = DataRepository.ListeGroupeSelonSessionEtCours(cours, session).Select(c => new { c.id_Groupe, c.NoGroupe });
+            var a = DataRepository
+                .GetGroupe(g => (g.id_Sess == session || session == 0) && (g.id_Cours == cours || cours == 0))
+                .OrderBy(g => g.NoGroupe);
             return Json(a.ToList(), JsonRequestBehavior.AllowGet);
         }
 
         [AcceptVerbs("Get", "Post")]
         public virtual JsonResult ActualiseCoursddl(int session = 0)
         {
-            var a = DataRepository.ListeCoursSelonSession(session).Select(c => new { c.id_Cours, c.CodeNom });
+            var a = DataRepository.GetCours(c => c.Groupe.Any(g => g.id_Sess == session || session == 0))
+                .OrderBy(c => c.Nom)
+                .Select(c => new {c.id_Cours, c.CodeNom});
             return Json(a.ToList(), JsonRequestBehavior.AllowGet);
         }
 
@@ -118,43 +122,45 @@ namespace sachem.Controllers
                 }
             }
             ViewBag.SelectSession = DataRepository.ListeSession();
-            ViewBag.SelectCours = new SelectList(DataRepository.ListeCoursSelonSession(session).AsQueryable(), "id_Cours", "CodeNom", cours);
-            ViewBag.SelectGroupe = new SelectList(DataRepository.ListeGroupeSelonSessionEtCours(cours, session), "id_Groupe", "NoGroupe", groupe);
+            ViewBag.SelectCours = new SelectList(DataRepository
+                .GetCours(c => c.Groupe.Any(g => g.id_Sess == session || session == 0))
+                .OrderBy(c => c.Nom), "id_Cours", "CodeNom", cours);
+            ViewBag.SelectGroupe = new SelectList(DataRepository
+                .GetGroupe(g => (g.id_Sess == session || session == 0) && (g.id_Cours == cours || cours == 0))
+                .OrderBy(g => g.NoGroupe), "id_Groupe", "NoGroupe", groupe);
 
             Session["DernRechEtu"] = matricule + ";" + session + ";" + cours + ";" + groupe + ";" + NoPage;
             if (Request.Url != null) Session["DernRechEtuUrl"] = Request.Url.LocalPath;
 
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid) return lstEtu;
+            Db.Configuration.LazyLoadingEnabled = false;
+            if (matricule == "")
             {
-                Db.Configuration.LazyLoadingEnabled = false;
-                if (matricule == "")
-                {
-                    lstEtu = from q in
-                            (from p in Db.Personne.Where(x => x.Actif && x.GroupeEtudiant.Any(y => y.id_Groupe == groupe || groupe == 0)
-                             && x.GroupeEtudiant.Any(z => z.Groupe.id_Cours == cours || cours == 0)
-                             && x.EtuProgEtude.Any(y => y.id_Sess == session || session == 0)).OrderBy(x => x.Nom) 
-                             select new
-                             {
-                                 Personne = p,
-                                 ProgEtu = (from pe in Db.EtuProgEtude where p.id_Pers == pe.id_Etu orderby pe.id_Sess descending select pe).FirstOrDefault().ProgrammeEtude
-                             }).AsEnumerable()
-                             orderby q.Personne.Nom, q.Personne.Prenom
-                             select new PersonneProgEtu { personne = q.Personne, progEtuActif = q.ProgEtu };
-                }
-                else
-                {
-                    lstEtu = from q in
-                            (from p in Db.Personne.Where(x => x.Matricule.Substring(2).StartsWith(matricule)).OrderBy(x => x.Nom).ThenBy(x => x.Nom)
-                             select new
-                             {
-                                 Personne = p,
-                                 ProgEtu = (from pe in Db.EtuProgEtude where p.id_Pers == pe.id_Etu orderby pe.id_Sess descending select pe).FirstOrDefault().ProgrammeEtude
-                             }).AsEnumerable()
-                             orderby q.Personne.Nom, q.Personne.Prenom
-                             select new PersonneProgEtu { personne = q.Personne, progEtuActif = q.ProgEtu };
-                }
-                Db.Configuration.LazyLoadingEnabled = true;
+                lstEtu = from q in
+                    (from p in Db.Personne.Where(x => x.Actif && x.GroupeEtudiant.Any(y => y.id_Groupe == groupe || groupe == 0)
+                                                      && x.GroupeEtudiant.Any(z => z.Groupe.id_Cours == cours || cours == 0)
+                                                      && x.EtuProgEtude.Any(y => y.id_Sess == session || session == 0)).OrderBy(x => x.Nom) 
+                        select new
+                        {
+                            Personne = p,
+                            ProgEtu = (from pe in Db.EtuProgEtude where p.id_Pers == pe.id_Etu orderby pe.id_Sess descending select pe).FirstOrDefault().ProgrammeEtude
+                        }).AsEnumerable()
+                    orderby q.Personne.Nom, q.Personne.Prenom
+                    select new PersonneProgEtu { personne = q.Personne, progEtuActif = q.ProgEtu };
             }
+            else
+            {
+                lstEtu = from q in
+                    (from p in Db.Personne.Where(x => x.Matricule.Substring(2).StartsWith(matricule)).OrderBy(x => x.Nom).ThenBy(x => x.Nom)
+                        select new
+                        {
+                            Personne = p,
+                            ProgEtu = (from pe in Db.EtuProgEtude where p.id_Pers == pe.id_Etu orderby pe.id_Sess descending select pe).FirstOrDefault().ProgrammeEtude
+                        }).AsEnumerable()
+                    orderby q.Personne.Nom, q.Personne.Prenom
+                    select new PersonneProgEtu { personne = q.Personne, progEtuActif = q.ProgEtu };
+            }
+            Db.Configuration.LazyLoadingEnabled = true;
             return lstEtu;
         }
 
