@@ -28,8 +28,7 @@ namespace sachem.Models.DataAccess
             return mdp;
         }
 
-        //Debut Any - If found
-
+        #region Any
         public bool AnyChoixReponse(Expression<Func<ChoixReponse, bool>> condition)
         {
             return _db.ChoixReponse.Any(condition);
@@ -163,145 +162,145 @@ namespace sachem.Models.DataAccess
         {
             return _db.p_TypeUsag.Any(condition);
         }
-        //Fin Any
+        #endregion
 
-        //Debut Get - Where
-        public IEnumerable<ChoixReponse> GetChoixReponse(Expression<Func<ChoixReponse, bool>> condition)
+        #region Where
+        public IEnumerable<ChoixReponse> WhereChoixReponse(Expression<Func<ChoixReponse, bool>> condition)
         {
             return _db.ChoixReponse.Where(condition);
         }
-        public IEnumerable<Courriel> GetCourriel(Expression<Func<Courriel, bool>> condition)
+        public IEnumerable<Courriel> WhereCourriel(Expression<Func<Courriel, bool>> condition)
         {
             return _db.Courriel.Where(condition);
         }
-        public IEnumerable<Cours> GetCours(Expression<Func<Cours, bool>> condition)
+        public IEnumerable<Cours> WhereCours(Expression<Func<Cours, bool>> condition)
         {
             return _db.Cours.Where(condition);
         }
-        public IEnumerable<CoursInteret> GetCoursInteret(Expression<Func<CoursInteret, bool>> condition)
+        public IEnumerable<CoursInteret> WhereCoursInteret(Expression<Func<CoursInteret, bool>> condition)
         {
             return _db.CoursInteret.Where(condition);
         }
-        public IEnumerable<CoursSuivi> GetCoursSuivi(Expression<Func<CoursSuivi, bool>> condition)
+        public IEnumerable<CoursSuivi> WhereCoursSuivi(Expression<Func<CoursSuivi, bool>> condition)
         {
             return _db.CoursSuivi.Where(condition);
         }
-        public IEnumerable<Disponibilite> GetDisponibilite(Expression<Func<Disponibilite, bool>> condition)
+        public IEnumerable<Disponibilite> WhereDisponibilite(Expression<Func<Disponibilite, bool>> condition)
         {
             return _db.Disponibilite.Where(condition);
         }
-        public IEnumerable<EtuProgEtude> GetEtuProgEtude(Expression<Func<EtuProgEtude, bool>> condition)
+        public IEnumerable<EtuProgEtude> WhereEtuProgEtude(Expression<Func<EtuProgEtude, bool>> condition)
         {
             return _db.EtuProgEtude.Where(condition);
         }
-        public IEnumerable<Evaluation> GetEvaluation(Expression<Func<Evaluation, bool>> condition)
+        public IEnumerable<Evaluation> WhereEvaluation(Expression<Func<Evaluation, bool>> condition)
         {
             return _db.Evaluation.Where(condition);
         }
-        public IEnumerable<Formulaire> GetFormulaire(Expression<Func<Formulaire, bool>> condition)
+        public IEnumerable<Formulaire> WhereFormulaire(Expression<Func<Formulaire, bool>> condition)
         {
             return _db.Formulaire.Where(condition);
         }
-        public IEnumerable<Groupe> GetGroupe(Expression<Func<Groupe, bool>> condition)
+        public IEnumerable<Groupe> WhereGroupe(Expression<Func<Groupe, bool>> condition)
         {
             return _db.Groupe.Where(condition);
         }
-        public IEnumerable<GroupeEtudiant> GetGroupeEtudiant(Expression<Func<GroupeEtudiant, bool>> condition)
+        public IEnumerable<GroupeEtudiant> WhereGroupeEtudiant(Expression<Func<GroupeEtudiant, bool>> condition)
         {
             return _db.GroupeEtudiant.Where(condition);
         }
-        public IEnumerable<Inscription> GetInscription(Expression<Func<Inscription, bool>> condition)
+        public IEnumerable<Inscription> WhereInscription(Expression<Func<Inscription, bool>> condition)
         {
             return _db.Inscription.Where(condition);
         }
-        public IEnumerable<Jumelage> GetJumelage(Expression<Func<Jumelage, bool>> condition)
+        public IEnumerable<Jumelage> WhereJumelage(Expression<Func<Jumelage, bool>> condition)
         {
             return _db.Jumelage.Where(condition);
         }
-        public IEnumerable<Personne> GetPersonne(Expression<Func<Personne, bool>> condition)
+        public IEnumerable<Personne> WherePersonne(Expression<Func<Personne, bool>> condition)
         {
             return _db.Personne.Where(condition);
         }
-        public IEnumerable<ProgrammeEtude> GetProgrammeEtude(Expression<Func<ProgrammeEtude, bool>> condition)
+        public IEnumerable<ProgrammeEtude> WhereProgrammeEtude(Expression<Func<ProgrammeEtude, bool>> condition)
         {
             return _db.ProgrammeEtude.Where(condition);
         }
-        public IEnumerable<Question> GetQuestion(Expression<Func<Question, bool>> condition)
+        public IEnumerable<Question> WhereQuestion(Expression<Func<Question, bool>> condition)
         {
             return _db.Question.Where(condition);
         }
-        public IEnumerable<ReponseQuestion> GetReponseQuestion(Expression<Func<ReponseQuestion, bool>> condition)
+        public IEnumerable<ReponseQuestion> WhereReponseQuestion(Expression<Func<ReponseQuestion, bool>> condition)
         {
             return _db.ReponseQuestion.Where(condition);
         }
-        public IEnumerable<Section> GetSection(Expression<Func<Section, bool>> condition)
+        public IEnumerable<Section> WhereSection(Expression<Func<Section, bool>> condition)
         {
             return _db.Section.Where(condition);
         }
-        public IEnumerable<Session> GetSession(Expression<Func<Session, bool>> condition)
+        public IEnumerable<Session> WhereSession(Expression<Func<Session, bool>> condition)
         {
             return _db.Session.Where(condition);
         }
-        public IEnumerable<Suivi> GetSuivi(Expression<Func<Suivi, bool>> condition)
+        public IEnumerable<Suivi> WhereSuivi(Expression<Func<Suivi, bool>> condition)
         {
             return _db.Suivi.Where(condition);
         }
-            //Get - sur table parametres
-        public IEnumerable<p_College> GetCollege(Expression<Func<p_College, bool>> condition)
+        //Where - sur table parametres
+        public IEnumerable<p_College> WhereCollege(Expression<Func<p_College, bool>> condition)
         {
             return _db.p_College.Where(condition);
         }
-        public IEnumerable<p_Contact> GetContact(Expression<Func<p_Contact, bool>> condition)
+        public IEnumerable<p_Contact> WhereContact(Expression<Func<p_Contact, bool>> condition)
         {
             return _db.p_Contact.Where(condition);
         }
-        public IEnumerable<p_HoraireInscription> GetHoraireInscription(Expression<Func<p_HoraireInscription, bool>> condition)
+        public IEnumerable<p_HoraireInscription> WhereHoraireInscription(Expression<Func<p_HoraireInscription, bool>> condition)
         {
             return _db.p_HoraireInscription.Where(condition);
         }
-        public IEnumerable<p_Jour> GetJour(Expression<Func<p_Jour, bool>> condition)
+        public IEnumerable<p_Jour> WhereJour(Expression<Func<p_Jour, bool>> condition)
         {
             return _db.p_Jour.Where(condition);
         }
-        public IEnumerable<p_Saison> GetSaison(Expression<Func<p_Saison, bool>> condition)
+        public IEnumerable<p_Saison> WhereSaison(Expression<Func<p_Saison, bool>> condition)
         {
             return _db.p_Saison.Where(condition);
         }
-        public IEnumerable<p_Sexe> GetSexe(Expression<Func<p_Sexe, bool>> condition)
+        public IEnumerable<p_Sexe> WhereSexe(Expression<Func<p_Sexe, bool>> condition)
         {
             return _db.p_Sexe.Where(condition);
         }
-        public IEnumerable<p_StatutCours> GetStatutCours(Expression<Func<p_StatutCours, bool>> condition)
+        public IEnumerable<p_StatutCours> WhereStatutCours(Expression<Func<p_StatutCours, bool>> condition)
         {
             return _db.p_StatutCours.Where(condition);
         }
-        public IEnumerable<p_StatutInscription> GetStatutInscription(Expression<Func<p_StatutInscription, bool>> condition)
+        public IEnumerable<p_StatutInscription> WhereStatutInscription(Expression<Func<p_StatutInscription, bool>> condition)
         {
             return _db.p_StatutInscription.Where(condition);
         }
-        public IEnumerable<p_TypeCourriel> GetTypeCourriel(Expression<Func<p_TypeCourriel, bool>> condition)
+        public IEnumerable<p_TypeCourriel> WhereTypeCourriel(Expression<Func<p_TypeCourriel, bool>> condition)
         {
             return _db.p_TypeCourriel.Where(condition);
         }
-        public IEnumerable<p_TypeFormulaire> GetTypeFormulaire(Expression<Func<p_TypeFormulaire, bool>> condition)
+        public IEnumerable<p_TypeFormulaire> WhereTypeFormulaire(Expression<Func<p_TypeFormulaire, bool>> condition)
         {
             return _db.p_TypeFormulaire.Where(condition);
         }
-        public IEnumerable<p_TypeInscription> GetTypeInscription(Expression<Func<p_TypeInscription, bool>> condition)
+        public IEnumerable<p_TypeInscription> WhereTypeInscription(Expression<Func<p_TypeInscription, bool>> condition)
         {
             return _db.p_TypeInscription.Where(condition);
         }
-        public IEnumerable<p_TypeResultat> GetTypeResultat(Expression<Func<p_TypeResultat, bool>> condition)
+        public IEnumerable<p_TypeResultat> WhereTypeResultat(Expression<Func<p_TypeResultat, bool>> condition)
         {
             return _db.p_TypeResultat.Where(condition);
         }
-        public IEnumerable<p_TypeUsag> GetTypeUsag(Expression<Func<p_TypeUsag, bool>> condition)
+        public IEnumerable<p_TypeUsag> WhereTypeUsag(Expression<Func<p_TypeUsag, bool>> condition)
         {
             return _db.p_TypeUsag.Where(condition);
         }
-        //Fin Where
+        #endregion
 
-        //Debut All
+        #region All
         public IEnumerable<ChoixReponse> AllChoixReponse()
         {
             return _db.ChoixReponse;
@@ -435,9 +434,9 @@ namespace sachem.Models.DataAccess
         {
             return _db.p_TypeUsag;
         }
-        //Fin All
+        #endregion
 
-        //Debut Find
+        #region Find
         public ChoixReponse FindChoixReponse(int id)
         {
             return _db.ChoixReponse.Find(id);
@@ -518,318 +517,524 @@ namespace sachem.Models.DataAccess
         {
             return _db.Suivi.Find(id);
         }
-        //Fin Find
+        #endregion
 
-        //Debut Add
-        public void AddChoixReponse(ChoixReponse itemToAdd)
+        #region Add
+        public void AddChoixReponse(ChoixReponse itemToAdd, bool saveChanges = true)
         {
             _db.ChoixReponse.Add(itemToAdd);
             _db.SaveChanges();
         }
-        public void AddCourriel(Courriel itemToAdd)
+        public void AddCourriel(Courriel itemToAdd, bool saveChanges = true)
         {
             _db.Courriel.Add(itemToAdd);
             _db.SaveChanges();
         }
-        public void AddCours(Cours itemToAdd)
+        public void AddCours(Cours itemToAdd, bool saveChanges = true)
         {
             _db.Cours.Add(itemToAdd);
             _db.SaveChanges();
         }
-        public void AddCoursInteret(CoursInteret itemToAdd)
+        public void AddCoursInteret(CoursInteret itemToAdd, bool saveChanges = true)
         {
             _db.CoursInteret.Add(itemToAdd);
             _db.SaveChanges();
         }
-        public void AddCoursSuivi(CoursSuivi itemToAdd)
+        public void AddCoursSuivi(CoursSuivi itemToAdd, bool saveChanges = true)
         {
             _db.CoursSuivi.Add(itemToAdd);
             _db.SaveChanges();
         }
-        public void AddDisponibilite(Disponibilite itemToAdd)
+        public void AddDisponibilite(Disponibilite itemToAdd, bool saveChanges = true)
         {
             _db.Disponibilite.Add(itemToAdd);
             _db.SaveChanges();
         }
-        public void AddEtuProgEtude(EtuProgEtude itemToAdd)
+        public void AddEtuProgEtude(EtuProgEtude itemToAdd, bool saveChanges = true)
         {
             _db.EtuProgEtude.Add(itemToAdd);
             _db.SaveChanges();
         }
-        public void AddEvaluation(Evaluation itemToAdd)
+        public void AddEvaluation(Evaluation itemToAdd, bool saveChanges = true)
         {
             _db.Evaluation.Add(itemToAdd);
             _db.SaveChanges();
         }
-        public void AddFormulaire(Formulaire itemToAdd)
+        public void AddFormulaire(Formulaire itemToAdd, bool saveChanges = true)
         {
             _db.Formulaire.Add(itemToAdd);
             _db.SaveChanges();
         }
-        public void AddGroupe(Groupe itemToAdd)
+        public void AddGroupe(Groupe itemToAdd, bool saveChanges = true)
         {
             _db.Groupe.Add(itemToAdd);
             _db.SaveChanges();
         }
-        public void AddGroupeEtudiant(GroupeEtudiant itemToAdd)
+        public void AddGroupeEtudiant(GroupeEtudiant itemToAdd, bool saveChanges = true)
         {
             _db.GroupeEtudiant.Add(itemToAdd);
             _db.SaveChanges();
         }
-        public void AddInscription(Inscription itemToAdd)
+        public void AddInscription(Inscription itemToAdd, bool saveChanges = true)
         {
             _db.Inscription.Add(itemToAdd);
             _db.SaveChanges();
         }
-        public void AddJumelage(Jumelage itemToAdd)
+        public void AddJumelage(Jumelage itemToAdd, bool saveChanges = true)
         {
             _db.Jumelage.Add(itemToAdd);
             _db.SaveChanges();
         }
-        public void AddPersonne(Personne itemToAdd)
+        public void AddPersonne(Personne itemToAdd, bool saveChanges = true)
         {
             _db.Personne.Add(itemToAdd);
             _db.SaveChanges();
         }
-        public void AddProgrammeEtude(ProgrammeEtude itemToAdd)
+        public void AddProgrammeEtude(ProgrammeEtude itemToAdd, bool saveChanges = true)
         {
             _db.ProgrammeEtude.Add(itemToAdd);
             _db.SaveChanges();
         }
-        public void AddQuestion(Question itemToAdd)
+        public void AddQuestion(Question itemToAdd, bool saveChanges = true)
         {
             _db.Question.Add(itemToAdd);
             _db.SaveChanges();
         }
-        public void AddReponseQuestion(ReponseQuestion itemToAdd)
+        public void AddReponseQuestion(ReponseQuestion itemToAdd, bool saveChanges = true)
         {
             _db.ReponseQuestion.Add(itemToAdd);
             _db.SaveChanges();
         }
-        public void AddSection(Section itemToAdd)
+        public void AddSection(Section itemToAdd, bool saveChanges = true)
         {
             _db.Section.Add(itemToAdd);
             _db.SaveChanges();
         }
-        public void AddSession(Session itemToAdd)
+        public void AddSession(Session itemToAdd, bool saveChanges = true)
         {
             _db.Session.Add(itemToAdd);
             _db.SaveChanges();
         }
-        public void AddSuivi(Suivi itemToAdd)
+        public void AddSuivi(Suivi itemToAdd, bool saveChanges = true)
         {
             _db.Suivi.Add(itemToAdd);
             _db.SaveChanges();
         }
-        //Fin Add
+        #endregion
 
-        //Debut Edit
-        public void EditChoixReponse(ChoixReponse itemToEdit)
+        #region AddRange
+        public void AddRangeChoixReponse(IEnumerable<ChoixReponse> itemsToAdd, bool saveChanges = true)
         {
-            _db.Entry(itemToEdit).State = EntityState.Modified;
+            _db.ChoixReponse.AddRange(itemsToAdd);
             _db.SaveChanges();
         }
-        public void EditCourriel(Courriel itemToEdit)
+        public void AddRangeCourriel(IEnumerable<Courriel> itemsToAdd, bool saveChanges = true)
         {
-            _db.Entry(itemToEdit).State = EntityState.Modified;
+            _db.Courriel.AddRange(itemsToAdd);
             _db.SaveChanges();
         }
-        public void EditCours(Cours itemToEdit)
+        public void AddRangeCours(IEnumerable<Cours> itemsToAdd, bool saveChanges = true)
         {
-            _db.Entry(itemToEdit).State = EntityState.Modified;
+            _db.Cours.AddRange(itemsToAdd);
             _db.SaveChanges();
         }
-        public void EditCoursInteret(CoursInteret itemToEdit)
+        public void AddRangeCoursInteret(IEnumerable<CoursInteret> itemsToAdd, bool saveChanges = true)
         {
-            _db.Entry(itemToEdit).State = EntityState.Modified;
+            _db.CoursInteret.AddRange(itemsToAdd);
             _db.SaveChanges();
         }
-        public void EditCoursSuivi(CoursSuivi itemToEdit)
+        public void AddRangeCoursSuivi(IEnumerable<CoursSuivi> itemsToAdd, bool saveChanges = true)
         {
-            _db.Entry(itemToEdit).State = EntityState.Modified;
+            _db.CoursSuivi.AddRange(itemsToAdd);
             _db.SaveChanges();
         }
-        public void EditDisponibilite(Disponibilite itemToEdit)
+        public void AddRangeDisponibilite(IEnumerable<Disponibilite> itemsToAdd, bool saveChanges = true)
         {
-            _db.Entry(itemToEdit).State = EntityState.Modified;
+            _db.Disponibilite.AddRange(itemsToAdd);
             _db.SaveChanges();
         }
-        public void EditEtuProgEtude(EtuProgEtude itemToEdit)
+        public void AddRangeEtuProgEtude(IEnumerable<EtuProgEtude> itemsToAdd, bool saveChanges = true)
         {
-            _db.Entry(itemToEdit).State = EntityState.Modified;
+            _db.EtuProgEtude.AddRange(itemsToAdd);
             _db.SaveChanges();
         }
-        public void EditEvaluation(Evaluation itemToEdit)
+        public void AddRangeEvaluation(IEnumerable<Evaluation> itemsToAdd, bool saveChanges = true)
         {
-            _db.Entry(itemToEdit).State = EntityState.Modified;
+            _db.Evaluation.AddRange(itemsToAdd);
             _db.SaveChanges();
         }
-        public void EditFormulaire(Formulaire itemToEdit)
+        public void AddRangeFormulaire(IEnumerable<Formulaire> itemsToAdd, bool saveChanges = true)
         {
-            _db.Entry(itemToEdit).State = EntityState.Modified;
+            _db.Formulaire.AddRange(itemsToAdd);
             _db.SaveChanges();
         }
-        public void EditGroupe(Groupe itemToEdit)
+        public void AddRangeGroupe(IEnumerable<Groupe> itemsToAdd, bool saveChanges = true)
         {
-            _db.Entry(itemToEdit).State = EntityState.Modified;
+            _db.Groupe.AddRange(itemsToAdd);
             _db.SaveChanges();
         }
-        public void EditGroupeEtudiant(GroupeEtudiant itemToEdit)
+        public void AddRangeGroupeEtudiant(IEnumerable<GroupeEtudiant> itemsToAdd, bool saveChanges = true)
         {
-            _db.Entry(itemToEdit).State = EntityState.Modified;
+            _db.GroupeEtudiant.AddRange(itemsToAdd);
             _db.SaveChanges();
         }
-        public void EditInscription(Inscription itemToEdit)
+        public void AddRangeInscription(IEnumerable<Inscription> itemsToAdd, bool saveChanges = true)
         {
-            _db.Entry(itemToEdit).State = EntityState.Modified;
+            _db.Inscription.AddRange(itemsToAdd);
             _db.SaveChanges();
         }
-        public void EditJumelage(Jumelage itemToEdit)
+        public void AddRangeJumelage(IEnumerable<Jumelage> itemsToAdd, bool saveChanges = true)
         {
-            _db.Entry(itemToEdit).State = EntityState.Modified;
+            _db.Jumelage.AddRange(itemsToAdd);
             _db.SaveChanges();
         }
-        public void EditPersonne(Personne itemToEdit)
+        public void AddRangePersonne(IEnumerable<Personne> itemsToAdd, bool saveChanges = true)
         {
-            _db.Entry(itemToEdit).State = EntityState.Modified;
+            _db.Personne.AddRange(itemsToAdd);
             _db.SaveChanges();
         }
-        public void EditProgrammeEtude(ProgrammeEtude itemToEdit)
+        public void AddRangeProgrammeEtude(IEnumerable<ProgrammeEtude> itemsToAdd, bool saveChanges = true)
         {
-            _db.Entry(itemToEdit).State = EntityState.Modified;
+            _db.ProgrammeEtude.AddRange(itemsToAdd);
             _db.SaveChanges();
         }
-        public void EditQuestion(Question itemToEdit)
+        public void AddRangeQuestion(IEnumerable<Question> itemsToAdd, bool saveChanges = true)
         {
-            _db.Entry(itemToEdit).State = EntityState.Modified;
+            _db.Question.AddRange(itemsToAdd);
             _db.SaveChanges();
         }
-        public void EditReponseQuestion(ReponseQuestion itemToEdit)
+        public void AddRangeReponseQuestion(IEnumerable<ReponseQuestion> itemsToAdd, bool saveChanges = true)
         {
-            _db.Entry(itemToEdit).State = EntityState.Modified;
+            _db.ReponseQuestion.AddRange(itemsToAdd);
             _db.SaveChanges();
         }
-        public void EditSection(Section itemToEdit)
+        public void AddRangeSection(IEnumerable<Section> itemsToAdd, bool saveChanges = true)
         {
-            _db.Entry(itemToEdit).State = EntityState.Modified;
+            _db.Section.AddRange(itemsToAdd);
             _db.SaveChanges();
         }
-        public void EditSession(Session itemToEdit)
+        public void AddRangeSession(IEnumerable<Session> itemsToAdd, bool saveChanges = true)
         {
-            _db.Entry(itemToEdit).State = EntityState.Modified;
+            _db.Session.AddRange(itemsToAdd);
             _db.SaveChanges();
         }
-        public void EditSuivi(Suivi itemToEdit)
+        public void AddRangeSuivi(IEnumerable<Suivi> itemsToAdd, bool saveChanges = true)
         {
-            _db.Entry(itemToEdit).State = EntityState.Modified;
+            _db.Suivi.AddRange(itemsToAdd);
             _db.SaveChanges();
         }
-        //Fin Edit
+        #endregion
 
-        //Debut Remove
-        public void RemoveChoixReponse(ChoixReponse itemToRemove)
+        #region Edit
+        public void EditChoixReponse(ChoixReponse itemToEdit, bool saveChanges = true)
+        {
+            _db.Entry(itemToEdit).State = EntityState.Modified;
+            if(saveChanges) _db.SaveChanges();
+        }
+        public void EditCourriel(Courriel itemToEdit, bool saveChanges = true)
+        {
+            _db.Entry(itemToEdit).State = EntityState.Modified;
+            if(saveChanges) _db.SaveChanges();
+        }
+        public void EditCours(Cours itemToEdit, bool saveChanges = true)
+        {
+            _db.Entry(itemToEdit).State = EntityState.Modified;
+            if(saveChanges) _db.SaveChanges();
+        }
+        public void EditCoursInteret(CoursInteret itemToEdit, bool saveChanges = true)
+        {
+            _db.Entry(itemToEdit).State = EntityState.Modified;
+            if(saveChanges) _db.SaveChanges();
+        }
+        public void EditCoursSuivi(CoursSuivi itemToEdit, bool saveChanges = true)
+        {
+            _db.Entry(itemToEdit).State = EntityState.Modified;
+            if(saveChanges) _db.SaveChanges();
+        }
+        public void EditDisponibilite(Disponibilite itemToEdit, bool saveChanges = true)
+        {
+            _db.Entry(itemToEdit).State = EntityState.Modified;
+            if(saveChanges) _db.SaveChanges();
+        }
+        public void EditEtuProgEtude(EtuProgEtude itemToEdit, bool saveChanges = true)
+        {
+            _db.Entry(itemToEdit).State = EntityState.Modified;
+            if(saveChanges) _db.SaveChanges();
+        }
+        public void EditEvaluation(Evaluation itemToEdit, bool saveChanges = true)
+        {
+            _db.Entry(itemToEdit).State = EntityState.Modified;
+            if(saveChanges) _db.SaveChanges();
+        }
+        public void EditFormulaire(Formulaire itemToEdit, bool saveChanges = true)
+        {
+            _db.Entry(itemToEdit).State = EntityState.Modified;
+            if(saveChanges) _db.SaveChanges();
+        }
+        public void EditGroupe(Groupe itemToEdit, bool saveChanges = true)
+        {
+            _db.Entry(itemToEdit).State = EntityState.Modified;
+            if(saveChanges) _db.SaveChanges();
+        }
+        public void EditGroupeEtudiant(GroupeEtudiant itemToEdit, bool saveChanges = true)
+        {
+            _db.Entry(itemToEdit).State = EntityState.Modified;
+            if(saveChanges) _db.SaveChanges();
+        }
+        public void EditInscription(Inscription itemToEdit, bool saveChanges = true)
+        {
+            _db.Entry(itemToEdit).State = EntityState.Modified;
+            if(saveChanges) _db.SaveChanges();
+        }
+        public void EditJumelage(Jumelage itemToEdit, bool saveChanges = true)
+        {
+            _db.Entry(itemToEdit).State = EntityState.Modified;
+            if(saveChanges) _db.SaveChanges();
+        }
+        public void EditPersonne(Personne itemToEdit, bool saveChanges = true)
+        {
+            _db.Entry(itemToEdit).State = EntityState.Modified;
+            if(saveChanges) _db.SaveChanges();
+        }
+        public void EditProgrammeEtude(ProgrammeEtude itemToEdit, bool saveChanges = true)
+        {
+            _db.Entry(itemToEdit).State = EntityState.Modified;
+            if(saveChanges) _db.SaveChanges();
+        }
+        public void EditQuestion(Question itemToEdit, bool saveChanges = true)
+        {
+            _db.Entry(itemToEdit).State = EntityState.Modified;
+            if(saveChanges) _db.SaveChanges();
+        }
+        public void EditReponseQuestion(ReponseQuestion itemToEdit, bool saveChanges = true)
+        {
+            _db.Entry(itemToEdit).State = EntityState.Modified;
+            if(saveChanges) _db.SaveChanges();
+        }
+        public void EditSection(Section itemToEdit, bool saveChanges = true)
+        {
+            _db.Entry(itemToEdit).State = EntityState.Modified;
+            if(saveChanges) _db.SaveChanges();
+        }
+        public void EditSession(Session itemToEdit, bool saveChanges = true)
+        {
+            _db.Entry(itemToEdit).State = EntityState.Modified;
+            if(saveChanges) _db.SaveChanges();
+        }
+        public void EditSuivi(Suivi itemToEdit, bool saveChanges = true)
+        {
+            _db.Entry(itemToEdit).State = EntityState.Modified;
+            if(saveChanges) _db.SaveChanges();
+        }
+        #endregion
+
+        #region Remove
+        public void RemoveChoixReponse(ChoixReponse itemToRemove, bool saveChanges = true)
         {
             _db.ChoixReponse.Remove(itemToRemove);
             _db.SaveChanges();
         }
-        public void RemoveCourriel(Courriel itemToRemove)
+        public void RemoveCourriel(Courriel itemToRemove, bool saveChanges = true)
         {
             _db.Courriel.Remove(itemToRemove);
             _db.SaveChanges();
         }
-        public void RemoveCours(Cours itemToRemove)
+        public void RemoveCours(Cours itemToRemove, bool saveChanges = true)
         {
             _db.Cours.Remove(itemToRemove);
             _db.SaveChanges();
         }
-        public void RemoveCoursInteret(CoursInteret itemToRemove)
+        public void RemoveCoursInteret(CoursInteret itemToRemove, bool saveChanges = true)
         {
             _db.CoursInteret.Remove(itemToRemove);
             _db.SaveChanges();
         }
-        public void RemoveCoursSuivi(CoursSuivi itemToRemove)
+        public void RemoveCoursSuivi(CoursSuivi itemToRemove, bool saveChanges = true)
         {
             _db.CoursSuivi.Remove(itemToRemove);
             _db.SaveChanges();
         }
-        public void RemoveDisponibilite(Disponibilite itemToRemove)
+        public void RemoveDisponibilite(Disponibilite itemToRemove, bool saveChanges = true)
         {
             _db.Disponibilite.Remove(itemToRemove);
             _db.SaveChanges();
         }
-        public void RemoveEtuProgEtude(EtuProgEtude itemToRemove)
+        public void RemoveEtuProgEtude(EtuProgEtude itemToRemove, bool saveChanges = true)
         {
             _db.EtuProgEtude.Remove(itemToRemove);
             _db.SaveChanges();
         }
-        public void RemoveEvaluation(Evaluation itemToRemove)
+        public void RemoveEvaluation(Evaluation itemToRemove, bool saveChanges = true)
         {
             _db.Evaluation.Remove(itemToRemove);
             _db.SaveChanges();
         }
-        public void RemoveFormulaire(Formulaire itemToRemove)
+        public void RemoveFormulaire(Formulaire itemToRemove, bool saveChanges = true)
         {
             _db.Formulaire.Remove(itemToRemove);
             _db.SaveChanges();
         }
-        public void RemoveGroupe(Groupe itemToRemove)
+        public void RemoveGroupe(Groupe itemToRemove, bool saveChanges = true)
         {
             _db.Groupe.Remove(itemToRemove);
             _db.SaveChanges();
         }
-        public void RemoveGroupeEtudiant(GroupeEtudiant itemToRemove)
+        public void RemoveGroupeEtudiant(GroupeEtudiant itemToRemove, bool saveChanges = true)
         {
             _db.GroupeEtudiant.Remove(itemToRemove);
             _db.SaveChanges();
         }
-        public void RemoveInscription(Inscription itemToRemove)
+        public void RemoveInscription(Inscription itemToRemove, bool saveChanges = true)
         {
             _db.Inscription.Remove(itemToRemove);
             _db.SaveChanges();
         }
-        public void RemoveJumelage(Jumelage itemToRemove)
+        public void RemoveJumelage(Jumelage itemToRemove, bool saveChanges = true)
         {
             _db.Jumelage.Remove(itemToRemove);
             _db.SaveChanges();
         }
-        public void RemovePersonne(Personne itemToRemove)
+        public void RemovePersonne(Personne itemToRemove, bool saveChanges = true)
         {
             _db.Personne.Remove(itemToRemove);
             _db.SaveChanges();
         }
-        public void RemoveProgrammeEtude(ProgrammeEtude itemToRemove)
+        public void RemoveProgrammeEtude(ProgrammeEtude itemToRemove, bool saveChanges = true)
         {
             _db.ProgrammeEtude.Remove(itemToRemove);
             _db.SaveChanges();
         }
-        public void RemoveQuestion(Question itemToRemove)
+        public void RemoveQuestion(Question itemToRemove, bool saveChanges = true)
         {
             _db.Question.Remove(itemToRemove);
             _db.SaveChanges();
         }
-        public void RemoveReponseQuestion(ReponseQuestion itemToRemove)
+        public void RemoveReponseQuestion(ReponseQuestion itemToRemove, bool saveChanges = true)
         {
             _db.ReponseQuestion.Remove(itemToRemove);
             _db.SaveChanges();
         }
-        public void RemoveSection(Section itemToRemove)
+        public void RemoveSection(Section itemToRemove, bool saveChanges = true)
         {
             _db.Section.Remove(itemToRemove);
             _db.SaveChanges();
         }
-        public void RemoveSession(Session itemToRemove)
+        public void RemoveSession(Session itemToRemove, bool saveChanges = true)
         {
             _db.Session.Remove(itemToRemove);
             _db.SaveChanges();
         }
-        public void RemoveSuivi(Suivi itemToRemove)
+        public void RemoveSuivi(Suivi itemToRemove, bool saveChanges = true)
         {
             _db.Suivi.Remove(itemToRemove);
             _db.SaveChanges();
         }
-        //Fin Remove
+        #endregion
 
-        //Debut Liste
+        #region RemoveRange
+        public void RemoveRangeChoixReponse(IEnumerable<ChoixReponse> itemsToRemove, bool saveChanges = true)
+        {
+            _db.ChoixReponse.RemoveRange(itemsToRemove);
+            _db.SaveChanges();
+        }
+        public void RemoveRangeCourriel(IEnumerable<Courriel> itemsToRemove, bool saveChanges = true)
+        {
+            _db.Courriel.RemoveRange(itemsToRemove);
+            _db.SaveChanges();
+        }
+        public void RemoveRangeCours(IEnumerable<Cours> itemsToRemove, bool saveChanges = true)
+        {
+            _db.Cours.RemoveRange(itemsToRemove);
+            _db.SaveChanges();
+        }
+        public void RemoveRangeCoursInteret(IEnumerable<CoursInteret> itemsToRemove, bool saveChanges = true)
+        {
+            _db.CoursInteret.RemoveRange(itemsToRemove);
+            _db.SaveChanges();
+        }
+        public void RemoveRangeCoursSuivi(IEnumerable<CoursSuivi> itemsToRemove, bool saveChanges = true)
+        {
+            _db.CoursSuivi.RemoveRange(itemsToRemove);
+            _db.SaveChanges();
+        }
+        public void RemoveRangeDisponibilite(IEnumerable<Disponibilite> itemsToRemove, bool saveChanges = true)
+        {
+            _db.Disponibilite.RemoveRange(itemsToRemove);
+            _db.SaveChanges();
+        }
+        public void RemoveRangeEtuProgEtude(IEnumerable<EtuProgEtude> itemsToRemove, bool saveChanges = true)
+        {
+            _db.EtuProgEtude.RemoveRange(itemsToRemove);
+            _db.SaveChanges();
+        }
+        public void RemoveRangeEvaluation(IEnumerable<Evaluation> itemsToRemove, bool saveChanges = true)
+        {
+            _db.Evaluation.RemoveRange(itemsToRemove);
+            _db.SaveChanges();
+        }
+        public void RemoveRangeFormulaire(IEnumerable<Formulaire> itemsToRemove, bool saveChanges = true)
+        {
+            _db.Formulaire.RemoveRange(itemsToRemove);
+            _db.SaveChanges();
+        }
+        public void RemoveRangeGroupe(IEnumerable<Groupe> itemsToRemove, bool saveChanges = true)
+        {
+            _db.Groupe.RemoveRange(itemsToRemove);
+            _db.SaveChanges();
+        }
+        public void RemoveRangeGroupeEtudiant(IEnumerable<GroupeEtudiant> itemsToRemove, bool saveChanges = true)
+        {
+            _db.GroupeEtudiant.RemoveRange(itemsToRemove);
+            _db.SaveChanges();
+        }
+        public void RemoveRangeInscription(IEnumerable<Inscription> itemsToRemove, bool saveChanges = true)
+        {
+            _db.Inscription.RemoveRange(itemsToRemove);
+            _db.SaveChanges();
+        }
+        public void RemoveRangeJumelage(IEnumerable<Jumelage> itemsToRemove, bool saveChanges = true)
+        {
+            _db.Jumelage.RemoveRange(itemsToRemove);
+            _db.SaveChanges();
+        }
+        public void RemoveRangePersonne(IEnumerable<Personne> itemsToRemove, bool saveChanges = true)
+        {
+            _db.Personne.RemoveRange(itemsToRemove);
+            _db.SaveChanges();
+        }
+        public void RemoveRangeProgrammeEtude(IEnumerable<ProgrammeEtude> itemsToRemove, bool saveChanges = true)
+        {
+            _db.ProgrammeEtude.RemoveRange(itemsToRemove);
+            _db.SaveChanges();
+        }
+        public void RemoveRangeQuestion(IEnumerable<Question> itemsToRemove, bool saveChanges = true)
+        {
+            _db.Question.RemoveRange(itemsToRemove);
+            _db.SaveChanges();
+        }
+        public void RemoveRangeReponseQuestion(IEnumerable<ReponseQuestion> itemsToRemove, bool saveChanges = true)
+        {
+            _db.ReponseQuestion.RemoveRange(itemsToRemove);
+            _db.SaveChanges();
+        }
+        public void RemoveRangeSection(IEnumerable<Section> itemsToRemove, bool saveChanges = true)
+        {
+            _db.Section.RemoveRange(itemsToRemove);
+            _db.SaveChanges();
+        }
+        public void RemoveRangeSession(IEnumerable<Session> itemsToRemove, bool saveChanges = true)
+        {
+            _db.Session.RemoveRange(itemsToRemove);
+            _db.SaveChanges();
+        }
+        public void RemoveRangeSuivi(IEnumerable<Suivi> itemsToRemove, bool saveChanges = true)
+        {
+            _db.Suivi.RemoveRange(itemsToRemove);
+            _db.SaveChanges();
+        }
+        #endregion
+
+        #region Liste
         public SelectList ListeTypeUsager(int idTypeUsager = 0)
         {
             var req = _db.p_TypeUsag.Where(x => x.id_TypeUsag == IdTypeUsagerEnseignant || 
@@ -860,23 +1065,23 @@ namespace sachem.Models.DataAccess
         }
         public SelectList ListeProgrammmeCode(bool actif = true)
         {
-            return new SelectList(GetProgrammeEtude(x => x.Actif), "id_ProgEtu", "CodeNomProgramme");
+            return new SelectList(WhereProgrammeEtude(x => x.Actif), "id_ProgEtu", "CodeNomProgramme");
         }
         public SelectList ListeEtudiants(int id = 0)
         {
-            return new SelectList(GetPersonne(x=>x.id_TypeUsag == (int)TypeUsagers.Etudiant)
+            return new SelectList(WherePersonne(x=>x.id_TypeUsag == (int)TypeUsagers.Etudiant)
                 .OrderBy(x=>x.Nom)
                 .ThenBy(x=>x.Prenom), "id_Pers", "Nom", id);
         }
         public SelectList ListeEnseignant(int id = 0)
         {
-            return new SelectList(GetPersonne(x => x.id_TypeUsag == (int)TypeUsagers.Enseignant && x.Actif)
+            return new SelectList(WherePersonne(x => x.id_TypeUsag == (int)TypeUsagers.Enseignant && x.Actif)
                 .OrderBy(x => x.Nom)
                 .ThenBy(x => x.Prenom), "id_Pers", "NomPrenom", id);
         }
         public SelectList ListeEnseignantEtResponsable(int id = 0)
         {
-            return new SelectList(GetPersonne(x => x.id_TypeUsag == (int)TypeUsagers.Enseignant && x.Actif
+            return new SelectList(WherePersonne(x => x.id_TypeUsag == (int)TypeUsagers.Enseignant && x.Actif
             || x.id_TypeUsag == (int)TypeUsagers.Responsable)
                 .OrderBy(x => x.Nom)
                 .ThenBy(x => x.Prenom), "id_Pers", "NomPrenom", id);
@@ -912,7 +1117,7 @@ namespace sachem.Models.DataAccess
             }
             return jours.ToList();
         }
-        //Fin Liste
+        #endregion
 
         public void Dispose()
         {

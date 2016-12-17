@@ -190,7 +190,9 @@ namespace sachem.Controllers
             ViewBag.Actif = actif;
             ViewBag.Enseignant = _dataRepository.ListeEnseignant();
 
-            return _dataRepository.AllEnseignantResponsable(actif);
+            return _dataRepository.WherePersonne(x=>x.id_TypeUsag==(int)TypeUsagers.Responsable 
+                                                && x.id_TypeUsag==(int)TypeUsagers.Enseignant 
+                                                && x.Actif == actif);
         }
 
         private void Valider(Personne personne)

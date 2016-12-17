@@ -14,7 +14,6 @@ namespace sachem.Controllers
     {
         private int _idPers;
         private int _idTypeUsage;
-        private readonly SACHEMEntities _db = new SACHEMEntities();
         private readonly IDataRepository _dataRepository;
 
         public ConsulterCoursController(IDataRepository dataRepository)
@@ -27,14 +26,14 @@ namespace sachem.Controllers
             _dataRepository = new BdRepository();
         }
 
-        private readonly List<TypeUsagers> _rolesAcces = new List<TypeUsagers>() { TypeUsagers.Enseignant, TypeUsagers.Responsable, TypeUsagers.Super };
+        private readonly List<TypeUsagers> _rolesAcces = new List<TypeUsagers> { TypeUsagers.Enseignant, TypeUsagers.Responsable, TypeUsagers.Super };
 
         [ValidationAcces.ValidationAccesEnseignant]
         public ActionResult Index(int? page)
         {
-            _db.Configuration.LazyLoadingEnabled = true;
+            //_dataRepository.Configuration.LazyLoadingEnabled = true;
 
-            var noPage = (page ?? 1);
+            var noPage = page ?? 1;
 
             if (!SachemIdentite.ValiderRoleAcces(_rolesAcces, Session))
             {
@@ -94,7 +93,7 @@ namespace sachem.Controllers
                 }
                 else if (Request.Form["Session"] == null)
                 {
-                    var firstOrDefault = _db.Session.OrderByDescending(y => y.Annee)
+                    var firstOrDefault = _dataRepository.AllSession().OrderByDescending(y => y.Annee)
                         .ThenByDescending(x => x.id_Saison)
                         .FirstOrDefault();
 
@@ -114,15 +113,14 @@ namespace sachem.Controllers
             {
                 ViewBag.Session = _dataRepository.ListeSession(idSess);
 
-                var listeInfoEns = (from c in _db.Groupe
-                           where (c.id_Sess == idSess && c.id_Enseignant == _idPers) ||
-                           (idSess == 0 && c.id_Enseignant == _idPers)
-                           orderby c.NoGroupe
-                           select c)
-                           .GroupBy(c => c.Cours.Nom)
-                           .SelectMany(cours => cours);
+                var listeInfoEns = _dataRepository.WhereGroupe(c => (c.id_Sess == idSess && c.id_Enseignant == _idPers) ||
+                            (idSess == 0 && c.id_Enseignant == _idPers))
+                            .OrderBy(c => c.NoGroupe)
+                            .GroupBy(c => c.Cours.Nom)
+                            .SelectMany(cours => cours)
+                            .AsQueryable();
 
-                var listeIdUniques = (from c in listeInfoEns select c.id_Cours).Distinct();
+                var listeIdUniques = listeInfoEns.Select(c => c.id_Cours).Distinct();
 
                 ViewBag.IsEnseignant = true;
 
@@ -133,17 +131,16 @@ namespace sachem.Controllers
             else
             {
                 ViewBag.Session = _dataRepository.ListeSession(idSess);
-                ViewBag.Personne = _dataRepository.ListeEnseignantEtREsponsable(idSess, idPersonne);
+                ViewBag.Personne = _dataRepository.ListeEnseignantEtResponsable(idPersonne);//id_Sess?
 
-                var listeInfoResp = (from c in _db.Groupe
-                           where c.id_Sess == (idSess == 0 ? c.id_Sess : idSess) && 
-                           c.id_Enseignant == (idPersonne == 0 ? c.id_Enseignant : idPersonne)
-                           orderby c.NoGroupe
-                           select c)
-                           .GroupBy(c => c.Cours.Nom)
-                           .SelectMany(cours => cours);
+                var listeInfoResp = _dataRepository.WhereGroupe(c => c.id_Sess == (idSess == 0 ? c.id_Sess : idSess) &&
+                            c.id_Enseignant == (idPersonne == 0 ? c.id_Enseignant : idPersonne))
+                            .OrderBy(c => c.NoGroupe)
+                            .GroupBy(c => c.Cours.Nom)
+                            .SelectMany(cours => cours)
+                            .AsQueryable();
 
-                var listeIdUniques = (from c in listeInfoResp select c.id_Cours).Distinct();
+                var listeIdUniques = (listeInfoResp.Select(c => c.id_Cours)).Distinct();
 
                 ViewBag.IsEnseignant = false;
 
@@ -163,15 +160,13 @@ namespace sachem.Controllers
             {
                 foreach (var id in tlid)
                 {
-                    if (t.id_Cours == id && t.id_Cours != idPrec)
+                    if (t.id_Cours != id || t.id_Cours == idPrec) continue;
+                    idPrec = t.id_Cours;
+                    if (!isEnseignant)
                     {
-                        idPrec = t.id_Cours;
-                        if (!isEnseignant)
-                        {
-                            t.nomsConcatenesProfs = TrouverNomsProfs(listeTout, t.id_Cours);
-                        }
-                        listeCours.Add(t);
+                        t.nomsConcatenesProfs = TrouverNomsProfs(listeTout, t.id_Cours);
                     }
+                    listeCours.Add(t);
                 }
             }
             return listeCours;
@@ -182,15 +177,13 @@ namespace sachem.Controllers
             var nomsProfs = "";
             var listeNomsTemp = new List<string>();
 
-            var lNomsProfs = from c in listeTout where c.id_Cours == idCours select c;
+            var lNomsProfs = listeTout.Where(c => c.id_Cours == idCours);
 
             foreach (var n in lNomsProfs)
             {
-                if (!listeNomsTemp.Contains(n.Personne.PrenomNom))
-                {
-                    nomsProfs += n.Personne.PrenomNom + ", ";
-                    listeNomsTemp.Add(n.Personne.PrenomNom);
-                }
+                if (listeNomsTemp.Contains(n.Personne.PrenomNom)) continue;
+                nomsProfs += n.Personne.PrenomNom + ", ";
+                listeNomsTemp.Add(n.Personne.PrenomNom);
             }
             nomsProfs = nomsProfs.Remove(nomsProfs.Length - 2, 2);
 
@@ -219,24 +212,18 @@ namespace sachem.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            IOrderedQueryable<Groupe> gr;
+            IQueryable<Groupe> gr;
             if (_idTypeUsage == 2)
             {
                 ViewBag.IsEnseignant = true;
 
-                gr = from g in _db.Groupe
-                    where g.id_Cours == idCours &&
-                          g.id_Enseignant == _idPers
-                    orderby g.NoGroupe
-                    select g;
+                gr = _dataRepository.WhereGroupe(g => g.id_Cours == idCours &&
+                                           g.id_Enseignant == _idPers).OrderBy(g => g.NoGroupe).AsQueryable();
             }
             else
             {
                 ViewBag.IsEnseignant = false;
-                gr = from g in _db.Groupe
-                    where g.id_Cours == idCours
-                    orderby g.NoGroupe
-                    select g;
+                gr = _dataRepository.WhereGroupe(g => g.id_Cours == idCours).OrderBy(g => g.NoGroupe).AsQueryable();
             }
 
             if (!gr.Any())

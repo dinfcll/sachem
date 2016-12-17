@@ -9,7 +9,7 @@ namespace sachem.Models.DataAccess
         int SessionEnCours();
         string FindMdp(int id);
 
-        //Debut Any
+        #region Any
         bool AnyChoixReponse(Expression<Func<ChoixReponse, bool>> condition);
         bool AnyCourriel(Expression<Func<Courriel, bool>> condition);
         bool AnyCours(Expression<Func<Cours, bool>> condition);
@@ -44,46 +44,46 @@ namespace sachem.Models.DataAccess
         bool AnyTypeInscription(Expression<Func<p_TypeInscription, bool>> condition);
         bool AnyTypeResultat(Expression<Func<p_TypeResultat, bool>> condition);
         bool AnyTypeUsag(Expression<Func<p_TypeUsag, bool>> condition);
-        //Fin Any
+        #endregion
 
-        //Debut Where
-        IEnumerable<ChoixReponse> GetChoixReponse(Expression<Func<ChoixReponse, bool>> condition);
-        IEnumerable<Courriel> GetCourriel(Expression<Func<Courriel, bool>> condition);
-        IEnumerable<Cours> GetCours(Expression<Func<Cours, bool>> condition);
-        IEnumerable<CoursInteret> GetCoursInteret(Expression<Func<CoursInteret, bool>> condition);
-        IEnumerable<CoursSuivi> GetCoursSuivi(Expression<Func<CoursSuivi, bool>> condition);
-        IEnumerable<Disponibilite> GetDisponibilite(Expression<Func<Disponibilite, bool>> condition);
-        IEnumerable<EtuProgEtude> GetEtuProgEtude(Expression<Func<EtuProgEtude, bool>> condition);
-        IEnumerable<Evaluation> GetEvaluation(Expression<Func<Evaluation, bool>> condition);
-        IEnumerable<Formulaire> GetFormulaire(Expression<Func<Formulaire, bool>> condition);
-        IEnumerable<Groupe> GetGroupe(Expression<Func<Groupe, bool>> condition);
-        IEnumerable<GroupeEtudiant> GetGroupeEtudiant(Expression<Func<GroupeEtudiant, bool>> condition);
-        IEnumerable<Inscription> GetInscription(Expression<Func<Inscription, bool>> condition);
-        IEnumerable<Jumelage> GetJumelage(Expression<Func<Jumelage, bool>> condition);
-        IEnumerable<Personne> GetPersonne(Expression<Func<Personne, bool>> condition);
-        IEnumerable<ProgrammeEtude> GetProgrammeEtude(Expression<Func<ProgrammeEtude, bool>> condition);
-        IEnumerable<Question> GetQuestion(Expression<Func<Question, bool>> condition);
-        IEnumerable<ReponseQuestion> GetReponseQuestion(Expression<Func<ReponseQuestion, bool>> condition);
-        IEnumerable<Section> GetSection(Expression<Func<Section, bool>> condition);
-        IEnumerable<Session> GetSession(Expression<Func<Session, bool>> condition);
-        IEnumerable<Suivi> GetSuivi(Expression<Func<Suivi, bool>> condition);
-            //Get - sur table parametres
-        IEnumerable<p_College> GetCollege(Expression<Func<p_College, bool>> condition);
-        IEnumerable<p_Contact> GetContact(Expression<Func<p_Contact, bool>> condition);
-        IEnumerable<p_HoraireInscription> GetHoraireInscription(Expression<Func<p_HoraireInscription, bool>> condition);
-        IEnumerable<p_Jour> GetJour(Expression<Func<p_Jour, bool>> condition);
-        IEnumerable<p_Saison> GetSaison(Expression<Func<p_Saison, bool>> condition);
-        IEnumerable<p_Sexe> GetSexe(Expression<Func<p_Sexe, bool>> condition);
-        IEnumerable<p_StatutCours> GetStatutCours(Expression<Func<p_StatutCours, bool>> condition);
-        IEnumerable<p_StatutInscription> GetStatutInscription(Expression<Func<p_StatutInscription, bool>> condition);
-        IEnumerable<p_TypeCourriel> GetTypeCourriel(Expression<Func<p_TypeCourriel, bool>> condition);
-        IEnumerable<p_TypeFormulaire> GetTypeFormulaire(Expression<Func<p_TypeFormulaire, bool>> condition);
-        IEnumerable<p_TypeInscription> GetTypeInscription(Expression<Func<p_TypeInscription, bool>> condition);
-        IEnumerable<p_TypeResultat> GetTypeResultat(Expression<Func<p_TypeResultat, bool>> condition);
-        IEnumerable<p_TypeUsag> GetTypeUsag(Expression<Func<p_TypeUsag, bool>> condition);
-        //Fin Where
+        #region Where
+        IEnumerable<ChoixReponse> WhereChoixReponse(Expression<Func<ChoixReponse, bool>> condition);
+        IEnumerable<Courriel> WhereCourriel(Expression<Func<Courriel, bool>> condition);
+        IEnumerable<Cours> WhereCours(Expression<Func<Cours, bool>> condition);
+        IEnumerable<CoursInteret> WhereCoursInteret(Expression<Func<CoursInteret, bool>> condition);
+        IEnumerable<CoursSuivi> WhereCoursSuivi(Expression<Func<CoursSuivi, bool>> condition);
+        IEnumerable<Disponibilite> WhereDisponibilite(Expression<Func<Disponibilite, bool>> condition);
+        IEnumerable<EtuProgEtude> WhereEtuProgEtude(Expression<Func<EtuProgEtude, bool>> condition);
+        IEnumerable<Evaluation> WhereEvaluation(Expression<Func<Evaluation, bool>> condition);
+        IEnumerable<Formulaire> WhereFormulaire(Expression<Func<Formulaire, bool>> condition);
+        IEnumerable<Groupe> WhereGroupe(Expression<Func<Groupe, bool>> condition);
+        IEnumerable<GroupeEtudiant> WhereGroupeEtudiant(Expression<Func<GroupeEtudiant, bool>> condition);
+        IEnumerable<Inscription> WhereInscription(Expression<Func<Inscription, bool>> condition);
+        IEnumerable<Jumelage> WhereJumelage(Expression<Func<Jumelage, bool>> condition);
+        IEnumerable<Personne> WherePersonne(Expression<Func<Personne, bool>> condition);
+        IEnumerable<ProgrammeEtude> WhereProgrammeEtude(Expression<Func<ProgrammeEtude, bool>> condition);
+        IEnumerable<Question> WhereQuestion(Expression<Func<Question, bool>> condition);
+        IEnumerable<ReponseQuestion> WhereReponseQuestion(Expression<Func<ReponseQuestion, bool>> condition);
+        IEnumerable<Section> WhereSection(Expression<Func<Section, bool>> condition);
+        IEnumerable<Session> WhereSession(Expression<Func<Session, bool>> condition);
+        IEnumerable<Suivi> WhereSuivi(Expression<Func<Suivi, bool>> condition);
+            //Where - sur table parametres
+        IEnumerable<p_College> WhereCollege(Expression<Func<p_College, bool>> condition);
+        IEnumerable<p_Contact> WhereContact(Expression<Func<p_Contact, bool>> condition);
+        IEnumerable<p_HoraireInscription> WhereHoraireInscription(Expression<Func<p_HoraireInscription, bool>> condition);
+        IEnumerable<p_Jour> WhereJour(Expression<Func<p_Jour, bool>> condition);
+        IEnumerable<p_Saison> WhereSaison(Expression<Func<p_Saison, bool>> condition);
+        IEnumerable<p_Sexe> WhereSexe(Expression<Func<p_Sexe, bool>> condition);
+        IEnumerable<p_StatutCours> WhereStatutCours(Expression<Func<p_StatutCours, bool>> condition);
+        IEnumerable<p_StatutInscription> WhereStatutInscription(Expression<Func<p_StatutInscription, bool>> condition);
+        IEnumerable<p_TypeCourriel> WhereTypeCourriel(Expression<Func<p_TypeCourriel, bool>> condition);
+        IEnumerable<p_TypeFormulaire> WhereTypeFormulaire(Expression<Func<p_TypeFormulaire, bool>> condition);
+        IEnumerable<p_TypeInscription> WhereTypeInscription(Expression<Func<p_TypeInscription, bool>> condition);
+        IEnumerable<p_TypeResultat> WhereTypeResultat(Expression<Func<p_TypeResultat, bool>> condition);
+        IEnumerable<p_TypeUsag> WhereTypeUsag(Expression<Func<p_TypeUsag, bool>> condition);
+        #endregion
 
-        //Debut All
+        #region All
         IEnumerable<ChoixReponse> AllChoixReponse();
         IEnumerable<Courriel> AllCourriel();
         IEnumerable<Cours> AllCours();
@@ -118,9 +118,9 @@ namespace sachem.Models.DataAccess
         IEnumerable<p_TypeInscription> AllTypeInscription();
         IEnumerable<p_TypeResultat> AllTypeResultat();
         IEnumerable<p_TypeUsag> AllTypeUsag();
-        //Fin All
+        #endregion
 
-        //Debut Find
+        #region Find
         ChoixReponse FindChoixReponse(int id);
         Courriel FindCourriel(int id);
         Cours FindCours(int id);
@@ -141,78 +141,124 @@ namespace sachem.Models.DataAccess
         Section FindSection(int id);
         Session FindSession(int id);
         Suivi FindSuivi(int id);
-        //Fin Find
+        #endregion
 
-        //Debut Add
-        void AddChoixReponse(ChoixReponse itemToAdd);
-        void AddCourriel(Courriel itemToAdd);
-        void AddCours(Cours itemToAdd);
-        void AddCoursInteret(CoursInteret itemToAdd);
-        void AddCoursSuivi(CoursSuivi itemToAdd);
-        void AddDisponibilite(Disponibilite itemToAdd);
-        void AddEtuProgEtude(EtuProgEtude itemToAdd);
-        void AddEvaluation(Evaluation itemToAdd);
-        void AddFormulaire(Formulaire itemToAdd);
-        void AddGroupe(Groupe itemToAdd);
-        void AddGroupeEtudiant(GroupeEtudiant itemToAdd);
-        void AddInscription(Inscription itemToAdd);
-        void AddJumelage(Jumelage itemToAdd);
-        void AddPersonne(Personne itemToAdd);
-        void AddProgrammeEtude(ProgrammeEtude itemToAdd);
-        void AddQuestion(Question itemToAdd);
-        void AddReponseQuestion(ReponseQuestion itemToAdd);
-        void AddSection(Section itemToAdd);
-        void AddSession(Session itemToAdd);
-        void AddSuivi(Suivi itemToAdd);
-        //Fin Add
+        #region Add
+        void AddChoixReponse(ChoixReponse itemToAdd, bool saveChanges = true);
+        void AddCourriel(Courriel itemToAdd, bool saveChanges = true);
+        void AddCours(Cours itemToAdd, bool saveChanges = true);
+        void AddCoursInteret(CoursInteret itemToAdd, bool saveChanges = true);
+        void AddCoursSuivi(CoursSuivi itemToAdd, bool saveChanges = true);
+        void AddDisponibilite(Disponibilite itemToAdd, bool saveChanges = true);
+        void AddEtuProgEtude(EtuProgEtude itemToAdd, bool saveChanges = true);
+        void AddEvaluation(Evaluation itemToAdd, bool saveChanges = true);
+        void AddFormulaire(Formulaire itemToAdd, bool saveChanges = true);
+        void AddGroupe(Groupe itemToAdd, bool saveChanges = true);
+        void AddGroupeEtudiant(GroupeEtudiant itemToAdd, bool saveChanges = true);
+        void AddInscription(Inscription itemToAdd, bool saveChanges = true);
+        void AddJumelage(Jumelage itemToAdd, bool saveChanges = true);
+        void AddPersonne(Personne itemToAdd, bool saveChanges = true);
+        void AddProgrammeEtude(ProgrammeEtude itemToAdd, bool saveChanges = true);
+        void AddQuestion(Question itemToAdd, bool saveChanges = true);
+        void AddReponseQuestion(ReponseQuestion itemToAdd, bool saveChanges = true);
+        void AddSection(Section itemToAdd, bool saveChanges = true);
+        void AddSession(Session itemToAdd, bool saveChanges = true);
+        void AddSuivi(Suivi itemToAdd, bool saveChanges = true);
+        #endregion
 
-        //Debut Edit
-        void EditChoixReponse(ChoixReponse itemToEdit);
-        void EditCourriel(Courriel itemToEdit);
-        void EditCours(Cours itemToEdit);
-        void EditCoursInteret(CoursInteret itemToEdit);
-        void EditCoursSuivi(CoursSuivi itemToEdit);
-        void EditDisponibilite(Disponibilite itemToEdit);
-        void EditEtuProgEtude(EtuProgEtude itemToEdit);
-        void EditEvaluation(Evaluation itemToEdit);
-        void EditFormulaire(Formulaire itemToEdit);
-        void EditGroupe(Groupe itemToEdit);
-        void EditGroupeEtudiant(GroupeEtudiant itemToEdit);
-        void EditInscription(Inscription itemToEdit);
-        void EditJumelage(Jumelage itemToEdit);
-        void EditPersonne(Personne itemToEdit);
-        void EditProgrammeEtude(ProgrammeEtude itemToEdit);
-        void EditQuestion(Question itemToEdit);
-        void EditReponseQuestion(ReponseQuestion itemToEdit);
-        void EditSection(Section itemToEdit);
-        void EditSession(Session itemToEdit);
-        void EditSuivi(Suivi itemToEdit);
-        //Fin Edit
+        #region AddRange
+        void AddRangeChoixReponse(IEnumerable<ChoixReponse> itemsToAdd, bool saveChanges = true);
+        void AddRangeCourriel(IEnumerable<Courriel> itemsToAdd, bool saveChanges = true);
+        void AddRangeCours(IEnumerable<Cours> itemsToAdd, bool saveChanges = true);
+        void AddRangeCoursInteret(IEnumerable<CoursInteret> itemsToAdd, bool saveChanges = true);
+        void AddRangeCoursSuivi(IEnumerable<CoursSuivi> itemsToAdd, bool saveChanges = true);
+        void AddRangeDisponibilite(IEnumerable<Disponibilite> itemsToAdd, bool saveChanges = true);
+        void AddRangeEtuProgEtude(IEnumerable<EtuProgEtude> itemsToAdd, bool saveChanges = true);
+        void AddRangeEvaluation(IEnumerable<Evaluation> itemsToAdd, bool saveChanges = true);
+        void AddRangeFormulaire(IEnumerable<Formulaire> itemsToAdd, bool saveChanges = true);
+        void AddRangeGroupe(IEnumerable<Groupe> itemsToAdd, bool saveChanges = true);
+        void AddRangeGroupeEtudiant(IEnumerable<GroupeEtudiant> itemsToAdd, bool saveChanges = true);
+        void AddRangeInscription(IEnumerable<Inscription> itemsToAdd, bool saveChanges = true);
+        void AddRangeJumelage(IEnumerable<Jumelage> itemsToAdd, bool saveChanges = true);
+        void AddRangePersonne(IEnumerable<Personne> itemsToAdd, bool saveChanges = true);
+        void AddRangeProgrammeEtude(IEnumerable<ProgrammeEtude> itemsToAdd, bool saveChanges = true);
+        void AddRangeQuestion(IEnumerable<Question> itemsToAdd, bool saveChanges = true);
+        void AddRangeReponseQuestion(IEnumerable<ReponseQuestion> itemsToAdd, bool saveChanges = true);
+        void AddRangeSection(IEnumerable<Section> itemsToAdd, bool saveChanges = true);
+        void AddRangeSession(IEnumerable<Session> itemsToAdd, bool saveChanges = true);
+        void AddRangeSuivi(IEnumerable<Suivi> itemsToAdd, bool saveChanges = true);
+        #endregion
 
-        //Debut Remove
-        void RemoveChoixReponse(ChoixReponse itemToRemove);
-        void RemoveCourriel(Courriel itemToRemove);
-        void RemoveCours(Cours itemToRemove);
-        void RemoveCoursInteret(CoursInteret itemToRemove);
-        void RemoveCoursSuivi(CoursSuivi itemToRemove);
-        void RemoveDisponibilite(Disponibilite itemToRemove);
-        void RemoveEtuProgEtude(EtuProgEtude itemToRemove);
-        void RemoveEvaluation(Evaluation itemToRemove);
-        void RemoveFormulaire(Formulaire itemToRemove);
-        void RemoveGroupe(Groupe itemToRemove);
-        void RemoveGroupeEtudiant(GroupeEtudiant itemToRemove);
-        void RemoveInscription(Inscription itemToRemove);
-        void RemoveJumelage(Jumelage itemToRemove);
-        void RemovePersonne(Personne itemToRemove);
-        void RemoveProgrammeEtude(ProgrammeEtude itemToRemove);
-        void RemoveQuestion(Question itemToRemove);
-        void RemoveReponseQuestion(ReponseQuestion itemToRemove);
-        void RemoveSection(Section itemToRemove);
-        void RemoveSession(Session itemToRemove);
-        void RemoveSuivi(Suivi itemToRemove);
-        //Fin Remove
+        #region Edit
+        void EditChoixReponse(ChoixReponse itemToEdit, bool saveChanges = true);
+        void EditCourriel(Courriel itemToEdit, bool saveChanges = true);
+        void EditCours(Cours itemToEdit, bool saveChanges = true);
+        void EditCoursInteret(CoursInteret itemToEdit, bool saveChanges = true);
+        void EditCoursSuivi(CoursSuivi itemToEdit, bool saveChanges = true);
+        void EditDisponibilite(Disponibilite itemToEdit, bool saveChanges = true);
+        void EditEtuProgEtude(EtuProgEtude itemToEdit, bool saveChanges = true);
+        void EditEvaluation(Evaluation itemToEdit, bool saveChanges = true);
+        void EditFormulaire(Formulaire itemToEdit, bool saveChanges = true);
+        void EditGroupe(Groupe itemToEdit, bool saveChanges = true);
+        void EditGroupeEtudiant(GroupeEtudiant itemToEdit, bool saveChanges = true);
+        void EditInscription(Inscription itemToEdit, bool saveChanges = true);
+        void EditJumelage(Jumelage itemToEdit, bool saveChanges = true);
+        void EditPersonne(Personne itemToEdit, bool saveChanges = true);
+        void EditProgrammeEtude(ProgrammeEtude itemToEdit, bool saveChanges = true);
+        void EditQuestion(Question itemToEdit, bool saveChanges = true);
+        void EditReponseQuestion(ReponseQuestion itemToEdit, bool saveChanges = true);
+        void EditSection(Section itemToEdit, bool saveChanges = true);
+        void EditSession(Session itemToEdit, bool saveChanges = true);
+        void EditSuivi(Suivi itemToEdit, bool saveChanges = true);
+        #endregion
 
-        //Debut Liste
+        #region Remove
+        void RemoveChoixReponse(ChoixReponse itemToRemove, bool saveChanges = true);
+        void RemoveCourriel(Courriel itemToRemove, bool saveChanges = true);
+        void RemoveCours(Cours itemToRemove, bool saveChanges = true);
+        void RemoveCoursInteret(CoursInteret itemToRemove, bool saveChanges = true);
+        void RemoveCoursSuivi(CoursSuivi itemToRemove, bool saveChanges = true);
+        void RemoveDisponibilite(Disponibilite itemToRemove, bool saveChanges = true);
+        void RemoveEtuProgEtude(EtuProgEtude itemToRemove, bool saveChanges = true);
+        void RemoveEvaluation(Evaluation itemToRemove, bool saveChanges = true);
+        void RemoveFormulaire(Formulaire itemToRemove, bool saveChanges = true);
+        void RemoveGroupe(Groupe itemToRemove, bool saveChanges = true);
+        void RemoveGroupeEtudiant(GroupeEtudiant itemToRemove, bool saveChanges = true);
+        void RemoveInscription(Inscription itemToRemove, bool saveChanges = true);
+        void RemoveJumelage(Jumelage itemToRemove, bool saveChanges = true);
+        void RemovePersonne(Personne itemToRemove, bool saveChanges = true);
+        void RemoveProgrammeEtude(ProgrammeEtude itemToRemove, bool saveChanges = true);
+        void RemoveQuestion(Question itemToRemove, bool saveChanges = true);
+        void RemoveReponseQuestion(ReponseQuestion itemToRemove, bool saveChanges = true);
+        void RemoveSection(Section itemToRemove, bool saveChanges = true);
+        void RemoveSession(Session itemToRemove, bool saveChanges = true);
+        void RemoveSuivi(Suivi itemToRemove, bool saveChanges = true);
+        #endregion
+
+        #region RemoveRange
+        void RemoveRangeChoixReponse(IEnumerable<ChoixReponse> itemsToRemove, bool saveChanges = true);
+        void RemoveRangeCourriel(IEnumerable<Courriel> itemsToRemove, bool saveChanges = true);
+        void RemoveRangeCours(IEnumerable<Cours> itemsToRemove, bool saveChanges = true);
+        void RemoveRangeCoursInteret(IEnumerable<CoursInteret> itemsToRemove, bool saveChanges = true);
+        void RemoveRangeCoursSuivi(IEnumerable<CoursSuivi> itemsToRemove, bool saveChanges = true);
+        void RemoveRangeDisponibilite(IEnumerable<Disponibilite> itemsToRemove, bool saveChanges = true);
+        void RemoveRangeEtuProgEtude(IEnumerable<EtuProgEtude> itemsToRemove, bool saveChanges = true);
+        void RemoveRangeEvaluation(IEnumerable<Evaluation> itemsToRemove, bool saveChanges = true);
+        void RemoveRangeFormulaire(IEnumerable<Formulaire> itemsToRemove, bool saveChanges = true);
+        void RemoveRangeGroupe(IEnumerable<Groupe> itemsToRemove, bool saveChanges = true);
+        void RemoveRangeGroupeEtudiant(IEnumerable<GroupeEtudiant> itemsToRemove, bool saveChanges = true);
+        void RemoveRangeInscription(IEnumerable<Inscription> itemsToRemove, bool saveChanges = true);
+        void RemoveRangeJumelage(IEnumerable<Jumelage> itemsToRemove, bool saveChanges = true);
+        void RemoveRangePersonne(IEnumerable<Personne> itemsToRemove, bool saveChanges = true);
+        void RemoveRangeProgrammeEtude(IEnumerable<ProgrammeEtude> itemsToRemove, bool saveChanges = true);
+        void RemoveRangeQuestion(IEnumerable<Question> itemsToRemove, bool saveChanges = true);
+        void RemoveRangeReponseQuestion(IEnumerable<ReponseQuestion> itemsToRemove, bool saveChanges = true);
+        void RemoveRangeSection(IEnumerable<Section> itemsToRemove, bool saveChanges = true);
+        void RemoveRangeSession(IEnumerable<Session> itemsToRemove, bool saveChanges = true);
+        void RemoveRangeSuivi(IEnumerable<Suivi> itemsToRemove, bool saveChanges = true);
+        #endregion
+
+        #region Liste
         SelectList ListeTypeUsager(int idTypeUsager = 0);
         SelectList ListeSexe(int? sexe = 0);
         SelectList ListeSession(int session = 0);
@@ -229,7 +275,7 @@ namespace sachem.Models.DataAccess
         SelectList ListeStatutCours();
         SelectList ListeTypesCourriels(int typeCourriel = 0);
         List<string> ListeJours();
-        //Fin Liste
+        #endregion
 
         void Dispose();
     }

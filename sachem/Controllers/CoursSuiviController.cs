@@ -62,7 +62,7 @@ namespace sachem.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            CoursSuivi cs = _dataRepository.FindCoursSuivi((int)id);
+            var cs = _dataRepository.FindCoursSuivi((int)id);
 
             ViewBag.idPers = id;
             ViewBag.Resultat = "Create";
@@ -95,13 +95,9 @@ namespace sachem.Controllers
 
             Valider(coursSuivi, true);
 
-            if (ModelState.IsValid)
-            {
-                _dataRepository.AddCoursSuivi(coursSuivi);
-                return RedirectToAction("Details", "DossierEtudiant", new { id = SessionBag.Current.id_Inscription });
-            }
-
-            return View(coursSuivi);
+            if (!ModelState.IsValid) return View(coursSuivi);
+            _dataRepository.AddCoursSuivi(coursSuivi);
+            return RedirectToAction("Details", "DossierEtudiant", new { id = SessionBag.Current.id_Inscription });
         }
 
         public ActionResult Edit(int? coursReussi, int? personne)
@@ -141,13 +137,9 @@ namespace sachem.Controllers
 
             Valider(coursSuivi);
 
-            if (ModelState.IsValid)
-            {
-                _dataRepository.EditCoursSuivi(coursSuivi);
-                return RedirectToAction("Details", "DossierEtudiant", new { id = SessionBag.Current.id_Inscription });
-            }
-
-            return View(coursSuivi);
+            if (!ModelState.IsValid) return View(coursSuivi);
+            _dataRepository.EditCoursSuivi(coursSuivi);
+            return RedirectToAction("Details", "DossierEtudiant", new { id = SessionBag.Current.id_Inscription });
         }
 
         public ActionResult Delete(int? coursReussi, int? personne)
@@ -164,7 +156,7 @@ namespace sachem.Controllers
                 return HttpNotFound();
             }
 
-            var vInscription = _dataRepository.GetInscriptionId(cs.id_Pers);
+            var vInscription = _dataRepository.WhereInscription(x=>x.id_Pers == cs.id_Pers).Select(x=>x.id_Inscription);
 
             ViewBag.id_insc = vInscription.First();
 
