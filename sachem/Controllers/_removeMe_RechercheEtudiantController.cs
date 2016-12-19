@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Web.Mvc;
 using sachem.Models;
@@ -7,17 +8,19 @@ using sachem.Models.DataAccess;
 
 namespace sachem.Controllers
 {
-    public class RechercheEtudiantController : Controller
+    public class _removeMe_RechercheEtudiantController : Controller
     {
         protected int NoPage = 1;
         protected readonly IDataRepository DataRepository;
 
-        public RechercheEtudiantController(IDataRepository dataRepository)
+        public _removeMe_RechercheEtudiantController(IDataRepository dataRepository)
         {
             DataRepository = dataRepository;
         }
 
-        public RechercheEtudiantController()
+
+
+        public _removeMe_RechercheEtudiantController()
         {
             DataRepository = new BdRepository();
         }

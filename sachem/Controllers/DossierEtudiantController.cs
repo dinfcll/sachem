@@ -160,7 +160,7 @@ namespace sachem.Controllers
 
                 }
                 else if (Request.Form["Session"] == null)
-                    session = Convert.ToInt32(_db.Session.OrderByDescending(y => y.Annee).ThenByDescending(x => x.id_Saison).FirstOrDefault().id_Sess);
+                    session = _dataRepository.SessionEnCours();
             }
 
             ViewBag.Session = _dataRepository.ListeSession(session);
@@ -193,7 +193,7 @@ namespace sachem.Controllers
         [ValidationAcces.ValidationAccesTuteur]
         public ActionResult Index(int? page)
         {
-            NoPage = (page ?? NoPage);
+            NoPage = page ?? NoPage;
             return View(Rechercher().ToPagedList(NoPage, 20));
         }
 

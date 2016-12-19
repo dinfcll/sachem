@@ -1,6 +1,5 @@
 ﻿@using sachem.Models
 @model PersonneEtuProgParent
-
 <div class="form-group">
     @Html.LabelFor(model => model.personne.Nom, new { @class = "control-label col-md-2" })
     <div class="col-md-10">
@@ -19,7 +18,7 @@
 <div class="form-group">
     @Html.LabelFor(model => model.personne.id_Sexe, new { @class = "control-label col-md-2" })
     <div class="col-md-10">
-        @Html.DropDownList("id_Sexe", null, Messages.VeuillezChoisir, new { @class = "form-control" })
+        @Html.DropDownListFor(model => model.personne.id_Sexe, ViewBag.id_Sexe as SelectList, Messages.VeuillezChoisir, new { @class = "form-control", required = true })
         @Html.ValidationMessageFor(model => model.personne.id_Sexe, "", new { @class = "text-danger" })
     </div>
 </div>

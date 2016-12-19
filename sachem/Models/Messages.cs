@@ -159,9 +159,11 @@ namespace sachem.Models
         public static string AccountEnvoiCourrielImpossiblePortBloque(string numeroPort)
         { return $"Problème lors de l'envoi du courriel, le port {numeroPort} est bloqué."; }
 
+        public static string AccountEnvoieMotDePasseParCourriel(string emailDestinataire)
+        { return $"Si un compte est associé à {emailDestinataire}, vous recevrez un courriel avec un nouveau mot de passe que vous pourrez changer."; }
+
         public const string AccountPasswordErreurAncienMotDePasseInvalide = "L'ancien mot de passe est invalide.";
         public const string AccountForgotPasswordErreurAucunUsager="Aucun usager associé à cette adresse courriel.";
-        public const string AccountEnvoieMotDePasseParCourriel = "Votre mot de passe a été envoyé à votre adresse courriel.";
         public const string AccountConnexionErreur = "Votre tentative de connexion a échouée. Réessayez.";
         public const string AccountMotDePasseModifie = "Mot de passe modifié";
         public const string AccountExisteDeja = "Un compte existe déjà pour cet étudiant.";

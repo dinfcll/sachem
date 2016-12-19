@@ -338,7 +338,7 @@ namespace sachem.Controllers
                         _db.Entry(utilisateur).State = EntityState.Modified;
                     }
                     _db.SaveChanges();
-                    ViewBag.Success = Messages.AccountEnvoieMotDePasseParCourriel;
+                    ViewBag.Success = Messages.AccountEnvoieMotDePasseParCourriel(courriel);
                 }
                 else
                 {

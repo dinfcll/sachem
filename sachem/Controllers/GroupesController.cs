@@ -102,7 +102,7 @@ namespace sachem.Controllers
 
         private string SDisabled()
         {
-            return (SachemIdentite.ObtenirTypeUsager(Session) == TypeUsagers.Enseignant ? "disabled" : "");
+            return SachemIdentite.ObtenirTypeUsager(Session) == TypeUsagers.Enseignant ? "disabled" : "";
         }
 
         [HttpPost]
@@ -169,16 +169,14 @@ namespace sachem.Controllers
         {
             var groupe = _db.Groupe.Find(id);
 
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid) return RedirectToAction("Index");
+            foreach (var x in (from c in _db.GroupeEtudiant where c.id_Groupe == groupe.id_Groupe select c))
             {
-                foreach (var x in (from c in _db.GroupeEtudiant where c.id_Groupe == groupe.id_Groupe select c))
-                {
-                    _db.GroupeEtudiant.Remove(x);
-                }
-                _db.Groupe.Remove(groupe);
-                _db.SaveChanges();
-                TempData["Success"] = string.Format(Messages.GroupesSupprimerReussi(groupe.NoGroupe));
+                _db.GroupeEtudiant.Remove(x);
             }
+            _db.Groupe.Remove(groupe);
+            _db.SaveChanges();
+            TempData["Success"] = string.Format(Messages.GroupesSupprimerReussi(groupe.NoGroupe));
 
             return RedirectToAction("Index");
         }
@@ -187,7 +185,7 @@ namespace sachem.Controllers
         {
             var idPers = (int?) Session["id_Pers"] ?? -1;
             var verif = SachemIdentite.ObtenirTypeUsager(Session) == TypeUsagers.Responsable;
-            int idSess = 0, idEns = (SachemIdentite.ObtenirTypeUsager(Session) == TypeUsagers.Enseignant ? idPers : 0), idCours = 0;
+            int idSess = 0, idEns = SachemIdentite.ObtenirTypeUsager(Session) == TypeUsagers.Enseignant ? idPers : 0, idCours = 0;
 
             if (Request.RequestType == "GET" && Session["DernRechCours"] != null && Session["DernRechCoursUrl"].ToString() == Request.Url?.LocalPath)
             {
@@ -242,8 +240,8 @@ namespace sachem.Controllers
             Session["DernRechCoursUrl"] = Request.Url?.LocalPath;
 
             ViewBag.Sessions = new SelectList(_db.Session.OrderByDescending(s => s.id_Sess), "id_Sess", "NomSession", idSess);
-            ViewBag.Enseignants = new SelectList((verif ? ObtenirListeEnseignant(idSess): _db.Personne.AsNoTracking().Where(e => e.id_TypeUsag == 2 && e.id_Pers == idPers)
-                                                    .Select(e => new { e.id_Pers, NomPrenom = e.Nom + ", " + e.Prenom }).AsEnumerable()), "id_Pers", "NomPrenom", idEns);
+            ViewBag.Enseignants = new SelectList(verif ? ObtenirListeEnseignant(idSess): _db.Personne.AsNoTracking().Where(e => e.id_TypeUsag == 2 && e.id_Pers == idPers)
+                                                    .Select(e => new { e.id_Pers, NomPrenom = e.Nom + ", " + e.Prenom }).AsEnumerable(), "id_Pers", "NomPrenom", idEns);
             ViewBag.Cours = new SelectList(ObtenirListeCours(idSess,idEns), "id_Cours", "CodeNom", idCours);
 
 

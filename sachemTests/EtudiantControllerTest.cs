@@ -45,7 +45,7 @@ namespace sachemTests
         {
             var testRepository = new TestRepository();
             var ensController = new EtudiantController(testRepository);
-            ensController.Create(_etudiant);
+            ensController.Create(_etudiant, new int());
             var rechercheEnsaignant = testRepository.FindPersonne(_etudiant.id_Pers);
             Assert.IsNotNull(rechercheEnsaignant);
 
@@ -55,9 +55,9 @@ namespace sachemTests
         {
             var testRepository = new TestRepository();
             var etuController = new EtudiantController(testRepository);
-            etuController.Create(_etudiant);
+            etuController.Create(_etudiant, new int());
             _etudiant.Nom = "Wallet";
-            etuController.Edit(_etudiant);
+            etuController.Edit(_etudiant, new int());
             var rechercheEtudiant = testRepository.FindPersonne(_etudiant.id_Pers);
             Assert.AreEqual("Wallet", rechercheEtudiant.Nom);
         }

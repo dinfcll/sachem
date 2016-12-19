@@ -1,14 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq.Expressions;
 using System.Web.Mvc;
 
 namespace sachem.Models.DataAccess
 {public interface IDataRepository
     {
+
         int SessionEnCours();
         string FindMdp(int id);
-
+        void BeLazy(bool set = true);
         #region Any
         bool AnyChoixReponse(Expression<Func<ChoixReponse, bool>> condition);
         bool AnyCourriel(Expression<Func<Courriel, bool>> condition);
@@ -47,40 +49,40 @@ namespace sachem.Models.DataAccess
         #endregion
 
         #region Where
-        IEnumerable<ChoixReponse> WhereChoixReponse(Expression<Func<ChoixReponse, bool>> condition);
-        IEnumerable<Courriel> WhereCourriel(Expression<Func<Courriel, bool>> condition);
-        IEnumerable<Cours> WhereCours(Expression<Func<Cours, bool>> condition);
-        IEnumerable<CoursInteret> WhereCoursInteret(Expression<Func<CoursInteret, bool>> condition);
-        IEnumerable<CoursSuivi> WhereCoursSuivi(Expression<Func<CoursSuivi, bool>> condition);
-        IEnumerable<Disponibilite> WhereDisponibilite(Expression<Func<Disponibilite, bool>> condition);
-        IEnumerable<EtuProgEtude> WhereEtuProgEtude(Expression<Func<EtuProgEtude, bool>> condition);
-        IEnumerable<Evaluation> WhereEvaluation(Expression<Func<Evaluation, bool>> condition);
-        IEnumerable<Formulaire> WhereFormulaire(Expression<Func<Formulaire, bool>> condition);
-        IEnumerable<Groupe> WhereGroupe(Expression<Func<Groupe, bool>> condition);
-        IEnumerable<GroupeEtudiant> WhereGroupeEtudiant(Expression<Func<GroupeEtudiant, bool>> condition);
-        IEnumerable<Inscription> WhereInscription(Expression<Func<Inscription, bool>> condition);
-        IEnumerable<Jumelage> WhereJumelage(Expression<Func<Jumelage, bool>> condition);
-        IEnumerable<Personne> WherePersonne(Expression<Func<Personne, bool>> condition);
-        IEnumerable<ProgrammeEtude> WhereProgrammeEtude(Expression<Func<ProgrammeEtude, bool>> condition);
-        IEnumerable<Question> WhereQuestion(Expression<Func<Question, bool>> condition);
-        IEnumerable<ReponseQuestion> WhereReponseQuestion(Expression<Func<ReponseQuestion, bool>> condition);
-        IEnumerable<Section> WhereSection(Expression<Func<Section, bool>> condition);
-        IEnumerable<Session> WhereSession(Expression<Func<Session, bool>> condition);
-        IEnumerable<Suivi> WhereSuivi(Expression<Func<Suivi, bool>> condition);
+        IEnumerable<ChoixReponse> WhereChoixReponse(Expression<Func<ChoixReponse, bool>> condition, bool asNoTracking = false);
+        IEnumerable<Courriel> WhereCourriel(Expression<Func<Courriel, bool>> condition, bool asNoTracking = false);
+        IEnumerable<Cours> WhereCours(Expression<Func<Cours, bool>> condition, bool asNoTracking = false);
+        IEnumerable<CoursInteret> WhereCoursInteret(Expression<Func<CoursInteret, bool>> condition, bool asNoTracking = false);
+        IEnumerable<CoursSuivi> WhereCoursSuivi(Expression<Func<CoursSuivi, bool>> condition, bool asNoTracking = false);
+        IEnumerable<Disponibilite> WhereDisponibilite(Expression<Func<Disponibilite, bool>> condition, bool asNoTracking = false);
+        IEnumerable<EtuProgEtude> WhereEtuProgEtude(Expression<Func<EtuProgEtude, bool>> condition, bool asNoTracking = false);
+        IEnumerable<Evaluation> WhereEvaluation(Expression<Func<Evaluation, bool>> condition, bool asNoTracking = false);
+        IEnumerable<Formulaire> WhereFormulaire(Expression<Func<Formulaire, bool>> condition, bool asNoTracking = false);
+        IEnumerable<Groupe> WhereGroupe(Expression<Func<Groupe, bool>> condition, bool asNoTracking = false);
+        IEnumerable<GroupeEtudiant> WhereGroupeEtudiant(Expression<Func<GroupeEtudiant, bool>> condition, bool asNoTracking = false);
+        IEnumerable<Inscription> WhereInscription(Expression<Func<Inscription, bool>> condition, bool asNoTracking = false);
+        IEnumerable<Jumelage> WhereJumelage(Expression<Func<Jumelage, bool>> condition, bool asNoTracking = false);
+        IEnumerable<Personne> WherePersonne(Expression<Func<Personne, bool>> condition, bool asNoTracking = false);
+        IEnumerable<ProgrammeEtude> WhereProgrammeEtude(Expression<Func<ProgrammeEtude, bool>> condition, bool asNoTracking = false);
+        IEnumerable<Question> WhereQuestion(Expression<Func<Question, bool>> condition, bool asNoTracking = false);
+        IEnumerable<ReponseQuestion> WhereReponseQuestion(Expression<Func<ReponseQuestion, bool>> condition, bool asNoTracking = false);
+        IEnumerable<Section> WhereSection(Expression<Func<Section, bool>> condition, bool asNoTracking = false);
+        IEnumerable<Session> WhereSession(Expression<Func<Session, bool>> condition, bool asNoTracking = false);
+        IEnumerable<Suivi> WhereSuivi(Expression<Func<Suivi, bool>> condition, bool asNoTracking = false);
             //Where - sur table parametres
-        IEnumerable<p_College> WhereCollege(Expression<Func<p_College, bool>> condition);
-        IEnumerable<p_Contact> WhereContact(Expression<Func<p_Contact, bool>> condition);
-        IEnumerable<p_HoraireInscription> WhereHoraireInscription(Expression<Func<p_HoraireInscription, bool>> condition);
-        IEnumerable<p_Jour> WhereJour(Expression<Func<p_Jour, bool>> condition);
-        IEnumerable<p_Saison> WhereSaison(Expression<Func<p_Saison, bool>> condition);
-        IEnumerable<p_Sexe> WhereSexe(Expression<Func<p_Sexe, bool>> condition);
-        IEnumerable<p_StatutCours> WhereStatutCours(Expression<Func<p_StatutCours, bool>> condition);
-        IEnumerable<p_StatutInscription> WhereStatutInscription(Expression<Func<p_StatutInscription, bool>> condition);
-        IEnumerable<p_TypeCourriel> WhereTypeCourriel(Expression<Func<p_TypeCourriel, bool>> condition);
-        IEnumerable<p_TypeFormulaire> WhereTypeFormulaire(Expression<Func<p_TypeFormulaire, bool>> condition);
-        IEnumerable<p_TypeInscription> WhereTypeInscription(Expression<Func<p_TypeInscription, bool>> condition);
-        IEnumerable<p_TypeResultat> WhereTypeResultat(Expression<Func<p_TypeResultat, bool>> condition);
-        IEnumerable<p_TypeUsag> WhereTypeUsag(Expression<Func<p_TypeUsag, bool>> condition);
+        IEnumerable<p_College> WhereCollege(Expression<Func<p_College, bool>> condition, bool asNoTracking = false);
+        IEnumerable<p_Contact> WhereContact(Expression<Func<p_Contact, bool>> condition, bool asNoTracking = false);
+        IEnumerable<p_HoraireInscription> WhereHoraireInscription(Expression<Func<p_HoraireInscription, bool>> condition, bool asNoTracking = false);
+        IEnumerable<p_Jour> WhereJour(Expression<Func<p_Jour, bool>> condition, bool asNoTracking = false);
+        IEnumerable<p_Saison> WhereSaison(Expression<Func<p_Saison, bool>> condition, bool asNoTracking = false);
+        IEnumerable<p_Sexe> WhereSexe(Expression<Func<p_Sexe, bool>> condition, bool asNoTracking = false);
+        IEnumerable<p_StatutCours> WhereStatutCours(Expression<Func<p_StatutCours, bool>> condition, bool asNoTracking = false);
+        IEnumerable<p_StatutInscription> WhereStatutInscription(Expression<Func<p_StatutInscription, bool>> condition, bool asNoTracking = false);
+        IEnumerable<p_TypeCourriel> WhereTypeCourriel(Expression<Func<p_TypeCourriel, bool>> condition, bool asNoTracking = false);
+        IEnumerable<p_TypeFormulaire> WhereTypeFormulaire(Expression<Func<p_TypeFormulaire, bool>> condition, bool asNoTracking = false);
+        IEnumerable<p_TypeInscription> WhereTypeInscription(Expression<Func<p_TypeInscription, bool>> condition, bool asNoTracking = false);
+        IEnumerable<p_TypeResultat> WhereTypeResultat(Expression<Func<p_TypeResultat, bool>> condition, bool asNoTracking = false);
+        IEnumerable<p_TypeUsag> WhereTypeUsag(Expression<Func<p_TypeUsag, bool>> condition, bool asNoTracking = false);
         #endregion
 
         #region All
@@ -260,12 +262,13 @@ namespace sachem.Models.DataAccess
 
         #region Liste
         SelectList ListeTypeUsager(int idTypeUsager = 0);
+        SelectList ListeTypeUsagerDuPersonnel(int idTypeUsager = 0);
         SelectList ListeSexe(int? sexe = 0);
         SelectList ListeSession(int session = 0);
         SelectList ListeCours(int cours = 0);
         SelectList ListeCollege(int college = 0);
         SelectList ListeStatutCours(int statut = 0);
-        SelectList ListeProgrammmeCode(bool actif = true);
+        SelectList ListeProgrammmeEtude(bool actif = true);
         SelectList ListeEtudiants(int id = 0);
         SelectList ListeEnseignant(int id = 0);
         SelectList ListeEnseignantEtResponsable(int id = 0);

@@ -236,7 +236,7 @@
     <Compile Include="Controllers\JumelageController.cs" />
     <Compile Include="Controllers\ParametresController.cs" />
     <Compile Include="Controllers\ProgrammesOffertsController.cs" />
-    <Compile Include="Controllers\RechercheEtudiantController.cs" />
+    <Compile Include="Controllers\_removeMe_RechercheEtudiantController.cs" />
     <Compile Include="Controllers\RechercheInscriptionController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>

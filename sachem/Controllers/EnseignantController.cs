@@ -210,13 +210,13 @@ namespace sachem.Controllers
         private void RemplirDropList()
         {
             ViewBag.id_Sexe = _dataRepository.ListeSexe();
-            ViewBag.id_TypeUsag = _dataRepository.ListeTypeUsager();
+            ViewBag.id_TypeUsag = _dataRepository.ListeTypeUsagerDuPersonnel();
         }
 
         private void RemplirDropList(Personne personne)
         {
             ViewBag.id_Sexe = _dataRepository.ListeSexe(personne.id_Sexe);
-            ViewBag.id_TypeUsag = _dataRepository.ListeTypeUsager(personne.id_TypeUsag);
+            ViewBag.id_TypeUsag = _dataRepository.ListeTypeUsagerDuPersonnel(personne.id_TypeUsag);
         }
     }
 }

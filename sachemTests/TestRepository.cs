@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Web.Mvc;
@@ -48,7 +49,13 @@ namespace sachemTests
         {
             throw new NotImplementedException();
         }
+
         public string FindMdp(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void BeLazy(bool set = true)
         {
             throw new NotImplementedException();
         }
@@ -190,136 +197,136 @@ namespace sachemTests
         #endregion
 
         #region Where
-        public IEnumerable<ChoixReponse> WhereChoixReponse(Expression<Func<ChoixReponse, bool>> condition)
+        public IEnumerable<ChoixReponse> WhereChoixReponse(Expression<Func<ChoixReponse, bool>> condition, bool asNoTracking = false)
         {
             return _listeChoixReponse.AsQueryable().Where(condition);
         }
-        public IEnumerable<Courriel> WhereCourriel(Expression<Func<Courriel, bool>> condition)
+        public IEnumerable<Courriel> WhereCourriel(Expression<Func<Courriel, bool>> condition, bool asNoTracking = false)
         {
             return _listeCourriel.AsQueryable().Where(condition);
         }
-        public IEnumerable<Cours> WhereCours(Expression<Func<Cours, bool>> condition)
+        public IEnumerable<Cours> WhereCours(Expression<Func<Cours, bool>> condition, bool asNoTracking = false)
         {
             return _listeCours.AsQueryable().Where(condition);
         }
-        public IEnumerable<CoursInteret> WhereCoursInteret(Expression<Func<CoursInteret, bool>> condition)
+        public IEnumerable<CoursInteret> WhereCoursInteret(Expression<Func<CoursInteret, bool>> condition, bool asNoTracking = false)
         {
             return _listeCoursInteret.AsQueryable().Where(condition);
         }
-        public IEnumerable<CoursSuivi> WhereCoursSuivi(Expression<Func<CoursSuivi, bool>> condition)
+        public IEnumerable<CoursSuivi> WhereCoursSuivi(Expression<Func<CoursSuivi, bool>> condition, bool asNoTracking = false)
         {
             return _listeCoursSuivi.AsQueryable().Where(condition);
         }
-        public IEnumerable<Disponibilite> WhereDisponibilite(Expression<Func<Disponibilite, bool>> condition)
+        public IEnumerable<Disponibilite> WhereDisponibilite(Expression<Func<Disponibilite, bool>> condition, bool asNoTracking = false)
         {
             return _listeDisponibilite.AsQueryable().Where(condition);
         }
-        public IEnumerable<EtuProgEtude> WhereEtuProgEtude(Expression<Func<EtuProgEtude, bool>> condition)
+        public IEnumerable<EtuProgEtude> WhereEtuProgEtude(Expression<Func<EtuProgEtude, bool>> condition, bool asNoTracking = false)
         {
             return _listeEtuProgEtude.AsQueryable().Where(condition);
         }
-        public IEnumerable<Evaluation> WhereEvaluation(Expression<Func<Evaluation, bool>> condition)
+        public IEnumerable<Evaluation> WhereEvaluation(Expression<Func<Evaluation, bool>> condition, bool asNoTracking = false)
         {
             return _listeEvaluation.AsQueryable().Where(condition);
         }
-        public IEnumerable<Formulaire> WhereFormulaire(Expression<Func<Formulaire, bool>> condition)
+        public IEnumerable<Formulaire> WhereFormulaire(Expression<Func<Formulaire, bool>> condition, bool asNoTracking = false)
         {
             return _listeFormulaire.AsQueryable().Where(condition);
         }
-        public IEnumerable<Groupe> WhereGroupe(Expression<Func<Groupe, bool>> condition)
+        public IEnumerable<Groupe> WhereGroupe(Expression<Func<Groupe, bool>> condition, bool asNoTracking = false)
         {
             return _listeGroupe.AsQueryable().Where(condition);
         }
-        public IEnumerable<GroupeEtudiant> WhereGroupeEtudiant(Expression<Func<GroupeEtudiant, bool>> condition)
+        public IEnumerable<GroupeEtudiant> WhereGroupeEtudiant(Expression<Func<GroupeEtudiant, bool>> condition, bool asNoTracking = false)
         {
             return _listeGroupeEtudiant.AsQueryable().Where(condition);
         }
-        public IEnumerable<Inscription> WhereInscription(Expression<Func<Inscription, bool>> condition)
+        public IEnumerable<Inscription> WhereInscription(Expression<Func<Inscription, bool>> condition, bool asNoTracking = false)
         {
             return _listeInscription.AsQueryable().Where(condition);
         }
-        public IEnumerable<Jumelage> WhereJumelage(Expression<Func<Jumelage, bool>> condition)
+        public IEnumerable<Jumelage> WhereJumelage(Expression<Func<Jumelage, bool>> condition, bool asNoTracking = false)
         {
             return _listeJumelage.AsQueryable().Where(condition);
         }
-        public IEnumerable<Personne> WherePersonne(Expression<Func<Personne, bool>> condition)
+        public IEnumerable<Personne> WherePersonne(Expression<Func<Personne, bool>> condition, bool asNoTracking = false)
         {
             return _listePersonne.AsQueryable().Where(condition);
         }
-        public IEnumerable<ProgrammeEtude> WhereProgrammeEtude(Expression<Func<ProgrammeEtude, bool>> condition)
+        public IEnumerable<ProgrammeEtude> WhereProgrammeEtude(Expression<Func<ProgrammeEtude, bool>> condition, bool asNoTracking = false)
         {
             return _listeProgrammeEtude.AsQueryable().Where(condition);
         }
-        public IEnumerable<Question> WhereQuestion(Expression<Func<Question, bool>> condition)
+        public IEnumerable<Question> WhereQuestion(Expression<Func<Question, bool>> condition, bool asNoTracking = false)
         {
             return _listeQuestion.AsQueryable().Where(condition);
         }
-        public IEnumerable<ReponseQuestion> WhereReponseQuestion(Expression<Func<ReponseQuestion, bool>> condition)
+        public IEnumerable<ReponseQuestion> WhereReponseQuestion(Expression<Func<ReponseQuestion, bool>> condition, bool asNoTracking = false)
         {
             return _listeReponseQuestion.AsQueryable().Where(condition);
         }
-        public IEnumerable<Section> WhereSection(Expression<Func<Section, bool>> condition)
+        public IEnumerable<Section> WhereSection(Expression<Func<Section, bool>> condition, bool asNoTracking = false)
         {
             return _listeSection.AsQueryable().Where(condition);
         }
-        public IEnumerable<Session> WhereSession(Expression<Func<Session, bool>> condition)
+        public IEnumerable<Session> WhereSession(Expression<Func<Session, bool>> condition, bool asNoTracking = false)
         {
             return _listeSession.AsQueryable().Where(condition);
         }
-        public IEnumerable<Suivi> WhereSuivi(Expression<Func<Suivi, bool>> condition)
+        public IEnumerable<Suivi> WhereSuivi(Expression<Func<Suivi, bool>> condition, bool asNoTracking = false)
         {
             return _listeSuivi.AsQueryable().Where(condition);
         }
             //Where - sur table parametres
-        public IEnumerable<p_College> WhereCollege(Expression<Func<p_College, bool>> condition)
+        public IEnumerable<p_College> WhereCollege(Expression<Func<p_College, bool>> condition, bool asNoTracking = false)
         {
             return _listeCollege.AsQueryable().Where(condition);
         }
-        public IEnumerable<p_Contact> WhereContact(Expression<Func<p_Contact, bool>> condition)
+        public IEnumerable<p_Contact> WhereContact(Expression<Func<p_Contact, bool>> condition, bool asNoTracking = false)
         {
             return _listeContact.AsQueryable().Where(condition);
         }
-        public IEnumerable<p_HoraireInscription> WhereHoraireInscription(Expression<Func<p_HoraireInscription, bool>> condition)
+        public IEnumerable<p_HoraireInscription> WhereHoraireInscription(Expression<Func<p_HoraireInscription, bool>> condition, bool asNoTracking = false)
         {
             return _listeHoraireInscription.AsQueryable().Where(condition);
         }
-        public IEnumerable<p_Jour> WhereJour(Expression<Func<p_Jour, bool>> condition)
+        public IEnumerable<p_Jour> WhereJour(Expression<Func<p_Jour, bool>> condition, bool asNoTracking = false)
         {
             return _listeJour.AsQueryable().Where(condition);
         }
-        public IEnumerable<p_Saison> WhereSaison(Expression<Func<p_Saison, bool>> condition)
+        public IEnumerable<p_Saison> WhereSaison(Expression<Func<p_Saison, bool>> condition, bool asNoTracking = false)
         {
             return _listeSaison.AsQueryable().Where(condition);
         }
-        public IEnumerable<p_Sexe> WhereSexe(Expression<Func<p_Sexe, bool>> condition)
+        public IEnumerable<p_Sexe> WhereSexe(Expression<Func<p_Sexe, bool>> condition, bool asNoTracking = false)
         {
             return _listeSexe.AsQueryable().Where(condition);
         }
-        public IEnumerable<p_StatutCours> WhereStatutCours(Expression<Func<p_StatutCours, bool>> condition)
+        public IEnumerable<p_StatutCours> WhereStatutCours(Expression<Func<p_StatutCours, bool>> condition, bool asNoTracking = false)
         {
             return _listeStatutCours.AsQueryable().Where(condition);
         }
-        public IEnumerable<p_StatutInscription> WhereStatutInscription(Expression<Func<p_StatutInscription, bool>> condition)
+        public IEnumerable<p_StatutInscription> WhereStatutInscription(Expression<Func<p_StatutInscription, bool>> condition, bool asNoTracking = false)
         {
             return _listeStatutInscription.AsQueryable().Where(condition);
         }
-        public IEnumerable<p_TypeCourriel> WhereTypeCourriel(Expression<Func<p_TypeCourriel, bool>> condition)
+        public IEnumerable<p_TypeCourriel> WhereTypeCourriel(Expression<Func<p_TypeCourriel, bool>> condition, bool asNoTracking = false)
         {
             return _listeTypeCourriel.AsQueryable().Where(condition);
         }
-        public IEnumerable<p_TypeFormulaire> WhereTypeFormulaire(Expression<Func<p_TypeFormulaire, bool>> condition)
+        public IEnumerable<p_TypeFormulaire> WhereTypeFormulaire(Expression<Func<p_TypeFormulaire, bool>> condition, bool asNoTracking = false)
         {
             return _listeTypeFormulaire.AsQueryable().Where(condition);
         }
-        public IEnumerable<p_TypeInscription> WhereTypeInscription(Expression<Func<p_TypeInscription, bool>> condition)
+        public IEnumerable<p_TypeInscription> WhereTypeInscription(Expression<Func<p_TypeInscription, bool>> condition, bool asNoTracking = false)
         {
             return _listeTypeInscription.AsQueryable().Where(condition);
         }
-        public IEnumerable<p_TypeResultat> WhereTypeResultat(Expression<Func<p_TypeResultat, bool>> condition)
+        public IEnumerable<p_TypeResultat> WhereTypeResultat(Expression<Func<p_TypeResultat, bool>> condition, bool asNoTracking = false)
         {
             return _listeTypeResultat.AsQueryable().Where(condition);
         }
-        public IEnumerable<p_TypeUsag> WhereTypeUsag(Expression<Func<p_TypeUsag, bool>> condition)
+        public IEnumerable<p_TypeUsag> WhereTypeUsag(Expression<Func<p_TypeUsag, bool>> condition, bool asNoTracking = false)
         {
             return _listeTypeUsag.AsQueryable().Where(condition);
         }
@@ -1184,6 +1191,10 @@ namespace sachemTests
         {
             throw new NotImplementedException();
         }
+        public SelectList ListeTypeUsagerDuPersonnel(int idTypeUsager = 0)
+        {
+            throw new NotImplementedException();
+        }
         public SelectList ListeSexe(int? sexe = 0)
         {
             throw new NotImplementedException();
@@ -1204,7 +1215,7 @@ namespace sachemTests
         {
             throw new NotImplementedException();
         }
-        public SelectList ListeProgrammmeCode(bool actif = true)
+        public SelectList ListeProgrammmeEtude(bool actif = true)
         {
             throw new NotImplementedException();
         }
