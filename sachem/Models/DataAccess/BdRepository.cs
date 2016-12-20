@@ -1053,7 +1053,6 @@ namespace sachem.Models.DataAccess
         }
         public SelectList ListeSexe(int? sexe = 0)
         {
-            if (sexe == null) sexe = 0;
             return new SelectList(AllSexe(), "id_Sexe", "Sexe", sexe);
         }
         public SelectList ListeSession(int session = 0)
