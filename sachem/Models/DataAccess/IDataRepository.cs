@@ -10,7 +10,7 @@ namespace sachem.Models.DataAccess
 
         int SessionEnCours();
         string FindMdp(int id);
-        void BeLazy(bool set = true);
+        void BeLazy(bool set);
         #region Any
         bool AnyChoixReponse(Expression<Func<ChoixReponse, bool>> condition);
         bool AnyCourriel(Expression<Func<Courriel, bool>> condition);

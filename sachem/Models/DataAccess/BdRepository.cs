@@ -15,7 +15,7 @@ namespace sachem.Models.DataAccess
         private readonly SACHEMEntities _db = new SACHEMEntities();
         private const int Brouillon = 2;
 
-        public void BeLazy(bool set = true)
+        public void BeLazy(bool set)
         {
             _db.Configuration.LazyLoadingEnabled = set;
         }

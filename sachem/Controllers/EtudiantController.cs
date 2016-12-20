@@ -29,11 +29,12 @@ namespace sachem.Controllers
         }
 
         [AcceptVerbs("Get", "Post")]
-        public JsonResult ActualiseGroupeddl(int cours, int session)
+        public virtual JsonResult ActualiseGroupeddl(int cours, int session)
         {
             var a = _dataRepository
                 .WhereGroupe(g => (g.id_Sess == session || session == 0) && (g.id_Cours == cours || cours == 0))
-                .OrderBy(g => g.NoGroupe);
+                .OrderBy(g => g.NoGroupe)
+                .Select(g => new { g.id_Groupe, g.NoGroupe });
             return Json(a.ToList(), JsonRequestBehavior.AllowGet);
         }
 
@@ -172,7 +173,7 @@ namespace sachem.Controllers
                         .ThenBy(q => q.Personne.Prenom)
                         .Select(q => new PersonneProgEtu { personne = q.Personne, progEtuActif = q.ProgEtu });
             }
-            _dataRepository.BeLazy();
+            _dataRepository.BeLazy(true);
             return lstEtu;
         }
 
