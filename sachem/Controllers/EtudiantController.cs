@@ -172,7 +172,7 @@ namespace sachem.Controllers
                         .ThenBy(q => q.Personne.Prenom)
                         .Select(q => new PersonneProgEtu { personne = q.Personne, progEtuActif = q.ProgEtu });
             }
-            _dataRepository.BeLazy();
+            _dataRepository.BeLazy(true);
             return lstEtu;
         }
 

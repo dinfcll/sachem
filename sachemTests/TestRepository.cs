@@ -55,7 +55,7 @@ namespace sachemTests
             throw new NotImplementedException();
         }
 
-        public void BeLazy(bool set = true)
+        public void BeLazy(bool set)
         {
             throw new NotImplementedException();
         }
