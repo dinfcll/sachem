@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Data.Entity;
 using System.Linq;
 using System.Web.Mvc;
 using System.Text.RegularExpressions;
@@ -17,7 +16,6 @@ namespace sachem.Controllers
     public class AccountController : Controller
     {
         private const int Portcourriel = 587;
-        private readonly SACHEMEntities _db = new SACHEMEntities();
         private readonly IDataRepository _dataRepository;
 
         public AccountController(IDataRepository dataRepository)
@@ -60,7 +58,7 @@ namespace sachem.Controllers
         private bool EnvoyerCourriel(string email, string nouveauMdp, string nomEtudiant)
         {
             var client = new SmtpClient();
-            var reqBdCourrielReinitialisation = _db.Courriel.Where(x => x.id_TypeCourriel == 2);
+            var reqBdCourrielReinitialisation = _dataRepository.WhereCourriel(x => x.id_TypeCourriel == 2);
             var contenuCourriel = reqBdCourrielReinitialisation.Select(x => x.Courriel1).FirstOrDefault();
             contenuCourriel = contenuCourriel?.Replace("$PrenomNomEtudiant", nomEtudiant).Replace("$NouveauMotDePasse",nouveauMdp);
             var message = new MailMessage("sachemcllmail@gmail.com", email, 
@@ -119,8 +117,7 @@ namespace sachem.Controllers
             var mdpPlain = mp;
             var personneBd = new Personne();
             var reqBdPersonne =
-                _db.Personne
-                    .Where(x=> x.Matricule.Substring(2) == nomUsager || x.NomUsager == nomUsager);
+                _dataRepository.WherePersonne(x=> x.Matricule.Substring(2) == nomUsager || x.NomUsager == nomUsager,true);
             const int statutAccepte = 3;
 
             if (mdpPlain == "")
@@ -133,7 +130,7 @@ namespace sachem.Controllers
             {
                 if (reqBdPersonne.Any(x => x.Matricule.Substring(2) == nomUsager))
                 {
-                    personneBd = reqBdPersonne.AsNoTracking().FirstOrDefault(x => x.Matricule.Substring(2) == nomUsager);
+                    personneBd = reqBdPersonne.FirstOrDefault(x => x.Matricule.Substring(2) == nomUsager);
                 }
                 else
                 {
@@ -143,7 +140,7 @@ namespace sachem.Controllers
             }
             else if (reqBdPersonne.Any(x => x.NomUsager == nomUsager))
             {
-                personneBd = reqBdPersonne.AsNoTracking().FirstOrDefault(x => x.NomUsager == nomUsager);
+                personneBd = reqBdPersonne.FirstOrDefault(x => x.NomUsager == nomUsager);
             }
             else
             {
@@ -163,7 +160,7 @@ namespace sachem.Controllers
                 return View(personneBd);
             }
 
-            var reqBdInscription = _db.Inscription.AsNoTracking().Where(i => i.id_Pers == personneBd.id_Pers);
+            var reqBdInscription = _dataRepository.WhereInscription(i => i.id_Pers == personneBd.id_Pers,true);
 
             var typeinscr = reqBdInscription.Select(i => i.id_TypeInscription).FirstOrDefault();
             var idinscr = reqBdInscription.Select(i => i.id_Inscription).FirstOrDefault();
@@ -187,8 +184,7 @@ namespace sachem.Controllers
             }
 
             var idSuperviseur =
-                _db.Jumelage.AsNoTracking()
-                    .Where(j => j.id_Enseignant == personneBd.id_Pers)
+                _dataRepository.WhereJumelage(j => j.id_Enseignant == personneBd.id_Pers, true)
                     .Select(j => j.id_Enseignant)
                     .FirstOrDefault();
 
@@ -246,7 +242,7 @@ namespace sachem.Controllers
         public ActionResult Register(Personne personne)
         {
             ViewBag.id_Sexe = _dataRepository.ListeSexe();
-            var reqBdPersonne = _db.Personne.AsNoTracking().Where(x => x.Matricule == personne.Matricule);
+            var reqBdPersonne = _dataRepository.WherePersonne(x => x.Matricule == personne.Matricule, true);
             var validation = ConfirmeMdp(personne.MP, personne.ConfirmPassword);
 
             if (!validation)
@@ -263,7 +259,7 @@ namespace sachem.Controllers
             else
             {
                 var etudiantBd =
-                    reqBdPersonne.AsNoTracking().FirstOrDefault(x => x.Matricule == personne.Matricule);
+                    reqBdPersonne.FirstOrDefault(x => x.Matricule == personne.Matricule);
 
                 if (etudiantBd != null && (personne.DateNais != etudiantBd.DateNais || personne.id_Sexe != etudiantBd.id_Sexe))
                     ModelState.AddModelError(string.Empty, Messages.AccountCreerErreurEtudiantNonInscrit);
@@ -277,21 +273,7 @@ namespace sachem.Controllers
                         etudiantBd.ConfirmPassword = personne.ConfirmPassword;
                         SachemIdentite.EncrypterMpPersonne(ref etudiantBd);
 
-                        _db.Entry(etudiantBd).State = EntityState.Modified;
-
-                        try
-                        {
-                            _db.SaveChanges();
-                        }
-                        catch (System.Data.Entity.Validation.DbEntityValidationException dbEx)
-                        {
-                            var raise =
-                                (from validationErrors in dbEx.EntityValidationErrors
-                                 from validationError in validationErrors.ValidationErrors
-                                 select $"{validationErrors.Entry.Entity}:{validationError.ErrorMessage}")
-                                    .Aggregate<string, Exception>(dbEx, (current, message) => new InvalidOperationException(message, current));
-                            throw raise;
-                        }
+                        _dataRepository.EditPersonne(etudiantBd);
 
                         AjoutInfoConnection(etudiantBd);
                     }
@@ -317,7 +299,7 @@ namespace sachem.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult ForgotPassword(string courriel)
         {
-            var reqBdPersonne = _db.Personne.AsNoTracking().Where(x => x.Courriel == courriel);
+            var reqBdPersonne = _dataRepository.WherePersonne(x => x.Courriel == courriel, true);
             if (reqBdPersonne.Any(y => y.Courriel == courriel && y.Actif))
             {
                 const string caracterePossible = "abcdefghijkmnopqrstuvwxyzABCDEFGHJKLMNOPQRSTUVWXYZ0123456789!@$?";
@@ -330,14 +312,13 @@ namespace sachem.Controllers
                 if (EnvoyerCourriel(courriel, nouveauMdp, reqBdPersonne.Select(x => x.PrenomNom).FirstOrDefault()))
                 {
                     var utilisateur =
-                        reqBdPersonne.AsNoTracking().FirstOrDefault(x => x.Courriel == courriel);
+                        reqBdPersonne.FirstOrDefault(x => x.Courriel == courriel);
                     if (utilisateur != null)
                     {
                         utilisateur.MP = nouveauMdp;
                         utilisateur.MP = SachemIdentite.EncrypterChaine(utilisateur.MP);
-                        _db.Entry(utilisateur).State = EntityState.Modified;
+                        _dataRepository.EditPersonne(utilisateur);
                     }
-                    _db.SaveChanges();
                     ViewBag.Success = Messages.AccountEnvoieMotDePasseParCourriel(courriel);
                 }
                 else
@@ -384,7 +365,7 @@ namespace sachem.Controllers
                 return View(personne);
             }
 
-            var utilisateur = _db.Personne.AsNoTracking().FirstOrDefault(x => x.id_Pers == idpersonne);
+            var utilisateur = _dataRepository.FindPersonne(idpersonne);
 
             if (utilisateur != null)
             {
@@ -393,10 +374,8 @@ namespace sachem.Controllers
                 SachemIdentite.EncrypterMpPersonne(ref utilisateur);
                 SessionBag.Current.MP = utilisateur.MP;
                 SupprimerCookieConnexion();
-                _db.Entry(utilisateur).State = EntityState.Modified;
+                _dataRepository.EditPersonne(utilisateur);
             }
-
-            _db.SaveChanges();
             ViewBag.Success = Messages.AccountMotDePasseModifie;
 
             return View(personne);

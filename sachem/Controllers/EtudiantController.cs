@@ -222,8 +222,8 @@ namespace sachem.Controllers
 
             if (etuProg.personne.MP == null)
             {
-                ModelState.AddModelError("Mot de passe", "Veuillez entrer un mot de passe");
-                TempData["Echec"] = "Veuillez entrer un mot de passe";
+                ModelState.AddModelError("Mot de passe", Messages.EntrezUnMotDePasse);
+                TempData["Echec"] = Messages.EntrezUnMotDePasse;
             }
             else
             {
@@ -344,15 +344,11 @@ namespace sachem.Controllers
         public ActionResult Edit([Bind(Include = "id_Pers, id_Sexe, id_TypeUsag, Nom, Prenom, NomUsager, Matricule7, MP, ConfirmPassword, Courriel, Telephone, DateNais, Actif")] Personne personne, int? page)
         {
             Valider(personne);
-            var etuProg = new PersonneEtuProgParent();
             personne.Telephone = SachemIdentite.FormatTelephone(personne.Telephone);
-            etuProg.personne = personne;
-            const string message = "Le mot de passe doit contenir 6 caratères";
 
             var etuprog = new EtuProgEtude();
 
-            etuProg.EtuProgEtu = _dataRepository.WhereEtuProgEtude(d => d.id_Etu == etuProg.personne.id_Pers).OrderBy(d => d.ProgrammeEtude.Code).ToList();
-            if (Request.Form["id_Programme"] != "" && Request.Form["id_Session"] != "" && ConfirmeMdp(personne.MP, personne.ConfirmPassword))
+            if (Request.Form["id_ProgEtu"] != "" && Request.Form["id_Session"] != "" && ConfirmeMdp(personne.MP, personne.ConfirmPassword))
             {
                 etuprog.id_ProgEtu = int.Parse(Request.Form["id_ProgEtu"]);
                 etuprog.id_Sess = int.Parse(Request.Form["id_Session"]);
@@ -363,15 +359,15 @@ namespace sachem.Controllers
             {
                 if (personne.MP != null && personne.MP.Length < 6)
                 {
-                    ModelState.AddModelError("ConfirmPassword", message);
-                    TempData["Echec"] = message;
+                    ModelState.AddModelError("ConfirmPassword", Messages.LongueurDeSixCarateres);
+                    TempData["Echec"] = Messages.LongueurDeSixCarateres;
                 }
                 else
                 {
                     if (personne.MP != null && personne.ConfirmPassword != null)
                     {
-                        etuProg.personne.MP = SachemIdentite.EncrypterChaine(etuProg.personne.MP);
-                        etuProg.personne.ConfirmPassword = SachemIdentite.EncrypterChaine(etuProg.personne.ConfirmPassword);
+                        personne.MP = SachemIdentite.EncrypterChaine(personne.MP);
+                        personne.ConfirmPassword = SachemIdentite.EncrypterChaine(personne.ConfirmPassword);
                     }
                     else
                     {
@@ -387,18 +383,19 @@ namespace sachem.Controllers
             if (ModelState.IsValid)
             {
                 _dataRepository.EditPersonne(personne);
-                foreach (var prog in etuProg.EtuProgEtu)
-                {
-                    _dataRepository.EditEtuProgEtude(prog);
-                }
                 TempData["Success"] = Messages.EtudiantModifie(personne.NomPrenom);
                 return RedirectToAction("Index");
             }
 
             ViewBag.id_Sexe = _dataRepository.ListeSexe(personne.id_Sexe);
-            ViewBag.id_TypeUsag = _dataRepository.ListeTypeUsager(etuProg.personne.id_TypeUsag);
+            ViewBag.id_TypeUsag = _dataRepository.ListeTypeUsager(personne.id_TypeUsag);
             ViewBag.id_ProgEtu = _dataRepository.ListeProgrammmeEtude();
             ViewBag.id_Session = _dataRepository.ListeSession();
+            var etuProg = new PersonneEtuProgParent
+            {
+                personne = personne,
+                EtuProgEtu = _dataRepository.AllEtuProgEtude()
+            };
             return View(etuProg);
         }
 

@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
-using System.Data.Entity.Validation;
-using System.Diagnostics;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Web.Mvc;
@@ -307,138 +305,138 @@ namespace sachem.Models.DataAccess
         #endregion
 
         #region All
-        public IEnumerable<ChoixReponse> AllChoixReponse()
+        public IEnumerable<ChoixReponse> AllChoixReponse(bool asNoTracking = false)
         {
-            return _db.ChoixReponse;
+            return asNoTracking ? _db.ChoixReponse.AsNoTracking() : _db.ChoixReponse;
         }
-        public IEnumerable<Courriel> AllCourriel()
+        public IEnumerable<Courriel> AllCourriel(bool asNoTracking = false)
         {
-            return _db.Courriel;
+            return asNoTracking ? _db.Courriel.AsNoTracking() : _db.Courriel;
         }
-        public IEnumerable<Cours> AllCours()
+        public IEnumerable<Cours> AllCours(bool asNoTracking = false)
         {
-            return _db.Cours;
+            return asNoTracking ? _db.Cours.AsNoTracking() : _db.Cours;
         }
-        public IEnumerable<CoursInteret> AllCoursInteret()
+        public IEnumerable<CoursInteret> AllCoursInteret(bool asNoTracking = false)
         {
-            return _db.CoursInteret;
+            return asNoTracking ? _db.CoursInteret.AsNoTracking() : _db.CoursInteret;
         }
-        public IEnumerable<CoursSuivi> AllCoursSuivi()
+        public IEnumerable<CoursSuivi> AllCoursSuivi(bool asNoTracking = false)
         {
-            return _db.CoursSuivi;
+            return asNoTracking ? _db.CoursSuivi.AsNoTracking() : _db.CoursSuivi;
         }
-        public IEnumerable<Disponibilite> AllDisponibilite()
+        public IEnumerable<Disponibilite> AllDisponibilite(bool asNoTracking = false)
         {
-            return _db.Disponibilite;
+            return asNoTracking ? _db.Disponibilite.AsNoTracking() : _db.Disponibilite;
         }
-        public IEnumerable<EtuProgEtude> AllEtuProgEtude()
+        public IEnumerable<EtuProgEtude> AllEtuProgEtude(bool asNoTracking = false)
         {
-            return _db.EtuProgEtude;
+            return asNoTracking ? _db.EtuProgEtude.AsNoTracking() : _db.EtuProgEtude;
         }
-        public IEnumerable<Evaluation> AllEvaluation()
+        public IEnumerable<Evaluation> AllEvaluation(bool asNoTracking = false)
         {
-            return _db.Evaluation;
+            return asNoTracking ? _db.Evaluation.AsNoTracking() : _db.Evaluation;
         }
-        public IEnumerable<Formulaire> AllFormulaire()
+        public IEnumerable<Formulaire> AllFormulaire(bool asNoTracking = false)
         {
-            return _db.Formulaire;
+            return asNoTracking ? _db.Formulaire.AsNoTracking() : _db.Formulaire;
         }
-        public IEnumerable<Groupe> AllGroupe()
+        public IEnumerable<Groupe> AllGroupe(bool asNoTracking = false)
         {
-            return _db.Groupe;
+            return asNoTracking ? _db.Groupe.AsNoTracking() : _db.Groupe;
         }
-        public IEnumerable<GroupeEtudiant> AllGroupeEtudiant()
+        public IEnumerable<GroupeEtudiant> AllGroupeEtudiant(bool asNoTracking = false)
         {
-            return _db.GroupeEtudiant;
+            return asNoTracking ? _db.GroupeEtudiant.AsNoTracking() : _db.GroupeEtudiant;
         }
-        public IEnumerable<Inscription> AllInscription()
+        public IEnumerable<Inscription> AllInscription(bool asNoTracking = false)
         {
-            return _db.Inscription;
+            return asNoTracking ? _db.Inscription.AsNoTracking() : _db.Inscription;
         }
-        public IEnumerable<Jumelage> AllJumelage()
+        public IEnumerable<Jumelage> AllJumelage(bool asNoTracking = false)
         {
-            return _db.Jumelage;
+            return asNoTracking ? _db.Jumelage.AsNoTracking() : _db.Jumelage;
         }
-        public IEnumerable<Personne> AllPersonne()
+        public IEnumerable<Personne> AllPersonne(bool asNoTracking = false)
         {
-            return _db.Personne;
+            return asNoTracking ? _db.Personne.AsNoTracking() : _db.Personne;
         }
-        public IEnumerable<ProgrammeEtude> AllProgrammeEtude()
+        public IEnumerable<ProgrammeEtude> AllProgrammeEtude(bool asNoTracking = false)
         {
-            return _db.ProgrammeEtude;
+            return asNoTracking ? _db.ProgrammeEtude.AsNoTracking() : _db.ProgrammeEtude;
         }
-        public IEnumerable<Question> AllQuestion()
+        public IEnumerable<Question> AllQuestion(bool asNoTracking = false)
         {
-            return _db.Question;
+            return asNoTracking ? _db.Question.AsNoTracking() : _db.Question;
         }
-        public IEnumerable<ReponseQuestion> AllReponseQuestion()
+        public IEnumerable<ReponseQuestion> AllReponseQuestion(bool asNoTracking = false)
         {
-            return _db.ReponseQuestion;
+            return asNoTracking ? _db.ReponseQuestion.AsNoTracking() : _db.ReponseQuestion;
         }
-        public IEnumerable<Section> AllSection()
+        public IEnumerable<Section> AllSection(bool asNoTracking = false)
         {
-            return _db.Section;
+            return asNoTracking ? _db.Section.AsNoTracking() : _db.Section;
         }
-        public IEnumerable<Session> AllSession()
+        public IEnumerable<Session> AllSession(bool asNoTracking = false)
         {
-            return _db.Session;
+            return asNoTracking ? _db.Session.AsNoTracking() : _db.Session;
         }
-        public IEnumerable<Suivi> AllSuivi()
+        public IEnumerable<Suivi> AllSuivi(bool asNoTracking = false)
         {
-            return _db.Suivi;
+            return asNoTracking ? _db.Suivi.AsNoTracking() : _db.Suivi;
         }
             //All - sur table parametres
-        public IEnumerable<p_College> AllCollege()
+        public IEnumerable<p_College> AllCollege(bool asNoTracking = false)
         {
-            return _db.p_College;
+            return asNoTracking ? _db.p_College.AsNoTracking() : _db.p_College;
         }
-        public IEnumerable<p_Contact> AllContact()
+        public IEnumerable<p_Contact> AllContact(bool asNoTracking = false)
         {
-            return _db.p_Contact;
+            return asNoTracking ? _db.p_Contact.AsNoTracking() : _db.p_Contact;
         }
-        public IEnumerable<p_HoraireInscription> AllHoraireInscription()
+        public IEnumerable<p_HoraireInscription> AllHoraireInscription(bool asNoTracking = false)
         {
-            return _db.p_HoraireInscription;
+            return asNoTracking ? _db.p_HoraireInscription.AsNoTracking() : _db.p_HoraireInscription;
         }
-        public IEnumerable<p_Jour> AllJour()
+        public IEnumerable<p_Jour> AllJour(bool asNoTracking = false)
         {
-            return _db.p_Jour;
+            return asNoTracking ? _db.p_Jour.AsNoTracking() : _db.p_Jour;
         }
-        public IEnumerable<p_Saison> AllSaison()
+        public IEnumerable<p_Saison> AllSaison(bool asNoTracking = false)
         {
-            return _db.p_Saison;
+            return asNoTracking ? _db.p_Saison.AsNoTracking() : _db.p_Saison;
         }
-        public IEnumerable<p_Sexe> AllSexe()
+        public IEnumerable<p_Sexe> AllSexe(bool asNoTracking = false)
         {
-            return _db.p_Sexe;
+            return asNoTracking ? _db.p_Sexe.AsNoTracking() : _db.p_Sexe;
         }
-        public IEnumerable<p_StatutCours> AllStatutCours()
+        public IEnumerable<p_StatutCours> AllStatutCours(bool asNoTracking = false)
         {
-            return _db.p_StatutCours;
+            return asNoTracking ? _db.p_StatutCours.AsNoTracking() : _db.p_StatutCours;
         }
-        public IEnumerable<p_StatutInscription> AllStatutInscription()
+        public IEnumerable<p_StatutInscription> AllStatutInscription(bool asNoTracking = false)
         {
-            return _db.p_StatutInscription;
+            return asNoTracking ? _db.p_StatutInscription.AsNoTracking() : _db.p_StatutInscription;
         }
-        public IEnumerable<p_TypeCourriel> AllTypeCourriel()
+        public IEnumerable<p_TypeCourriel> AllTypeCourriel(bool asNoTracking = false)
         {
-            return _db.p_TypeCourriel;
+            return asNoTracking ? _db.p_TypeCourriel.AsNoTracking() : _db.p_TypeCourriel;
         }
-        public IEnumerable<p_TypeFormulaire> AllTypeFormulaire()
+        public IEnumerable<p_TypeFormulaire> AllTypeFormulaire(bool asNoTracking = false)
         {
-            return _db.p_TypeFormulaire;
+            return asNoTracking ? _db.p_TypeFormulaire.AsNoTracking() : _db.p_TypeFormulaire;
         }
-        public IEnumerable<p_TypeInscription> AllTypeInscription()
+        public IEnumerable<p_TypeInscription> AllTypeInscription(bool asNoTracking = false)
         {
-            return _db.p_TypeInscription;
+            return asNoTracking ? _db.p_TypeInscription.AsNoTracking() : _db.p_TypeInscription;
         }
-        public IEnumerable<p_TypeResultat> AllTypeResultat()
+        public IEnumerable<p_TypeResultat> AllTypeResultat(bool asNoTracking = false)
         {
-            return _db.p_TypeResultat;
+            return asNoTracking ? _db.p_TypeResultat.AsNoTracking() : _db.p_TypeResultat;
         }
-        public IEnumerable<p_TypeUsag> AllTypeUsag()
+        public IEnumerable<p_TypeUsag> AllTypeUsag(bool asNoTracking = false)
         {
-            return _db.p_TypeUsag;
+            return asNoTracking ? _db.p_TypeUsag.AsNoTracking() : _db.p_TypeUsag;
         }
         #endregion
 
@@ -1043,77 +1041,77 @@ namespace sachem.Models.DataAccess
         #region Liste
         public SelectList ListeTypeUsager(int idTypeUsager = 0)
         {
-            return new SelectList(AllTypeUsag(), "id_TypeUsag", "TypeUsag", 
+            return new SelectList(AllTypeUsag(true), "id_TypeUsag", "TypeUsag",
                 idTypeUsager);
         }
         public SelectList ListeTypeUsagerDuPersonnel(int idTypeUsager = 0)
         {
-            return new SelectList(WhereTypeUsag(x => x.id_TypeUsag == (int)TypeUsagers.Enseignant || x.id_TypeUsag == (int)TypeUsagers.Responsable), "id_TypeUsag", "TypeUsag",
+            return new SelectList(WhereTypeUsag(x => x.id_TypeUsag == (int)TypeUsagers.Enseignant || x.id_TypeUsag == (int)TypeUsagers.Responsable, true), "id_TypeUsag", "TypeUsag",
                 idTypeUsager);
         }
         public SelectList ListeSexe(int? sexe = 0)
         {
-            return new SelectList(AllSexe(), "id_Sexe", "Sexe", sexe);
+            return new SelectList(AllSexe(true), "id_Sexe", "Sexe", sexe);
         }
         public SelectList ListeSession(int session = 0)
         {
-            return new SelectList(AllSession(), "id_Sess", "NomSession", session);
+            return new SelectList(AllSession(true), "id_Sess", "NomSession", session);
         }
         public SelectList ListeCours(int cours = 0)
         {
-            return new SelectList(AllCours(), "id_Cours", "CodeNom", cours);
+            return new SelectList(AllCours(true), "id_Cours", "CodeNom", cours);
         }
         public SelectList ListeCollege(int college = 0)
         {
-            return new SelectList(AllCollege(), "id_College", "College", college);
+            return new SelectList(AllCollege(true), "id_College", "College", college);
         }
         public SelectList ListeStatutCours(int statut = 0)
         {
-            return new SelectList(AllStatutCours(), "id_Statut", "Statut", statut);
+            return new SelectList(AllStatutCours(true), "id_Statut", "Statut", statut);
         }
         public SelectList ListeProgrammmeEtude(bool actif = true)
         {
-            return new SelectList(WhereProgrammeEtude(x => x.Actif == actif), "id_ProgEtu", "CodeNomProgramme");
+            return new SelectList(WhereProgrammeEtude(x => x.Actif == actif, true), "id_ProgEtu", "CodeNomProgramme");
         }
         public SelectList ListeEtudiants(int id = 0)
         {
-            return new SelectList(WherePersonne(x=>x.id_TypeUsag == (int)TypeUsagers.Etudiant)
-                .OrderBy(x=>x.Nom)
-                .ThenBy(x=>x.Prenom), "id_Pers", "Nom", id);
+            return new SelectList(WherePersonne(x => x.id_TypeUsag == (int)TypeUsagers.Etudiant, true)
+                .OrderBy(x => x.Nom)
+                .ThenBy(x => x.Prenom), "id_Pers", "Nom", id);
         }
         public SelectList ListeEnseignant(int id = 0)
         {
-            return new SelectList(WherePersonne(x => x.id_TypeUsag == (int)TypeUsagers.Enseignant && x.Actif)
+            return new SelectList(WherePersonne(x => x.id_TypeUsag == (int)TypeUsagers.Enseignant && x.Actif, true)
                 .OrderBy(x => x.Nom)
                 .ThenBy(x => x.Prenom), "id_Pers", "NomPrenom", id);
         }
         public SelectList ListeEnseignantEtResponsable(int id = 0)
         {
             return new SelectList(WherePersonne(x => x.id_TypeUsag == (int)TypeUsagers.Enseignant && x.Actif
-            || x.id_TypeUsag == (int)TypeUsagers.Responsable)
+            || x.id_TypeUsag == (int)TypeUsagers.Responsable, true)
                 .OrderBy(x => x.Nom)
                 .ThenBy(x => x.Prenom), "id_Pers", "NomPrenom", id);
         }
         public SelectList ListeTypeInscription(int typeInscription = 0)
         {
-            return new SelectList(AllTypeInscription(), "id_TypeInscription", "TypeInscription", typeInscription);
+            return new SelectList(AllTypeInscription(true), "id_TypeInscription", "TypeInscription", typeInscription);
         }
         public SelectList ListeInscription(int inscription = 0)
         {
-            return new SelectList(AllInscription(), "id_Inscription", "Inscription", inscription);
+            return new SelectList(AllInscription(true), "id_Inscription", "Inscription", inscription);
         }
         public SelectList ListeStatutInscriptionSansBrouillon(int statut = 0)
         {
-            return new SelectList(_db.p_StatutInscription.Where(x => x.id_Statut != Brouillon), "id_Statut", "Statut", statut);
+            return new SelectList(WhereStatutInscription(x => x.id_Statut != Brouillon, true), "id_Statut", "Statut", statut);
         }
         public SelectList ListeStatutCours()
         {
-            return new SelectList(_db.p_StatutCours
-                .OrderBy(x=>x.id_Statut), "id_Statut", "Statut");
+            return new SelectList(AllStatutCours(true)
+                .OrderBy(x => x.id_Statut), "id_Statut", "Statut");
         }
         public SelectList ListeTypesCourriels(int typeCourriel = 0)
         {
-            return new SelectList(_db.p_TypeCourriel.AsNoTracking()
+            return new SelectList(AllTypeCourriel(true)
                 .OrderBy(i => i.id_TypeCourriel), "id_TypeCourriel", "TypeCourriel", typeCourriel);
         }
         public List<string> ListeJours()

@@ -21,7 +21,7 @@ namespace sachem.Models
         public const string FormatDeCourriel = "Format: nom@nomdomaine.com";
         public const string FormatTelephone = "Format : (999) 999-9999";
         public const string PlaceHolderTelephone = "(999) 999-9999";
-        public const string PlaceHolderMotDePasseSecondeSaisie = "Confirmer le mot de passe";
+        public const string EntrezUnMotDePasse = "Veuillez entrer un mot de passe";
         public const string FormatHeureMinuteSeconde = "Format : HH:MM:SS";
         public const string PlaceHolderHeure = "HH:MM:SS";
         public const string DatePlusHauteQueLAnneeDeFondationDuCegep = "La date indiquée doit être entre l'année 1967 et celle en cours.";
