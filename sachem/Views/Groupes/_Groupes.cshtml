@@ -4,7 +4,7 @@
 <div class="form-group">
     @Html.LabelFor(model => model.NoGroupe, new { @class = "control-label col-md-2" })
     <div class="col-md-10">
-        @Html.EditorFor(model => model.NoGroupe, new { htmlAttributes = new { @class = "form-control", type="number", min="0"} })
+        @Html.EditorFor(model => model.NoGroupe, new { htmlAttributes = new { @class = "form-control", type="number", minlength="4", maxlength = "4", title=Messages.LongueurDeQuatreCaracteres } })
         @Html.ValidationMessageFor(model => model.NoGroupe, "", new { @class = "text-danger" })
     </div>
 </div>
