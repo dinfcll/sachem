@@ -14,13 +14,17 @@
 <p>
     @using (Html.BeginForm("Index", "ProgrammesOfferts", FormMethod.Post, new { @class = "form-inline", role = "form" }))
     {
-        <table class="table-condensed">
-            <tr>
-                <td>@Messages.ProgrammeCodeOuNom</td>
-                <td>@Html.Editor("Recherche", new { htmlAttributes = new { @class = "form-control" } })</td>
-                <td><input type="submit" value="@Messages.Rechercher" class="form-search" /></td>
-            </tr>
-        </table>
+        <div class="recherche">
+            <div class="row">
+                <div class="col-md-5">
+                    <div class="col-md-6 recherche-label">@Messages.ProgrammeCodeOuNom</div>
+                    <div class="col-md-6 recherche-field">@Html.Editor("Recherche", new { htmlAttributes = new { @class = "form-control" } })</div>
+                </div>
+                <div class="col-md-2">
+                    <input type="submit" value="@Messages.Rechercher" class="btn btn-default"/>
+                </div>
+            </div>
+        </div>
     }
 
 <div style="margin-top:5px;margin-bottom:10px;">@Html.ActionLink(Messages.ProgrammesAjouterTitre, "Create", null, null, new { @class = "btn btn-default" })</div>

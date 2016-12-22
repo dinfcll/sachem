@@ -43,13 +43,13 @@ namespace sachem.Controllers
                 coursSuivi.autre_Cours == string.Empty ||
                 coursSuivi.id_Cours != null &&
                 coursSuivi.autre_Cours != string.Empty)
-                ModelState.AddModelError(string.Empty, Messages.CoursSuiviCompleterLesChamps("Cours" , "Autre cours"));
+                ModelState.AddModelError(string.Empty, Messages.CoursSuiviCompleterLesChamps(Messages.Cours , Messages.Autre));
 
             if (coursSuivi.id_College == null &&
                 coursSuivi.autre_College == string.Empty ||
                 coursSuivi.id_College != null &&
                 coursSuivi.autre_College != string.Empty)
-                ModelState.AddModelError(string.Empty, Messages.CoursSuiviCompleterLesChamps("Collège", "Autre collège"));
+                ModelState.AddModelError(string.Empty, Messages.CoursSuiviCompleterLesChamps(Messages.College, Messages.Autre));
 
             if ((coursSuivi.id_Statut == null || coursSuivi.id_Statut == 1) && coursSuivi.resultat == null)
                 ModelState.AddModelError(string.Empty, Messages.ResultatRequisSiReussi);
@@ -97,7 +97,7 @@ namespace sachem.Controllers
 
             if (!ModelState.IsValid) return View(coursSuivi);
             _dataRepository.AddCoursSuivi(coursSuivi);
-            return RedirectToAction("Details", "DossierEtudiant", new { id = SessionBag.Current.id_Inscription });
+            return RedirectToAction("Details", "DossierEtudiant", new { id = BrowserSessionBag.Current.id_Inscription });
         }
 
         public ActionResult Edit(int? coursReussi, int? personne)
@@ -139,7 +139,7 @@ namespace sachem.Controllers
 
             if (!ModelState.IsValid) return View(coursSuivi);
             _dataRepository.EditCoursSuivi(coursSuivi);
-            return RedirectToAction("Details", "DossierEtudiant", new { id = SessionBag.Current.id_Inscription });
+            return RedirectToAction("Details", "DossierEtudiant", new { id = BrowserSessionBag.Current.id_Inscription });
         }
 
         public ActionResult Delete(int? coursReussi, int? personne)
@@ -170,7 +170,7 @@ namespace sachem.Controllers
             var coursSuivi = _dataRepository.FindCoursSuivi(idCoursReussi);
 
             _dataRepository.RemoveCoursSuivi(coursSuivi);
-            return RedirectToAction("Details", "DossierEtudiant", new { id = SessionBag.Current.id_Inscription });
+            return RedirectToAction("Details", "DossierEtudiant", new { id = BrowserSessionBag.Current.id_Inscription });
         }
 
         protected override void Dispose(bool disposing)

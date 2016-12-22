@@ -52,6 +52,23 @@
     color:#fff;
 }
 
+.recherche  div {
+    padding: 0;
+    margin: 0;
+}
+
+.row .recherche-label {
+    line-height: 32px;
+}
+.row .recherche-field{
+    padding-right: 20px;
+    margin-top: 0;
+    padding-bottom: 5px;
+}
+.row div:last-child .recherche-field{
+    padding-right: 0;
+}
+
 /* Override the default bootstrap behavior where horizontal description lists 
    will truncate terms that are too long to fit in the left column 
 */
@@ -278,7 +295,8 @@ textarea {
 }
 
 /*login*/
-#login-btn-forgottenpswd { font-size:120%;font-weight: bolder;height:34px; } #input-pswd { float:left;width:245px; }
+#login-btn-forgottenpswd { font-size:120%;font-weight: bolder;height:34px;border-bottom-left-radius: 0;border-top-left-radius: 0;}
+#input-pswd { float:left;width:245px;border-bottom-right-radius: 0;border-top-right-radius: 0;}
 
 /*dossier etu*/
 #de-btn-input-field-tel { height: 34px; width:34px; } 

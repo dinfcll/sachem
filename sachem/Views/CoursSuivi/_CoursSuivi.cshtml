@@ -19,7 +19,7 @@
     </div>
 </div>
 
-@if (SachemIdentite.ObtenirTypeUsager(Session) == TypeUsagers.Tuteur)
+@if (SachemIdentite.ObtenirTypeUsager(Session) == TypeUsager.Etudiant && (int)SachemIdentite.ObtenirTypeInscription(Session) > (int)TypeInscription.EleveAide)
 {
     <div class="form-group">
         @Html.LabelFor(model => model.id_College, new { @class = "control-label col-md-2" })
@@ -46,7 +46,7 @@
     </div>
 </div>
 
-@if (SachemIdentite.ObtenirTypeUsager(Session) == TypeUsagers.Eleve)
+@if (SachemIdentite.ObtenirTypeUsager(Session) == TypeUsager.Etudiant && SachemIdentite.ObtenirTypeInscription(Session) == TypeInscription.EleveAide)
 {
 <div class="form-group">
     @Html.LabelFor(model => model.id_Statut, new { @class = "control-label col-md-2" })
@@ -68,6 +68,6 @@
 <div class="form-group">
     <div class="col-md-offset-2 col-md-10">
         <input type="submit" value="@Messages.Enregistrer" class="btn btn-default new { id = ViewBag.idPers }" />
-        @Html.ActionLink(Messages.Annuler, "Details", "DossierEtudiant", new { id = SessionBag.Current.id_Inscription }, new { @class = "btn btn-default" })
+        @Html.ActionLink(Messages.Annuler, "Details", "DossierEtudiant", new { id = BrowserSessionBag.Current.id_Inscription }, new { @class = "btn btn-default" })
     </div>
 </div>

@@ -6,7 +6,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - SACHEM</title>
+    <title>@ViewBag.Title - @System.Configuration.ConfigurationManager.AppSettings.Get("nomDuSite").ToUpper()</title>
     @Styles.Render("~/Content/css")
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
           rel="stylesheet">
@@ -25,29 +25,27 @@
                 <span class="icon-bar"></span>
             </button>
             <div class="logo">
-                <div class="cll"><div class="nomSite">@Messages.NomDuSite</div></div>                    
+                <div class="cll"><div class="nomSite">@System.Configuration.ConfigurationManager.AppSettings.Get("nomDuSite")</div></div>                    
             </div>
             <span style="padding-left:180px;"></span>
         </div>
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
-                <!--Si c'est un étudiant.-->
-                @if (SachemIdentite.ObtenirTypeUsager(Session) == TypeUsagers.Eleve || SachemIdentite.ObtenirTypeUsager(Session) == TypeUsagers.Tuteur)
+
+                @if (SachemIdentite.ObtenirTypeUsager(Session) == TypeUsager.Etudiant)
                 {
                     <li>
-                        @Html.ActionLink(Messages.DossierEtudiantMon, "Details", "DossierEtudiant", new { id = SessionBag.Current.id_Inscription } , null)
+                        @Html.ActionLink(Messages.DossierEtudiantMon, "Details", "DossierEtudiant", new { id = BrowserSessionBag.Current.id_Inscription } , null)
                     </li>
                 }
                     
-                <!--Si c'est un tuteur.-->
-                @if (SachemIdentite.ObtenirTypeUsager(Session) == TypeUsagers.Tuteur)
+                @if (SachemIdentite.ObtenirTypeUsager(Session) == TypeUsager.Etudiant && (int)SachemIdentite.ObtenirTypeInscription(Session) > (int)TypeInscription.EleveAide)
                 {
                     <li>
                         @Html.ActionLink(Messages.DossierEtudiant, "Index", "DossierEtudiant")
                     </li>
                 }
 
-                <!--Si c'est un Enseignant et +.-->
                 @if (SachemIdentite.TypeListeProf.Contains(SachemIdentite.ObtenirTypeUsager(Session)))
                 {
                     <li>
@@ -93,7 +91,7 @@
     @RenderBody()
     <hr />
     <footer>
-        <p>&copy; @DateTime.Now.Year - @Messages.NomDuSite.ToUpper() -
+        <p>&copy; @DateTime.Now.Year - @System.Configuration.ConfigurationManager.AppSettings.Get("nomDuSite").ToUpper() -
             <a href="@Url.Action("Contact", "Home")">
                 <span class="glyphicon glyphicon-phone"></span><span>&nbsp; @Messages.NousContacter</span>
             </a></p>

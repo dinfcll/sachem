@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.Entity;
 using System.Linq;
 using System.Net;
 using System.Web.Mvc;
@@ -13,7 +12,6 @@ namespace sachem.Controllers
 {
     public class DossierEtudiantController : Controller
     {
-        private readonly SACHEMEntities _db = new SACHEMEntities();
         protected int NoPage = 1;
         private readonly IDataRepository _dataRepository;
 
@@ -27,31 +25,18 @@ namespace sachem.Controllers
             _dataRepository = dataRepository;
         }
 
-        private IEnumerable<Personne> ObtenirListeSuperviseur(int session)
-        {
-            var lstEnseignant = from p in _db.Personne
-                                where (_db.Jumelage.Any(j => (j.id_Sess == session || session == 0) && j.id_Enseignant == p.id_Pers))
-                                && p.id_TypeUsag == 2
-                                orderby p.Nom, p.Prenom
-                                select p;
-            return lstEnseignant.ToList();
-        }
-
-        private void ListeSuperviseur(int session, int superviseur)
-        {
-            ViewBag.Superviseur = new SelectList(ObtenirListeSuperviseur(session), "id_Pers", "NomPrenom", superviseur);
-        }
-
         [NonAction]
         [AcceptVerbs("Get", "Post")]
         public JsonResult ActualiseSuperviseurddl(int session)
         {
-            var a = ObtenirListeSuperviseur(session).Select(c => new { c.id_Pers, c.NomPrenom });
-
+            var a = _dataRepository.WherePersonne(
+                        p =>
+                            //_dataRepository.AnyJumelage(j => (j.id_Sess == session || session == 0) && j.id_Enseignant == p.id_Pers) &&
+                            p.id_TypeUsag == (int)TypeUsager.Enseignant).OrderBy(p => p.Nom).ThenBy(p => p.Prenom)
+                            .Select(c => new { c.id_Pers, c.NomPrenom });
             return Json(a.ToList(), JsonRequestBehavior.AllowGet);
         }
 
-        //Fonction pour gérer la recherche, elle est utilisée dans la suppression et dans l'index
         [NonAction]
         protected IEnumerable<Inscription> Rechercher()
         {
@@ -60,8 +45,14 @@ namespace sachem.Controllers
             var prenom = "";
             var nom = "";
             var session = 0;
-            int typeinscription = SessionBag.Current.id_Inscription;
-            int superviseur = SessionBag.Current.idSuperviseur;
+            var tuteur = 0;
+            var typeinscription = 0;
+            int superviseur = BrowserSessionBag.Current.idSuperviseur;
+            if ((int)BrowserSessionBag.Current.TypeUsager < (int)TypeUsager.Enseignant)
+            {
+                tuteur = BrowserSessionBag.Current.id_Pers;
+                typeinscription = (int)TypeUsager.Etudiant;
+            }
 
             if (Request.RequestType == "GET" && Session["DernRechEtu"] != null && (string)Session["DernRechEtuUrl"] == Request.Url?.LocalPath)
             {
@@ -165,23 +156,19 @@ namespace sachem.Controllers
 
             ViewBag.Session = _dataRepository.ListeSession(session);
             ViewBag.Inscription = _dataRepository.ListeTypeInscription(typeinscription);
-            ListeSuperviseur(session, superviseur);
+            ViewBag.Superviseur = _dataRepository.ListeSuperviseur(session, superviseur);
 
             Session["DernRechEtu"] = matricule + ";" + session + ";" + typeinscription + ";" + superviseur + ";" + NoPage;
             Session["DernRechEtuUrl"] = Request.Url.LocalPath;
-
-            var lstEtu = from p in _db.Inscription
-                                    where (_db.Jumelage.Any(j => j.id_Enseignant == superviseur || superviseur == 0) &&
-                                    (p.id_Sess == session || session == 0) &&
-                                    (p.id_TypeInscription == typeinscription || typeinscription == 0) &&
-                                    (p.Personne.Prenom.Contains(prenom) || prenom == "") &&
-                                    (p.Personne.Nom.Contains(nom) || nom == "") &&
-                                    (p.Personne.Matricule.Substring(2).StartsWith(matricule) || matricule == "")
-                                                                  )
-                                    orderby p.Personne.Nom, p.Personne.Prenom
-                                    select p;
-                           
-            return lstEtu.ToList();
+            return _dataRepository.WhereInscription(
+                p => (p.id_Sess == session || session == 0) &&
+                     (p.id_TypeInscription == typeinscription || typeinscription == 0) &&
+                     (p.Personne.Prenom.Contains(prenom) || prenom == "") &&
+                     (p.Personne.Nom.Contains(nom) || nom == "") &&
+                     (p.Personne.Matricule.Substring(2).StartsWith(matricule) || matricule == "") //&&
+                     //_dataRepository.AnyJumelage(j => (j.id_Enseignant == superviseur || superviseur == 0) &&
+                     //j.id_InscrTuteur == tuteur || tuteur == 0)
+            ).OrderBy(p => p.Personne.Nom).ThenBy(p => p.Personne.Prenom).ToList();
         }
 
         [NonAction]
@@ -190,14 +177,14 @@ namespace sachem.Controllers
             return Rechercher();
         }
 
-        [ValidationAcces.ValidationAccesTuteur]
+        [ValidationAcces.ValidationAccesTousTuteurs]
         public ActionResult Index(int? page)
         {
             NoPage = page ?? NoPage;
             return View(Rechercher().ToPagedList(NoPage, 20));
         }
 
-        [ValidationAcces.ValidationAccesEleve]
+        [ValidationAcces.ValidationAccesEleveAide]
         public ActionResult Details(int? id)
         {
             if (id == null)
@@ -212,67 +199,57 @@ namespace sachem.Controllers
                 return HttpNotFound();
             }
 
-            var vCoursSuivi = from d in _db.CoursSuivi
-                              where d.id_Pers == inscription.id_Pers
-                              select d;
+            var vCoursSuivi = _dataRepository.WhereCoursSuivi(d => d.id_Pers == inscription.id_Pers).ToList();
 
-            var vInscription = from d in _db.Inscription
-                               where d.id_Pers == inscription.id_Pers
-                               select d;            
-
-            ViewBag.idPers = vInscription.First().id_Pers;
-            ViewBag.idTypeInsc = vInscription.First().id_TypeInscription;
+            var vInscription = _dataRepository.WhereInscription(d => d.id_Pers == inscription.id_Pers).ToList();
 
             return View(Tuple.Create(inscription, vCoursSuivi.AsEnumerable(), vInscription.AsEnumerable()));
         }
         
         [HttpPost]
-        [ValidationAcces.ValidationAccesTuteur]
+        [ValidationAcces.ValidationAccesTousTuteurs]
         public void ModifBon(bool bon, string insc)
         {
             var idInscription = Convert.ToInt32(insc);
 
-            var inscription = _db.Inscription.Find(idInscription);
+            var inscription = _dataRepository.FindInscription(idInscription);
 
             inscription.BonEchange = bon; 
 
-            _db.Entry(inscription).State = EntityState.Modified;
-            _db.SaveChanges();
+            _dataRepository.EditInscription(inscription);
         }
 
         [HttpPost]
-        [ValidationAcces.ValidationAccesEleve]
+        [ValidationAcces.ValidationAccesEleveAide]
         public void ModifEmail(string email, string pers)
         {
             var idPers = Convert.ToInt32(pers);
 
-            var personne = _db.Personne.Find(idPers);
+            var personne = _dataRepository.FindPersonne(idPers);
 
             personne.Courriel = email;
 
-            _db.Entry(personne).State = EntityState.Modified;
-            _db.SaveChanges();
+            _dataRepository.EditPersonne(personne);
         }
 
         [HttpPost]
-        [ValidationAcces.ValidationAccesEleve]
+        [ValidationAcces.ValidationAccesEleveAide]
         public void ModifTel(string tel, string pers)
         {
             var idPers = Convert.ToInt32(pers);
 
-            var personne = _db.Personne.Find(idPers);
+            var personne = _dataRepository.FindPersonne(idPers);
 
             personne.Telephone = SachemIdentite.FormatTelephone(tel);
 
-            _db.Entry(personne).State = EntityState.Modified;
-            _db.SaveChanges();
+            _dataRepository.EditPersonne(personne);
         }
 
         protected override void Dispose(bool disposing)
         {
             if (disposing)
             {
-                _db.Dispose();
+                _dataRepository.Dispose();
             }
             base.Dispose(disposing);
         }  

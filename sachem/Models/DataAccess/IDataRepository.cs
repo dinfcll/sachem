@@ -328,6 +328,7 @@ namespace sachem.Models.DataAccess
         SelectList ListeProgrammmeEtude(bool actif = true);
         SelectList ListeEtudiants(int id = 0);
         SelectList ListeEnseignant(int id = 0);
+        SelectList ListeSuperviseur(int session = 0, int superviseur = 0);
         SelectList ListeEnseignantEtResponsable(int id = 0);
         SelectList ListeTypeInscription(int typeInscription = 0);
         SelectList ListeInscription(int inscription = 0);

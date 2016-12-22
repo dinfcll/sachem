@@ -16,15 +16,21 @@
 @using (Html.BeginForm("Index", "Cours", FormMethod.Post, new { @class = "form-inline", role = "form" }))
 {
     <h4>@Messages.Recherche</h4>
-    <table class="table-condensed">
-        <tr>
-            <td>@Messages.Session :</td>
-            <td>@Html.DropDownList("Session", null, Messages.Toutes, new { @class = "form-search" })</td>
-            <td>@Messages.Actif :</td>
-            <td>@Html.CheckBox("Actif", (bool)ViewBag.Actif)</td>
-            <td><input type="submit" value="@Messages.Rechercher" class="form-search" /></td>
-        </tr>
-    </table>
+    <div class="recherche">
+        <div class="row">
+            <div class="col-md-3">
+                <div class="col-md-4 recherche-label">@Messages.Session</div>
+                <div class="col-md-8 recherche-field">@Html.DropDownList("Session", null, Messages.Toutes, new { @class = "form-control" })</div>
+            </div>
+            <div class="col-md-1">
+                <div class="col-md-6 recherche-label">@Messages.Actif</div>
+                <div class="col-md-6 recherche-label">@Html.CheckBox("Actif", (bool)ViewBag.Actif)</div>
+            </div>
+            <div class="col-md-2">
+                <input type="submit" value="@Messages.Rechercher" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
 }
 
 <div style="margin-top:5px;margin-bottom:10px;">@Html.ActionLink(Messages.CoursAjouterTitre, "Create", null, null, new { @class = "btn btn-default" })</div>

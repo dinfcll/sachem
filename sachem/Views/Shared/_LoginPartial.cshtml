@@ -1,6 +1,6 @@
 ﻿@using sachem.Methodes_Communes
 @using sachem.Models
-@if (SessionBag.Current.NomComplet !=null)
+@if (BrowserSessionBag.Current.NomComplet !=null)
 {
     using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
     {
@@ -11,10 +11,6 @@
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                     <span class="glyphicon glyphicon-user"></span>
                     <span class="nomUtilisateurNav">@Session["NomComplet"]</span>
-                    @if ((int)Session["id_TypeUsag"] == 1 && Session["CouleurPortrait"] != null)
-                    {
-                        <span class="glyphicon glyphicon-certificate" style="color:@Session["CouleurPortrait"]"></span>
-                    }
                     <b class="caret">
                     </b>
                 </a>

@@ -13,7 +13,7 @@ namespace sachem.Controllers
     {
         private readonly SACHEMEntities _db = new SACHEMEntities();
 
-        [ValidationAcces.ValidationAccesSuper]
+        [ValidationAcces.ValidationAccesSuperEtResp]
         public ActionResult Index(string recherche, int? page)
         {
             var numeroPage = (page ?? 1);
@@ -23,7 +23,7 @@ namespace sachem.Controllers
         }
         
         // GET: ProgrammesOfferts/Create
-        [ValidationAcces.ValidationAccesSuper]
+        [ValidationAcces.ValidationAccesSuperEtResp]
         public ActionResult Create()
         {
             return View();
@@ -48,7 +48,7 @@ namespace sachem.Controllers
 
         //Méthode qui permet de modifier un programme. on vérifie que le proramme existe bien pour pouvoir rediriger l'usager vers 
         //la bonne vue.
-        [ValidationAcces.ValidationAccesSuper]
+        [ValidationAcces.ValidationAccesSuperEtResp]
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -93,7 +93,7 @@ namespace sachem.Controllers
         // GET: ProgrammesOfferts/Delete/5
         //Fonction qui permet de retourner l'utilisateur à la page de suppression avec le bon programme d'étude. On verifie si le 
         //programme existe réellement pour rediriger l'usager vers la bonne action
-        [ValidationAcces.ValidationAccesSuper]
+        [ValidationAcces.ValidationAccesSuperEtResp]
         public ActionResult Delete(int? id)
         {
             if (id == null)

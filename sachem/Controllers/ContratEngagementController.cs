@@ -10,10 +10,10 @@ namespace sachem.Controllers
     {
         private readonly SACHEMEntities _db = new SACHEMEntities();
 
-        [ValidationAcces.ValidationAccesEtu]
+        [ValidationAcces.ValidationAccesEtudiants]
         public ActionResult Index()
         {
-            int idDeLaPersonneConnectee = SessionBag.Current.id_Pers;
+            int idDeLaPersonneConnectee = BrowserSessionBag.Current.id_Pers;
             var inscriptionDeLaPersonneConnectee = _db.Inscription.First(c => c.id_Pers == idDeLaPersonneConnectee);
 
             return View(inscriptionDeLaPersonneConnectee);
@@ -23,7 +23,7 @@ namespace sachem.Controllers
         public ActionResult Index(string motDePasse, bool confirmationSignatureContrat, [Bind(Include = "id_Inscription")] Inscription inscription)
         {
             motDePasse = SachemIdentite.EncrypterChaine(motDePasse);
-            int idDeLaPersonneConnectee = SessionBag.Current.id_Pers;
+            int idDeLaPersonneConnectee = BrowserSessionBag.Current.id_Pers;
             var personneConnectee = _db.Personne.Find(idDeLaPersonneConnectee);
 
             var inscriptionDeLaPersonneConnectee = _db.Inscription.Find(inscription.id_Inscription);

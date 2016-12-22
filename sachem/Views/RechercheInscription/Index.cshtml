@@ -10,17 +10,38 @@
 @using (Html.BeginForm("Index", "RechercheInscription", FormMethod.Post, new { @class = "form-inline", role = "form" }))
 {
     <h4>Recherche</h4>
-    <table class="table-condensed">
-        <tr>
-            <td>@Messages.Session:</td>
-            <td>@Html.DropDownList("Session", null, Messages.Toutes, new { @class = "form-search" })</td>
-            <td>@Html.LabelFor(model => model.First().p_TypeInscription.TypeInscription):</td>
-            <td>@Html.DropDownList("TypeInscription", null, Messages.Tous, new { @class = "form-search" })</td>
-            <td>@Html.DisplayNameFor(model => model.First().p_StatutInscription.Statut)):</td>
-            <td>@Html.DropDownList("Statut", null, Messages.Tous, new { @class = "form-search" })</td>
-            <td><input type="submit" value="@Messages.Rechercher" class="form-search" /></td>
-        </tr>
-    </table>
+    <div class="recherche">
+        <div class="row">
+            <div class="col-md-3">
+                <div class="col-md-3 recherche-label">
+                    @Messages.Session
+                </div>
+                <div class="col-md-9 recherche-field">
+                    @Html.DropDownList("Session", null, Messages.Toutes, new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="col-md-4 recherche-label">
+                    @Messages.TypeInscription
+                </div>
+                <div class="col-md-8 recherche-field">
+                    @Html.DropDownList("TypeInscription", null, Messages.Tous, new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="col-md-3 recherche-label">
+                    @Messages.Statut
+                </div>
+                <div class="col-md-9 recherche-field">
+                    @Html.DropDownList("Statut", null, Messages.Tous, new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="col-md-2">
+                <input type="submit" value="@Messages.Rechercher" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+    <br />
 }
 
 <table class="table">

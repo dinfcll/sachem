@@ -1195,7 +1195,7 @@ namespace sachemTests
         }
         public SelectList ListeTypeUsagerDuPersonnel(int idTypeUsager = 0)
         {
-            return new SelectList(WhereTypeUsag(x => x.id_TypeUsag == (int)TypeUsagers.Enseignant || x.id_TypeUsag == (int)TypeUsagers.Responsable, true), "id_TypeUsag", "TypeUsag",
+            return new SelectList(WhereTypeUsag(x => x.id_TypeUsag == (int)TypeUsager.Enseignant || x.id_TypeUsag == (int)TypeUsager.Responsable, true), "id_TypeUsag", "TypeUsag",
                 idTypeUsager);
         }
         public SelectList ListeSexe(int? sexe = 0)
@@ -1224,20 +1224,30 @@ namespace sachemTests
         }
         public SelectList ListeEtudiants(int id = 0)
         {
-            return new SelectList(WherePersonne(x => x.id_TypeUsag == (int)TypeUsagers.Etudiant, true)
+            return new SelectList(WherePersonne(x => x.id_TypeUsag == (int)TypeUsager.Etudiant, true)
                 .OrderBy(x => x.Nom)
                 .ThenBy(x => x.Prenom), "id_Pers", "Nom", id);
         }
         public SelectList ListeEnseignant(int id = 0)
         {
-            return new SelectList(WherePersonne(x => x.id_TypeUsag == (int)TypeUsagers.Enseignant && x.Actif, true)
+            return new SelectList(WherePersonne(x => x.id_TypeUsag == (int)TypeUsager.Enseignant && x.Actif, true)
                 .OrderBy(x => x.Nom)
                 .ThenBy(x => x.Prenom), "id_Pers", "NomPrenom", id);
         }
+        public SelectList ListeSuperviseur(int session = 0, int superviseur = 0)
+        {
+            return
+                new SelectList(
+                    WherePersonne(
+                        p =>
+                            AnyJumelage(j => (j.id_Sess == session || session == 0) && j.id_Enseignant == p.id_Pers) &&
+                            p.id_TypeUsag == (int)TypeUsager.Enseignant).OrderBy(p => p.Nom).ThenBy(p => p.Prenom),
+                    "id_Pers", "NomPrenom", superviseur);
+        }
         public SelectList ListeEnseignantEtResponsable(int id = 0)
         {
-            return new SelectList(WherePersonne(x => x.id_TypeUsag == (int)TypeUsagers.Enseignant && x.Actif
-            || x.id_TypeUsag == (int)TypeUsagers.Responsable, true)
+            return new SelectList(WherePersonne(x => x.id_TypeUsag == (int)TypeUsager.Enseignant && x.Actif
+            || x.id_TypeUsag == (int)TypeUsager.Responsable, true)
                 .OrderBy(x => x.Nom)
                 .ThenBy(x => x.Prenom), "id_Pers", "NomPrenom", id);
         }

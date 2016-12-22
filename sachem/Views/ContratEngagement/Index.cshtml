@@ -4,7 +4,6 @@
 
 @{
     ViewBag.Title = Messages.ContratTitre;
-    var typeUsager = SachemIdentite.ObtenirTypeUsager(Session);
 }
 
 <h2>@ViewBag.Title</h2>
@@ -29,12 +28,9 @@
     {
         @Html.HiddenFor(m => m.id_Inscription)
         @Html.CheckBox("confirmationSignatureContrat", new { htmlAttributes = new { @class = "form-control", required = Messages.ChampRequis } })
-        if (typeUsager != TypeUsagers.Etudiant && typeUsager != TypeUsagers.Eleve)
+        if (SachemIdentite.ObtenirTypeUsager(Session) == TypeUsager.Etudiant && (int)SachemIdentite.ObtenirTypeInscription(Session) > (int)TypeInscription.EleveAide)
         {
-            if (typeUsager == TypeUsagers.Tuteur)
-            {
-                <span>@Messages.ContratClause8</span>
-            }
+            <span>@Messages.ContratClause8</span>
         }
         else
         {

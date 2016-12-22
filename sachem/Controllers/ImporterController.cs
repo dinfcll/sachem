@@ -15,7 +15,7 @@ namespace sachem.Controllers
         private const int Maxfilesize = 20;
         private const string Fileextension = ".csv";
 
-        [ValidationAcces.ValidationAccesSuper]
+        [ValidationAcces.ValidationAccesSuperEtResp]
         public ActionResult Index()
         {
             ViewBag.MAXFILES = Maxfiles;

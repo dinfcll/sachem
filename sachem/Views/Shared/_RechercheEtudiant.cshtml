@@ -107,23 +107,51 @@
     });
 </script>
 
-<div class="form-inline">
-
     <h4>@Messages.Recherche</h4>
 
-    <table class="table-condensed col-md-12">
-        <tr>
-            <td class="col-md-1">@Messages.NoDa:</td>
-            <td class="col-md-1">@Html.Editor("Matricule", new { htmlAttributes = new { @class = "form-control", maxlength = "7" } })
-                <span style="font-weight: bold; text-decoration: underline;">ou</span></td>
-            <td class="col-md-1">@Messages.Session:</td>
-            <td class="col-md-2">@Html.DropDownList("SelectSession", null, Messages.Toutes, new { @class = "form-search", id ="SelectSession" })</td>
-            <td class="col-md-1">@Messages.Cours:</td>
-            <td class="col-md-2">@Html.DropDownList("SelectCours", null, Messages.Tous, new { @class = "form-search", id="SelectCours" })</td>
-            <td class="col-md-1">@Messages.Groupe:</td>
-            <td class="col-md-2">@Html.DropDownList("SelectGroupe", null, Messages.Tous, new { @class = "form-search", id="SelectGroupe" })</td>
-            <td class="col-md-1"><input type="submit" value="@Messages.Rechercher" class="form-search" /></td>
-        </tr>
-    </table>
 
-</div>
+    <div class="recherche">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="col-md-3 recherche-label">
+                    @Messages.Session
+                </div>
+                <div class="col-md-9 recherche-field">
+                    @Html.DropDownList("SelectSession", null, Messages.Toutes, new { @class = "form-control", id = "SelectSession" })
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="col-md-2 recherche-label">
+                    @Messages.Cours
+                </div>
+                <div class="col-md-10 recherche-field">
+                    @Html.DropDownList("SelectCours", null, Messages.Tous, new { @class = "form-control col-md-12", id = "SelectCours" })
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="col-md-2 recherche-label">
+                    @Messages.Groupe
+                </div>
+                <div class="col-md-10 recherche-field">
+                    @Html.DropDownList("SelectGroupe", null, Messages.Tous, new { @class = "form-control", id = "SelectGroupe" })
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="col-md-3 recherche-label">
+                    @Messages.NoDa
+                </div>
+                <div class="col-md-9 recherche-field" style="padding-right: 20px;">
+                    @Html.Editor("Matricule", new { htmlAttributes = new { @class = "form-control", maxlength = "7" } })
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-2">
+                <input type="submit" value="@Messages.Rechercher" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+
+<br/>

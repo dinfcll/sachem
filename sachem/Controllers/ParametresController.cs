@@ -27,7 +27,7 @@ namespace sachem.Controllers
         }
 
         [HttpGet]
-        [ValidationAcces.ValidationAccesSuper]
+        [ValidationAcces.ValidationAccesSuperEtResp]
         public ActionResult EditCourrier(int courriel = 0)
         {
             var idZero = _db.p_TypeCourriel.OrderBy(y => y.id_TypeCourriel).FirstOrDefault();
@@ -78,7 +78,7 @@ namespace sachem.Controllers
         }
 
         [HttpGet]
-        [ValidationAcces.ValidationAccesSuper]
+        [ValidationAcces.ValidationAccesSuperEtResp]
         public ActionResult EditContact()
         {
             var contact = _db.p_Contact.First();
@@ -88,7 +88,7 @@ namespace sachem.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [ValidationAcces.ValidationAccesSuper]
+        [ValidationAcces.ValidationAccesSuperEtResp]
         public ActionResult EditContact([Bind(Include = "id_Contact,Nom,Prenom,Courriel,Telephone,Poste,Facebook,SiteWeb,Local")] p_Contact contact)
         {
             ValiderContact(contact);
@@ -118,7 +118,7 @@ namespace sachem.Controllers
             return View(contact);
         }
 
-        [ValidationAcces.ValidationAccesSuper]
+        [ValidationAcces.ValidationAccesSuperEtResp]
         public ActionResult EditHoraire(int session = 0)
         {
             var idZero = _db.Session.OrderByDescending(y => y.id_Sess).FirstOrDefault();
@@ -137,7 +137,7 @@ namespace sachem.Controllers
 
         
         [HttpPost]
-        [ValidationAcces.ValidationAccesSuper]
+        [ValidationAcces.ValidationAccesSuperEtResp]
         public ActionResult EditHoraire([Bind(Include = "id_Sess, DateDebut, DateFin, HeureDebut, HeureFin")] p_HoraireInscription horaireInscription)
         {
             var idSession = _db.Session.AsNoTracking().OrderByDescending(y => y.Annee).ThenByDescending(x => x.id_Saison).FirstOrDefault();
@@ -200,7 +200,7 @@ namespace sachem.Controllers
         }
 
         [HttpGet]
-        [ValidationAcces.ValidationAccesSuper]
+        [ValidationAcces.ValidationAccesSuperEtResp]
         public ActionResult EditCollege(string recherche, int? page)
         {
             var pageNumber = page ?? 1;
@@ -209,7 +209,7 @@ namespace sachem.Controllers
         }
 
         [HttpPost]
-        [ValidationAcces.ValidationAccesSuper]
+        [ValidationAcces.ValidationAccesSuperEtResp]
         public void ModifCollege(string nomCollege, int? id)
         {
             if (!_db.p_College.Any(r => r.id_College == id)) return;
@@ -228,7 +228,7 @@ namespace sachem.Controllers
         }
 
         [HttpPost]
-        [ValidationAcces.ValidationAccesSuper]
+        [ValidationAcces.ValidationAccesSuperEtResp]
         public void AddCollege(string nomCollege)
         {
             if (ModelState.IsValid)
@@ -248,7 +248,7 @@ namespace sachem.Controllers
         }
 
         [HttpPost]
-        [ValidationAcces.ValidationAccesSuper]
+        [ValidationAcces.ValidationAccesSuperEtResp]
         public void DeleteCollege(int? id)
         {
             var college = _db.p_College.Find(id);

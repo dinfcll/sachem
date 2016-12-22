@@ -1,60 +1,57 @@
 ﻿@using sachem.Methodes_Communes
 @using sachem.Models
-@model IEnumerable <CoursSuivi>
+@model Tuple<Inscription, IEnumerable<CoursSuivi>, IEnumerable<Inscription>>
 
-<hr />
 <div>
-    <h4>@Messages.DossierEtudiantCoursAnterieur</h4>
-@if (SachemIdentite.ObtenirTypeUsager(Session) == TypeUsagers.Eleve || SachemIdentite.ObtenirTypeUsager(Session) == TypeUsagers.Tuteur)
+    
+@if (BrowserSessionBag.Current.id_Pers == Model.Item1.id_Pers)
 {
-    <div>@Html.ActionLink(Messages.DossierEtudiantAjouterCoursAnterieur, "Create", "CoursSuivi", new { id = ViewBag.idPers }, new { @class = "btn btn-default", style="margin-bottom:10px;" })</div>
+    <div>@Html.ActionLink(Messages.DossierEtudiantAjouterCoursAnterieur, "Create", "CoursSuivi", new { id = BrowserSessionBag.Current.id_Pers }, new { @class = "btn btn-default", style="margin-bottom:10px;margin-top:-10px;float:right;" })</div>
 }
+    <h4>@Messages.DossierEtudiantCoursAnterieur</h4>
     <table class="table">
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.First().Cours.CodeNom)
+                @Html.DisplayNameFor(model => model.Item2.First().Cours.CodeNom)
             </th>
-@if (SachemIdentite.ObtenirTypeUsager(Session) == TypeUsagers.Eleve || ViewBag.idTypeInsc == 1)
+@if (SachemIdentite.ObtenirTypeUsager(Session) == TypeUsager.Etudiant && SachemIdentite.ObtenirTypeInscription(Session) == TypeInscription.EleveAide)
 {
             <th class="col-sm-1">
-                @Html.DisplayNameFor(model => model.First().Session.NomSession)
+                @Html.DisplayNameFor(model => model.Item2.First().Session.NomSession)
             </th>
 }
-@if ((SachemIdentite.ObtenirTypeUsager(Session) == TypeUsagers.Tuteur && ViewBag.idTypeInsc != 1) || ViewBag.idTypeInsc != 1)
+@if (SachemIdentite.ObtenirTypeUsager(Session) == TypeUsager.Etudiant && (int)SachemIdentite.ObtenirTypeInscription(Session) > (int)TypeInscription.EleveAide)
 {
             <th class="col-sm-3">
-                @Html.DisplayNameFor(model => model.First().p_College.College)
+                @Html.DisplayNameFor(model => model.Item2.First().p_College.College)
             </th>
 }
             <th class="col-sm-2">
-                @Html.DisplayNameFor(model => model.First().resultat)
+                @Html.DisplayNameFor(model => model.Item2.First().resultat)
             </th>
-@if (SachemIdentite.ObtenirTypeUsager(Session) == TypeUsagers.Eleve || ViewBag.idTypeInsc == 1)
+@if (SachemIdentite.ObtenirTypeUsager(Session) == TypeUsager.Etudiant && SachemIdentite.ObtenirTypeInscription(Session) == TypeInscription.EleveAide)
 {
             <th class="col-sm-1">
-                @Html.DisplayNameFor(model => model.First().p_StatutCours.Statut)
+                @Html.DisplayNameFor(model => model.Item2.First().p_StatutCours.Statut)
             </th>
 }
-@if (SachemIdentite.ObtenirTypeUsager(Session) == TypeUsagers.Eleve || SachemIdentite.ObtenirTypeUsager(Session) == TypeUsagers.Tuteur)
-{
             <th class="col-sm-2">
             </th>
-}
         </tr>
 
-        @foreach (var item in Model)
+        @foreach (var item in Model.Item2)
         {
             <tr>
                 <td>
                     @(string.IsNullOrEmpty(item.autre_Cours) ? Html.DisplayFor(modelItem => item.Cours.CodeNom) : Html.DisplayFor(modelItem => item.autre_Cours))
                 </td>
-@if (SachemIdentite.ObtenirTypeUsager(Session) == TypeUsagers.Eleve || ViewBag.idTypeInsc == 1)
+@if (SachemIdentite.ObtenirTypeUsager(Session) == TypeUsager.Etudiant && SachemIdentite.ObtenirTypeInscription(Session) == TypeInscription.EleveAide)
 {
                 <td>
                     @Html.DisplayFor(modelItem => item.Session.NomSession)
                 </td>
 }
-@if ((SachemIdentite.ObtenirTypeUsager(Session) == TypeUsagers.Tuteur && ViewBag.idTypeInsc != 1) || ViewBag.idTypeInsc != 1)
+@if (SachemIdentite.ObtenirTypeUsager(Session) == TypeUsager.Etudiant && (int)SachemIdentite.ObtenirTypeInscription(Session) > (int)TypeInscription.EleveAide)
 {
                 <td>
                     @(string.IsNullOrEmpty(item.autre_College) ? Html.DisplayFor(modelItem => item.p_College.College) : Html.DisplayFor(modelItem => item.autre_College))
@@ -63,22 +60,19 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.resultat)
                 </td>
-@if (SachemIdentite.ObtenirTypeUsager(Session) == TypeUsagers.Eleve || ViewBag.idTypeInsc == 1)
+@if (SachemIdentite.ObtenirTypeUsager(Session) == TypeUsager.Etudiant && SachemIdentite.ObtenirTypeInscription(Session) == TypeInscription.EleveAide)
 {
                 <td>
                     @Html.DisplayFor(modelItem => item.p_StatutCours.Statut)
                 </td>
 }
-@if (SachemIdentite.ObtenirTypeUsager(Session) == TypeUsagers.Eleve || SachemIdentite.ObtenirTypeUsager(Session) == TypeUsagers.Tuteur)
-{
                 <td>
                     @Html.ActionLink(Messages.Modifier, "Edit", "CoursSuivi", new { coursReussi = item.id_CoursReussi, personne = item.id_Pers }, null) | 
                     @Html.ActionLink(Messages.Supprimer, "Delete", "CoursSuivi", new { coursReussi = item.id_CoursReussi, personne = item.id_Pers }, null)
                 </td>
-}
             </tr>
         }
-        @if (!Model.Any())
+        @if (!Model.Item2.Any())
         {
             <tr>
                 <td colspan="6">@Messages.AucunCoursSansRecherche</td>

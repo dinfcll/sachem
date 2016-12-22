@@ -2,7 +2,6 @@
 @using sachem.Models
 @model IEnumerable<Inscription>
 
-    <hr />
     <div>
         <h4>@Messages.DossierEtudiantDemandeInscription</h4>
         <table class="table">
@@ -35,13 +34,13 @@
                     <td>
                         @Html.ActionLink(Messages.Consulter, null, null, null)
 
-                        @if (SachemIdentite.ObtenirTypeUsager(Session) == TypeUsagers.Eleve || SachemIdentite.ObtenirTypeUsager(Session) == TypeUsagers.Tuteur)
+                        @if (SachemIdentite.ObtenirTypeUsager(Session) == TypeUsager.Etudiant)
                         {
 
                             <span> | </span>@Html.ActionLink(Messages.Modifier, null, null, null)
 
                         }
-                        @if (SachemIdentite.ObtenirTypeUsager(Session) == TypeUsagers.Eleve || ViewBag.idTypeInsc == 1)
+                        @if (SachemIdentite.ObtenirTypeUsager(Session) == TypeUsager.Etudiant && SachemIdentite.ObtenirTypeInscription(Session) == TypeInscription.EleveAide)
                         {
 
                             <span> | </span>@Html.ActionLink(Messages.ModifierInfosPerso, null, null, null)

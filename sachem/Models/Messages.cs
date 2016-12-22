@@ -4,10 +4,6 @@ namespace sachem.Models
 {
     public class Messages
     {
-        public const string NomDuSite = "Sachem";
-        public const string MotsDePasseDoiventEtreIdentiques=
-            "Le mot de passe et la confirmation du mot de passe doivent être identiques.";
-
         #region MessageUnitaire
 
         public const string ChampRequis = "Requis.";
@@ -25,6 +21,8 @@ namespace sachem.Models
         public const string FormatHeureMinuteSeconde = "Format : HH:MM:SS";
         public const string PlaceHolderHeure = "HH:MM:SS";
         public const string DatePlusHauteQueLAnneeDeFondationDuCegep = "La date indiquée doit être entre l'année 1967 et celle en cours.";
+        public const string MotsDePasseDoiventEtreIdentiques =
+            "Le mot de passe et la confirmation du mot de passe doivent être identiques.";
         public const string LongueurDeSixCarateres = "Longueur minimale de 6 caractères.";
         public const string NombreEntreZeroEtCent = "Veuillez entrer un nombre en 0 et 1000.";
         public const string ErreurLorsEnregistrement = "Erreur lors de l'enregistrement";
@@ -310,7 +308,7 @@ namespace sachem.Models
         public const string CollegeTitre = "Collèges d'enseignement";
         public const string CollegeAjouter = "Ajouter un collège d'enseignement";
         public const string CollegeModifier = "Modifier le nom du collège d'enseignement.";
-        public const string CollegeNom = "Nom du collège d'enseignement:";
+        public const string CollegeNom = "Nom du collège d'enseignement";
         public const string CollegeSupprimer = "Supprimer un collège d'enseignement.";
         public const string CollegeModifie = "Le nom du collège a bien été modifié.";
         public const string CollegeSupprimerConfirmation = "Voulez-vous vraiment supprimer ce collège d'enseignement ?";
@@ -323,6 +321,8 @@ namespace sachem.Models
         public const string CourrielVarPrenomNom = "Affiche au destinataire son prénom et nom.";
         public const string CourrielVarNouveauPasse ="Affiche le nouveau mot de passe au destinataire, après une réinitialisation.";
         public const string CourrielVarsPourPersonnaliser = "Voici les mots clés pour personnaliser votre courriel";
+        public const string AccountVarPrenomNomEtudiant = "$PrenomNomEtudiant";
+        public const string AccountVarNouveauMotDePasse = "$NouveauMotDePasse";
         public const string CourrielCree="Le courriel a été ajouté.";
         public const string CourrielMisAJour="Le courriel a été mis à jour.";
 
@@ -418,12 +418,13 @@ namespace sachem.Models
         #region Enseignant
 
         /// <summary>
-        /// Voulez-vous vraiment supprimer l'enseignant {0} ?
+        /// Voulez-vous vraiment supprimer l'enseignant {0} ({1})?
         /// </summary>
-        /// <param name="enseignant"></param>
+        /// <param name="nomPrenom"></param>
+        /// <param name="nomUsager"></param>
         /// <returns></returns>
-        public static string EnseignantSupprimerQuestionSupprimerEnseignant(string enseignant)
-        { return $"Voulez-vous vraiment supprimer l'enseignant {enseignant} ?"; }
+        public static string EnseignantSupprimerQuestionSupprimerEnseignant(string nomPrenom, string nomUsager)
+        { return $"Voulez-vous vraiment supprimer l'enseignant {nomPrenom} ({nomUsager}) ?"; }
 
         public const string EnseignantSupprimerErreurJumelagePresent="L'enseignant ne peut être supprimé car il est encore présent dans un jumelage.";
 
@@ -440,30 +441,32 @@ namespace sachem.Models
         { return $"Impossible d’enregistrer cet enseignant. Il existe déjà un enseignant ayant le nom d'usager {nomUsager}."; }
 
         /// <summary>
-        /// L'usager {0} a été modifié.
+        /// {0} ({1}) a été modifié.
         /// </summary>
-        /// 
+        /// <param name="nomPrenom"></param>
         /// <param name="nomUsager"></param>
         /// <returns></returns>
-        public static string EnseignantModifierUsagerModfie(string nomUsager)
-        { return $"L'usager {nomUsager} a été modifié."; }
+        public static string EnseignantModifierUsagerModfie(string nomPrenom, string nomUsager)
+        { return $"{nomPrenom} ({nomUsager}) a été modifié."; }
 
         /// <summary>
-        /// L'enseignant {0} a été créé. Souhaitez-vous y associer un groupe?
+        /// L'enseignant {0} ({1}) a été créé. Souhaitez-vous y associer un groupe?
         /// </summary>
+        /// <param name="nomPrenom"></param>
         /// <param name="nomUsager"></param>
         /// <param name="idEnseignant"></param>
         /// <returns></returns>
-        public static MvcHtmlString EnseignantAjouterUnGroupeAEnseignant(string nomUsager, int idEnseignant)
-        { return MvcHtmlString.Create($"L'enseignant {nomUsager} a été créé. Souhaitez-vous <a href=\"/Groupes/Create?idEns={idEnseignant}\">y associer un groupe?</a>"); }
+        public static MvcHtmlString EnseignantAjouterUnGroupeAEnseignant(string nomPrenom, string nomUsager, int idEnseignant)
+        { return MvcHtmlString.Create($"L'enseignant {nomPrenom} ({nomUsager}) a été créé. Souhaitez-vous <a href=\"/Groupes/Create?idEns={idEnseignant}\">y associer un groupe?</a>"); }
 
         /// <summary>
-        /// L'enseignant {0} a été supprimé.
+        /// L'enseignant {0} ({1}) a été supprimé.
         /// </summary>
-        /// <param name="enseignant"></param>
+        /// <param name="nomPrenom"></param>
+        /// <param name="nomUsager"></param>
         /// <returns></returns>
-        public static string EnseignantSupprime(string enseignant)
-        { return $"L'enseignant {enseignant} a été supprimé."; }
+        public static string EnseignantSupprime(string nomPrenom, string nomUsager)
+        { return $"L'enseignant {nomPrenom} ({nomUsager}) a été supprimé."; }
 
         public const string EnseignantAjouterTitre = "Ajouter un enseignant";
 

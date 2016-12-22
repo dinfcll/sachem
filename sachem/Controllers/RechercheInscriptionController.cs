@@ -26,13 +26,13 @@ namespace sachem.Controllers
         {
             _dataRepository = new BdRepository();
         }
-        [ValidationAcces.ValidationAccesSuper]
+        [ValidationAcces.ValidationAccesSuperEtResp]
         public ActionResult Index()
         {
             return View(Rechercher());
         }
 
-        [ValidationAcces.ValidationAccesSuper]
+        [ValidationAcces.ValidationAccesSuperEtResp]
         public ActionResult Details(int? id)
         {
             if (id == null)
@@ -40,7 +40,7 @@ namespace sachem.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            Inscription inscriptionPersonne = _db.Inscription.Find(id);
+            var inscriptionPersonne = _db.Inscription.Find(id);
             if(inscriptionPersonne == null)
             {
                 return HttpNotFound();

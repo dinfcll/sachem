@@ -54,22 +54,19 @@
         </div>
         <div class="form-group">
             @Html.LabelFor(model => model.personne.ProgEtu, new { @class = "control-label col-md-2" })
-            <div style="margin-top:7px;">
-                <div style="margin-left:210px;">
-                    <table id="progetuTable">
-                        @foreach (var item in Model.EtuProgEtu)
-                        {
-                            <tr>
-                                <td>@Html.DisplayFor(modelItem => item.ProgrammeEtude.CodeNomProgramme)</td>
-                                <td><a href="#" class="btn btn-info btn-sm modal-open" id="SuppProg" onclick="ModalSupprimer('@item.ProgrammeEtude.NomProg',@Model.personne.id_Pers, @item.id_EtuProgEtude)"
-                                    data-toggle="modal" data-target="#modalSuppProg">@Messages.Supprimer</a>
-                                </td>
-                            </tr>
-                        }
-                        </table>
+            <div id="progetuTable" class="col-md-10">
+                @foreach (var item in Model.EtuProgEtu)
+                {
+                    <div class="row">
+                        <a href="#" class="modal-open col-md-1" id="SuppProg" onclick="ModalSupprimer('@item.ProgrammeEtude.NomProg', @Model.personne.id_Pers, @item.id_EtuProgEtude)"
+                           data-toggle="modal" style="width: 5%"data-target="#modalSuppProg">
+                            <i class="material-icons">delete</i>
+                        </a>
+                        @Html.DisplayFor(modelItem => item.ProgrammeEtude.CodeNomProgramme)
                     </div>
-                </div>
-        </div>
+                }
+            </div>
+            </div>
         <br><br />
         <h4>Ajouter un programme d'étude</h4>
         <hr>

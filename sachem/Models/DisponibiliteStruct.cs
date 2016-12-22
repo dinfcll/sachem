@@ -40,12 +40,4 @@ namespace sachem.Models
         Vendredi,
         Samedi
     }
-
-    public enum TypeInscription
-    {
-        eleveAide = 1,
-        tuteurDeCours,
-        tuteurBenevole,
-        tuteurRemunere
-    }
 }

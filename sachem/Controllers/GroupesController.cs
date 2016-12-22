@@ -60,7 +60,7 @@ namespace sachem.Controllers
         public ActionResult Create(int? idEns)
         {
             int? idPers = (int?) Session["id_Pers"] ?? -1;
-            var verif = SachemIdentite.ObtenirTypeUsager(Session) == TypeUsagers.Responsable;
+            var verif = SachemIdentite.ObtenirTypeUsager(Session) == TypeUsager.Responsable;
             ViewBag.id_Cours = new SelectList(_db.Cours.Where(x => x.Actif).OrderBy(x => x.Code), "id_Cours", "CodeNom");
             var ens = from c in _db.Personne where c.id_TypeUsag == 2 && (verif || c.id_Pers == (idPers == -1 ? c.id_Pers : idPers)) && c.Actif orderby c.Nom, c.Prenom select c;
             ViewBag.id_Enseignant = new SelectList(ens, "id_Pers", "NomPrenom", idEns);
@@ -82,7 +82,7 @@ namespace sachem.Controllers
         public ActionResult Edit(int? id)
         {
             var idPers = (int?) Session["id_Pers"] ?? -1;
-            var verif = SachemIdentite.ObtenirTypeUsager(Session) == TypeUsagers.Responsable;
+            var verif = SachemIdentite.ObtenirTypeUsager(Session) == TypeUsager.Responsable;
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -102,7 +102,7 @@ namespace sachem.Controllers
 
         private string SDisabled()
         {
-            return SachemIdentite.ObtenirTypeUsager(Session) == TypeUsagers.Enseignant ? "disabled" : "";
+            return SachemIdentite.ObtenirTypeUsager(Session) == TypeUsager.Enseignant ? "disabled" : "";
         }
 
         [HttpPost]
@@ -116,7 +116,7 @@ namespace sachem.Controllers
         [ValidationAcces.ValidationAccesEnseignant]
         private ActionResult CreateEdit([Bind(Include = "id_Groupe,id_Cours,id_Sess,id_Enseignant,NoGroupe")] Groupe groupe, bool ajouter = false)
         {
-            groupe.id_Enseignant = groupe.id_Enseignant ?? SessionBag.Current.id_Pers;
+            groupe.id_Enseignant = groupe.id_Enseignant ?? BrowserSessionBag.Current.id_Pers;
             Valider(groupe);
 
             if (ModelState.IsValid)
@@ -184,8 +184,8 @@ namespace sachem.Controllers
         private IEnumerable<Groupe> Rechercher(int? id)
         {
             var idPers = (int?) Session["id_Pers"] ?? -1;
-            var verif = SachemIdentite.ObtenirTypeUsager(Session) == TypeUsagers.Responsable;
-            int idSess = 0, idEns = SachemIdentite.ObtenirTypeUsager(Session) == TypeUsagers.Enseignant ? idPers : 0, idCours = 0;
+            var verif = SachemIdentite.ObtenirTypeUsager(Session) == TypeUsager.Responsable;
+            int idSess = 0, idEns = SachemIdentite.ObtenirTypeUsager(Session) == TypeUsager.Enseignant ? idPers : 0, idCours = 0;
 
             if (Request.RequestType == "GET" && Session["DernRechCours"] != null && Session["DernRechCoursUrl"].ToString() == Request.Url?.LocalPath)
             {

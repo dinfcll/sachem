@@ -9,6 +9,7 @@ using System.Text;
 using System.Web;
 using sachem.Methodes_Communes;
 using sachem.Models.DataAccess;
+using TypeInscription = sachem.Methodes_Communes.TypeInscription;
 
 namespace sachem.Controllers
 {
@@ -32,7 +33,7 @@ namespace sachem.Controllers
         {
             var mdpEncrypte = Crypto.Encrypt(motDePasse,
                 System.Configuration.ConfigurationManager.AppSettings.Get("CryptoKey"));
-            var maintenir = new HttpCookie("SACHEMConnexion");
+            var maintenir = new HttpCookie(System.Configuration.ConfigurationManager.AppSettings.Get("nomCookie"));
             maintenir.Values.Add("NomUsager", nomUsager);
             maintenir.Values.Add("MP", mdpEncrypte);
 
@@ -43,14 +44,14 @@ namespace sachem.Controllers
 
         private void SupprimerCookieConnexion()
         {
-            var biscuitPerime = new HttpCookie("SACHEMConnexion") {Expires = DateTime.Now.AddDays(-1d)};
+            var biscuitPerime = new HttpCookie(System.Configuration.ConfigurationManager.AppSettings.Get("nomCookie")) {Expires = DateTime.Now.AddDays(-1d)};
             Response.Cookies.Add(biscuitPerime);
         }
 
         private bool CookieConnexionExiste()
         {
             var collectionsCookiesSachem = Request.Cookies;
-            var cookieMaintenirConnexion = collectionsCookiesSachem.Get("SACHEMConnexion");
+            var cookieMaintenirConnexion = collectionsCookiesSachem.Get(System.Configuration.ConfigurationManager.AppSettings.Get("nomCookie"));
 
             return cookieMaintenirConnexion != null;
         }
@@ -58,20 +59,20 @@ namespace sachem.Controllers
         private bool EnvoyerCourriel(string email, string nouveauMdp, string nomEtudiant)
         {
             var client = new SmtpClient();
-            var reqBdCourrielReinitialisation = _dataRepository.WhereCourriel(x => x.id_TypeCourriel == 2);
+            var reqBdCourrielReinitialisation = _dataRepository.WhereCourriel(x => x.id_TypeCourriel == 2).ToList();
             var contenuCourriel = reqBdCourrielReinitialisation.Select(x => x.Courriel1).FirstOrDefault();
-            contenuCourriel = contenuCourriel?.Replace("$PrenomNomEtudiant", nomEtudiant).Replace("$NouveauMotDePasse",nouveauMdp);
-            var message = new MailMessage("sachemcllmail@gmail.com", email, 
+            contenuCourriel = contenuCourriel?.Replace(Messages.AccountVarPrenomNomEtudiant, nomEtudiant).Replace(Messages.AccountVarNouveauMotDePasse, nouveauMdp);
+            var message = new MailMessage(System.Configuration.ConfigurationManager.AppSettings.Get("emailDuSite"), email, 
                 reqBdCourrielReinitialisation.Select(x => x.Titre).FirstOrDefault(),
                 contenuCourriel);
             client.Port = Portcourriel;
-            client.Host = "smtp.gmail.com";
+            client.Host = System.Configuration.ConfigurationManager.AppSettings.Get("emailHost");
             client.EnableSsl = true;
             client.Timeout = 10000;
             client.DeliveryMethod = SmtpDeliveryMethod.Network;
             client.UseDefaultCredentials = false;
-            client.Credentials = new NetworkCredential("sachemcllmail@gmail.com",
-                System.Configuration.ConfigurationManager.AppSettings.Get("EmailSachemMDP"));
+            client.Credentials = new NetworkCredential(System.Configuration.ConfigurationManager.AppSettings.Get("emailDuSite"),
+                System.Configuration.ConfigurationManager.AppSettings.Get("emailDuSiteMDP"));
             message.BodyEncoding = Encoding.UTF8;
             message.DeliveryNotificationOptions = DeliveryNotificationOptions.OnFailure;
 
@@ -89,24 +90,20 @@ namespace sachem.Controllers
         [AllowAnonymous]
         public ActionResult Login(string returnUrl)
         {
-            if (SachemIdentite.ObtenirTypeUsager(Session) != TypeUsagers.Aucun && SachemIdentite.ObtenirTypeUsager(Session) != TypeUsagers.Etudiant)
+            if (SachemIdentite.ObtenirTypeUsager(Session) != TypeUsager.Aucun && SachemIdentite.ObtenirTypeUsager(Session) != TypeUsager.Etudiant)
             {
                 return RedirectToAction("Index", "DossierEtudiant", null);
             }
 
-            if (CookieConnexionExiste())
-            {
-                var personneCookie = new Personne();
-                var cookieMaintenirConnexion = Request.Cookies.Get("SACHEMConnexion");
-                personneCookie.NomUsager = cookieMaintenirConnexion?["NomUsager"];
-                personneCookie.MP = Crypto.Decrypt(cookieMaintenirConnexion?["MP"], 
-                    System.Configuration.ConfigurationManager.AppSettings.Get("CryptoKey"));
-                personneCookie.SouvenirConnexion = true;
+            if (!CookieConnexionExiste()) return View();
+            var personneCookie = new Personne();
+            var cookieMaintenirConnexion = Request.Cookies.Get(System.Configuration.ConfigurationManager.AppSettings.Get("nomCookie"));
+            personneCookie.NomUsager = cookieMaintenirConnexion?["NomUsager"];
+            personneCookie.MP = Crypto.Decrypt(cookieMaintenirConnexion?["MP"], 
+                System.Configuration.ConfigurationManager.AppSettings.Get("CryptoKey"));
+            personneCookie.SouvenirConnexion = true;
 
-                return View(personneCookie);
-            }
-
-            return View();
+            return View(personneCookie);
         }
 
         [HttpPost]
@@ -117,7 +114,7 @@ namespace sachem.Controllers
             var mdpPlain = mp;
             var personneBd = new Personne();
             var reqBdPersonne =
-                _dataRepository.WherePersonne(x=> x.Matricule.Substring(2) == nomUsager || x.NomUsager == nomUsager,true);
+                _dataRepository.WherePersonne(x=> x.Matricule.Substring(2) == nomUsager || x.NomUsager == nomUsager,true).ToList();
             const int statutAccepte = 3;
 
             if (mdpPlain == "")
@@ -160,59 +157,40 @@ namespace sachem.Controllers
                 return View(personneBd);
             }
 
-            var reqBdInscription = _dataRepository.WhereInscription(i => i.id_Pers == personneBd.id_Pers,true);
+            var reqBdInscription = _dataRepository.WhereInscription(i => i.id_Pers == personneBd.id_Pers,true).ToList();
 
             var typeinscr = reqBdInscription.Select(i => i.id_TypeInscription).FirstOrDefault();
             var idinscr = reqBdInscription.Select(i => i.id_Inscription).FirstOrDefault();
 
-            SessionBag.Current.id_Inscription = idinscr != 0 ? idinscr : 0;
-
-            if (personneBd.id_TypeUsag == 1)
-            {
-                if (typeinscr > 1)
-                {
-                    SessionBag.Current.id_TypeUsag = TypeUsagers.Tuteur;
-                }
-                else
-                {
-                    SessionBag.Current.id_TypeUsag = typeinscr == 1 ? TypeUsagers.Eleve : TypeUsagers.Etudiant;
-                }
-            }
-            else
-            {
-                SessionBag.Current.id_TypeUsag = personneBd.id_TypeUsag;
-            }
+            BrowserSessionBag.Current.id_Inscription = idinscr != 0 ? idinscr : 0;
+            BrowserSessionBag.Current.TypeInscription = typeinscr != 0 ? typeinscr : 0;
+            BrowserSessionBag.Current.TypeUsager = personneBd.id_TypeUsag;
 
             var idSuperviseur =
                 _dataRepository.WhereJumelage(j => j.id_Enseignant == personneBd.id_Pers, true)
                     .Select(j => j.id_Enseignant)
                     .FirstOrDefault();
 
-            SessionBag.Current.idSuperviseur = idSuperviseur != 0 ? idSuperviseur : 0;
+            BrowserSessionBag.Current.idSuperviseur = idSuperviseur != 0 ? idSuperviseur : 0;
 
 
             AjoutInfoConnection(personneBd);
 
-            SessionBag.Current.id_Pers = personneBd.id_Pers;
+            BrowserSessionBag.Current.id_Pers = personneBd.id_Pers;
             if (souvenirConnexion)
                 CreerCookieConnexion(nomUsager, mdpPlain);
             else
                 SupprimerCookieConnexion();
 
-            if (SachemIdentite.ObtenirTypeUsager(Session) == TypeUsagers.Eleve)
+            if (SachemIdentite.ObtenirTypeUsager(Session) == TypeUsager.Etudiant && SachemIdentite.ObtenirTypeInscription(Session) == TypeInscription.EleveAide)
             {
-                return RedirectToAction("Details", "DossierEtudiant", new {id = SessionBag.Current.id_Inscription});
+                return RedirectToAction("Details", "DossierEtudiant", new {id = BrowserSessionBag.Current.id_Inscription});
             }
 
             if (SachemIdentite.TypeListeProf.Contains(SachemIdentite.ObtenirTypeUsager(Session)) ||
-                SachemIdentite.ObtenirTypeUsager(Session) == TypeUsagers.Tuteur)
+                (SachemIdentite.ObtenirTypeUsager(Session) == TypeUsager.Etudiant && (int)SachemIdentite.ObtenirTypeInscription(Session) > (int)TypeInscription.EleveAide))
             {
-                if (SachemIdentite.ObtenirTypeUsager(Session) == TypeUsagers.Super)
-                {
-                    return RedirectToAction("Index", "Enseignant");
-                }
-
-                return RedirectToAction("Index", "DossierEtudiant");
+                return RedirectToAction("Index", SachemIdentite.ObtenirTypeUsager(Session) == TypeUsager.Super ? "Enseignant" : "DossierEtudiant");
             }
 
             var inscription = reqBdInscription.FirstOrDefault();
@@ -228,7 +206,7 @@ namespace sachem.Controllers
         [AllowAnonymous]
         public ActionResult Register()
         {
-            if (SachemIdentite.ObtenirTypeUsager(Session) != TypeUsagers.Aucun)
+            if (SachemIdentite.ObtenirTypeUsager(Session) != TypeUsager.Aucun)
                 return RedirectToAction("Error", "Home", null);
             ViewBag.id_Sexe = _dataRepository.ListeSexe();
             ViewBag.Autorisation = false;
@@ -242,7 +220,7 @@ namespace sachem.Controllers
         public ActionResult Register(Personne personne)
         {
             ViewBag.id_Sexe = _dataRepository.ListeSexe();
-            var reqBdPersonne = _dataRepository.WherePersonne(x => x.Matricule == personne.Matricule, true);
+            var reqBdPersonne = _dataRepository.WherePersonne(x => x.Matricule == personne.Matricule, true).ToList();
             var validation = ConfirmeMdp(personne.MP, personne.ConfirmPassword);
 
             if (!validation)
@@ -277,7 +255,7 @@ namespace sachem.Controllers
 
                         AjoutInfoConnection(etudiantBd);
                     }
-                    SessionBag.Current.id_TypeUsag = TypeUsagers.Etudiant;
+                    BrowserSessionBag.Current.TypeUsager = TypeUsager.Etudiant;
                     TempData["Success"] = Messages.AccountCree;
                     return RedirectToAction("Index", "Inscription");
                 }
@@ -288,7 +266,7 @@ namespace sachem.Controllers
         [AllowAnonymous]
         public ActionResult ForgotPassword()
         {
-            if (SachemIdentite.ObtenirTypeUsager(Session) != TypeUsagers.Aucun)
+            if (SachemIdentite.ObtenirTypeUsager(Session) != TypeUsager.Aucun)
                 return RedirectToAction("Error", "Home", null);
 
             return View();
@@ -299,7 +277,7 @@ namespace sachem.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult ForgotPassword(string courriel)
         {
-            var reqBdPersonne = _dataRepository.WherePersonne(x => x.Courriel == courriel, true);
+            var reqBdPersonne = _dataRepository.WherePersonne(x => x.Courriel == courriel, true).ToList();
             if (reqBdPersonne.Any(y => y.Courriel == courriel && y.Actif))
             {
                 const string caracterePossible = "abcdefghijkmnopqrstuvwxyzABCDEFGHJKLMNOPQRSTUVWXYZ0123456789!@$?";
@@ -337,7 +315,7 @@ namespace sachem.Controllers
         [AllowAnonymous]
         public ActionResult ModifierPassword()
         {
-            if (SachemIdentite.ObtenirTypeUsager(Session) == TypeUsagers.Aucun)
+            if (SachemIdentite.ObtenirTypeUsager(Session) == TypeUsager.Aucun)
                 return RedirectToAction("Error", "Home", null);
             return View();
         }
@@ -347,8 +325,8 @@ namespace sachem.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult ModifierPassword(Personne personne, string modifier, string annuler)
         {
-            int idpersonne = SessionBag.Current.id_Pers;
-            string ancienmdpbd = SessionBag.Current.MP;
+            int idpersonne = BrowserSessionBag.Current.id_Pers;
+            string ancienmdpbd = BrowserSessionBag.Current.MP;
 
             if (personne.AncienMotDePasse == null)
                 ModelState.AddModelError("AncienMotDePasse", Messages.ChampRequis);
@@ -372,7 +350,7 @@ namespace sachem.Controllers
                 utilisateur.MP = personne.MP;
                 utilisateur.ConfirmPassword = personne.ConfirmPassword;
                 SachemIdentite.EncrypterMpPersonne(ref utilisateur);
-                SessionBag.Current.MP = utilisateur.MP;
+                BrowserSessionBag.Current.MP = utilisateur.MP;
                 SupprimerCookieConnexion();
                 _dataRepository.EditPersonne(utilisateur);
             }
@@ -406,11 +384,11 @@ namespace sachem.Controllers
 
         private static void AjoutInfoConnection(Personne personne)
         {
-            SessionBag.Current.NomUsager = personne.NomUsager;
-            SessionBag.Current.Matricule7 = personne.Matricule7;
-            SessionBag.Current.NomComplet = personne.PrenomNom;
-            SessionBag.Current.MP = personne.MP;
-            SessionBag.Current.id_Pers = personne.id_Pers;
+            BrowserSessionBag.Current.NomUsager = personne.NomUsager;
+            BrowserSessionBag.Current.Matricule7 = personne.Matricule7;
+            BrowserSessionBag.Current.NomComplet = personne.PrenomNom;
+            BrowserSessionBag.Current.MP = personne.MP;
+            BrowserSessionBag.Current.id_Pers = personne.id_Pers;
         }
 
         protected override void Dispose(bool disposing)

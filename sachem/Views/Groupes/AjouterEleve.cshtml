@@ -37,17 +37,26 @@
     <p>
         <h4>@Messages.Recherche</h4>
     </p>
-    <table class="table-condensed" style="margin-bottom:10px;">
-        <tr>
-            <td>@Html.DisplayNameFor(model => model.FirstOrDefault().p.Matricule)</td>
-            <td>@Html.Editor("Matricule", new {htmlAttributes = new {@class = "form-control"}})</td>
-            <td>@Html.DisplayNameFor(model => model.FirstOrDefault().p.Nom)</td>
-            <td>@Html.Editor("Nom", new { htmlAttributes = new { @class = "form-control" } })</td>
-            <td>@Html.DisplayNameFor(model => model.FirstOrDefault().p.Prenom)</td>
-            <td>@Html.Editor("Prenom", new { htmlAttributes = new { @class = "form-control" } })</td>
-            <td><input type="submit" value="@Messages.Rechercher" class="form-search" /></td>
-        </tr>
-    </table>
+    <div class="recherche">
+        <div class="row">
+            <div class="col-md-3">
+                <div class="col-md-3 recherche-label">@Html.DisplayNameFor(model => model.FirstOrDefault().p.Matricule)</div>
+                <div class="col-md-9 recherche-field">@Html.Editor("Matricule", new { htmlAttributes = new { @class = "form-control" } })</div>
+            </div>
+            <div class="col-md-4">
+                <div class="col-md-2 recherche-label">@Html.DisplayNameFor(model => model.FirstOrDefault().p.Nom)</div>
+                <div class="col-md-10 recherche-field">@Html.Editor("Nom", new { htmlAttributes = new { @class = "form-control" } })</div>
+            </div>
+            <div class="col-md-4">
+                <div class="col-md-2 recherche-label">@Html.DisplayNameFor(model => model.FirstOrDefault().p.Prenom)</div>
+                <div class="col-md-10 recherche-field">@Html.Editor("Prenom", new { htmlAttributes = new { @class = "form-control" } })</div>
+            </div>
+            <div class="col-md-1">
+                <input type="submit" value="@Messages.Rechercher" class="btn btn-default"/>
+            </div>
+        </div>
+    </div>
+    <br/>
 }
 <table class="table">
     <tr>

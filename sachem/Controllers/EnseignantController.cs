@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Web.Mvc;
 using sachem.Models;
@@ -22,16 +23,16 @@ namespace sachem.Controllers
             _dataRepository = dataRepository;
         }
 
-        [ValidationAcces.ValidationAccesSuper]
+        [ValidationAcces.ValidationAccesSuperEtResp]
         public ActionResult Index(int? page)
         {
             var pageNumber = page ?? 1;
 
-            return View(Rechercher().ToPagedList(pageNumber, 20));
+            return View(Rechercher().ToPagedList(pageNumber,20));
         }
 
         [HttpGet]
-        [ValidationAcces.ValidationAccesSuper]
+        [ValidationAcces.ValidationAccesSuperEtResp]
         public ActionResult Create()
         {
             RemplirDropList();
@@ -56,7 +57,7 @@ namespace sachem.Controllers
                     SachemIdentite.EncrypterMpPersonne(ref personne);
                     _dataRepository.AddPersonne(personne);
 
-                    TempData["Success"] = Messages.EnseignantAjouterUnGroupeAEnseignant(personne.NomUsager, personne.id_Pers);
+                    TempData["Success"] = Messages.EnseignantAjouterUnGroupeAEnseignant(personne.NomPrenom, personne.NomUsager, personne.id_Pers);
 
                     return RedirectToAction("Index");
                 }
@@ -67,7 +68,7 @@ namespace sachem.Controllers
         }
 
         [HttpGet]
-        [ValidationAcces.ValidationAccesSuper]
+        [ValidationAcces.ValidationAccesSuperEtResp]
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -106,7 +107,7 @@ namespace sachem.Controllers
             {
                 _dataRepository.EditPersonne(personne);
 
-                TempData["Success"] = Messages.EnseignantModifierUsagerModfie(personne.NomUsager);
+                TempData["Success"] = Messages.EnseignantModifierUsagerModfie(personne.NomPrenom, personne.NomUsager);
 
                 return RedirectToAction("Index");
             }
@@ -118,7 +119,7 @@ namespace sachem.Controllers
         }
 
         [HttpGet]
-        [ValidationAcces.ValidationAccesSuper]
+        [ValidationAcces.ValidationAccesSuperEtResp]
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -128,7 +129,7 @@ namespace sachem.Controllers
 
             var personne = _dataRepository.FindPersonne((int)id);
 
-            if(SessionBag.Current.id_pers == id)
+            if(BrowserSessionBag.Current.id_pers == id)
             {
                 TempData["Error"] = Messages.EnseignantSupprimerErreurLuiMeme;
                 return RedirectToAction("Index", "Enseignant", null);
@@ -154,14 +155,11 @@ namespace sachem.Controllers
             {
                 ModelState.AddModelError(string.Empty, Messages.EnseignantSupprimerErreurJumelagePresent);
             }
-            if (ModelState.IsValid)
-            {
-                var personne = _dataRepository.FindPersonne(id);
+            if (!ModelState.IsValid) return View("Index", Rechercher().ToPagedList(pageNumber, 20));
+            var personne = _dataRepository.FindPersonne(id);
 
-                _dataRepository.RemovePersonne(personne);
-                ViewBag.Success = string.Format(Messages.EnseignantSupprime(personne.NomUsager));
-
-            }
+            _dataRepository.RemovePersonne(personne);
+            ViewBag.Success = string.Format(Messages.EnseignantSupprime(personne.NomPrenom, personne.NomUsager));
             return View("Index", Rechercher().ToPagedList(pageNumber, 20));
         }
 
@@ -190,9 +188,9 @@ namespace sachem.Controllers
             ViewBag.Actif = actif;
             ViewBag.Enseignant = _dataRepository.ListeEnseignant();
 
-            return _dataRepository.WherePersonne(x=>x.id_TypeUsag==(int)TypeUsagers.Responsable 
-                                                && x.id_TypeUsag==(int)TypeUsagers.Enseignant 
-                                                && x.Actif == actif);
+            return _dataRepository.WherePersonne(x=>x.id_TypeUsag==(int)TypeUsager.Responsable 
+                                                || x.id_TypeUsag==(int)TypeUsager.Enseignant 
+                                                && x.Actif == actif).OrderByDescending(x=>x.id_TypeUsag).ThenBy(x=>x.NomPrenom).AsEnumerable();
         }
 
         private void Valider(Personne personne)

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.CodeDom;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
@@ -42,7 +43,7 @@ namespace sachem.Controllers
         [ValidationAcces.ValidationAccesInscription]        
         public ActionResult Index(int typeInscription, string[] jours )
         {
-            int idPers = SessionBag.Current.id_Pers;
+            int idPers = BrowserSessionBag.Current.id_Pers;
             ViewBag.TypeInscription = _dataRepository.ListeTypeInscription();
             var sessionActuelle = _db.Session.AsNoTracking().OrderByDescending(y => y.Annee).ThenByDescending(x => x.id_Saison).FirstOrDefault();
             if (sessionActuelle != null)
@@ -84,24 +85,16 @@ namespace sachem.Controllers
                     _db.Disponibilite.Add(dispoBd);
                     _db.SaveChanges();
                 }
-                SessionBag.Current.id_Inscription = typeInscription;
-                switch ((TypeInscription)typeInscription)
+                BrowserSessionBag.Current.TypeInscription = typeInscription;
+                if (typeInscription < (int)TypeInscription.TuteurRemunere)
                 {
-                    case TypeInscription.eleveAide:
-                        SessionBag.Current.id_TypeUsag = TypeUsagers.Eleve;
-                        return RedirectToAction("EleveAide1");
-                    case TypeInscription.tuteurDeCours:
-                        SessionBag.Current.id_TypeUsag = TypeUsagers.Tuteur;
-                        return RedirectToAction("Tuteur");
-                    case TypeInscription.tuteurBenevole:
-                        SessionBag.Current.id_TypeUsag = TypeUsagers.Tuteur;
-                        return RedirectToAction("Benevole");
-                    case TypeInscription.tuteurRemunere:
-                        SessionBag.Current.id_TypeUsag = TypeUsagers.Tuteur;
-                        return RedirectToAction("Benevole");
-                    default:
-                        return Json(new { success = false, message = MsgErreurRemplir });
+                    return RedirectToAction(((TypeInscription)typeInscription).ToString());
                 }
+                if (typeInscription == (int)TypeInscription.TuteurRemunere)
+                {
+                    return RedirectToAction(TypeInscription.TuteurBenevole.ToString());
+                }
+                return Json(new { success = false, message = MsgErreurRemplir });
             }
         }
 
@@ -148,8 +141,8 @@ namespace sachem.Controllers
             return sortie;
         }
 
-        [ValidationAcces.ValidationAccesEtu]
-        public ActionResult EleveAide1()
+        [ValidationAcces.ValidationAccesEtudiants]
+        public ActionResult EleveAide()
         {
             ViewBag.lstCours = _dataRepository.ListeCours();
             ViewBag.lstCours1 = _dataRepository.ListeCours();
@@ -159,7 +152,7 @@ namespace sachem.Controllers
         }
 
         [HttpGet]
-        public ActionResult Tuteur()
+        public ActionResult TuteurCours()
         {
             ViewBag.lstCours = _dataRepository.ListeCours();
             ViewBag.lstCours1 = _dataRepository.ListeCours();
@@ -178,7 +171,7 @@ namespace sachem.Controllers
         }
 
         [HttpGet]
-        public ActionResult Benevole()
+        public ActionResult TuteurBenevole()
         {
             ViewBag.lstCours = _dataRepository.ListeCours();
             ViewBag.lstCours1 = _dataRepository.ListeCours();
@@ -272,7 +265,7 @@ namespace sachem.Controllers
                 return "non!";
             }
 
-            int idPers = SessionBag.Current.id_Pers;
+            int idPers = BrowserSessionBag.Current.id_Pers;
             const int sess = 2;
 
             foreach (var d in donneesInscription)
@@ -316,14 +309,14 @@ namespace sachem.Controllers
             return donneesInscription.Any(d => d[0] == value || d[2] == value);
         }
 
-        [ValidationAcces.ValidationAccesEleve]
+        [ValidationAcces.ValidationAccesEleveAide]
         [HttpPost]
         public ActionResult EleveAide1(string[][] values)
         {
             TempData["Echec"] = "";
             if (values==null)
             {
-                return RedirectToAction("Details", "DossierEtudiant", new { id = SessionBag.Current.id_Inscription});
+                return RedirectToAction("Details", "DossierEtudiant", new { id = BrowserSessionBag.Current.id_Inscription});
             }
             foreach (var t in values)
             {
@@ -334,7 +327,7 @@ namespace sachem.Controllers
                 {
                     var cours = new CoursSuivi
                     {
-                        id_Pers = SessionBag.Current.id_Pers,
+                        id_Pers = BrowserSessionBag.Current.id_Pers,
                         id_Cours = Convert.ToInt32(t[0]),
                         id_Statut = Convert.ToInt32(t[1]),
                         id_Sess = Convert.ToInt32(t[2]),
@@ -348,7 +341,7 @@ namespace sachem.Controllers
                 }
                 _db.SaveChanges();
             }
-            return RedirectToAction("Details", "DossierEtudiant", new { id = SessionBag.Current.id_Inscription });
+            return RedirectToAction("Details", "DossierEtudiant", new { id = BrowserSessionBag.Current.id_Inscription });
         }
 
         [HttpPost]

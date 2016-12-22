@@ -10,84 +10,97 @@
 @using (Html.BeginForm("Index", "ConsulterCours", FormMethod.Post, new {@class = "form-inline", role = "form"}))
 {
     <h4>@Messages.Recherche</h4>
-
-    <table class="table-condensed">
-        <tr>
-            <td>@Html.DisplayFor(model => model.FirstOrDefault().Session) :</td>
-            <td>@Html.DropDownList("Session", null, Messages.Toutes, new { @class = "form-search" })</td>
-            @if (!ViewBag.IsEnseignant)
+    <div class="recherche">
+        <div class="row">
+            <div class="col-md-3">
+                <div class="col-md-4 recherche-label">
+                    @Messages.Session
+                </div>
+                <div class="col-md-8 recherche-field">
+                    @Html.DropDownList("Session", null, Messages.Toutes, new { @class = "form-control" })
+                </div>
+                </div>
+            <div class="col-md-4">
+                @if (!ViewBag.IsEnseignant)
                 {
-                <td> @Messages.Enseignant : </td>
-                <td> @Html.DropDownList("Personne", null, Messages.Tous, new { @class = "form-search" })</td>
+                    <div class="col-md-4 recherche-label">
+                        @Messages.Enseignant
+                    </div>
+                    <div class="col-md-8 recherche-field">
+                        @Html.DropDownList("Personne", null, Messages.Tous, new { @class = "form-control" })
+                    </div>
                 }
-            <td><input type="submit" value=@Messages.Rechercher class="form-search" /></td>
-        </tr>
-    </table>
-    <br/>
-}
-@{
-    int thNomCours;
-    var thCoursActif = 0;
-    var thEnseignant = 0;
-    if (ViewBag.IsEnseignant)
-    {
-        thNomCours = 10;
-    }
-    else
-    {
-        thNomCours = 5;
-        thCoursActif = 1;
-        thEnseignant = 4;
-    }
-}
-<table class="table">
-    <tr>
-        <th class="col-sm-1">
-            @Html.DisplayNameFor(model => model.FirstOrDefault().Cours.Code)
-        </th>
-        <th class="col-sm-@thNomCours">
-            @Html.DisplayNameFor(model => model.FirstOrDefault().Cours.Nom)
-        </th>
-        @if (thCoursActif != 0)
-        {
-            <th class="col-sm-@thCoursActif">
-                @Html.DisplayNameFor(model => model.FirstOrDefault().Cours.Actif)
-            </th>
+            </div>
+            <div class="col-md-2">
+                <input type="submit" value=@Messages.Rechercher class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+        <br />
         }
-        @if (thEnseignant != 0)
-        {
-            <th class="col-sm-@thEnseignant">
-                @Messages.Enseignant;
-            </th>
+        @{
+            int thNomCours;
+            var thCoursActif = 0;
+            var thEnseignant = 0;
+            if (ViewBag.IsEnseignant)
+            {
+                thNomCours = 10;
+            }
+            else
+            {
+                thNomCours = 5;
+                thCoursActif = 1;
+                thEnseignant = 4;
+            }
         }
-        <th class="col-sm-1"></th>
-    </tr>
+        <table class="table">
+            <tr>
+                <th class="col-sm-1">
+                    @Html.DisplayNameFor(model => model.FirstOrDefault().Cours.Code)
+                </th>
+                <th class="col-sm-@thNomCours">
+                    @Html.DisplayNameFor(model => model.FirstOrDefault().Cours.Nom)
+                </th>
+                @if (thCoursActif != 0)
+                {
+                    <th class="col-sm-@thCoursActif">
+                        @Html.DisplayNameFor(model => model.FirstOrDefault().Cours.Actif)
+                    </th>
+                }
+                @if (thEnseignant != 0)
+                {
+                    <th class="col-sm-@thEnseignant">
+                        @Messages.Enseignant;
+                    </th>
+                }
+                <th class="col-sm-1"></th>
+            </tr>
 
-    @foreach (var item in Model)
-    {
-        <tr>
-            <td>
-                @Html.DisplayFor(model => item.Cours.Code)
-            </td>
-            <td>
-                @Html.DisplayFor(model => item.Cours.Nom)
-            </td>
-            <td>
-                @Html.DisplayFor(model => item.Cours.Actif)
-            </td>
-            <td>
-                @Html.DisplayFor(model => item.nomsConcatenesProfs)
-            </td>
-            <td>
-                @Html.ActionLink(Messages.Consulter, "Details", new {idCours = item.id_Cours, idSess = ViewBag.Sessionchoisie})
-            </td>
-        </tr>
-    }
-    @if (!Model.Any())
-    {
-        <tr>
-            <td colspan="6">@Messages.AucunCours</td>
-        </tr>
-    }
-</table>
-@Html.Partial("_PageRecherche", Model)
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(model => item.Cours.Code)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(model => item.Cours.Nom)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(model => item.Cours.Actif)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(model => item.nomsConcatenesProfs)
+                    </td>
+                    <td>
+                        @Html.ActionLink(Messages.Consulter, "Details", new { idCours = item.id_Cours, idSess = ViewBag.Sessionchoisie })
+                    </td>
+                </tr>
+            }
+            @if (!Model.Any())
+            {
+                <tr>
+                    <td colspan="6">@Messages.AucunCours</td>
+                </tr>
+            }
+        </table>
+        @Html.Partial("_PageRecherche", Model)

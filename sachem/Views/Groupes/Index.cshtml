@@ -27,24 +27,31 @@
                     @Html.ActionLink(Messages.Non, "Index", new { idg = TempData["idg"]}) 
                 </td>
             </tr>
-
     }
 
    <h4>@Messages.Recherche</h4>
 
-    <table class="table-condensed">
-        <tr>
-            <td>@Messages.Session :</td>
-            <td>@Html.DropDownList("Sessions", null, Messages.Toutes, new { @class = "form-search" })</td>
-            <td>@Messages.Enseignant :</td>
-            <td>
-                @(ViewBag.Disabled == "" ? Html.DropDownList("Enseignants", null, Messages.Tous, new {@class = "form-search"}) : Html.DropDownList("Enseignants", null, new {disabled = ViewBag.Disabled, @class = "form-search"}))
-            </td>
-            <td>@Messages.Cours :</td>
-            <td>@Html.DropDownList("Cours", null, Messages.Tous, new { @class = "form-search" })</td>
-            <td><input type="submit" value="@Messages.Rechercher" class="form-search" /></td>
-        </tr>
-    </table>
+    <div class="recherche">
+        <div class="row">
+            <div class="col-md-3">
+                <div class="col-md-4 recherche-label">@Messages.Session</div>
+                <div class="col-md-8 recherche-field">@Html.DropDownList("Sessions", null, Messages.Toutes, new { @class = "form-control" })</div>
+            </div>
+            <div class="col-md-4">
+                <div class="col-md-3 recherche-label">@Messages.Enseignant</div>
+                <div class="col-md-9 recherche-field">
+                    @(ViewBag.Disabled == "" ? Html.DropDownList("Enseignants", null, Messages.Tous, new { @class = "form-control" }) : Html.DropDownList("Enseignants", null, new { disabled = ViewBag.Disabled, @class = "form-search" }))
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="col-md-2 recherche-label">@Messages.Cours</div>
+                <div class="col-md-10 recherche-field">@Html.DropDownList("Cours", null, Messages.Tous, new { @class = "form-control"})</div>
+            </div>
+            <div class="col-md-1">
+                <input type="submit" value="@Messages.Rechercher" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
 }
 
 <div style="margin-top:5px;margin-bottom:10px;">@Html.ActionLink(Messages.GroupesAjouterTitre, "Create", null, null, new { @class = "btn btn-default" })</div>

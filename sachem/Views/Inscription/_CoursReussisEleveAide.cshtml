@@ -118,7 +118,7 @@
                 data: postData,
                 datatype: JSON,
                 success: function () {
-                    window.location.href = '@Url.Action("Details", "DossierEtudiant", new { id = SessionBag.Current.id_Inscription })';
+                    window.location.href = '@Url.Action("Details", "DossierEtudiant", new { id = BrowserSessionBag.Current.id_Inscription })';
                 },
                 error: function () {
                     alert("erreur");

@@ -26,12 +26,12 @@ namespace sachem.Controllers
             _dataRepository = new BdRepository();
         }
 
-        private readonly List<TypeUsagers> _rolesAcces = new List<TypeUsagers> { TypeUsagers.Enseignant, TypeUsagers.Responsable, TypeUsagers.Super };
+        private readonly List<TypeUsager> _rolesAcces = new List<TypeUsager> { TypeUsager.Enseignant, TypeUsager.Responsable, TypeUsager.Super };
 
         [ValidationAcces.ValidationAccesEnseignant]
         public ActionResult Index(int? page)
         {
-            //_dataRepository.Configuration.LazyLoadingEnabled = true;
+            _dataRepository.BeLazy(true);
 
             var noPage = page ?? 1;
 
@@ -40,8 +40,8 @@ namespace sachem.Controllers
                 return RedirectToAction("Error", "Home", null);
             }
 
-            _idPers = SessionBag.Current.id_Pers;
-            _idTypeUsage = SessionBag.Current.id_TypeUsag;
+            _idPers = BrowserSessionBag.Current.id_Pers;
+            _idTypeUsage = BrowserSessionBag.Current.TypeUsager;
 
             return View(AfficherCoursAssignes().ToPagedList(noPage, 10));
         }
@@ -198,8 +198,8 @@ namespace sachem.Controllers
         [ValidationAcces.ValidationAccesEnseignant]
         public ActionResult Details(int? idCours, int? idSess)
         {
-            _idPers = SessionBag.Current.id_Pers;
-            _idTypeUsage = SessionBag.Current.id_TypeUsag;
+            _idPers = BrowserSessionBag.Current.id_Pers;
+            _idTypeUsage = BrowserSessionBag.Current.TypeUsager;
 
             ViewBag.IsSessToutes = idSess == 0;
 

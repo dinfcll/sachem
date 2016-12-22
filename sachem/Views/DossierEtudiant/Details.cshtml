@@ -3,7 +3,7 @@
 @model Tuple<Inscription, IEnumerable<CoursSuivi>, IEnumerable<Inscription>>
 
 @{
-    ViewBag.Title = SessionBag.Current.id_Pers == Model.Item1.id_Pers ? Messages.DossierEtudiantMon : Messages.DossierEtudiant;
+    ViewBag.Title = BrowserSessionBag.Current.id_Pers == Model.Item1.id_Pers ? Messages.DossierEtudiantMon : Messages.DossierEtudiant;
 }
 
 
@@ -48,8 +48,7 @@
         </dt>
 
         <dd>
-            @if (SachemIdentite.ObtenirTypeUsager(Session) == TypeUsagers.Tuteur
-        || SachemIdentite.ObtenirTypeUsager(Session) == TypeUsagers.Eleve)
+            @if (BrowserSessionBag.Current.id_Pers == Model.Item1.id_Pers)
             {
                 @Html.EditorFor(model => model.Item1.Personne.Courriel, new
            {
@@ -78,8 +77,7 @@
         </dt>
 
         <dd>
-            @if (SachemIdentite.ObtenirTypeUsager(Session) == TypeUsagers.Tuteur
-                    || SachemIdentite.ObtenirTypeUsager(Session) == TypeUsagers.Eleve)
+            @if (BrowserSessionBag.Current.id_Pers == Model.Item1.id_Pers)
             {
 
                 if (string.IsNullOrEmpty(Model.Item1.Personne.Telephone))
@@ -132,40 +130,41 @@
         </dd>
     </dl>
 
-@if (SachemIdentite.ObtenirTypeUsager(Session) == TypeUsagers.Eleve || ViewBag.idTypeInsc == 1)
+@if (SachemIdentite.ObtenirTypeUsager(Session) == TypeUsager.Etudiant && SachemIdentite.ObtenirTypeInscription(Session) == TypeInscription.EleveAide)
 {
     <dl class="dl-horizontal">
         <dt>
             @Html.DisplayNameFor(model => model.Item1.BonEchange)
         </dt>
-@if (SachemIdentite.TypeListeProf.Contains(SachemIdentite.ObtenirTypeUsager(Session)))
-{
-        <dd>
-            @Html.CheckBoxFor(model => model.Item1.BonEchange.Value, new { id = "check-bon-echange" })
-        </dd>
-}
-else
-{
-    if (Model.Item1.BonEchange != null && Model.Item1.BonEchange.Value)
+    @if (BrowserSessionBag.Current.id_Pers == Model.Item1.id_Pers)
     {
-        <dd>
-            @Messages.DossierEtudiantBonAchatAchete
-        </dd>
+        if (Model.Item1.BonEchange != null && Model.Item1.BonEchange.Value)
+        {
+            <dd>
+                @Messages.DossierEtudiantBonAchatAchete
+            </dd>
+        }
+        else
+        {
+            <dd>
+                @Messages.DossierEtudiantBonAchatPasAchete
+            </dd>
+        }
     }
     else
     {
         <dd>
-            @Messages.DossierEtudiantBonAchatPasAchete
+            @Html.CheckBoxFor(model => model.Item1.BonEchange.Value, new { id = "check-bon-echange" })
         </dd>
     }
-}
     </dl>
 }
-     @if (SachemIdentite.ObtenirTypeUsager(Session) != TypeUsagers.Eleve)
-     {     <div style="margin-top:10px;">@Html.ActionLink(Messages.RetourRecherche, "Index", "DossierEtudiant", null)</div> }
-
-    @Html.Partial("_CoursAnterieur", Model.Item2)
-
+@if (SachemIdentite.ObtenirTypeUsager(Session) != TypeUsager.Etudiant && SachemIdentite.ObtenirTypeInscription(Session) == TypeInscription.EleveAide)
+{
+    <div style="margin-top:10px;">@Html.ActionLink(Messages.RetourRecherche, "Index", "DossierEtudiant", null)</div>
+}
+    
+    @Html.Partial("_CoursAnterieur", Model)
     @Html.Partial("_InscriptionSachem", Model.Item3)
 </div>
 }

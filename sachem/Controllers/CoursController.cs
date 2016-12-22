@@ -76,7 +76,7 @@ namespace sachem.Controllers
             return cours.ToList();
         }
 
-        [ValidationAcces.ValidationAccesSuper]
+        [ValidationAcces.ValidationAccesSuperEtResp]
         public ActionResult Index(int? page)
         {
             var pageNumber = page ?? 1;
@@ -84,7 +84,7 @@ namespace sachem.Controllers
             return View(Rechercher().ToPagedList(pageNumber, 20));
         }
 
-        [ValidationAcces.ValidationAccesSuper]
+        [ValidationAcces.ValidationAccesSuperEtResp]
         public ActionResult Create()
         {
             return View();
@@ -108,7 +108,7 @@ namespace sachem.Controllers
 
         }
 
-        [ValidationAcces.ValidationAccesSuper]
+        [ValidationAcces.ValidationAccesSuperEtResp]
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -144,7 +144,7 @@ namespace sachem.Controllers
             return View(cours);
         }
 
-        [ValidationAcces.ValidationAccesSuper]
+        [ValidationAcces.ValidationAccesSuperEtResp]
         public ActionResult Delete(int? id)
         {
             if (id == null)

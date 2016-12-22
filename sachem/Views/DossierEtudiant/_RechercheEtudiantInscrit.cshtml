@@ -2,63 +2,79 @@
 @using sachem.Models
 <h4>@Messages.Recherche</h4>
 
-<table class="table-condensed">
-    <tr>
-        <td>
-            @Messages.Session :
-        </td><td>
-            @Html.DropDownList("Session", null, Messages.Toutes,new { @class = "form-search" })
-        </td>
-        
-        <td>
-            @Messages.TypeInscription :
-        </td>
-        
-        <!--Si c'est tuteur-->
-@if (SachemIdentite.ObtenirTypeUsager(Session) == TypeUsagers.Tuteur)
-{
-        <td>
-            @Html.DropDownList("Inscription", null, Messages.Tous, new { @class = "form-search", disabled="disabled" })   
-        </td>
-}
-else
-{
-    <td>
-        @Html.DropDownList("Inscription", null, Messages.Tous, new { @class = "form-search" })
-    </td>
-}
-<!--Si c'est AUTRE que tuteur-->
+<div class="recherche">
+    <div class="row">
+        <div class="col-md-4">
+            <div class="col-md-4 recherche-label">
+                @Messages.Session
+            </div>
+            <div class="col-md-8 recherche-field">
+                @Html.DropDownList("Session", null, Messages.Toutes, new { @class = "form-control" })
+            </div>
+        </div>
+    @if (SachemIdentite.ObtenirTypeUsager(Session) == TypeUsager.Enseignant || SachemIdentite.ObtenirTypeUsager(Session) == TypeUsager.Responsable || SachemIdentite.ObtenirTypeUsager(Session) == TypeUsager.Super)
+    {
+        <div class="col-md-4">
+            <div class="col-md-4 recherche-label">
+                @Messages.TypeInscription
+            </div>
+            <div class="col-md-8 recherche-field">
+                @Html.DropDownList("Inscription", null, Messages.Tous, new { @class = "form-control" })
+            </div>
+        </div>
 
-@if (SachemIdentite.ObtenirTypeUsager(Session) == TypeUsagers.Enseignant || SachemIdentite.ObtenirTypeUsager(Session) == TypeUsagers.Responsable || SachemIdentite.ObtenirTypeUsager(Session) == TypeUsagers.Super)
-{
-         <td>
-            @Messages.Superviseur :
-        </td>
-            <td>
-                @Html.DropDownList("Superviseur", null, Messages.Tous, new { @class = "form-search" })
-            </td>
-}
-    </tr>
-    <tr>
-        <td>
-            @Messages.NoDa :
-        </td><td>
-            @Html.Editor("Matricule", new { htmlAttributes = new { @class = "form-control", maxlength = "7" } })
-        </td>
-        <td>
-            @Messages.Prenom :
-        </td><td>
-            @Html.Editor("Prenom", new { htmlAttributes = new { @class = "form-control"} })
-        </td>
-        <td>
-            @Messages.Nom :
-        </td><td>
-            @Html.Editor("Nom", new { htmlAttributes = new { @class = "form-control"} })
-        </td>
-    </tr>
-    <tr>
-        <td>
-            <input type="submit" value="@Messages.Rechercher" class="btn btn-default" style="margin-top:5px;margin-bottom:10px;"/>
-        </td>
-    </tr>
-</table>
+        <div class="col-md-4">
+
+            <div class="col-md-4 recherche-label">
+                @Messages.Superviseur
+            </div>
+            <div class="col-md-8 recherche-field">
+                @Html.DropDownList("Superviseur", null, Messages.Tous, new { @class = "form-control" })
+            </div>
+
+        </div>
+    }
+    else
+    {
+        <div class="col-md-4">
+            <div class="col-md-4 recherche-label">
+                @Messages.TypeInscription
+            </div>
+            <div class="col-md-8 recherche-field" style="padding-right: 20px;">
+                @Html.DropDownList("Inscription", null, Messages.Tous, new { @class = "form-control", disabled = "disabled" })
+            </div>
+        </div>
+    }
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="col-md-4 recherche-label">
+                @Messages.NoDa
+            </div>
+            <div class="col-md-8 recherche-field">
+                @Html.Editor("Matricule", new { htmlAttributes = new { @class = "form-control", maxlength = "7" } })
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="col-md-4 recherche-label">
+                @Messages.Prenom
+            </div>
+            <div class="col-md-8 recherche-field">
+                @Html.Editor("Prenom", new { htmlAttributes = new { @class = "form-control" } })
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="col-md-4 recherche-label">
+                @Messages.Nom
+            </div>
+            <div class="col-md-8 recherche-field">
+                @Html.Editor("Nom", new { htmlAttributes = new { @class = "form-control" } })
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-2">
+                <input type="submit" value="@Messages.Rechercher" class="btn btn-default" style="margin-top: 5px; margin-bottom: 10px;" />
+        </div>
+    </div>
+</div>
