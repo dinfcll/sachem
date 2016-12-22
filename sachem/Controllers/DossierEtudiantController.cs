@@ -27,13 +27,9 @@ namespace sachem.Controllers
 
         [NonAction]
         [AcceptVerbs("Get", "Post")]
-        public JsonResult ActualiseSuperviseurddl(int session)
+        public JsonResult ActualiseSuperviseurddl(int session, int superviseur)
         {
-            var a = _dataRepository.WherePersonne(
-                        p =>
-                            //_dataRepository.AnyJumelage(j => (j.id_Sess == session || session == 0) && j.id_Enseignant == p.id_Pers) &&
-                            p.id_TypeUsag == (int)TypeUsager.Enseignant).OrderBy(p => p.Nom).ThenBy(p => p.Prenom)
-                            .Select(c => new { c.id_Pers, c.NomPrenom });
+            var a = _dataRepository.ListeSuperviseur(session, superviseur);
             return Json(a.ToList(), JsonRequestBehavior.AllowGet);
         }
 
@@ -160,15 +156,16 @@ namespace sachem.Controllers
 
             Session["DernRechEtu"] = matricule + ";" + session + ";" + typeinscription + ";" + superviseur + ";" + NoPage;
             Session["DernRechEtuUrl"] = Request.Url.LocalPath;
-            return _dataRepository.WhereInscription(
-                p => (p.id_Sess == session || session == 0) &&
-                     (p.id_TypeInscription == typeinscription || typeinscription == 0) &&
-                     (p.Personne.Prenom.Contains(prenom) || prenom == "") &&
-                     (p.Personne.Nom.Contains(nom) || nom == "") &&
-                     (p.Personne.Matricule.Substring(2).StartsWith(matricule) || matricule == "") //&&
-                     //_dataRepository.AnyJumelage(j => (j.id_Enseignant == superviseur || superviseur == 0) &&
-                     //j.id_InscrTuteur == tuteur || tuteur == 0)
-            ).OrderBy(p => p.Personne.Nom).ThenBy(p => p.Personne.Prenom).ToList();
+            //return _dataRepository.WhereInscription(
+            //    p => (p.id_Sess == session || session == 0) &&
+            //         (p.id_TypeInscription == typeinscription || typeinscription == 0) &&
+            //         (p.Personne.Prenom.Contains(prenom) || prenom == "") &&
+            //         (p.Personne.Nom.Contains(nom) || nom == "") &&
+            //         (p.Personne.Matricule.Substring(2).StartsWith(matricule) || matricule == "") &&
+            //         _dataRepository.AnyJumelage(j => (j.id_Enseignant == superviseur || superviseur == 0) &&
+            //         (j.id_InscrTuteur == tuteur || tuteur == 0))).OrderBy(p => p.Personne.NomPrenom).Select(p => p);
+            return _dataRepository.ListeInscriptionsRaw(session, typeinscription, prenom, nom, matricule, superviseur,
+                tuteur);
         }
 
         [NonAction]

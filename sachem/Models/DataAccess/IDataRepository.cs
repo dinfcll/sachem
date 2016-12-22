@@ -5,7 +5,7 @@ using System.Web.Mvc;
 
 namespace sachem.Models.DataAccess
 {
-    public interface IDataRepository
+    public interface IDataRepository : IDisposable
     {
 
         int SessionEnCours();
@@ -335,6 +335,8 @@ namespace sachem.Models.DataAccess
         SelectList ListeStatutInscriptionSansBrouillon(int statut = 0);
         SelectList ListeStatutCours();
         SelectList ListeTypesCourriels(int typeCourriel = 0);
+        IEnumerable<Inscription> ListeInscriptionsRaw(int session = 0, int typeInscription = 0, string prenom = "",
+            string nom = "", string matricule = "", int superviseur = 0, int tuteur = 0);
         List<string> ListeJours();
 
         #endregion

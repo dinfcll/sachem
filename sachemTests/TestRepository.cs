@@ -9,7 +9,7 @@ using sachem.Models.DataAccess;
 
 namespace sachemTests
 {
-    internal class TestRepository : IDataRepository
+    internal class TestRepository : IDataRepository, IDisposable
     {
         private const int Brouillon = 2;
         private readonly List<ChoixReponse> _listeChoixReponse = new List<ChoixReponse>();
@@ -1281,6 +1281,21 @@ namespace sachemTests
                 jours.Add(((Semaine)i).ToString());
             }
             return jours.ToList();
+        }
+        public IEnumerable<Inscription> ListeInscriptionsRaw(int session = 0, int typeInscription = 0, string prenom = "",
+            string nom = "", string matricule = "", int superviseur = 0, int tuteur = 0)
+        {
+            return WhereInscription(
+                    p =>
+                        (p.id_Sess == session || session == 0) &&
+                        (p.id_TypeInscription == typeInscription || typeInscription == 0) &&
+                        (p.Personne.Prenom.Contains(prenom) || prenom == "") &&
+                        (p.Personne.Nom.Contains(nom) || nom == "") &&
+                        (p.Personne.Matricule.Substring(2).StartsWith(matricule) || matricule == "") &&
+                        AnyJumelage(j => (j.id_Enseignant == superviseur || superviseur == 0) &&
+                                              (j.id_InscrTuteur == tuteur || tuteur == 0)))
+                .OrderBy(p => p.Personne.Nom)
+                .ThenBy(p => p.Personne.Prenom);
         }
         #endregion
 

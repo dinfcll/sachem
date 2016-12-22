@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Security.Principal;
 using System.Web.Mvc;
 using sachem.Methodes_Communes;
 
 namespace sachem.Models.DataAccess
 {
-    public class BdRepository : IDataRepository
+    public class BdRepository : IDataRepository, IDisposable
     {
         private readonly SACHEMEntities _db = new SACHEMEntities();
         private const int Brouillon = 2;
@@ -35,6 +36,7 @@ namespace sachem.Models.DataAccess
         #region Any
         public bool AnyChoixReponse(Expression<Func<ChoixReponse, bool>> condition)
         {
+            
             return _db.ChoixReponse.Any(condition);
         }
         public bool AnyCourriel(Expression<Func<Courriel, bool>> condition)
@@ -1092,10 +1094,11 @@ namespace sachem.Models.DataAccess
                 new SelectList(
                     WherePersonne(
                         p =>
-                            //AnyJumelage(j => (j.id_Sess == session || session == 0) && j.id_Enseignant == p.id_Pers) &&
-                            p.id_TypeUsag == (int) TypeUsager.Enseignant).OrderBy(p => p.Nom).ThenBy(p => p.Prenom),
+                            _db.Jumelage.Any(j => (j.id_Sess == session || session == 0) && j.id_Enseignant == p.id_Pers) &&
+                            p.id_TypeUsag == (int) TypeUsager.Enseignant).OrderBy(p => p.NomPrenom).Select(p => p),
                     "id_Pers", "NomPrenom", superviseur);
         }
+        
         public SelectList ListeEnseignantEtResponsable(int id = 0)
         {
             return new SelectList(WherePersonne(x => x.id_TypeUsag == (int)TypeUsager.Enseignant && x.Actif
@@ -1133,6 +1136,20 @@ namespace sachem.Models.DataAccess
                 jours.Add(((Semaine)i).ToString());
             }
             return jours.ToList();
+        }
+        public IEnumerable<Inscription> ListeInscriptionsRaw(int session = 0, int typeInscription = 0, string prenom = "",
+            string nom = "", string matricule = "", int superviseur = 0, int tuteur = 0)
+        {
+            return WhereInscription(
+                    p =>
+                        (p.id_Sess == session || session == 0) &&
+                        (p.id_TypeInscription == typeInscription || typeInscription == 0) &&
+                        (p.Personne.Prenom.Contains(prenom) || prenom == "") &&
+                        (p.Personne.Nom.Contains(nom) || nom == "") &&
+                        (p.Personne.Matricule.Substring(2).StartsWith(matricule) || matricule == "") &&
+                        _db.Jumelage.Any(j => j.id_Enseignant == superviseur || superviseur == 0))
+                .OrderBy(p => p.Personne.Nom)
+                .ThenBy(p => p.Personne.Prenom);
         }
         #endregion
 
