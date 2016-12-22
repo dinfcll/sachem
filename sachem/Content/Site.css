@@ -29,8 +29,8 @@
 .cll {
     background-image: url('../Images/logo-cegep.png');  
     background-repeat:no-repeat;
-    background-position:left;
-    background-size: auto 70px;
+    background-position:0 -4px;
+    background-size: auto 74px;
     height: 70px; 
 }
 
@@ -42,7 +42,7 @@
 
 .nomSite {
     text-transform:uppercase;
-    margin-left:78px;
+    margin-left:82px;
     font-family:FontDuCegep;
     font-size:26px;
     padding-top:8px;

@@ -716,12 +716,10 @@ namespace sachem.Models
         #region Nous contacter
 
         public const string ContacterTitre = "Nous Contacter";
-
         public const string ContacterPersonneRessource = "Personne à contacter";
-
         public const string ContacterFacebook = "La page Facebook du SACHEM";
-
         public const string ContacterSiteWeb = "Site web du service d'aide";
+        public const string ContacterGitHub = "Le projet du site web sur GitHub";
 
         #endregion
 

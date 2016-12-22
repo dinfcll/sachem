@@ -5,6 +5,15 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <meta charset="utf-8" />
+    <meta http-equiv="content-language" content="fr">
+    <meta name="description" content="@System.Configuration.ConfigurationManager.AppSettings.Get("descriptionDuSite")">
+    <meta name="author" content="Département d'informatique du Cégep de Lévis-Lauzon (https://github.com/dinfcll/sachem) - Étudiants et enseignants en informatique de gestion de 2016 à 2017">
+    <meta name="geo.position" content="46.817918;-71.150576">
+    <meta name="geo.placename" content="Cégep de Lévis-Lauzon">
+    <meta name="geo.region" content="CA-QC">
+    <meta name="ICBM" content="46.817918;-71.150576">
+    <link href="http://cll.qc.ca/admin/wp-content/themes/clevislauzon/img/favicon.ico" type="image/x-icon" rel="shortcut icon">
+    <link href="http://cll.qc.ca/admin/wp-content/themes/clevislauzon/img/favicon.png" type="image/png" rel="shortcut icon">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - @System.Configuration.ConfigurationManager.AppSettings.Get("nomDuSite").ToUpper()</title>
     @Styles.Render("~/Content/css")
@@ -91,10 +100,13 @@
     @RenderBody()
     <hr />
     <footer>
-        <p>&copy; @DateTime.Now.Year - @System.Configuration.ConfigurationManager.AppSettings.Get("nomDuSite").ToUpper() -
+        <p>
+            &copy; @DateTime.Now.Year - @System.Configuration.ConfigurationManager.AppSettings.Get("nomDuSite").ToUpper() -
             <a href="@Url.Action("Contact", "Home")">
                 <span class="glyphicon glyphicon-phone"></span><span>&nbsp; @Messages.NousContacter</span>
-            </a></p>
+            </a>
+            <a style="float:right" href=@System.Configuration.ConfigurationManager.AppSettings.Get("ghProject") title="@Messages.ContacterGitHub" target="_blank"><img src="~/Images/gh.png" width="20" height="20" /></a>
+        </p>
     </footer>
 </div>
 <script type="text/javascript">

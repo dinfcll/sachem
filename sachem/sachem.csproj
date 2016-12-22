@@ -236,7 +236,6 @@
     <Compile Include="Controllers\JumelageController.cs" />
     <Compile Include="Controllers\ParametresController.cs" />
     <Compile Include="Controllers\ProgrammesOffertsController.cs" />
-    <Compile Include="Controllers\_removeMe_RechercheEtudiantController.cs" />
     <Compile Include="Controllers\RechercheInscriptionController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -397,9 +396,9 @@
     <Content Include="Content\site.css" />
     <Content Include="Images\Alert.jpg" />
     <Content Include="Images\facebook.png" />
-    <Content Include="Images\logo-cegep.png" />
-    <Content Include="Images\logo-sachem.png" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Images\gh.png" />
+    <Content Include="Images\logo-cegep.png" />
     <Content Include="Images\www.png" />
     <Content Include="Models\Model1.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
@@ -619,7 +618,7 @@
     </Content>
     <Content Include="Views\Web.config" />
     <Content Include="Views\_ViewStart.cshtml" />
-    <Content Include="Views\Shared\Error.cshtml" />
+    <Content Include="Views\Home\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Account\ForgotPassword.cshtml" />
@@ -654,7 +653,7 @@
     <Content Include="Views\Etudiant\Delete.cshtml" />
     <Content Include="Views\Etudiant\Edit.cshtml" />
     <Content Include="Views\Etudiant\Index.cshtml" />
-    <Content Include="Views\Shared\_RechercheEtudiant.cshtml" />
+    <Content Include="Views\Etudiant\_RechercheEtudiant.cshtml" />
     <Content Include="Views\Account\ModifierPassword.cshtml" />
     <Content Include="Views\Parametres\EditContact.cshtml" />
     <Content Include="Views\Parametres\EditCourrier.cshtml" />
@@ -673,10 +672,10 @@
     <Content Include="Views\Enseignant\Index.cshtml" />
     <Content Include="Views\Enseignant\_Enseignant.cshtml" />
     <Content Include="Views\Etudiant\_Etudiant.cshtml" />
-    <Content Include="Views\Shared\_RechercheGroupe.cshtml" />
+    <Content Include="Views\Groupes\_RechercheGroupe.cshtml" />
     <Content Include="Views\Inscription\Index.cshtml" />
     <Content Include="Views\Inscription\_Boutons.cshtml" />
-    <Content Include="Views\Shared\Ferme.cshtml" />
+    <Content Include="Views\Home\Ferme.cshtml" />
     <Content Include="Views\Inscription\EleveAide.cshtml" />
     <Content Include="Views\Jumelage\Details.cshtml" />
     <Content Include="Views\Jumelage\Index.cshtml" />
@@ -685,9 +684,9 @@
     <Content Include="Views\Jumelage\_JumelagesAvec.cshtml" />
     <Content Include="Views\Jumelage\_Disponibilites.cshtml" />
     <Content Include="Views\ContratEngagement\Index.cshtml" />
-    <Content Include="Views\Shared\_CoursReussis.cshtml" />
+    <Content Include="Views\Inscription\_CoursReussis.cshtml" />
     <Content Include="Views\Inscription\TuteurBenevole.cshtml" />
-    <Content Include="Views\Shared\_LigneCoursReussi.cshtml" />
+    <Content Include="Views\Inscription\_LigneCoursReussi.cshtml" />
     <Content Include="Views\Inscription\_AjoutCours.cshtml" />
     <Content Include="_Contribute\sachem.bak" />
     <Content Include="_Contribute\Sachem_Importer.csv" />
@@ -699,7 +698,7 @@
     <Content Include="Views\Shared\_LigneCoursReussi.cshtml" />
     <Content Include="Views\RechercheInscription\Index.cshtml" />
     <Content Include="Views\RechercheInscription\Details.cshtml" />
-    <Content Include="Views\Shared\Deja.cshtml" />
+    <Content Include="Views\Home\Deja.cshtml" />
     <Content Include="Views\Inscription\TuteurCours.cshtml" />
     <Content Include="Scripts\tinymce\langs\readme.md" />
     <Content Include="Scripts\tinymce\skins\lightgray\fonts\readme.md" />
@@ -711,7 +710,7 @@
     <Content Include="Scripts\tinymce\skins\lightgray\fonts\tinymce.json" />
     <Content Include="Scripts\tinymce\skins\lightgray\fonts\tinymce.ttf" />
     <Content Include="Scripts\tinymce\skins\lightgray\fonts\tinymce.woff" />
-    <Content Include="Views\Shared\_BoutonsNav.cshtml" />
+    <Content Include="Views\Inscription\_BoutonsNav.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
