@@ -788,7 +788,7 @@ namespace sachem.Models
         public const string JumeleA = "Jumelé à";
         public const string Achete = "Acheté";
         public const string PasAchete = "Pas acheté";
-        public const string DossierEtudiant = "Dossier de l'étudiant";
+        public const string DossierEtudiant = "Dossiers d'étudiant";
         public const string DossierEtudiantMon = "Mon Dossier";
         public const string JumelagePossible = "Jumelages possibles";
         public const string Deplacer = "Déplacer";

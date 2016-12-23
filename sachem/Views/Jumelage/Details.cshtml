@@ -70,7 +70,14 @@
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Personne.Telephone)
+            @if (string.IsNullOrEmpty(Model.Personne.Telephone))
+            {
+                @Html.DisplayFor(model => model.Personne.Telephone)
+            }
+            else
+            {
+                @($"{Convert.ToUInt64(Html.ValueFor(model => model.Personne.Telephone).ToString()):(###) ###-####}")
+            }
         </dd>
     </dl>
     

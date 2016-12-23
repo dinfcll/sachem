@@ -21,7 +21,10 @@
 {
     @Html.Partial("_RechercheEtudiant")
 }
-<div style="margin-top:5px;margin-bottom:10px;">@Html.ActionLink(Messages.EtudiantAjouterTitre, "Create", null, null, new { @class = "btn btn-default" })</div>
+<div style="margin-top: 5px; margin-bottom: 10px;">
+    @*@Html.ActionLink(Messages.EtudiantAjouterTitre, "Create", null, null, new {@class = "btn btn-default"})*@
+    <a class="btn btn-default" href="@Url.Action("Create")"><i class="material-icons">add</i>@Messages.EtudiantAjouterTitre</a>
+</div>
     <table class="table">
         <tr>
             <th class="col-sm-3">
@@ -33,13 +36,13 @@
             <th class="col-sm-1">
                 @Html.DisplayNameFor(model => model.First().personne.p_Sexe.Sexe)
             </th>
-            <th class="col-sm-1">
+            <th class="col-sm-2">
                 @Html.DisplayNameFor(model => model.First().personne.DateNais)
             </th>
             <th class="col-sm-4">
                 @Html.DisplayNameFor(model => model.First().personne.ProgEtu)
             </th>
-            <th class="col-sm-2"></th>
+            <th class="col-sm-1"></th>
         </tr>
 
         @foreach (var item in Model)
@@ -62,9 +65,11 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.progEtuActif.NomProg)
                 </td>
-                <td>
-                    @Html.ActionLink(Messages.Modifier, "Edit", new { id = item.personne.id_Pers }) |
-                    @Html.ActionLink(Messages.Supprimer, "Delete", new { id = item.personne.id_Pers })
+                <td class="text-center">
+                    @*@Html.ActionLink(Messages.Modifier, "Edit", new { id = item.personne.id_Pers }) |
+                    @Html.ActionLink(Messages.Supprimer, "Delete", new { id = item.personne.id_Pers })*@
+                    <a href="@Url.Action("Edit", null,new {id = item.personne.id_Pers})"><i class="material-icons">edit</i></a>
+                    <a href="@Url.Action("Delete", null,new {id = item.personne.id_Pers})"><i class="material-icons">delete</i></a>
                 </td>
             </tr>
         }

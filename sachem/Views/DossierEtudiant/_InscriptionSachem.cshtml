@@ -3,19 +3,19 @@
 @model IEnumerable<Inscription>
 
     <div>
-        <h4>@Messages.DossierEtudiantDemandeInscription</h4>
+        <h4 class="page-header">@Messages.DossierEtudiantDemandeInscription</h4>
         <table class="table">
             <tr>
-                <th class="col-sm-2">
+                <th class="col-md-2">
                     @Html.DisplayNameFor(model => model.DateInscription)
                 </th>
-                <th class="col-sm-3">
+                <th class="col-md-2">
                     @Html.DisplayNameFor(model => model.p_TypeInscription.TypeInscription)
                 </th>
-                <th class="col-sm-3">
+                <th class="col-md-7">
                     @Html.DisplayNameFor(model => model.p_StatutInscription.Statut)
                 </th>
-                <th>
+                <th class="col-md-1">
                 </th>
             </tr>
 
@@ -31,20 +31,19 @@
                     <td>
                         @Html.DisplayFor(modelItem => item.p_StatutInscription.Statut)
                     </td>
-                    <td>
-                        @Html.ActionLink(Messages.Consulter, null, null, null)
+                    <td class="text-center">
+                        <a href="@Url.Action(null, null,new {id = item.id_Pers})"><i class="material-icons">visibility</i></a>
+                        @*@Html.ActionLink(Messages.Consulter, null, null, null)*@
 
                         @if (SachemIdentite.ObtenirTypeUsager(Session) == TypeUsager.Etudiant)
                         {
-
-                            <span> | </span>@Html.ActionLink(Messages.Modifier, null, null, null)
-
+                            @*<span> | </span>@Html.ActionLink(Messages.Modifier, null, null, null)*@
+                            <a href="@Url.Action(null, null,new {id = item.id_Pers})"><i class="material-icons">edit</i></a>
                         }
                         @if (SachemIdentite.ObtenirTypeUsager(Session) == TypeUsager.Etudiant && SachemIdentite.ObtenirTypeInscription(Session) == TypeInscription.EleveAide)
                         {
-
-                            <span> | </span>@Html.ActionLink(Messages.ModifierInfosPerso, null, null, null)
-
+                            @*<span> | </span>@Html.ActionLink(Messages.ModifierInfosPerso, null, null, null)*@
+                            <a href="@Url.Action(null, null,new {id = item.id_Pers})"><i class="material-icons" style="margin-right: 0;font-size: 18px;">assignment_ind</i></a>
                         }
                     </td>
                 </tr>

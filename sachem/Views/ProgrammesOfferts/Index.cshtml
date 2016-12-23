@@ -21,13 +21,17 @@
                     <div class="col-md-6 recherche-field">@Html.Editor("Recherche", new { htmlAttributes = new { @class = "form-control" } })</div>
                 </div>
                 <div class="col-md-2">
-                    <input type="submit" value="@Messages.Rechercher" class="btn btn-default"/>
+                    <button type="submit" class="btn btn-default" style="margin-bottom: 10px;">
+                        <i class="material-icons">search</i>@Messages.Rechercher
+                    </button>
                 </div>
             </div>
         </div>
     }
 
-<div style="margin-top:5px;margin-bottom:10px;">@Html.ActionLink(Messages.ProgrammesAjouterTitre, "Create", null, null, new { @class = "btn btn-default" })</div>
+<div style="margin-top: 5px; margin-bottom: 10px;">
+    <a class="btn btn-default" href="@Url.Action("Create")"><i class="material-icons">add</i>@Messages.ProgrammesAjouterTitre</a>
+</div>
     
 <table class="table">
     <tr>
@@ -37,13 +41,13 @@
         <th class="col-sm-1">
             @Html.DisplayNameFor(model => model.First().Annee)
         </th>
-        <th class="col-sm-7">
+        <th class="col-sm-8">
             @Html.DisplayNameFor(model => model.First().NomProg)
         </th>
         <th class="col-sm-1">
             @Html.DisplayNameFor(model => model.First().Actif)
         </th>
-        <th class="col-sm-2"></th>
+        <th class="col-sm-1"></th>
     </tr>
 
     @foreach (var item in Model)
@@ -61,9 +65,11 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Actif)
             </td>
-            <td>
-                @Html.ActionLink(Messages.Modifier, "Edit", new { id = item.id_ProgEtu }) |
-                @Html.ActionLink(Messages.Supprimer, "Delete", new { id = item.id_ProgEtu })
+            <td class="text-center">
+                @*@Html.ActionLink(Messages.Modifier, "Edit", new { id = item.id_ProgEtu }) |
+                @Html.ActionLink(Messages.Supprimer, "Delete", new { id = item.id_ProgEtu })*@
+                <a href="@Url.Action("Edit", null,new {id = item.id_ProgEtu})"><i class="material-icons">edit</i></a>
+                <a href="@Url.Action("Delete", null,new {id = item.id_ProgEtu})"><i class="material-icons">delete</i></a>
             </td>
         </tr>
     }

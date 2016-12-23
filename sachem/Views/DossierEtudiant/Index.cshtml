@@ -38,8 +38,9 @@
             <td>
                 @Html.DisplayFor(modelItem => item.p_TypeInscription.TypeInscription)
             </td>
-            <td>
-                @Html.ActionLink(Messages.Consulter, "details", new { id = item.id_Inscription })
+            <td class="text-center">
+                @*@Html.ActionLink(Messages.Consulter, "details", new { id = item.id_Inscription })*@
+                <a href="@Url.Action("details", null,new {id = item.id_Inscription})"><i class="material-icons">visibility</i></a>
             </td>
         </tr>
     }

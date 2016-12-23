@@ -55,10 +55,11 @@ namespace sachem.Models
         [Display(Name = "Se souvenir de moi")]
         public string SouvenirConnexion;
 
-        [Display(Name = "Téléphone")]
         [DataType(DataType.PhoneNumber)]
-        [RegularExpression(@"^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$", ErrorMessage = Messages.FormatTelephone)] //Vérifie le format du tel
-        public string Telephone; //Ajout pour #Tel dans BD
+        [RegularExpression(@"^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$", ErrorMessage = Messages.FormatTelephone)]
+        [DisplayFormat(DataFormatString = "{0:(###) ###-####}", ApplyFormatInEditMode = true)]
+        [Display(Name = "Téléphone")]
+        public string Telephone;
 
         [Display(Name = "Nom d'utilisateur")]
         [StringLength(25)]

@@ -16,8 +16,8 @@
 
 .navbar-inverse .navbar-nav > li > a {
   color: #dddddd;
+    padding-right: 5px;
 }
-
 .navbar-inverse .navbar-toggle {
   border-color: #555555;
 }
@@ -32,6 +32,47 @@
     background-position:0 -4px;
     background-size: auto 74px;
     height: 70px; 
+}
+
+@font-face {
+  font-family: 'Material Icons';
+  font-style: normal;
+  font-weight: 400;
+  src: url(../fonts/MaterialIcons-Regular.eot); /* For IE6-8 */
+  src: local('Material Icons'),
+       local('MaterialIcons-Regular'),
+       url(../fonts/MaterialIcons-Regular.woff2) format('woff2'),
+       url(../fonts/MaterialIcons-Regular.woff) format('woff'),
+       url(../fonts/MaterialIcons-Regular.ttf) format('truetype');
+}
+
+.material-icons {
+    font-family: 'Material Icons';
+    font-weight: normal;
+    font-style: normal;
+    font-size: 20px;
+    position: relative;
+    margin-top: -5px;
+    margin-right: 5px;
+    top: 5px;
+    display: inline-block;
+    line-height: 1;
+    text-transform: none;
+    letter-spacing: normal;
+    word-wrap: normal;
+    white-space: nowrap;
+    direction: ltr;
+
+    /* Support for all WebKit browsers. */
+    -webkit-font-smoothing: antialiased;
+    /* Support for Safari and Chrome. */
+    text-rendering: optimizeLegibility;
+
+    /* Support for Firefox. */
+    -moz-osx-font-smoothing: grayscale;
+
+    /* Support for IE. */
+    font-feature-settings: 'liga';
 }
 
 @font-face {
@@ -246,10 +287,7 @@ textarea {
 
 @media (max-width: 768px)
 {
-    .glyphicon-user{
-        display:none !important;
-    }
-    .glyphicon-log-in{
+    .nav .material-icons{
         display:none !important;
     }
 }
@@ -298,12 +336,10 @@ textarea {
 #login-btn-forgottenpswd { font-size:120%;font-weight: bolder;height:34px;border-bottom-left-radius: 0;border-top-left-radius: 0;}
 #input-pswd { float:left;width:245px;border-bottom-right-radius: 0;border-top-right-radius: 0;}
 
-/*dossier etu*/
-#de-btn-input-field-tel { height: 34px; width:34px; } 
-#de-btn-input-field-email { height: 34px; width:34px;} 
-#de-input-field-tel { float: left;width: 245px; } 
-#de-input-field-email { float: left;width: 245px; } 
-#de-btn-input-field-icon {margin-left:-6px;font-size:150%;}
+/*field with build icon*/
+.btn-input-field-build { height: 34px; width:34px; } 
+.input-field-build { float: left;width: 245px; } 
+.btn-input-field-build-icon {margin-left:-6px;font-size:150%;}
 
 /* Inscription */
 .dropDownSess {

@@ -13,8 +13,8 @@
     @TempData["Erreur"]
 </p>
 <div>
-    <h4>@Messages.IdentificationEtudiant</h4>
-    <dl class="dl-horizontal">
+    <h4 class="page-header">@Messages.IdentificationEtudiant</h4>
+    <dl class="dl-horizontal col-md-12">
         <dt>
             @Html.DisplayNameFor(model => model.First().Personne.Matricule7)
         </dt>
@@ -52,13 +52,20 @@
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.First().Personne.Telephone)
+            @if (string.IsNullOrEmpty(Model.First().Personne.Telephone))
+            {
+                @Html.DisplayFor(model => model.First().Personne.Telephone)
+            }
+            else
+            {
+                @($"{Convert.ToUInt64(Html.ValueFor(model => model.First().Personne.Telephone).ToString()):(###) ###-####}")
+            }
         </dd>
     </dl>
 </div>
 
-    <h4>@Messages.Inscription</h4>
-    <dl class="dl-horizontal">
+    <h4 class="page-header">@Messages.Inscription</h4>
+    <dl class="dl-horizontal col-sm-12">
         <dt>
             @Html.DisplayNameFor(model => model.First().id_TypeInscription)
         </dt>
@@ -74,55 +81,64 @@
         <dd>
             @Html.DisplayFor(model => model.First().p_StatutInscription.Statut)
         </dd>
-    </dl>
-    
-@using (Html.BeginForm("ChangerStatutInscription", "RechercheInscription", new { @class = "form-inline", role = "form" }))
-{
-    @Html.HttpMethodOverride(HttpVerbs.Put)
-    <div class="form-actions no-color">
-        @Html.HiddenFor(m => m.First().id_Inscription)
-        <span>@Messages.Decision</span>  @Html.DropDownListFor(model => model.First().id_Statut, ViewBag.Liste_Statut as SelectList, new { @class = "form-control" }) <input type="submit" value="@Messages.Enregistrer" class="btn btn-default" />
-        @Html.ActionLink(Messages.Consulter, "Details", "Jumelage", new { id = Model.First().id_Inscription},null) <br /> <br />
-    </div>
-}
-<table class="table">
-    @if (Model.Any())
-    {
-        <tr>
-            <th class="col-sm-7">
-                @Html.DisplayNameFor(model => model.First().DateInscription)
-            </th>
-            <th class="col-sm-2">
-                @Html.DisplayNameFor(model => model.First().id_TypeInscription)
-            </th>
-            <th class="col-sm-1">
-                @Html.DisplayNameFor(model => model.First().id_Statut)
-            </th>
-            <th class="col-sm-2"></th>
-        </tr>
+        <dt>
+            @Messages.DetailsInscription
+        </dt>
+        <dd>
+            @Html.ActionLink(Messages.Consulter, "Details", "Jumelage", new {id = Model.First().id_Inscription}, null)
+        </dd>
 
-        foreach (var item in Model.Skip(1))
-         {
-             <tr>
-                 <td>
-                     @Html.DisplayFor(modelItem => item.DateInscription)
-                 </td>
-                 <td>
-                     @Html.DisplayFor(modelItem => item.p_TypeInscription.TypeInscription)
-                 </td>
-                 <td>
-                     @Html.DisplayFor(modelItem => item.p_StatutInscription.Statut)
-                 </td>
-             </tr>
-         }
-    }
-    else
+    @using (Html.BeginForm("ChangerStatutInscription", "RechercheInscription", FormMethod.Post, new { @class = "form-inline", role = "form" }))
     {
-        <tr>
-            <td colspan="6">@Messages.AucunInscription</td>
-        </tr>
+        @Html.HttpMethodOverride(HttpVerbs.Put)
+        <dt>@Messages.Decision</dt>
+        <dd>
+            @Html.HiddenFor(m => m.First().id_Inscription)
+            @Html.DropDownListFor(model => model.First().id_Statut, ViewBag.Liste_Statut as SelectList, new { @class = "form-control btn-input-field-build"}) 
+            <button type="submit" class="btn btn-default btn-input-field-build">
+                <i class="material-icons btn-input-field-build-icon" style="font-size: 20px;">build</i>
+            </button>
+        </dd>
     }
-</table>
+</dl>
+    <table class="table">
+        @if (Model.Any())
+        {
+            <tr>
+                <th class="col-sm-7">
+                    @Html.DisplayNameFor(model => model.First().DateInscription)
+                </th>
+                <th class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.First().id_TypeInscription)
+                </th>
+                <th class="col-sm-1">
+                    @Html.DisplayNameFor(model => model.First().id_Statut)
+                </th>
+                <th class="col-sm-2"></th>
+            </tr>
+
+            foreach (var item in Model.Skip(1))
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DateInscription)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.p_TypeInscription.TypeInscription)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.p_StatutInscription.Statut)
+                    </td>
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="6">@Messages.AucunInscription</td>
+            </tr>
+        }
+    </table>
 
 
 

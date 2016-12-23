@@ -37,7 +37,10 @@
                 </div>
             </div>
             <div class="col-md-2">
-                <input type="submit" value="@Messages.Rechercher" class="btn btn-default" />
+                @*<input type="submit" value="@Messages.Rechercher" class="btn btn-default" />*@
+                <button type="submit" class="btn btn-default" style="margin-bottom: 10px;">
+                    <i class="material-icons">search</i>@Messages.Rechercher
+                </button>
             </div>
         </div>
     </div>
@@ -46,20 +49,20 @@
 
 <table class="table">
     <tr>
-        <th  class="col-sm-5">
+        <th  class="col-sm-6">
             @Html.DisplayNameFor(model => model.Personne.NomPrenom)
         </th>
-        <th class="col-sm-2">
+        <th class="col-sm-1">
             @Html.DisplayNameFor(model => model.Personne.Matricule7)
         </th>
         <th class="col-sm-1">
             @Html.DisplayNameFor(model => model.p_StatutInscription.Statut)
         </th>
-        <th class="col-sm-2">
+        <th class="col-sm-3">
             @Html.DisplayNameFor(model => model.p_TypeInscription.TypeInscription)
         </th>
 
-        <th class="col-sm-2"></th>
+        <th class="col-sm-1"></th>
     </tr>
 
     @foreach (var item in Model) {
@@ -77,8 +80,9 @@
                 @Html.DisplayFor(modelItem => item.p_TypeInscription.TypeInscription)
             </td>
 
-            <td>
-                @Html.ActionLink(Messages.Consulter, "Details", new {id = item.id_Inscription})
+            <td class="text-center">
+                @*@Html.ActionLink(Messages.Consulter, "Details", new {id = item.id_Inscription})*@
+                <a href="@Url.Action("Details", null,new { id = item.id_Inscription })"><i class="material-icons">visibility</i></a>
             </td>
         </tr>
     }

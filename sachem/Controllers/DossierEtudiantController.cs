@@ -202,13 +202,12 @@ namespace sachem.Controllers
 
             return View(Tuple.Create(inscription, vCoursSuivi.AsEnumerable(), vInscription.AsEnumerable()));
         }
-        
+
         [HttpPost]
         [ValidationAcces.ValidationAccesTousTuteurs]
         public void ModifBon(bool bon, string insc)
         {
             var idInscription = Convert.ToInt32(insc);
-
             var inscription = _dataRepository.FindInscription(idInscription);
 
             inscription.BonEchange = bon; 
@@ -221,7 +220,6 @@ namespace sachem.Controllers
         public void ModifEmail(string email, string pers)
         {
             var idPers = Convert.ToInt32(pers);
-
             var personne = _dataRepository.FindPersonne(idPers);
 
             personne.Courriel = email;
@@ -234,7 +232,6 @@ namespace sachem.Controllers
         public void ModifTel(string tel, string pers)
         {
             var idPers = Convert.ToInt32(pers);
-
             var personne = _dataRepository.FindPersonne(idPers);
 
             personne.Telephone = SachemIdentite.FormatTelephone(tel);

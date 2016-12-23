@@ -12,19 +12,19 @@
 
 <table class="table">
     <tr>
-        <th>
+        <th class="col-md-5">
             @Html.DisplayNameFor(model => model.Personne.NomPrenom)
         </th>
-        <th>
+        <th class="col-md-1">
             @Html.DisplayNameFor(model => model.Personne.Matricule7)
         </th>
-        <th>
+        <th class="col-md-3">
             @Html.DisplayNameFor(model => model.p_TypeInscription.TypeInscription)
         </th>
-        <th>
+        <th class="col-md-2">
             @Html.DisplayNameFor(model => model.p_StatutInscription.Statut)
         </th>        
-        <th></th>
+        <th class="col-md-1"></th>
     </tr>
 
     @foreach (var item in Model) {
@@ -44,8 +44,8 @@
                 }
                 @(count)
             </td>
-            <td>
-                @Html.ActionLink(Messages.Consulter, "Details", new { id=item.id_Inscription })
+            <td class="text-center">
+                <a href="@Url.Action("Details", null,new { id = item.id_Inscription})"><i class="material-icons">visibility</i></a>
             </td>
         </tr>
     }
