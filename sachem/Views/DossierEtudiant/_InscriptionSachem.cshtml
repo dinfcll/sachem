@@ -33,16 +33,13 @@
                     </td>
                     <td class="text-center">
                         <a href="@Url.Action(null, null,new {id = item.id_Pers})"><i class="material-icons">visibility</i></a>
-                        @*@Html.ActionLink(Messages.Consulter, null, null, null)*@
 
                         @if (SachemIdentite.ObtenirTypeUsager(Session) == TypeUsager.Etudiant)
                         {
-                            @*<span> | </span>@Html.ActionLink(Messages.Modifier, null, null, null)*@
                             <a href="@Url.Action(null, null,new {id = item.id_Pers})"><i class="material-icons">edit</i></a>
                         }
                         @if (SachemIdentite.ObtenirTypeUsager(Session) == TypeUsager.Etudiant && SachemIdentite.ObtenirTypeInscription(Session) == TypeInscription.EleveAide)
                         {
-                            @*<span> | </span>@Html.ActionLink(Messages.ModifierInfosPerso, null, null, null)*@
                             <a href="@Url.Action(null, null,new {id = item.id_Pers})"><i class="material-icons" style="margin-right: 0;font-size: 18px;">assignment_ind</i></a>
                         }
                     </td>

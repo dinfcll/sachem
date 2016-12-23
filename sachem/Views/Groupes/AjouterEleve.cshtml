@@ -52,7 +52,6 @@
                 <div class="col-md-10 recherche-field">@Html.Editor("Prenom", new { htmlAttributes = new { @class = "form-control" } })</div>
             </div>
             <div class="col-md-2">
-                @*<input type="submit" value="@Messages.Rechercher" class="btn btn-default"/>*@
                 <button type="submit" class="btn btn-default" style="margin-bottom: 10px;">
                     <i class="material-icons">search</i>@Messages.Rechercher
                 </button>
@@ -100,7 +99,6 @@
                 @Html.DisplayFor(modelItem => item.epe.ProgrammeEtude.CodeNomProgramme)
             </td>
             <td class="text-center">
-                @*@Html.ActionLink(Messages.Ajouter, "AjouterEleveGet", new { ViewBag.idg, idp = item.p.id_Pers })*@
                 <a href="@Url.Action("AjouterEleveGet", null, new {ViewBag.idg, idp = item.p.id_Pers})">
                     <i class="material-icons">person_add</i>
                 </a>

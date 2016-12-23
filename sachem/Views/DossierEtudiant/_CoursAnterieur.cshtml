@@ -7,7 +7,6 @@
     {
         <div>
             <a class="btn btn-default" style = "margin-bottom:10px;margin-top:-10px;float:right;" href="@Url.Action("Create", "CourSuivi", new {id = BrowserSessionBag.Current.id_Pers})"><i class="material-icons">add</i>@Messages.DossierEtudiantAjouterCoursAnterieur</a>
-            @*@Html.ActionLink(Messages.DossierEtudiantAjouterCoursAnterieur, "Create", "CoursSuivi", new {id = BrowserSessionBag.Current.id_Pers}, new {@class = "btn btn-default", style = "margin-bottom:10px;margin-top:-10px;float:right;"})*@
         </div>
     }
     <h4 class="page-header">@Messages.DossierEtudiantCoursAnterieur</h4>
@@ -70,8 +69,6 @@
                     </td>
                 }
                 <td class="text-center">
-                    @*@Html.ActionLink(Messages.Modifier, "Edit", "CoursSuivi", new {coursReussi = item.id_CoursReussi, personne = item.id_Pers}, null) |
-                    @Html.ActionLink(Messages.Supprimer, "Delete", "CoursSuivi", new {coursReussi = item.id_CoursReussi, personne = item.id_Pers}, null)*@
                     <a href="@Url.Action("Edit", "CoursSuivi",new { coursReussi = item.id_CoursReussi, personne = item.id_Pers })"><i class="material-icons">edit</i></a>
                     <a href="@Url.Action("Delete", "CoursSuivi",new { coursReussi = item.id_CoursReussi, personne = item.id_Pers })"><i class="material-icons">delete</i></a>
                 </td>

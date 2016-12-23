@@ -66,8 +66,6 @@
                 @Html.DisplayFor(modelItem => item.Actif)
             </td>
             <td class="text-center">
-                @*@Html.ActionLink(Messages.Modifier, "Edit", new { id = item.id_ProgEtu }) |
-                @Html.ActionLink(Messages.Supprimer, "Delete", new { id = item.id_ProgEtu })*@
                 <a href="@Url.Action("Edit", null,new {id = item.id_ProgEtu})"><i class="material-icons">edit</i></a>
                 <a href="@Url.Action("Delete", null,new {id = item.id_ProgEtu})"><i class="material-icons">delete</i></a>
             </td>

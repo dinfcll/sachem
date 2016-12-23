@@ -93,7 +93,6 @@
                         @Html.DisplayFor(model => item.nomsConcatenesProfs)
                     </td>
                     <td class="text-center">
-                        @*@Html.ActionLink(Messages.Consulter, "Details", new { idCours = item.id_Cours, idSess = ViewBag.Sessionchoisie })*@
                         <a href="@Url.Action("Details", null, new {idCours = item.id_Cours, idSess = ViewBag.Sessionchoisie})">
                             <i class="material-icons">visibility</i>
                         </a>

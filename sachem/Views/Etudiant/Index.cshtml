@@ -22,7 +22,6 @@
     @Html.Partial("_RechercheEtudiant")
 }
 <div style="margin-top: 5px; margin-bottom: 10px;">
-    @*@Html.ActionLink(Messages.EtudiantAjouterTitre, "Create", null, null, new {@class = "btn btn-default"})*@
     <a class="btn btn-default" href="@Url.Action("Create")"><i class="material-icons">add</i>@Messages.EtudiantAjouterTitre</a>
 </div>
     <table class="table">
@@ -66,8 +65,6 @@
                     @Html.DisplayFor(modelItem => item.progEtuActif.NomProg)
                 </td>
                 <td class="text-center">
-                    @*@Html.ActionLink(Messages.Modifier, "Edit", new { id = item.personne.id_Pers }) |
-                    @Html.ActionLink(Messages.Supprimer, "Delete", new { id = item.personne.id_Pers })*@
                     <a href="@Url.Action("Edit", null,new {id = item.personne.id_Pers})"><i class="material-icons">edit</i></a>
                     <a href="@Url.Action("Delete", null,new {id = item.personne.id_Pers})"><i class="material-icons">delete</i></a>
                 </td>

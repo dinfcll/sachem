@@ -42,7 +42,6 @@
                 @if (SachemIdentite.ObtenirTypeUsager(Session) == TypeUsager.Etudiant)
                 {
                     <li>
-                        @*@Html.ActionLink(Messages.DossierEtudiantMon, "Details", "DossierEtudiant", new { id = BrowserSessionBag.Current.id_Inscription } , null)*@
                         <a href="@Url.Action("Details", "DossierEtudiant", new {id = BrowserSessionBag.Current.id_Inscription})">
                             <i class="material-icons">account_box</i>@Messages.DossierEtudiantMon
                         </a>
@@ -52,7 +51,6 @@
                 @if (SachemIdentite.ObtenirTypeUsager(Session) == TypeUsager.Etudiant && (int)SachemIdentite.ObtenirTypeInscription(Session) > (int)TypeInscription.EleveAide)
                 {
                     <li>
-                        @*@Html.ActionLink(Messages.DossierEtudiant, "Index", "DossierEtudiant")*@
                         <a href="@Url.Action("Details", "DossierEtudiant", new {id = BrowserSessionBag.Current.id_Inscription})">
                             <i class="material-icons">assignment_ind</i>@Messages.DossierEtudiant
                         </a>
@@ -62,13 +60,11 @@
                 @if (SachemIdentite.TypeListeProf.Contains(SachemIdentite.ObtenirTypeUsager(Session)))
                 {
                     <li>
-                        @*@Html.ActionLink(Messages.DossierEtudiant, "Index", "DossierEtudiant")*@
                         <a href="@Url.Action("Index", "DossierEtudiant")">
                             <i class="material-icons">assignment_ind</i>@Messages.DossierEtudiant
                         </a>
                     </li>
                     <li>
-                        @*@Html.ActionLink(Messages.CoursEnseignes, "Index", "ConsulterCours")*@
                         <a href="@Url.Action("Index", "ConsulterCours")">
                             <i class="material-icons">local_library</i>@Messages.CoursEnseignes
                         </a>
