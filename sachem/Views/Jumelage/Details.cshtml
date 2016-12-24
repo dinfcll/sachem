@@ -1,7 +1,8 @@
-﻿@model sachem.Models.Inscription
+﻿@using sachem.Models
+@model Inscription
 
 @{
-    ViewBag.Title = "Jumelage";
+    ViewBag.Title = Messages.Jumelage;
 }
 
 <h2>@ViewBag.Title</h2>
@@ -12,7 +13,7 @@
     @ViewBag.Erreur
 </p>
 <div>
-    <h4 class="page-header">Identification de l'étudiant</h4>
+    <h4 class="page-header">@Messages.IdentificationEtudiant</h4>
     <dl class="dl-horizontal col-sm-6" style="right:0;margin-top:0;position:absolute;">
         <dt>
             @Html.DisplayNameFor(model => model.p_TypeInscription.TypeInscription)
@@ -27,34 +28,9 @@
         </dt>
 
         <dd>
-            @{  String count;
-                if (Model.p_TypeInscription.id_TypeInscription == 1)
-                {
-                    count = ((sachem.Controllers.JumelageController)this.ViewContext.Controller).RetourneNbreJumelageEtudiant(Model.Jumelage.Count());
-                }
-                else
-                {
-                    count = ((sachem.Controllers.JumelageController)this.ViewContext.Controller).RetourneNbreJumelageEtudiant(Model.Jumelage1.Count());
-                }
-            }
+            @{var count = ((sachem.Controllers.JumelageController) ViewContext.Controller).RetourneNbreJumelageEtudiant(Model.p_TypeInscription.id_TypeInscription == 1 ? Model.Jumelage.Count: Model.Jumelage1.Count);}
             @(count)
         </dd>
-        @*<dt>Doit afficher d'autres resultats lorsque les autres features seront prets (ceux des questionnaires)</dt>
-    <dt>
-        @Html.Label("[WIP FORMULAIRE] Nombre d'heures que l'étudiant est prêt à faire par semaine ( 1 rencontre = 1h30)")
-    </dt>
-
-    <dd>
-        @Html.Label("[WIP FORMULAIRE] Reponse - 3hrs")
-    </dd>
-
-    <dt>
-        @Html.Label("[WIP FORMULAIRE] Etudiant est-il prêt à faire deux rencontres de suite")
-    </dt>
-
-    <dd>
-        @Html.Label("[WIP FORMULAIRE] Reponse - Oui")
-    </dd>*@
     </dl>
     <dl class="dl-horizontal col-sm-12">
         <dt>
@@ -94,7 +70,14 @@
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Personne.Telephone)
+            @if (string.IsNullOrEmpty(Model.Personne.Telephone))
+            {
+                @Html.DisplayFor(model => model.Personne.Telephone)
+            }
+            else
+            {
+                @($"{Convert.ToUInt64(Html.ValueFor(model => model.Personne.Telephone).ToString()):(###) ###-####}")
+            }
         </dd>
     </dl>
     
@@ -102,16 +85,14 @@
 
 @using (Html.BeginForm("Details", "Jumelage", FormMethod.Post, new { @class = "form-inline", role = "form" }))
 {
-    <h4 class="page-header">Disponibilités</h4>
     @Html.Partial("_Disponibilites")
 }
 
-@*if futur sur: etudiant veut etre encore jumeler, afficher la zone de jumelage possible*@
 @using (Html.BeginForm("Details", "Jumelage", FormMethod.Post, new { @class = "form-inline", role = "form" }))
 {
     @Html.Partial("_JumelagesPossibles")
 }
-@*else*@
+
 @using (Html.BeginForm("Details", "Jumelage", FormMethod.Post, new { @class = "form-inline", role = "form" }))
 {
     @Html.Partial("_JumelagesAvec")

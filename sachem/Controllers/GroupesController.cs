@@ -5,7 +5,7 @@ using System.Net;
 using System.Web.Mvc;
 using PagedList;
 using sachem.Models;
-using sachem.Classes_Sachem;
+using sachem.Methodes_Communes;
 
 namespace sachem.Controllers
 {
@@ -60,7 +60,7 @@ namespace sachem.Controllers
         public ActionResult Create(int? idEns)
         {
             int? idPers = (int?) Session["id_Pers"] ?? -1;
-            var verif = SachemIdentite.ObtenirTypeUsager(Session) == TypeUsagers.Responsable;
+            var verif = SachemIdentite.ObtenirTypeUsager(Session) == TypeUsager.Responsable;
             ViewBag.id_Cours = new SelectList(_db.Cours.Where(x => x.Actif).OrderBy(x => x.Code), "id_Cours", "CodeNom");
             var ens = from c in _db.Personne where c.id_TypeUsag == 2 && (verif || c.id_Pers == (idPers == -1 ? c.id_Pers : idPers)) && c.Actif orderby c.Nom, c.Prenom select c;
             ViewBag.id_Enseignant = new SelectList(ens, "id_Pers", "NomPrenom", idEns);
@@ -82,7 +82,7 @@ namespace sachem.Controllers
         public ActionResult Edit(int? id)
         {
             var idPers = (int?) Session["id_Pers"] ?? -1;
-            var verif = SachemIdentite.ObtenirTypeUsager(Session) == TypeUsagers.Responsable;
+            var verif = SachemIdentite.ObtenirTypeUsager(Session) == TypeUsager.Responsable;
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -102,7 +102,7 @@ namespace sachem.Controllers
 
         private string SDisabled()
         {
-            return (SachemIdentite.ObtenirTypeUsager(Session) == TypeUsagers.Enseignant ? "disabled" : "");
+            return SachemIdentite.ObtenirTypeUsager(Session) == TypeUsager.Enseignant ? "disabled" : "";
         }
 
         [HttpPost]
@@ -116,7 +116,7 @@ namespace sachem.Controllers
         [ValidationAcces.ValidationAccesEnseignant]
         private ActionResult CreateEdit([Bind(Include = "id_Groupe,id_Cours,id_Sess,id_Enseignant,NoGroupe")] Groupe groupe, bool ajouter = false)
         {
-            groupe.id_Enseignant = groupe.id_Enseignant ?? SessionBag.Current.id_Pers;
+            groupe.id_Enseignant = groupe.id_Enseignant ?? BrowserSessionBag.Current.id_Pers;
             Valider(groupe);
 
             if (ModelState.IsValid)
@@ -130,7 +130,7 @@ namespace sachem.Controllers
                     _db.Groupe.Add(groupe);
                 }
                 _db.SaveChanges();
-                TempData["Questions"] = string.Format(Messages.GroupeCreeAssocierEtudiant(groupe.NoGroupe));
+                TempData["Questions"] = string.Format(Messages.GroupesAjouterQuestionAssocierEtudiants(groupe.NoGroupe));
                 TempData["idg"] = groupe.id_Groupe;
                 return RedirectToAction("Index");
             }
@@ -152,7 +152,7 @@ namespace sachem.Controllers
 
             if (_db.GroupeEtudiant.Any(ge => ge.id_Groupe == id))
             {
-                ViewBag.Error = Messages.VraimentSupprimerGroupeAvecEtudiantsRattaches(groupe.NoGroupe);
+                ViewBag.Error = Messages.GroupesSupprimerQuestionEtudiantsRattaches(groupe.NoGroupe);
             }
 
             if (groupe == null)
@@ -169,16 +169,14 @@ namespace sachem.Controllers
         {
             var groupe = _db.Groupe.Find(id);
 
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid) return RedirectToAction("Index");
+            foreach (var x in (from c in _db.GroupeEtudiant where c.id_Groupe == groupe.id_Groupe select c))
             {
-                foreach (var x in (from c in _db.GroupeEtudiant where c.id_Groupe == groupe.id_Groupe select c))
-                {
-                    _db.GroupeEtudiant.Remove(x);
-                }
-                _db.Groupe.Remove(groupe);
-                _db.SaveChanges();
-                TempData["Success"] = string.Format(Messages.GroupeSupprime(groupe.NoGroupe));
+                _db.GroupeEtudiant.Remove(x);
             }
+            _db.Groupe.Remove(groupe);
+            _db.SaveChanges();
+            TempData["Success"] = string.Format(Messages.GroupesSupprimerReussi(groupe.NoGroupe));
 
             return RedirectToAction("Index");
         }
@@ -186,8 +184,8 @@ namespace sachem.Controllers
         private IEnumerable<Groupe> Rechercher(int? id)
         {
             var idPers = (int?) Session["id_Pers"] ?? -1;
-            var verif = SachemIdentite.ObtenirTypeUsager(Session) == TypeUsagers.Responsable;
-            int idSess = 0, idEns = (SachemIdentite.ObtenirTypeUsager(Session) == TypeUsagers.Enseignant ? idPers : 0), idCours = 0;
+            var verif = SachemIdentite.ObtenirTypeUsager(Session) == TypeUsager.Responsable;
+            int idSess = 0, idEns = SachemIdentite.ObtenirTypeUsager(Session) == TypeUsager.Enseignant ? idPers : 0, idCours = 0;
 
             if (Request.RequestType == "GET" && Session["DernRechCours"] != null && Session["DernRechCoursUrl"].ToString() == Request.Url?.LocalPath)
             {
@@ -242,8 +240,8 @@ namespace sachem.Controllers
             Session["DernRechCoursUrl"] = Request.Url?.LocalPath;
 
             ViewBag.Sessions = new SelectList(_db.Session.OrderByDescending(s => s.id_Sess), "id_Sess", "NomSession", idSess);
-            ViewBag.Enseignants = new SelectList((verif ? ObtenirListeEnseignant(idSess): _db.Personne.AsNoTracking().Where(e => e.id_TypeUsag == 2 && e.id_Pers == idPers)
-                                                    .Select(e => new { e.id_Pers, NomPrenom = e.Nom + ", " + e.Prenom }).AsEnumerable()), "id_Pers", "NomPrenom", idEns);
+            ViewBag.Enseignants = new SelectList(verif ? ObtenirListeEnseignant(idSess): _db.Personne.AsNoTracking().Where(e => e.id_TypeUsag == 2 && e.id_Pers == idPers)
+                                                    .Select(e => new { e.id_Pers, NomPrenom = e.Nom + ", " + e.Prenom }).AsEnumerable(), "id_Pers", "NomPrenom", idEns);
             ViewBag.Cours = new SelectList(ObtenirListeCours(idSess,idEns), "id_Cours", "CodeNom", idCours);
 
 
@@ -289,12 +287,12 @@ namespace sachem.Controllers
                 var firstOrDefault = _db.GroupeEtudiant.Where(x => x.id_Etudiant == idp).FirstOrDefault(x => x.id_Groupe == idg);
 
                 if (firstOrDefault != null)
-                    TempData["ErrorAjoutEleve"] = Messages.EtudiantAjouteDeuxFoisAuGroupe(firstOrDefault.Personne.Matricule7);
+                    TempData["ErrorAjoutEleve"] = Messages.GroupesAjouterEtudiantsErreur(firstOrDefault.Personne.Matricule7);
 
                 var groupeEtudiant = _db.GroupeEtudiant.Where(x => x.id_Etudiant == idp).FirstOrDefault(x => x.id_Groupe == idg);
 
                 if (groupeEtudiant != null)
-                    ModelState.AddModelError(string.Empty, Messages.EtudiantAjouteDeuxFoisAuGroupe(groupeEtudiant.Personne.Matricule7));
+                    ModelState.AddModelError(string.Empty, Messages.GroupesAjouterEtudiantsErreur(groupeEtudiant.Personne.Matricule7));
             }
 
             if (ModelState.IsValid)
@@ -307,8 +305,8 @@ namespace sachem.Controllers
                         TempData["idGe"] = firstOrDefault.id_GroupeEtudiant;
                     TempData["personne"] = p.id_Pers;
                     TempData["idgcible"] = g.NoGroupe;
-                    TempData["ErrorDep"] = Messages.VraimentDeplacerEtudiant(p.PrenomNom);
-                    ModelState.AddModelError(string.Empty, Messages.VraimentDeplacerEtudiant(p.PrenomNom));
+                    TempData["ErrorDep"] = Messages.GroupesAjouterEtudiantsQuestion(p.PrenomNom);
+                    ModelState.AddModelError(string.Empty, Messages.GroupesAjouterEtudiantsQuestion(p.PrenomNom));
                 }
 
                 if (ModelState.IsValid)
@@ -323,7 +321,7 @@ namespace sachem.Controllers
                     g.GroupeEtudiant.Add(ge);
 
                     _db.SaveChanges();
-                    TempData["Success"] = string.Format(Messages.EtudiantAjouteAuGroupe(p.Matricule7, g.id_Groupe));
+                    TempData["Success"] = string.Format(Messages.GroupesAjouterEtudiantReussi(p.Matricule7, g.id_Groupe));
                 }
             }
             return RedirectToAction("AjouterEleve", new { idg, ViewBag.page });
@@ -353,7 +351,7 @@ namespace sachem.Controllers
         {
             GroupeEtudiant ge = _db.GroupeEtudiant.Find(id);
 
-            TempData["Success"] = string.Format(Messages.EudiantRetireDuGroupe(ge.Personne.Matricule7, ge.Groupe.NoGroupe));
+            TempData["Success"] = string.Format(Messages.GroupesRetirerEtudiantsReussi(ge.Personne.Matricule7, ge.Groupe.NoGroupe));
             _db.GroupeEtudiant.Remove(ge);
             _db.SaveChanges();
 
@@ -405,13 +403,13 @@ namespace sachem.Controllers
 
             if ( ge2 != null && ge.Groupe.id_Sess == ge2.Groupe.id_Sess && ge.id_Etudiant == ge2.id_Etudiant)
             {
-                TempData["Success"] = Messages.EtudiantDeplacementDeCoursImpossible(ge.Personne.Matricule7, g.NoGroupe, g.Cours.Nom);
+                TempData["Success"] = Messages.GroupesDeplacerEtudiantErreur(ge.Personne.Matricule7, g.NoGroupe, g.Cours.Nom);
             }
             else 
             {
                 ge.Groupe = g;
                 _db.SaveChanges();
-                TempData["Success"] = Messages.EtudiantDeplacementDeGroupe(ge.Personne.Matricule7, g.NoGroupe, g.Cours.Nom);
+                TempData["Success"] = Messages.GroupesDeplacerEtudiantReussi(ge.Personne.Matricule7, g.NoGroupe, g.Cours.Nom);
             }
 
             return RedirectToAction("Index");
@@ -441,7 +439,7 @@ namespace sachem.Controllers
         {
             if (_db.Groupe.Any(r => r.NoGroupe == groupe.NoGroupe && r.id_Sess == groupe.id_Sess && r.id_Cours == groupe.id_Cours))
             {
-                ModelState.AddModelError(string.Empty, Messages.GroupeAyantLeMemeNumero(groupe.NoGroupe)); 
+                ModelState.AddModelError(string.Empty, Messages.GroupesAjouterErreurMemeNumero(groupe.NoGroupe)); 
             }
         }
 

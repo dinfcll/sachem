@@ -1,24 +1,24 @@
-﻿@using sachem.Models
+﻿@using sachem.Methodes_Communes
+@using sachem.Models
 @model Inscription
 
 @{
-    ViewBag.Title = "Contrat d'engagement";
-    var TypeUsager = SachemIdentite.ObtenirTypeUsager(Session);
+    ViewBag.Title = Messages.ContratTitre;
 }
 
 <h2>@ViewBag.Title</h2>
 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
 
-<h3>@sachem.Models.Messages.CE_JeMengageA</h3><br />
+<h3>@Messages.ContratJeMengageA</h3><br />
 <div class="form-group">
     <ul>
-        <li>@sachem.Models.Messages.CE_Close1</li>
-        <li>@sachem.Models.Messages.CE_Close2</li>
-        <li>@sachem.Models.Messages.CE_Close3</li>
-        <li>@sachem.Models.Messages.CE_Close4</li>
-        <li>@sachem.Models.Messages.CE_Close5</li>
-        <li>@sachem.Models.Messages.CE_Close6</li>
+        <li>@Messages.ContratClause1</li>
+        <li>@Messages.ContratClause2</li>
+        <li>@Messages.ContratClause3</li>
+        <li>@Messages.ContratClause4</li>
+        <li>@Messages.ContratClause5</li>
+        <li>@Messages.ContratClause6</li>
     </ul>
 </div>
 
@@ -27,28 +27,28 @@
     using (Html.BeginForm("Index", "ContratEngagement", FormMethod.Post, new { @class = "form-inline", role = "form" }))
     {
         @Html.HiddenFor(m => m.id_Inscription)
-        @Html.CheckBox("confirmationSignatureContrat", new { htmlAttributes = new { @class = "form-control", @required = sachem.Models.Messages.ChampRequis } })
-        if (TypeUsager == TypeUsagers.Etudiant || TypeUsager == TypeUsagers.Eleve)
+        @Html.CheckBox("confirmationSignatureContrat", new { htmlAttributes = new { @class = "form-control", required = Messages.ChampRequis } })
+        if (SachemIdentite.ObtenirTypeUsager(Session) == TypeUsager.Etudiant && (int)SachemIdentite.ObtenirTypeInscription(Session) > (int)TypeInscription.EleveAide)
         {
-            <span>@sachem.Models.Messages.CE_Close7</span>
+            <span>@Messages.ContratClause8</span>
         }
-        else if (TypeUsager == TypeUsagers.Tuteur)
+        else
         {
-            <span>@sachem.Models.Messages.CE_Close8</span>
+            <span>@Messages.ContratClause7</span>
         }
 
-        <h3 style="background-color: aliceblue; text-align: center; height: 32px">Confirmation</h3>
+        <h3 style="background-color: aliceblue; text-align: center; height: 32px">@Messages.Confirmation</h3>
         <table class="table-condensed">
         <tr>
-            <td>Mot de passe </td>
-            <td>@Html.Editor("motDePasse", new {htmlAttributes = new {@class = "form-control", @type = "password", @required = sachem.Models.Messages.ChampRequis } })
-            <td><input type="submit" value="Enregistrer" class="btn btn-default"/></td>
-            <td><input type="button" value="Annuler" onclick="location.href = '@Url.Action("LogOff", "Account")'" class="btn btn-default"/></td>
+            <td>@Messages.MotDePasse</td>
+            <td>@Html.Editor("motDePasse", new {htmlAttributes = new {@class = "form-control", type = "password", required = Messages.ChampRequis } })
+            <td><input type="submit" value="@Messages.Enregistrer" class="btn btn-default"/></td>
+            <td><input type="button" value="@Messages.Annuler" onclick="location.href = '@Url.Action("LogOff", "Account")'" class="btn btn-default"/></td>
         </tr>
     </table>
     }
 }
 else
 {
-    <b>@sachem.Models.Messages.CE_Confirmation</b>
+    <b>@Messages.ContratConfirmation</b>
 }

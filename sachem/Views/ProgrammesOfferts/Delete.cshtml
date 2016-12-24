@@ -1,11 +1,12 @@
-﻿@model sachem.Models.ProgrammeEtude
+﻿@using sachem.Models
+@model ProgrammeEtude
 @{
-    ViewBag.Title = "Supprimer un programme d'études";
+    ViewBag.Title = Messages.ProgrammesSupprimerTitre;
 }
 
 <h2>@ViewBag.Title</h2>
 
-<h3>@sachem.Models.Messages.VraimentSupprimerProgrammeEtude(Model.NomProg)</h3>
+<h3>@Messages.ProgrammeSupprimerQuestion(Model.NomProg)</h3>
 <div>
     <hr />
     <dl class="dl-horizontal">
@@ -46,8 +47,8 @@
     @using (Html.BeginForm("Delete", "ProgrammesOfferts", FormMethod.Post, new { @class = "form-inline", role = "form" }))
     {
         <div class="form-actions no-color">
-            <input type="submit" value="Supprimer" class="btn btn-default" />
-            @Html.ActionLink("Annuler", "Index", null, null, new { @class = "btn btn-default" })
+            <input type="submit" value="@Messages.Supprimer" class="btn btn-default" />
+            @Html.ActionLink(Messages.Annuler, "Index", null, null, new { @class = "btn btn-default" })
         </div>
     }
 </div>

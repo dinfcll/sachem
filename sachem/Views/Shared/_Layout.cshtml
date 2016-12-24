@@ -1,115 +1,176 @@
-﻿@using sachem.Models
+﻿@using sachem.Methodes_Communes
+@using sachem.Models
 <!DOCTYPE html>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <meta charset="utf-8" />
+    <meta http-equiv="content-language" content="fr">
+    <meta name="description" content="@System.Configuration.ConfigurationManager.AppSettings.Get("descriptionDuSite")">
+    <meta name="author" content="Département d'informatique du Cégep de Lévis-Lauzon (https://github.com/dinfcll/sachem) - Étudiants et enseignants en informatique de gestion de 2016 à 2017">
+    <meta name="geo.position" content="46.817918;-71.150576">
+    <meta name="geo.placename" content="Cégep de Lévis-Lauzon">
+    <meta name="geo.region" content="CA-QC">
+    <meta name="ICBM" content="46.817918;-71.150576">
+    <link href="http://cll.qc.ca/admin/wp-content/themes/clevislauzon/img/favicon.ico" type="image/x-icon" rel="shortcut icon">
+    <link href="http://cll.qc.ca/admin/wp-content/themes/clevislauzon/img/favicon.png" type="image/png" rel="shortcut icon">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - SACHEM</title>
+    <title>@ViewBag.Title - @System.Configuration.ConfigurationManager.AppSettings.Get("nomDuSite").ToUpper()</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
-    @Scripts.Render("~/Scripts/jquery-1.10.2.js")
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
-          rel="stylesheet">
-</head>
-<body>
-    <div class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <div class="logo">
-                    <div class="cll"><div class="nomSite">sachem</div></div>                    
-                </div>
-                <span style="padding-left:180px;"></span>
-            </div>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    @*On accède à la présente session afin de voir si l'on peut afficher certains éléments*@
-                    <!--Ces liens sont à changer selon les controlleurs/vues des équipes.-->
-
-                    
-                    <!--Si c'est un étudiant.-->
-                    @if (SachemIdentite.ObtenirTypeUsager(Session) == TypeUsagers.Eleve || SachemIdentite.ObtenirTypeUsager(Session) == TypeUsagers.Tuteur)
-                    {
-                        <li>
-                            @Html.ActionLink("Mon Dossier", "Details", "DossierEtudiant", new { id = SessionBag.Current.id_Inscription } , null)
-                        </li>
-                    }
-                    
-                        <!--Si c'est un tuteur.TODO: restriction tuteur-->
-                        @if (SachemIdentite.ObtenirTypeUsager(Session) == TypeUsagers.Tuteur)
-                        {
-                            <li>
-                                @Html.ActionLink("Dossier étudiant", "Index", "DossierEtudiant")
-                            </li>
-                        }
-
-                    <!--Si c'est un Enseignant et +.-->
-                   @if (SachemIdentite.TypeListeProf.Contains(SachemIdentite.ObtenirTypeUsager(Session)))
-                   {
-                    <li>
-                        @Html.ActionLink("Dossier étudiant", "Index", "DossierEtudiant")
-                    </li>
-                    <li>
-                        @Html.ActionLink("Cours enseignés", "Index", "ConsulterCours")
-                    </li>
-                        <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Administration <b class="caret"></b> </a>
-
-                            <ul class="dropdown-menu">
-                            @if (SachemIdentite.TypeListeAdmin.Contains(SachemIdentite.ObtenirTypeUsager(Session)))
-                            {
-                                <li>@Html.ActionLink("Collège", "EditCollege", "Parametres")</li>
-                                <li>@Html.ActionLink("Contact", "EditContact", "Parametres")</li>
-                                <li>@Html.ActionLink("Cours", "Index", "Cours")</li>
-                                <li>@Html.ActionLink("Courriel de confirmation", "EditCourrier", "Parametres")</li>
-                                <li>@Html.ActionLink("Enseignants", "Index", "Enseignant")</li>
-                            }
-                                <li>@Html.ActionLink("Étudiants", "Index", "Etudiant")</li>
-                                <li>@Html.ActionLink("Groupes", "Index", "Groupes")</li>
-                            @if (SachemIdentite.TypeListeAdmin.Contains(SachemIdentite.ObtenirTypeUsager(Session)))
-                            {
-                                <li>@Html.ActionLink("Horaire d'inscription", "EditHoraire", "Parametres")</li>
-                                <li>@Html.ActionLink("Inscription", "Index", "RechercheInscription")</li>
-                                <li>@Html.ActionLink("Jumelages", "Index", "Jumelage")</li>
-                                <li>@Html.ActionLink("Programmes offerts", "Index", "ProgrammesOfferts")</li>
-                                <li>@Html.ActionLink("Importer données", "Index", "Importer")</li>
-                            }
-                            </ul>
-                        </li>
-                    } 
-                </ul>
-                @Html.Partial("_LoginPartial")
-            </div>
-        </div>
-    </div>
-    <div class="container body-content">
-        <div class="progres hide" id="mainProgressBar">
-            <div class="indeterminate"></div>
-        </div>
-        @RenderBody()
-        <hr />
-        <footer>
-            <p>&copy; @DateTime.Now.Year - SACHEM -
-            <a href="@Url.Action("Contact", "Home")">
-                <span class="glyphicon glyphicon-phone"></span><span>&nbsp; Nous contacter</span>
-            </a></p>
-        </footer>
-    </div>
-    <script type="text/javascript">
-        window.onbeforeunload = function () {
-            $("#mainProgressBar").removeClass('hide');
-        }
-        window.onload = function () {
-            $("#mainProgressBar").addClass('hide');
-        }
-    </script> 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
-    @RenderSection("scripts", required: false)
+        
+</head>
+<body>
+<div class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <div class="logo">
+                <div class="cll"><div class="nomSite">@System.Configuration.ConfigurationManager.AppSettings.Get("nomDuSite")</div></div>                    
+            </div>
+            <span class="espacementLogoEtNomSite"></span>
+        </div>
+        <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+
+                @if (SachemIdentite.ObtenirTypeUsager(Session) == TypeUsager.Etudiant)
+                {
+                    <li>
+                        <a href="@Url.Action("Details", "DossierEtudiant", new {id = BrowserSessionBag.Current.id_Inscription})">
+                            <i class="material-icons">account_box</i>@Messages.DossierEtudiantMon
+                        </a>
+                    </li>
+                }
+                    
+                @if (SachemIdentite.ObtenirTypeUsager(Session) == TypeUsager.Etudiant && (int)SachemIdentite.ObtenirTypeInscription(Session) > (int)TypeInscription.EleveAide)
+                {
+                    <li>
+                        <a href="@Url.Action("Details", "DossierEtudiant", new {id = BrowserSessionBag.Current.id_Inscription})">
+                            <i class="material-icons">assignment_ind</i>@Messages.DossierEtudiant
+                        </a>
+                    </li>
+                }
+
+                @if (SachemIdentite.TypeListeProf.Contains(SachemIdentite.ObtenirTypeUsager(Session)))
+                {
+                    <li>
+                        <a href="@Url.Action("Index", "DossierEtudiant")">
+                            <i class="material-icons">assignment_ind</i>@Messages.DossierEtudiant
+                        </a>
+                    </li>
+                    <li>
+                        <a href="@Url.Action("Index", "ConsulterCours")">
+                            <i class="material-icons">local_library</i>@Messages.CoursEnseignes
+                        </a>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="material-icons">developer_board</i>@Messages.Administration <b class="caret"></b></a>
+
+                        <ul class="dropdown-menu">
+                            @if (SachemIdentite.TypeListeAdmin.Contains(SachemIdentite.ObtenirTypeUsager(Session)))
+                            {
+                                <li>
+                                    <a href="@Url.Action("EditCollege", "Parametres")">
+                                        <i class="material-icons">account_balance</i>@Messages.College
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="@Url.Action("EditCollege", "Parametres")">
+                                        <i class="material-icons">perm_phone_msg</i>@Messages.Contact
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="@Url.Action("Index", "Cours")">
+                                        <i class="material-icons">local_library</i>@Messages.Cours
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="@Url.Action("EditCourrier", "Parametres")">
+                                        <i class="material-icons">mail</i>@Messages.Courriel
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="@Url.Action("Index", "Enseignant")">
+                                        <i class="material-icons">supervisor_account</i>@Messages.Enseignants
+                                    </a>
+                                </li>
+                            }
+                            <li>
+                                <a href="@Url.Action("Index", "Etudiant")">
+                                    <i class="material-icons">person</i>@Messages.Etudiants
+                                </a>
+                            </li>
+                            <li>
+                                <a href="@Url.Action("Index", "Groupes")">
+                                    <i class="material-icons">group_work</i>@Messages.Groupes
+                                </a>
+                            </li>
+                            @if (SachemIdentite.TypeListeAdmin.Contains(SachemIdentite.ObtenirTypeUsager(Session)))
+                            {
+                                <li>
+                                    <a href="@Url.Action("EditHoraire", "Parametres")">
+                                        <i class="material-icons">watch_later</i>@Messages.Horaire
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="@Url.Action("Index", "RechercheInscription")">
+                                        <i class="material-icons">assignment</i>@Messages.Inscription
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="@Url.Action("Index", "Jumelage")">
+                                        <i class="material-icons">group</i>@Messages.Jumelages
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="@Url.Action("Index", "ProgrammesOfferts")">
+                                        <i class="material-icons">school</i>@Messages.ProgrammeEtude
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="@Url.Action("Index", "Importer")">
+                                        <i class="material-icons">open_in_browser</i>@Messages.ImporterTitre
+                                    </a>
+                                </li>
+                            }
+                        </ul>
+                    </li>
+                } 
+            </ul>
+            @Html.Partial("_LoginPartial")
+        </div>
+    </div>
+</div>
+<div class="container body-content">
+    <div class="progres hide" id="mainProgressBar">
+        <div class="indeterminate"></div>
+    </div>
+    @RenderBody()
+    <hr />
+    <footer>
+        <p>
+            <i class="material-icons">copyright</i> @DateTime.Now.Year - @System.Configuration.ConfigurationManager.AppSettings.Get("nomDuSite").ToUpper() -
+            <a href="@Url.Action("Contact", "Home")">
+                <i class="material-icons" style="font-size: 20px;">perm_phone_msg</i><span>@Messages.NousContacter</span>
+            </a>
+            <a style="float:right" href=@System.Configuration.ConfigurationManager.AppSettings.Get("ghProject") title="@Messages.ContacterGitHub" target="_blank"><img src="~/Images/gh.png" width="20" height="20" /></a>
+        </p>
+    </footer>
+</div>
+<script type="text/javascript">
+    window.onbeforeunload = function () {
+        $("#mainProgressBar").removeClass('hide');
+    }
+    window.onload = function () {
+        $("#mainProgressBar").addClass('hide');
+    }
+</script>
+@RenderSection("scripts", false)
 </body>
 </html>

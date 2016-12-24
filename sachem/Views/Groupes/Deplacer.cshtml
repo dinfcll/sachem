@@ -1,45 +1,44 @@
-﻿@model sachem.Models.GroupeEtudiant
+﻿@using sachem.Models
+@model GroupeEtudiant
 
 @{
-    ViewBag.Title = "Déplacer un élève dans un autre groupe";
+    ViewBag.Title = Messages.GroupesDeplacerEtudiantTitre;
 }
 <h2>@ViewBag.Title</h2>
-
-<div>    
-    <hr />
-
+ 
+<hr />
+<div class="form-horizontal">
+    <input type="hidden" display="none;" name="idGroupeEtudiant" value="@Model.id_GroupeEtudiant">
     <div class="form-group">
-        @Html.LabelFor(model => model.Personne.Nom, null, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div>
+        @Html.LabelFor(model => model.Personne.Nom, null, new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
             @Html.DisplayFor(model => model.Personne.NomPrenom)
         </div>
     </div>
 
     <div class="form-group">
-        @Html.LabelFor(model => model.Groupe.NoGroupe, null, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div>
+        @Html.LabelFor(model => model.Groupe.NoGroupe, null, new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
             @Html.DisplayFor(model => model.Groupe.NoGroupe)
         </div>
     </div>
 
-    @using (Html.BeginForm()) {
+    @using (Html.BeginForm())
+    {
         @Html.AntiForgeryToken()
 
         <div class="form-group">
-            @Html.LabelFor(model => model.Groupe.NoGroupe, "Groupe cible", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div>
-                @Html.DropDownList("id_groupedepl", null, htmlAttributes: new { @class = "form-control" })
+            @Html.LabelFor(model => model.Groupe.NoGroupe, null, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("id_groupedepl", null, new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.id_GroupeEtudiant, "", new { @class = "text-danger" })
             </div>
         </div>
-
-        <input type="hidden" display="none;" name="idGroupeEtudiant" value="@Model.id_GroupeEtudiant"> 
-
-       <div class="form-group">
-            <div class="col-md-offset-2">
-                <input type="submit" value="Déplacer vers ce groupe" class="btn btn-default" /> 
-                @Html.ActionLink("Annuler", "Edit", null, new { id = Model.Groupe.id_Groupe }, new { @class = "btn btn-default" })
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="@Messages.GroupesEtudiantDeplacer" class="btn btn-default" />
+                @Html.ActionLink(Messages.Annuler, "Edit", null, new { id = Model.Groupe.id_Groupe }, new { @class = "btn btn-default" })
             </div>
-       </div>
+        </div>
     }
 </div>

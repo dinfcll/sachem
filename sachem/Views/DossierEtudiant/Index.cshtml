@@ -1,6 +1,7 @@
-﻿@model IEnumerable<sachem.Models.Inscription>
+﻿@using sachem.Models
+@model PagedList.IPagedList<Inscription>
 @{
-    ViewBag.Title = "Dossier d'étudiant";
+    ViewBag.Title = Messages.DossierEtudiantRechercheTitre;
 }
 
 <h2>@ViewBag.Title</h2>
@@ -19,10 +20,10 @@
         <th class="col-sm-1">
             @Html.DisplayNameFor(model => model.First().Personne.Matricule7)
         </th>
-        <th class="col-sm-3">
+        <th class="col-sm-4">
             @Html.DisplayNameFor(model => model.First().p_TypeInscription.TypeInscription)
         </th>
-        <th class="col-sm-2"></th>
+        <th class="col-sm-1"></th>
     </tr>
 
     @foreach (var item in Model)
@@ -37,18 +38,16 @@
             <td>
                 @Html.DisplayFor(modelItem => item.p_TypeInscription.TypeInscription)
             </td>
-            <td>
-                @Html.ActionLink("Consulter dossier", "details", new { id = item.id_Inscription })
+            <td class="text-center">
+                <a href="@Url.Action("details", null,new {id = item.id_Inscription})"><i class="material-icons">visibility</i></a>
             </td>
         </tr>
     }
 
-
-
     @if (!Model.Any())
     {
         <tr>
-            <td colspan="6">@sachem.Models.Messages.AucunDossierEtudiant</td>
+            <td colspan="6">@Messages.AucunDossierEtudiant</td>
         </tr>
     }
 </table>

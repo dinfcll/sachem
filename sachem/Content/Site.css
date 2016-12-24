@@ -16,8 +16,9 @@
 
 .navbar-inverse .navbar-nav > li > a {
   color: #dddddd;
+    padding-left: 10px;
+    padding-right: 10px;
 }
-
 .navbar-inverse .navbar-toggle {
   border-color: #555555;
 }
@@ -29,9 +30,54 @@
 .cll {
     background-image: url('../Images/logo-cegep.png');  
     background-repeat:no-repeat;
-    background-position:left;
-    background-size: auto 70px;
+    background-position:0 -4px;
+    background-size: auto 74px;
     height: 70px; 
+}
+
+.espacementLogoEtNomSite {
+    padding-left:190px;
+}
+
+@font-face {
+  font-family: 'Material Icons';
+  font-style: normal;
+  font-weight: 400;
+  src: url(../fonts/MaterialIcons-Regular.eot); /* For IE6-8 */
+  src: local('Material Icons'),
+       local('MaterialIcons-Regular'),
+       url(../fonts/MaterialIcons-Regular.woff2) format('woff2'),
+       url(../fonts/MaterialIcons-Regular.woff) format('woff'),
+       url(../fonts/MaterialIcons-Regular.ttf) format('truetype');
+}
+
+.material-icons {
+    font-family: 'Material Icons';
+    font-weight: normal;
+    font-style: normal;
+    font-size: 20px;
+    position: relative;
+    margin-top: -5px;
+    margin-right: 5px;
+    top: 5px;
+    display: inline-block;
+    line-height: 1;
+    text-transform: none;
+    letter-spacing: normal;
+    word-wrap: normal;
+    white-space: nowrap;
+    direction: ltr;
+
+    /* Support for all WebKit browsers. */
+    -webkit-font-smoothing: antialiased;
+    /* Support for Safari and Chrome. */
+    text-rendering: optimizeLegibility;
+
+    /* Support for Firefox. */
+    -moz-osx-font-smoothing: grayscale;
+
+    /* Support for IE. */
+    font-feature-settings: 'liga';
 }
 
 @font-face {
@@ -42,14 +88,31 @@
 
 .nomSite {
     text-transform:uppercase;
-    margin-left:78px;
+    margin-left:82px;
     font-family:FontDuCegep;
     font-size:26px;
     padding-top:8px;
-    word-spacing:0px;
+    word-spacing:0;
     letter-spacing:2px;
     font-weight:900;
     color:#fff;
+}
+
+.recherche  div {
+    padding: 0;
+    margin: 0;
+}
+
+.row .recherche-label {
+    line-height: 32px;
+}
+.row .recherche-field{
+    padding-right: 20px;
+    margin-top: 0;
+    padding-bottom: 5px;
+}
+.row div:last-child .recherche-field{
+    padding-right: 0;
 }
 
 /* Override the default bootstrap behavior where horizontal description lists 
@@ -229,10 +292,7 @@ textarea {
 
 @media (max-width: 768px)
 {
-    .glyphicon-user{
-        display:none !important;
-    }
-    .glyphicon-log-in{
+    .nav .material-icons{
         display:none !important;
     }
 }
@@ -277,17 +337,38 @@ textarea {
   float:none;
 }
 
+/*login*/
+#login-btn-forgottenpswd { font-size:120%;font-weight: bolder;height:34px;border-bottom-left-radius: 0;border-top-left-radius: 0;}
+#input-pswd { float:left;width:245px;border-bottom-right-radius: 0;border-top-right-radius: 0;}
 
-
-
-
+/*field with build icon*/
+.btn-input-field-build { height: 34px; width:34px; } 
+.input-field-build { float: left;width: 245px; } 
+.btn-input-field-build-icon {margin-left:-6px;font-size:150%;}
 
 /* Inscription */
+.dropDownSess {
+    width: 150px;
+}
+.dropDownStatut {
+    width: 120px;
+}
 
-/*Tuteur de cours*/
 .rowCourseReussisPadTop {
     padding:10px 10px 10px 10px;
     border-bottom: 1px solid #eeeeee;
+}
+
+.checkboxinscr {
+    -webkit-appearance:none;
+    width:30px;
+    height:30px;
+    background:white;
+    border-radius:5px;
+    border:2px solid #555;
+}
+.checkboxinscr:checked {
+    background: #abd;
 }
 
 .ins-row {

@@ -1,8 +1,6 @@
-﻿@using Microsoft.AspNet.Identity
-@using sachem.Models
-
-<div class="row pageItemPadding">
-    <div class="col-md-6"><h5 class="hIns">@sachem.Models.Messages.InscriptionRencontresConsecutives</h5></div>
+﻿@using sachem.Models
+    <div class="row pageItemPadding">
+    <div class="col-md-6"><h5 class="hIns">@Messages.InscriptionRencontresConsecutives</h5></div>
     <div class="col-md-6">
         <div style="float:right">
             <input id="Q3" name="Q3radio" type="radio" checked/>oui
@@ -10,61 +8,48 @@
         </div>
     </div>
 </div>
-<h3 style="background-color:aliceblue">Informations spécifiques</h3>
+<h3 style="background-color:aliceblue">@Messages.InformationsSpecifiques</h3>
 <h5 id="erreur" style="color:red;"></h5>
-<h5 class="hIns">@sachem.Models.Messages.InscriptionCoursQueJaide</h5>
+<h5 class="hIns">@Messages.InscriptionCoursQueJaide</h5>
 <div class="clearfix pageItemPadding">
     <div class="col-md-9">
         <div class="row ins-row">
-            <div class="col-md-2">1er choix</div>            
-            <div class="col-md-6">@Html.DropDownList("lstCours", null, htmlAttributes: new { @class = "form-search ins-selectcours validecours"})</div>
+            <div class="col-md-2">@Messages.PremierChoix</div>            
+            <div class="col-md-6">@Html.DropDownList("lstCours", null, Messages.VeuillezChoisir, new { @class = "form-search ins-selectcours", name = "validecours" })</div>
             <div class="col-md-4"></div>
             </div>
         <div class="row ins-row">
-            <div class="col-md-2">2e choix</div>
-            <div class="col-md-6">@Html.DropDownList("lstCours", null, htmlAttributes: new { @class = "form-search ins-selectcours validecours" })</div>
+            <div class="col-md-2">@Messages.DeuxiemeChoix</div>
+            <div class="col-md-6">@Html.DropDownList("lstCours", null, Messages.VeuillezChoisir, new { @class = "form-search ins-selectcours", name = "validecours" })</div>
             <div class="col-md-4"></div>
         </div>
         <div class="row ins-row">
-            <div class="col-md-2">3e choix</div>
-            <div class="col-md-6">@Html.DropDownList("lstCours", null, htmlAttributes: new { @class = "form-search ins-selectcours validecours" })</div>
+            <div class="col-md-2">@Messages.TroisiemeChoix</div>
+            <div class="col-md-6">@Html.DropDownList("lstCours", null, Messages.VeuillezChoisir, new { @class = "form-search ins-selectcours", name = "validecours" })</div>
             <div class="col-md-4"></div>
         </div>
     </div>
 </div>
 <hr/>
 <br />
-<p>
-    <h5 class="hIns">
-        @sachem.Models.Messages.InscriptionCoursSuivis
-    </h5>
-</p>
-<div id="espaceCours">
-</div>
-<div style="padding-bottom:10px">
-    <input type="button" value="Ajouter un cours" class="btn btn-default ins-btnAjouter" id="btnAjouterCours" /><br /><br />
-    <input type="button" value="Enregistrer et poursuivre" class="btn btn-default" id="btnPoursuivre" />
-    <input type="button" value="Enregistrer un brouillon" class="btn btn-default" id="btnBrouillon" />
-    <input type="button" value="Annuler" class="btn btn-default" id="btnAnnuler" />
-</div>
+<h5 class="hIns">@Messages.InscriptionCoursSuivis</h5>
 
-<script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+@Html.Partial("_BoutonsNav")
+
 <script type="text/javascript">
-
     $(document).ready(function () {
-
-        listeCoursInteresse = function ()
+        var listeCoursInteresse = function ()
         {
             var aideCours = new Array();
-            $(".validecours").each(function () {
-                if (aideCours.indexOf($(this).val()) == -1) {
+            $(["validecours"]).each(function () {
+                if (aideCours.indexOf($(this).val()) === -1) {
                     aideCours.push($(this).val());
                 }
             });
 
             return aideCours;
-        }
-        afficherErreur = function ()
+        };
+        var afficherErreur = function ()
         {
             $.ajax({
                 url: "/Inscription/ErreurCours",
@@ -74,7 +59,7 @@
                 }
             });
         }
-        listeCoursReussis = function () {
+        var listeCoursReussis = function () {
             var infoCourCollegeNote = new Array();
 
             $(".InfoCourCollege").each(function (i) {
@@ -86,16 +71,13 @@
 
             return infoCourCollegeNote;
         }
-        activationInput = function ()
+        var activationInput = function ()
         {
             $(".btnSupprimerCours").click(function () {
                 $(this).parent().parent().remove();
             });
-            $(".ins-selectcours").change(function () {
-                var test = $(this).val();
-            });
             $(".InfoCourCollege").find($(".dropDownCours")).change(function () {
-                if ($(this).val() != "") {
+                if ($(this).val() !== "") {
                     $(this).closest(".InfoCourCollege").find($(".coursChange")).attr('disabled', 'disabled');
                     $(this).closest(".InfoCourCollege").find($(".coursChange")).val("");
                 }
@@ -104,7 +86,7 @@
                 }
             });
             $(".InfoCourCollege").find($(".dropDownCollege")).change(function () {
-                if ($(this).val() != "") {
+                if ($(this).val() !== "") {
                     $(this).closest(".InfoCourCollege").find($(".collegeChange")).attr('disabled', 'disabled');
                     $(this).closest(".InfoCourCollege").find($(".collegeChange")).val("");
                 }
@@ -114,7 +96,7 @@
             });
         }
 
-        ajouterLigneCours = function () {
+        var ajouterLigneCours = function () {
             $.ajax({
                 url: "/Inscription/getLigneCours",
                 type: "POST",
@@ -122,7 +104,7 @@
                     $("#espaceCours").append(donnees);
                     activationInput();
                 },
-                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                error: function (xmlHttpRequest, textStatus, errorThrown) {
                     $("#espaceCours").append(errorThrown);
                 }
             });
@@ -138,7 +120,7 @@
         $("#btnPoursuivre").click(function () {
             var coursInteresse = listeCoursInteresse();
 
-            if (coursInteresse.length != 3) {
+            if (coursInteresse.length !== 3) {
                 afficherErreur();
             }
             else
@@ -149,7 +131,7 @@
                     url: "/Inscription/Poursuivre",
                     type: "POST",
                     data: postData,
-                    success: function (data) {
+                    success: function () {
                         window.location.href = '@Url.Action("Index", "DossierEtudiant")';
                     },
                     error: function(){

@@ -1,15 +1,15 @@
-﻿
-@model sachem.Models.Groupe
+﻿@using sachem.Models
+@model Groupe
 
 @{
-    ViewBag.Title = "Supprimer groupe";
+    ViewBag.Title = Messages.GroupesSupprimerTitre;
 }
 
 <h2>@ViewBag.Title</h2>
 
-<h3>@sachem.Models.Messages.VraimentSupprimerGroupe(Model.NoGroupe)</h3>
+<h3>@Messages.GroupesSupprimerQuestion(Model.NoGroupe)</h3>
 <div>
-    <h4>Groupe</h4>
+    <h4>@Messages.Groupe</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
@@ -52,14 +52,12 @@
         
             if ((string)ViewBag.Error != null)
             {
-                @ViewBag.Error;
+                @ViewBag.Error
             }
 
-        
-
         <div class="form-actions no-color">
-             <input type="submit" value="Supprimer" class="btn btn-default"/>
-            @Html.ActionLink("Annuler", "Index", null, null, new { @class = "btn btn-default" })
+             <input type="submit" value="@Messages.Supprimer" class="btn btn-default"/>
+            @Html.ActionLink(@Messages.Annuler, "Index", null, null, new { @class = "btn btn-default" })
         </div>
     }
 </div>

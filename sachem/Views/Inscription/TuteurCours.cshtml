@@ -1,0 +1,22 @@
+﻿@using sachem.Models
+@model Cours
+@{
+    ViewBag.Title = Messages.Inscription;
+}
+<div style="margin-right:15%">
+    <h2>@ViewBag.Title</h2>
+    <h4>@Messages.TuteurCours</h4>
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <h3 style="background-color:aliceblue">@Messages.Disponibilites</h3>
+
+        @Html.Partial("_CoursReussis")
+
+    }
+</div>
+
+<div>
+    @Html.ActionLink(Messages.RetourEnArriere, "Index")
+</div>

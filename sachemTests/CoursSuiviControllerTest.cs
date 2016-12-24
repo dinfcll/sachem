@@ -12,8 +12,10 @@ namespace sachemTests
         public void DeleteNonExistingCoursSuivi()
         {
             var coursSuiviController = new CoursSuiviController();
+            var test = new TestRepository();
 
-            var result = coursSuiviController.Delete(null, 1);
+            var result = coursSuiviController.Delete(null,1);
+            test.RemoveCoursSuivi(null);
 
             Assert.AreEqual(typeof(HttpStatusCodeResult), result.GetType());
             Assert.AreEqual((int)HttpStatusCode.BadRequest, ((HttpStatusCodeResult)result).StatusCode);
@@ -22,8 +24,10 @@ namespace sachemTests
         public void AddCoursSuiviToNonExistingPersonne()
         {
             var coursSuiviController = new CoursSuiviController();
+            var test = new TestRepository();
 
             var result = coursSuiviController.Create(null);
+            test.AddCoursSuivi(null);
 
             Assert.AreEqual(typeof(HttpStatusCodeResult), result.GetType());
             Assert.AreEqual((int)HttpStatusCode.BadRequest, ((HttpStatusCodeResult)result).StatusCode);

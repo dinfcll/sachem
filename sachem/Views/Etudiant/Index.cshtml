@@ -1,45 +1,47 @@
-﻿@model PagedList.IPagedList<sachem.Models.PersonneProgEtu>
-@{
-    ViewBag.Title = "Étudiants";
-}
+﻿@using sachem.Models
+@model PagedList.IPagedList<PersonneProgEtu>
 
-<script src="~/Scripts/jquery-1.10.2.js"></script>
+@{
+    ViewBag.Title = Messages.Etudiants;
+}
 
 <h2>@ViewBag.Title</h2>
 
 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
 <p class="text-success">
-    @Html.Raw(@TempData["Success"])
+    @Html.Raw(TempData["Success"])
 </p>
 
 <p class="text-danger">
-    @Html.Raw(@TempData["Echec"])
+    @Html.Raw(TempData["Echec"])
 </p>
 
 @using (Html.BeginForm("Index", "Etudiant", FormMethod.Post, new { @class = "form-inline", role = "form" }))
 {
     @Html.Partial("_RechercheEtudiant")
 }
-<div style="margin-top:5px;margin-bottom:10px;">@Html.ActionLink("Ajouter un étudiant", "Create", null, null, new { @class = "btn btn-default" })</div>
+<div style="margin-top: 5px; margin-bottom: 10px;">
+    <a class="btn btn-default" href="@Url.Action("Create")"><i class="material-icons">add</i>@Messages.EtudiantAjouterTitre</a>
+</div>
     <table class="table">
         <tr>
             <th class="col-sm-3">
-                @Html.DisplayName("Nom")
+                @Html.DisplayNameFor(model => model.First().personne.NomPrenom)
             </th>
             <th class="col-sm-1">
-                @Html.DisplayName("No de DA")
+                @Html.DisplayNameFor(model => model.First().personne.Matricule7)
             </th>
             <th class="col-sm-1">
-                @Html.DisplayName("Sexe")
+                @Html.DisplayNameFor(model => model.First().personne.p_Sexe.Sexe)
             </th>
-            <th class="col-sm-1">
-                @Html.DisplayName("Naissance")
+            <th class="col-sm-2">
+                @Html.DisplayNameFor(model => model.First().personne.DateNais)
             </th>
             <th class="col-sm-4">
-                @Html.DisplayName("Programme d'études")
+                @Html.DisplayNameFor(model => model.First().personne.ProgEtu)
             </th>
-            <th class="col-sm-2"></th>
+            <th class="col-sm-1"></th>
         </tr>
 
         @foreach (var item in Model)
@@ -62,9 +64,9 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.progEtuActif.NomProg)
                 </td>
-                <td>
-                    @Html.ActionLink("Modifier", "Edit", new { id = item.personne.id_Pers }) |
-                    @Html.ActionLink("Supprimer", "Delete", new { id = item.personne.id_Pers })
+                <td class="text-center">
+                    <a href="@Url.Action("Edit", null,new {id = item.personne.id_Pers})"><i class="material-icons">edit</i></a>
+                    <a href="@Url.Action("Delete", null,new {id = item.personne.id_Pers})"><i class="material-icons">delete</i></a>
                 </td>
             </tr>
         }
@@ -72,7 +74,7 @@
         @if (!Model.Any())
         {
             <tr>
-                <td colspan="6">@sachem.Models.Messages.AucunEtudiant</td>
+                <td colspan="6">@Messages.AucunEtudiant</td>
             </tr>
         }
 

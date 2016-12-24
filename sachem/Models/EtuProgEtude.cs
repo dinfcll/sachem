@@ -8,10 +8,7 @@
 //------------------------------------------------------------------------------
 
 namespace sachem.Models
-{
-    using System;
-    using System.Collections.Generic;
-    
+{  
     public partial class EtuProgEtude
     {
         public int id_EtuProgEtude { get; set; }

@@ -1,21 +1,9 @@
-﻿
-<!DOCTYPE html>
+﻿@using sachem.Models
 
-<p>
-    <h5 class="hIns">
-        @sachem.Models.Messages.InscriptionCoursReussiIndication();
-    </h5>
-</p>
-<div id="espaceCours">
-</div>
-<div style="padding-bottom:10px">
-    <input type="button" value="Ajouter un cours" class="btn btn-default ins-btnAjouter" id="btnAjouterCours" /><br /><br />
-    <input type="button" value="Enregistrer et poursuivre" class="btn btn-default" id="btnPoursuivre" />
-    <input type="button" value="Enregistrer un brouillon" class="btn btn-default" id="btnBrouillon" />
-    <input type="button" value="Annuler" class="btn btn-default" id="btnAnnuler" />
-</div>
+<h5>@Messages.InscriptionCoursReussiIndication;</h5>
 
-<script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+@Html.Partial("_BoutonsNav")
+
 <script type="text/javascript">
 
     afficherErreur = function ()
@@ -43,7 +31,6 @@
 
     validerCoursReussis = function (listeCoursReussis)
     {
-        //TODO : À VÉRIFIER LES DOUBLONS ET LES RÉSULTATS EN INT OU DOUBLE
         listeCoursReussis.forEach(function (element) {
             alert(element);
         });
@@ -55,11 +42,8 @@
         $(".btnSupprimerCours").click(function () {
             $(this).parent().parent().remove();
         });
-        $(".ins-selectcours").change(function () {
-            var test = $(this).val();
-        });
         $(".InfoCourCollege").find($(".dropDownCours")).change(function () {
-            if ($(this).val() != "") {
+            if ($(this).val() !== "") {
                 $(this).closest(".InfoCourCollege").find($(".coursChange")).attr('disabled', 'disabled');
             }
             else {
@@ -67,7 +51,7 @@
             }
         });
         $(".InfoCourCollege").find($(".dropDownCollege")).change(function () {
-            if ($(this).val() != "") {
+            if ($(this).val() !== "") {
                 $(this).closest(".InfoCourCollege").find($(".collegeChange")).attr('disabled', 'disabled');
             }
             else {
@@ -84,7 +68,7 @@
                 $("#espaceCours").append(donnees);
                 activationInput();
             },
-            error: function (XMLHttpRequest, textStatus, errorThrown) {
+            error: function (xmlHttpRequest, textStatus, errorThrown) {
                 $("#espaceCours").append(errorThrown);
             }
         });
@@ -99,6 +83,6 @@
     });
     $("#btnPoursuivre").click(function () {
         var coursReussis = listeCoursReussis();
-        var coursReussisValides = validerCoursReussis(coursReussis);
+        validerCoursReussis(coursReussis);
     });
 </script>

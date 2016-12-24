@@ -1,12 +1,13 @@
-﻿@model sachem.Models.GroupeEtudiant
+﻿@using sachem.Models
+@model GroupeEtudiant
 
 @{
-    ViewBag.Title = "Suppression d'élève";
+    ViewBag.Title = Messages.GroupesSupprimerEtudiantTitre;
 }
 
 <h2>@ViewBag.Title</h2>
 
-<h3>@sachem.Models.Messages.RetirerEtudiantDUnGroupe(Model.Personne.Matricule7,Model.Groupe.NoGroupe)</h3>
+<h3>@Messages.GroupesRetirerEtudiantsQuestion(Model.Personne.Matricule7,Model.Groupe.NoGroupe)</h3>
 <div>
     <h4>Groupe</h4>
     <hr />
@@ -34,8 +35,8 @@
         @Html.AntiForgeryToken()
 
         <div class="form-actions no-color">
-            <input type="submit" value="Supprimer" class="btn btn-default" />
-            @Html.ActionLink("Annuler", "Edit", null, new { id = Model.Groupe.id_Groupe }, new { @class = "btn btn-default" })
+            <input type="submit" value="@Messages.Supprimer" class="btn btn-default" />
+            @Html.ActionLink(Messages.Annuler, "Edit", null, new { id = Model.Groupe.id_Groupe }, new { @class = "btn btn-default" })
         </div>
     }
 </div>

@@ -9,9 +9,6 @@
 
 namespace sachem.Models
 {
-    using System;
-    using System.Collections.Generic;
-    
     public partial class Rejet
     {
         public int id_Rejet { get; set; }

@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Web;
 
 namespace sachem.Models
 {
@@ -37,8 +34,9 @@ namespace sachem.Models
         [Required(ErrorMessage = Messages.ChampRequis)]
         public string Nom;
 
-        [Display(Name = "Nom")]
-        public string NomPrenom;
+        [Display(Name = "Nom, prénom")] public string NomPrenom;
+
+        [Display(Name = "Prénom, nom")] public string PrenomNom;
 
         //Expression régulière qui permet 2 formats de dates, celui exigé dans l'application YYYY/MM/DD et celui formaté par le 
         //système en format datetime YYYY/MM/DD hh:mm:ss. Il faut que les deux expressions soient utilisables pour que le modèle
@@ -47,8 +45,7 @@ namespace sachem.Models
         //la mise en commentaire le l'expression reguliere me permet de creer des comptes
         [RegularExpression(@"^[0-9]{4}-[0-9]{2}-[0-9]{2} [0-2][0-9]:[0-5][0-9]:[0-5][0-9]$|^[0-9]{4}\/[0-9]{2}\/[0-9]{2}$", ErrorMessage = Messages.FormatEnDate)]
         [DisplayFormat(DataFormatString = "{0:yyyy\\/MM\\/dd}", ApplyFormatInEditMode = true)]
-        public global::System.DateTime DateNais;
-
+        public DateTime DateNais;
 
         [Display(Name = "Courriel")]
         [EmailAddress(ErrorMessage = Messages.FormatDeCourriel)]
@@ -58,21 +55,22 @@ namespace sachem.Models
         [Display(Name = "Se souvenir de moi")]
         public string SouvenirConnexion;
 
-        [Display(Name = "Téléphone")]
         [DataType(DataType.PhoneNumber)]
-        [RegularExpression(@"^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$", ErrorMessage = Messages.FormatTelephone)] //Vérifie le format du tel
-        public string Telephone; //Ajout pour #Tel dans BD
+        [RegularExpression(@"^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$", ErrorMessage = Messages.FormatTelephone)]
+        [DisplayFormat(DataFormatString = "{0:(###) ###-####}", ApplyFormatInEditMode = true)]
+        [Display(Name = "Téléphone")]
+        public string Telephone;
 
         [Display(Name = "Nom d'utilisateur")]
         [StringLength(25)]
         public string NomUsager;
 
-        [Display(Name = "No de DA")]
+        [Display(Name = "No DA")]
         [StringLength(9)]
         public string Matricule;
 
         //Extrait du PAM partiellement
-        [Display(Name = "No de DA")]
+        [Display(Name = "No DA")]
         [StringLength(7, ErrorMessage = Messages.LongueurDeSeptCaracteres)]
         public string Matricule7;
 
@@ -96,7 +94,7 @@ namespace sachem.Models
         public int id_Sexe;
 
         [Display(Name = "Nom d'utilisateur")]
-        public global::System.String NomUtilisateur;
+        public string NomUtilisateur;
 
         [Display(Name = "Âge")]
         public string Age;

@@ -1,11 +1,12 @@
-﻿@model PagedList.IPagedList<sachem.Models.Personne>
+﻿@using sachem.Models
+@model PagedList.IPagedList<Personne>
 
 @{
-    ViewBag.Title = "Enseignants";
+    ViewBag.Title = Messages.Enseignants;
 }
 
 <h2>@ViewBag.Title</h2>
-<h4>Recherche</h4>
+<h4>@Messages.Recherche</h4>
 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 <p class="text-success">
     @Html.ViewBag.Success
@@ -16,20 +17,28 @@
 </p>
 
 @using (Html.BeginForm("Index", "Enseignant", FormMethod.Post, new { @class = "form-inline", role = "form" }))
-{ 
-    <div class="form-group">
-        Actif :
-        @Html.CheckBox("Actif", (bool)ViewBag.Actif)
-    </div>
-        <div class="form-group">
-            <input type="submit" value="Rechercher" class="form-search  " />
+{
+    <div class="recherche">
+        <div class="row">
+            <div class="col-md-1">
+                <div class="col-md-6 recherche-label">@Messages.Actif</div>
+                <div class="col-md-6 recherche-label">@Html.CheckBox("Actif", (bool)ViewBag.Actif)</div>
+            </div>
+            <div class="col-md-2">
+                <button type="submit" class="btn btn-default" style="margin-bottom: 10px;">
+                    <i class="material-icons">search</i>@Messages.Rechercher
+                </button>
+            </div>
+        </div>
     </div>
 }
-<div style="margin-top:10px;margin-bottom:10px;">@Html.ActionLink("Ajouter un enseignant", "Create", null, null, new { @class = "btn btn-default" })</div>
+<div style="margin-top: 10px; margin-bottom: 10px;">
+    <a class = "btn btn-default" href="@Url.Action("Create")"><i class="material-icons">add</i>@Messages.EnseignantAjouterTitre</a>
+</div>
     <table class="table">
         <tr>
-            <th class="col-sm-5">
-                @Html.DisplayNameFor(model => model.First().Nom)
+            <th class="col-sm-6">
+                @Html.DisplayNameFor(model => model.First().NomPrenom)
             </th>
             <th class="col-sm-2">
                 @Html.DisplayNameFor(model => model.First().NomUsager)
@@ -40,14 +49,14 @@
             <th class="col-sm-1">
                 @Html.DisplayNameFor(model => model.First().Actif)
             </th>
-            <th class="col-sm-2"></th>
+            <th class="col-sm-1"></th>
         </tr>
 
         @foreach (var item in Model)
         {
             <tr>
                 <td>
-                    @Html.DisplayFor(ModelItem => item.NomPrenom)
+                    @Html.DisplayFor(modelItem => item.NomPrenom)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.NomUsager)
@@ -59,16 +68,16 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.Actif)
                 </td>
-                <td>
-                    @Html.ActionLink("Modifier", "Edit", new { id = item.id_Pers }) |
-                    @Html.ActionLink("Supprimer", "Delete", new { id = item.id_Pers })
+                <td class="text-center">
+                    <a href="@Url.Action("Edit", null,new {id = item.id_Pers})"><i class="material-icons">edit</i></a>
+                    <a href="@Url.Action("Delete", null,new {id = item.id_Pers})"><i class="material-icons">delete</i></a>
                 </td>
             </tr>
         }
         @if (!Model.Any())
         {
             <tr>
-                <td colspan="6">@sachem.Models.Messages.AucunEnseignant</td>
+                <td colspan="6">@Messages.AucunEnseignant</td>
             </tr>
         }
 

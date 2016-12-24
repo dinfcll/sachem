@@ -1,8 +1,8 @@
-﻿
-@model sachem.Models.p_HoraireInscription
+﻿@using sachem.Models
+@model p_HoraireInscription
 
 @{
-    ViewBag.Title = "Modifier l'horaire d'ouverture et de fermeture d'inscription";
+    ViewBag.Title = Messages.HoraireTitre;
 }
 
 <h2>@ViewBag.Title</h2>
@@ -11,76 +11,76 @@
     @Html.ViewBag.Success
     @TempData["Success"]
 </p>
-@using (Html.BeginForm("EditHoraire", "Parametres", FormMethod.Post , new { @class = "form-block", role = "form" }))
+@using (Html.BeginForm("EditHoraire", "Parametres", FormMethod.Post , new { @class = "form-horizontal", role = "form" }))
 {
     @Html.AntiForgeryToken()
     <div class="form-horizontal">
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <div class="form-group">
-            @Html.LabelFor(model => model.id_Sess, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.id_Sess, new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.DropDownList("id_Sess", null, null, htmlAttributes: new { @class = "form-search", @id="ddlSession" })
+                @Html.DropDownList("id_Sess", null, null, new { @class = "form-search", id="ddlSession" })
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.DateDebut, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.DateDebut, new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @if (ViewBag.idSess == ViewBag.idSessStable)
                 {
-                    @Html.EditorFor(model => model.DateDebut, new { htmlAttributes = new { @class = "form-control", @placeholder = "AAAA/MM/JJ", @id="DateDebut"} })
+                    @Html.EditorFor(model => model.DateDebut, new { htmlAttributes = new { @class = "form-control", placeholder = Messages.PlaceHolderDate, id="DateDebut", title = Messages.FormatEnDate } })
                     @Html.ValidationMessageFor(model => model.DateDebut, "", new { @class = "text-danger" })
                 }
                 else
                 {
-                    @Html.DisplayFor(model => model.DateDebut, new { htmlAttributes = new { @class = "form-control", @id = "DateDebut"} })
+                    @Html.DisplayFor(model => model.DateDebut, new { htmlAttributes = new { @class = "form-control", id = "DateDebut"} })
                 }
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.HeureDebut, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.HeureDebut, new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @if (ViewBag.idSess == ViewBag.idSessStable)
                 {
-                    @Html.EditorFor(model => model.HeureDebut, new { htmlAttributes = new { @class = "form-control", @placeholder = "hh:mm", @id = "HeureDebut" } })
+                    @Html.EditorFor(model => model.HeureDebut, new { htmlAttributes = new { @class = "form-control", placeholder = Messages.PlaceHolderHeure, id = "HeureDebut", title = Messages.FormatHeureMinuteSeconde } })
                     @Html.ValidationMessageFor(model => model.HeureDebut, "", new { @class = "text-danger" })
                 }
                 else
                 {
-                    @Html.DisplayFor(model => model.HeureDebut, new { htmlAttributes = new { @class = "form-control", @id = "HeureDebut" } })
+                    @Html.DisplayFor(model => model.HeureDebut, new { htmlAttributes = new { @class = "form-control", id = "HeureDebut" } })
                 }
             </div>
         </div>
 
 
         <div class="form-group">
-            @Html.LabelFor(model => model.DateFin, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.DateFin, new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @if (ViewBag.idSess == ViewBag.idSessStable)
                 {
-                    @Html.EditorFor(model => model.DateFin, new { htmlAttributes = new { @class = "form-control", @placeholder = "AAAA/MM/JJ", @id = "DateFin" } })
+                    @Html.EditorFor(model => model.DateFin, new { htmlAttributes = new { @class = "form-control", placeholder = Messages.PlaceHolderDate, id = "DateFin", title = Messages.FormatEnDate } })
                     @Html.ValidationMessageFor(model => model.DateFin, "", new { @class = "text-danger" })
                 }
                 else
                 {
-                    @Html.DisplayFor(model => model.DateFin, new { htmlAttributes = new { @class = "form-control", @id = "DateFin" } })
+                    @Html.DisplayFor(model => model.DateFin, new { htmlAttributes = new { @class = "form-control", id = "DateFin" } })
                 }
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.HeureFin, htmlAttributes: new { @class = "control-label col-md-2"})
+            @Html.LabelFor(model => model.HeureFin, new { @class = "control-label col-md-2"})
             <div class="col-md-10">
                 @if (ViewBag.idSess == ViewBag.idSessStable)
                 {
-                    @Html.EditorFor(model => model.HeureFin, new { htmlAttributes = new { @class = "form-control", @placeholder = "hh:mm", @id = "HeureFin" } })
+                    @Html.EditorFor(model => model.HeureFin, new { htmlAttributes = new { @class = "form-control", placeholder = Messages.PlaceHolderHeure, id = "HeureFin", title = Messages.FormatHeureMinuteSeconde } })
                     @Html.ValidationMessageFor(model => model.HeureFin, "", new { @class = "text-danger" })
                 }
                 else
                 {
-                    @Html.DisplayFor(model => model.HeureFin, new { htmlAttributes = new { @class = "form-control", @id = "HeureFin" } })
+                    @Html.DisplayFor(model => model.HeureFin, new { htmlAttributes = new { @class = "form-control", id = "HeureFin" } })
                 }
             </div>
         </div>
@@ -88,22 +88,17 @@
         {
             <div class="form-group">
                 <div class="col-md-offset-2 col-md-10">
-                    <input type="submit" value="Enregistrer" class="btn btn-default" />
-                    @Html.ActionLink("Annuler", "Index", "DossierEtudiant", null, new { @class = "btn btn-default" })
+                    <input type="submit" value="@Messages.Enregistrer" class="btn btn-default" />
+                    @Html.ActionLink(Messages.Annuler, "Index", "DossierEtudiant", null, new { @class = "btn btn-default" })
                 </div>
             </div>
         }
     </div>
 }
-
-@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
-}
 <script type="text/javascript">
     $(document).ready(function () {
         $("#ddlSession").change(function () {
             var id = $(this).val();
-
             window.location.href = "/Parametres/EditHoraire?session=" + id;
             console.log("text");
         });

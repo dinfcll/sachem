@@ -1,10 +1,9 @@
-﻿@model PagedList.IPagedList<sachem.Models.Groupe>
+﻿@using sachem.Models
+@model PagedList.IPagedList<Groupe>
 
 @{
-    ViewBag.Title = "Groupes";
+    ViewBag.Title = Messages.Groupes;
 }
-
-<script src="~/Scripts/jquery-1.10.2.js"></script>
 
 <h2>@ViewBag.Title</h2>
 
@@ -24,38 +23,42 @@
 
             <tr>
                 <td>
-                    @Html.ActionLink("Oui", "AjouterEleve", new { idg = @TempData["idg"] ,page = ViewBag.page}) |
-                    @Html.ActionLink("Non", "Index", new { idg = @TempData["idg"]}) 
+                    @Html.ActionLink(Messages.Oui, "AjouterEleve", new { idg = TempData["idg"] , ViewBag.page}) |
+                    @Html.ActionLink(Messages.Non, "Index", new { idg = TempData["idg"]}) 
                 </td>
             </tr>
-
     }
 
-   <h4>Recherche</h4>
+   <h4>@Messages.Recherche</h4>
 
-    <table class="table-condensed">
-        <tr>
-            <td>Session :</td>
-            <td>@Html.DropDownList("Sessions", null, "Toutes", htmlAttributes: new { @class = "form-search" })</td>
-            <td>Enseignant :</td>
-            <td>
-                @if (ViewBag.Disabled != null && ViewBag.Disabled == "")
-                    {
-                    @Html.DropDownList("Enseignants", null, "Tous", htmlAttributes: new { @class = "form-search" })
-                }
-                else
-                {
-                    @Html.DropDownList("Enseignants", null, htmlAttributes: new { @disabled = ViewBag.Disabled, @class = "form-search" })
-                }
-            </td>
-            <td>Cours :</td>
-            <td>@Html.DropDownList("Cours", null, "Tous", htmlAttributes: new { @class = "form-search" })</td>
-            <td><input type="submit" value="Rechercher" class="form-search" /></td>
-        </tr>
-    </table>
+    <div class="recherche">
+        <div class="row">
+            <div class="col-md-3">
+                <div class="col-md-4 recherche-label">@Messages.Session</div>
+                <div class="col-md-8 recherche-field">@Html.DropDownList("Sessions", null, Messages.Toutes, new { @class = "form-control" })</div>
+            </div>
+            <div class="col-md-3">
+                <div class="col-md-4 recherche-label">@Messages.Enseignant</div>
+                <div class="col-md-8 recherche-field">
+                    @(ViewBag.Disabled == "" ? Html.DropDownList("Enseignants", null, Messages.Tous, new { @class = "form-control" }) : Html.DropDownList("Enseignants", null, new { disabled = ViewBag.Disabled, @class = "form-search" }))
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="col-md-2 recherche-label">@Messages.Cours</div>
+                <div class="col-md-10 recherche-field">@Html.DropDownList("Cours", null, Messages.Tous, new { @class = "form-control"})</div>
+            </div>
+            <div class="col-md-2">
+                <button type="submit" class="btn btn-default" style="margin-bottom: 10px;">
+                    <i class="material-icons">search</i>@Messages.Rechercher
+                </button>
+            </div>
+        </div>
+    </div>
 }
 
-<div style="margin-top:5px;margin-bottom:10px;">@Html.ActionLink("Ajouter un groupe", "Create", null, null, new { @class = "btn btn-default" })</div>
+<div style="margin-top: 5px; margin-bottom: 10px;">
+    <a class="btn btn-default" href="@Url.Action("Create")"><i class="material-icons">add</i>@Messages.GroupesAjouterTitre</a>
+</div>
     
 <table class="table">
     <tr>
@@ -68,13 +71,13 @@
         <th class="col-sm-1">
             @Html.DisplayNameFor(model => model.FirstOrDefault().NoGroupe)
         </th>
-        <th class="col-sm-2">
+        <th class="col-sm-3">
             @Html.DisplayNameFor(model => model.FirstOrDefault().Personne.NomPrenom)
         </th>
         <th class="col-sm-1">
             @Html.DisplayNameFor(model => model.FirstOrDefault().nbPersonneGroupe)
         </th>
-        <th class="col-sm-2"></th>
+        <th class="col-sm-1"></th>
     </tr>
 
 @foreach (var item in Model) {
@@ -94,16 +97,16 @@
         <td>
             @item.GroupeEtudiant.Count
         </td>
-        <td>
-            @Html.ActionLink("Modifier", "Edit", new {id = item.id_Groupe}) |
-            @Html.ActionLink("Supprimer", "Delete", new {id = item.id_Groupe})
+        <td class="text-center">
+            <a href="@Url.Action("Edit", null,new {id = item.id_Groupe})"><i class="material-icons">edit</i></a>
+            <a href="@Url.Action("Delete", null,new {id = item.id_Groupe})"><i class="material-icons">delete</i></a>
         </td>
     </tr>
 }
 @if (!Model.Any())
 {
     <tr>
-        <td colspan="6">@sachem.Models.Messages.AucunGroupe</td>
+        <td colspan="6">@Messages.AucunGroupe</td>
     </tr>
 }
 </table>

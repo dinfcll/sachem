@@ -10,13 +10,21 @@ namespace sachemTests
     [TestClass]
     public class CoursControllerTest
     {
+        private readonly Cours _cours = new Cours
+        {
+            id_Cours = 20,
+            Code = "1989AV04",
+            Nom = "Gestion du code Patrimonial",
+            Actif = true
+            
+        };
         [TestMethod]
         public void ReferenceTest()
         {
             var controller = new CoursController();
-
+            
             var result = controller.Edit(null);
-
+            
             Assert.AreEqual(typeof(HttpStatusCodeResult), result.GetType());
             Assert.AreEqual((int)HttpStatusCode.BadRequest, ((HttpStatusCodeResult)result).StatusCode);
         }
@@ -26,7 +34,7 @@ namespace sachemTests
         {
             var coursController = new CoursController(new TestRepository());
 
-            var result = coursController.Edit(1);
+            var result = coursController.Edit(_cours.id_Cours);
 
             Assert.AreEqual(typeof(HttpNotFoundResult), result.GetType());
         }
@@ -50,8 +58,10 @@ namespace sachemTests
         public void SupprimerUnObjetNull()
         {
             var coursController = new CoursController();
+            var test = new TestRepository();
 
             var result = coursController.Delete(null);
+            test.RemoveCours(null);
 
             Assert.AreEqual(typeof(HttpStatusCodeResult), result.GetType());
             Assert.AreEqual((int)HttpStatusCode.BadRequest, ((HttpStatusCodeResult)result).StatusCode);
@@ -69,7 +79,6 @@ namespace sachemTests
             coursController.Create(testRepository.FindCours(idCours), 0);
             var resultSuppression = coursController.Delete(idCours) as ViewResult;
 
-
             Assert.AreEqual("Delete", resultSuppression?.ViewName);
         }
 
@@ -78,8 +87,11 @@ namespace sachemTests
         public void DeleteNonExistingCoursReturnsNotFound()
         {
             var coursController = new CoursController(new TestRepository());
+            var test = new TestRepository();
+            var cours = new Cours {id_Cours = 100000};
 
-            var result = coursController.Delete(100000);
+            var result = coursController.Delete(cours.id_Cours);
+            test.RemoveCours(cours);
 
             Assert.AreEqual(typeof(HttpNotFoundResult), result.GetType());
         }

@@ -1,7 +1,8 @@
-﻿@model sachem.Models.PersonneEtuProgParent
-@using sachem.Models
+﻿@using sachem.Models
+@model PersonneEtuProgParent
+
 @{
-    ViewBag.Title = "Ajouter étudiant";
+    ViewBag.Title = Messages.EtudiantAjouterTitre;
 }
 
 <h2>@ViewBag.Title</h2>
@@ -10,7 +11,7 @@
 @using (Html.BeginForm("Create", "Etudiant", FormMethod.Post))
 {
     <p class="text-danger">
-        @Html.Raw(@TempData["Echec"])
+        @Html.Raw(TempData["Echec"])
     </p>
 
     @Html.AntiForgeryToken()
@@ -18,50 +19,33 @@
     <div class="form-horizontal">
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <hr />
-        @Html.Partial("_Etudiant")
         <div class="form-group">
-            @Html.LabelFor(model => model.personne.Matricule, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.personne.Matricule7, new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.personne.Matricule, new { htmlAttributes = new { @class = "form-control",@required = "required",minlength=7,maxlength=7, @title = "Le matricule doit contenir 7 caractères", @Value = String.Empty} })
-                @Html.ValidationMessageFor(model => model.personne.Matricule, "", new { @class = "text-danger" })
+                @Html.EditorFor(model => model.personne.Matricule7, new { htmlAttributes = new { @class = "form-control", required = "required", minlength = 7, maxlength = 7, title = Messages.LongueurDeSeptCaracteres } })
+                @Html.ValidationMessageFor(model => model.personne.Matricule7, "", new { @class = "text-danger" })
             </div>
         </div>
 
+        @Html.Partial("_Etudiant")
+
         <div class="form-group">
-            @Html.LabelFor(model => model.personne.MP, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.Label(Messages.ProgrammeEtude, new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.PasswordFor(model => model.personne.MP, new { @class = "form-control", @minlength = "6", placeholder = "Mot de passe", @title = "Le mot de passe doit contenir un minimum de 6 caractères", @Value = String.Empty})
-                @Html.ValidationMessageFor(model => model.personne.MP, "", new { @class = "text-danger" })
+                @Html.DropDownList("id_ProgEtu", null, Messages.VeuillezChoisir, new { @class = "form-control" })
             </div>
         </div>
         <div class="form-group">
-            @Html.LabelFor(model => model.personne.ConfirmPassword, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.Label(Messages.Session, new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.PasswordFor(model => model.personne.ConfirmPassword, new { @class = "form-control", placeholder = "Confirmation de mot de passe" })
-                @Html.ValidationMessageFor(model => model.personne.ConfirmPassword, "", new { @class = "text-danger" })
-            </div>
-        </div>
-        <div class="form-group">
-            @Html.LabelFor(model => model.personne.EtuProgEtude, "Programme d'étude", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DropDownList("id_Programme", null, "Choisir", htmlAttributes: new { @class = "form-control" })
-            </div>
-        </div>
-        <div class="form-group">
-            @Html.LabelFor(model => model.personne.EtuProgEtude, "Session", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DropDownList("id_Session", null, "", htmlAttributes: new { @class = "form-control" })
+                @Html.DropDownList("id_Session", null, Messages.VeuillezChoisir, new { @class = "form-control" })
             </div>
         </div>
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Enregistrer" class="btn btn-default" />
-                @Html.ActionLink("Annuler", "Index", null, null, new { @class = "btn btn-default" })
+                <input type="submit" value="@Messages.Ajouter" class="btn btn-default" />
+                @Html.ActionLink(Messages.Annuler, "Index", null, null, new { @class = "btn btn-default" })
             </div>
         </div>
     </div>
-}
-
-@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
 }

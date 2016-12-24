@@ -1,0 +1,29 @@
+﻿@using sachem.Models
+<h4>@Messages.Recherche</h4>
+
+<div class="recherche">
+    <div class="row">
+        <div class="col-md-3">
+            <div class="col-md-3 recherche-label">
+                @Messages.Session
+            </div>
+            <div class="col-md-9 recherche-field">
+                @Html.DropDownList("Session", null, Messages.Toutes, new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="col-md-4 recherche-label">
+                @Messages.TypeInscription
+            </div>
+            <div class="col-md-8 recherche-field">
+                @Html.DropDownList("Inscription", null, Messages.Tous, new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="col-md-2">
+            <button type="submit" class="btn btn-default" style="margin-bottom: 10px;">
+                <i class="material-icons">search</i>@Messages.Rechercher
+            </button>
+        </div>
+    </div>
+</div>
+<br/>

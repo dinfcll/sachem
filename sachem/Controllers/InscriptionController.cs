@@ -1,28 +1,40 @@
 ﻿using System;
+using System.CodeDom;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
 using System.Web.Mvc;
-using sachem.Classes_Sachem;
+using sachem.Methodes_Communes;
 using sachem.Models;
+using sachem.Models.DataAccess;
 
 namespace sachem.Controllers
 {
     public class InscriptionController : Controller
     {
         private readonly SACHEMEntities _db = new SACHEMEntities();
-        private const string MsgErreurRemplir = "Veuillez remplir le formulaire de disponibilités.";
+        private const string MsgErreurRemplir = Messages.InscriptionRemplirFormulaireDisposErreur;
 
         private readonly int _heureDebut = CheckConfigHeure(ConfigurationManager.AppSettings.Get("HeureDebut"), 8);
         private readonly int _heureFin = CheckConfigHeure(ConfigurationManager.AppSettings.Get("HeureFin"), 18);
         private const int DemiHeure = 30;
         private const int DureeRencontreMinutes = 90;
+        private readonly IDataRepository _dataRepository;
 
-       
+        public InscriptionController(IDataRepository dataRepository)
+        {
+            _dataRepository = dataRepository;
+        }
+
+        public InscriptionController()
+        {
+            _dataRepository = new BdRepository();
+        }
+
         [ValidationAcces.ValidationAccesInscription]
         public ActionResult Index()
         {
-            ViewBag.TypeInscription = Liste.ListeTypeInscription();
+            ViewBag.TypeInscription = _dataRepository.ListeTypeInscription();
 
             return View();
         }
@@ -31,8 +43,8 @@ namespace sachem.Controllers
         [ValidationAcces.ValidationAccesInscription]        
         public ActionResult Index(int typeInscription, string[] jours )
         {
-            int idPers = SessionBag.Current.id_Pers;
-            ViewBag.TypeInscription = Liste.ListeTypeInscription();
+            int idPers = BrowserSessionBag.Current.id_Pers;
+            ViewBag.TypeInscription = _dataRepository.ListeTypeInscription();
             var sessionActuelle = _db.Session.AsNoTracking().OrderByDescending(y => y.Annee).ThenByDescending(x => x.id_Saison).FirstOrDefault();
             if (sessionActuelle != null)
             {
@@ -50,14 +62,13 @@ namespace sachem.Controllers
                 _db.Inscription.Add(inscriptionBd);
             }
             _db.SaveChanges();
-            if (jours != null)
+            if (jours == null) return Json(new {success = false, message = MsgErreurRemplir});
             {
                 var dispo = new DisponibiliteStruct();
                 var disponibilites = new List<DisponibiliteStruct>();
                 Array.Sort(jours, new AlphanumComparatorFast());
                 foreach (var jour in jours)
                 {
-                    //TODO: Valider si les heures se suivent, formatter pour demander confirmation à l'utilisateur.
                     var splitValue1 = jour.Split('-');
                     dispo.Minutes = int.Parse(splitValue1[1]);
                     dispo.Jour = splitValue1[0];
@@ -74,26 +85,23 @@ namespace sachem.Controllers
                     _db.Disponibilite.Add(dispoBd);
                     _db.SaveChanges();
                 }
-                SessionBag.Current.id_Inscription = typeInscription;
-                switch ((TypeInscription)typeInscription)
+                BrowserSessionBag.Current.TypeInscription = typeInscription;
+                if (typeInscription < (int)TypeInscription.TuteurRemunere)
                 {
-                    case TypeInscription.eleveAide:
-                        SessionBag.Current.id_TypeUsag = TypeUsagers.Eleve;
-                        return RedirectToAction("EleveAide1");
-                    case TypeInscription.tuteurDeCours:
-                        SessionBag.Current.id_TypeUsag = TypeUsagers.Tuteur;
-                        return RedirectToAction("Tuteur");
-                    case TypeInscription.tuteurBenevole:
-                        SessionBag.Current.id_TypeUsag = TypeUsagers.Tuteur;
-                        return RedirectToAction("Benevole");
-                    case TypeInscription.tuteurRemunere:
-                        SessionBag.Current.id_TypeUsag = TypeUsagers.Tuteur;
-                        return RedirectToAction("Benevole");
-                    default:
-                        return Json(new { success = false, message = MsgErreurRemplir });
+                    return RedirectToAction(((TypeInscription)typeInscription).ToString());
                 }
+                if (typeInscription == (int)TypeInscription.TuteurRemunere)
+                {
+                    return RedirectToAction(TypeInscription.TuteurBenevole.ToString());
+                }
+                return Json(new { success = false, message = MsgErreurRemplir });
             }
-            return Json(new { success = false, message = MsgErreurRemplir });
+        }
+
+        [NonAction]
+        public List<string> RetourneListeJours()
+        {
+            return _dataRepository.ListeJours();
         }
 
         private static int CheckConfigHeure(string heure, int defaut)
@@ -133,41 +141,41 @@ namespace sachem.Controllers
             return sortie;
         }
 
-        [ValidationAcces.ValidationAccesEtu]
-        public ActionResult EleveAide1()
+        [ValidationAcces.ValidationAccesEtudiants]
+        public ActionResult EleveAide()
         {
-            ViewBag.lstCours = Liste.ListeCours();
-            ViewBag.lstCours1 = Liste.ListeCours();
-            ViewBag.lstStatut = Liste.ListeStatutCours();
-            ViewBag.slSession = Liste.ListeSession();
+            ViewBag.lstCours = _dataRepository.ListeCours();
+            ViewBag.lstCours1 = _dataRepository.ListeCours();
+            ViewBag.lstStatut = _dataRepository.ListeStatutCours();
+            ViewBag.slSession = _dataRepository.ListeSession();
             return View();
         }
 
         [HttpGet]
-        public ActionResult Tuteur()
+        public ActionResult TuteurCours()
         {
-            ViewBag.lstCours = Liste.ListeCours();
-            ViewBag.lstCours1 = Liste.ListeCours();
-            ViewBag.lstCollege = Liste.ListeCollege();
+            ViewBag.lstCours = _dataRepository.ListeCours();
+            ViewBag.lstCours1 = _dataRepository.ListeCours();
+            ViewBag.lstCollege = _dataRepository.ListeCollege();
             return View();
         }
 
         public ActionResult GetLigneCoursEleveAide()
         {
-            ViewBag.lstCours = Liste.ListeCours();
-            ViewBag.lstCours1 = Liste.ListeCours();
-            ViewBag.lstStatut = Liste.ListeStatutCours();
-            ViewBag.slSession = Liste.ListeSession();
+            ViewBag.lstCours = _dataRepository.ListeCours();
+            ViewBag.lstCours1 = _dataRepository.ListeCours();
+            ViewBag.lstStatut = _dataRepository.ListeStatutCours();
+            ViewBag.slSession = _dataRepository.ListeSession();
 
             return PartialView("_LigneCoursReussiEleveAide");
         }
 
         [HttpGet]
-        public ActionResult Benevole()
+        public ActionResult TuteurBenevole()
         {
-            ViewBag.lstCours = Liste.ListeCours();
-            ViewBag.lstCours1 = Liste.ListeCours();
-            ViewBag.lstCollege = Liste.ListeCollege();
+            ViewBag.lstCours = _dataRepository.ListeCours();
+            ViewBag.lstCours1 = _dataRepository.ListeCours();
+            ViewBag.lstCollege = _dataRepository.ListeCollege();
 
             return View();
         }
@@ -175,9 +183,9 @@ namespace sachem.Controllers
         [HttpPost]
         public ActionResult GetLigneCours()
         {
-            ViewBag.lstCours = Liste.ListeCours();
-            ViewBag.lstCours1 = Liste.ListeCours();
-            ViewBag.lstCollege = Liste.ListeCollege();
+            ViewBag.lstCours = _dataRepository.ListeCours();
+            ViewBag.lstCours1 = _dataRepository.ListeCours();
+            ViewBag.lstCollege = _dataRepository.ListeCollege();
 
             return PartialView("_LigneCoursReussi");
         }
@@ -257,7 +265,7 @@ namespace sachem.Controllers
                 return "non!";
             }
 
-            int idPers = SessionBag.Current.id_Pers;
+            int idPers = BrowserSessionBag.Current.id_Pers;
             const int sess = 2;
 
             foreach (var d in donneesInscription)
@@ -292,68 +300,97 @@ namespace sachem.Controllers
         [HttpPost]
         public string ErreurCours()
         {
-            var lstCrs = from c in _db.Cours orderby c.Nom select c;
-            var slCrs = new List<SelectListItem>();
-            slCrs.AddRange(new SelectList(lstCrs, "id_Cours", "CodeNom"));
-            ViewBag.lstCours = slCrs;
-            ViewBag.lstCours1 = slCrs;
-            return Messages.CoursChoisiUneSeuleFois();
+            ViewBag.lstCours = _dataRepository.ListeCours();
+            return Messages.InscriptionCoursChoisiUneSeuleFois;
         }
 
         public bool Contient(string value, List<string[]> donneesInscription)
         {
-            foreach (string[] d in donneesInscription)
-            {
-                if (d[0] == value || d[2] == value)
-                {
-                    return true;
-                }
-            }
-            return false;
+            return donneesInscription.Any(d => d[0] == value || d[2] == value);
         }
 
-        [ValidationAcces.ValidationAccesEleve]
+        [ValidationAcces.ValidationAccesEleveAide]
         [HttpPost]
         public ActionResult EleveAide1(string[][] values)
         {
             TempData["Echec"] = "";
             if (values==null)
             {
-                return RedirectToAction("Details", "DossierEtudiant", new { id = SessionBag.Current.id_Inscription});
+                return RedirectToAction("Details", "DossierEtudiant", new { id = BrowserSessionBag.Current.id_Inscription});
             }
             foreach (var t in values)
             {
-                if (t[0] != "")
-                {
-                    var firstOrDefault = _db.p_College.FirstOrDefault(x => x.College == "Cégep de Lévis-Lauzon");
+                if (t[0] == "") continue;
+                var firstOrDefault = _db.p_College.FirstOrDefault(x => x.College == "Cégep de Lévis-Lauzon");
 
-                    if (firstOrDefault != null)
+                if (firstOrDefault != null)
+                {
+                    var cours = new CoursSuivi
                     {
-                        var cours = new CoursSuivi
-                        {
-                            id_Pers = SessionBag.Current.id_Pers,
-                            id_Cours = Convert.ToInt32(t[0]),
-                            id_Statut = Convert.ToInt32(t[1]),
-                            id_Sess = Convert.ToInt32(t[2]),
-                            id_College = firstOrDefault.id_College
-                        };
-                        if (t[3] != "")
-                        {
-                            cours.resultat = Convert.ToInt32(t[3]);
-                        }
-                        _db.CoursSuivi.Add(cours);
+                        id_Pers = BrowserSessionBag.Current.id_Pers,
+                        id_Cours = Convert.ToInt32(t[0]),
+                        id_Statut = Convert.ToInt32(t[1]),
+                        id_Sess = Convert.ToInt32(t[2]),
+                        id_College = firstOrDefault.id_College
+                    };
+                    if (t[3] != "")
+                    {
+                        cours.resultat = Convert.ToInt32(t[3]);
                     }
-                    _db.SaveChanges();
+                    _db.CoursSuivi.Add(cours);
                 }
+                _db.SaveChanges();
             }
-            return RedirectToAction("Details", "DossierEtudiant", new { id = SessionBag.Current.id_Inscription });
+            return RedirectToAction("Details", "DossierEtudiant", new { id = BrowserSessionBag.Current.id_Inscription });
+        }
+
+        [HttpPost]
+        public ActionResult FormattageDesDisposPourModal(int typeInscription, string[] jours)
+        {
+            var retour = "";
+            var lRetour = new List<string>();
+            var lCases = new List<DisponibiliteStruct>();
+            var derniereCase = 0;
+            foreach (var j in jours)
+            {
+                var laCase = new DisponibiliteStruct
+                {
+                    Jour = j.Substring(0, j.IndexOf('-') - 1),
+                    Minutes = Convert.ToInt32(j.Substring(j.IndexOf('-') + 1, j.Length-1)),
+                    HeureDebut = TimeSpan.FromMinutes(Convert.ToInt32(j.Substring(j.IndexOf('-') + 1, j.Length-1)))
+                };
+                laCase.HeureFin = laCase.HeureDebut + TimeSpan.FromMinutes(90);
+                if (laCase.Minutes.Equals(derniereCase+DemiHeure))
+                {
+                    var premiereHeureDispoDeJournee = laCase.Minutes;
+                    while (!lCases.Exists(x => x.Minutes == premiereHeureDispoDeJournee && x.Jour == laCase.Jour))
+                    {
+                        premiereHeureDispoDeJournee -= DemiHeure;
+                    }
+                    var laCaseRetiree = lCases.Find(x => x.Jour == laCase.Jour && x.Minutes == premiereHeureDispoDeJournee);
+                    lCases.Remove(laCaseRetiree);
+                    laCase.HeureDebut = laCaseRetiree.HeureDebut;
+                }
+                lCases.Add(laCase);
+                derniereCase = laCase.Minutes;
+            }
+            foreach (var c in lCases.OrderBy(x=>x.Jour).ThenBy(x=>x.HeureDebut))
+            {
+                lRetour.Add(
+                    $"{c.Jour} de {c.HeureDebut.Hours}h{c.HeureDebut.Minutes:00} à {c.HeureFin.Hours}h{c.HeureFin.Minutes:00}");
+            }
+            foreach (var s in lRetour)
+            {
+                retour += "<p>" + s + "</p>";
+            }
+            return Json(new { success = true, data = retour });
         }
 
         protected override void Dispose(bool disposing)
         {
             if (disposing)
             {
-                _db.Dispose();
+                _dataRepository.Dispose();
             }
             base.Dispose(disposing);
         }

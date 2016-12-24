@@ -1,7 +1,8 @@
-﻿@model PagedList.IPagedList<sachem.Models.Cours>
+﻿@model PagedList.IPagedList<Cours>
+@using sachem.Models
 
 @{
-    ViewBag.Title = "Cours";
+    ViewBag.Title = Messages.Cours;
 }
 
 <h2>@ViewBag.Title</h2>
@@ -14,33 +15,45 @@
 
 @using (Html.BeginForm("Index", "Cours", FormMethod.Post, new { @class = "form-inline", role = "form" }))
 {
-    <h4>Recherche</h4>
-    <table class="table-condensed">
-        <tr>
-            <td>Session :</td>
-            <td>@Html.DropDownList("Session", null, "Toutes", htmlAttributes: new { @class = "form-search" })</td>
-            <td>Actif :</td>
-            <td>@Html.CheckBox("Actif", (bool)ViewBag.Actif)</td>
-            <td><input type="submit" value="Rechercher" class="form-search" /></td>
-        </tr>
-    </table>
+    <h4>@Messages.Recherche</h4>
+    <div class="recherche">
+        <div class="row">
+            <div class="col-md-3">
+                <div class="col-md-4 recherche-label">@Messages.Session</div>
+                <div class="col-md-8 recherche-field">@Html.DropDownList("Session", null, Messages.Toutes, new { @class = "form-control" })</div>
+            </div>
+            <div class="col-md-1">
+                <div class="col-md-6 recherche-label">@Messages.Actif</div>
+                <div class="col-md-6 recherche-label">@Html.CheckBox("Actif", (bool)ViewBag.Actif)</div>
+            </div>
+            <div class="col-md-2">
+                <button type="submit" class="btn btn-default" style="margin-bottom: 10px;">
+                    <i class="material-icons">search</i>@Messages.Rechercher
+                </button>
+            </div>
+        </div>
+    </div>
 }
 
-<div style="margin-top:5px;margin-bottom:10px;">@Html.ActionLink("Ajouter un cours", "Create", null, null, new { @class = "btn btn-default" })</div>
+<div style="margin-top: 5px; margin-bottom: 10px;">
+    <a class = "btn btn-default" href="@Url.Action("Create")">
+        <i class="material-icons">add</i>@Messages.CoursAjouterTitre
+    </a>
+</div>
 
 <table class="table">
     <tr>
-        <th class="col-sm-1">
+        <th class="col-md-1">
             @Html.DisplayNameFor(model => model.First().Code)
         </th>
-        <th class="col-sm-8">
+        <th class="col-md-9">
             @Html.DisplayNameFor(model => model.First().Nom)
         </th>
-        <th class="col-sm-1">
+        <th class="col-md-1">
             @Html.DisplayNameFor(model => model.First().Actif)
         </th>
 
-        <th class="col-sm-2"></th>
+        <th class="col-md-1"></th>
     </tr>
 
     @foreach (var item in Model)
@@ -56,9 +69,13 @@
                 @Html.DisplayFor(modelItem => item.Actif)
             </td>
 
-            <td>
-                @Html.ActionLink("Modifier", "Edit", new { id = item.id_Cours }) |
-                @Html.ActionLink("Supprimer", "Delete", new { id = item.id_Cours })
+            <td class="text-center">
+                <a href="@Url.Action("Edit", null, new {id = item.id_Cours})">
+                    <i class="material-icons">edit</i>
+                </a>
+                <a href="@Url.Action("Delete", null, new {id = item.id_Cours})">
+                    <i class="material-icons">delete</i>
+                </a>
             </td>
         </tr>
     }
@@ -66,7 +83,7 @@
     @if (!Model.Any())
     {
         <tr>
-            <td colspan="6">@sachem.Models.Messages.AucunCours</td>
+            <td colspan="6">@Messages.AucunCours</td>
         </tr>
     }
 

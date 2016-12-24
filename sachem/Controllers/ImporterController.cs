@@ -3,8 +3,8 @@ using System.Configuration;
 using System.IO;
 using System.Web.Mvc;
 using System.Web.WebPages;
+using sachem.Methodes_Communes;
 using sachem.Models;
-using sachem.Classes_Sachem;
 
 namespace sachem.Controllers
 {
@@ -15,7 +15,7 @@ namespace sachem.Controllers
         private const int Maxfilesize = 20;
         private const string Fileextension = ".csv";
 
-        [ValidationAcces.ValidationAccesSuper]
+        [ValidationAcces.ValidationAccesSuperEtResp]
         public ActionResult Index()
         {
             ViewBag.MAXFILES = Maxfiles;
@@ -46,7 +46,7 @@ namespace sachem.Controllers
 
                         if (isFileExist)
                         {
-                            message = Messages.FichierAvecLeMemeNomExisteDeja(fName);
+                            message = Messages.ImporterFichierAvecLeMemeNomExisteDeja(fName);
                         }
                         else
                         {
@@ -64,7 +64,7 @@ namespace sachem.Controllers
             }
             catch (Exception ex)
             {
-                message = Messages.ErreurTransfertFichier(fName)+"\n"+ex.Message;
+                message = Messages.ImporterErreurTransfertFichier(fName)+"\n"+ex.Message;
             }
 
             if (message.IsEmpty())

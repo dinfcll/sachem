@@ -1,13 +1,13 @@
-﻿@model sachem.Models.Personne
+﻿@using sachem.Models
+@model Personne
 
 @{
-    ViewBag.Title = "Ajouter enseignant";
+    ViewBag.Title = Messages.EnseignantAjouterTitre;
 }
 
 <h2>@ViewBag.Title</h2>
 
-
-@using (Html.BeginForm("Create", "Enseignant", FormMethod.Post)) 
+@using (Html.BeginForm("Create", "Enseignant", FormMethod.Post))
 {
     @Html.AntiForgeryToken()
     
@@ -16,8 +16,4 @@
 
         @Html.Partial("_Enseignant")
     </div>
-}
-
-@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
 }

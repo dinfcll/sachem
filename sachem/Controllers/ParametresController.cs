@@ -5,34 +5,50 @@ using System.Linq;
 using System.Web.Mvc;
 using sachem.Models;
 using PagedList;
-using sachem.Classes_Sachem;
+using sachem.Methodes_Communes;
+using sachem.Models.DataAccess;
 
 namespace sachem.Controllers
 {
     public class ParametresController : Controller
     {
         protected int NoPage = 1;
-        private const int IdCourriel = 1;
         private readonly SACHEMEntities _db = new SACHEMEntities();
+        private readonly IDataRepository _dataRepository;
+
+        public ParametresController(IDataRepository dataRepository)
+        {
+            _dataRepository = dataRepository;
+        }
+
+        public ParametresController()
+        {
+            _dataRepository = new BdRepository();
+        }
 
         [HttpGet]
-        [ValidationAcces.ValidationAccesSuper]
-        public ActionResult EditCourrier()
+        [ValidationAcces.ValidationAccesSuperEtResp]
+        public ActionResult EditCourrier(int courriel = 0)
         {
-            var courrier = _db.Courriel.First();
-            ViewBag.id_TypeCourriel = new SelectList(_db.p_TypeCourriel, "id_TypeCourriel", "TypeCourriel");
+            var idZero = _db.p_TypeCourriel.OrderBy(y => y.id_TypeCourriel).FirstOrDefault();
+            if (courriel == 0)
+            {
+                if (idZero != null) courriel = idZero.id_TypeCourriel;
+            }
+            var reqCourriel = _db.Courriel.OrderBy(y => y.id_TypeCourriel).FirstOrDefault(x => x.id_TypeCourriel == courriel);
+            ViewBag.id_TypeCourriel = _dataRepository.ListeTypesCourriels(courriel);
 
-            return View(courrier);
+            return View(reqCourriel);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult EditCourrier(Courriel courriel)
         {
-            courriel.id_TypeCourriel = IdCourriel;
-            if (courriel.DateFin != null)
+            var reqBdCourriel = _db.Courriel.AsNoTracking();
+            if (courriel.DateFin != null && courriel.DateDebut !=null)
             {
-                if ((courriel.DateDebut - courriel.DateFin.Value).TotalDays > 0)
+                if (courriel.DateDebut.Value.Subtract(courriel.DateFin.Value.TimeOfDay).TimeOfDay.Days>0)
                 {
                     ModelState.AddModelError(string.Empty, Messages.LongueurDeQuatreCaracteres);
                 }
@@ -40,15 +56,29 @@ namespace sachem.Controllers
 
             if (ModelState.IsValid)
             {
-                _db.Entry(courriel).State = EntityState.Modified;
-                _db.SaveChanges();
-                TempData["Success"] = Messages.CourrielMisAJour();
+                if (reqBdCourriel.ToList().Exists(x => x.id_TypeCourriel == courriel.id_TypeCourriel))
+                {
+                    courriel.id_Courriel = reqBdCourriel
+                        .Where(x => x.id_TypeCourriel == courriel.id_TypeCourriel)
+                        .Select(x => x.id_Courriel)
+                        .FirstOrDefault();
+                    _db.Entry(courriel).State = EntityState.Modified;
+                    _db.SaveChanges();
+                    TempData["Success"] = Messages.CourrielMisAJour;
+                }
+                else
+                {
+                    _db.Entry(courriel).State = EntityState.Added;
+                    _db.SaveChanges();
+                    TempData["Success"] = Messages.CourrielCree;
+                }
             }
-            return View();
+            ViewBag.id_TypeCourriel = _dataRepository.ListeTypesCourriels(courriel.id_TypeCourriel);
+            return View(courriel);
         }
 
         [HttpGet]
-        [ValidationAcces.ValidationAccesSuper]
+        [ValidationAcces.ValidationAccesSuperEtResp]
         public ActionResult EditContact()
         {
             var contact = _db.p_Contact.First();
@@ -58,7 +88,7 @@ namespace sachem.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [ValidationAcces.ValidationAccesSuper]
+        [ValidationAcces.ValidationAccesSuperEtResp]
         public ActionResult EditContact([Bind(Include = "id_Contact,Nom,Prenom,Courriel,Telephone,Poste,Facebook,SiteWeb,Local")] p_Contact contact)
         {
             ValiderContact(contact);
@@ -82,13 +112,13 @@ namespace sachem.Controllers
                 _db.Entry(contact).State = EntityState.Modified;
                 _db.SaveChanges();
 
-                TempData["Success"] = string.Format(Messages.NousContaterMisAJour());
+                TempData["Success"] = string.Format(Messages.ContactMisAJour);
                 return View(contact);
             }
             return View(contact);
         }
 
-        [ValidationAcces.ValidationAccesSuper]
+        [ValidationAcces.ValidationAccesSuperEtResp]
         public ActionResult EditHoraire(int session = 0)
         {
             var idZero = _db.Session.OrderByDescending(y => y.id_Sess).FirstOrDefault();
@@ -98,7 +128,7 @@ namespace sachem.Controllers
             }
             ViewBag.idSess = session;
             var lhoraire = _db.p_HoraireInscription.OrderByDescending(y => y.id_Sess).FirstOrDefault(x => x.id_Sess == session);
-            ViewBag.id_sess = Liste.ListeSession(session);
+            ViewBag.id_sess = _dataRepository.ListeSession(session);
             if (idZero != null) ViewBag.idSessStable = idZero.id_Sess;
 
             return View(lhoraire);
@@ -107,7 +137,7 @@ namespace sachem.Controllers
 
         
         [HttpPost]
-        [ValidationAcces.ValidationAccesSuper]
+        [ValidationAcces.ValidationAccesSuperEtResp]
         public ActionResult EditHoraire([Bind(Include = "id_Sess, DateDebut, DateFin, HeureDebut, HeureFin")] p_HoraireInscription horaireInscription)
         {
             var idSession = _db.Session.AsNoTracking().OrderByDescending(y => y.Annee).ThenByDescending(x => x.id_Saison).FirstOrDefault();
@@ -117,39 +147,38 @@ namespace sachem.Controllers
             {
                 if (session.Annee != horaireInscription.DateDebut.Year || session.Annee != horaireInscription.DateFin.Year)
                 {
-                    ModelState.AddModelError(string.Empty, Messages.DatesDansLaSession(session.Annee.ToString(), null));
+                    ModelState.AddModelError(string.Empty, Messages.HoraireDatesRestriction(session.Annee.ToString(), null));
                 }
 
                 if ((horaireInscription.DateFin - horaireInscription.DateDebut).TotalDays < 1)
                 {
-                    ModelState.AddModelError(string.Empty, Messages.ValidationDate());
+                    ModelState.AddModelError(string.Empty, Messages.HoraireValidationDate);
                 }
 
-                switch (session.p_Saison.id_Saison)
+                if (session.p_Saison.id_Saison == 1)
                 {
-                    //Si hiver : de janvier inclus jusqua mai inclus (mois fin <= 5) pas besoin de verif la date de début
-                    //car on est sur que c'est la bonne année et qu'elle est avant la date de fin
-                    case 1:
-                        if (horaireInscription.DateFin.Month > new DateTime(1, 5, 1).Month)
-                        {
-                            ModelState.AddModelError(string.Empty, Messages.DatesDansLaSession("d'hiver, janvier (01)", " à juin (06)"));
-                        }
-                        break;
-                    //Si ete : de juin inclus jusqua aout inclus (si mois du début >= 6 et mois fin <= 8)
-                    case 2:
-                        if (new DateTime(1, 6, 1).Month > horaireInscription.DateDebut.Month || horaireInscription.DateFin.Month > new DateTime(1, 8, 1).Month)
-                        {
-                            ModelState.AddModelError(string.Empty, Messages.DatesDansLaSession("d'été, juin (06)", " à août (08)"));
-                        }
-                        break;
-                    //si automne: de aout inclus jusqua decembre inclus (si mois du début >= 8 et mois fin <= 12)
-                    //pas besoin de verif la date de fin car on est sur que c'est la bonne année et qu'elle est apres la date de début
-                    case 3:
-                        if (new DateTime(1, 8, 1).Month > horaireInscription.DateDebut.Month)
-                        {
-                            ModelState.AddModelError(string.Empty, Messages.DatesDansLaSession("d'hiver, août (08)", " à décembre (12)"));
-                        }
-                        break;
+                    if (horaireInscription.DateFin.Month > new DateTime(1, 5, 1).Month)
+                    {
+                        ModelState.AddModelError(string.Empty,
+                            Messages.HoraireDatesRestriction("d'hiver, janvier (01)", " à juin (06)"));
+                    }
+                }
+                else if (session.p_Saison.id_Saison == 2)
+                {
+                    if (new DateTime(1, 6, 1).Month > horaireInscription.DateDebut.Month ||
+                        horaireInscription.DateFin.Month > new DateTime(1, 8, 1).Month)
+                    {
+                        ModelState.AddModelError(string.Empty,
+                            Messages.HoraireDatesRestriction("d'été, juin (06)", " à août (08)"));
+                    }
+                }
+                else if (session.p_Saison.id_Saison == 3)
+                {
+                    if (new DateTime(1, 8, 1).Month > horaireInscription.DateDebut.Month)
+                    {
+                        ModelState.AddModelError(string.Empty,
+                            Messages.HoraireDatesRestriction("d'hiver, août (08)", " à décembre (12)"));
+                    }
                 }
 
                 if (ModelState.IsValid)
@@ -158,20 +187,20 @@ namespace sachem.Controllers
 
                     _db.Entry(horaireInscription).State = sessionSurHi == null ? EntityState.Added : EntityState.Modified;
 
-                    TempData["Success"] = string.Format(Messages.HoraireMisAJour());
+                    TempData["Success"] = string.Format(Messages.HoraireMisAJour);
                     _db.SaveChanges();
                 }
             }
             var idZero = _db.Session.OrderByDescending(y => y.id_Sess).FirstOrDefault();
             ViewBag.idSess = session.id_Sess;
-            ViewBag.id_sess = Liste.ListeSession(session.id_Sess);
+            ViewBag.id_sess = _dataRepository.ListeSession(session.id_Sess);
             if (idZero != null) ViewBag.idSessStable = idZero.id_Sess;
 
             return View(horaireInscription);
         }
 
         [HttpGet]
-        [ValidationAcces.ValidationAccesSuper]
+        [ValidationAcces.ValidationAccesSuperEtResp]
         public ActionResult EditCollege(string recherche, int? page)
         {
             var pageNumber = page ?? 1;
@@ -180,28 +209,26 @@ namespace sachem.Controllers
         }
 
         [HttpPost]
-        [ValidationAcces.ValidationAccesSuper]
+        [ValidationAcces.ValidationAccesSuperEtResp]
         public void ModifCollege(string nomCollege, int? id)
         {
-            if (_db.p_College.Any(r => r.id_College == id))
+            if (!_db.p_College.Any(r => r.id_College == id)) return;
+            if (ModelState.IsValid)
             {
-                if (ModelState.IsValid)
-                {
-                    var college = _db.p_College.Find(id);
-                    college.College = nomCollege;
-                    _db.Entry(college).State = EntityState.Modified;
-                    _db.SaveChanges();
-                    TempData["Success"] = string.Format(Messages.CollegeModifie());
-                }
-                else
-                {
-                   TempData["Erreur"] = string.Format(Messages.CollegeDejaExistant());
-                }
+                var college = _db.p_College.Find(id);
+                college.College = nomCollege;
+                _db.Entry(college).State = EntityState.Modified;
+                _db.SaveChanges();
+                TempData["Success"] = string.Format(Messages.CollegeModifie);
+            }
+            else
+            {
+                TempData["Erreur"] = string.Format(Messages.CollegeDejaExistant);
             }
         }
 
         [HttpPost]
-        [ValidationAcces.ValidationAccesSuper]
+        [ValidationAcces.ValidationAccesSuperEtResp]
         public void AddCollege(string nomCollege)
         {
             if (ModelState.IsValid)
@@ -216,12 +243,12 @@ namespace sachem.Controllers
             }
             else
             {
-                TempData["Erreur"] = string.Format(Messages.CollegeDejaExistant());
+                TempData["Erreur"] = string.Format(Messages.CollegeDejaExistant);
             }
         }
 
         [HttpPost]
-        [ValidationAcces.ValidationAccesSuper]
+        [ValidationAcces.ValidationAccesSuperEtResp]
         public void DeleteCollege(int? id)
         {
             var college = _db.p_College.Find(id);
@@ -258,7 +285,7 @@ namespace sachem.Controllers
 
             var collegeFormater = Formatage(college);
 
-            if (!String.IsNullOrEmpty(recherche))
+            if (!string.IsNullOrEmpty(recherche))
             {
                 collegeFormater = collegeFormater.FindAll(c => c.College.ToLower().Contains(recherche.ToLower()));
             }
@@ -266,9 +293,9 @@ namespace sachem.Controllers
             return collegeFormater;
         }
 
-        private List<p_College> Formatage(IQueryable<p_College> college)
+        private static List<p_College> Formatage(IEnumerable<p_College> college)
         {
-            List<string> motsNonSignificatifs = new List<string> {
+            var motsNonSignificatifs = new List<string> {
                 "collège", "cégep", "collégial",
                 "college", "cegep", "collegial",
                 "de", "la", "du", "le", "les", "des" }; 
@@ -276,8 +303,8 @@ namespace sachem.Controllers
             int index;
             foreach(var element in college)
             {
-                string construitPhraseEntreParentheses = "";
-                string[] splitCollege = element.College.Split(' ');
+                var construitPhraseEntreParentheses = "";
+                var splitCollege = element.College.Split(' ');
                 index = 0;
                 while (index < splitCollege.Length-1 && 
                     motsNonSignificatifs.Exists(x => x.ToUpper().Equals(splitCollege[index].ToUpper())) && 
@@ -289,7 +316,7 @@ namespace sachem.Controllers
                 if (construitPhraseEntreParentheses.Length > 0)
                 {
                     element.College = "";
-                    for(int i=index;i<splitCollege.Length;i++)
+                    for(var i=index;i<splitCollege.Length;i++)
                     {
                         element.College += splitCollege[i] + " ";
                     }
@@ -302,6 +329,15 @@ namespace sachem.Controllers
                 collegeFormater.Add(element);
             }
             return collegeFormater.OrderBy(x => x.College).ToList();
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                _dataRepository.Dispose();
+            }
+            base.Dispose(disposing);
         }
     }
 }

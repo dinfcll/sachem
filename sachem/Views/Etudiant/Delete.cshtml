@@ -1,12 +1,13 @@
-﻿@model sachem.Models.Personne
+﻿@using sachem.Models
+@model Personne
 
 @{
-    ViewBag.Title = "Supprimer étudiant";
+    ViewBag.Title = Messages.EtudiantSupprimerTitre;
 }
 
 <h2>@ViewBag.Title</h2>
 
-<h3>@sachem.Models.Messages.VraimentSupprimerEtudiant(Model.PrenomNom)</h3>
+<h3>@Messages.EtudiantSupprimerQuestionSupprimerEtudiant(Model.PrenomNom)</h3>
 
 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
@@ -15,7 +16,7 @@
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayName("Nom")
+            @Html.DisplayNameFor(model => model.Nom)
         </dt>
 
         <dd>
@@ -23,7 +24,7 @@
         </dd>
 
         <dt>
-            @Html.DisplayName("Prénom")
+            @Html.DisplayNameFor(model => model.Prenom)
         </dt>
 
         <dd>
@@ -49,7 +50,7 @@
 
 
         <dt>
-            @Html.DisplayName("Date de naissance")
+            @Html.DisplayNameFor(model => model.DateNais)
         </dt>
 
         <dd>
@@ -66,7 +67,7 @@
         </dd>
 
         <dt>
-            @Html.DisplayName("Type usager")
+            @Html.DisplayNameFor(model => model.p_TypeUsag.TypeUsag)
         </dt>
 
         <dd>
@@ -79,8 +80,8 @@
         @Html.AntiForgeryToken()
 
         <div class="form-actions no-color">
-            <input type="submit" value="Supprimer" class="btn btn-default" />
-            @Html.ActionLink("Annuler", "Index", null, null, new { @class = "btn btn-default" })
+            <input type="submit" value="@Messages.Supprimer" class="btn btn-default" />
+            @Html.ActionLink(Messages.Annuler, "Index", null, null, new { @class = "btn btn-default" })
         </div>
     }
 </div>

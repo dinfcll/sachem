@@ -26,7 +26,7 @@ namespace sachem.Models
 
         
         [Required(ErrorMessage = Messages.ChampRequis)]
-        [VerificationDate(ErrorMessage = Messages.DatePlusHauteQueLAnneeDeFondationDuCepgep)]
+        [VerificationDate(ErrorMessage = Messages.DatePlusHauteQueLAnneeDeFondationDuCegep)]
         [Display(Name = "Année")]
         public int Annee { get; set; }
 

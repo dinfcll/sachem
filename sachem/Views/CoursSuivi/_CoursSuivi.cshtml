@@ -1,36 +1,36 @@
-﻿@model sachem.Models.CoursSuivi
+﻿@using sachem.Methodes_Communes
 @using sachem.Models
-
+@model CoursSuivi
 
 @Html.HiddenFor(model => model.id_Pers)
 <div class="form-group">
-    @Html.LabelFor(model => model.id_Cours, htmlAttributes: new {@class = "control-label col-md-2"})
+    @Html.LabelFor(model => model.id_Cours, new {@class = "control-label col-md-2"})
     <div class="col-md-10">
-        @Html.DropDownList("id_Cours", null , "--- Veuillez choisir un cours ---", htmlAttributes: new { @class = "form-control" })
+        @Html.DropDownList("id_Cours", null, Messages.VeuillezChoisir, new { @class = "form-control" })
         @Html.ValidationMessageFor(model => model.id_Cours, "", new {@class = "text-danger"})
     </div>
 </div>
 
 <div class="form-group">
-    @Html.LabelFor(model => model.autre_Cours, htmlAttributes: new { @class = "control-label col-md-2" })
+    @Html.LabelFor(model => model.autre_Cours, new { @class = "control-label col-md-2" })
     <div class="col-md-10">
         @Html.EditorFor(model => model.autre_Cours, new { htmlAttributes = new { @class = "form-control", maxlength = 100 } })
         @Html.ValidationMessageFor(model => model.autre_Cours, "", new { @class = "text-danger" })
     </div>
 </div>
 
-@if (sachem.Models.SachemIdentite.ObtenirTypeUsager(Session) == sachem.Models.TypeUsagers.Tuteur)
+@if (SachemIdentite.ObtenirTypeUsager(Session) == TypeUsager.Etudiant && (int)SachemIdentite.ObtenirTypeInscription(Session) > (int)TypeInscription.EleveAide)
 {
     <div class="form-group">
-        @Html.LabelFor(model => model.id_College, htmlAttributes: new { @class = "control-label col-md-2" })
+        @Html.LabelFor(model => model.id_College, new { @class = "control-label col-md-2" })
         <div class="col-md-10">
-            @Html.DropDownList("id_College", null, "--- Veuillez choisir un collège ---", htmlAttributes: new { @class = "form-control" })
+            @Html.DropDownList("id_College", null, Messages.VeuillezChoisir, new { @class = "form-control" })
             @Html.ValidationMessageFor(model => model.id_College, "", new { @class = "text-danger" })
         </div>
     </div>
 
     <div class="form-group">
-        @Html.LabelFor(model => model.autre_College, htmlAttributes: new { @class = "control-label col-md-2" })
+        @Html.LabelFor(model => model.autre_College, new { @class = "control-label col-md-2" })
         <div class="col-md-10">
             @Html.EditorFor(model => model.autre_College, new { htmlAttributes = new { @class = "form-control", maxlength = 250 } })
             @Html.ValidationMessageFor(model => model.autre_College, "", new { @class = "text-danger" })
@@ -39,42 +39,35 @@
 }
 
 <div class="form-group">
-    @Html.LabelFor(model => model.id_Sess, htmlAttributes: new { @class = "control-label col-md-2" })
+    @Html.LabelFor(model => model.id_Sess, new { @class = "control-label col-md-2" })
     <div class="col-md-10">
-        @Html.DropDownList("id_Sess" , null, htmlAttributes: new { @class = "form-control" })
+        @Html.DropDownList("id_Sess" , null, Messages.VeuillezChoisir, new { @class = "form-control" })
         @Html.ValidationMessageFor(model => model.id_Sess, "", new { @class = "text-danger" })
     </div>
 </div>
 
-@if (sachem.Models.SachemIdentite.ObtenirTypeUsager(Session) == sachem.Models.TypeUsagers.Eleve)
+@if (SachemIdentite.ObtenirTypeUsager(Session) == TypeUsager.Etudiant && SachemIdentite.ObtenirTypeInscription(Session) == TypeInscription.EleveAide)
 {
 <div class="form-group">
-    @Html.LabelFor(model => model.id_Statut, htmlAttributes: new { @class = "control-label col-md-2" })
+    @Html.LabelFor(model => model.id_Statut, new { @class = "control-label col-md-2" })
     <div class="col-md-10">
-            @Html.DropDownList("id_Statut", null, htmlAttributes: new { @class = "form-control" })
+            @Html.DropDownList("id_Statut", null, Messages.VeuillezChoisir, new { @class = "form-control" })
             @Html.ValidationMessageFor(model => model.id_Statut, "", new { @class = "text-danger" })
     </div>
 </div>
 }
 
 <div class="form-group">
-    @Html.LabelFor(model => model.resultat, htmlAttributes: new { @class = "control-label col-md-2" })
+    @Html.LabelFor(model => model.resultat, new { @class = "control-label col-md-2" })
     <div class="col-md-10">
-        @if(ViewBag.Resultat == "Edit")
-        {
-            @Html.TextBoxFor(model => model.resultat, new { @class = "form-control"}  )
-        }
-        else
-        {
-            @Html.EditorFor(model => model.resultat, new { htmlAttributes = new { @class = "form-control"} })
-        }
+        @(ViewBag.Resultat == "Edit" ? Html.TextBoxFor(model => model.resultat, new {@class = "form-control"}) : Html.EditorFor(model => model.resultat, new {htmlAttributes = new {@class = "form-control"}}))
         @Html.ValidationMessageFor(model => model.resultat, "", new { @class = "text-danger" })
     </div>
 </div>
 
 <div class="form-group">
     <div class="col-md-offset-2 col-md-10">
-        <input type="submit" value="Enregistrer" class="btn btn-default new { id = ViewBag.idPers }" />
-        @Html.ActionLink("Annuler", "Details", "DossierEtudiant", new { id = SessionBag.Current.id_Inscription }, new { @class = "btn btn-default" })
+        <input type="submit" value="@Messages.Enregistrer" class="btn btn-default new { id = ViewBag.idPers }" />
+        @Html.ActionLink(Messages.Annuler, "Details", "DossierEtudiant", new { id = BrowserSessionBag.Current.id_Inscription }, new { @class = "btn btn-default" })
     </div>
 </div>

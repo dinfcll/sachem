@@ -4,7 +4,7 @@ using System.Net;
 using System.Web.Mvc;
 using sachem.Models;
 using PagedList;
-using sachem.Classes_Sachem;
+using sachem.Methodes_Communes;
 using sachem.Models.DataAccess;
 
 namespace sachem.Controllers
@@ -20,13 +20,13 @@ namespace sachem.Controllers
 
         public CoursController(IDataRepository dataRepository)
         {
-            this._dataRepository = dataRepository;
+            _dataRepository = dataRepository;
         }
 
         private void Valider([Bind(Include = "id_Cours,Code,Nom,Actif")] Cours cours)
         {
-            if (_dataRepository.AnyCoursWhere(r => r.Code == cours.Code && r.id_Cours != cours.id_Cours))
-                ModelState.AddModelError(string.Empty, Messages.CoursADejaCeCode(cours.Code));
+            if (_dataRepository.AnyCours(r => r.Code == cours.Code && r.id_Cours != cours.id_Cours))
+                ModelState.AddModelError(string.Empty, Messages.CoursAjouterErreurCodeExisteDeja(cours.Code));
         }
 
         private IEnumerable<Cours> Rechercher()
@@ -62,10 +62,10 @@ namespace sachem.Controllers
 
             ViewBag.Actif = actif;
 
-            ViewBag.Session = Liste.ListeSession(sess);
+            ViewBag.Session = _dataRepository.ListeSession(sess);
 
             var cours = from c in _dataRepository.AllCours()
-                        where (_dataRepository.AnyGroupeWhere(r => r.id_Cours == c.id_Cours && r.id_Sess == sess) || sess == 0)
+                        where (_dataRepository.AnyGroupe(r => r.id_Cours == c.id_Cours && r.id_Sess == sess) || sess == 0)
                         && c.Actif == actif
                         orderby c.Code
                         select c;
@@ -76,7 +76,7 @@ namespace sachem.Controllers
             return cours.ToList();
         }
 
-        [ValidationAcces.ValidationAccesSuper]
+        [ValidationAcces.ValidationAccesSuperEtResp]
         public ActionResult Index(int? page)
         {
             var pageNumber = page ?? 1;
@@ -84,7 +84,7 @@ namespace sachem.Controllers
             return View(Rechercher().ToPagedList(pageNumber, 20));
         }
 
-        [ValidationAcces.ValidationAccesSuper]
+        [ValidationAcces.ValidationAccesSuperEtResp]
         public ActionResult Create()
         {
             return View();
@@ -108,7 +108,7 @@ namespace sachem.Controllers
 
         }
 
-        [ValidationAcces.ValidationAccesSuper]
+        [ValidationAcces.ValidationAccesSuperEtResp]
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -134,7 +134,7 @@ namespace sachem.Controllers
 
             if (ModelState.IsValid)
             {
-                _dataRepository.DeclareModified(cours);
+                _dataRepository.EditCours(cours);
 
                 TempData["Success"] = string.Format(Messages.CoursEnregistre(cours.Nom));
 
@@ -144,7 +144,7 @@ namespace sachem.Controllers
             return View(cours);
         }
 
-        [ValidationAcces.ValidationAccesSuper]
+        [ValidationAcces.ValidationAccesSuperEtResp]
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -163,9 +163,9 @@ namespace sachem.Controllers
         public ActionResult DeleteConfirmed(int id, int? page)
         {
             var pageNumber = page ?? 1;
-            if (_dataRepository.AnyGroupeWhere(g => g.id_Cours == id))
+            if (_dataRepository.AnyGroupe(g => g.id_Cours == id))
             {
-                ModelState.AddModelError(string.Empty, Messages.GroupeAssocieAUnCoursNePeutEtreSupprime());
+                ModelState.AddModelError(string.Empty, Messages.CoursSupprimerErreurGroupeAssocie);
             }
 
             if (ModelState.IsValid)

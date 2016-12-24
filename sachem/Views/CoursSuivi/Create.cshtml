@@ -1,7 +1,8 @@
-﻿@model sachem.Models.CoursSuivi
+﻿@using sachem.Models
+@model CoursSuivi
 
 @{
-    ViewBag.Title = "Ajouter un cours suivi antérieur";
+    ViewBag.Title = Messages.CoursSuiviAjouterTitre;
 }
 
 <h2>@ViewBag.Title</h2>
@@ -17,5 +18,3 @@
         @Html.Partial("_CoursSuivi", Model)
     </div>
 }
-
-@Html.Partial("_Footer", Model)

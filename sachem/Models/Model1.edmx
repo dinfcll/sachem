@@ -32,7 +32,7 @@ avertissement 6002: La table/vue 'SACHEM.dbo.Compteur' n'a pas de clé primaire 
           <Property Name="id_TypeCourriel" Type="int" Nullable="false" />
           <Property Name="Titre" Type="varchar" MaxLength="100" Nullable="false" />
           <Property Name="Courriel" Type="varchar(max)" Nullable="false" />
-          <Property Name="DateDebut" Type="date" Nullable="false" />
+          <Property Name="DateDebut" Type="date" />
           <Property Name="DateFin" Type="date" />
         </EntityType>
         <EntityType Name="Cours">
@@ -48,7 +48,7 @@ avertissement 6002: La table/vue 'SACHEM.dbo.Compteur' n'a pas de clé primaire 
           <Key>
             <PropertyRef Name="id_CoursInteret" />
           </Key>
-          <Property Name="id_CoursInteret" Type="int" Nullable="false" />
+          <Property Name="id_CoursInteret" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="id_Inscription" Type="int" Nullable="false" />
           <Property Name="id_Cours" Type="int" Nullable="false" />
           <Property Name="Priorite" Type="int" Nullable="false" />
@@ -371,15 +371,27 @@ avertissement 6002: La table/vue 'SACHEM.dbo.Compteur' n'a pas de clé primaire 
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_CoursInteret_Cours">
+          <End Role="Cours" Type="Self.Cours" Multiplicity="1" />
+          <End Role="CoursInteret" Type="Self.CoursInteret" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Cours">
+              <PropertyRef Name="id_Cours" />
+            </Principal>
+            <Dependent Role="CoursInteret">
+              <PropertyRef Name="id_Cours" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_CoursInteret_Inscription">
           <End Role="Inscription" Type="Self.Inscription" Multiplicity="1" />
-          <End Role="CoursInteret" Type="Self.CoursInteret" Multiplicity="*" />
+          <End Role="CoursInteret" Type="Self.CoursInteret" Multiplicity="0..1" />
           <ReferentialConstraint>
             <Principal Role="Inscription">
               <PropertyRef Name="id_Inscription" />
             </Principal>
             <Dependent Role="CoursInteret">
-              <PropertyRef Name="id_Inscription" />
+              <PropertyRef Name="id_CoursInteret" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -582,9 +594,7 @@ avertissement 6002: La table/vue 'SACHEM.dbo.Compteur' n'a pas de clé primaire 
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_GroupeEtudiant_Personne">
-          <End Role="Personne" Type="Self.Personne" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
+          <End Role="Personne" Type="Self.Personne" Multiplicity="1" />
           <End Role="GroupeEtudiant" Type="Self.GroupeEtudiant" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Personne">
@@ -592,18 +602,6 @@ avertissement 6002: La table/vue 'SACHEM.dbo.Compteur' n'a pas de clé primaire 
             </Principal>
             <Dependent Role="GroupeEtudiant">
               <PropertyRef Name="id_Etudiant" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_id_Cours">
-          <End Role="Cours" Type="Self.Cours" Multiplicity="1" />
-          <End Role="CoursInteret" Type="Self.CoursInteret" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Cours">
-              <PropertyRef Name="id_Cours" />
-            </Principal>
-            <Dependent Role="CoursInteret">
-              <PropertyRef Name="id_Cours" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -914,6 +912,10 @@ avertissement 6002: La table/vue 'SACHEM.dbo.Compteur' n'a pas de clé primaire 
             <End Role="p_TypeCourriel" EntitySet="p_TypeCourriel" />
             <End Role="Courriel" EntitySet="Courriel" />
           </AssociationSet>
+          <AssociationSet Name="FK_CoursInteret_Cours" Association="Self.FK_CoursInteret_Cours">
+            <End Role="Cours" EntitySet="Cours" />
+            <End Role="CoursInteret" EntitySet="CoursInteret" />
+          </AssociationSet>
           <AssociationSet Name="FK_CoursInteret_Inscription" Association="Self.FK_CoursInteret_Inscription">
             <End Role="Inscription" EntitySet="Inscription" />
             <End Role="CoursInteret" EntitySet="CoursInteret" />
@@ -985,10 +987,6 @@ avertissement 6002: La table/vue 'SACHEM.dbo.Compteur' n'a pas de clé primaire 
           <AssociationSet Name="FK_GroupeEtudiant_Personne" Association="Self.FK_GroupeEtudiant_Personne">
             <End Role="Personne" EntitySet="Personne" />
             <End Role="GroupeEtudiant" EntitySet="GroupeEtudiant" />
-          </AssociationSet>
-          <AssociationSet Name="FK_id_Cours" Association="Self.FK_id_Cours">
-            <End Role="Cours" EntitySet="Cours" />
-            <End Role="CoursInteret" EntitySet="CoursInteret" />
           </AssociationSet>
           <AssociationSet Name="FK_Inscription_p_StatutInscription" Association="Self.FK_Inscription_p_StatutInscription">
             <End Role="p_StatutInscription" EntitySet="p_StatutInscription" />
@@ -1287,6 +1285,10 @@ avertissement 6002: La table/vue 'SACHEM.dbo.Compteur' n'a pas de clé primaire 
             <End Role="Section" EntitySet="Section" />
             <End Role="Section1" EntitySet="Section" />
           </AssociationSet>
+          <AssociationSet Name="FK_CoursInteret_Inscription1" Association="SACHEMModel.FK_CoursInteret_Inscription1">
+            <End Role="Inscription" EntitySet="Inscription" />
+            <End Role="CoursInteret" EntitySet="CoursInteret" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="ChoixReponse">
           <Key>
@@ -1307,7 +1309,7 @@ avertissement 6002: La table/vue 'SACHEM.dbo.Compteur' n'a pas de clé primaire 
           <Property Name="id_TypeCourriel" Type="Int32" Nullable="false" />
           <Property Name="Titre" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="Courriel1" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="DateDebut" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="DateDebut" Type="DateTime" Precision="0" />
           <Property Name="DateFin" Type="DateTime" Precision="0" />
           <NavigationProperty Name="p_TypeCourriel" Relationship="SACHEMModel.FK_Courriel_p_TypeCourriel" FromRole="Courriel" ToRole="p_TypeCourriel" />
         </EntityType>
@@ -1333,6 +1335,7 @@ avertissement 6002: La table/vue 'SACHEM.dbo.Compteur' n'a pas de clé primaire 
           <Property Name="Priorite" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Cours" Relationship="SACHEMModel.FK_id_Cours" FromRole="CoursInteret" ToRole="Cours" />
           <NavigationProperty Name="Inscription" Relationship="SACHEMModel.FK_CoursInteret_Inscription" FromRole="CoursInteret" ToRole="Inscription" />
+          <NavigationProperty Name="Inscription1" Relationship="SACHEMModel.FK_CoursInteret_Inscription1" FromRole="CoursInteret" ToRole="Inscription" />
         </EntityType>
         <EntityType Name="CoursSuivi">
           <Key>
@@ -1452,6 +1455,7 @@ avertissement 6002: La table/vue 'SACHEM.dbo.Compteur' n'a pas de clé primaire 
           <NavigationProperty Name="Jumelage" Relationship="SACHEMModel.FK_Jumelage_Inscription" FromRole="Inscription" ToRole="Jumelage" />
           <NavigationProperty Name="Jumelage1" Relationship="SACHEMModel.FK_Jumelage_Inscription1" FromRole="Inscription" ToRole="Jumelage" />
           <NavigationProperty Name="ReponseQuestion" Relationship="SACHEMModel.FK_ReponseQuestion_Inscription" FromRole="Inscription" ToRole="ReponseQuestion" />
+          <NavigationProperty Name="CoursInteret1" Relationship="SACHEMModel.FK_CoursInteret_Inscription1" FromRole="Inscription" ToRole="CoursInteret" />
         </EntityType>
         <EntityType Name="Jumelage">
           <Key>
@@ -2239,6 +2243,18 @@ avertissement 6002: La table/vue 'SACHEM.dbo.Compteur' n'a pas de clé primaire 
             </Principal>
             <Dependent Role="Section1">
               <PropertyRef Name="id_SectionParent" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CoursInteret_Inscription1">
+          <End Type="SACHEMModel.Inscription" Role="Inscription" Multiplicity="1" />
+          <End Type="SACHEMModel.CoursInteret" Role="CoursInteret" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Inscription">
+              <PropertyRef Name="id_Inscription" />
+            </Principal>
+            <Dependent Role="CoursInteret">
+              <PropertyRef Name="id_CoursInteret" />
             </Dependent>
           </ReferentialConstraint>
         </Association>

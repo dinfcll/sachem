@@ -1,14 +1,13 @@
-﻿<script src="~/Scripts/jquery-1.10.2.js"></script>
-
+﻿@using sachem.Models
 <script type="text/javascript">
     $(document).ready(function () {
         $("#Sessions").change(function () {
             var vSession = $("#Sessions").val();
-            if ($("#Enseignants").is(':disabled') == false)
+            if (!$("#Enseignants").is(':disabled'))
             {
                 $.ajax({
                     type: 'POST',
-                    url:  @Html.Raw("\"/" + HttpContext.Current.Request.RequestContext.RouteData.Values["controller"].ToString() + "/ActualiseEnseignant\""),
+                    url:  @Html.Raw("\"/" + HttpContext.Current.Request.RequestContext.RouteData.Values["controller"] + "/ActualiseEnseignant\""),
                     data: {
                         session: vSession
                     },
@@ -18,7 +17,7 @@
                         $("#Enseignants").empty();
                         $("#Enseignants").append($('<option>', {
                             value: 0,
-                            text: 'Tous'
+                            text: '@Messages.Tous'
                         }));
 
                         $.each(donnees, function (i, item) {
@@ -46,7 +45,7 @@
                     $("#Cours").empty();
                     $("#Cours").append($('<option>', {
                         value: 0,
-                        text: "Tous"
+                        text: "@Messages.Tous"
                     }));
 
                     $.each(donnees, function (i, item) {
@@ -77,7 +76,7 @@
                     $("#Cours").empty();
                     $("#Cours").append($('<option>',{
                         value: 0,
-                        text: "Tous"
+                        text: "@Messages.Tous"
                     }));
 
                     $.each(donnees,function(i,item){

@@ -1,8 +1,8 @@
-﻿@model sachem.Models.Personne
-
+﻿@using sachem.Models
+@model Personne
 
 @{
-    ViewBag.Title = "Modifier enseignant";
+    ViewBag.Title = Messages.EnseignantModifierTitre;
 }
 
 <h2>@ViewBag.Title</h2>
@@ -17,12 +17,8 @@
         @Html.Partial("_Enseignant")
         <div class="form-group">
             <div class="col-md-10">
-                @Html.ActionLink("Accéder aux groupes de l'enseignant", "Index", "Groupes", new { id = Model.id_Pers }, new { @class = "" })
+                @Html.ActionLink(Messages.ConsulterGroupesEnseignant, "Index", "Groupes", new { id = Model.id_Pers }, new { @class = "" })
             </div>
         </div>
     </div>
-}
-
-@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
 }

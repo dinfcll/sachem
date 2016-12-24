@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using sachem.Models;
 using PagedList;
 using System.Net;
 using System.Data.Entity;
-using sachem.Classes_Sachem;
+using sachem.Methodes_Communes;
 
 namespace sachem.Controllers
 {
@@ -14,7 +13,7 @@ namespace sachem.Controllers
     {
         private readonly SACHEMEntities _db = new SACHEMEntities();
 
-        [ValidationAcces.ValidationAccesSuper]
+        [ValidationAcces.ValidationAccesSuperEtResp]
         public ActionResult Index(string recherche, int? page)
         {
             var numeroPage = (page ?? 1);
@@ -24,7 +23,7 @@ namespace sachem.Controllers
         }
         
         // GET: ProgrammesOfferts/Create
-        [ValidationAcces.ValidationAccesSuper]
+        [ValidationAcces.ValidationAccesSuperEtResp]
         public ActionResult Create()
         {
             return View();
@@ -41,7 +40,7 @@ namespace sachem.Controllers
                 _db.ProgrammeEtude.Add(programme);
                 _db.SaveChanges();
 
-                TempData["Success"] = string.Format(Messages.ProgrammeAvecMemeNom(programme.NomProg));
+                TempData["Success"] = string.Format(Messages.ProgrammeEnregistre(programme.NomProg));
                 return RedirectToAction("Index");
             }
             return View(programme);
@@ -49,7 +48,7 @@ namespace sachem.Controllers
 
         //Méthode qui permet de modifier un programme. on vérifie que le proramme existe bien pour pouvoir rediriger l'usager vers 
         //la bonne vue.
-        [ValidationAcces.ValidationAccesSuper]
+        [ValidationAcces.ValidationAccesSuperEtResp]
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -85,7 +84,7 @@ namespace sachem.Controllers
                 _db.Entry(programme).State = EntityState.Modified;
                 _db.SaveChanges();
 
-                TempData["Success"] = string.Format(Messages.ProgrammeAvecMemeNom(programme.NomProg));
+                TempData["Success"] = string.Format(Messages.ProgrammeEnregistre(programme.NomProg));
                 return RedirectToAction("Index");
             }
             return View(programme);
@@ -94,7 +93,7 @@ namespace sachem.Controllers
         // GET: ProgrammesOfferts/Delete/5
         //Fonction qui permet de retourner l'utilisateur à la page de suppression avec le bon programme d'étude. On verifie si le 
         //programme existe réellement pour rediriger l'usager vers la bonne action
-        [ValidationAcces.ValidationAccesSuper]
+        [ValidationAcces.ValidationAccesSuperEtResp]
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -121,7 +120,7 @@ namespace sachem.Controllers
            
             if (_db.EtuProgEtude.Any(r => r.id_ProgEtu == id))
             {
-                ModelState.AddModelError(string.Empty, Messages.ProgrammeNonSupprimeCarEtudiantYEstAsoocie());
+                ModelState.AddModelError(string.Empty, Messages.ProgrammeSupprimerErreurEtudiantAssocie);
             }
 
             if (ModelState.IsValid)
@@ -140,13 +139,13 @@ namespace sachem.Controllers
         { 
             if (_db.ProgrammeEtude.Any(c => c.Code == programme.Code && c.Actif && programme.Actif && c.id_ProgEtu != programme.id_ProgEtu))
             {
-                ModelState.AddModelError(String.Empty, Messages.ProgrammeAvecCodeDejaExistant(programme.Code));
+                ModelState.AddModelError(string.Empty, Messages.ProgrammeAjouterErreurExisteDeja(programme.Code));
             }
             if(_db.ProgrammeEtude.Any(c => c.id_ProgEtu == programme.id_ProgEtu && c.Actif) && programme.Actif == false)
             { 
                 if (_db.EtuProgEtude.Any(c => c.id_ProgEtu == programme.id_ProgEtu))
                 {
-                    ModelState.AddModelError(String.Empty, Messages.ImpossibleMettreProgrammeInactif());
+                    ModelState.AddModelError(string.Empty, Messages.ProgrammeInactifErreur);
                 }
             }
         }

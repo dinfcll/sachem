@@ -3,7 +3,7 @@ using System.IO;
 using System.Security.Cryptography;
 using System.Text;
 
-namespace sachem.Classes_Sachem
+namespace sachem.Methodes_Communes
 {
     public static class Crypto
     {
@@ -47,7 +47,7 @@ namespace sachem.Classes_Sachem
             var memoryStream = new MemoryStream(cipherTextBytes);
             var cryptoStream = new CryptoStream(memoryStream, decryptor, CryptoStreamMode.Read);
             var plainTextBytes = new byte[cipherTextBytes.Length];
-            var decryptedByteCount = cryptoStream.Read(plainTextBytes, 0, plainTextBytes.Length);
+            cryptoStream.Read(plainTextBytes, 0, plainTextBytes.Length);
             memoryStream.Close();
             cryptoStream.Close();
 

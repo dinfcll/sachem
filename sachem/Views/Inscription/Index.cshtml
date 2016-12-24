@@ -1,58 +1,64 @@
-﻿@model sachem.Models.Inscription
+﻿@using sachem.Models
+@model Inscription
 
 @{
-    ViewBag.Title = "Inscription";
+    ViewBag.Title = Messages.Inscription;
 }
-<style type="text/css">
-    .checkboxinscr {
-    -webkit-appearance:none;
-    width:30px;
-    height:30px;
-    background:white;
-    border-radius:5px;
-    border:2px solid #555;
-}
-.checkboxinscr:checked {
-    background: #abd;
-}
-</style>
 <script>
     function suivant() {
-        postData = getDisp();
-        var modal = document.getElementById('ConfirmDisp');
-        var boutonOk = document.getElementById('btnOk');
-        var confirmHoraire = "";
-        $.each(postData.jours, function (nom, disp) {
-            var date = new Date(0, 0, 0, 0, 0, 0, 0);
-            date.setMinutes(parseInt(disp.substring(disp.indexOf("-") + 1, disp.lentgh)));
-            var heureMin = date.toTimeString().substring(0, 5);
-            date.setMinutes(date.getMinutes() + 90);
-            var heureMax = date.toTimeString().substring(0, 5);
-            disp = disp.substring(0, disp.indexOf("-")) + " " + heureMin + " - " + heureMax;
-            confirmHoraire += disp + ", ";
-        })
-        confirmHoraire = confirmHoraire.substring(0, confirmHoraire.toString().length - 2) + ".";
-        document.getElementById("plageDisp").innerText = confirmHoraire;
-        document.getElementById("typeInsc").innerText = $('#TypeInscription :selected').text();
-        modal.style.display = 'block';
+        var idTypeInscChoisi = $('#TypeInscription :selected').val();
+        if (idTypeInscChoisi !== "Choisir") {
+            $('#modalTypeInscriptionErreur').addClass("hide");
+            var postData = getDisp();
+            var modal = document.getElementById('ConfirmDisp');
+            var boutonOk = document.getElementById('btnOk');
+            var confirmHoraire = "";
 
-        boutonOk.onclick = function () {
-            envoie();
+            $.ajax({
+                url: "/Inscription/FormattageDesDisposPourModal",
+                data: postData,
+                type: "POST",
+                traditional: true,
+                dataType: 'json',
+                success: function (data) {
+                    document.getElementById("plageDisp").innerText = data;
+                }
+            });
+
+            //$.each(postData.jours,
+            //    function (nom, disp) {
+            //        var date = new Date(0, 0, 0, 0, 0, 0, 0);
+            //        date.setMinutes(parseInt(disp.substring(disp.indexOf("-") + 1, disp.lentgh)));
+            //        var heureMin = date.toTimeString().substring(0, 5);
+            //        date.setMinutes(date.getMinutes() + 90);
+            //        var heureMax = date.toTimeString().substring(0, 5);
+            //        disp = disp.substring(0, disp.indexOf("-")) + " " + heureMin + " - " + heureMax;
+            //        confirmHoraire += disp + ", ";
+            //    });
+            //confirmHoraire = confirmHoraire.substring(0, confirmHoraire.toString().length - 2) + ".";
+            document.getElementById("plageDisp").innerText = confirmHoraire;
+            document.getElementById("typeInsc").innerText = $('#TypeInscription :selected').text();
+            modal.style.display = 'block';
+
+            boutonOk.onclick = function() {
+                envoie(postData);
             }
+        } else {
+            $('#modalTypeInscriptionErreur').removeClass("hide");
+        }
     }
 
     function getDisp() {
-        var HoraireArray = [];
+        var horaireArray = [];
         $('[name="horaireCheckbox"]:checked').each(function () {
-            HoraireArray.push(($(this).val()));
+            horaireArray.push(($(this).val()));
         });
         var typeinscr = $('#TypeInscription').val();
-        var postData = { typeInscription: typeinscr, jours: HoraireArray };
+        var postData = { typeInscription: typeinscr, jours: horaireArray };
         return postData;
         }
 
-    function envoie() {
-        var postData = getDisp();
+    function envoie(postData) {
         $.ajax({
             url: "/Inscription/Index",
             data: postData,
@@ -70,37 +76,37 @@
 <div class="container">
     <h2>@ViewBag.Title</h2>
     <p class="text-success">
-        @Html.Raw(@TempData["Success"])
+        @Html.Raw(TempData["Success"])
     </p>
 
     @Html.AntiForgeryToken()
 
     <div class="form-groug">
-        @Html.LabelFor(model => model.id_TypeInscription, htmlAttributes: new { @class = "control-label col-md-2" })
+        @Html.LabelFor(model => model.id_TypeInscription, new { @class = "control-label col-md-2" })
         <div class="col-md-10">
-            @Html.DropDownList("TypeInscription", null, "Choisir", htmlAttributes: new { @class = "form-control" })
-            @Html.ValidationMessageFor(model => model.id_TypeInscription, "", new { @class = "text-danger" })
+            @Html.DropDownList("TypeInscription", null, @Messages.VeuillezChoisir, new { @class = "form-control" })
+            <p id="modalTypeInscriptionErreur" class="text-danger hide">@Messages.InscriptionTypeInscriptionChoisiAlert</p>
         </div>
     </div>
-    <h3 class="page-header">Disponibilité</h3>
+    <h3 class="page-header">@Messages.Disponibilites</h3>
     <ul>
-        <li>@sachem.Models.Messages.InscriptionDirectivesTableauDisponibilite1()</li>
-        <li>@sachem.Models.Messages.InscriptionDirectivesTableauDisponibilite2()</li>
-        <li>@sachem.Models.Messages.InscriptionDirectivesTableauDisponibilite3()</li>
-        <li>@sachem.Models.Messages.InscriptionDirectivesTableauDisponibilite4()</li>
+        <li>@Messages.InscriptionDirectivesTableauDisponibilite1</li>
+        <li>@Messages.InscriptionDirectivesTableauDisponibilite2</li>
+        <li>@Messages.InscriptionDirectivesTableauDisponibilite3</li>
+        <li>@Messages.InscriptionDirectivesTableauDisponibilite4</li>
     </ul>
     <form method="post" id="TabDisp">
         <table class="table-bordered table-striped col-sm-12">
-            @{ List<string> jours = ((sachem.Controllers.InscriptionController)this.ViewContext.Controller).RetourneListeJours(); }
+            @{ var jours = ((sachem.Controllers.InscriptionController)ViewContext.Controller).RetourneListeJours(); }
             <tr>
-                <th class="col-sm-2 text-center" style="height:30px;font-weight:bold;color:white;background-color:#666;">Heures</th>
+                <th class="col-sm-2 text-center" style="height:30px;font-weight:bold;color:white;background-color:#666;">@Messages.Heures</th>
                 @foreach (string jour in jours)
                 {
                     <th class="col-sm-2 text-center" style="height:30px;font-weight:bold;color:white;background-color:#666;">@jour</th>
                 }
             </tr>
-            @{ Dictionary<string, List<string>> ListeLabelValueDeTableauDisponibilite = ((sachem.Controllers.InscriptionController)this.ViewContext.Controller).RetourneTableauDisponibilite(); }
-            @{foreach (var v in ListeLabelValueDeTableauDisponibilite)
+            @{ var listeLabelValueDeTableauDisponibilite = ((sachem.Controllers.InscriptionController)ViewContext.Controller).RetourneTableauDisponibilite(); }
+            @{foreach (var v in listeLabelValueDeTableauDisponibilite)
                 {
                     <tr>
                         <td class="text-center">
@@ -110,10 +116,10 @@
                             {
                                 <td class="text-center checkzone">
                                     
-                                    @Html.CheckBox("horaireCheckbox", false, htmlAttributes: new
+                                    @Html.CheckBox("horaireCheckbox", false, new
                         {
-                                   @id = w,
-                                   @value = w
+                                   id = w,
+                                   value = w
                                })<input type="checkbox"/><label for="@w"></label>
                                    
                                 </td>
@@ -133,17 +139,17 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">@sachem.Models.Messages.InscriptionConfirmationDispoTitre</h4>
+                    <h4 class="modal-title">@Messages.InscriptionConfirmationDispoTitre</h4>
                 </div>
                 <div class="modal-body">
-                    <p>@sachem.Models.Messages.InscriptionTypeInscriptionChoisi</p>
-                    <p id="typeInsc"></p>
-                    <p>@sachem.Models.Messages.InscriptionDisposChoisis</p> 
-                    <p id="plageDisp"></p>
+                        <p><b>@Messages.InscriptionTypeInscriptionChoisi</b></p>
+                        <p id="typeInsc"></p>
+                        <p><b>@Messages.InscriptionDisposChoisis</b></p>
+                        <p id="plageDisp"></p>
                 </div>
                 <div class="modal-footer">
-                    <button id="btnOk" type="button" data-dismiss="modal" class="btn btn-primary">Confirmer</button>
-                    <button type="button" data-dismiss="modal" class="btn">Annuler</button>
+                    <button id="btnOk" type="button" data-dismiss="modal" class="btn btn-primary">@Messages.Valider</button>
+                    <button type="button" data-dismiss="modal" class="btn">@Messages.Annuler</button>
                 </div>
             </div>
         </div>

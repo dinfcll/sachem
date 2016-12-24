@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web.Mvc;
 using sachem.Models;
 
-namespace sachem.Classes_Sachem
+namespace sachem.Methodes_Communes
 {
     public abstract class ValidationAcces
     {
@@ -12,78 +12,100 @@ namespace sachem.Classes_Sachem
         private static string _pathErreurDeja = "/Home/Deja";
         private static string _pathLogin = "/Account/Login";
         private static string _pathErreurFerme = "/Home/Ferme";
-        private static readonly List<TypeUsagers> RolesAccesSuper = new List<TypeUsagers> { TypeUsagers.Responsable, TypeUsagers.Super };
-        private static readonly List<TypeUsagers> RolesAccesEnseignant = new List<TypeUsagers> { TypeUsagers.Enseignant, TypeUsagers.Responsable, TypeUsagers.Super };
-        private static readonly List<TypeUsagers> RolesAccesTuteur = new List<TypeUsagers> { TypeUsagers.Responsable, TypeUsagers.Super, TypeUsagers.Enseignant, TypeUsagers.Tuteur };
-        private static readonly List<TypeUsagers> RolesAccesEleve = new List<TypeUsagers> { TypeUsagers.Responsable, TypeUsagers.Super, TypeUsagers.Enseignant, TypeUsagers.Tuteur, TypeUsagers.Eleve };
-        private static readonly List<TypeUsagers> RolesAccesEtu = new List<TypeUsagers> { TypeUsagers.Etudiant };
-        private static readonly List<TypeUsagers> RolesAccesAucun = new List<TypeUsagers> { TypeUsagers.Aucun };
 
-        private static void VerifAcces(List<TypeUsagers> listeRoles, ActionExecutingContext filterContext, string redirectTo)
+        private static readonly List<TypeUsager> RolesAccesSuper = new List<TypeUsager> { TypeUsager.Responsable, TypeUsager.Super };
+        private static readonly List<TypeUsager> RolesAccesEnseignant = new List<TypeUsager> { TypeUsager.Enseignant, TypeUsager.Responsable, TypeUsager.Super };
+        private static readonly List<TypeUsager> RolesAccesEtu = new List<TypeUsager> { TypeUsager.Responsable, TypeUsager.Super, TypeUsager.Enseignant, TypeUsager.Etudiant };
+        private static readonly List<TypeUsager> RolesAccesAucun = new List<TypeUsager> { TypeUsager.Aucun };
+
+        private static readonly List<TypeInscription> InscriptionTuteurs = new List<TypeInscription> { TypeInscription.TuteurCours, TypeInscription.TuteurBenevole, TypeInscription.TuteurRemunere };
+        private static readonly List<TypeInscription> InscriptionTuteurBenEtRem = new List<TypeInscription> { TypeInscription.TuteurBenevole, TypeInscription.TuteurRemunere };
+        private static readonly List<TypeInscription> InscriptionTuteurCours = new List<TypeInscription> { TypeInscription.TuteurCours };
+        private static readonly List<TypeInscription> InscriptionEleveAide = new List<TypeInscription> { TypeInscription.EleveAide, TypeInscription.TuteurCours, TypeInscription.TuteurBenevole, TypeInscription.TuteurRemunere  };
+
+        private static void VerifAcces(List<TypeUsager> listeRoles, ActionExecutingContext filterContext, string redirectTo)
         {
             var verif = SachemIdentite.ValiderRoleAcces(listeRoles, filterContext.HttpContext.Session);
             if (!verif)
                 filterContext.Result = new RedirectResult(redirectTo);
         }
-
-        public class ValidationAccesSuper : ActionFilterAttribute
+        private static void VerifEtudiantAcces(List<TypeInscription> listeInscriptions, List<TypeUsager> listeRoles, ActionExecutingContext filterContext, string redirectTo)
         {
-            
-            
+            var verif = SachemIdentite.ValiderRoleAccesSuperieurAEtudiant(listeRoles, filterContext.HttpContext.Session);
+            if (verif) return;
+            verif = SachemIdentite.ValiderRoleAcces(listeRoles, filterContext.HttpContext.Session);
+            if (!verif)
+                filterContext.Result = new RedirectResult(redirectTo);
+            verif = SachemIdentite.ValiderEtudiantTypeAcces(listeInscriptions, filterContext.HttpContext.Session);
+            if (!verif)
+                filterContext.Result = new RedirectResult(redirectTo);
+        }
+
+        public class ValidationAccesSuperEtResp : ActionFilterAttribute
+        {
             public override void OnActionExecuting(ActionExecutingContext filterContext)
             {
                 VerifAcces(RolesAccesSuper, filterContext, _pathErreurAuth);
             }
-
         }
 
         public class ValidationAccesEnseignant : ActionFilterAttribute
         {
-            
             public override void OnActionExecuting(ActionExecutingContext filterContext)
             {
                 VerifAcces(RolesAccesEnseignant, filterContext, _pathErreurAuth);
             }
-
         }
 
-        public class ValidationAccesTuteur : ActionFilterAttribute
+        public class ValidationAccesEtudiants : ActionFilterAttribute
         {
-            
-            public override void OnActionExecuting(ActionExecutingContext filterContext)
-            {
-                VerifAcces(RolesAccesTuteur, filterContext, _pathErreurAuth);
-            }
-
-        }
-
-        public class ValidationAccesEleve : ActionFilterAttribute
-        {
-
-            public override void OnActionExecuting(ActionExecutingContext filterContext)
-            {
-                VerifAcces(RolesAccesEleve, filterContext, _pathErreurAuth);
-            }
-
-        }
-        public class ValidationAccesEtu : ActionFilterAttribute
-        {
-            
             public override void OnActionExecuting(ActionExecutingContext filterContext)
             {
                 VerifAcces(RolesAccesEtu, filterContext, _pathErreurAuth);
             }
-
         }
+
+        public class ValidationAccesTousTuteurs : ActionFilterAttribute
+        {
+            public override void OnActionExecuting(ActionExecutingContext filterContext)
+            {
+                VerifEtudiantAcces(InscriptionTuteurs, RolesAccesEtu, filterContext, _pathErreurAuth);
+            }
+        }
+
+        public class ValidationAccesTuteursBenevoleEtRemunere : ActionFilterAttribute
+        {
+            public override void OnActionExecuting(ActionExecutingContext filterContext)
+            {
+                VerifEtudiantAcces(InscriptionTuteurBenEtRem, RolesAccesEtu, filterContext, _pathErreurAuth);
+            }
+        }
+
+        public class ValidationAccesTuteurCours : ActionFilterAttribute
+        {
+            public override void OnActionExecuting(ActionExecutingContext filterContext)
+            {
+                VerifEtudiantAcces(InscriptionTuteurCours, RolesAccesEtu, filterContext, _pathErreurAuth);
+            }
+        }
+
+        public class ValidationAccesEleveAide : ActionFilterAttribute
+        {
+            public override void OnActionExecuting(ActionExecutingContext filterContext)
+            {
+                VerifEtudiantAcces(InscriptionEleveAide, RolesAccesEtu, filterContext, _pathErreurAuth);
+            }
+        }
+        
 
         public class ValidationAccesInscription : ActionFilterAttribute
         {
-            private readonly SACHEMEntities _db = new SACHEMEntities();
-            private readonly int? _id = SessionBag.Current.id_Pers;           
+            private readonly SACHEMEntities _db = new SACHEMEntities();          
 
             public override void OnActionExecuting(ActionExecutingContext filterContext)
-            {               
-                if (_id == null)
+            {
+                int id = BrowserSessionBag.Current.id_Pers;
+                if (id == 0)
                 {
                     filterContext.Result = new RedirectResult(_pathLogin);
                     base.OnActionExecuting(filterContext);
@@ -99,7 +121,7 @@ namespace sachem.Classes_Sachem
                     filterContext.Result = new RedirectResult(_pathErreurFerme);
                 }
 
-                var inscriptionExistante = _db.Inscription.Any(x => x.id_Pers == _id);
+                var inscriptionExistante = _db.Inscription.Any(x => x.id_Pers == id);
                 if(inscriptionExistante)
                 {
                     filterContext.Result = new RedirectResult(_pathErreurDeja);

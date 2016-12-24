@@ -1,8 +1,7 @@
-﻿@using Microsoft.AspNet.Identity
+﻿@using sachem.Methodes_Communes
 @using sachem.Models
-@if (SessionBag.Current.NomComplet !=null)
+@if (BrowserSessionBag.Current.NomComplet !=null)
 {
-    string NomComplet = SessionBag.Current.NomComplet;
     using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
     {
         @Html.AntiForgeryToken()
@@ -10,30 +9,23 @@
         <ul class="nav navbar-nav navbar-right">
             <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                    <span class="glyphicon glyphicon-user"></span>
-                    <span class="nomUtilisateurNav">@Session["NomComplet"]</span>
-                    @if ((int)Session["id_TypeUsag"] == 1 && Session["CouleurPortrait"] != null)
-                    {
-                        <span class="glyphicon glyphicon-certificate" style="color:@Session["CouleurPortrait"]"></span>
-                    }
-                    <b class="caret">
-                    </b>
+                    <i class="material-icons">person</i><span class="nomUtilisateurNav">@Session["NomComplet"]</span>
+                    <b class="caret"></b>
                 </a>
 
                 <ul class="dropdown-menu">
                     <li>
                         <a href="@Url.Action("ModifierPassword", "Account")">
-                            <span class="glyphicon glyphicon-cog"></span><span>&nbsp;Modifier mot de passe</span>
+                            <i class="material-icons">lock_open</i><span>@Messages.ModifierMotPasse</span>
                         </a>
                     </li>
                     <li>
                         <a href="@Url.Action("LogOff", "Account")">
-                            <span class="glyphicon glyphicon-log-out"></span><span>&nbsp; Déconnexion</span>
+                            <i class="material-icons">input</i><span>@Messages.Deconnexion</span>
                         </a>
                     </li>
                 </ul>
             </li>
-
         </ul>
     }
 }
@@ -42,12 +34,12 @@ else
 <ul class="nav navbar-nav navbar-right">
     <li>
         <a href="@Url.Action("Register", "Account")">
-            <span class="glyphicon glyphicon-user"></span><span>&nbsp; S’inscrire</span>
+            <i class="material-icons">person</i><span>@Messages.Sinscrire</span>
         </a>
     </li>
     <li>
         <a href="@Url.Action("Login", "Account")">
-            <span class="glyphicon glyphicon-log-in"></span><span>&nbsp; Se connecter</span>
+            <i class="material-icons">input</i><span>@Messages.SeConnecter</span>
         </a>
     </li>
 </ul>

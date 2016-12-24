@@ -10,12 +10,11 @@
 namespace sachem.Models
 {
     using System;
-    using System.Collections.Generic;
     
     public partial class p_TypeFormulaire
     {
         public int id_TypeFormulaire { get; set; }
-        public Nullable<int> id_TypeInscription { get; set; }
+        public int? id_TypeInscription { get; set; }
         public string TypeFormulaire { get; set; }
     
         public virtual Formulaire Formulaire { get; set; }

@@ -1,57 +1,44 @@
-﻿@model sachem.Models.Groupe
+﻿@using sachem.Models
+@model Groupe
 
 <div class="form-group">
-    @Html.LabelFor(model => model.NoGroupe, htmlAttributes: new { @class = "control-label col-md-2" })
+    @Html.LabelFor(model => model.NoGroupe, new { @class = "control-label col-md-2" })
     <div class="col-md-10">
-        @Html.EditorFor(model => model.NoGroupe, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.EditorFor(model => model.NoGroupe, new { htmlAttributes = new { @class = "form-control", type="number", minlength="4", maxlength = "4", title=Messages.LongueurDeQuatreCaracteres } })
         @Html.ValidationMessageFor(model => model.NoGroupe, "", new { @class = "text-danger" })
     </div>
 </div>
 
 <div class="form-group">
-    @Html.LabelFor(model => model.id_Sess, "Session", htmlAttributes: new { @class = "control-label col-md-2" })
+    @Html.LabelFor(model => model.id_Sess, "Session", new { @class = "control-label col-md-2" })
     <div class="col-md-10">
-        @Html.DropDownList("id_Sess", null, htmlAttributes: new { @class = "form-control" })
+        @Html.DropDownList("id_Sess", null, Messages.VeuillezChoisir, new { @class = "form-control" })
         @Html.ValidationMessageFor(model => model.id_Sess, "", new { @class = "text-danger" })
     </div>
 </div>
 
 <div class="form-group">
-    @Html.LabelFor(model => model.id_Enseignant, "Enseignant", htmlAttributes: new { @class = "control-label col-md-2" })
+    @Html.LabelFor(model => model.id_Enseignant, "Enseignant", new { @class = "control-label col-md-2" })
     <div class="col-md-10">
-        @if (ViewBag.Disabled != null && ViewBag.Disabled == "")
-        {
-            @Html.DropDownList("id_Enseignant", null, htmlAttributes: new { @class = "form-control" })
-        }
-        else
-        {
-            @Html.DropDownList("id_Enseignant", null, htmlAttributes: new { @class = "form-control", @disabled = ViewBag.Disabled })
-        }
+        @(ViewBag.Disabled == "" ? Html.DropDownList("id_Enseignant", null, Messages.VeuillezChoisir, new {@class = "form-control"}) : Html.DropDownList("id_Enseignant", null, Messages.VeuillezChoisir, new {@class = "form-control", disabled = ViewBag.Disabled}))
         @Html.ValidationMessageFor(model => model.id_Enseignant, "", new { @class = "text-danger" })
     </div>
 </div>
 
 <div class="form-group">
-    @Html.LabelFor(model => model.id_Cours, "Cours", htmlAttributes: new { @class = "control-label col-md-2" })
+    @Html.LabelFor(model => model.id_Cours, "Cours", new { @class = "control-label col-md-2" })
     <div class="col-md-10">
-        @Html.DropDownList("id_Cours", null, htmlAttributes: new { @class = "form-control" })
+        @Html.DropDownList("id_Cours", null, Messages.VeuillezChoisir, new { @class = "form-control" })
         @Html.ValidationMessageFor(model => model.id_Cours, "", new { @class = "text-danger" })
     </div>
 </div>
 
 <div class="form-group">
     <div class="col-md-offset-2 col-md-10">
-        <input type="submit" value="Enregistrer" class="btn btn-default" />
+        <input type="submit" value="@Messages.Enregistrer" class="btn btn-default" />
         @if (Request.UrlReferrer != null)
         {
-            if (Request.UrlReferrer.ToString().Contains("ConsulterCours/Details")) // Si on arrive du controller "ConsulterCours"
-            {
-                @Html.ActionLink("Annuler", "Details", "ConsulterCours", new { idCours = Model.Cours.id_Cours, idSess = Model.id_Sess }, new { @class = "btn btn-default" })
-            }
-            else // Sinon
-            {
-                @Html.ActionLink("Annuler", "Index", null, null, new { @class = "btn btn-default" })
-            }
+            @(Request.UrlReferrer.ToString().Contains("ConsulterCours/Details") ? Html.ActionLink(Messages.Annuler, "Details", "ConsulterCours", new {idCours = Model.Cours.id_Cours, idSess = Model.id_Sess}, new {@class = "btn btn-default"}) : Html.ActionLink(Messages.Annuler, "Index", null, null, new {@class = "btn btn-default"}))
         }
     </div>
 </div>

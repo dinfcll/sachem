@@ -1,11 +1,11 @@
-﻿@model sachem.Models.CoursSuivi
+﻿@using sachem.Models
+@model CoursSuivi
 
 @{
-    ViewBag.Title = "Modifier un cours suivi antérieur";
+    ViewBag.Title = Messages.CoursSuiviModifierTitre;
 }
 
 <h2>@ViewBag.Title</h2>
-
 
 @using (Html.BeginForm())
 {
@@ -19,5 +19,3 @@
         @Html.Partial("_CoursSuivi", Model)
     </div>
 }
-
-@Html.Partial("_Footer", Model)

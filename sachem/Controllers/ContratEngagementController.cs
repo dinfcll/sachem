@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Web.Mvc;
 using sachem.Models;
-using sachem.Classes_Sachem;
+using sachem.Methodes_Communes;
 
 namespace sachem.Controllers
 {
@@ -10,10 +10,10 @@ namespace sachem.Controllers
     {
         private readonly SACHEMEntities _db = new SACHEMEntities();
 
-        [ValidationAcces.ValidationAccesEtu]
+        [ValidationAcces.ValidationAccesEtudiants]
         public ActionResult Index()
         {
-            int idDeLaPersonneConnectee = SessionBag.Current.id_Pers;
+            int idDeLaPersonneConnectee = BrowserSessionBag.Current.id_Pers;
             var inscriptionDeLaPersonneConnectee = _db.Inscription.First(c => c.id_Pers == idDeLaPersonneConnectee);
 
             return View(inscriptionDeLaPersonneConnectee);
@@ -23,7 +23,7 @@ namespace sachem.Controllers
         public ActionResult Index(string motDePasse, bool confirmationSignatureContrat, [Bind(Include = "id_Inscription")] Inscription inscription)
         {
             motDePasse = SachemIdentite.EncrypterChaine(motDePasse);
-            int idDeLaPersonneConnectee = SessionBag.Current.id_Pers;
+            int idDeLaPersonneConnectee = BrowserSessionBag.Current.id_Pers;
             var personneConnectee = _db.Personne.Find(idDeLaPersonneConnectee);
 
             var inscriptionDeLaPersonneConnectee = _db.Inscription.Find(inscription.id_Inscription);
@@ -31,12 +31,12 @@ namespace sachem.Controllers
             
             if (motDePasse != personneConnectee.MP)
             {
-                ModelState.AddModelError(string.Empty, Messages.MotsDePasseDoiventEtreIdentiques());
+                ModelState.AddModelError(string.Empty, Messages.MotsDePasseDoiventEtreIdentiques);
             }
 
             if (!confirmationSignatureContrat)
             {
-                ModelState.AddModelError(string.Empty, Messages.CaseDoitEtreCochee());
+                ModelState.AddModelError(string.Empty, Messages.ContratCaseDoitEtreCochee);
             }
 
             if (ModelState.IsValid)

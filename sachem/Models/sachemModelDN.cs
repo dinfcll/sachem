@@ -24,12 +24,10 @@ namespace sachem.Models
             get
             {
                 var age = 0;
-                if (DateNais != null)
-                {
-                    var datedujour = DateTime.Today;
-                    age = datedujour.Year - DateNais.Value.Year;
-                    if (DateNais > datedujour.AddYears(-age)) age--;
-                }
+                if (DateNais == null) return age;
+                var datedujour = DateTime.Today;
+                age = datedujour.Year - DateNais.Value.Year;
+                if (DateNais > datedujour.AddYears(-age)) age--;
                 return age;
             }
         }
@@ -55,13 +53,7 @@ namespace sachem.Models
     {
 
         //concaténation du code et du nom de programme formatté
-        public string CodeNomProgramme
-        {
-            get
-            {
-                return string.Format("{0}-{1}", Code, NomProg);
-            }
-        }
+        public string CodeNomProgramme => $"{Code}-{NomProg}";
     }
 
     public partial class Cours

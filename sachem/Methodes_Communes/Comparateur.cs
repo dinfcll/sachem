@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections;
 
-namespace sachem.Classes_Sachem
+namespace sachem.Methodes_Communes
 {
     public class AlphanumComparatorFast : IComparer
     {

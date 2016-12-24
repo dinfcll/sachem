@@ -1,5 +1,4 @@
-﻿<script src="~/Scripts/jquery-1.10.2.js"></script>
-
+﻿@using sachem.Models
 <script type="text/javascript">
     $(document).ready(function () {
         $("#SelectSession").change(function () {
@@ -8,7 +7,7 @@
             $.ajax({
                 type: 'POST',
                 url:
-                    @Html.Raw("\"/" + HttpContext.Current.Request.RequestContext.RouteData.Values["controller"].ToString() + "/ActualiseCoursddl\""),
+                    @Html.Raw("\"/" + HttpContext.Current.Request.RequestContext.RouteData.Values["controller"] + "/ActualiseCoursddl\""),
                 data: {
                     session: vSession
                 },
@@ -21,13 +20,13 @@
                     $("#SelectCours").empty();
                     $('#SelectCours').append($('<option>', {
                         value: 0,
-                        text: 'Tous'
+                        text: '@Messages.Tous'
                     }));
 
                     $("#SelectGroupe").empty();
                     $('#SelectGroupe').append($('<option>', {
                         value: 0,
-                        text: 'Tous'
+                        text: '@Messages.Tous'
                     }));
 
                     $.each(donnees, function (i, item) {
@@ -41,11 +40,11 @@
                 }
             });
 
-            var vCours = $('#SelectCours').val()
+            var vCours = $('#SelectCours').val();
 
             $.ajax({
                 type: 'POST',
-                url: "/RechercheEtudiant/ActualiseGroupeddl",
+                url: "/Etudiant/ActualiseGroupeddl",
                 data: {
                     session : vSession,
                     cours: vCours },
@@ -58,7 +57,7 @@
                     $("#SelectGroupe").empty();
                     $('#SelectGroupe').append($('<option>', {
                         value: 0,
-                        text: 'Tous'
+                        text: '@Messages.Tous'
                     }));
 
                     $.each(donnees, function (i, item) {
@@ -75,11 +74,11 @@
 
         $("#SelectCours").change(function () {
             var vSession = $('#SelectSession').val();
-            var vCours = $('#SelectCours').val()
+            var vCours = $('#SelectCours').val();
 
             $.ajax({
                 type: 'POST',
-                url: "/RechercheEtudiant/ActualiseGroupeddl",
+                url: "/Etudiant/ActualiseGroupeddl",
                 data: {
                     session : vSession,
                     cours: vCours },
@@ -102,35 +101,57 @@
 
                         }));
                     });
-
                 }
             });
         });
-
-
-
-
     });
-
 </script>
 
-<div class="form-inline">
+    <h4>@Messages.Recherche</h4>
 
-    <h4>Recherche</h4>
 
-    <table class="table-condensed">
-        <tr>
-            <td>No de DA :</td>
-            <td>@Html.Editor("Matricule", new { htmlAttributes = new { @class = "form-control", @maxlength = "7" } })</td>
-            <td><b><u>ou</u></b></td>
-            <td>Session :</td>
-            <td>@Html.DropDownList("SelectSession", null, "Toutes", htmlAttributes: new { @class = "form-search" })</td>
-            <td>Cours :</td>
-            <td>@Html.DropDownList("SelectCours", null, "Tous", htmlAttributes: new { @class = "form-search" })</td>
-            <td>Groupe :</td>
-            <td>@Html.DropDownList("SelectGroupe", null, "Tous", htmlAttributes: new { @class = "form-search" })</td>
-            <td><input type="submit" value="Rechercher" class="form-search" /></td>
-        </tr>
-    </table>
-
-</div>
+    <div class="recherche">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="col-md-3 recherche-label">
+                    @Messages.Session
+                </div>
+                <div class="col-md-9 recherche-field">
+                    @Html.DropDownList("SelectSession", null, Messages.Toutes, new { @class = "form-control", id = "SelectSession" })
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="col-md-2 recherche-label">
+                    @Messages.Cours
+                </div>
+                <div class="col-md-10 recherche-field">
+                    @Html.DropDownList("SelectCours", null, Messages.Tous, new { @class = "form-control col-md-12", id = "SelectCours" })
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="col-md-2 recherche-label">
+                    @Messages.Groupe
+                </div>
+                <div class="col-md-10 recherche-field">
+                    @Html.DropDownList("SelectGroupe", null, Messages.Tous, new { @class = "form-control", id = "SelectGroupe" })
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="col-md-3 recherche-label">
+                    @Messages.NoDa
+                </div>
+                <div class="col-md-9 recherche-field" style="padding-right: 20px;">
+                    @Html.Editor("Matricule", new { htmlAttributes = new { @class = "form-control", maxlength = "7" } })
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-2">
+                <button type="submit" class="btn btn-default" style="margin-bottom: 10px;">
+                    <i class="material-icons">search</i>@Messages.Rechercher
+                </button>
+            </div>
+        </div>
+    </div>
