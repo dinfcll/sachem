@@ -317,7 +317,6 @@ namespace sachem.Models
         public const string ContactTitre = "Modifier les informations de la page 'Nous contacter'";
         public const string ContactMisAJour="L’information de la section « Nous contacter » a été mise à jour.";
 
-        public const string CourrielTitre = "Modifier courriel";
         public const string CourrielVarPrenomNom = "Affiche au destinataire son prénom et nom.";
         public const string CourrielVarNouveauPasse ="Affiche le nouveau mot de passe au destinataire, après une réinitialisation.";
         public const string CourrielVarsPourPersonnaliser = "Voici les mots clés pour personnaliser votre courriel";
@@ -326,7 +325,7 @@ namespace sachem.Models
         public const string CourrielCree="Le courriel a été ajouté.";
         public const string CourrielMisAJour="Le courriel a été mis à jour.";
 
-        public const string HoraireTitre = "Modifier l'horaire d'ouverture et de fermeture d'inscription";
+        public const string HoraireTitre = "Horaire d'ouverture et de fermeture d'inscription";
         public const string HoraireMisAJour="L’horaire d’inscription au SACHEM a été mis à jour.";
         public const string HoraireValidationDate = "La date de début doit être antérieure à la date de fin.";
         
@@ -676,7 +675,7 @@ namespace sachem.Models
 
         public const string GroupesAjouterTitre = "Ajouter un groupe";
 
-        public const string GroupesAjouterEtudiantTitre = "Ajouter un étudiants au groupe";
+        public const string GroupesAjouterEtudiantTitre = "Ajouter un étudiant au groupe";
 
         public const string GroupesDeplacerEtudiantTitre = "Déplacer un étudiant de groupe";
 

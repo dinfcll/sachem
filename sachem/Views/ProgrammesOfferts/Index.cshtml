@@ -11,6 +11,7 @@
     @Html.ViewBag.Success
     @TempData["Success"]
 </p>
+<h4>@Messages.Recherche</h4>
 <p>
     @using (Html.BeginForm("Index", "ProgrammesOfferts", FormMethod.Post, new { @class = "form-inline", role = "form" }))
     {

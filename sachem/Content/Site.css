@@ -16,7 +16,8 @@
 
 .navbar-inverse .navbar-nav > li > a {
   color: #dddddd;
-    padding-right: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
 }
 .navbar-inverse .navbar-toggle {
   border-color: #555555;
@@ -32,6 +33,10 @@
     background-position:0 -4px;
     background-size: auto 74px;
     height: 70px; 
+}
+
+.espacementLogoEtNomSite {
+    padding-left:190px;
 }
 
 @font-face {

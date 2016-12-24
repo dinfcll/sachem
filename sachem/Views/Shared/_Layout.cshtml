@@ -34,7 +34,7 @@
             <div class="logo">
                 <div class="cll"><div class="nomSite">@System.Configuration.ConfigurationManager.AppSettings.Get("nomDuSite")</div></div>                    
             </div>
-            <span style="padding-left:180px;"></span>
+            <span class="espacementLogoEtNomSite"></span>
         </div>
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
@@ -70,7 +70,7 @@
                         </a>
                     </li>
                     <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="material-icons">settings</i>@Messages.Administration <b class="caret"></b></a>
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="material-icons">developer_board</i>@Messages.Administration <b class="caret"></b></a>
 
                         <ul class="dropdown-menu">
                             @if (SachemIdentite.TypeListeAdmin.Contains(SachemIdentite.ObtenirTypeUsager(Session)))
@@ -155,7 +155,7 @@
     <hr />
     <footer>
         <p>
-            &copy; @DateTime.Now.Year - @System.Configuration.ConfigurationManager.AppSettings.Get("nomDuSite").ToUpper() -
+            <i class="material-icons">copyright</i> @DateTime.Now.Year - @System.Configuration.ConfigurationManager.AppSettings.Get("nomDuSite").ToUpper() -
             <a href="@Url.Action("Contact", "Home")">
                 <i class="material-icons" style="font-size: 20px;">perm_phone_msg</i><span>@Messages.NousContacter</span>
             </a>
